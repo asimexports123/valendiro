@@ -7,13 +7,14 @@ export const dynamic = "force-dynamic";
 
 const MIGRATION_SECRET = "ecaedd3e-da3b-4592-9d54-5a749fa4f72d";
 
-function getSupabaseHost(url: string): string {
+function getProjectRef(url: string): string | null {
   try {
     const parsed = new URL(url);
-    // Supabase direct Postgres host is typically db.<project-ref>.supabase.co
-    return `db.${parsed.hostname}`;
+    const parts = parsed.hostname.split(".");
+    if (parts.length < 3) return null;
+    return parts[0];
   } catch {
-    return "";
+    return null;
   }
 }
 
@@ -30,12 +31,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing Supabase credentials" }, { status: 500 });
   }
 
-  const host = getSupabaseHost(supabaseUrl);
-  if (!host) {
+  const projectRef = getProjectRef(supabaseUrl);
+  if (!projectRef) {
     return NextResponse.json({ error: "Invalid Supabase URL" }, { status: 500 });
   }
 
-  const connectionString = `postgresql://postgres:${serviceRoleKey}@${host}:5432/postgres`;
+  // Supabase connection pooler for the Mumbai region (cf-ray BOM)
+  const host = "aws-0-ap-south-1.pooler.supabase.com";
+  const user = `postgres.${projectRef}`;
+  const connectionString = `postgresql://${user}:${serviceRoleKey}@${host}:6543/postgres`;
 
   const client = new Client({ connectionString, ssl: { rejectUnauthorized: false } });
 
