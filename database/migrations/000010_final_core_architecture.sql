@@ -77,15 +77,26 @@ ADD CONSTRAINT internal_link_suggestions_target_object_type_check
   CHECK (target_object_type IN ('topic', 'question', 'entity', 'article', 'knowledge_object', 'category', 'collection'));
 
 -- Triggers for updated_at
-CREATE TRIGGER IF NOT EXISTS update_collections_updated_at
+DROP TRIGGER IF EXISTS update_collections_updated_at ON collections;
+CREATE TRIGGER update_collections_updated_at
   BEFORE UPDATE ON collections
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER IF NOT EXISTS update_collection_translations_updated_at
+DROP TRIGGER IF EXISTS update_collection_translations_updated_at ON collection_translations;
+CREATE TRIGGER update_collection_translations_updated_at
   BEFORE UPDATE ON collection_translations
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- RLS policies
+CREATE OR REPLACE FUNCTION is_admin_or_editor()
+RETURNS BOOLEAN AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin', 'editor')
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE category_translations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE collections ENABLE ROW LEVEL SECURITY;

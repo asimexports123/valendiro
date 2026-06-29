@@ -41,27 +41,33 @@ export async function POST(request: Request) {
     "ap-southeast-1",
     "ap-northeast-1",
     "us-east-1",
+    "us-east-2",
+    "us-west-1",
     "us-west-2",
     "eu-central-1",
     "eu-west-1",
     "eu-west-2",
     "sa-east-1",
+    "ca-central-1",
   ];
+
+  const prefixes = ["aws-1", "aws-0"];
 
   const sqlPath = join(process.cwd(), "database", "migrations", "000010_final_core_architecture.sql");
   const sql = readFileSync(sqlPath, "utf-8");
 
   let lastError: Error | null = null;
 
-  for (const region of regions) {
-    const host = `aws-0-${region}.pooler.supabase.com`;
-    const user = `postgres.${projectRef}`;
-    const connectionString = `postgresql://${user}:${serviceRoleKey}@${host}:5432/postgres`;
-    const client = new Client({
-      connectionString,
-      ssl: { rejectUnauthorized: false },
-      connectionTimeoutMillis: 4000,
-    });
+  for (const prefix of prefixes) {
+    for (const region of regions) {
+      const host = `${prefix}-${region}.pooler.supabase.com`;
+      const user = `postgres.${projectRef}`;
+      const connectionString = `postgresql://${user}:${serviceRoleKey}@${host}:5432/postgres`;
+      const client = new Client({
+        connectionString,
+        ssl: { rejectUnauthorized: false },
+        connectionTimeoutMillis: 2500,
+      });
 
     try {
       await client.connect();
@@ -91,9 +97,10 @@ export async function POST(request: Request) {
       if (lastError.message.includes("ENOTFOUND") || lastError.message.includes("tenant/user")) {
         continue;
       }
-      return NextResponse.json({ error: lastError.message, region }, { status: 500 });
+      return NextResponse.json({ error: lastError.message, region, prefix }, { status: 500 });
     }
   }
+}
 
   return NextResponse.json(
     { error: lastError?.message || "All Supabase pooler regions failed", regionsTried: regions },
