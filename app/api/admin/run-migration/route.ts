@@ -36,42 +36,67 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid Supabase URL" }, { status: 500 });
   }
 
-  // Supabase connection pooler for the Mumbai region (cf-ray BOM)
-  const host = "aws-0-ap-south-1.pooler.supabase.com";
-  const user = `postgres.${projectRef}`;
-  const connectionString = `postgresql://${user}:${serviceRoleKey}@${host}:6543/postgres`;
+  const regions = [
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-northeast-1",
+    "us-east-1",
+    "us-west-2",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "sa-east-1",
+  ];
 
-  const client = new Client({ connectionString, ssl: { rejectUnauthorized: false } });
+  const sqlPath = join(process.cwd(), "database", "migrations", "000010_final_core_architecture.sql");
+  const sql = readFileSync(sqlPath, "utf-8");
 
-  try {
-    const sqlPath = join(process.cwd(), "database", "migrations", "000010_final_core_architecture.sql");
-    const sql = readFileSync(sqlPath, "utf-8");
+  let lastError: Error | null = null;
 
-    await client.connect();
-    await client.query(sql);
-
-    // Verify collections table exists
-    const { rows: tables } = await client.query(
-      "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'collections'"
-    );
-
-    const { rows: policies } = await client.query(
-      "SELECT policyname FROM pg_policies WHERE schemaname = 'public' AND tablename IN ('categories', 'collections', 'articles')"
-    );
-
-    await client.end();
-
-    return NextResponse.json({
-      success: true,
-      collectionsTableExists: tables.length > 0,
-      policiesApplied: policies.map((p) => p.policyname),
+  for (const region of regions) {
+    const host = `aws-0-${region}.pooler.supabase.com`;
+    const user = `postgres.${projectRef}`;
+    const connectionString = `postgresql://${user}:${serviceRoleKey}@${host}:5432/postgres`;
+    const client = new Client({
+      connectionString,
+      ssl: { rejectUnauthorized: false },
+      connectionTimeoutMillis: 4000,
     });
-  } catch (err) {
+
     try {
+      await client.connect();
+      await client.query(sql);
+
+      const { rows: tables } = await client.query(
+        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'collections'"
+      );
+
+      const { rows: policies } = await client.query(
+        "SELECT policyname FROM pg_policies WHERE schemaname = 'public' AND tablename IN ('categories', 'collections', 'articles')"
+      );
+
       await client.end();
-    } catch {}
-    const message = err instanceof Error ? err.message : "Migration failed";
-    const stack = err instanceof Error ? err.stack : null;
-    return NextResponse.json({ error: message, stack: stack ? stack.split("\n").slice(0, 5) : null }, { status: 500 });
+
+      return NextResponse.json({
+        success: true,
+        region,
+        collectionsTableExists: tables.length > 0,
+        policiesApplied: policies.map((p) => p.policyname),
+      });
+    } catch (err) {
+      try {
+        await client.end();
+      } catch {}
+      lastError = err instanceof Error ? err : new Error("Migration failed");
+      if (lastError.message.includes("ENOTFOUND") || lastError.message.includes("tenant/user")) {
+        continue;
+      }
+      return NextResponse.json({ error: lastError.message, region }, { status: 500 });
+    }
   }
+
+  return NextResponse.json(
+    { error: lastError?.message || "All Supabase pooler regions failed", regionsTried: regions },
+    { status: 500 }
+  );
 }
