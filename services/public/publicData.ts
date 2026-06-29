@@ -42,16 +42,18 @@ export async function getCategories(limit = 12): Promise<{ id: string; slug: str
   const supabase = await createClient();
   const { data } = await supabase
     .from("categories")
-    .select("id, slug, category_translations(name)")
+    .select("id, slug, sort_order, category_translations(name)")
     .eq("category_translations.language_code", "en")
-    .order("category_translations.name", { ascending: true })
+    .order("sort_order", { ascending: true })
     .limit(limit);
 
-  return (data || []).map((category: any) => ({
+  const categories = (data || []).map((category: any) => ({
     id: category.id,
     slug: category.slug,
     name: category.category_translations?.[0]?.name || "Uncategorized",
   }));
+
+  return categories.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export interface PublicQuestion {
@@ -99,9 +101,9 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
   const supabase = await createClient();
   const { data } = await supabase
     .from("categories")
-    .select("id, slug, category_translations(name, description)")
+    .select("id, slug, sort_order, category_translations(name, description)")
     .eq("category_translations.language_code", "en")
-    .order("category_translations.name", { ascending: true })
+    .order("sort_order", { ascending: true })
     .limit(limit);
 
   const categories = (data || []).map((category: any) => ({
@@ -121,7 +123,7 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     category.article_count = count ?? 0;
   }
 
-  return categories;
+  return categories.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
