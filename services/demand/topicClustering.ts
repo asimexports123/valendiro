@@ -4,6 +4,7 @@ export interface ClusteringResult {
   clustersCreated: number;
   signalsClustered: number;
   categoriesCreated: number;
+  collectionsCreated: number;
   errors: string[];
 }
 
@@ -79,9 +80,45 @@ async function ensureCategory(categoryName: string, languageCode = "en") {
   return { id: inserted.id, created: true };
 }
 
+async function ensureCollection(collectionName: string, categoryId: string, languageCode = "en") {
+  const supabase = await createClient();
+
+  const { data: existing } = await supabase
+    .from("collections")
+    .select("id, collection_translations(name)")
+    .eq("collection_translations.language_code", languageCode)
+    .eq("collection_translations.name", collectionName)
+    .eq("category_id", categoryId)
+    .maybeSingle();
+
+  if (existing) {
+    return { id: existing.id, created: false };
+  }
+
+  const slug = collectionName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
+  const { data: inserted, error } = await supabase
+    .from("collections")
+    .insert({ slug, category_id: categoryId, sort_order: 0 })
+    .select()
+    .single();
+
+  if (error || !inserted) {
+    throw new Error(error?.message || "Collection insert failed");
+  }
+
+  await supabase.from("collection_translations").insert({
+    collection_id: inserted.id,
+    language_code: languageCode,
+    name: collectionName,
+    description: null,
+  });
+
+  return { id: inserted.id, created: true };
+}
+
 export async function clusterDemandSignals(languageCode = "en"): Promise<ClusteringResult> {
   const supabase = await createClient();
-  const result: ClusteringResult = { clustersCreated: 0, signalsClustered: 0, categoriesCreated: 0, errors: [] };
+  const result: ClusteringResult = { clustersCreated: 0, signalsClustered: 0, categoriesCreated: 0, collectionsCreated: 0, errors: [] };
 
   const { data: pendingSignals, error } = await supabase
     .from("demand_signals")
@@ -141,6 +178,9 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
 
       const keywords = cluster.members.map((m) => m.keyword).filter(Boolean);
       const clusterName = generateClusterName(keywords);
+      const collection = await ensureCollection(clusterName, category.id, languageCode);
+      if (collection.created) result.collectionsCreated++;
+
       const demandScore = Math.round(
         cluster.members.reduce((sum, m) => sum + m.volume_score + m.trend_score + m.freshness_score, 0) /
           (cluster.members.length * 3)
@@ -159,13 +199,14 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
         .insert({
           cluster_name: clusterName,
           category: categoryName,
+          collection_id: collection.id,
           seed_keyword: cluster.seed.keyword || clusterName,
           keywords,
           demand_score: demandScore,
           competition_score: competitionScore,
           opportunity_score: opportunityScore,
           status: "pending",
-          metadata: { category_id: category.id },
+          metadata: { category_id: category.id, collection_id: collection.id },
         })
         .select()
         .single();

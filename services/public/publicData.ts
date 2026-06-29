@@ -27,6 +27,7 @@ export interface PublicCategory {
 export interface PublicCollection {
   id: string;
   slug: string;
+  category_id: string;
   name: string;
   description: string;
 }
@@ -147,15 +148,137 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
   });
 }
 
-export function getFeaturedCollections(): PublicCollection[] {
-  return [
-    { id: "ai", slug: "artificial-intelligence", name: "Artificial Intelligence", description: "Guides, explainers, and comparisons on AI tools and technology." },
-    { id: "finance", slug: "personal-finance", name: "Personal Finance", description: "Practical advice for saving, investing, and managing money." },
-    { id: "home", slug: "home-improvement", name: "Home Improvement", description: "Step-by-step guides for repairs, upgrades, and maintenance." },
-    { id: "programming", slug: "programming", name: "Programming", description: "Tutorials, references, and best practices for developers." },
-    { id: "ev", slug: "electric-vehicles", name: "Electric Vehicles", description: "Comparisons, charging guides, and buying advice for EVs." },
-    { id: "security", slug: "cyber-security", name: "Cyber Security", description: "Practical security tips to protect your digital life." },
-  ];
+export async function getFeaturedCollections(limit = 6): Promise<PublicCollection[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("collections")
+    .select("id, slug, category_id, collection_translations(name, description)")
+    .eq("collection_translations.language_code", "en")
+    .order("sort_order", { ascending: true })
+    .limit(limit);
+
+  return (data || []).map((collection: any) => ({
+    id: collection.id,
+    slug: collection.slug,
+    category_id: collection.category_id,
+    name: collection.collection_translations?.[0]?.name || collection.slug,
+    description: collection.collection_translations?.[0]?.description || "",
+  }));
+}
+
+export async function getCollectionsByCategory(categoryId: string, limit = 12): Promise<PublicCollection[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("collections")
+    .select("id, slug, category_id, collection_translations(name, description)")
+    .eq("category_id", categoryId)
+    .eq("collection_translations.language_code", "en")
+    .order("sort_order", { ascending: true })
+    .limit(limit);
+
+  return (data || []).map((collection: any) => ({
+    id: collection.id,
+    slug: collection.slug,
+    category_id: collection.category_id,
+    name: collection.collection_translations?.[0]?.name || collection.slug,
+    description: collection.collection_translations?.[0]?.description || "",
+  }));
+}
+
+export async function getCollectionBySlug(slug: string): Promise<PublicCollection | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("collections")
+    .select("id, slug, category_id, collection_translations(name, description)")
+    .eq("slug", slug)
+    .eq("collection_translations.language_code", "en")
+    .single();
+
+  if (!data) return null;
+  return {
+    id: data.id,
+    slug: data.slug,
+    category_id: data.category_id,
+    name: data.collection_translations?.[0]?.name || data.slug,
+    description: data.collection_translations?.[0]?.description || "",
+  };
+}
+
+export async function getTopicsByCollection(collectionId: string, limit = 12): Promise<PublicTopic[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("topics")
+    .select("id, slug, topic_translations(title, subtitle)")
+    .eq("collection_id", collectionId)
+    .eq("status", "published")
+    .eq("topic_translations.language_code", "en")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return (data || []).map((topic: any) => ({
+    id: topic.id,
+    slug: topic.slug,
+    title: topic.topic_translations?.[0]?.title || "Untitled",
+    subtitle: topic.topic_translations?.[0]?.subtitle || "",
+  }));
+}
+
+export async function getArticlesByTopic(topicId: string, limit = 12): Promise<PublicArticle[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("articles")
+    .select("id, slug, updated_at, article_translations(title, excerpt, content)")
+    .eq("topic_id", topicId)
+    .eq("status", "published")
+    .eq("article_translations.language_code", "en")
+    .order("updated_at", { ascending: false })
+    .limit(limit);
+
+  return (data || []).map((article: any) => {
+    const translation = article.article_translations?.[0];
+    const text = translation?.content || translation?.excerpt || "";
+    return {
+      id: article.id,
+      slug: article.slug,
+      title: translation?.title || "Untitled",
+      description: translation?.excerpt || null,
+      reading_time: estimateReadingTime(text),
+      updated_at: article.updated_at,
+    };
+  });
+}
+
+export async function getArticlesByCollection(collectionId: string, limit = 12): Promise<PublicArticle[]> {
+  const supabase = await createClient();
+  const { data: topicIds } = await supabase
+    .from("topics")
+    .select("id")
+    .eq("collection_id", collectionId)
+    .eq("status", "published");
+  const ids = (topicIds || []).map((t: any) => t.id);
+  if (ids.length === 0) return [];
+
+  const { data } = await supabase
+    .from("articles")
+    .select("id, slug, updated_at, topic_id, article_translations(title, excerpt, content)")
+    .eq("status", "published")
+    .eq("article_translations.language_code", "en")
+    .in("topic_id", ids)
+    .order("updated_at", { ascending: false })
+    .limit(limit);
+
+  return (data || []).map((article: any) => {
+    const translation = article.article_translations?.[0];
+    const text = translation?.content || translation?.excerpt || "";
+    return {
+      id: article.id,
+      slug: article.slug,
+      title: translation?.title || "Untitled",
+      description: translation?.excerpt || null,
+      reading_time: estimateReadingTime(text),
+      updated_at: article.updated_at,
+    };
+  });
 }
 
 export async function getPopularGuides(limit = 4): Promise<PublicArticle[]> {
@@ -247,12 +370,21 @@ export async function getTopicsByCategory(categoryId: string, limit = 12): Promi
 
 export async function getArticlesByCategory(categoryId: string, limit = 12): Promise<PublicArticle[]> {
   const supabase = await createClient();
+  const { data: topics } = await supabase
+    .from("topics")
+    .select("id")
+    .eq("category_id", categoryId)
+    .eq("status", "published");
+
+  const topicIds = (topics || []).map((t: any) => t.id);
+  if (topicIds.length === 0) return [];
+
   const { data } = await supabase
     .from("articles")
-    .select("id, slug, updated_at, category_id, article_translations(title, excerpt, content)")
+    .select("id, slug, updated_at, topic_id, article_translations(title, excerpt, content)")
     .eq("status", "published")
     .eq("article_translations.language_code", "en")
-    .eq("category_id", categoryId)
+    .in("topic_id", topicIds)
     .order("updated_at", { ascending: false })
     .limit(limit);
 
@@ -279,13 +411,14 @@ export interface PublicTopicDetail extends PublicTopic {
   meta_title: string | null;
   meta_description: string | null;
   category_id: string | null;
+  collection_id: string | null;
 }
 
 export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | null> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("topics")
-    .select("id, slug, category_id, topic_translations(title, subtitle, content, meta_title, meta_description)")
+    .select("id, slug, category_id, collection_id, topic_translations(title, subtitle, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .eq("status", "published")
@@ -303,6 +436,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
     category_id: data.category_id,
+    collection_id: data.collection_id,
   };
 }
 
@@ -340,7 +474,9 @@ export interface PublicArticleDetail {
   reading_time: number;
   updated_at: string | null;
   published_at: string | null;
+  topic_id: string | null;
   category_id: string | null;
+  collection_id: string | null;
   meta_title: string | null;
   meta_description: string | null;
 }
@@ -349,7 +485,7 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
   const supabase = await createClient();
   const { data } = await supabase
     .from("articles")
-    .select("id, slug, category_id, published_at, updated_at, article_translations(title, excerpt, content, meta_title, meta_description)")
+    .select("id, slug, topic_id, published_at, updated_at, article_translations(title, excerpt, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("article_translations.language_code", "en")
     .eq("status", "published")
@@ -359,6 +495,19 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
 
   const translation = data.article_translations?.[0];
   const text = translation?.content || translation?.excerpt || "";
+
+  let category_id: string | null = null;
+  let collection_id: string | null = null;
+  if (data.topic_id) {
+    const { data: topic } = await supabase
+      .from("topics")
+      .select("category_id, collection_id")
+      .eq("id", data.topic_id)
+      .single();
+    category_id = topic?.category_id ?? null;
+    collection_id = topic?.collection_id ?? null;
+  }
+
   return {
     id: data.id,
     slug: data.slug,
@@ -368,28 +517,35 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
     reading_time: estimateReadingTime(text),
     updated_at: data.updated_at,
     published_at: data.published_at,
-    category_id: data.category_id,
+    topic_id: data.topic_id,
+    category_id,
+    collection_id,
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
   };
 }
 
-export async function getRelatedArticles(articleId: string, categoryId: string | null, limit = 4): Promise<PublicArticle[]> {
+export async function getRelatedArticles(articleId: string, topicId: string | null, categoryId: string | null, limit = 4): Promise<PublicArticle[]> {
   const supabase = await createClient();
-  let query = supabase
+
+  let topicIds: string[] = [];
+  if (topicId) {
+    topicIds = [topicId];
+  } else if (categoryId) {
+    const { data } = await supabase.from("topics").select("id").eq("category_id", categoryId).eq("status", "published");
+    topicIds = (data || []).map((t: any) => t.id);
+  }
+  if (topicIds.length === 0) return [];
+
+  const { data } = await supabase
     .from("articles")
-    .select("id, slug, updated_at, category_id, article_translations(title, excerpt, content)")
+    .select("id, slug, updated_at, topic_id, article_translations(title, excerpt, content)")
     .neq("id", articleId)
     .eq("status", "published")
     .eq("article_translations.language_code", "en")
+    .in("topic_id", topicIds)
     .order("updated_at", { ascending: false })
     .limit(limit);
-
-  if (categoryId) {
-    query = query.eq("category_id", categoryId);
-  }
-
-  const { data } = await query;
 
   return (data || []).map((article: any) => {
     const translation = article.article_translations?.[0];

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo/metadata";
-import { getCategoryBySlug, getTopicsByCategory, getArticlesByCategory, getRelatedCategories, getFeaturedCollections, getQuestionsByCategory } from "@/services/public/publicData";
+import { getCategoryBySlug, getTopicsByCategory, getArticlesByCategory, getRelatedCategories, getCollectionsByCategory, getQuestionsByCategory } from "@/services/public/publicData";
 import { TrendingToday } from "@/components/public/TrendingToday";
 import { LatestArticles } from "@/components/public/LatestArticles";
 import { FeaturedCollections } from "@/components/public/FeaturedCollections";
@@ -39,7 +39,7 @@ export default async function CategoryPage({
     getTopicsByCategory(category.id, 12),
     getArticlesByCategory(category.id, 6),
     getRelatedCategories(category.id, 4),
-    getFeaturedCollections(),
+    getCollectionsByCategory(category.id, 6),
     getQuestionsByCategory(category.id, 5),
   ]);
 

@@ -1,13 +1,14 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo/metadata";
-import { getTopicBySlug, getRelatedTopics, getArticlesByCategory, getQuestionsByTopic } from "@/services/public/publicData";
+import { getTopicBySlug, getRelatedTopics, getArticlesByTopic, getQuestionsByTopic } from "@/services/public/publicData";
 import { MarkdownContent } from "@/components/public/MarkdownContent";
 import { TrendingToday } from "@/components/public/TrendingToday";
 import { LatestArticles } from "@/components/public/LatestArticles";
 import { FaqSection } from "@/components/public/FaqSection";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { SITE_URL } from "@/lib/constants";
+import Link from "next/link";
 
 export const revalidate = 3600;
 
@@ -35,10 +36,11 @@ export default async function TopicPage({
   const topic = await getTopicBySlug(slug);
   if (!topic) notFound();
 
-  const [relatedTopics, relatedArticles, faqs] = await Promise.all([
+  const [relatedTopics, relatedArticles, faqs, collection] = await Promise.all([
     getRelatedTopics(topic.id, topic.category_id, 6),
-    topic.category_id ? getArticlesByCategory(topic.category_id, 4) : Promise.resolve([]),
+    getArticlesByTopic(topic.id, 6),
     getQuestionsByTopic(topic.id, 5),
+    topic.collection_id ? getCollectionBySlugFromId(topic.collection_id) : null,
   ]);
 
   const category = topic.category_id ? await getCategoryBySlugFromId(topic.category_id) : null;
@@ -71,6 +73,17 @@ export default async function TopicPage({
         </div>
       )}
 
+      {collection && (
+        <div className="mt-8 max-w-3xl">
+          <Link
+            href={`/${lang}/collections/${collection.slug}`}
+            className="inline-flex items-center rounded-xl border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:border-primary/30 transition"
+          >
+            Part of {collection.name}
+          </Link>
+        </div>
+      )}
+
       {relatedArticles.length > 0 && (
         <div className="mt-16">
           <LatestArticles lang={lang} articles={relatedArticles} />
@@ -91,7 +104,6 @@ export default async function TopicPage({
 }
 
 async function getCategoryBySlugFromId(categoryId: string) {
-  // Lightweight lookup; avoids full slug fetch until needed
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();
   const { data } = await supabase
@@ -105,5 +117,22 @@ async function getCategoryBySlugFromId(categoryId: string) {
     id: data.id,
     slug: data.slug,
     name: data.category_translations?.[0]?.name || "Category",
+  };
+}
+
+async function getCollectionBySlugFromId(collectionId: string) {
+  const { createClient } = await import("@/lib/supabase/server");
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("collections")
+    .select("id, slug, collection_translations(name)")
+    .eq("id", collectionId)
+    .eq("collection_translations.language_code", "en")
+    .single();
+  if (!data) return null;
+  return {
+    id: data.id,
+    slug: data.slug,
+    name: data.collection_translations?.[0]?.name || "Collection",
   };
 }

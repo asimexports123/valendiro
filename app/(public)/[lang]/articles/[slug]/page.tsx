@@ -36,9 +36,11 @@ export default async function ArticlePage({
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
-  const [relatedArticles, category, faqs] = await Promise.all([
-    getRelatedArticles(article.id, article.category_id, 3),
+  const [relatedArticles, category, collection, topic, faqs] = await Promise.all([
+    getRelatedArticles(article.id, article.topic_id, article.category_id, 3),
     article.category_id ? getCategoryBySlugForArticle(article.category_id) : null,
+    article.collection_id ? getCollectionBySlugForArticle(article.collection_id) : null,
+    article.topic_id ? getTopicBySlugForArticle(article.topic_id) : null,
     article.category_id ? getQuestionsByCategory(article.category_id, 5) : Promise.resolve([]),
   ]);
 
@@ -120,6 +122,28 @@ export default async function ArticlePage({
               </ul>
             </div>
           )}
+
+          {(topic || collection) && (
+            <div className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow)]">
+              <h2 className="text-lg font-semibold text-foreground mb-4">Knowledge hub</h2>
+              <ul className="space-y-3">
+                {topic && (
+                  <li>
+                    <Link href={`/${lang}/topics/${topic.slug}`} className="text-sm text-muted-foreground hover:text-accent transition">
+                      Topic: {topic.title}
+                    </Link>
+                  </li>
+                )}
+                {collection && (
+                  <li>
+                    <Link href={`/${lang}/collections/${collection.slug}`} className="text-sm text-muted-foreground hover:text-accent transition">
+                      Collection: {collection.name}
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
         </aside>
       </div>
 
@@ -144,5 +168,39 @@ async function getCategoryBySlugForArticle(categoryId: string) {
     id: data.id,
     slug: data.slug,
     name: data.category_translations?.[0]?.name || "Category",
+  };
+}
+
+async function getCollectionBySlugForArticle(collectionId: string) {
+  const { createClient } = await import("@/lib/supabase/server");
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("collections")
+    .select("id, slug, collection_translations(name)")
+    .eq("id", collectionId)
+    .eq("collection_translations.language_code", "en")
+    .single();
+  if (!data) return null;
+  return {
+    id: data.id,
+    slug: data.slug,
+    name: data.collection_translations?.[0]?.name || "Collection",
+  };
+}
+
+async function getTopicBySlugForArticle(topicId: string) {
+  const { createClient } = await import("@/lib/supabase/server");
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("topics")
+    .select("id, slug, topic_translations(title)")
+    .eq("id", topicId)
+    .eq("topic_translations.language_code", "en")
+    .single();
+  if (!data) return null;
+  return {
+    id: data.id,
+    slug: data.slug,
+    title: data.topic_translations?.[0]?.title || "Topic",
   };
 }

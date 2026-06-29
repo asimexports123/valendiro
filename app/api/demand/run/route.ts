@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runAutonomousPublishingPipeline } from "@/services/demand/autonomousPublishingEngine";
+import { runFullPublishingCycle } from "@/services/demand/autonomousPublishingEngine";
 import { getAutomationConfig, logSystemEvent } from "@/services/system/settings";
 import { createClient } from "@/lib/supabase/server";
 
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await runAutonomousPublishingPipeline();
+    const result = await runFullPublishingCycle();
     await logSystemEvent("cron", "demand_run", "success", undefined, result as unknown as Record<string, unknown>);
     return NextResponse.json({ success: true, result }, { status: 200 });
   } catch (err) {

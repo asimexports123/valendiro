@@ -59,11 +59,33 @@ export interface TagTranslation {
   updated_at: string;
 }
 
+export interface Collection {
+  id: string;
+  slug: string;
+  category_id: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CollectionTranslation {
+  id: string;
+  collection_id: string;
+  language_code: SupportedLanguage;
+  name: string;
+  description: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Topic {
   id: string;
   slug: string;
   canonical_path: string;
   category_id: string | null;
+  collection_id: string | null;
   difficulty: "beginner" | "intermediate" | "advanced" | null;
   estimated_read_time: number | null;
   published_at: string | null;
@@ -167,6 +189,7 @@ export interface Article {
   id: string;
   slug: string;
   canonical_path: string;
+  topic_id: string | null;
   article_type: "guide" | "explainer" | "reference" | "comparison" | "tutorial";
   published_at: string | null;
   status: "draft" | "review" | "published" | "archived";
@@ -380,7 +403,7 @@ export interface BreadcrumbItem {
 }
 
 // Intelligence Engine Types
-export type KnowledgeObjectType = "topic" | "question" | "entity" | "article" | "knowledge_object";
+export type KnowledgeObjectType = "topic" | "question" | "entity" | "article" | "knowledge_object" | "category" | "collection";
 export type RelationshipType =
   | "belongs_to"
   | "answers"
@@ -428,6 +451,7 @@ export interface KnowledgeRelationship {
 export interface ContentGenerationQueueItem {
   id: string;
   object_type: KnowledgeObjectType;
+  topic_id: string | null;
   title: string;
   description: string | null;
   reason: string;
@@ -558,6 +582,7 @@ export interface DemandTopicCluster {
   id: string;
   cluster_name: string;
   category: string | null;
+  collection_id: string | null;
   seed_keyword: string;
   keywords: string[];
   demand_score: number;
@@ -573,6 +598,7 @@ export interface DemandTopicQueueItem {
   id: string;
   demand_signal_id: string;
   cluster_id: string | null;
+  collection_id: string | null;
   keyword: string;
   title: string;
   description: string | null;
