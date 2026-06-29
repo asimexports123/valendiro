@@ -19,6 +19,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Skip root-level files that must remain at the domain root
+  if (pathname === "/robots.txt" || pathname === "/sitemap.xml") {
+    return response;
+  }
+
   // Validate language segment for public routes
   const segments = pathname.split("/").filter(Boolean);
   const firstSegment = segments[0];
