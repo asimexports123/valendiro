@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { DemandSignal, DemandSignalType, IntentType, KnowledgeObjectType, SupportedLanguage } from "@/lib/types";
+import { isPublishable, scoreDemandKeyword } from "./topicQualityEngine";
 
 export interface ExternalTrendInput {
   keyword: string;
@@ -105,6 +106,9 @@ export async function captureSeasonalTrends(languageCode: SupportedLanguage = "e
   let inserted = 0;
 
   for (const item of seasonalKeywords) {
+    const quality = scoreDemandKeyword(item.keyword);
+    if (!isPublishable(quality)) continue;
+
     const distance = Math.abs(currentMonth - item.month);
     const relevance = distance <= 1 ? item.score : Math.max(0, item.score - distance * 15);
     if (relevance <= 0) continue;
@@ -112,14 +116,15 @@ export async function captureSeasonalTrends(languageCode: SupportedLanguage = "e
     const { error } = await supabase.from("demand_signals").insert({
       signal_type: "seasonal",
       source: "seasonal_calendar",
-      keyword: item.keyword,
+      keyword: quality.knowledgeTopic || quality.normalizedKeyword,
       language_code: languageCode,
       volume_score: relevance,
       trend_score: relevance,
       seasonal_score: relevance,
       affiliate_potential_score: 40,
       competition_score: 60,
-      metadata: { target_month: item.month },
+      search_intent: quality.intent,
+      metadata: { target_month: item.month, quality: quality },
     });
 
     if (!error) inserted++;

@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { isPublishable, scoreDemandKeyword } from "./topicQualityEngine";
 
 export interface ClusteringResult {
   clustersCreated: number;
@@ -178,7 +179,10 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
 
       const keywords = cluster.members.map((m) => m.keyword).filter(Boolean);
       const clusterName = generateClusterName(keywords);
-      const collection = await ensureCollection(clusterName, category.id, languageCode);
+      const quality = scoreDemandKeyword(cluster.seed.keyword || clusterName);
+      if (!isPublishable(quality)) continue;
+      const finalClusterName = quality.knowledgeTopic || clusterName;
+      const collection = await ensureCollection(finalClusterName, category.id, languageCode);
       if (collection.created) result.collectionsCreated++;
 
       const demandScore = Math.round(
@@ -188,25 +192,25 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
       const competitionScore = Math.round(
         cluster.members.reduce((sum, m) => sum + m.competition_score, 0) / cluster.members.length
       );
+      const affiliateAvg =
+        cluster.members.reduce((sum, m) => sum + m.affiliate_potential_score, 0) / cluster.members.length;
       const opportunityScore = Math.round(
-        demandScore * 0.5 +
-        cluster.members.reduce((sum, m) => sum + m.affiliate_potential_score, 0) / cluster.members.length * 0.3 +
-        (100 - competitionScore) * 0.2
+        demandScore * 0.35 + affiliateAvg * 0.2 + (100 - competitionScore) * 0.15 + quality.qualityScore * 0.3
       );
 
       const { data: inserted, error: insertError } = await supabase
         .from("demand_topic_clusters")
         .insert({
-          cluster_name: clusterName,
+          cluster_name: finalClusterName,
           category: categoryName,
           collection_id: collection.id,
-          seed_keyword: cluster.seed.keyword || clusterName,
+          seed_keyword: cluster.seed.keyword || finalClusterName,
           keywords,
           demand_score: demandScore,
           competition_score: competitionScore,
           opportunity_score: opportunityScore,
           status: "pending",
-          metadata: { category_id: category.id, collection_id: collection.id },
+          metadata: { category_id: category.id, collection_id: collection.id, quality: quality },
         })
         .select()
         .single();

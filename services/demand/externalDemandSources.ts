@@ -1,9 +1,10 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { DemandSourceResult, ExternalTrendInput } from "./demandSources";
+import { DemandIntent, DemandQualityScore, isPublishable, scoreDemandKeyword } from "./topicQualityEngine";
 
 export interface DiscoveredKeyword {
   keyword: string;
-  searchIntent: "informational" | "commercial" | "transactional" | "navigational";
+  searchIntent: DemandIntent;
   languageCode: string;
   category: string;
   volumeScore: number;
@@ -11,6 +12,9 @@ export interface DiscoveredKeyword {
   competitionScore: number;
   freshnessScore: number;
   source: string;
+  qualityScore: number;
+  evergreenScore: number;
+  quality: DemandQualityScore;
 }
 
 const DEFAULT_CATEGORIES = [
@@ -40,12 +44,32 @@ function detectCategory(keyword: string): string {
   return "General";
 }
 
-function detectIntent(keyword: string): DiscoveredKeyword["searchIntent"] {
-  const lower = keyword.toLowerCase();
-  if (/(buy|cheap|deal|price|discount|purchase|order|shop)/.test(lower)) return "transactional";
-  if (/(best|top|review|compare|vs|versus|recommend)/.test(lower)) return "commercial";
-  if (/(how to|what is|why|guide|tutorial|learn|meaning|definition)/.test(lower)) return "informational";
-  return "informational";
+function scoreKeyword(
+  keyword: string,
+  source: string,
+  languageCode: string,
+  baseVolume: number,
+  baseTrend: number,
+  baseCompetition: number,
+  baseFreshness: number
+): DiscoveredKeyword | null {
+  const quality = scoreDemandKeyword(keyword);
+  if (!isPublishable(quality)) return null;
+  const targetKeyword = quality.knowledgeTopic || quality.normalizedKeyword;
+  return {
+    keyword: targetKeyword,
+    searchIntent: quality.intent,
+    languageCode,
+    category: detectCategory(targetKeyword),
+    volumeScore: baseVolume,
+    trendScore: baseTrend,
+    competitionScore: baseCompetition,
+    freshnessScore: baseFreshness,
+    source,
+    qualityScore: quality.qualityScore,
+    evergreenScore: quality.evergreenScore,
+    quality,
+  };
 }
 
 function scoreFromKeyword(keyword: string): { volume: number; competition: number } {
@@ -65,20 +89,13 @@ export async function fetchGoogleAutocomplete(seed: string, languageCode = "en")
     const suggestions = Array.isArray(data) ? data[1] || [] : [];
     if (!Array.isArray(suggestions)) return [];
 
-    return suggestions.slice(0, 20).map((keyword: string) => {
-      const scores = scoreFromKeyword(keyword);
-      return {
-        keyword,
-        searchIntent: detectIntent(keyword),
-        languageCode,
-        category: detectCategory(keyword),
-        volumeScore: scores.volume,
-        trendScore: 50,
-        competitionScore: scores.competition,
-        freshnessScore: 60,
-        source: "google_autocomplete",
-      };
-    });
+    return suggestions
+      .slice(0, 20)
+      .map((keyword: string) => {
+        const scores = scoreFromKeyword(keyword);
+        return scoreKeyword(keyword, "google_autocomplete", languageCode, scores.volume, 50, scores.competition, 60);
+      })
+      .filter((k): k is DiscoveredKeyword => k !== null);
   } catch {
     return [];
   }
@@ -91,17 +108,9 @@ export async function fetchGoogleTrends(keywords: string[]): Promise<DiscoveredK
 
   try {
     // Placeholder for real Google Trends API integration.
-    return keywords.map((keyword) => ({
-      keyword,
-      searchIntent: detectIntent(keyword),
-      languageCode: "en",
-      category: detectCategory(keyword),
-      volumeScore: 70,
-      trendScore: 70,
-      competitionScore: 60,
-      freshnessScore: 70,
-      source: "google_trends",
-    }));
+    return keywords
+      .map((keyword) => scoreKeyword(keyword, "google_trends", "en", 70, 70, 60, 70))
+      .filter((k): k is DiscoveredKeyword => k !== null);
   } catch {
     return [];
   }
@@ -123,21 +132,22 @@ export async function fetchWikipediaPageviews(languageCode = "en"): Promise<Disc
     const items = data.items?.[0]?.articles || [];
     if (!Array.isArray(items)) return [];
 
-    return items.slice(0, 30).map((item: { article: string; views: number }) => {
-      const keyword = item.article.replace(/_/g, " ");
-      const scores = scoreFromKeyword(keyword);
-      return {
-        keyword,
-        searchIntent: "informational",
-        languageCode,
-        category: detectCategory(keyword),
-        volumeScore: Math.min(100, Math.round(60 + Math.log10(item.views || 1) * 5)),
-        trendScore: Math.min(100, Math.round(50 + Math.log10(item.views || 1) * 4)),
-        competitionScore: scores.competition,
-        freshnessScore: 80,
-        source: "wikipedia_pageviews",
-      };
-    });
+    return items
+      .slice(0, 30)
+      .map((item: { article: string; views: number }) => {
+        const keyword = item.article.replace(/_/g, " ");
+        const scores = scoreFromKeyword(keyword);
+        return scoreKeyword(
+          keyword,
+          "wikipedia_pageviews",
+          languageCode,
+          Math.min(100, Math.round(60 + Math.log10(item.views || 1) * 5)),
+          Math.min(100, Math.round(50 + Math.log10(item.views || 1) * 4)),
+          scores.competition,
+          80
+        );
+      })
+      .filter((k): k is DiscoveredKeyword => k !== null);
   } catch {
     return [];
   }
@@ -162,17 +172,8 @@ export async function fetchRedditDiscussions(subreddits: string[] = ["technology
         const title = post.data?.title as string;
         if (!title || title.length > 120) continue;
         const scores = scoreFromKeyword(title);
-        results.push({
-          keyword: title,
-          searchIntent: detectIntent(title),
-          languageCode,
-          category: detectCategory(title),
-          volumeScore: scores.volume,
-          trendScore: 60,
-          competitionScore: scores.competition,
-          freshnessScore: 90,
-          source: "reddit_discussions",
-        });
+        const scored = scoreKeyword(title, "reddit_discussions", languageCode, scores.volume, 60, scores.competition, 90);
+        if (scored) results.push(scored);
       }
     } catch {
       continue;
@@ -204,7 +205,7 @@ export async function captureAllExternalDemand(
           volumeScore: k.volumeScore,
           trendScore: k.trendScore,
           seasonalScore: 50,
-          affiliatePotentialScore: k.searchIntent === "transactional" || k.searchIntent === "commercial" ? 80 : 30,
+          affiliatePotentialScore: k.quality.commercialIntent >= 60 ? 80 : 30,
           competitionScore: k.competitionScore,
           source: k.source,
           signalType: "trend",
@@ -224,7 +225,7 @@ export async function captureAllExternalDemand(
           search_intent: k.searchIntent,
           category: k.category,
           freshness_score: k.freshnessScore,
-          metadata: { discovered_by: "external_demand_sources" },
+          metadata: { discovered_by: "external_demand_sources", quality: k.quality },
         });
 
         if (!error) inserted++;
