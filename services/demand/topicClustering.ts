@@ -1,0 +1,194 @@
+import { createClient } from "@/lib/supabase/server";
+
+export interface ClusteringResult {
+  clustersCreated: number;
+  signalsClustered: number;
+  categoriesCreated: number;
+  errors: string[];
+}
+
+function getSignificantWords(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .split(/\s+/)
+    .filter((w) => w.length > 3 && !STOP_WORDS.has(w));
+}
+
+const STOP_WORDS = new Set([
+  "about", "above", "after", "again", "against", "all", "and", "any", "because", "before", "being", "below", "between", "both", "but", "can", "could", "did", "does", "doing", "down", "during", "each", "from", "further", "had", "has", "have", "having", "her", "here", "hers", "herself", "him", "himself", "his", "how", "into", "its", "itself", "just", "more", "most", "myself", "nor", "once", "only", "other", "ought", "over", "same", "shan", "should", "some", "such", "than", "that", "the", "their", "theirs", "them", "themselves", "then", "there", "these", "they", "this", "those", "through", "too", "under", "until", "very", "were", "what", "when", "where", "which", "while", "who", "whom", "why", "with", "would", "you", "your", "yours", "yourself", "yourselves",
+]);
+
+function jaccardSimilarity(a: string[], b: string[]): number {
+  const setA = new Set(a);
+  const setB = new Set(b);
+  const intersection = new Set([...setA].filter((x) => setB.has(x)));
+  const union = new Set([...setA, ...setB]);
+  return union.size === 0 ? 0 : intersection.size / union.size;
+}
+
+function generateClusterName(keywords: string[]): string {
+  const words = keywords.flatMap(getSignificantWords);
+  const frequency: Record<string, number> = {};
+  for (const w of words) frequency[w] = (frequency[w] || 0) + 1;
+  const top = Object.entries(frequency)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([w]) => w);
+  return top.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
+async function ensureCategory(categoryName: string, languageCode = "en") {
+  const supabase = await createClient();
+
+  const { data: existing } = await supabase
+    .from("categories")
+    .select("id, category_translations(name)")
+    .eq("category_translations.language_code", languageCode)
+    .eq("category_translations.name", categoryName)
+    .maybeSingle();
+
+  if (existing) {
+    return { id: existing.id, created: false };
+  }
+
+  const slug = categoryName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
+  const { data: inserted, error } = await supabase
+    .from("categories")
+    .insert({ slug, sort_order: 0 })
+    .select()
+    .single();
+
+  if (error || !inserted) {
+    throw new Error(error?.message || "Category insert failed");
+  }
+
+  await supabase.from("category_translations").insert({
+    category_id: inserted.id,
+    language_code: languageCode,
+    name: categoryName,
+    description: null,
+  });
+
+  await supabase.from("demand_auto_categories").insert({
+    category_id: inserted.id,
+    category_name: categoryName,
+    source_count: 1,
+  });
+
+  return { id: inserted.id, created: true };
+}
+
+export async function clusterDemandSignals(languageCode = "en"): Promise<ClusteringResult> {
+  const supabase = await createClient();
+  const result: ClusteringResult = { clustersCreated: 0, signalsClustered: 0, categoriesCreated: 0, errors: [] };
+
+  const { data: pendingSignals, error } = await supabase
+    .from("demand_signals")
+    .select("id, keyword, category, volume_score, trend_score, competition_score, affiliate_potential_score, freshness_score")
+    .eq("status", "pending")
+    .eq("language_code", languageCode)
+    .is("cluster_id", null)
+    .order("volume_score", { ascending: false })
+    .limit(200);
+
+  if (error || !pendingSignals || pendingSignals.length === 0) {
+    return result;
+  }
+
+  const signals = pendingSignals as {
+    id: string;
+    keyword: string;
+    category: string;
+    volume_score: number;
+    trend_score: number;
+    competition_score: number;
+    affiliate_potential_score: number;
+    freshness_score: number;
+  }[];
+
+  const clusters: { seed: typeof signals[0]; members: typeof signals[0][]; category: string }[] = [];
+  const similarityThreshold = 0.25;
+
+  for (const signal of signals) {
+    const words = getSignificantWords(signal.keyword || "");
+    let bestCluster: typeof clusters[0] | null = null;
+    let bestScore = 0;
+
+    for (const cluster of clusters) {
+      const clusterWords = cluster.members.flatMap((m) => getSignificantWords(m.keyword || ""));
+      const score = jaccardSimilarity(words, clusterWords);
+      if (score > bestScore && score >= similarityThreshold) {
+        bestScore = score;
+        bestCluster = cluster;
+      }
+    }
+
+    if (bestCluster) {
+      bestCluster.members.push(signal);
+    } else {
+      clusters.push({ seed: signal, members: [signal], category: signal.category || "General" });
+    }
+  }
+
+  for (const cluster of clusters) {
+    if (cluster.members.length < 2) continue;
+
+    try {
+      const categoryName = cluster.category || "General";
+      const category = await ensureCategory(categoryName, languageCode);
+      if (category.created) result.categoriesCreated++;
+
+      const keywords = cluster.members.map((m) => m.keyword).filter(Boolean);
+      const clusterName = generateClusterName(keywords);
+      const demandScore = Math.round(
+        cluster.members.reduce((sum, m) => sum + m.volume_score + m.trend_score + m.freshness_score, 0) /
+          (cluster.members.length * 3)
+      );
+      const competitionScore = Math.round(
+        cluster.members.reduce((sum, m) => sum + m.competition_score, 0) / cluster.members.length
+      );
+      const opportunityScore = Math.round(
+        demandScore * 0.5 +
+        cluster.members.reduce((sum, m) => sum + m.affiliate_potential_score, 0) / cluster.members.length * 0.3 +
+        (100 - competitionScore) * 0.2
+      );
+
+      const { data: inserted, error: insertError } = await supabase
+        .from("demand_topic_clusters")
+        .insert({
+          cluster_name: clusterName,
+          category: categoryName,
+          seed_keyword: cluster.seed.keyword || clusterName,
+          keywords,
+          demand_score: demandScore,
+          competition_score: competitionScore,
+          opportunity_score: opportunityScore,
+          status: "pending",
+          metadata: { category_id: category.id },
+        })
+        .select()
+        .single();
+
+      if (insertError || !inserted) {
+        result.errors.push(insertError?.message || "Cluster insert failed");
+        continue;
+      }
+
+      result.clustersCreated++;
+
+      const signalIds = cluster.members.map((m) => m.id);
+      const { error: updateError } = await supabase
+        .from("demand_signals")
+        .update({ cluster_id: inserted.id, status: "processed" })
+        .in("id", signalIds);
+
+      if (!updateError) result.signalsClustered += signalIds.length;
+      else result.errors.push(updateError.message);
+    } catch (err) {
+      result.errors.push(err instanceof Error ? err.message : "Clustering error");
+    }
+  }
+
+  return result;
+}

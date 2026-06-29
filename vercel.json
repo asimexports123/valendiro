@@ -1,0 +1,22 @@
+{
+  "buildCommand": "npm run build",
+  "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/demand/run",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/jobs/execute",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/learning/run",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/affiliate/sync",
+      "schedule": "0 2 * * *"
+    }
+  ]
+}
