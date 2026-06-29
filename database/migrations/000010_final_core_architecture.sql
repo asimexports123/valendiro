@@ -86,8 +86,26 @@ CREATE TRIGGER IF NOT EXISTS update_collection_translations_updated_at
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- RLS policies
+ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE category_translations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE collections ENABLE ROW LEVEL SECURITY;
 ALTER TABLE collection_translations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE articles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE article_translations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE questions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE question_translations ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read categories" ON categories
+  FOR SELECT USING (true);
+
+CREATE POLICY "Admin and editor manage categories" ON categories
+  FOR ALL USING (is_admin_or_editor()) WITH CHECK (is_admin_or_editor());
+
+CREATE POLICY "Public read category translations" ON category_translations
+  FOR SELECT USING (true);
+
+CREATE POLICY "Admin and editor manage category translations" ON category_translations
+  FOR ALL USING (is_admin_or_editor()) WITH CHECK (is_admin_or_editor());
 
 CREATE POLICY "Public read collections" ON collections
   FOR SELECT USING (true);
@@ -100,3 +118,29 @@ CREATE POLICY "Public read collection translations" ON collection_translations
 
 CREATE POLICY "Admin and editor manage collection translations" ON collection_translations
   FOR ALL USING (is_admin_or_editor()) WITH CHECK (is_admin_or_editor());
+
+CREATE POLICY "Public read articles" ON articles
+  FOR SELECT USING (status = 'published');
+
+CREATE POLICY "Admin and editor manage articles" ON articles
+  FOR ALL USING (is_admin_or_editor()) WITH CHECK (is_admin_or_editor());
+
+CREATE POLICY "Public read article translations" ON article_translations
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM articles WHERE articles.id = article_translations.article_id AND articles.status = 'published'
+    )
+  );
+
+CREATE POLICY "Admin and editor manage article translations" ON article_translations
+  FOR ALL USING (is_admin_or_editor()) WITH CHECK (is_admin_or_editor());
+
+CREATE POLICY "Public read questions" ON questions
+  FOR SELECT USING (status = 'published');
+
+CREATE POLICY "Public read question translations" ON question_translations
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM questions WHERE questions.id = question_translations.question_id AND questions.status = 'published'
+    )
+  );
