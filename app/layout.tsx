@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "A scalable, multilingual knowledge operating system powered by structured data, SEO-first architecture, and AI-ready services.",
+    "Valendiro is a trusted global knowledge platform. Discover millions of human-quality articles, guides, and answers curated by our editorial team.",
   openGraph: {
     type: "website",
     locale: DEFAULT_LANGUAGE,
