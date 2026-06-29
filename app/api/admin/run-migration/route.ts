@@ -67,6 +67,7 @@ export async function POST(request: Request) {
       await client.end();
     } catch {}
     const message = err instanceof Error ? err.message : "Migration failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const stack = err instanceof Error ? err.stack : null;
+    return NextResponse.json({ error: message, stack: stack ? stack.split("\n").slice(0, 5) : null }, { status: 500 });
   }
 }
