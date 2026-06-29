@@ -25,9 +25,9 @@ export async function getCurrentUser() {
     .from("profiles")
     .select("*")
     .eq("id", session.user.id)
-    .single<Profile>();
+    .maybeSingle<Profile>();
 
-  return profile;
+  return profile ?? null;
 }
 
 export async function requireAuth() {
