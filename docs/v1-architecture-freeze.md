@@ -18,16 +18,15 @@
 - Architecture, pipeline, DB relationship, and end-to-end example documentation added under `docs/v1-*.md`.
 - Production build succeeds and is deployed to Vercel.
 
-## Remaining manual step: Apply the final migration
+## Migration workflow
 
-The code is live, but the database migration must be run once for the new schema and RLS policies to take effect.
+Migrations are stored in `supabase/migrations/`. A GitHub Actions workflow (`.github/workflows/supabase-migrations.yml`) applies them automatically on every push to `main` using the Supabase CLI.
 
-1. Open the **Supabase SQL Editor** for the Valendiro project.
-2. Paste the contents of `database/migrations/000010_final_core_architecture.sql`.
-3. Run the SQL.
-4. Verify: refreshing `https://valendiro.com` should now show categories and collections.
+Required repository secrets:
+- `SUPABASE_ACCESS_TOKEN` — from Supabase Dashboard → Account → Access Tokens.
+- `SUPABASE_PROJECT_REF` — the project reference (e.g., `diwwvkbztvhwouttajha`).
 
-The migration is idempotent and can be safely re-run.
+The initial migration was applied manually because the access token was not available in the workspace. Future migrations are fully automated once the secrets are set.
 
 ## Architecture Freeze Confirmation
 
