@@ -43,18 +43,14 @@ function generateClusterName(keywords: string[]): string {
 async function ensureCategory(categoryName: string, languageCode = "en") {
   const supabase = createAdminClient();
 
-  const { data: existing } = await supabase
-    .from("categories")
-    .select("id, category_translations(name)")
-    .eq("category_translations.language_code", languageCode)
-    .eq("category_translations.name", categoryName)
-    .maybeSingle();
+  const slug = categoryName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
+
+  const { data: existing } = await supabase.from("categories").select("id").eq("slug", slug).maybeSingle();
 
   if (existing) {
     return { id: existing.id, created: false };
   }
 
-  const slug = categoryName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
   const { data: inserted, error } = await supabase
     .from("categories")
     .insert({ slug, sort_order: 0 })
@@ -84,11 +80,12 @@ async function ensureCategory(categoryName: string, languageCode = "en") {
 async function ensureCollection(collectionName: string, categoryId: string, languageCode = "en") {
   const supabase = createAdminClient();
 
+  const slug = collectionName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
+
   const { data: existing } = await supabase
     .from("collections")
-    .select("id, collection_translations(name)")
-    .eq("collection_translations.language_code", languageCode)
-    .eq("collection_translations.name", collectionName)
+    .select("id")
+    .eq("slug", slug)
     .eq("category_id", categoryId)
     .maybeSingle();
 
@@ -96,7 +93,6 @@ async function ensureCollection(collectionName: string, categoryId: string, lang
     return { id: existing.id, created: false };
   }
 
-  const slug = collectionName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
   const { data: inserted, error } = await supabase
     .from("collections")
     .insert({ slug, category_id: categoryId, sort_order: 0 })
@@ -170,8 +166,6 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
   }
 
   for (const cluster of clusters) {
-    if (cluster.members.length < 2) continue;
-
     try {
       const categoryName = cluster.category || "General";
       const category = await ensureCategory(categoryName, languageCode);
