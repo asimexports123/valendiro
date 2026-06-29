@@ -8,9 +8,14 @@ export interface AutomationConfig {
 }
 
 export async function getSystemSetting(key: string, defaultValue: string): Promise<string> {
-  const supabase = createAdminClient();
-  const { data } = await supabase.from("system_settings").select("value").eq("key", key).single();
-  return data?.value ?? defaultValue;
+  try {
+    const supabase = createAdminClient();
+    const { data } = await supabase.from("system_settings").select("value").eq("key", key).maybeSingle();
+    return data?.value ?? defaultValue;
+  } catch (e) {
+    console.error(`Failed to read system setting ${key}:`, e);
+    return defaultValue;
+  }
 }
 
 export async function setSystemSetting(key: string, value: string): Promise<void> {

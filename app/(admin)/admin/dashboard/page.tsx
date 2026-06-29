@@ -1,20 +1,30 @@
 import { MetricCard } from "@/components/admin/MetricCard";
 import { SimpleBarChart } from "@/components/admin/SimpleBarChart";
+import { DashboardActions } from "@/components/admin/DashboardActions";
 import { getDashboardMetrics, getSystemStatus, getPublishingMetrics } from "@/services/admin/dashboardData";
 
+function EmptyState({ message }: { message: string }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-border/60 bg-muted/30 p-8 text-center">
+      <p className="text-sm text-muted-foreground">{message}</p>
+    </div>
+  );
+}
+
 export default async function DashboardPage() {
-  const [{ metrics, error }, { status, error: statusError }, { metrics: publishing, error: publishingError }] = await Promise.all([
+  const [{ metrics }, { status }, { metrics: publishing }] = await Promise.all([
     getDashboardMetrics(),
     getSystemStatus(),
     getPublishingMetrics(),
   ]);
 
+  const totalContent = metrics.totalArticles + metrics.totalTopics + metrics.totalQuestions;
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-semibold tracking-tight text-foreground">Overview</h1>
-      {(error || statusError || publishingError) && (
-        <p className="text-sm text-rose-600">{[error, statusError, publishingError].filter(Boolean).join("; ")}</p>
-      )}
+
+      <DashboardActions />
 
       <div className="rounded-2xl border border-border/60 bg-background p-5 shadow-[var(--shadow)]">
         <h2 className="font-semibold text-foreground mb-3">System Status</h2>
@@ -46,18 +56,24 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard title="Total Articles" value={metrics.totalArticles} />
-        <MetricCard title="Topics" value={metrics.totalTopics} />
-        <MetricCard title="Questions" value={metrics.totalQuestions} />
-        <MetricCard title="Active Queue" value={metrics.activeQueueItems} />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard title="Avg Health Score" value={`${metrics.avgHealthScore}/100`} trend={metrics.avgHealthScore >= 60 ? "up" : "down"} />
-        <MetricCard title="Low Health Content" value={metrics.lowHealthCount} trend={metrics.lowHealthCount > 0 ? "down" : "up"} />
-        <MetricCard title="Pending SEO Suggestions" value={metrics.pendingSeoSuggestions} />
-        <MetricCard title="Est. Revenue (30d)" value={`$${metrics.estimatedRevenue.toFixed(2)}`} />
-      </div>
+      {totalContent === 0 ? (
+        <EmptyState message="No content yet. Use the operational actions above to run demand discovery and generate the first articles." />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <MetricCard title="Total Articles" value={metrics.totalArticles} />
+            <MetricCard title="Topics" value={metrics.totalTopics} />
+            <MetricCard title="Questions" value={metrics.totalQuestions} />
+            <MetricCard title="Active Queue" value={metrics.activeQueueItems} />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <MetricCard title="Avg Health Score" value={`${metrics.avgHealthScore}/100`} trend={metrics.avgHealthScore >= 60 ? "up" : "down"} />
+            <MetricCard title="Low Health Content" value={metrics.lowHealthCount} trend={metrics.lowHealthCount > 0 ? "down" : "up"} />
+            <MetricCard title="Pending SEO Suggestions" value={metrics.pendingSeoSuggestions} />
+            <MetricCard title="Est. Revenue (30d)" value={`$${metrics.estimatedRevenue.toFixed(2)}`} />
+          </div>
+        </>
+      )}
 
       <div className="rounded-2xl border border-border/60 bg-background p-5 shadow-[var(--shadow)]">
         <h2 className="font-semibold text-foreground mb-3">Publishing</h2>
@@ -68,12 +84,16 @@ export default async function DashboardPage() {
           <MetricCard title="Update Queue" value={publishing.updateQueue} />
         </div>
         <div className="mt-6">
-          <SimpleBarChart
-            data={Object.entries(publishing.lifecycle).map(([key, value]) => ({
-              label: key.replace("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-              value,
-            }))}
-          />
+          {publishing.published === 0 && publishing.drafts === 0 && publishing.archived === 0 ? (
+            <EmptyState message="No articles in publishing lifecycle yet." />
+          ) : (
+            <SimpleBarChart
+              data={Object.entries(publishing.lifecycle).map(([key, value]) => ({
+                label: key.replace("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+                value,
+              }))}
+            />
+          )}
         </div>
       </div>
     </div>
