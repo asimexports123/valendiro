@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export interface ArticleExpansionPlan {
   title: string;
@@ -37,7 +37,7 @@ export function generateArticleExpansionPlans(topicTitle: string): ArticleExpans
 }
 
 export async function queueArticleExpansionsForTopic(topicId: string, topicTitle: string, languageCode = "en") {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const plans = generateArticleExpansionPlans(topicTitle);
   const created: string[] = [];
 
@@ -46,7 +46,7 @@ export async function queueArticleExpansionsForTopic(topicId: string, topicTitle
       object_type: "article",
       topic_id: topicId,
       title: plan.title,
-      description: `${plan.title} — ${plan.intent} article expanding the topic "${topicTitle}"`,
+      description: `${plan.title} â€” ${plan.intent} article expanding the topic "${topicTitle}"`,
       reason: `Topic expansion for "${topicTitle}"`,
       priority_score: plan.priorityScore,
       status: "pending",
@@ -66,7 +66,7 @@ export async function queueArticleExpansionsForTopic(topicId: string, topicTitle
 }
 
 export async function expandAllPendingTopics(limit = 10) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: topics } = await supabase
     .from("topics")
     .select("id, slug, topic_translations(title)")

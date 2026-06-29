@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { DemandSourceResult, ExternalTrendInput } from "./demandSources";
 
 export interface DiscoveredKeyword {
@@ -184,7 +184,7 @@ export async function fetchRedditDiscussions(subreddits: string[] = ["technology
 export async function captureAllExternalDemand(
   seedKeywords: string[] = ["how to", "best", "what is", "guide"]
 ): Promise<DemandSourceResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   let inserted = 0;
   const errors: string[] = [];
 

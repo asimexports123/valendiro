@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export interface ClusteringResult {
   clustersCreated: number;
@@ -40,7 +40,7 @@ function generateClusterName(keywords: string[]): string {
 }
 
 async function ensureCategory(categoryName: string, languageCode = "en") {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: existing } = await supabase
     .from("categories")
@@ -81,7 +81,7 @@ async function ensureCategory(categoryName: string, languageCode = "en") {
 }
 
 async function ensureCollection(collectionName: string, categoryId: string, languageCode = "en") {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: existing } = await supabase
     .from("collections")
@@ -117,7 +117,7 @@ async function ensureCollection(collectionName: string, categoryId: string, lang
 }
 
 export async function clusterDemandSignals(languageCode = "en"): Promise<ClusteringResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const result: ClusteringResult = { clustersCreated: 0, signalsClustered: 0, categoriesCreated: 0, collectionsCreated: 0, errors: [] };
 
   const { data: pendingSignals, error } = await supabase

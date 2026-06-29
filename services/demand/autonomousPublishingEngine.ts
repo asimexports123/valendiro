@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { ENABLE_DEMAND_DISCOVERY } from "@/lib/constants";
 import { captureAllExternalDemand } from "./externalDemandSources";
 import { captureInternalSearchIntentDemand, captureSeasonalTrends } from "./demandSources";
@@ -38,7 +38,7 @@ export async function runAutonomousPublishingPipeline(): Promise<PublishingEngin
     errors: [],
   };
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   if (!ENABLE_DEMAND_DISCOVERY) {
     return result;
@@ -123,7 +123,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
     errors: [],
   };
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: queueItems, error } = await supabase
     .from("content_generation_queue")
@@ -231,7 +231,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
     errors: [],
   };
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: queueItems, error } = await supabase
     .from("content_generation_queue")

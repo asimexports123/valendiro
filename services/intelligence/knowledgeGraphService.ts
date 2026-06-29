@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   KnowledgeRelationship,
   KnowledgeObjectType,
@@ -33,7 +33,7 @@ export interface GraphEdge {
 }
 
 export async function createRelationship(input: CreateRelationshipInput) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("knowledge_relationships")
     .insert({
@@ -56,7 +56,7 @@ export async function getRelationshipsForObject(
   objectType: KnowledgeObjectType,
   direction: "outgoing" | "incoming" | "both" = "both"
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   let query = supabase.from("knowledge_relationships").select("*");
 
@@ -81,7 +81,7 @@ export async function findRelatedObjects(
   relationshipType?: RelationshipType,
   minStrength = 0
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   let query = supabase
     .from("knowledge_relationships")
@@ -102,7 +102,7 @@ export async function findRelatedObjects(
 }
 
 export async function findUnderdevelopedTopics(limit = 20) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase.rpc("find_underdeveloped_topics", { limit_count: limit });
 
@@ -121,7 +121,7 @@ export async function findUnderdevelopedTopics(limit = 20) {
 }
 
 export async function deleteRelationship(id: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase.from("knowledge_relationships").delete().eq("id", id);
   return { error: error?.message ?? null };
 }

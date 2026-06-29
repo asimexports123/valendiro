@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   InternalLinkSuggestion,
   KnowledgeObjectType,
@@ -18,7 +18,7 @@ export interface LinkSuggestionInput {
 }
 
 export async function createLinkSuggestion(input: LinkSuggestionInput) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("internal_link_suggestions")
     .insert({
@@ -44,7 +44,7 @@ export async function getSuggestionsForSource(
   status?: "pending" | "approved" | "rejected",
   limit = 50
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   let query = supabase
     .from("internal_link_suggestions")
     .select("*")
@@ -60,7 +60,7 @@ export async function getSuggestionsForSource(
 }
 
 export async function approveSuggestion(id: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("internal_link_suggestions")
     .update({ status: "approved" })
@@ -72,7 +72,7 @@ export async function approveSuggestion(id: string) {
 }
 
 export async function rejectSuggestion(id: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("internal_link_suggestions")
     .update({ status: "rejected" })
@@ -89,7 +89,7 @@ export async function generateSuggestionsForObject(
   languageCode: SupportedLanguage,
   limit = 10
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   // Simplified cross-table similarity: find other objects with the same category or tag
   const { data: categoryIds, error: catError } = await supabase.rpc("get_object_category_ids", {
@@ -131,7 +131,7 @@ export async function generateSuggestionsForObject(
 }
 
 export async function buildTopicClusterLinks(topicId: string, languageCode: SupportedLanguage) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   // Find all questions and knowledge objects linked to this topic and suggest links between them
   const { data: members, error } = await supabase

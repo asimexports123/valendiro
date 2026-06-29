@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export interface AutomationConfig {
   automationEnabled: boolean;
@@ -8,13 +8,13 @@ export interface AutomationConfig {
 }
 
 export async function getSystemSetting(key: string, defaultValue: string): Promise<string> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase.from("system_settings").select("value").eq("key", key).single();
   return data?.value ?? defaultValue;
 }
 
 export async function setSystemSetting(key: string, value: string): Promise<void> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   await supabase.from("system_settings").upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
 }
 
@@ -41,7 +41,7 @@ export async function logSystemEvent(
   message?: string,
   metadata?: Record<string, unknown>
 ): Promise<void> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   await supabase.from("system_events").insert({
     event_type: eventType,
     event_name: eventName,

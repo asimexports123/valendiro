@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { KnowledgeObjectType, SupportedLanguage } from "@/lib/types";
 
 export interface DuplicateCheckInput {
@@ -45,7 +45,7 @@ function calculateJaccardSimilarity(a: string, b: string): number {
 }
 
 export async function checkDuplicateContentBeforePublish(input: DuplicateCheckInput): Promise<DuplicateCheckResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const contentHash = generateHash(input.content);
 
   // 1. Hash-based exact duplicate check
@@ -110,7 +110,7 @@ export async function checkDuplicateContentBeforePublish(input: DuplicateCheckIn
 }
 
 export async function runDuplicateContentScan(limit = 50): Promise<{ scanned: number; duplicates: number; error: string | null }> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase.rpc("get_content_for_duplicate_check", {
     p_object_id: null,
     p_object_type: "article",

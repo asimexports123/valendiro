@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { TopicGapScore, SupportedLanguage } from "@/lib/types";
 
 export interface GapDetectionResult {
@@ -8,7 +8,7 @@ export interface GapDetectionResult {
 }
 
 export async function runTopicGapDetection(languageCode: SupportedLanguage = "en"): Promise<GapDetectionResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { error: calcError } = await supabase.rpc("calculate_topic_gap_scores", {
     language_code: languageCode,
@@ -51,7 +51,7 @@ export async function getTopicGapScores(
   minOpportunity = 0,
   limit = 50
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("topic_gap_scores")
     .select("*")
@@ -64,7 +64,7 @@ export async function getTopicGapScores(
 }
 
 export async function findHighIntentUnansweredQuestions(languageCode: SupportedLanguage = "en", limit = 20) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase.rpc("find_high_intent_unanswered_questions", {
     language_code: languageCode,
     limit_count: limit,
@@ -77,7 +77,7 @@ export async function findHighIntentUnansweredQuestions(languageCode: SupportedL
 }
 
 export async function findUnderdevelopedClusters(limit = 20) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase.rpc("find_underdeveloped_clusters", {
     limit_count: limit,
   });

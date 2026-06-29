@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   ContentGenerationQueueItem,
   ContentUpdateQueueItem,
@@ -18,7 +18,7 @@ export interface EvaluateObjectInput {
 }
 
 export async function evaluateAndQueue(input: EvaluateObjectInput) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: existing, error: existingError } = await supabase
     .from("content_priority_queue")
@@ -72,7 +72,7 @@ export async function enqueueContentGeneration(
   description?: string,
   metadata?: Record<string, unknown>
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("content_generation_queue")
     .insert({
@@ -96,7 +96,7 @@ export async function enqueueContentUpdate(
   priorityScore: number,
   metadata?: Record<string, unknown>
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("content_update_queue")
     .insert({
@@ -113,7 +113,7 @@ export async function enqueueContentUpdate(
 }
 
 export async function getPendingDecisions(limit = 50) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("content_priority_queue")
     .select("*")
@@ -125,7 +125,7 @@ export async function getPendingDecisions(limit = 50) {
 }
 
 export async function approveDecision(id: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("content_priority_queue")
     .update({ status: "approved" })
@@ -137,7 +137,7 @@ export async function approveDecision(id: string) {
 }
 
 export async function rejectDecision(id: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("content_priority_queue")
     .update({ status: "rejected" })
@@ -149,7 +149,7 @@ export async function rejectDecision(id: string) {
 }
 
 export async function getQueueItems(type: "generation" | "update" | "priority", status = "pending", limit = 50) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const table =
     type === "generation" ? "content_generation_queue" : type === "update" ? "content_update_queue" : "content_priority_queue";
 
@@ -164,7 +164,7 @@ export async function getQueueItems(type: "generation" | "update" | "priority", 
 }
 
 export async function runContentOpportunityScan(objectType: KnowledgeObjectType, languageCode: SupportedLanguage) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   // Example: Find published objects with no scores and queue them for evaluation
   const { data: unscored, error } = await supabase

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { InternalLinkSuggestion, KnowledgeObjectType, SeoKeywordGap, SupportedLanguage } from "@/lib/types";
 
 export interface SeoIntelligenceResult {
@@ -27,7 +27,7 @@ export async function runSeoIntelligenceEngine(limit = 50): Promise<SeoIntellige
 }
 
 async function identifyKeywordGaps(limit: number) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase.rpc("identify_keyword_gaps", { limit_count: limit });
   if (error || !data) return { created: 0, error: error?.message ?? null };
 
@@ -48,7 +48,7 @@ async function identifyKeywordGaps(limit: number) {
 }
 
 async function suggestInternalLinks(limit: number) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase.rpc("suggest_internal_links", { limit_count: limit });
   if (error || !data) return { created: 0, error: error?.message ?? null };
 
@@ -81,7 +81,7 @@ async function suggestInternalLinks(limit: number) {
 }
 
 async function identifyWeakClusters(limit: number) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase.rpc("find_weak_topic_clusters", { limit_count: limit });
   if (error || !data) return { count: 0, error: error?.message ?? null };
   return { count: data.length, error: null };
@@ -92,7 +92,7 @@ export async function getSeoInsights(limit = 20): Promise<{
   linkSuggestions: InternalLinkSuggestion[];
   error: string | null;
 }> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const [{ data: gaps }, { data: links }] = await Promise.all([
     supabase.from("seo_keyword_gaps").select("*").eq("status", "pending").order("opportunity_score", { ascending: false }).limit(limit),
     supabase.from("internal_link_suggestions").select("*").eq("status", "pending").order("relevance_score", { ascending: false }).limit(limit),

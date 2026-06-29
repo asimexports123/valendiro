@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { IntentType, Question } from "@/lib/types";
 
 const COMMERCIAL_KEYWORDS = [
@@ -30,7 +30,7 @@ export function classifyIntentFromText(text: string): IntentType {
 }
 
 export async function classifyQuestionIntent(questionId: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: question, error: fetchError } = await supabase
     .from("questions")
@@ -55,7 +55,7 @@ export async function classifyQuestionIntent(questionId: string) {
 }
 
 export async function batchClassifyQuestionIntents(limit = 100) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: questions, error } = await supabase
     .from("questions")
@@ -85,7 +85,7 @@ export async function batchClassifyQuestionIntents(limit = 100) {
 }
 
 export async function getIntentDistribution() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("questions")
     .select("intent_type")

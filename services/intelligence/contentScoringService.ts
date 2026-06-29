@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   ContentScore,
   KnowledgeObjectType,
@@ -45,7 +45,7 @@ function calculateOverallPriority(input: Omit<ScoreInput, "objectId" | "objectTy
 }
 
 export async function calculateAndSaveScore(input: ScoreInput) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const overallPriority = calculateOverallPriority({
     searchVolumeScore: input.searchVolumeScore,
@@ -83,7 +83,7 @@ export async function getScoreForObject(
   objectType: KnowledgeObjectType,
   languageCode: SupportedLanguage
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("content_scores")
     .select("*")
@@ -100,7 +100,7 @@ export async function getTopPriorityObjects(
   languageCode?: SupportedLanguage,
   limit = 20
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   let query = supabase
     .from("content_scores")
     .select("*")
@@ -115,7 +115,7 @@ export async function getTopPriorityObjects(
 }
 
 export async function deleteScore(id: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase.from("content_scores").delete().eq("id", id);
   return { error: error?.message ?? null };
 }

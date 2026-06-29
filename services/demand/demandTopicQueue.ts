@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { DemandTopicQueueItem } from "@/lib/types";
 
 export interface QueueFilterResult {
@@ -40,7 +40,7 @@ export async function buildDemandTopicQueue(
   minOpportunityScore = 45,
   maxQueueSize = 100
 ): Promise<QueueFilterResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const result: QueueFilterResult = { queued: 0, rejected: 0, duplicates: 0, cannibalized: 0, errors: [] };
 
   const { data: clusters, error } = await supabase
@@ -161,7 +161,7 @@ export async function buildDemandTopicQueue(
 }
 
 export async function approveDemandTopicQueueItems(limit = 20): Promise<DemandTopicQueueItem[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("demand_topic_queue")
     .select("*")

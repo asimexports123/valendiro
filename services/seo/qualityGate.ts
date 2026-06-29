@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { checkDuplicateContentBeforePublish, DuplicateCheckInput } from "./duplicateContentDetector";
 
 export interface QualityGateResult {
@@ -43,7 +43,7 @@ function checkReadability(content: string): { passed: boolean; score: number; re
 }
 
 async function checkInternalSimilarity(content: string, topicId: string | null): Promise<{ passed: boolean; score: number; reason: string | null }> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const words = normalizeText(content);
   if (words.length === 0) return { passed: true, score: 0, reason: null };
 

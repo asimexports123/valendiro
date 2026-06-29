@@ -1,9 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createLinkSuggestion } from "./internalLinkingEngine";
 import { KnowledgeObjectType } from "@/lib/types";
 
 export async function buildHierarchicalLinksForTopic(topicId: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const created: { source: string; target: string }[] = [];
 
   const { data: topic } = await supabase
@@ -94,7 +94,7 @@ export async function buildHierarchicalLinksForTopic(topicId: string) {
 }
 
 export async function buildHierarchicalLinksForArticle(articleId: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const created: { source: string; target: string }[] = [];
 
   const { data: article } = await supabase
@@ -158,7 +158,7 @@ export async function buildHierarchicalLinksForArticle(articleId: string) {
 }
 
 export async function buildHierarchicalLinksForCollection(collectionId: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const created: { source: string; target: string }[] = [];
 
   const { data: collection } = await supabase
@@ -206,7 +206,7 @@ export async function buildHierarchicalLinksForCollection(collectionId: string) 
 }
 
 export async function buildHierarchicalLinksForCategory(categoryId: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const created: { source: string; target: string }[] = [];
 
   // Category -> Collections

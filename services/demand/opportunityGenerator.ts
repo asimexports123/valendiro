@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   DemandSignal,
   KnowledgeObjectType,
@@ -25,7 +25,7 @@ export async function generateOpportunitiesFromDemandSignals(
   languageCode: SupportedLanguage = "en",
   limit = 20
 ): Promise<OpportunityGenerationResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: signals, error } = await supabase
     .from("demand_signals")
@@ -62,7 +62,7 @@ export async function generateOpportunitiesFromTopicGaps(
   languageCode: SupportedLanguage = "en",
   limit = 20
 ): Promise<OpportunityGenerationResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: gaps, error } = await supabase
     .from("topic_gap_scores")

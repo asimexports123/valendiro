@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { DemandSignal, DemandSignalType, IntentType, KnowledgeObjectType, SupportedLanguage } from "@/lib/types";
 
 export interface ExternalTrendInput {
@@ -23,7 +23,7 @@ export interface DemandSourceResult {
  * Commercial/transactional questions get higher volume scores.
  */
 export async function captureInternalSearchIntentDemand(languageCode: SupportedLanguage = "en"): Promise<DemandSourceResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: questions, error } = await supabase
     .from("questions")
@@ -71,7 +71,7 @@ export async function captureInternalSearchIntentDemand(languageCode: SupportedL
  * Search Console, affiliate APIs, etc.
  */
 export async function captureExternalTrend(input: ExternalTrendInput): Promise<DemandSourceResult> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { error } = await supabase.from("demand_signals").insert({
     signal_type: input.signalType,
@@ -100,7 +100,7 @@ export async function captureSeasonalTrends(languageCode: SupportedLanguage = "e
     { keyword: "tax season", month: 3, score: 75 },
   ];
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const currentMonth = new Date().getMonth() + 1;
   let inserted = 0;
 
@@ -133,7 +133,7 @@ export async function getDemandSignals(
   languageCode: SupportedLanguage = "en",
   limit = 100
 ) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   let query = supabase
     .from("demand_signals")
     .select("*")
