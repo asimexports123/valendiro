@@ -102,9 +102,7 @@ export function PublicFooter({ lang }: { lang: string }) {
             © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <a href="#" className="text-xs text-background/60 hover:text-background transition">Twitter</a>
-            <a href="#" className="text-xs text-background/60 hover:text-background transition">LinkedIn</a>
-            <a href="#" className="text-xs text-background/60 hover:text-background transition">Facebook</a>
+            <span className="text-xs text-background/60">Made for curious minds.</span>
           </div>
         </div>
       </div>
