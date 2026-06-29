@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const trendingExamples = [
-  { label: "AI", href: "topics/ai" },
-  { label: "Finance", href: "categories/finance" },
-  { label: "Health", href: "categories/health" },
-  { label: "Programming", href: "categories/programming" },
-  { label: "Travel", href: "categories/travel" },
-  { label: "Cybersecurity", href: "topics/cybersecurity" },
-  { label: "Startup", href: "topics/startup" },
+  { label: "AI", href: "search?q=AI" },
+  { label: "Finance", href: "search?q=Finance" },
+  { label: "Health", href: "search?q=Health" },
+  { label: "Programming", href: "search?q=Programming" },
+  { label: "Travel", href: "search?q=Travel" },
+  { label: "Cybersecurity", href: "search?q=Cybersecurity" },
+  { label: "Startup", href: "search?q=Startup" },
 ];
 
 export function Hero({ lang }: { lang: string }) {
