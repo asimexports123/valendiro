@@ -56,6 +56,13 @@ export async function buildDemandTopicQueue(
     return result;
   }
 
+  const clusterIds = clusters.map((c) => c.id as string);
+  const { data: clusterSignals } = await supabase
+    .from("demand_signals")
+    .select("id, cluster_id")
+    .in("cluster_id", clusterIds);
+  const signalIdByCluster = new Map((clusterSignals || []).map((s) => [s.cluster_id as string, s.id as string]));
+
   const { data: existingTopics } = await supabase
     .from("topic_translations")
     .select("title")
@@ -71,6 +78,12 @@ export async function buildDemandTopicQueue(
   const allExistingKeywords = [...existingTitles, ...existingKeywords];
 
   for (const cluster of clusters) {
+    const demandSignalId = signalIdByCluster.get(cluster.id as string);
+    if (!demandSignalId) {
+      result.rejected++;
+      continue;
+    }
+
     const keywords = (cluster.keywords || []) as string[];
     const bestKeyword = (cluster.seed_keyword as string) || keywords[0] || "untitled";
     const title = bestKeyword.charAt(0).toUpperCase() + bestKeyword.slice(1);
@@ -81,7 +94,7 @@ export async function buildDemandTopicQueue(
       await supabase
         .from("demand_topic_queue")
         .insert({
-          demand_signal_id: cluster.id,
+          demand_signal_id: demandSignalId,
           cluster_id: cluster.id,
           collection_id: cluster.collection_id,
           keyword: bestKeyword,
@@ -104,7 +117,7 @@ export async function buildDemandTopicQueue(
       await supabase
         .from("demand_topic_queue")
         .insert({
-          demand_signal_id: cluster.id,
+          demand_signal_id: demandSignalId,
           cluster_id: cluster.id,
           collection_id: cluster.collection_id,
           keyword: bestKeyword,
@@ -124,7 +137,7 @@ export async function buildDemandTopicQueue(
 
     try {
       const { error: insertError } = await supabase.from("demand_topic_queue").insert({
-        demand_signal_id: cluster.id,
+        demand_signal_id: demandSignalId,
         cluster_id: cluster.id,
         collection_id: cluster.collection_id,
         keyword: bestKeyword,
