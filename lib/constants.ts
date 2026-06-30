@@ -15,6 +15,7 @@ export type AppRole = (typeof APP_ROLES)[keyof typeof APP_ROLES];
 export const ADMIN_NAV_ITEMS = [
   { label: "Overview", href: "/admin/dashboard" },
   { label: "Demand Intelligence", href: "/admin/demand-intelligence" },
+  { label: "Category Config", href: "/admin/categories" },
   { label: "Content Performance", href: "/admin/performance" },
   { label: "SEO Insights", href: "/admin/seo-insights" },
   { label: "Affiliate Revenue", href: "/admin/affiliate-revenue" },

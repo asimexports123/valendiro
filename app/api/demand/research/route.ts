@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { runKeywordResearch } from "@/services/demand/keywordResearchEngine";
+import { getActiveCategories } from "@/services/demand/categoryConfig";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +23,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Provide 'keyword' or 'keywords' array" }, { status: 400 });
   }
 
-  const results = keywords.map((kw) => runKeywordResearch(kw));
+  const activeCategories = await getActiveCategories();
+  const results = keywords.map((kw) => runKeywordResearch(kw, activeCategories));
 
   return NextResponse.json({ success: true, count: results.length, results });
 }
@@ -42,6 +44,7 @@ export async function GET(request: Request) {
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const result = runKeywordResearch(keyword);
+  const activeCategories = await getActiveCategories();
+  const result = runKeywordResearch(keyword, activeCategories);
   return NextResponse.json({ success: true, result });
 }

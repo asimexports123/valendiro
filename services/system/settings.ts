@@ -1,10 +1,12 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import type { CategoryDefinition } from "@/services/demand/categoryConfig";
 
 export interface AutomationConfig {
   automationEnabled: boolean;
   publishLimitPerRun: number;
   demandDiscoveryEnabled: boolean;
   qualityGateEnabled: boolean;
+  activeCategories: CategoryDefinition[];
 }
 
 export async function getSystemSetting(key: string, defaultValue: string): Promise<string> {
@@ -24,11 +26,14 @@ export async function setSystemSetting(key: string, value: string): Promise<void
 }
 
 export async function getAutomationConfig(): Promise<AutomationConfig> {
-  const [automationEnabled, publishLimit, demandDiscovery, qualityGate] = await Promise.all([
+  const { getActiveCategories } = await import("@/services/demand/categoryConfig");
+
+  const [automationEnabled, publishLimit, demandDiscovery, qualityGate, activeCategories] = await Promise.all([
     getSystemSetting("AUTOMATION_ENABLED", process.env.AUTOMATION_ENABLED ?? "true"),
     getSystemSetting("publish_limit_per_run", process.env.PUBLISH_LIMIT_PER_RUN ?? "100"),
     getSystemSetting("demand_discovery_enabled", "true"),
     getSystemSetting("quality_gate_enabled", "true"),
+    getActiveCategories(),
   ]);
 
   return {
@@ -36,6 +41,7 @@ export async function getAutomationConfig(): Promise<AutomationConfig> {
     publishLimitPerRun: Math.max(1, parseInt(publishLimit, 10) || 100),
     demandDiscoveryEnabled: demandDiscovery === "true",
     qualityGateEnabled: qualityGate === "true",
+    activeCategories,
   };
 }
 

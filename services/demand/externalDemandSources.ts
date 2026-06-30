@@ -1,6 +1,13 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { DemandSourceResult, ExternalTrendInput } from "./demandSources";
 import { DemandIntent, DemandQualityScore, isPublishable, scoreDemandKeyword } from "./topicQualityEngine";
+import {
+  getActiveCategories,
+  getAllActiveSeedQueries,
+  getAllActiveSubreddits,
+  detectCategoryFromKeyword,
+  type CategoryDefinition,
+} from "./categoryConfig";
 
 export interface DiscoveredKeyword {
   keyword: string;
@@ -17,32 +24,8 @@ export interface DiscoveredKeyword {
   quality: DemandQualityScore;
 }
 
-const DEFAULT_CATEGORIES = [
-  "Technology", "Finance", "Home Improvement", "Health", "Education", "Travel",
-  "Business", "AI", "Programming", "Legal", "Automotive", "General",
-];
-
-function detectCategory(keyword: string): string {
-  const lower = keyword.toLowerCase();
-  const map: Record<string, string[]> = {
-    Technology: ["software", "app", "phone", "laptop", "tech", "computer", "gadget", "internet"],
-    Finance: ["money", "invest", "loan", "credit", "stock", "crypto", "finance", "banking", "budget"],
-    "Home Improvement": ["clean", "repair", "diy", "home", "garden", "kitchen", "bathroom", "furniture"],
-    Health: ["health", "fitness", "diet", "workout", "medicine", "mental health", "nutrition"],
-    Education: ["learn", "course", "study", "exam", "degree", "university", "school", "tutorial"],
-    Travel: ["travel", "hotel", "flight", "vacation", "trip", "destination", "tourism"],
-    Business: ["business", "startup", "marketing", "sales", "entrepreneur", "company"],
-    AI: ["ai", "artificial intelligence", "machine learning", "chatgpt", "gpt", "llm"],
-    Programming: ["code", "programming", "developer", "python", "javascript", "web development", "api"],
-    Legal: ["law", "legal", "contract", "court", "lawyer", "tax", "regulation"],
-    Automotive: ["car", "vehicle", "automotive", "driving", "engine", "motorcycle"],
-  };
-
-  for (const [category, keywords] of Object.entries(map)) {
-    if (keywords.some((k) => lower.includes(k))) return category;
-  }
-  return "General";
-}
+// Category detection is now fully delegated to categoryConfig.ts
+// This ensures a single source of truth driven by DB settings
 
 function scoreKeyword(
   keyword: string,
@@ -51,16 +34,18 @@ function scoreKeyword(
   baseVolume: number,
   baseTrend: number,
   baseCompetition: number,
-  baseFreshness: number
+  baseFreshness: number,
+  activeCategories: CategoryDefinition[]
 ): DiscoveredKeyword | null {
   const quality = scoreDemandKeyword(keyword);
   if (!isPublishable(quality)) return null;
   const targetKeyword = quality.knowledgeTopic || quality.normalizedKeyword;
+  const categoryMatch = detectCategoryFromKeyword(targetKeyword, activeCategories);
   return {
     keyword: targetKeyword,
     searchIntent: quality.intent,
     languageCode,
-    category: detectCategory(targetKeyword),
+    category: categoryMatch.label,
     volumeScore: baseVolume,
     trendScore: baseTrend,
     competitionScore: baseCompetition,
@@ -79,7 +64,12 @@ function scoreFromKeyword(keyword: string): { volume: number; competition: numbe
   return { volume: Math.round(volume), competition: Math.round(competition) };
 }
 
-export async function fetchGoogleAutocomplete(seed: string, languageCode = "en"): Promise<DiscoveredKeyword[]> {
+export async function fetchGoogleAutocomplete(
+  seed: string,
+  languageCode = "en",
+  activeCategories?: CategoryDefinition[]
+): Promise<DiscoveredKeyword[]> {
+  const cats = activeCategories ?? await getActiveCategories();
   try {
     const endpoint = `https://suggestqueries.google.com/complete/search?client=firefox&hl=${languageCode}&q=${encodeURIComponent(seed)}`;
     const response = await fetch(endpoint, { next: { revalidate: 0 } });
@@ -93,7 +83,7 @@ export async function fetchGoogleAutocomplete(seed: string, languageCode = "en")
       .slice(0, 20)
       .map((keyword: string) => {
         const scores = scoreFromKeyword(keyword);
-        return scoreKeyword(keyword, "google_autocomplete", languageCode, scores.volume, 50, scores.competition, 60);
+        return scoreKeyword(keyword, "google_autocomplete", languageCode, scores.volume, 50, scores.competition, 60, cats);
       })
       .filter((k): k is DiscoveredKeyword => k !== null);
   } catch {
@@ -101,15 +91,15 @@ export async function fetchGoogleAutocomplete(seed: string, languageCode = "en")
   }
 }
 
-export async function fetchGoogleTrends(keywords: string[]): Promise<DiscoveredKeyword[]> {
-  // Google Trends official API requires OAuth and is not free at scale.
-  // This is a future-ready stub. Connect serpapi/google-trends-api here if needed.
+export async function fetchGoogleTrends(
+  keywords: string[],
+  activeCategories?: CategoryDefinition[]
+): Promise<DiscoveredKeyword[]> {
   if (!process.env.GOOGLE_TRENDS_API_KEY) return [];
-
+  const cats = activeCategories ?? await getActiveCategories();
   try {
-    // Placeholder for real Google Trends API integration.
     return keywords
-      .map((keyword) => scoreKeyword(keyword, "google_trends", "en", 70, 70, 60, 70))
+      .map((keyword) => scoreKeyword(keyword, "google_trends", "en", 70, 70, 60, 70, cats))
       .filter((k): k is DiscoveredKeyword => k !== null);
   } catch {
     return [];
@@ -117,6 +107,9 @@ export async function fetchGoogleTrends(keywords: string[]): Promise<DiscoveredK
 }
 
 export async function fetchWikipediaPageviews(languageCode = "en"): Promise<DiscoveredKeyword[]> {
+  // Wikipedia trending is mostly news/celebrity — we intentionally limit this source
+  // by running every keyword through category detection and rejecting out-of-scope ones.
+  const cats = await getActiveCategories();
   try {
     const date = new Date();
     date.setDate(date.getDate() - 7);
@@ -133,9 +126,12 @@ export async function fetchWikipediaPageviews(languageCode = "en"): Promise<Disc
     if (!Array.isArray(items)) return [];
 
     return items
-      .slice(0, 30)
+      .slice(0, 50)
       .map((item: { article: string; views: number }) => {
         const keyword = item.article.replace(/_/g, " ");
+        // Pre-filter: only keep if it matches an active V1 category
+        const match = detectCategoryFromKeyword(keyword, cats);
+        if (!match.inScope) return null;
         const scores = scoreFromKeyword(keyword);
         return scoreKeyword(
           keyword,
@@ -144,7 +140,8 @@ export async function fetchWikipediaPageviews(languageCode = "en"): Promise<Disc
           Math.min(100, Math.round(60 + Math.log10(item.views || 1) * 5)),
           Math.min(100, Math.round(50 + Math.log10(item.views || 1) * 4)),
           scores.competition,
-          80
+          80,
+          cats
         );
       })
       .filter((k): k is DiscoveredKeyword => k !== null);
@@ -153,9 +150,16 @@ export async function fetchWikipediaPageviews(languageCode = "en"): Promise<Disc
   }
 }
 
-export async function fetchRedditDiscussions(subreddits: string[] = ["technology", "personalfinance", "lifeprotips"], languageCode = "en"): Promise<DiscoveredKeyword[]> {
+export async function fetchRedditDiscussions(
+  subreddits?: string[],
+  languageCode = "en"
+): Promise<DiscoveredKeyword[]> {
+  // Use active-category subreddits from config, not a hardcoded list
+  const cats = await getActiveCategories();
+  const activeSubreddits = subreddits ?? (await getAllActiveSubreddits()).map((s) => s.subreddit);
   const results: DiscoveredKeyword[] = [];
-  for (const subreddit of subreddits.slice(0, 3)) {
+
+  for (const subreddit of activeSubreddits.slice(0, 10)) {
     try {
       const endpoint = `https://www.reddit.com/r/${subreddit}/hot.json?limit=10`;
       const response = await fetch(endpoint, {
@@ -172,34 +176,40 @@ export async function fetchRedditDiscussions(subreddits: string[] = ["technology
         const title = post.data?.title as string;
         if (!title || title.length > 120) continue;
         const scores = scoreFromKeyword(title);
-        const scored = scoreKeyword(title, "reddit_discussions", languageCode, scores.volume, 60, scores.competition, 90);
+        const scored = scoreKeyword(title, "reddit_discussions", languageCode, scores.volume, 60, scores.competition, 90, cats);
         if (scored) results.push(scored);
       }
     } catch {
       continue;
     }
   }
-  return results.slice(0, 30);
+  return results.slice(0, 50);
 }
 
-export async function captureAllExternalDemand(
-  seedKeywords: string[] = ["how to", "best", "what is", "guide"]
-): Promise<DemandSourceResult> {
+export async function captureAllExternalDemand(): Promise<DemandSourceResult> {
   const supabase = createAdminClient();
   let inserted = 0;
   const errors: string[] = [];
 
+  // Load active categories + their seed queries from DB config
+  const cats = await getActiveCategories();
+  const seedEntries = await getAllActiveSeedQueries();
+  const seedKeywords = seedEntries.map((s) => s.query);
+
   const sources: (() => Promise<DiscoveredKeyword[]>)[] = [
-    () => Promise.all(seedKeywords.map((s) => fetchGoogleAutocomplete(s))).then((r) => r.flat()),
-    () => fetchGoogleTrends(seedKeywords),
+    () => Promise.all(seedKeywords.slice(0, 20).map((s) => fetchGoogleAutocomplete(s, "en", cats))).then((r) => r.flat()),
+    () => fetchGoogleTrends(seedKeywords, cats),
     () => fetchWikipediaPageviews(),
-    () => fetchRedditDiscussions(),
+    () => fetchRedditDiscussions(undefined, "en"),
   ];
 
   for (const source of sources) {
     try {
       const keywords = await source();
       for (const k of keywords) {
+        // Determine if keyword is in-scope for active categories
+        const categoryMatch = detectCategoryFromKeyword(k.keyword, cats);
+
         const input: ExternalTrendInput = {
           keyword: k.keyword,
           volumeScore: k.volumeScore,
@@ -223,9 +233,15 @@ export async function captureAllExternalDemand(
           affiliate_potential_score: input.affiliatePotentialScore,
           competition_score: input.competitionScore,
           search_intent: k.searchIntent,
-          category: k.category,
+          category: categoryMatch.label,
           freshness_score: k.freshnessScore,
-          metadata: { discovered_by: "external_demand_sources", quality: k.quality },
+          metadata: {
+            discovered_by: "external_demand_sources",
+            quality: k.quality,
+            in_scope: categoryMatch.inScope,
+            category_slug: categoryMatch.slug,
+            matched_keyword: categoryMatch.matchedKeyword,
+          },
         });
 
         if (!error) inserted++;

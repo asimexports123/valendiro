@@ -3,8 +3,11 @@
  *
  * Every keyword passes through this engine before any content is created.
  * The engine produces a structured KeywordResearchResult with scores across
- * 9 dimensions and a single finalDecisionScore that gates publishing.
+ * 10 dimensions (including categoryFit) and a single finalDecisionScore
+ * that gates publishing. Out-of-scope keywords go to backlog, not rejected.
  */
+
+import type { CategoryDefinition } from "./categoryConfig";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -36,12 +39,16 @@ export interface KeywordResearchResult {
   businessValueScore: number;
   knowledgeGapScore: number;
   entityConfidenceScore: number;
+  categoryFitScore: number; // NEW: 100 = in-scope V1 category, 0 = out-of-scope
 
   // Derived fields
   searchIntent: SearchIntent;
   entityConfidence: EntityConfidenceLevel;
   competitionLevel: CompetitionLevel;
   detectedEntity: string | null;
+  categorySlug: string;   // e.g. "personal-finance" or "out-of-scope"
+  categoryLabel: string;  // e.g. "Personal Finance" or "Out of Scope"
+  categoryInScope: boolean;
 
   // Penalties
   newsPenalty: number;
@@ -376,6 +383,43 @@ function calculatePenalties(keyword: string, intent: SearchIntent): { news: numb
   return { news, celebrity, local };
 }
 
+// ─── Category Fit Scoring ─────────────────────────────────────────────────────
+
+function scoreCategoryFit(
+  keyword: string,
+  activeCategories: CategoryDefinition[]
+): { score: number; slug: string; label: string; inScope: boolean; bvBoost: number } {
+  const lc = keyword.toLowerCase();
+  let bestScore = 0;
+  let bestCat: CategoryDefinition | null = null;
+  let matchedKw: string | null = null;
+
+  for (const cat of activeCategories) {
+    for (const kw of cat.keywords) {
+      if (lc.includes(kw)) {
+        const score = kw.length + (cat.priority === 1 ? 5 : 0);
+        if (score > bestScore) {
+          bestScore = score;
+          bestCat = cat;
+          matchedKw = kw;
+        }
+      }
+    }
+  }
+
+  if (bestCat) {
+    return {
+      score: 100,
+      slug: bestCat.slug,
+      label: bestCat.label,
+      inScope: true,
+      bvBoost: bestCat.businessValueBoost,
+    };
+  }
+
+  return { score: 0, slug: "out-of-scope", label: "Out of Scope", inScope: false, bvBoost: 0 };
+}
+
 // ─── Final Decision ───────────────────────────────────────────────────────────
 
 const PUBLISH_THRESHOLD = 58;
@@ -386,12 +430,15 @@ function makeDecision(
   entityConfidence: EntityConfidenceLevel,
   evergreenScore: number,
   rankingOpportunity: number,
+  categoryInScope: boolean,
   blockedReason: string | null
 ): { decision: PublishDecision; reason: string } {
   if (blockedReason) return { decision: "reject", reason: blockedReason };
   if (entityConfidence === "low") return { decision: "reject", reason: "Entity confidence too low — ambiguous keyword" };
   if (evergreenScore < 30) return { decision: "reject", reason: "Evergreen score below 30 — likely a temporary trend" };
   if (rankingOpportunity < 20) return { decision: "reject", reason: "Ranking opportunity too low — SERP dominated by high-authority competitors" };
+  // Out-of-scope keywords go to backlog, NOT rejected — they may be valid in a future category
+  if (!categoryInScope) return { decision: "backlog", reason: "Out of scope for V1 categories — saved for future expansion" };
   if (finalScore >= PUBLISH_THRESHOLD) return { decision: "publish", reason: `Final score ${finalScore} exceeds publish threshold of ${PUBLISH_THRESHOLD}` };
   if (finalScore >= BACKLOG_THRESHOLD) return { decision: "backlog", reason: `Final score ${finalScore} — below publish threshold, stored for future review` };
   return { decision: "reject", reason: `Final score ${finalScore} below minimum threshold of ${BACKLOG_THRESHOLD}` };
@@ -399,7 +446,11 @@ function makeDecision(
 
 // ─── Main Export ──────────────────────────────────────────────────────────────
 
-export function runKeywordResearch(rawKeyword: string): KeywordResearchResult {
+// Sync version — requires activeCategories to be pre-loaded by the caller
+export function runKeywordResearch(
+  rawKeyword: string,
+  activeCategories: CategoryDefinition[] = []
+): KeywordResearchResult {
   const normalized = rawKeyword.trim().replace(/\s+/g, " ").toLowerCase();
 
   const blockedReason = isHardBlocked(normalized);
@@ -412,27 +463,35 @@ export function runKeywordResearch(rawKeyword: string): KeywordResearchResult {
     return buildRejectedResult(rawKeyword, normalized, "Keyword matched blocked intent pattern");
   }
 
-  const { label: detectedEntity, confidence: entityConfidence, businessValueBoost } = resolveEntity(normalized);
+  const { label: detectedEntity, confidence: entityConfidence, businessValueBoost: entityBvBoost } = resolveEntity(normalized);
   const entityConfidenceScore = entityConfidence === "high" ? 90 : entityConfidence === "medium" ? 55 : 15;
+
+  // Category fit — uses active categories passed in (from DB config)
+  const catFit = scoreCategoryFit(normalized, activeCategories);
+  const categoryFitScore = catFit.score;
+  const categoryBvBoost = catFit.bvBoost;
 
   const searchDemandScore = scoreSearchDemand(normalized, intent);
   const { score: competitionScore, level: competitionLevel } = scoreCompetition(normalized, intent);
   const rankingOpportunityScore = scoreRankingOpportunity(normalized, competitionScore, intent, entityConfidence);
   const evergreenScore = scoreEvergreen(normalized, intent);
-  const businessValueScore = scoreBusinessValue(normalized, intent, businessValueBoost);
+  // Use higher of entity BV boost or category BV boost
+  const businessValueScore = scoreBusinessValue(normalized, intent, Math.max(entityBvBoost, categoryBvBoost));
   const knowledgeGapScore = scoreKnowledgeGap(normalized);
   const { news: newsPenalty, celebrity: celebrityPenalty, local: localPenalty } = calculatePenalties(normalized, intent);
 
   const totalPenalty = newsPenalty + celebrityPenalty + localPenalty;
 
-  // Final Decision Score formula
+  // Final Decision Score formula (weights sum to 1.0)
+  // categoryFit gets 0.10 weight — reduces score for out-of-scope but doesn’t hard-block
   const rawScore =
-    searchDemandScore * 0.15 +
-    rankingOpportunityScore * 0.25 +
-    evergreenScore * 0.20 +
-    businessValueScore * 0.15 +
+    searchDemandScore * 0.13 +
+    rankingOpportunityScore * 0.23 +
+    evergreenScore * 0.18 +
+    businessValueScore * 0.13 +
     knowledgeGapScore * 0.10 +
-    entityConfidenceScore * 0.15;
+    entityConfidenceScore * 0.13 +
+    categoryFitScore * 0.10;
 
   const finalDecisionScore = Math.max(0, Math.min(100, Math.round(rawScore - totalPenalty * 0.5)));
 
@@ -441,6 +500,7 @@ export function runKeywordResearch(rawKeyword: string): KeywordResearchResult {
     entityConfidence,
     evergreenScore,
     rankingOpportunityScore,
+    catFit.inScope,
     null
   );
 
@@ -454,10 +514,14 @@ export function runKeywordResearch(rawKeyword: string): KeywordResearchResult {
     businessValueScore,
     knowledgeGapScore,
     entityConfidenceScore,
+    categoryFitScore,
     searchIntent: intent,
     entityConfidence,
     competitionLevel,
     detectedEntity,
+    categorySlug: catFit.slug,
+    categoryLabel: catFit.label,
+    categoryInScope: catFit.inScope,
     newsPenalty,
     celebrityPenalty,
     localPenalty,
@@ -472,12 +536,14 @@ export function runKeywordResearch(rawKeyword: string): KeywordResearchResult {
       businessValue: businessValueScore,
       knowledgeGap: knowledgeGapScore,
       entityConfidence: entityConfidenceScore,
+      categoryFit: categoryFitScore,
       newsPenalty,
       celebrityPenalty,
       localPenalty,
       finalScore: finalDecisionScore,
       intent,
       entity: detectedEntity ?? "unknown",
+      category: catFit.label,
       decision,
     },
   };
@@ -494,10 +560,14 @@ function buildRejectedResult(raw: string, normalized: string, reason: string): K
     businessValueScore: 0,
     knowledgeGapScore: 0,
     entityConfidenceScore: 0,
+    categoryFitScore: 0,
     searchIntent: "blocked",
     entityConfidence: "low",
     competitionLevel: "high",
     detectedEntity: null,
+    categorySlug: "out-of-scope",
+    categoryLabel: "Out of Scope",
+    categoryInScope: false,
     newsPenalty: 0,
     celebrityPenalty: 0,
     localPenalty: 0,

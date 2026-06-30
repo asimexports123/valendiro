@@ -93,12 +93,27 @@ export async function captureExternalTrend(input: ExternalTrendInput): Promise<D
  * Apply hardcoded seasonal trends. Replace with real data source later.
  */
 export async function captureSeasonalTrends(languageCode: SupportedLanguage = "en"): Promise<DemandSourceResult> {
+  // V1 category-aligned seasonal seeds only
   const seasonalKeywords = [
-    { keyword: "summer guide", month: 6, score: 80 },
-    { keyword: "holiday tips", month: 12, score: 95 },
-    { keyword: "new year planning", month: 1, score: 90 },
-    { keyword: "back to school", month: 8, score: 85 },
-    { keyword: "tax season", month: 3, score: 75 },
+    // Personal Finance
+    { keyword: "tax filing guide", month: 3, score: 85 },
+    { keyword: "tax deduction tips", month: 2, score: 80 },
+    { keyword: "year end financial review", month: 12, score: 75 },
+    { keyword: "new year budget planning", month: 1, score: 90 },
+    // Education
+    { keyword: "back to school study tips", month: 8, score: 85 },
+    { keyword: "how to prepare for exams", month: 5, score: 80 },
+    { keyword: "online learning guide", month: 9, score: 75 },
+    // Health & Wellness
+    { keyword: "summer fitness guide", month: 6, score: 80 },
+    { keyword: "winter immune system tips", month: 11, score: 75 },
+    { keyword: "new year workout routine", month: 1, score: 85 },
+    // Home & Lifestyle
+    { keyword: "spring home cleaning tips", month: 3, score: 80 },
+    { keyword: "holiday meal prep guide", month: 12, score: 85 },
+    // Travel
+    { keyword: "summer travel tips", month: 5, score: 85 },
+    { keyword: "budget travel guide", month: 6, score: 80 },
   ];
 
   const supabase = createAdminClient();

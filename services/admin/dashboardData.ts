@@ -255,6 +255,10 @@ export interface KeywordDecisionRow {
     knowledgeGapScore: number;
     entityConfidenceScore: number;
     entityConfidence: string;
+    categoryFitScore: number;
+    categorySlug: string;
+    categoryLabel: string;
+    categoryInScope: boolean;
     finalDecisionScore: number;
     decision: string;
     decisionReason: string;

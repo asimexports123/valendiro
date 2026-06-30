@@ -107,6 +107,7 @@ export default async function DemandIntelligencePage() {
                 <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Keyword</th>
                 <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Intent</th>
                 <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Entity</th>
+                <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide">Category</th>
                 <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide w-28">Demand</th>
                 <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide w-28">Competition</th>
                 <th className="px-3 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide w-28">Ranking Opp.</th>
@@ -141,6 +142,18 @@ export default async function DemandIntelligencePage() {
                           </span>
                         )}
                       </span>
+                    </td>
+                    <td className="px-3 py-3">
+                      {r ? (
+                        <div>
+                          <span className={`text-xs font-medium ${r.categoryInScope ? "text-foreground" : "text-muted-foreground italic"}`}>
+                            {r.categoryLabel}
+                          </span>
+                          {!r.categoryInScope && (
+                            <span className="ml-1 rounded-full bg-amber-50 border border-amber-200 px-1.5 py-0.5 text-[10px] text-amber-700">backlog</span>
+                          )}
+                        </div>
+                      ) : <span className="text-xs text-muted-foreground">—</span>}
                     </td>
                     <td className="px-3 py-3 w-28">
                       {r ? <ScoreBar value={r.searchDemandScore} color={ScoreColor(r.searchDemandScore)} /> : <span className="text-xs text-muted-foreground">—</span>}
@@ -206,6 +219,7 @@ export default async function DemandIntelligencePage() {
           <div><span className="font-medium text-foreground">Evergreen</span> — Long-term relevance vs. temporary trend</div>
           <div><span className="font-medium text-foreground">Biz Value</span> — Affiliate / commercial / educational potential</div>
           <div><span className="font-medium text-foreground">Gap</span> — How underserved this topic is in our content</div>
+          <div><span className="font-medium text-foreground">Category</span> — V1 scope match; out-of-scope → Backlog for future expansion</div>
           <div><span className="font-medium text-foreground">Entity</span> — Confidence the keyword maps to a real entity</div>
           <div><span className="font-medium text-foreground text-emerald-600">≥58</span> — Publish threshold</div>
           <div><span className="font-medium text-foreground text-amber-600">38–57</span> — Backlog (review later)</div>

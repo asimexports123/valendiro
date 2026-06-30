@@ -8,6 +8,7 @@ import { generateArticleFromTemplate } from "../templates/articleTemplateEngine"
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
 import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
 import { runKeywordResearch } from "./keywordResearchEngine";
+import { getActiveCategories } from "./categoryConfig";
 import { queueArticleExpansionsForTopic, expandAllPendingTopics } from "./topicExpansionEngine";
 import {
   buildHierarchicalLinksForTopic,
@@ -119,9 +120,11 @@ export async function runAutonomousPublishingPipeline(): Promise<PublishingEngin
   // Step 4: Keyword Research Decision Gate + Promote to content generation queue
   try {
     const approvedItems = await approveDemandTopicQueueItems(10);
+    // Load active categories once for all keywords in this run
+    const activeCategories = await getActiveCategories();
     for (const item of approvedItems) {
       // ── Decision Engine: every keyword must pass research before any content is created ──
-      const research = runKeywordResearch(item.keyword);
+      const research = runKeywordResearch(item.keyword, activeCategories);
 
       // Store research result back on the demand_topic_queue item regardless of decision
       await supabase
