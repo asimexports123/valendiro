@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import { DataTable } from "@/components/admin/DataTable";
+import { AdminTable } from "@/components/admin/AdminTable";
 import { Pagination } from "@/components/admin/Pagination";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { listItems } from "@/lib/admin/actions";
@@ -117,15 +117,14 @@ export default async function ArticlesPage({
         <span className="text-sm text-muted-foreground">{count} total</span>
       </div>
       <SearchBar />
-      <DataTable<typeof enriched[0]>
-        rows={enriched}
+      <AdminTable
+        rows={enriched as Record<string, unknown>[]}
         columns={[
           { key: "_title",     label: "Title" },
           { key: "slug",       label: "Slug" },
           { key: "status",     label: "Status" },
           { key: "_published", label: "Published" },
         ]}
-        getRowId={(row) => row.id}
         basePath="/admin/articles"
         deleteTable="articles"
       />

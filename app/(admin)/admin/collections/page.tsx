@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { DataTable } from "@/components/admin/DataTable";
+import { AdminTable } from "@/components/admin/AdminTable";
 
 export default async function AdminCollectionsPage() {
   const supabase = createAdminClient();
@@ -20,14 +20,13 @@ export default async function AdminCollectionsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-foreground">Collections</h1>
-      <DataTable
-        rows={rows}
+      <AdminTable
+        rows={rows as Record<string, unknown>[]}
         columns={[
-          { key: "name", label: "Name" },
-          { key: "slug", label: "Slug" },
+          { key: "name",       label: "Name" },
+          { key: "slug",       label: "Slug" },
           { key: "created_at", label: "Created" },
         ]}
-        getRowId={(r) => r.id}
         basePath="/admin/collections"
         deleteTable="collections"
       />

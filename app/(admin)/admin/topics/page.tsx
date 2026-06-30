@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import { DataTable } from "@/components/admin/DataTable";
+import { AdminTable } from "@/components/admin/AdminTable";
 import { Pagination } from "@/components/admin/Pagination";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { Button } from "@/components/ui/Button";
@@ -38,15 +38,14 @@ export default async function TopicsPage({
         </Link>
       </div>
       <SearchBar />
-      <DataTable<typeof rows[0]>
-        rows={rows}
+      <AdminTable
+        rows={rows as Record<string, unknown>[]}
         columns={[
-          { key: "slug",        label: "Slug" },
-          { key: "status",      label: "Status" },
-          { key: "difficulty",  label: "Difficulty" },
-          { key: "_published",  label: "Published" },
+          { key: "slug",       label: "Slug" },
+          { key: "status",     label: "Status" },
+          { key: "difficulty", label: "Difficulty" },
+          { key: "_published", label: "Published" },
         ]}
-        getRowId={(row) => row.id}
         basePath="/admin/topics"
         deleteTable="topics"
       />
