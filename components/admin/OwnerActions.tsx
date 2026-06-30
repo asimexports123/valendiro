@@ -75,6 +75,33 @@ export function OwnerActions({ automationEnabled }: Props) {
             <p className="text-xs font-normal mt-0.5 text-muted-foreground">Publish pending articles</p>
           </div>
         </button>
+
+        {/* Purge cache */}
+        <button
+          onClick={async () => {
+            setLoading("purge_cache");
+            setFeedback(null);
+            try {
+              const res = await fetch("/api/admin/purge-cache", { method: "POST" });
+              const json = await res.json();
+              if (!res.ok) throw new Error(json.error || "Purge failed");
+              setFeedback({ ok: true, message: `Cache cleared — ${json.revalidated} pages refreshed.` });
+              setTimeout(() => setFeedback(null), 3000);
+            } catch (err) {
+              setFeedback({ ok: false, message: err instanceof Error ? err.message : "Purge failed" });
+            } finally {
+              setLoading(null);
+            }
+          }}
+          disabled={busy}
+          className="flex items-center justify-center gap-2.5 rounded-2xl border border-border/60 bg-card px-5 py-4 font-semibold text-foreground hover:border-primary/30 hover:shadow-md disabled:opacity-50 transition-all duration-200"
+        >
+          <span className="text-xl">{loading === "purge_cache" ? "⏳" : "🔄"}</span>
+          <div className="text-left">
+            <p className="font-semibold">{loading === "purge_cache" ? "Clearing…" : "Purge Cache"}</p>
+            <p className="text-xs font-normal mt-0.5 text-muted-foreground">Refresh all public pages</p>
+          </div>
+        </button>
       </div>
 
       {feedback && (
