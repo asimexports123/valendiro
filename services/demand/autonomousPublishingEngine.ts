@@ -6,6 +6,7 @@ import { isQuotaExhaustedError } from "../llm";
 import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
 import { queueArticleExpansionsForTopic, expandAllPendingTopics } from "./topicExpansionEngine";
 import { classifyTopicDomain } from "../intelligence/topicDomainClassifier";
+import { classifySearchIntent, deriveUserGoal } from "../intelligence/topicSearchIntentClassifier";
 import {
   buildHierarchicalLinksForTopic,
   buildHierarchicalLinksForArticle,
@@ -375,7 +376,9 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       // Agent 1: Research  → Agent 2: Outline → Agent 3: Write
       // Agent 4: Review    → Agent 5: SEO     → Save as DRAFT
       // Derive category label from entity type — no keyword tool needed
-      const entityType = classifyTopicDomain(item.title);
+      const entityType   = classifyTopicDomain(item.title);
+      const searchIntent  = classifySearchIntent(item.title);
+      const userGoal      = deriveUserGoal(searchIntent, item.title);
       const categoryLabel = entityType.startsWith("tech_") ? "Technology"
         : entityType.startsWith("finance_") ? "Personal Finance"
         : entityType.startsWith("health_") ? "Health & Wellness"
@@ -391,7 +394,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       let agentDurations: Record<string, number> = {};
 
       try {
-        const pipeline = await runAgentPipeline(item.title, categoryLabel);
+        const pipeline = await runAgentPipeline(item.title, categoryLabel, userGoal);
 
         // Reviewer agent rejection threshold: score < 50 = too poor to save even as draft
         if (!pipeline.qualityReport.passed && pipeline.qualityReport.score < 50) {

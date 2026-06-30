@@ -33,7 +33,8 @@
 
 import { getActiveLLMProvider } from "@/services/llm/llmProvider";
 import "@/services/llm";
-import { runFullEditorialReview, type EditorialReviewResult } from "./editorialReviewEngine"
+import { runFullEditorialReview, type EditorialReviewResult } from "./editorialReviewEngine";
+import type { UserGoal } from "./topicSearchIntentClassifier";
 
 // ─── Shared Types ─────────────────────────────────────────────────────────────
 
@@ -591,7 +592,21 @@ Return JSON:
   }
 }
 
-function buildOutlinePromptForIntent(keyword: string, intent: TopicIntent): string {
+// UserGoal content contracts — prepended to the outline rules so Gemini knows
+// exactly what outcome the reader is trying to achieve.
+const USER_GOAL_CONTRACTS: Record<UserGoal, string> = {
+  learn:      "CONTENT CONTRACT: The reader wants to LEARN — deliver a structured educational article with step-by-step explanations, examples, and exercises or next steps.",
+  understand: "CONTENT CONTRACT: The reader wants to UNDERSTAND — deliver a clear definition + how-it-works explanation with real examples. No filler. Clarity above all.",
+  compare:    "CONTENT CONTRACT: The reader wants to COMPARE options — deliver a feature comparison table, use-case breakdown, and a clear recommendation for when to choose each.",
+  buy:        "CONTENT CONTRACT: The reader is close to a PURCHASE DECISION — deliver honest pros/cons, specs, real pricing, who it is for, and a clear verdict.",
+  calculate:  "CONTENT CONTRACT: The reader wants to CALCULATE a specific number — deliver the exact formula, define every variable, and walk through a complete worked numeric example.",
+  execute:    "CONTENT CONTRACT: The reader wants to EXECUTE a task — deliver a numbered checklist or step-by-step process. Every step must be actionable and specific.",
+  solve:      "CONTENT CONTRACT: The reader has a PROBLEM to fix — deliver the most common causes of the error/issue, exact diagnostic steps, and specific fixes with code or commands.",
+  reference:  "CONTENT CONTRACT: The reader wants to LOOK SOMETHING UP — deliver a scannable reference: tables, command lists, syntax examples, flags. No long prose.",
+  decide:     "CONTENT CONTRACT: The reader needs to MAKE A DECISION — deliver a structured recommendation guide with clear criteria, decision tree or matrix, and a final recommendation.",
+};
+
+function buildOutlinePromptForIntent(keyword: string, intent: TopicIntent, userGoal?: UserGoal): string {
   const intentOutlineRules: Record<string, string> = {
     programming_concept: `Sections MUST include: What Is X, How It Works (with code), Syntax/Usage, Common Errors, Best Practices, FAQ, Conclusion. NO generic sections like "Core Principles" or "Advantages".`,
     programming_tutorial: `Sections MUST include: Prerequisites, Step-by-Step Guide (numbered), Code Examples, Common Errors & Fixes, Next Steps, FAQ. NO theory sections — this is a hands-on tutorial.`,
@@ -612,11 +627,12 @@ function buildOutlinePromptForIntent(keyword: string, intent: TopicIntent): stri
   };
 
   const rules = intentOutlineRules[intent] ?? `Create sections that directly answer what a user searching "${keyword}" wants to know.`;
+  const goalContract = userGoal ? USER_GOAL_CONTRACTS[userGoal] : "";
 
   return `Topic: "${keyword}"
-Intent: ${intent}
+Intent: ${intent}${userGoal ? `\nUser Goal: ${userGoal}` : ""}
 
-OUTLINE RULES FOR THIS INTENT:
+${goalContract ? goalContract + "\n\n" : ""}OUTLINE RULES FOR THIS INTENT:
 ${rules}
 
 Knowledge Pack:
@@ -688,9 +704,10 @@ Return ONLY valid JSON. No markdown. No explanation.`;
 
 export async function runOutlineAgent(
   pack: AgentKnowledgePack,
-  intent: TopicIntent
+  intent: TopicIntent,
+  userGoal?: UserGoal
 ): Promise<{ structure: AgentArticleStructure; durationMs: number }> {
-  const promptTemplate = buildOutlinePromptForIntent(pack.keyword, intent);
+  const promptTemplate = buildOutlinePromptForIntent(pack.keyword, intent, userGoal);
   const userPrompt = promptTemplate.replace("{{KNOWLEDGE_PACK}}", JSON.stringify(pack, null, 2));
   const { content, durationMs } = await callAgent("OutlineAgent", OUTLINE_SYSTEM, userPrompt, 0.3, 2048);
 
@@ -882,7 +899,8 @@ const MAX_RETRIES = 2; // Max rewrite attempts if editorial review fails
 
 export async function runAgentPipeline(
   keyword: string,
-  category: string
+  category: string,
+  userGoal?: UserGoal
 ): Promise<AgentPipelineResult> {
   const pipelineStart = Date.now();
   const durations: Record<string, number> = {};
@@ -895,7 +913,7 @@ export async function runAgentPipeline(
   durations["research"] = d1;
 
   // Call 2: Outline (always once — reuse on retries)
-  const { structure, durationMs: d2 } = await runOutlineAgent(pack, intent);
+  const { structure, durationMs: d2 } = await runOutlineAgent(pack, intent, userGoal);
   durations["outline"] = d2;
 
   let content: string;

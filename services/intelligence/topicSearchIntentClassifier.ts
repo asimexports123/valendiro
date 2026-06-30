@@ -38,9 +38,39 @@ export type ReaderLevel =
   | "advanced"        // advanced, expert, deep dive, internals
   | "professional";   // for teams, enterprise, production, at scale
 
+/**
+ * UserGoal — the final routing signal.
+ *
+ * While SearchIntent describes the FORMAT of the search query,
+ * UserGoal describes the OUTCOME the reader wants to achieve.
+ * This determines the content contract: what the article MUST deliver.
+ *
+ * Mapping:
+ *   tutorial   → learn        (reader wants to gain a skill)
+ *   definition → understand   (reader wants conceptual clarity)
+ *   comparison → compare      (reader wants to evaluate options)
+ *   review     → buy          (reader is close to a purchase decision)
+ *   calculator → calculate    (reader wants a specific number/answer)
+ *   checklist  → execute      (reader wants to complete a task)
+ *   troubleshooting → solve   (reader has a problem to fix)
+ *   reference  → reference    (reader wants to look something up)
+ *   guide      → decide       (reader wants a recommendation or path)
+ */
+export type UserGoal =
+  | "learn"       // Gain knowledge or skill → educational article
+  | "understand"  // Get conceptual clarity → definition / explainer
+  | "compare"     // Evaluate options → comparison article
+  | "buy"         // Make a purchase decision → review / product article
+  | "calculate"   // Get a specific number → calculator / formula article
+  | "execute"     // Complete a task or process → checklist / how-to
+  | "solve"       // Fix a problem → troubleshooting article
+  | "reference"   // Look something up → cheat sheet / reference
+  | "decide";     // Choose a path → decision guide / recommendation
+
 export interface TopicIntelligence {
   intent: SearchIntent;
-  level: ReaderLevel;
+  level:  ReaderLevel;
+  goal:   UserGoal;
 }
 
 // ─── Intent Classifier ────────────────────────────────────────────────────────
@@ -114,11 +144,38 @@ export function classifyReaderLevel(topicTitle: string): ReaderLevel {
   return "beginner";
 }
 
+// ─── User Goal Derivation ──────────────────────────────────────────────────────
+// UserGoal is derived from SearchIntent + optional title signals.
+// It is the FINAL routing signal passed to the roadmap generator.
+
+export function deriveUserGoal(intent: SearchIntent, topicTitle: string): UserGoal {
+  const k = topicTitle.toLowerCase();
+
+  // Strong title-level buy signals override intent
+  // (e.g. "Best Python IDE" has intent=review but goal=buy)
+  if (/\bshould i buy\b|\bbest .{1,30} to buy\b|\bbuy\b|\bpurchase\b|\bprice\b|\bcost of\b|\baffordable\b|\bcheapest\b/.test(k))
+    return "buy";
+
+  // Intent → Goal mapping
+  switch (intent) {
+    case "tutorial":        return "learn";
+    case "definition":      return "understand";
+    case "comparison":      return "compare";
+    case "review":          return "buy";
+    case "calculator":      return "calculate";
+    case "checklist":       return "execute";
+    case "troubleshooting": return "solve";
+    case "reference":       return "reference";
+    case "guide":           return "decide";
+    default:                return "understand";
+  }
+}
+
 // ─── Combined ─────────────────────────────────────────────────────────────────
 
 export function classifyTopicIntelligence(topicTitle: string): TopicIntelligence {
-  return {
-    intent: classifySearchIntent(topicTitle),
-    level:  classifyReaderLevel(topicTitle),
-  };
+  const intent = classifySearchIntent(topicTitle);
+  const level  = classifyReaderLevel(topicTitle);
+  const goal   = deriveUserGoal(intent, topicTitle);
+  return { intent, level, goal };
 }

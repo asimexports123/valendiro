@@ -3,8 +3,10 @@ import { classifyTopicDomain, type TopicDomain } from "@/services/intelligence/t
 import {
   classifySearchIntent,
   classifyReaderLevel,
+  deriveUserGoal,
   type SearchIntent,
   type ReaderLevel,
+  type UserGoal,
 } from "@/services/intelligence/topicSearchIntentClassifier";
 
 export interface ArticleExpansionPlan {
@@ -12,8 +14,12 @@ export interface ArticleExpansionPlan {
   articleType: "guide" | "explainer" | "comparison" | "tutorial" | "reference" | "review";
   intent: "informational" | "commercial" | "transactional";
   priorityScore: number;
-  keyword: string; // the exact keyword the research agent should use
+  keyword: string;    // the exact keyword the research agent should use
+  userGoal: UserGoal; // injected by the 3D router — what the reader wants to achieve
 }
+
+// Internal type used by individual plan functions (before goal is injected)
+type PlanDraft = Omit<ArticleExpansionPlan, "userGoal">;
 
 // ─── Entity-type specific article plans ───────────────────────────────────────
 // Each entity type produces a distinct roadmap matching what learners actually
@@ -21,7 +27,7 @@ export interface ArticleExpansionPlan {
 
 // ── Technology ─────────────────────────────────────────────────────────────────
 
-function plans_tech_programming_language(t: string): ArticleExpansionPlan[] {
+function plans_tech_programming_language(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} Tutorial for Beginners`, keyword: `${t} tutorial beginners`, articleType: "tutorial", intent: "informational", priorityScore: 95 },
@@ -36,7 +42,7 @@ function plans_tech_programming_language(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tech_framework(t: string): ArticleExpansionPlan[] {
+function plans_tech_framework(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} Getting Started Guide`, keyword: `${t} getting started`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
@@ -50,7 +56,7 @@ function plans_tech_framework(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tech_tool_cli(t: string): ArticleExpansionPlan[] {
+function plans_tech_tool_cli(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 94 },
@@ -65,7 +71,7 @@ function plans_tech_tool_cli(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tech_cloud_service(t: string): ArticleExpansionPlan[] {
+function plans_tech_cloud_service(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} Getting Started`, keyword: `${t} getting started`, articleType: "tutorial", intent: "informational", priorityScore: 93 },
@@ -78,7 +84,7 @@ function plans_tech_cloud_service(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tech_database(t: string): ArticleExpansionPlan[] {
+function plans_tech_database(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} Installation and Setup`, keyword: `How to install ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 93 },
@@ -90,7 +96,7 @@ function plans_tech_database(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tech_programming_concept(t: string): ArticleExpansionPlan[] {
+function plans_tech_programming_concept(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 93 },
@@ -104,7 +110,7 @@ function plans_tech_programming_concept(t: string): ArticleExpansionPlan[] {
 
 // ── Finance ────────────────────────────────────────────────────────────────────
 
-function plans_finance_investment_instrument(t: string): ArticleExpansionPlan[] {
+function plans_finance_investment_instrument(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 93 },
@@ -117,7 +123,7 @@ function plans_finance_investment_instrument(t: string): ArticleExpansionPlan[] 
   ];
 }
 
-function plans_finance_financial_formula(t: string): ArticleExpansionPlan[] {
+function plans_finance_financial_formula(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} Formula Explained`, keyword: `${t} formula`, articleType: "reference", intent: "informational", priorityScore: 96 },
@@ -129,7 +135,7 @@ function plans_finance_financial_formula(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_finance_investment_strategy(t: string): ArticleExpansionPlan[] {
+function plans_finance_investment_strategy(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How to Implement ${t}`, keyword: `How to use ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 93 },
@@ -142,7 +148,7 @@ function plans_finance_investment_strategy(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_finance_banking_product(t: string): ArticleExpansionPlan[] {
+function plans_finance_banking_product(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 93 },
@@ -155,7 +161,7 @@ function plans_finance_banking_product(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_finance_tax_concept(t: string): ArticleExpansionPlan[] {
+function plans_finance_tax_concept(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 93 },
@@ -166,7 +172,7 @@ function plans_finance_tax_concept(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_finance_market_concept(t: string): ArticleExpansionPlan[] {
+function plans_finance_market_concept(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 93 },
@@ -179,7 +185,7 @@ function plans_finance_market_concept(t: string): ArticleExpansionPlan[] {
 
 // ── Health ─────────────────────────────────────────────────────────────────────
 
-function plans_health_disease(t: string): ArticleExpansionPlan[] {
+function plans_health_disease(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} Symptoms`, keyword: `${t} symptoms`, articleType: "guide", intent: "informational", priorityScore: 96 },
@@ -194,7 +200,7 @@ function plans_health_disease(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_health_medication(t: string): ArticleExpansionPlan[] {
+function plans_health_medication(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 93 },
@@ -207,7 +213,7 @@ function plans_health_medication(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_health_nutrition_topic(t: string): ArticleExpansionPlan[] {
+function plans_health_nutrition_topic(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} Health Benefits`, keyword: `${t} health benefits`, articleType: "guide", intent: "informational", priorityScore: 94 },
@@ -220,7 +226,7 @@ function plans_health_nutrition_topic(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_health_fitness_topic(t: string): ArticleExpansionPlan[] {
+function plans_health_fitness_topic(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `${t} for Beginners`, keyword: `${t} for beginners`, articleType: "tutorial", intent: "informational", priorityScore: 93 },
@@ -232,7 +238,7 @@ function plans_health_fitness_topic(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_health_medical_concept(t: string): ArticleExpansionPlan[] {
+function plans_health_medical_concept(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `Normal vs Abnormal ${t} Levels`, keyword: `${t} normal range`, articleType: "reference", intent: "informational", priorityScore: 94 },
@@ -245,7 +251,7 @@ function plans_health_medical_concept(t: string): ArticleExpansionPlan[] {
 
 // ── Other domains ──────────────────────────────────────────────────────────────
 
-function plans_movie_tv(t: string): ArticleExpansionPlan[] {
+function plans_movie_tv(t: string): PlanDraft[] {
   return [
     { title: `${t}: Complete Guide`, keyword: `${t}`, articleType: "guide", intent: "informational", priorityScore: 98 },
     { title: `${t} Cast and Characters`, keyword: `${t} cast`, articleType: "guide", intent: "informational", priorityScore: 90 },
@@ -257,7 +263,7 @@ function plans_movie_tv(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_historical_event(t: string): ArticleExpansionPlan[] {
+function plans_historical_event(t: string): PlanDraft[] {
   return [
     { title: `${t}: Overview and Summary`, keyword: `${t} overview`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `Causes of ${t}`, keyword: `causes of ${t}`, articleType: "guide", intent: "informational", priorityScore: 93 },
@@ -269,7 +275,7 @@ function plans_historical_event(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_place_travel(t: string): ArticleExpansionPlan[] {
+function plans_place_travel(t: string): PlanDraft[] {
   return [
     { title: `${t}: Complete Visitor Guide`, keyword: `${t} visitor guide`, articleType: "guide", intent: "informational", priorityScore: 98 },
     { title: `${t} History and Background`, keyword: `${t} history`, articleType: "guide", intent: "informational", priorityScore: 90 },
@@ -280,7 +286,7 @@ function plans_place_travel(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_product_review(t: string): ArticleExpansionPlan[] {
+function plans_product_review(t: string): PlanDraft[] {
   return [
     { title: `${t}: Complete Review`, keyword: `${t} review`, articleType: "review", intent: "commercial", priorityScore: 98 },
     { title: `${t} Specifications`, keyword: `${t} specifications`, articleType: "reference", intent: "informational", priorityScore: 92 },
@@ -291,7 +297,7 @@ function plans_product_review(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_educational_general(t: string): ArticleExpansionPlan[] {
+function plans_educational_general(t: string): PlanDraft[] {
   return [
     { title: `What Is ${t}?`, keyword: `What is ${t}`, articleType: "explainer", intent: "informational", priorityScore: 98 },
     { title: `How ${t} Works`, keyword: `How ${t} works`, articleType: "explainer", intent: "informational", priorityScore: 92 },
@@ -306,7 +312,7 @@ function plans_educational_general(t: string): ArticleExpansionPlan[] {
 // These are shared across entity types when intent is strongly detected.
 // They override the entity-default roadmap.
 
-function plans_intent_comparison(t: string): ArticleExpansionPlan[] {
+function plans_intent_comparison(t: string): PlanDraft[] {
   return [
     { title: `${t}: Complete Comparison`, keyword: `${t} comparison`, articleType: "comparison", intent: "informational", priorityScore: 98 },
     { title: `${t} Feature Comparison Table`, keyword: `${t} features table`, articleType: "reference", intent: "informational", priorityScore: 94 },
@@ -318,7 +324,7 @@ function plans_intent_comparison(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_intent_reference(t: string, entity: TopicDomain): ArticleExpansionPlan[] {
+function plans_intent_reference(t: string, entity: TopicDomain): PlanDraft[] {
   const isTech = entity.startsWith("tech_");
   if (isTech) {
     return [
@@ -338,7 +344,7 @@ function plans_intent_reference(t: string, entity: TopicDomain): ArticleExpansio
   ];
 }
 
-function plans_intent_troubleshooting(t: string): ArticleExpansionPlan[] {
+function plans_intent_troubleshooting(t: string): PlanDraft[] {
   return [
     { title: `${t}: Common Errors and Fixes`, keyword: `${t} errors fixes`, articleType: "guide", intent: "informational", priorityScore: 98 },
     { title: `How to Debug ${t}`, keyword: `how to debug ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
@@ -349,7 +355,7 @@ function plans_intent_troubleshooting(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_intent_calculator(t: string): ArticleExpansionPlan[] {
+function plans_intent_calculator(t: string): PlanDraft[] {
   return [
     { title: `${t} Formula Explained`, keyword: `${t} formula`, articleType: "reference", intent: "informational", priorityScore: 98 },
     { title: `How to Calculate ${t}`, keyword: `how to calculate ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 95 },
@@ -360,7 +366,7 @@ function plans_intent_calculator(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_intent_checklist(t: string): ArticleExpansionPlan[] {
+function plans_intent_checklist(t: string): PlanDraft[] {
   return [
     { title: `${t} Checklist`, keyword: `${t} checklist`, articleType: "guide", intent: "informational", priorityScore: 98 },
     { title: `${t} Step-by-Step Process`, keyword: `${t} step by step`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
@@ -371,7 +377,7 @@ function plans_intent_checklist(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_intent_review(t: string): ArticleExpansionPlan[] {
+function plans_intent_review(t: string): PlanDraft[] {
   return [
     { title: `${t}: Honest Review`, keyword: `${t} review`, articleType: "review", intent: "commercial", priorityScore: 98 },
     { title: `Is ${t} Worth It?`, keyword: `is ${t} worth it`, articleType: "guide", intent: "commercial", priorityScore: 94 },
@@ -383,7 +389,7 @@ function plans_intent_review(t: string): ArticleExpansionPlan[] {
 }
 
 // Level-specific tutorial roadmaps for technology
-function plans_tutorial_tech_beginner(t: string): ArticleExpansionPlan[] {
+function plans_tutorial_tech_beginner(t: string): PlanDraft[] {
   return [
     { title: `${t} for Beginners: Complete Guide`, keyword: `${t} for beginners`, articleType: "tutorial", intent: "informational", priorityScore: 98 },
     { title: `How to Install ${t}`, keyword: `how to install ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
@@ -396,7 +402,7 @@ function plans_tutorial_tech_beginner(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tutorial_tech_intermediate(t: string): ArticleExpansionPlan[] {
+function plans_tutorial_tech_intermediate(t: string): PlanDraft[] {
   return [
     { title: `${t} Practical Guide`, keyword: `${t} practical guide`, articleType: "tutorial", intent: "informational", priorityScore: 98 },
     { title: `${t} Real-World Project Tutorial`, keyword: `${t} real world project`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
@@ -408,7 +414,7 @@ function plans_tutorial_tech_intermediate(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tutorial_tech_advanced(t: string): ArticleExpansionPlan[] {
+function plans_tutorial_tech_advanced(t: string): PlanDraft[] {
   return [
     { title: `${t} Architecture Deep Dive`, keyword: `${t} architecture deep dive`, articleType: "guide", intent: "informational", priorityScore: 98 },
     { title: `${t} Internals Explained`, keyword: `${t} internals explained`, articleType: "explainer", intent: "informational", priorityScore: 94 },
@@ -420,7 +426,7 @@ function plans_tutorial_tech_advanced(t: string): ArticleExpansionPlan[] {
   ];
 }
 
-function plans_tutorial_tech_professional(t: string): ArticleExpansionPlan[] {
+function plans_tutorial_tech_professional(t: string): PlanDraft[] {
   return [
     { title: `${t} for Production Teams`, keyword: `${t} production teams`, articleType: "guide", intent: "informational", priorityScore: 98 },
     { title: `${t} CI/CD Pipeline Setup`, keyword: `${t} ci cd pipeline`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
@@ -435,82 +441,86 @@ function plans_tutorial_tech_professional(t: string): ArticleExpansionPlan[] {
 // ─── 3D Router: Entity + Intent + Level ───────────────────────────────────────
 
 export function generateArticleExpansionPlans(topicTitle: string): ArticleExpansionPlan[] {
-  const clean = topicTitle.trim();
+  const clean  = topicTitle.trim();
   const entity = classifyTopicDomain(clean);
   const intent = classifySearchIntent(clean);
   const level  = classifyReaderLevel(clean);
+  const goal   = deriveUserGoal(intent, clean);
 
-  let plans: ArticleExpansionPlan[];
+  let drafts: PlanDraft[];
 
   // ── Intent overrides (cross-entity) ─────────────────────────────────────
   // These fire when the title contains strong intent signals regardless of entity type.
 
   if (intent === "comparison") {
-    plans = plans_intent_comparison(clean);
+    drafts = plans_intent_comparison(clean);
   } else if (intent === "troubleshooting") {
-    plans = plans_intent_troubleshooting(clean);
+    drafts = plans_intent_troubleshooting(clean);
   } else if (intent === "calculator") {
-    plans = plans_intent_calculator(clean);
+    drafts = plans_intent_calculator(clean);
   } else if (intent === "checklist") {
-    plans = plans_intent_checklist(clean);
+    drafts = plans_intent_checklist(clean);
   } else if (intent === "review") {
-    plans = plans_intent_review(clean);
+    drafts = plans_intent_review(clean);
   } else if (intent === "reference") {
-    plans = plans_intent_reference(clean, entity);
+    drafts = plans_intent_reference(clean, entity);
 
   // ── Tutorial intent: route by entity family + reader level ───────────────
   } else if (intent === "tutorial" && entity.startsWith("tech_")) {
     switch (level) {
-      case "beginner":      plans = plans_tutorial_tech_beginner(clean); break;
-      case "intermediate":  plans = plans_tutorial_tech_intermediate(clean); break;
-      case "advanced":      plans = plans_tutorial_tech_advanced(clean); break;
-      case "professional":  plans = plans_tutorial_tech_professional(clean); break;
+      case "beginner":      drafts = plans_tutorial_tech_beginner(clean); break;
+      case "intermediate":  drafts = plans_tutorial_tech_intermediate(clean); break;
+      case "advanced":      drafts = plans_tutorial_tech_advanced(clean); break;
+      case "professional":  drafts = plans_tutorial_tech_professional(clean); break;
+      default:              drafts = plans_tutorial_tech_beginner(clean);
     }
 
   // ── Level override for tech entities with advanced/professional signals ──
-  // Covers: "Advanced Docker" (definition+advanced), "Docker for DevOps" (definition+professional)
   } else if (entity.startsWith("tech_") && level === "advanced") {
-    plans = plans_tutorial_tech_advanced(clean);
+    drafts = plans_tutorial_tech_advanced(clean);
   } else if (entity.startsWith("tech_") && level === "professional") {
-    plans = plans_tutorial_tech_professional(clean);
+    drafts = plans_tutorial_tech_professional(clean);
   } else if (entity.startsWith("tech_") && level === "intermediate") {
-    plans = plans_tutorial_tech_intermediate(clean);
+    drafts = plans_tutorial_tech_intermediate(clean);
 
   // ── Entity-type default roadmaps (definition / guide intent) ─────────────
   } else {
     switch (entity) {
       // Technology
-      case "tech_programming_language":  plans = plans_tech_programming_language(clean); break;
-      case "tech_framework":             plans = plans_tech_framework(clean); break;
-      case "tech_tool_cli":              plans = plans_tech_tool_cli(clean); break;
-      case "tech_cloud_service":         plans = plans_tech_cloud_service(clean); break;
-      case "tech_database":              plans = plans_tech_database(clean); break;
-      case "tech_programming_concept":   plans = plans_tech_programming_concept(clean); break;
+      case "tech_programming_language":  drafts = plans_tech_programming_language(clean); break;
+      case "tech_framework":             drafts = plans_tech_framework(clean); break;
+      case "tech_tool_cli":              drafts = plans_tech_tool_cli(clean); break;
+      case "tech_cloud_service":         drafts = plans_tech_cloud_service(clean); break;
+      case "tech_database":              drafts = plans_tech_database(clean); break;
+      case "tech_programming_concept":   drafts = plans_tech_programming_concept(clean); break;
       // Finance
-      case "finance_investment_instrument": plans = plans_finance_investment_instrument(clean); break;
-      case "finance_financial_formula":     plans = plans_finance_financial_formula(clean); break;
-      case "finance_investment_strategy":   plans = plans_finance_investment_strategy(clean); break;
-      case "finance_banking_product":       plans = plans_finance_banking_product(clean); break;
-      case "finance_tax_concept":           plans = plans_finance_tax_concept(clean); break;
-      case "finance_market_concept":        plans = plans_finance_market_concept(clean); break;
+      case "finance_investment_instrument": drafts = plans_finance_investment_instrument(clean); break;
+      case "finance_financial_formula":     drafts = plans_finance_financial_formula(clean); break;
+      case "finance_investment_strategy":   drafts = plans_finance_investment_strategy(clean); break;
+      case "finance_banking_product":       drafts = plans_finance_banking_product(clean); break;
+      case "finance_tax_concept":           drafts = plans_finance_tax_concept(clean); break;
+      case "finance_market_concept":        drafts = plans_finance_market_concept(clean); break;
       // Health
-      case "health_disease":             plans = plans_health_disease(clean); break;
-      case "health_medication":          plans = plans_health_medication(clean); break;
-      case "health_nutrition_topic":     plans = plans_health_nutrition_topic(clean); break;
-      case "health_fitness_topic":       plans = plans_health_fitness_topic(clean); break;
-      case "health_medical_concept":     plans = plans_health_medical_concept(clean); break;
+      case "health_disease":             drafts = plans_health_disease(clean); break;
+      case "health_medication":          drafts = plans_health_medication(clean); break;
+      case "health_nutrition_topic":     drafts = plans_health_nutrition_topic(clean); break;
+      case "health_fitness_topic":       drafts = plans_health_fitness_topic(clean); break;
+      case "health_medical_concept":     drafts = plans_health_medical_concept(clean); break;
       // Other
-      case "movie_tv":                   plans = plans_movie_tv(clean); break;
-      case "historical_event":           plans = plans_historical_event(clean); break;
-      case "place_travel":               plans = plans_place_travel(clean); break;
-      case "product_review":             plans = plans_product_review(clean); break;
-      default:                           plans = plans_educational_general(clean); break;
+      case "movie_tv":                   drafts = plans_movie_tv(clean); break;
+      case "historical_event":           drafts = plans_historical_event(clean); break;
+      case "place_travel":               drafts = plans_place_travel(clean); break;
+      case "product_review":             drafts = plans_product_review(clean); break;
+      default:                           drafts = plans_educational_general(clean); break;
     }
   }
 
-  return plans.filter((plan, index, self) =>
-    index === self.findIndex((p) => p.title.toLowerCase() === plan.title.toLowerCase())
-  );
+  // ── Inject userGoal (final routing signal) into every plan ───────────────
+  return drafts
+    .filter((plan, index, self) =>
+      index === self.findIndex((p) => p.title.toLowerCase() === plan.title.toLowerCase())
+    )
+    .map((plan) => ({ ...plan, userGoal: goal }));
 }
 
 export async function queueArticleExpansionsForTopic(topicId: string, topicTitle: string, languageCode = "en") {
