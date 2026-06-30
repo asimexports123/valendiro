@@ -13,23 +13,37 @@ import {
   buildHierarchicalLinksForArticle,
 } from "../intelligence/hierarchicalLinkingEngine";
 
-function buildTopicContent(title: string, keyword: string, category: string): string {
+function normalizeTitleForTopic(raw: string): string {
+  return raw
+    .replace(/^(what is|how to|what are|how do i|guide to|introduction to)\s+/i, "")
+    .replace(/\b(als)\b/g, "ALS")
+    .replace(/\b(cern)\b/g, "CERN")
+    .replace(/\b(ai)\b/g, "AI")
+    .replace(/\b(seo)\b/g, "SEO")
+    .replace(/\b(api)\b/g, "API")
+    .trim()
+    .replace(/^./, (c) => c.toUpperCase());
+}
+
+function buildTopicContent(rawTitle: string, keyword: string, category: string): string {
+  const title = normalizeTitleForTopic(rawTitle);
   const lc = title.toLowerCase();
+  const cat = category && category !== "General" ? category : "knowledge";
   const sections = [
     `## What is ${title}?`,
-    `${title} refers to a subject within the ${category} domain. Understanding ${lc} helps you gain practical knowledge and make informed decisions in this area.`,
+    `${title} is a topic within ${cat}. Understanding ${lc} helps you build practical knowledge and make better decisions.`,
     ``,
     `## Why ${title} Matters`,
-    `Whether you're a beginner or an experienced practitioner, ${lc} is a topic worth understanding deeply. It connects to broader concepts in ${category} and has real-world applications across many fields.`,
+    `Whether you're a beginner or an experienced learner, ${lc} is worth exploring in depth. It connects to broader ideas in ${cat} with real-world applications across many fields.`,
     ``,
-    `## Key Concepts in ${title}`,
-    `- The fundamentals of ${lc} and how they apply in practice`,
-    `- Common questions people ask about ${lc}`,
-    `- How ${lc} relates to adjacent topics in ${category}`,
-    `- Best resources and next steps for learning more`,
+    `## Key Concepts`,
+    `- The core principles of ${lc} and how they work in practice`,
+    `- The most common questions people have about ${lc}`,
+    `- How ${lc} connects to related topics in ${cat}`,
+    `- Where to start and what resources are most useful`,
     ``,
-    `## Getting Started with ${title}`,
-    `If you're new to ${lc}, start with the related articles and guides below. They cover the most important aspects in an approachable way.`,
+    `## Getting Started`,
+    `Start with the articles and guides listed below — they cover the most important aspects of ${lc} in a clear, approachable way.`,
     ``,
     `## Related Reading`,
     `Explore the related articles and questions on this page to deepen your understanding of ${lc}.`,
@@ -182,7 +196,8 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
         categoryId = cat?.id ?? null;
       }
 
-      const slug = item.title
+      const cleanSlugTitle = normalizeTitleForTopic(item.title);
+      const slug = cleanSlugTitle
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "")
@@ -207,8 +222,10 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
       }
 
       const topicKeyword = (metadata.keyword as string) || item.title;
-      const topicContent = buildTopicContent(item.title, topicKeyword, (metadata.category as string) || "General");
-      const topicMetaDesc = `Learn everything about ${item.title} — definitions, guides, tips, and expert resources.`.slice(0, 160);
+      const topicCategory = (metadata.category as string) || "General";
+      const cleanTitle = normalizeTitleForTopic(item.title);
+      const topicContent = buildTopicContent(item.title, topicKeyword, topicCategory);
+      const topicMetaDesc = `Learn everything about ${cleanTitle} — definitions, guides, tips, and expert resources.`.slice(0, 160);
 
       const placeholderCheck = runPlaceholderCheck(topicContent);
       if (!placeholderCheck.passed) {
@@ -218,10 +235,10 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
       await supabase.from("topic_translations").insert({
         topic_id: topic.id,
         language_code: "en",
-        title: item.title,
-        subtitle: `Your complete guide to ${item.title}.`,
+        title: cleanTitle,
+        subtitle: `Your complete guide to ${cleanTitle}.`,
         content: topicContent,
-        meta_title: `${item.title} — Complete Guide`,
+        meta_title: `${cleanTitle} — Complete Guide`,
         meta_description: topicMetaDesc,
       });
 
