@@ -85,7 +85,8 @@ export async function buildDemandTopicQueue(
     }
 
     const keywords = (cluster.keywords || []) as string[];
-    const bestKeyword = (cluster.seed_keyword as string) || keywords[0] || "untitled";
+    const bestKeyword = ((cluster.seed_keyword as string) || (cluster.cluster_name as string) || keywords[0] || "").trim();
+    if (!bestKeyword) { result.rejected++; continue; }
     const title = bestKeyword.charAt(0).toUpperCase() + bestKeyword.slice(1);
     const description = `Cluster covering ${keywords.slice(0, 5).join(", ")}`;
 

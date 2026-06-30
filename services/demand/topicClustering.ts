@@ -29,7 +29,7 @@ function jaccardSimilarity(a: string[], b: string[]): number {
   return union.size === 0 ? 0 : intersection.size / union.size;
 }
 
-function generateClusterName(keywords: string[]): string {
+function generateClusterName(keywords: string[], fallback?: string): string {
   const words = keywords.flatMap(getSignificantWords);
   const frequency: Record<string, number> = {};
   for (const w of words) frequency[w] = (frequency[w] || 0) + 1;
@@ -37,7 +37,10 @@ function generateClusterName(keywords: string[]): string {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
     .map(([w]) => w);
-  return top.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  const name = top.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  if (name.trim()) return name;
+  const fb = (fallback || keywords[0] || "").trim();
+  return fb ? fb.charAt(0).toUpperCase() + fb.slice(1) : "General Topic";
 }
 
 async function ensureCategory(categoryName: string, languageCode = "en") {
@@ -172,7 +175,7 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
       if (category.created) result.categoriesCreated++;
 
       const keywords = cluster.members.map((m) => m.keyword).filter(Boolean);
-      const clusterName = generateClusterName(keywords);
+      const clusterName = generateClusterName(keywords, cluster.seed.keyword);
       const quality = scoreDemandKeyword(cluster.seed.keyword || clusterName);
       if (!isPublishable(quality)) continue;
       const finalClusterName = quality.knowledgeTopic || clusterName;

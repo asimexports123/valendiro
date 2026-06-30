@@ -41,6 +41,26 @@ const BLOCKED_PATTERNS = [
   /leaked/i,
   /nude/i,
   /^\d{4}$/,
+  /near me/i,
+  /\bopen now\b/i,
+  /\bhours\b/i,
+  /\blocation\b/i,
+  /\bdirections\b/i,
+  /^best buy$/i,
+  /\brestaurant(s)?\b/i,
+  /\bgerrymandering\b/i,
+  /\belection\b/i,
+  /\bpolitics\b/i,
+  /\bpolitician\b/i,
+  /\bworld cup \d{4}\b/i,
+  /\bfifa \d{4}\b/i,
+  /\bsuper bowl \d{4}\b/i,
+  /\boscars \d{4}\b/i,
+  /\bawards \d{4}\b/i,
+  /\b\d{4} \w+ (championship|cup|league|season)\b/i,
+  /\bbet awards\b/i,
+  /^my ip$/i,
+  /what is my/i,
 ];
 
 const CELEBRITY_NAMES = new Set([
@@ -201,6 +221,10 @@ export function scoreDemandKeyword(keyword: string): DemandQualityScore {
   };
 }
 
-export function isPublishable(score: DemandQualityScore, qualityThreshold = 50): boolean {
-  return !score.blockedReason && score.qualityScore >= qualityThreshold && score.evergreenScore >= 30;
+export function isPublishable(score: DemandQualityScore, qualityThreshold = 52): boolean {
+  if (score.blockedReason) return false;
+  if (score.qualityScore < qualityThreshold) return false;
+  if (score.evergreenScore < 35) return false;
+  if (score.intent === "news" || score.intent === "entertainment" || score.intent === "blocked") return false;
+  return true;
 }
