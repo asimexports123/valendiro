@@ -281,13 +281,29 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
         categoryId = collection?.category_id ?? null;
       }
       if (!categoryId && metadata.category) {
+        // Look up category by matching slug (keyword-detected category label → slug)
+        const rawCat = (metadata.category as string).toLowerCase().trim();
+        const catSlug = rawCat.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
         const { data: cat } = await supabase
           .from("categories")
-          .select("id")
-          .eq("category_translations.name", metadata.category as string)
-          .eq("category_translations.language_code", "en")
+          .select("id, slug")
+          .or(`slug.eq.${catSlug},slug.ilike.%${catSlug.slice(0, 20)}%`)
           .maybeSingle();
         categoryId = cat?.id ?? null;
+      }
+      // Final fallback: if still no category, detect from keyword
+      if (!categoryId) {
+        const keyword = ((metadata.keyword as string) || item.title).toLowerCase();
+        const fallbackSlug =
+          /docker|kubernetes|linux|python|javascript|typescript|react|node|api|sql|git|css|html|code|software|algorithm|cloud|aws|devops|command|function|class|framework|programming/.test(keyword) ? "technology" :
+          /invest|stock|bond|crypto|finance|money|tax|budget|loan|mortgage|interest|dividend|portfolio|bank|insurance/.test(keyword) ? "personal-finance" :
+          /health|disease|symptom|treatment|medicine|doctor|diet|nutrition|vitamin|exercise|mental|anxiety|cortisol|hormone|cancer|diabetes/.test(keyword) ? "health-wellness" :
+          /business|startup|marketing|entrepreneur|revenue|profit|sales|management/.test(keyword) ? "business" :
+          null;
+        if (fallbackSlug) {
+          const { data: fbCat } = await supabase.from("categories").select("id").eq("slug", fallbackSlug).maybeSingle();
+          categoryId = fbCat?.id ?? null;
+        }
       }
 
       const cleanSlugTitle = normalizeTitleForTopic(item.title);
@@ -422,16 +438,25 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
 
       // If no topic_id on queue item, try to find matching topic by keyword
       let resolvedTopicId: string | null = item.topic_id ?? null;
+      let resolvedCategoryId: string | null = null;
       if (!resolvedTopicId) {
         const keyword = (metadata.keyword as string) || item.title;
         const slugGuess = keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
         const { data: matchedTopic } = await supabase
           .from("topics")
-          .select("id, slug")
-          .or(`slug.ilike.%${slugGuess.slice(0, 30)}%,name.ilike.%${keyword.slice(0, 40)}%`)
+          .select("id, slug, category_id")
+          .or(`slug.ilike.%${slugGuess.slice(0, 30)}%`)
           .limit(1)
           .maybeSingle();
-        if (matchedTopic) resolvedTopicId = matchedTopic.id;
+        if (matchedTopic) {
+          resolvedTopicId = matchedTopic.id;
+          resolvedCategoryId = matchedTopic.category_id ?? null;
+        }
+      }
+      // Inherit category from topic if we have one
+      if (resolvedTopicId && !resolvedCategoryId) {
+        const { data: tp } = await supabase.from("topics").select("category_id").eq("id", resolvedTopicId).maybeSingle();
+        resolvedCategoryId = tp?.category_id ?? null;
       }
 
       // ── 5-Agent Gemini Pipeline ────────────────────────────────────────────
