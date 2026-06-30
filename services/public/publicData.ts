@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 
 export interface PublicArticle {
   id: string;
@@ -106,7 +107,7 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     .order("sort_order", { ascending: true })
     .limit(limit);
 
-  const categories = (data || []).map((category: any) => ({
+  const dbCategories = (data || []).map((category: any) => ({
     id: category.id,
     slug: category.slug,
     name: category.category_translations?.[0]?.name || "Uncategorized",
@@ -114,7 +115,8 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     article_count: 0,
   }));
 
-  for (const category of categories) {
+  // Count topics per DB category
+  for (const category of dbCategories) {
     const { count } = await supabase
       .from("topics")
       .select("id", { count: "exact", head: true })
@@ -123,7 +125,32 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     category.article_count = count ?? 0;
   }
 
-  return categories.sort((a, b) => a.name.localeCompare(b.name));
+  // Merge with V1 config — always show all 7 V1 categories even if not yet in DB
+  const dbSlugs = new Set(dbCategories.map((c) => c.slug));
+  const v1Extras: PublicCategory[] = V1_DEFAULT_CONFIG.categories
+    .filter((v) => v.enabled && !dbSlugs.has(v.slug))
+    .map((v) => ({
+      id: v.slug,
+      slug: v.slug,
+      name: v.label,
+      description: `Explore ${v.label} guides, tutorials and resources.`,
+      article_count: 0,
+    }));
+
+  const merged = [...dbCategories, ...v1Extras];
+
+  // Sort by V1 priority order
+  const v1Order = V1_DEFAULT_CONFIG.categories.map((c) => c.slug);
+  return merged
+    .sort((a, b) => {
+      const ai = v1Order.indexOf(a.slug);
+      const bi = v1Order.indexOf(b.slug);
+      if (ai === -1 && bi === -1) return a.name.localeCompare(b.name);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    })
+    .slice(0, limit);
 }
 
 export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
