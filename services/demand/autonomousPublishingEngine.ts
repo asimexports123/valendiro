@@ -498,11 +498,17 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       const excerpt = generated.excerpt;
       const metaDescription = generated.metaDescription;
 
-      const slug = item.title
+      // Build slug from the actual generated title (not raw keyword)
+      // Strip common filler suffixes that pollute the URL
+      const slugSource = (generated.title || item.title)
         .toLowerCase()
+        .replace(/[''']/g, "")
+        .replace(/\b(a complete guide|complete guide|buying guide|buyer's guide|step-by-step guide|step by step guide|explained|from basics to advanced)\b/gi, "")
+        .replace(/^(best|top)\s+/i, "")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "")
-        .slice(0, 100);
+        .slice(0, 80);
+      const slug = slugSource;
       const canonicalPath = `/en/articles/${slug}`;
 
       // ── Always save as DRAFT — manual review required before publishing ──
