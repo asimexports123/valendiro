@@ -16,7 +16,7 @@ export default async function TopicsPage({
   const currentPage = parseInt(page, 10) || 1;
   const pageSize = 20;
 
-  const { data: rows, count } = await listItems<Topic>(
+  const { data: rawRows, count } = await listItems<Topic>(
     { table: "topics", revalidatePaths: ["/admin/topics"] },
     {
       page: currentPage,
@@ -27,6 +27,8 @@ export default async function TopicsPage({
     }
   );
 
+  const rows = rawRows.map((r) => ({ ...r, _published: r.published_at ? new Date(r.published_at).toLocaleDateString() : "—" }));
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -36,17 +38,13 @@ export default async function TopicsPage({
         </Link>
       </div>
       <SearchBar />
-      <DataTable<Topic>
+      <DataTable<typeof rows[0]>
         rows={rows}
         columns={[
-          { key: "slug", label: "Slug" },
-          { key: "status", label: "Status" },
-          { key: "difficulty", label: "Difficulty" },
-          {
-            key: "published_at",
-            label: "Published",
-            render: (row) => (row.published_at ? new Date(row.published_at).toLocaleDateString() : "—"),
-          },
+          { key: "slug",        label: "Slug" },
+          { key: "status",      label: "Status" },
+          { key: "difficulty",  label: "Difficulty" },
+          { key: "_published",  label: "Published" },
         ]}
         getRowId={(row) => row.id}
         basePath="/admin/topics"

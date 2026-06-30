@@ -44,6 +44,7 @@ export default async function ArticlesPage({
   const enriched = rows.map((r) => ({
     ...r,
     _title: titleMap[r.id] || r.slug,
+    _published: r.published_at ? new Date(r.published_at).toLocaleDateString() : "—",
   }));
 
   // ── Drafts section ────────────────────────────────────────────────────────
@@ -119,21 +120,10 @@ export default async function ArticlesPage({
       <DataTable<typeof enriched[0]>
         rows={enriched}
         columns={[
-          {
-            key: "_title",
-            label: "Title",
-            render: (row) => (
-              <span className="font-medium text-foreground line-clamp-1">{row._title}</span>
-            ),
-          },
-          { key: "slug", label: "Slug" },
-          { key: "status", label: "Status" },
-          {
-            key: "published_at",
-            label: "Published",
-            render: (row) =>
-              row.published_at ? new Date(row.published_at).toLocaleDateString() : "—",
-          },
+          { key: "_title",     label: "Title" },
+          { key: "slug",       label: "Slug" },
+          { key: "status",     label: "Status" },
+          { key: "_published", label: "Published" },
         ]}
         getRowId={(row) => row.id}
         basePath="/admin/articles"
