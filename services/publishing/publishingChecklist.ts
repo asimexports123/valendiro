@@ -164,7 +164,7 @@ export async function runPostPublishAudit(
   if (objectType === "article") {
     const { data: article } = await supabase
       .from("articles")
-      .select("id, status, canonical_path, topic_id, article_translations(title, meta_title, meta_description, schema_json)")
+      .select("id, status, canonical_path, topic_id, article_translations(title, meta_title, meta_description, structured_data)")
       .eq("id", objectId)
       .maybeSingle();
 
@@ -173,7 +173,7 @@ export async function runPostPublishAudit(
     checks.push({ name: "row_published", passed: exists && article?.status === "published", reason: exists ? (article?.status !== "published" ? "Article not in published status" : null) : "Article row not found" });
 
     if (article) {
-      const t = (article.article_translations as { title: string; meta_title: string | null; meta_description: string | null; schema_json: unknown }[] | null)?.[0];
+      const t = (article.article_translations as { title: string; meta_title: string | null; meta_description: string | null; structured_data: unknown }[] | null)?.[0];
 
       // Canonical path
       const hasCanonical = !!article.canonical_path && article.canonical_path.startsWith("/");
@@ -187,7 +187,7 @@ export async function runPostPublishAudit(
       checks.push({ name: "seo_meta_description", passed: hasSeoDesc, reason: hasSeoDesc ? null : "meta_description missing or too short" });
 
       // Schema JSON
-      const hasSchema = !!t?.schema_json;
+      const hasSchema = !!t?.structured_data;
       checks.push({ name: "schema_json", passed: hasSchema, reason: hasSchema ? null : "schema_json not set — run schema generation" });
 
       // Parent topic exists and is published

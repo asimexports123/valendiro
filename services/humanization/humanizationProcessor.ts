@@ -30,39 +30,73 @@ const OPINION_PREFIXES = [
 ];
 
 export function humanizeContent(content: string): string {
-  let humanized = content;
+  // Process line by line — never destroy markdown structure (headings, tables, blank lines)
+  const lines = content.split("\n");
 
-  // Reduce robotic transitions
-  for (const pattern of ROBOTIC_PATTERNS) {
-    humanized = humanized.replace(pattern, "");
-  }
-
-  // Add light hedging to definitive absolute statements (conservative replacements)
-  humanized = humanized.replace(/\b(always|never|must|will definitely)\b/gi, (match) => {
-    const hedge = HEDGES[Math.floor(Math.random() * HEDGES.length)];
-    return `${hedge}, ${match.toLowerCase()}`;
-  });
-
-  // Vary sentence beginnings: inject occasional opinion tone
-  const sentences = humanized.split(/(?<=[.!?])\s+/);
-  const varied = sentences.map((sentence, index) => {
-    if (index % 7 === 4 && sentence.length > 30 && !sentence.startsWith("A") && !sentence.startsWith("The")) {
-      const prefix = OPINION_PREFIXES[Math.floor(Math.random() * OPINION_PREFIXES.length)];
-      return `${prefix} ${sentence.charAt(0).toLowerCase()}${sentence.slice(1)}`;
+  const processedLines = lines.map((line) => {
+    // Preserve headings, table rows, blank lines, and list items exactly
+    if (
+      line.startsWith("#") ||
+      line.startsWith("|") ||
+      line.startsWith("- ") ||
+      line.startsWith("* ") ||
+      /^\d+\./.test(line) ||
+      line.trim() === ""
+    ) {
+      return line;
     }
-    return sentence;
+
+    let processed = line;
+
+    // Reduce robotic transitions
+    for (const pattern of ROBOTIC_PATTERNS) {
+      processed = processed.replace(pattern, "");
+    }
+
+    // Add light hedging to absolute statements
+    processed = processed.replace(/\b(always|never|must|will definitely)\b/gi, (match) => {
+      const hedge = HEDGES[Math.floor(Math.random() * HEDGES.length)];
+      return `${hedge}, ${match.toLowerCase()}`;
+    });
+
+    return processed;
   });
 
-  humanized = varied.join(" ");
+  // Vary sentence beginnings only within paragraph blocks (never on structural lines)
+  let sentenceIndex = 0;
+  const finalLines = processedLines.map((line) => {
+    if (
+      line.startsWith("#") ||
+      line.startsWith("|") ||
+      line.startsWith("- ") ||
+      line.startsWith("* ") ||
+      /^\d+\./.test(line) ||
+      line.trim() === ""
+    ) {
+      return line;
+    }
 
-  // Clean up double spaces and stray punctuation
-  humanized = humanized
-    .replace(/\s{2,}/g, " ")
+    sentenceIndex++;
+    if (
+      sentenceIndex % 7 === 4 &&
+      line.length > 60 &&
+      !line.startsWith("A") &&
+      !line.startsWith("The") &&
+      !line.startsWith("**")
+    ) {
+      const prefix = OPINION_PREFIXES[Math.floor(Math.random() * OPINION_PREFIXES.length)];
+      return `${prefix} ${line.charAt(0).toLowerCase()}${line.slice(1)}`;
+    }
+    return line;
+  });
+
+  return finalLines
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")  // max 2 consecutive blank lines
+    .replace(/[ \t]{2,}/g, " ")  // collapse inline spaces only
     .replace(/\.,/g, ".")
     .replace(/\.\./g, ".")
     .trim();
-
-  return humanized;
 }
 
 export function humanizeExcerpt(excerpt: string): string {

@@ -6,10 +6,7 @@ import { clusterDemandSignals } from "./topicClustering";
 import { approveDemandTopicQueueItems, buildDemandTopicQueue } from "./demandTopicQueue";
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
-import { runResearchEngine } from "../intelligence/researchEngine";
-import { buildAndPersistKnowledgePack, markPackAsUsed } from "../intelligence/knowledgePackBuilder";
-import { generateOutline } from "../intelligence/outlinePlanner";
-import { writeFromKnowledgePack } from "../intelligence/knowledgeWriter";
+import { runAgentPipeline } from "../intelligence/agentPipeline";
 import { runKeywordResearch } from "./keywordResearchEngine";
 import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
 import { getActiveCategories } from "./categoryConfig";
@@ -422,41 +419,46 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       const metadata = (item.metadata as Record<string, unknown>) || {};
       const articleType = (metadata.article_type as "guide" | "explainer" | "reference" | "comparison" | "tutorial") || "guide";
 
-      // ── Phase 2A: Research Engine ──────────────────────────────────────────
-      // Build a keyword research result for the article title (keyword)
+      // ── 5-Agent Gemini Pipeline ────────────────────────────────────────────
+      // Agent 1: Research  → Agent 2: Outline → Agent 3: Write
+      // Agent 4: Review    → Agent 5: SEO     → Save as DRAFT
       const activeCategories = await getActiveCategories();
       const kwResult = runKeywordResearch(item.title, activeCategories);
+      const categoryLabel = kwResult.categoryLabel ?? "General Knowledge";
 
-      // ── Phase 2A: Knowledge Pack Builder ─────────────────────────────────
-      const research = await runResearchEngine(item.title, kwResult, null);
-      const { pack, packId } = await buildAndPersistKnowledgePack(
-        research,
-        item.topic_id ?? null,
-        item.id
-      );
-
-      // ── Phase 2B: Outline Planner ─────────────────────────────────────────
-      const outline = generateOutline(pack);
-
-      // ── Phase 2B: Knowledge Writer ────────────────────────────────────────
-      const written = await writeFromKnowledgePack(pack, outline);
-
-      // Fallback: if writer fails word count threshold, use template
-      const MIN_WORDS = 400;
       let content: string;
       let generated: { title: string; excerpt: string; content: string; metaTitle: string; metaDescription: string };
+      let qualityScore = 0;
+      let seoScore = 0;
+      let agentDurations: Record<string, number> = {};
 
-      if (written.wordCount >= MIN_WORDS) {
-        content = humanizeContent(written.content);
+      try {
+        const pipeline = await runAgentPipeline(item.title, categoryLabel);
+
+        // Reviewer agent rejection threshold: score < 50 = too poor to save even as draft
+        if (!pipeline.qualityReport.passed && pipeline.qualityReport.score < 50) {
+          throw new Error(`Reviewer agent rejected article (score: ${pipeline.qualityReport.score}/100): ${pipeline.qualityReport.issues.slice(0, 2).join("; ")}`);
+        }
+
+        content = pipeline.finalContent;
+        qualityScore = pipeline.qualityReport.score;
+        seoScore = pipeline.seoReport.seoScore;
+        agentDurations = pipeline.agentDurationsMs;
+
+        const firstParagraph = content.replace(/^#+.+$/mg, "").split(/\n{2,}/).find(p => p.trim().length > 40) ?? "";
+        const excerpt = firstParagraph.replace(/\*\*/g, "").trim().slice(0, 250);
+
         generated = {
-          title: written.title,
-          excerpt: humanizeExcerpt(written.excerpt),
+          title: pipeline.finalTitle,
+          excerpt,
           content,
-          metaTitle: written.metaTitle,
-          metaDescription: humanizeMetaDescription(written.metaDescription),
+          metaTitle: pipeline.metaTitle,
+          metaDescription: pipeline.metaDescription,
         };
-      } else {
-        // Fallback to template engine
+      } catch (agentErr) {
+        // LLM pipeline failed — fall back to template so queue item is not lost
+        const errMsg = agentErr instanceof Error ? agentErr.message : String(agentErr);
+        console.error(`[Pipeline] Agent pipeline failed for "${item.title}": ${errMsg} — falling back to template`);
         const template = (metadata.template as "informational" | "faq" | "comparison" | "affiliate") || "informational";
         const fallback = generateArticleFromTemplate(template, {
           title: item.title,
@@ -477,21 +479,6 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       const excerpt = generated.excerpt;
       const metaDescription = generated.metaDescription;
 
-      const quality = await runQualityGate({
-        objectId: null,
-        objectType: "article",
-        languageCode: "en",
-        content,
-        topicId: item.topic_id,
-      });
-      if (!quality.passed) {
-        const failed = Object.values(quality.checks)
-          .filter((c) => !c.passed)
-          .map((c) => c.reason)
-          .join("; ");
-        throw new Error(`Quality gate failed: ${failed}`);
-      }
-
       const slug = item.title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
@@ -499,6 +486,8 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         .slice(0, 100);
       const canonicalPath = `/en/articles/${slug}`;
 
+      // ── Always save as DRAFT — manual review required before publishing ──
+      // Set ARTICLE_PUBLISHING_ENABLED=true only after reviewing first 20 articles.
       const { data: article, error: articleError } = await supabase
         .from("articles")
         .insert({
@@ -506,8 +495,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
           canonical_path: canonicalPath,
           topic_id: item.topic_id,
           article_type: articleType,
-          status: "published",
-          published_at: new Date().toISOString(),
+          status: "draft",
         })
         .select()
         .single();
@@ -551,7 +539,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         // Schema generation failure is non-fatal — article still publishes
       }
 
-      await supabase.from("article_translations").insert({
+      const translationInsert = await supabase.from("article_translations").insert({
         article_id: article.id,
         language_code: "en",
         title: generated.title,
@@ -559,32 +547,28 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         content,
         meta_title: generated.metaTitle,
         meta_description: metaDescription,
-        schema_json: schemaJson,
+        structured_data: schemaJson,
       });
 
-      await buildHierarchicalLinksForArticle(article.id);
-
-      // Stage 13: Post-publish audit
-      const audit = await runPostPublishAudit("article", article.id);
-      if (!audit.passed) {
-        result.errors.push(`Article "${generated.title}" failed post-publish audit: ${audit.blockers.join("; ")} — reverted to draft`);
-        await supabase
-          .from("content_generation_queue")
-          .update({ status: "failed", failed_reason: `Post-publish audit: ${audit.blockers.join("; ")}`, completed_at: new Date().toISOString() })
-          .eq("id", item.id);
-        continue;
+      if (translationInsert.error) {
+        // Clean up orphan article row and report
+        await supabase.from("articles").delete().eq("id", article.id);
+        throw new Error(`Translation insert failed: ${translationInsert.error.message}`);
       }
 
-      // Mark knowledge pack as consumed
-      if (packId && packId !== "in-memory") {
-        await markPackAsUsed(packId);
-      }
-
-      // Stage 14: Featured image assignment — non-fatal
-      const imageResult = await assignFeaturedImages(article.id);
-      if (imageResult.error) {
-        result.errors.push(`Image assignment for "${generated.title}": ${imageResult.error}`);
-      }
+      // Log agent quality scores to queue metadata for review dashboard
+      await supabase
+        .from("content_generation_queue")
+        .update({
+          metadata: {
+            ...(item.metadata as object ?? {}),
+            quality_score: qualityScore,
+            seo_score: seoScore,
+            agent_durations_ms: agentDurations,
+            article_id: article.id,
+          },
+        })
+        .eq("id", item.id);
 
       await supabase
         .from("content_generation_queue")
