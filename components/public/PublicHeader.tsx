@@ -7,9 +7,7 @@ import { SITE_NAME } from "@/lib/constants";
 
 const NAV_ITEMS = [
   { label: "Categories", href: "categories" },
-  { label: "Topics", href: "topics" },
-  { label: "Collections", href: "collections" },
-  { label: "Guides", href: "articles" },
+  { label: "Articles",   href: "articles" },
 ];
 
 const CATEGORY_QUICK = [
