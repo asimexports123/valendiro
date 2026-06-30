@@ -148,44 +148,116 @@ async function callAgent(
   return { content: response.content, durationMs };
 }
 
+// ─── Domain Detector ─────────────────────────────────────────────────────────
+
+function detectDomain(keyword: string, category: string): string {
+  const text = (keyword + " " + category).toLowerCase();
+  if (/docker|kubernetes|linux|bash|python|javascript|typescript|react|node|api|sql|git|css|html|programming|code|software|algorithm|database|server|cloud|aws|devops|cli|terminal|command|function|variable|class|framework/.test(text)) return "technology";
+  if (/invest|stock|bond|crypto|finance|money|tax|budget|loan|mortgage|interest|compound|dividend|portfolio|bank|insurance|401k|ira|etf|mutual fund|revenue|profit|loss/.test(text)) return "finance";
+  if (/health|disease|symptom|treatment|medicine|doctor|hospital|diet|nutrition|vitamin|exercise|mental|anxiety|depression|cortisol|hormone|cancer|diabetes|heart|blood/.test(text)) return "health";
+  if (/law|legal|court|contract|rights|constitution|attorney|lawsuit|regulation|compliance/.test(text)) return "legal";
+  if (/science|physics|chemistry|biology|math|formula|equation|theory|research|experiment/.test(text)) return "science";
+  return "general";
+}
+
+function buildDomainSpecificInstructions(domain: string): string {
+  switch (domain) {
+    case "technology":
+      return `DOMAIN: Technology/Programming
+You MUST include in the Knowledge Pack:
+- codeExamples: 2-4 real code snippets (actual syntax, not pseudocode)
+- commands: CLI commands or syntax examples if applicable
+- comparisonTable: key differences as [{"aspect": string, "optionA": string, "optionB": string}] if topic is a comparison
+- technicalDetails: exact parameters, flags, options, return types
+- ecosystem: related tools, libraries, alternatives
+FAQs must be specific technical questions ("What happens when...", "How do I override...", "What is the difference between...")
+Common mistakes must be real coding/config errors developers make.`;
+    case "finance":
+      return `DOMAIN: Finance/Economics
+You MUST include in the Knowledge Pack:
+- formulas: exact mathematical formulas with variable explanations
+- calculations: 1-2 worked numeric examples (e.g. "$10,000 at 7% for 10 years = $19,671")
+- comparisonTable: compare options/products if applicable
+- risks: specific financial risks and how to mitigate them
+- regulations: relevant laws or regulations if applicable
+FAQs must be specific ("How much...", "What is the formula for...", "Is X better than Y?").
+Common mistakes must be real money mistakes people make.`;
+    case "health":
+      return `DOMAIN: Health/Medical
+You MUST include in the Knowledge Pack:
+- symptoms: list of specific symptoms if applicable
+- causes: root causes, risk factors
+- treatments: evidence-based treatments, interventions
+- warnings: when to see a doctor, red flags
+- normalRanges: normal vs abnormal values/ranges if applicable
+FAQs must be health questions people actually search ("Can X cause Y?", "How long does...", "Is X normal?").
+Common mistakes must be real patient/practitioner errors.
+ADD a disclaimer: "This is educational content, not medical advice. Consult a doctor."` ;
+    case "science":
+      return `DOMAIN: Science
+You MUST include:
+- formulas: key equations or laws
+- experiments: notable experiments or proofs
+- realWorldApplications: how this appears in everyday life
+- comparisonTable: if comparing concepts/theories`;
+    default:
+      return `DOMAIN: General Knowledge
+Focus on: clear definitions, concrete examples, real-world applications.
+Avoid vague generalisations.`;
+  }
+}
+
 // ─── Agent 1: Research Agent ──────────────────────────────────────────────────
 
-const RESEARCH_SYSTEM = `You are a Research Agent for an autonomous knowledge publishing system.
+const RESEARCH_SYSTEM_BASE = `You are a domain-expert Research Agent at a professional knowledge publishing company.
+Your Knowledge Packs are used by writers to produce authoritative, specific, useful articles — NOT generic educational essays.
 
-YOUR TASK:
-Given a keyword and category, produce a structured Knowledge Pack that a writer will use to write a complete article.
+CRITICAL RULES:
+- Every field must contain SPECIFIC, USEFUL information a writer can directly use.
+- Do NOT write generic statements like "It is important to understand..." or "This concept helps in many ways".
+- Do NOT hallucinate statistics, studies, or claims you are not certain about.
+- FAQs must be EXACT questions real users type into Google — not vague.
+- Common mistakes must be PRACTITIONER-LEVEL specific errors — not obvious beginner stuff.
+- If topic is a comparison (X vs Y), you MUST include a detailed comparison table.
+- codeExamples (for tech topics) must be REAL, RUNNABLE syntax — not pseudocode.
 
-RULES:
-- Only include factual, verifiable information.
-- Do NOT hallucinate statistics, studies, company names, or claims.
-- If you are uncertain about a fact, omit it entirely.
-- Be specific. Generic statements are useless to the writer.
-- FAQs must be real questions a user would type into Google.
-- Common mistakes must be real, practitioner-level mistakes — not obvious.
+Return ONLY valid JSON. No markdown. No explanation outside the JSON.`;
 
-OUTPUT:
-Return ONLY valid JSON matching this exact schema. No markdown, no explanation.
+function buildResearchUserPrompt(keyword: string, category: string, domain: string): string {
+  const domainInstructions = buildDomainSpecificInstructions(domain);
+  return `Keyword: "${keyword}"
+Category: "${category}"
+Domain: ${domain}
+
+${domainInstructions}
+
+Produce the Knowledge Pack JSON now. Schema:
 {
-  "keyword": string,
-  "category": string,
-  "primaryDefinition": string (2-3 sentences, precise),
-  "coreConcepts": string[] (5-8 key concepts),
-  "keyEntities": [{"name": string, "role": string}] (people, tools, orgs, frameworks),
-  "useCases": string[] (3-5 concrete real-world applications),
-  "commonMistakes": string[] (4-6 specific mistakes practitioners make),
-  "faqs": [{"question": string, "answer": string}] (5-7 FAQ pairs),
-  "comparisons": string[] (2-3 "X vs Y" comparisons relevant to this topic),
-  "statistics": string[] (2-4 real stats with source, or omit if uncertain),
-  "targetAudience": string,
-  "searchIntent": "informational" | "commercial" | "navigational" | "transactional"
+  "keyword": "${keyword}",
+  "category": "${category}",
+  "primaryDefinition": "2-3 precise sentences. Must define the exact concept, not the category.",
+  "coreConcepts": ["specific concept 1", "specific concept 2"],
+  "keyEntities": [{"name": "exact name", "role": "specific role in this topic"}],
+  "useCases": ["specific real-world use case with context"],
+  "commonMistakes": ["specific mistake: what they do wrong and why it fails"],
+  "faqs": [{"question": "exact Google search query", "answer": "direct answer in 2-3 sentences"}],
+  "comparisons": ["X vs Y: key difference"],
+  "statistics": ["only include if you are certain — include source"],
+  "targetAudience": "specific audience description",
+  "searchIntent": "informational",
+  "codeExamples": ["actual code snippet if tech topic, else omit"],
+  "comparisonTable": [{"aspect": "label", "optionA": "value", "optionB": "value"}],
+  "domainSpecific": {"include any domain-specific fields listed above"}
 }`;
+}
 
 export async function runResearchAgent(
   keyword: string,
   category: string
 ): Promise<{ pack: AgentKnowledgePack; durationMs: number }> {
-  const userPrompt = `Keyword: "${keyword}"\nCategory: "${category}"\n\nProduce the Knowledge Pack JSON now.`;
-  const { content, durationMs } = await callAgent("ResearchAgent", RESEARCH_SYSTEM, userPrompt, 0.3, 4096);
+  const domain = detectDomain(keyword, category);
+  const userPrompt = buildResearchUserPrompt(keyword, category, domain);
+  const { content, durationMs } = await callAgent("ResearchAgent", RESEARCH_SYSTEM_BASE, userPrompt, 0.3, 4096);
 
   const fallback: AgentKnowledgePack = {
     keyword,
@@ -208,38 +280,40 @@ export async function runResearchAgent(
 
 // ─── Agent 2: Outline Agent ───────────────────────────────────────────────────
 
-const OUTLINE_SYSTEM = `You are an Outline Agent for an autonomous knowledge publishing system.
+const OUTLINE_SYSTEM = `You are an Outline Agent at a professional knowledge publishing company.
 
 YOUR TASK:
-Given a Knowledge Pack, produce a structured article outline that a writer will follow exactly.
+Given a Knowledge Pack, produce an article outline that directly answers what a user searching for this keyword actually wants to know.
 
-RULES:
-- Every section must have a clear purpose that maps to specific Knowledge Pack content.
-- Minimum 6 sections, maximum 10 sections.
-- Every article MUST include: Introduction, at least one concept section, Examples, FAQ, Conclusion.
-- Headings must be specific, not generic ("How Compound Interest Works" not "How It Works").
-- estimatedWords must add up to the targetWordCount.
-- mustInclude: specific things the writer MUST put in the article.
-- mustAvoid: specific things the writer must NOT write.
+CRITICAL RULES:
+- Section headings must be SPECIFIC to the topic — never generic ("How CMD Works in Docker" not "How It Works").
+- If the Knowledge Pack has codeExamples: there MUST be a code/syntax section.
+- If the Knowledge Pack has comparisonTable: there MUST be a comparison section with a table.
+- If the Knowledge Pack has formulas/calculations: there MUST be a calculations section.
+- If the Knowledge Pack has symptoms/treatments: there MUST be dedicated sections for each.
+- Every article MUST end with FAQ and Conclusion.
+- mustInclude must list SPECIFIC things from the Knowledge Pack (e.g. "Include the Dockerfile syntax example", "Include CMD vs ENTRYPOINT table").
+- mustAvoid must list generic filler ("Core Principles", "Continuous improvement", vague motivational text).
+- Target: 1800-2500 words. Every section should add real value.
 
 OUTPUT:
-Return ONLY valid JSON matching this exact schema. No markdown, no explanation.
+Return ONLY valid JSON. No markdown. No explanation.
 {
-  "title": string (compelling, SEO-friendly, under 65 chars),
+  "title": string (specific, SEO-friendly, under 65 chars),
   "articleType": "guide" | "explainer" | "how-to" | "comparison" | "reference",
-  "targetWordCount": number (1500-2500),
+  "targetWordCount": number (1800-2500),
   "sections": [
     {
       "order": number,
-      "heading": string,
-      "type": "introduction" | "definition" | "how_it_works" | "examples" | "comparison" | "mistakes" | "faq" | "conclusion" | "deep_dive",
-      "purpose": string,
-      "keyPoints": string[],
+      "heading": string (SPECIFIC to the topic),
+      "type": "introduction" | "definition" | "how_it_works" | "examples" | "comparison" | "code" | "mistakes" | "faq" | "conclusion" | "deep_dive",
+      "purpose": string (what specific question this section answers),
+      "keyPoints": string[] (exact content points from Knowledge Pack to cover),
       "estimatedWords": number
     }
   ],
-  "mustInclude": string[],
-  "mustAvoid": string[]
+  "mustInclude": string[] (specific content items that MUST appear),
+  "mustAvoid": string[] (generic phrases and filler to avoid)
 }`;
 
 export async function runOutlineAgent(
