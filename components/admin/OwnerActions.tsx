@@ -42,6 +42,10 @@ export function OwnerActions({ automationEnabled }: Props) {
         body: JSON.stringify({ action }),
       });
       const json = await res.json();
+      if (res.status === 401) {
+        window.location.href = "/auth/login";
+        return;
+      }
       if (!res.ok) throw new Error(json.error || "Action failed");
       setFeedback({ ok: true, message: "Done! Refreshing…" });
       setTimeout(() => { router.refresh(); setFeedback(null); }, 1500);

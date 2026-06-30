@@ -9,6 +9,7 @@ import {
 import { setSystemSetting } from "@/services/system/settings";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 300;
 
 async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
   const { data: { session } } = await supabase.auth.getSession();
@@ -23,11 +24,14 @@ async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) 
 }
 
 export async function POST(request: Request) {
-  const supabase = await createClient();
-  const auth = await requireAdmin(supabase);
-  if (!auth.allowed) return auth.response;
+  const body = await request.json().catch(() => ({}));
+  const { action } = body;
 
-  const { action } = await request.json().catch(() => ({}));
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Not signed in. Please log in to the admin panel first." }, { status: 401 });
+  }
   let result: Record<string, unknown>;
 
   try {
