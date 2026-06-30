@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PublicCollection } from "@/services/public/publicData";
 
 export function FeaturedCollections({ lang, collections }: { lang: string; collections: PublicCollection[] }) {
-  if (collections.length === 0) return null;
+  if (collections.length === 0) return null; 
 
   return (
     <section className="border-y border-border/50 bg-muted/30 py-14 sm:py-16">

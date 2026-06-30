@@ -33,6 +33,25 @@ export interface PublicCollection {
   description: string;
 }
 
+const V1_CATEGORY_SLUGS = [
+  "technology",
+  "personal-finance",
+  "business",
+  "education",
+  "health-wellness",
+  "home-lifestyle",
+  "travel",
+];
+
+async function getV1CategoryIds(): Promise<string[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("categories")
+    .select("id")
+    .in("slug", V1_CATEGORY_SLUGS);
+  return (data || []).map((c: any) => c.id);
+}
+
 export function estimateReadingTime(text: string | null): number {
   if (!text) return 1;
   const words = text.trim().split(/\s+/).length;
@@ -82,10 +101,14 @@ export async function getRecentQuestions(limit = 5): Promise<PublicQuestion[]> {
 
 export async function getTrendingTopics(limit = 10): Promise<PublicTopic[]> {
   const supabase = await createClient();
+  const categoryIds = await getV1CategoryIds();
+  if (categoryIds.length === 0) return [];
+
   const { data } = await supabase
     .from("topics")
     .select("id, slug, topic_translations(title, subtitle)")
     .eq("status", "published")
+    .in("category_id", categoryIds)
     .eq("topic_translations.language_code", "en")
     .order("created_at", { ascending: false })
     .limit(limit);
@@ -155,10 +178,19 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
 
 export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
   const supabase = await createClient();
+  const categoryIds = await getV1CategoryIds();
+
+  const { data: v1Topics } = categoryIds.length > 0
+    ? await supabase.from("topics").select("id").in("category_id", categoryIds).eq("status", "published")
+    : { data: [] };
+  const v1TopicIds = (v1Topics || []).map((t: any) => t.id);
+  if (v1TopicIds.length === 0) return [];
+
   const { data } = await supabase
     .from("articles")
     .select("id, slug, updated_at, article_translations(title, excerpt, content)")
     .eq("status", "published")
+    .in("topic_id", v1TopicIds)
     .eq("article_translations.language_code", "en")
     .order("updated_at", { ascending: false })
     .limit(limit);
@@ -179,9 +211,13 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
 
 export async function getFeaturedCollections(limit = 6): Promise<PublicCollection[]> {
   const supabase = await createClient();
+  const categoryIds = await getV1CategoryIds();
+  if (categoryIds.length === 0) return [];
+
   const { data } = await supabase
     .from("collections")
     .select("id, slug, category_id, collection_translations(name, description)")
+    .in("category_id", categoryIds)
     .eq("collection_translations.language_code", "en")
     .order("sort_order", { ascending: true })
     .limit(limit);
