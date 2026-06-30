@@ -44,3 +44,5 @@ supabase/.env
 next-env.d.ts
 
 .vercel
+
+.env*

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getOwnerDashboardData } from "@/services/admin/dashboardData";
 import { OwnerActions } from "@/components/admin/OwnerActions";
+import { DraftReviewPanel } from "@/components/admin/DraftReviewPanel";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 function timeAgo(iso: string | null) {
   if (!iso) return "Never";
@@ -17,6 +19,43 @@ export default async function DashboardPage() {
   const data = await getOwnerDashboardData();
   const { stats, system, notifications } = data;
 
+  // Fetch drafts for inline review
+  const supabase = createAdminClient();
+  const { data: draftArticles, error: draftError } = await supabase
+    .from("articles")
+    .select("id, slug, created_at, updated_at")
+    .eq("status", "draft")
+    .order("updated_at", { ascending: false })
+    .limit(50);
+  if (draftError) console.error("[Dashboard] Draft fetch error:", draftError.message);
+
+  const draftIds = (draftArticles ?? []).map((a) => a.id);
+  const { data: draftTrans } = draftIds.length
+    ? await supabase
+        .from("article_translations")
+        .select("article_id, title, content, meta_description")
+        .in("article_id", draftIds)
+        .eq("language_code", "en")
+    : { data: [] };
+
+  const transMap: Record<string, { title: string; words: number; meta: string }> = {};
+  for (const t of draftTrans ?? []) {
+    transMap[t.article_id] = {
+      title: t.title ?? "",
+      words: ((t.content as string) ?? "").split(/\s+/).filter(Boolean).length,
+      meta: (t.meta_description as string) ?? "",
+    };
+  }
+
+  const drafts = (draftArticles ?? []).map((a) => ({
+    id: a.id,
+    slug: a.slug,
+    title: transMap[a.id]?.title || a.slug,
+    words: transMap[a.id]?.words ?? 0,
+    meta: transMap[a.id]?.meta ?? "",
+    createdAt: a.created_at ?? a.updated_at ?? new Date().toISOString(),
+  }));
+
   const greeting = (() => {
     const h = new Date().getHours();
     if (h < 12) return "Good morning";
@@ -26,6 +65,9 @@ export default async function DashboardPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
+
+      {/* Draft Review — top priority */}
+      <DraftReviewPanel drafts={drafts} />
 
       {/* Greeting */}
       <div>

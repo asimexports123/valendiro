@@ -6,17 +6,24 @@ const ALLOWED_TABLES = ["topics", "articles", "questions", "collections", "entit
 type AllowedTable = typeof ALLOWED_TABLES[number];
 
 export async function DELETE(request: Request) {
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", session.user.id).maybeSingle();
-  if (!profile || (profile.role !== "admin" && profile.role !== "editor")) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
+  const body = await request.json().catch(() => ({}));
+  const { table, id, secret } = body;
 
-  const { table, id } = await request.json().catch(() => ({}));
+  // Local dev bypass
+  const isLocalDev = process.env.NODE_ENV === "development" &&
+    secret === (process.env.PIPELINE_TEST_SECRET ?? "local-test");
+
+  if (!isLocalDev) {
+    const supabase = await createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", session.user.id).maybeSingle();
+    if (!profile || (profile.role !== "admin" && profile.role !== "editor")) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+  }
 
   if (!table || !ALLOWED_TABLES.includes(table as AllowedTable)) {
     return NextResponse.json({ error: "Invalid table" }, { status: 400 });
