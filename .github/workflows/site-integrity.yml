@@ -1,0 +1,68 @@
+name: Site Integrity Audit
+
+on:
+  # Run after every push to main (Vercel deploys on push, so we wait for it)
+  push:
+    branches:
+      - main
+  # Also allow manual triggers
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: "Override site URL (default: production)"
+        required: false
+        default: "https://valendiro.com"
+
+jobs:
+  audit:
+    name: Route & Content Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npm run typecheck
+
+      - name: Wait for Vercel deployment
+        # Give Vercel up to 5 minutes to finish the deploy triggered by this push
+        run: |
+          echo "Waiting for Vercel deployment to go live..."
+          SITE_URL="${{ github.event.inputs.site_url || 'https://valendiro.com' }}"
+          for i in $(seq 1 30); do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" "$SITE_URL")
+            echo "Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" = "200" ]; then
+              echo "Site is live."
+              break
+            fi
+            sleep 10
+          done
+
+      - name: Run site integrity audit
+        env:
+          SITE_URL: ${{ github.event.inputs.site_url || 'https://valendiro.com' }}
+          AUDIT_SECRET: ${{ secrets.AUDIT_SECRET }}
+          # Provide Supabase env so the audit API can be called locally if needed
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ github.event.inputs.site_url || 'https://valendiro.com' }}
+        run: npm run audit
+
+      - name: Upload audit report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-audit-report
+          path: audit-report.json
+          retention-days: 30
