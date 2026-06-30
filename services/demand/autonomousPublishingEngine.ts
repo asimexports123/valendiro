@@ -299,7 +299,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
           /invest|stock|bond|crypto|finance|money|tax|budget|loan|mortgage|interest|dividend|portfolio|bank|insurance/.test(keyword) ? "personal-finance" :
           /health|disease|symptom|treatment|medicine|doctor|diet|nutrition|vitamin|exercise|mental|anxiety|cortisol|hormone|cancer|diabetes/.test(keyword) ? "health-wellness" :
           /business|startup|marketing|entrepreneur|revenue|profit|sales|management/.test(keyword) ? "business" :
-          null;
+          "education";
         if (fallbackSlug) {
           const { data: fbCat } = await supabase.from("categories").select("id").eq("slug", fallbackSlug).maybeSingle();
           categoryId = fbCat?.id ?? null;
