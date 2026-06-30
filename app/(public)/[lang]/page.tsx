@@ -40,7 +40,7 @@ export default async function PublicHomePage({
   const { lang } = await params;
   const [latestArticles, trending, categories, guides, collections] = await Promise.all([
     getLatestArticles(12),
-    getTrendingTopics(10),
+    getTrendingTopics(16),
     getCategoriesWithCounts(12),
     getPopularGuides(4),
     getFeaturedCollections(),

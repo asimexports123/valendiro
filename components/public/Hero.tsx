@@ -1,18 +1,13 @@
 import Link from "next/link";
 
 const EXPLORE_LINKS = [
-  { emoji: "💻", label: "Technology", href: "categories/technology", color: "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/60" },
-  { emoji: "💰", label: "Finance", href: "categories/personal-finance", color: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60" },
-  { emoji: "🚀", label: "Business", href: "categories/business", color: "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60" },
-  { emoji: "📚", label: "Education", href: "categories/education", color: "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/60" },
-  { emoji: "🏃", label: "Health", href: "categories/health-wellness", color: "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60" },
-  { emoji: "✈️", label: "Travel", href: "categories/travel", color: "bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60" },
-];
-
-const TRUST_STATS = [
-  { value: "7", label: "Knowledge Areas" },
-  { value: "100+", label: "Expert Topics" },
-  { value: "Free", label: "Always" },
+  { emoji: "💻", label: "Technology",      href: "categories/technology",      color: "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/60" },
+  { emoji: "💰", label: "Personal Finance", href: "categories/personal-finance", color: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60" },
+  { emoji: "🚀", label: "Business",         href: "categories/business",         color: "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60" },
+  { emoji: "📚", label: "Education",        href: "categories/education",        color: "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/60" },
+  { emoji: "🏃", label: "Health & Wellness",href: "categories/health-wellness",  color: "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60" },
+  { emoji: "🏠", label: "Home & Lifestyle", href: "categories/home-lifestyle",   color: "bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/60" },
+  { emoji: "✈️", label: "Travel",           href: "categories/travel",           color: "bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60" },
 ];
 
 export function Hero({ lang }: { lang: string }) {
@@ -58,14 +53,22 @@ export function Hero({ lang }: { lang: string }) {
               </Link>
             </div>
 
-            {/* Trust stats */}
-            <div className="mt-10 flex items-center justify-center lg:justify-start gap-8">
-              {TRUST_STATS.map((s) => (
-                <div key={s.label} className="text-center lg:text-left">
-                  <div className="text-2xl font-bold text-foreground tracking-tight">{s.value}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{s.label}</div>
-                </div>
-              ))}
+            {/* Trust pillars */}
+            <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-5">
+              <div className="text-center lg:text-left">
+                <div className="text-2xl font-bold text-foreground tracking-tight">7</div>
+                <div className="text-xs text-muted-foreground mt-0.5">Knowledge Areas</div>
+              </div>
+              <div className="w-px h-8 bg-border/60 hidden sm:block" />
+              <div className="text-center lg:text-left">
+                <div className="text-2xl font-bold text-foreground tracking-tight">Free</div>
+                <div className="text-xs text-muted-foreground mt-0.5">Always</div>
+              </div>
+              <div className="w-px h-8 bg-border/60 hidden sm:block" />
+              <div className="text-center lg:text-left">
+                <div className="text-2xl font-bold text-foreground tracking-tight">Growing</div>
+                <div className="text-xs text-muted-foreground mt-0.5">Content Library</div>
+              </div>
             </div>
           </div>
 
@@ -138,14 +141,10 @@ export function Hero({ lang }: { lang: string }) {
                 <circle cx="338" cy="106" r="6" fill="white" opacity="0.25"/>
               </svg>
 
-              {/* Floating stat cards */}
-              <div className="absolute -bottom-4 -left-4 rounded-2xl border border-border bg-card px-4 py-3 shadow-elevated">
-                <div className="text-xs text-muted-foreground">Students learning</div>
-                <div className="text-xl font-bold text-foreground mt-0.5">10,000+</div>
-              </div>
+              {/* Floating badge — real claim only */}
               <div className="absolute -top-4 -right-4 rounded-2xl border border-border bg-card px-4 py-3 shadow-elevated">
-                <div className="text-xs text-muted-foreground">Topics covered</div>
-                <div className="text-xl font-bold text-primary mt-0.5">Growing</div>
+                <div className="text-xs text-muted-foreground">Knowledge areas</div>
+                <div className="text-xl font-bold text-primary mt-0.5">7 Topics</div>
               </div>
             </div>
           </div>

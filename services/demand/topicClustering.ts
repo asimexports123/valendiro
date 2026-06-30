@@ -1,6 +1,55 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isPublishable, scoreDemandKeyword } from "./topicQualityEngine";
 
+/** Canonical V1 slugs — only these may produce public collections */
+const V1_SLUGS = new Set([
+  "technology", "personal-finance", "business",
+  "education", "health-wellness", "home-lifestyle", "travel",
+]);
+
+/** Map noisy/alias category names → canonical V1 slug */
+const CATEGORY_ALIAS_MAP: Record<string, string> = {
+  // AI variants → Technology
+  "ai": "technology",
+  "artificial intelligence": "technology",
+  "artificial-intelligence": "technology",
+  "machine learning": "technology",
+  // Finance variants → Personal Finance
+  "finance": "personal-finance",
+  "financial": "personal-finance",
+  "personal finance": "personal-finance",
+  // Health variants → Health & Wellness
+  "health": "health-wellness",
+  "wellness": "health-wellness",
+  "health and wellness": "health-wellness",
+  // Business variants
+  "business and entrepreneurship": "business",
+  "entrepreneurship": "business",
+  // Education variants
+  "education and learning": "education",
+  "learning": "education",
+  // Travel variants
+  "travel and transportation": "travel",
+  "transportation": "travel",
+  // Home variants
+  "home": "home-lifestyle",
+  "lifestyle": "home-lifestyle",
+  "home and lifestyle": "home-lifestyle",
+};
+
+function resolveCategory(rawName: string): string | null {
+  const lower = rawName.toLowerCase().trim();
+  // Direct alias lookup
+  if (CATEGORY_ALIAS_MAP[lower]) return CATEGORY_ALIAS_MAP[lower];
+  // Check if it is already a V1 slug
+  if (V1_SLUGS.has(lower.replace(/\s+/g, "-"))) return lower.replace(/\s+/g, "-");
+  // Partial match — if rawName contains a V1 keyword
+  for (const [alias, slug] of Object.entries(CATEGORY_ALIAS_MAP)) {
+    if (lower.includes(alias)) return slug;
+  }
+  return null; // not mappable → skip
+}
+
 export interface ClusteringResult {
   clustersCreated: number;
   signalsClustered: number;
@@ -230,9 +279,25 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
 
   for (const cluster of clusters) {
     try {
-      const categoryName = cluster.category || "General";
-      const category = await ensureCategory(categoryName, languageCode);
-      if (category.created) result.categoriesCreated++;
+      const rawCategory = cluster.category || "general";
+      const v1Slug = resolveCategory(rawCategory);
+      if (!v1Slug) {
+        // Not mappable to a V1 category — skip, do not pollute public taxonomy
+        result.errors.push(`Skipped cluster "${cluster.seed.keyword}": category "${rawCategory}" not in V1 taxonomy`);
+        continue;
+      }
+
+      // Look up the V1 category row by its canonical slug
+      const { data: categoryRow } = await supabase
+        .from("categories")
+        .select("id")
+        .eq("slug", v1Slug)
+        .maybeSingle();
+      if (!categoryRow) {
+        result.errors.push(`V1 category not found in DB: ${v1Slug}`);
+        continue;
+      }
+      const category = { id: categoryRow.id, created: false };
 
       const keywords = cluster.members.map((m) => m.keyword).filter(Boolean);
       const clusterName = generateClusterName(keywords, cluster.seed.keyword);
@@ -259,7 +324,7 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
         .from("demand_topic_clusters")
         .insert({
           cluster_name: finalClusterName,
-          category: categoryName,
+          category: v1Slug,
           collection_id: collection.id,
           seed_keyword: cluster.seed.keyword || finalClusterName,
           keywords,

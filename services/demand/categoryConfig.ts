@@ -45,6 +45,7 @@ export const V1_DEFAULT_CONFIG: CategoryConfig = {
         "operating system", "windows", "macos", "linux", "android", "ios",
         "artificial intelligence", "machine learning", "deep learning", "neural network",
         "chatgpt", "gpt", "llm", "ai", "automation", "robotics",
+        "ai tools", "generative ai", "prompt engineering", "ai assistant", "large language model",
         "programming", "code", "coding", "developer", "python", "javascript", "typescript",
         "react", "nodejs", "sql", "git", "github", "web development", "frontend", "backend",
         "kubernetes", "docker", "devops", "open source",
@@ -59,7 +60,7 @@ export const V1_DEFAULT_CONFIG: CategoryConfig = {
     },
     {
       slug: "business",
-      label: "Business & Entrepreneurship",
+      label: "Business",
       enabled: true,
       priority: 2,
       keywords: [
@@ -109,7 +110,7 @@ export const V1_DEFAULT_CONFIG: CategoryConfig = {
     },
     {
       slug: "education",
-      label: "Education & Learning",
+      label: "Education",
       enabled: true,
       priority: 3,
       keywords: [
@@ -182,7 +183,7 @@ export const V1_DEFAULT_CONFIG: CategoryConfig = {
     },
     {
       slug: "travel",
-      label: "Travel & Transportation",
+      label: "Travel",
       enabled: true,
       priority: 5,
       keywords: [

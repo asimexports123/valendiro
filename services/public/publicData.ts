@@ -43,6 +43,17 @@ const V1_CATEGORY_SLUGS = [
   "travel",
 ];
 
+/** Canonical public-facing display names — overrides whatever ended up in the DB */
+const V1_DISPLAY_NAMES: Record<string, string> = {
+  technology: "Technology",
+  "personal-finance": "Personal Finance",
+  business: "Business",
+  education: "Education",
+  "health-wellness": "Health & Wellness",
+  "home-lifestyle": "Home & Lifestyle",
+  travel: "Travel",
+};
+
 async function getV1CategoryIds(): Promise<string[]> {
   const supabase = createAdminClient();
   const { data } = await supabase
@@ -123,9 +134,12 @@ export async function getTrendingTopics(limit = 10): Promise<PublicTopic[]> {
 
 export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategory[]> {
   const supabase = createAdminClient();
+
+  // Only query V1 slugs — prevents General, Finance, Health, AI, etc. from appearing publicly
   const { data } = await supabase
     .from("categories")
     .select("id, slug, sort_order, category_translations(name, description)")
+    .in("slug", V1_CATEGORY_SLUGS)
     .eq("category_translations.language_code", "en")
     .order("sort_order", { ascending: true })
     .limit(limit);
@@ -133,12 +147,12 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
   const dbCategories = (data || []).map((category: any) => ({
     id: category.id,
     slug: category.slug,
-    name: category.category_translations?.[0]?.name || "Uncategorized",
+    name: V1_DISPLAY_NAMES[category.slug] ?? category.category_translations?.[0]?.name ?? "Uncategorized",
     description: category.category_translations?.[0]?.description || "",
     article_count: 0,
   }));
 
-  // Count topics per DB category
+  // Count published topics per V1 category
   for (const category of dbCategories) {
     const { count } = await supabase
       .from("topics")
@@ -148,22 +162,22 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     category.article_count = count ?? 0;
   }
 
-  // Merge with V1 config — always show all 7 V1 categories even if not yet in DB
+  // Always show all 7 V1 categories — fill gaps with config defaults
   const dbSlugs = new Set(dbCategories.map((c) => c.slug));
   const v1Extras: PublicCategory[] = V1_DEFAULT_CONFIG.categories
     .filter((v) => v.enabled && !dbSlugs.has(v.slug))
     .map((v) => ({
       id: v.slug,
       slug: v.slug,
-      name: v.label,
-      description: `Explore ${v.label} guides, tutorials and resources.`,
+      name: V1_DISPLAY_NAMES[v.slug] ?? v.label,
+      description: `Explore ${V1_DISPLAY_NAMES[v.slug] ?? v.label} guides, tutorials and resources.`,
       article_count: 0,
     }));
 
   const merged = [...dbCategories, ...v1Extras];
 
-  // Sort by V1 priority order
-  const v1Order = V1_DEFAULT_CONFIG.categories.map((c) => c.slug);
+  // Sort by canonical V1 order
+  const v1Order = V1_CATEGORY_SLUGS;
   return merged
     .sort((a, b) => {
       const ai = v1Order.indexOf(a.slug);
