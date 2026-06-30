@@ -1,0 +1,186 @@
+[
+  {
+    "id": "c6f3c4a3-c001-444d-bc9b-211b18744eb8",
+    "slug": "code-arduino",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:42.809725+00:00",
+    "updated_at": "2026-06-30T07:29:42.809725+00:00"
+  },
+  {
+    "id": "27ac6cf8-fda6-436e-8017-dba391f6febf",
+    "slug": "learn-programming",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:45.879812+00:00",
+    "updated_at": "2026-06-30T07:29:45.879812+00:00"
+  },
+  {
+    "id": "51f27904-0793-496f-b6f8-cda6ceec7119",
+    "slug": "invest-money",
+    "category_id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:49.961358+00:00",
+    "updated_at": "2026-06-30T07:29:49.961358+00:00"
+  },
+  {
+    "id": "184c1e3c-fbb4-4ee9-a5ad-7529d4fecf74",
+    "slug": "compound-interest-investment",
+    "category_id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:51.526185+00:00",
+    "updated_at": "2026-06-30T07:29:51.526185+00:00"
+  },
+  {
+    "id": "17ba513f-f46f-4e2d-83de-1d76d8649adc",
+    "slug": "best-software-music",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:53.053079+00:00",
+    "updated_at": "2026-06-30T07:29:53.053079+00:00"
+  },
+  {
+    "id": "03155e55-66d4-4c21-996a-4db8e6692db1",
+    "slug": "column-default-value",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:32:56.012365+00:00",
+    "updated_at": "2026-06-30T20:32:56.012365+00:00"
+  },
+  {
+    "id": "2eabfcb5-7d19-41df-a4fe-05836c36bc1f",
+    "slug": "typescript-development",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:32:57.288213+00:00",
+    "updated_at": "2026-06-30T20:32:57.288213+00:00"
+  },
+  {
+    "id": "4fe7f530-5b89-4ac4-88d8-d1654e7d18ef",
+    "slug": "change-output-color",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:32:59.971421+00:00",
+    "updated_at": "2026-06-30T20:32:59.971421+00:00"
+  },
+  {
+    "id": "7f6bb2f5-09df-496c-9a99-6dfee4a90abf",
+    "slug": "return-date-server",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:01.420799+00:00",
+    "updated_at": "2026-06-30T20:33:01.420799+00:00"
+  },
+  {
+    "id": "6caebe55-d6f5-4617-9f1a-6db49a48991a",
+    "slug": "copy-docker-images",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:02.861773+00:00",
+    "updated_at": "2026-06-30T20:33:02.861773+00:00"
+  },
+  {
+    "id": "27f61404-1191-40be-8e8e-3152b81b225c",
+    "slug": "docker-container39s-address",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:04.215624+00:00",
+    "updated_at": "2026-06-30T20:33:04.215624+00:00"
+  },
+  {
+    "id": "0fa1e633-50cf-49ca-b701-e8b61c8526d2",
+    "slug": "ingress-load-balancer",
+    "category_id": "5e189c03-12b1-4555-946d-c4cb9faa24f2",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:09.087888+00:00",
+    "updated_at": "2026-06-30T20:33:09.087888+00:00"
+  },
+  {
+    "id": "a7f7f6f3-b44e-4fd2-9186-cd8a6cfca278",
+    "slug": "logits-difference-softmax",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:10.447441+00:00",
+    "updated_at": "2026-06-30T20:33:10.447441+00:00"
+  },
+  {
+    "id": "bb3425cc-dde9-4c00-b5f9-b9dff3324520",
+    "slug": "epoch-iteration-training",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:11.736705+00:00",
+    "updated_at": "2026-06-30T20:33:11.736705+00:00"
+  },
+  {
+    "id": "8445b524-2ce0-4518-9673-7efdaf6d85f3",
+    "slug": "meaning-word-logits",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:13.051931+00:00",
+    "updated_at": "2026-06-30T20:33:13.051931+00:00"
+  },
+  {
+    "id": "d2706b68-5871-4108-83ae-4d0bd9629db8",
+    "slug": "code",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:14.391483+00:00",
+    "updated_at": "2026-06-30T20:33:14.391483+00:00"
+  },
+  {
+    "id": "acdc1b07-10ee-4709-8ebc-5517ed1d2009",
+    "slug": "devops",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:44.325229+00:00",
+    "updated_at": "2026-06-30T22:31:49.835093+00:00"
+  },
+  {
+    "id": "958ad11b-d393-41c6-974e-d03c70e8e5e5",
+    "slug": "investing-basics",
+    "category_id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:48.191029+00:00",
+    "updated_at": "2026-06-30T22:31:50.092324+00:00"
+  },
+  {
+    "id": "e446640a-39ac-4eec-829b-25f21e883092",
+    "slug": "python",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T07:29:54.544269+00:00",
+    "updated_at": "2026-06-30T22:31:50.432864+00:00"
+  },
+  {
+    "id": "1e44969c-d581-4c24-8103-798275d642f8",
+    "slug": "javascript",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:32:54.46475+00:00",
+    "updated_at": "2026-06-30T22:31:50.503264+00:00"
+  },
+  {
+    "id": "a30e1d2c-ad48-4918-ae45-86eb342b1a5f",
+    "slug": "docker",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:32:58.638472+00:00",
+    "updated_at": "2026-06-30T22:31:50.615965+00:00"
+  },
+  {
+    "id": "df8603c7-3292-47b8-864c-83ba46e9c6cd",
+    "slug": "react",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:06.457811+00:00",
+    "updated_at": "2026-06-30T22:31:50.788887+00:00"
+  },
+  {
+    "id": "286038c8-043c-4e5b-8828-10dbf35d1a8b",
+    "slug": "kubernetes",
+    "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+    "sort_order": 0,
+    "created_at": "2026-06-30T20:33:07.752529+00:00",
+    "updated_at": "2026-06-30T22:31:50.848479+00:00"
+  }
+]
