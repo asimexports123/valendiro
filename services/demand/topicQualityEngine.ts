@@ -23,6 +23,38 @@ export interface DemandQualityScore {
   blockedReason: string | null;
   normalizedKeyword: string;
   knowledgeTopic: string | null;
+  entityConfidence: "high" | "medium" | "low";
+}
+
+// Known unambiguous entities — can be published with confidence
+const HIGH_CONFIDENCE_ENTITIES = new Set([
+  "als", "amyotrophic lateral sclerosis", "cern", "nasa", "who", "nhs", "fbi", "cia", "irs",
+  "photosynthesis", "mitosis", "dna", "rna", "gravity", "evolution", "democracy", "capitalism",
+  "blockchain", "machine learning", "artificial intelligence", "neural network",
+  "climate change", "global warming", "inflation", "recession", "compound interest",
+  "vitamin d", "cortisol", "hantavirus", "tuberculosis", "diabetes", "alzheimer",
+  "javascript", "python", "typescript", "react", "nodejs", "sql", "linux", "kubernetes",
+  "guitar capo", "capo", "tuner", "chord", "arpeggio",
+  "strunk and white", "the elements of style",
+]);
+
+// Patterns that indicate multi-word, intent-clear queries (inherently less ambiguous)
+function assessEntityConfidence(keyword: string): "high" | "medium" | "low" {
+  const lower = keyword.toLowerCase().trim();
+  const wordCount = lower.split(/\s+/).length;
+
+  if (HIGH_CONFIDENCE_ENTITIES.has(lower)) return "high";
+
+  // Multi-word queries with clear intent prefix are medium confidence
+  if (wordCount >= 3) return "medium";
+
+  // Two-word queries: usually specific enough
+  if (wordCount === 2) return "medium";
+
+  // Single-word queries without a known entity are inherently ambiguous
+  if (wordCount === 1) return "low";
+
+  return "medium";
 }
 
 const BLOCKED_PATTERNS = [
@@ -190,6 +222,7 @@ export function scoreDemandKeyword(keyword: string): DemandQualityScore {
   const intent = block.blocked ? "blocked" : detectIntent(normalized);
   const evergreen = calculateEvergreenScore(normalized, intent);
   const knowledgeTopic = mapToKnowledgeTopic(normalized);
+  const entityConfidence = assessEntityConfidence(normalized);
   const educational =
     intent === "educational" || intent === "how_to" || intent === "reference" ? 80 : intent === "problem_solving" ? 70 : 40;
   const commercial =
@@ -218,6 +251,7 @@ export function scoreDemandKeyword(keyword: string): DemandQualityScore {
     blockedReason: block.blocked ? block.reason : null,
     normalizedKeyword: normalized,
     knowledgeTopic,
+    entityConfidence,
   };
 }
 
@@ -226,5 +260,6 @@ export function isPublishable(score: DemandQualityScore, qualityThreshold = 52):
   if (score.qualityScore < qualityThreshold) return false;
   if (score.evergreenScore < 35) return false;
   if (score.intent === "news" || score.intent === "entertainment" || score.intent === "blocked") return false;
+  if (score.entityConfidence === "low") return false;
   return true;
 }
