@@ -20,6 +20,8 @@
 
 import type { KnowledgePack } from "./knowledgePackBuilder";
 import type { ArticleOutline, OutlineSection } from "./outlinePlanner";
+import { getActiveLLMProvider } from "@/services/llm/llmProvider";
+import type { LLMCompletionRequest } from "@/services/llm/llmProvider";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -32,14 +34,16 @@ export interface WrittenArticle {
   wordCount: number;
   sectionsWritten: number;
   writerType: "deterministic" | "llm";
+  providerName: string;
+  modelUsed: string;
   writtenAt: string;
 }
 
-export interface LLMProvider {
-  write(pack: KnowledgePack, outline: ArticleOutline): Promise<WrittenArticle>;
-  isAvailable(): boolean;
-  name: string;
-}
+/**
+ * @deprecated — use getActiveLLMProvider() from \"@/services/llm\" instead.
+ * Kept for backwards compatibility with any code that imported this type.
+ */
+export type { LLMCompletionRequest as LLMProviderRequest };
 
 // ─── Deterministic Section Renderer ──────────────────────────────────────────
 
@@ -330,43 +334,69 @@ function renderSection(section: OutlineSection, pack: KnowledgePack): string {
   }
 }
 
-class DeterministicKnowledgeWriter implements LLMProvider {
-  name = "deterministic";
+// ─── Deterministic Writer (internal fallback) ────────────────────────────────
 
-  isAvailable(): boolean { return true; }
+async function writeDeterministic(pack: KnowledgePack, outline: ArticleOutline): Promise<WrittenArticle> {
+  const sections = [...outline.sections].sort((a, b) => a.order - b.order);
+  const renderedSections = sections.map(s => renderSection(s, pack));
+  const content = renderedSections.join("\n\n");
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
+  const excerpt = `${pack.definition} This guide covers core concepts, practical examples, common mistakes, and the most frequently asked questions about ${pack.keyword}.`.slice(0, 250);
 
-  async write(pack: KnowledgePack, outline: ArticleOutline): Promise<WrittenArticle> {
-    const sections = [...outline.sections].sort((a, b) => a.order - b.order);
-    const renderedSections = sections.map(s => renderSection(s, pack));
-    const content = renderedSections.join("\n\n");
+  return {
+    title: outline.articleTitle,
+    excerpt,
+    content,
+    metaTitle: outline.articleTitle.length <= 60 ? outline.articleTitle : `${outline.articleTitle.slice(0, 57)}...`,
+    metaDescription: `Learn about ${pack.keyword}. ${pack.domain} guide covering definitions, examples, FAQ and more.`.slice(0, 160),
+    wordCount,
+    sectionsWritten: sections.length,
+    writerType: "deterministic",
+    providerName: "deterministic",
+    modelUsed: "deterministic-v1",
+    writtenAt: new Date().toISOString(),
+  };
+}
 
-    const wordCount = content.split(/\s+/).filter(Boolean).length;
-    const excerpt = `${pack.definition} This guide covers core concepts, practical examples, common mistakes, and the most frequently asked questions about ${pack.keyword}.`.slice(0, 250);
+// ─── LLM Writer (routes through central provider registry) ───────────────────
 
-    return {
-      title: outline.articleTitle,
-      excerpt,
-      content,
-      metaTitle: outline.articleTitle.length <= 60 ? outline.articleTitle : `${outline.articleTitle.slice(0, 57)}...`,
-      metaDescription: `Learn about ${pack.keyword}. ${pack.domain} guide covering definitions, examples, FAQ and more.`.slice(0, 160),
-      wordCount,
-      sectionsWritten: sections.length,
-      writerType: "deterministic",
-      writtenAt: new Date().toISOString(),
-    };
+async function writeLLM(pack: KnowledgePack, outline: ArticleOutline): Promise<WrittenArticle> {
+  const provider = getActiveLLMProvider();
+
+  // If no real LLM is configured, fall back to deterministic
+  if (provider.name === "deterministic") {
+    return writeDeterministic(pack, outline);
   }
-}
 
-// ─── Provider Registry ────────────────────────────────────────────────────────
+  const request = buildLLMPromptRequest(pack, outline);
+  const response = await provider.complete(request);
 
-let activeLLMProvider: LLMProvider = new DeterministicKnowledgeWriter();
+  const content = response.content;
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
 
-export function setLLMProvider(provider: LLMProvider): void {
-  activeLLMProvider = provider;
-}
+  // Extract title from first # heading if present, else use outline title
+  const titleMatch = content.match(/^#\s+(.+)$/m);
+  const title = titleMatch ? titleMatch[1].trim() : outline.articleTitle;
 
-export function getLLMProvider(): LLMProvider {
-  return activeLLMProvider;
+  // Extract first paragraph as excerpt
+  const firstParagraph = content.replace(/^#+.+$/mg, "").split(/\n{2,}/).find(p => p.trim().length > 40) ?? "";
+  const excerpt = firstParagraph.replace(/\*\*/g, "").trim().slice(0, 250);
+
+  const metaDescription = `Learn about ${pack.keyword}. ${pack.domain} guide covering definitions, examples, FAQ and more.`.slice(0, 160);
+
+  return {
+    title,
+    excerpt,
+    content,
+    metaTitle: title.length <= 60 ? title : `${title.slice(0, 57)}...`,
+    metaDescription,
+    wordCount,
+    sectionsWritten: outline.sections.length,
+    writerType: "llm",
+    providerName: response.provider,
+    modelUsed: response.model,
+    writtenAt: new Date().toISOString(),
+  };
 }
 
 // ─── Main Entry Point ─────────────────────────────────────────────────────────
@@ -375,13 +405,47 @@ export async function writeFromKnowledgePack(
   pack: KnowledgePack,
   outline: ArticleOutline
 ): Promise<WrittenArticle> {
-  return activeLLMProvider.write(pack, outline);
+  try {
+    return await writeLLM(pack, outline);
+  } catch {
+    // Any LLM failure falls back to deterministic — pipeline never blocks
+    return writeDeterministic(pack, outline);
+  }
 }
 
 /**
- * Build the LLM prompt string for an external provider.
- * When wiring a real LLM, pass this to the model instead of raw keyword.
+ * @deprecated — use getActiveLLMProvider() from \"@/services/llm\" instead.
+ * Kept for backwards compatibility.
  */
+export function setLLMProvider(_provider: unknown): void {
+  console.warn("setLLMProvider() is deprecated. Use setActiveLLMProvider() from \"@/services/llm\" instead.");
+}
+export function getLLMProvider() {
+  return getActiveLLMProvider();
+}
+
+/**
+ * Build a structured LLMCompletionRequest from a KnowledgePack + Outline.
+ * Pass this directly to any provider: provider.complete(buildLLMPromptRequest(pack, outline))
+ */
+export function buildLLMPromptRequest(pack: KnowledgePack, outline: ArticleOutline): LLMCompletionRequest {
+  const userPrompt = buildLLMPrompt(pack, outline);
+  return {
+    systemPrompt: [
+      "You are a world-class knowledge writer for Valendiro, an autonomous knowledge platform.",
+      "You write structured, educational articles based strictly on the provided Knowledge Pack and Outline.",
+      "You NEVER add information not present in the Knowledge Pack.",
+      "You NEVER use placeholder text, filler phrases, or generic AI content.",
+      "Every section in the Outline must be written in full.",
+      "Output must be valid Markdown.",
+    ].join(" "),
+    userPrompt,
+    maxTokens: Math.max(2048, outline.targetWordCount * 2),
+    temperature: 0.4,
+  };
+}
+
+/** @deprecated — use buildLLMPromptRequest() which returns a structured LLMCompletionRequest. */
 export function buildLLMPrompt(pack: KnowledgePack, outline: ArticleOutline): string {
   const sectionsText = outline.sections
     .sort((a, b) => a.order - b.order)
