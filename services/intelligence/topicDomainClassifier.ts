@@ -29,15 +29,22 @@ export function classifyTopicDomain(topicTitle: string): TopicDomain {
   const k = topicTitle.toLowerCase().trim();
 
   // Technology
-  if (/docker|kubernetes|linux|bash|python|javascript|typescript|react|node\.?js|api|sql|git|css|html|programming|coding|software|algorithm|database|server|cloud|aws|devops|cli|terminal|command|function|variable|class|framework|logits|softmax|epoch|kubectl|ingress|dockerfile|terraform|ansible|redis|nginx|apache|mongodb|postgresql|graphql|rest|microservice|webpack|vite|nextjs|nuxt|vue|angular|svelte|flutter|swift|kotlin|java|golang|rust|c\+\+|c#|\.net|php|ruby|rails|django|fastapi|spring/.test(k))
+  if (/docker|kubernetes|linux|bash|python|javascript|typescript|react|node\.?js|api|sql|git|css|html|programming|coding|software|algorithm|database|server|cloud|aws|devops|cli|terminal|\bcommand\b|function|variable|\bclass\b|framework|logits|softmax|epoch|kubectl|ingress|dockerfile|terraform|ansible|redis|nginx|apache|mongodb|postgresql|graphql|microservice|webpack|vite|nextjs|nuxt|vue|angular|svelte|flutter|swift|kotlin|\bjava\b|golang|rust|c\+\+|c#|\.net|php|ruby|rails|django|fastapi|spring/.test(k))
     return "technology";
 
-  // Finance product (credit card, mortgage, specific products — before finance_concept)
-  if (/credit card|mortgage|home loan|personal loan|auto loan|car loan|student loan|etf|index fund|mutual fund|401k|ira|roth ira|savings account|checking account|money market|treasury bond|treasury bill|cd account|certificate of deposit/.test(k))
+  // Finance product (loan/card products with application/eligibility processes)
+  if (/credit card|mortgage|home loan|personal loan|auto loan|car loan|student loan|savings account|checking account|money market|cd account|certificate of deposit/.test(k))
     return "finance_product";
 
-  // Finance concept
-  if (/invest|stock market|bond|crypto|bitcoin|ethereum|finance|money|tax|budget|compound interest|dividend|portfolio|bank|insurance|inflation|recession|gdp|economics|hedge fund|venture capital|private equity|ipo|forex|commodity|derivative|option trading|debt|equity|net worth|passive income|financial/.test(k))
+  // Finance investment instruments — treated as concepts not products
+  if (/\betf\b|index fund|mutual fund|401k|roth ira|\bira\b|treasury bond|treasury bill/.test(k))
+    return "finance_concept";
+
+  // Finance concept — explicit terms first (before technology check)
+  if (/compound interest|dollar cost averaging|cost of living|cost of capital|rule of 72|time value of money|opportunity cost|sunk cost|risk tolerance|asset allocation|net present value|internal rate of return|return on investment|price to earnings|earnings per share|market capitalization|bear market|bull market|short selling|margin trading|diversification|rebalancing|sinking fund|emergency fund|debt snowball|debt avalanche|fire movement|financial independence|passive income/.test(k))
+    return "finance_concept";
+
+  if (/invest|stock market|bond|crypto|bitcoin|ethereum|finance|money|tax|budget|dividend|portfolio|bank|insurance|inflation|recession|gdp|economics|hedge fund|venture capital|private equity|ipo|forex|commodity|derivative|option trading|debt|equity|net worth|financial/.test(k))
     return "finance_concept";
 
   // Health condition (specific diseases/conditions — before health_nutrition)

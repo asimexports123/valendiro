@@ -17,7 +17,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 // Each collection has a curated list of topics a learner should master.
 // These are SEED topics. The system will expand each into articles automatically.
 
-const COLLECTION_TOPICS: Record<string, string[]> = {
+export const COLLECTION_TOPICS: Record<string, string[]> = {
   // ── Technology ──────────────────────────────────────────────────────────────
   "docker": [
     "Docker", "Docker Architecture", "Docker Images", "Docker Containers",
