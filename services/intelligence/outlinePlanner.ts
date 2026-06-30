@@ -366,7 +366,8 @@ function detectArticleType(keyword: string, searchIntent: string): ArticleOutlin
   const lc = keyword.toLowerCase();
   if (/\bvs\b|comparison|difference between|which is better/.test(lc)) return "comparison";
   if (/^how to|step by step|tutorial|guide to/.test(lc)) return "how_to";
-  if (/best|top \d|buyer|buying guide|review/.test(lc)) return "buying_guide";
+  // Only buying_guide for actual product keywords — not "what is X" or concept articles
+  if (/best|top \d|buyer|buying guide|review/.test(lc) && !/what is|what are|how does|explain|definition/.test(lc)) return "buying_guide";
   if (searchIntent === "educational") return "educational";
   return "informational";
 }
