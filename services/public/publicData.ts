@@ -441,13 +441,14 @@ export interface PublicTopicDetail extends PublicTopic {
   meta_description: string | null;
   category_id: string | null;
   collection_id: string | null;
+  updated_at: string | null;
 }
 
 export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | null> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("topics")
-    .select("id, slug, category_id, collection_id, topic_translations(title, subtitle, content, meta_title, meta_description)")
+    .select("id, slug, category_id, collection_id, updated_at, topic_translations(title, subtitle, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .eq("status", "published")
@@ -466,6 +467,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     meta_description: translation?.meta_description || null,
     category_id: data.category_id,
     collection_id: data.collection_id,
+    updated_at: data.updated_at ?? null,
   };
 }
 

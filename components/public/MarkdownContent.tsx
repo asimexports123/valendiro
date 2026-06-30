@@ -4,51 +4,18 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-export function MarkdownContent({ content }: { content: string }) {
-  return (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      components={{
-        h2: ({ children }) => {
-          const text = extractText(children);
-          const id = slugify(text);
-          return <h2 id={id} className="text-2xl font-semibold tracking-tight text-foreground mt-12 mb-4 scroll-mt-24">{children}</h2>;
-        },
-        h3: ({ children }) => {
-          const text = extractText(children);
-          const id = slugify(text);
-          return <h3 id={id} className="text-xl font-semibold tracking-tight text-foreground mt-8 mb-3 scroll-mt-24">{children}</h3>;
-        },
-        p: ({ children }) => <p className="text-muted-foreground leading-7 mb-5">{children}</p>,
-        ul: ({ children }) => <ul className="list-disc pl-6 space-y-2 mb-5 text-muted-foreground">{children}</ul>,
-        ol: ({ children }) => <ol className="list-decimal pl-6 space-y-2 mb-5 text-muted-foreground">{children}</ol>,
-        li: ({ children }) => <li className="leading-7">{children}</li>,
-        a: ({ children, href }) => (
-          <a href={href} className="text-accent hover:underline font-medium">
-            {children}
-          </a>
-        ),
-        strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
-        blockquote: ({ children }) => (
-          <blockquote className="border-l-4 border-primary/30 pl-5 italic text-muted-foreground mb-5">
-            {children}
-          </blockquote>
-        ),
-        code: ({ children }) => (
-          <code className="rounded-md bg-muted px-1.5 py-0.5 text-sm font-mono text-foreground">
-            {children}
-          </code>
-        ),
-        pre: ({ children }) => (
-          <pre className="rounded-xl bg-muted p-4 overflow-x-auto text-sm font-mono text-foreground mb-5">
-            {children}
-          </pre>
-        ),
-      }}
-    >
-      {content}
-    </ReactMarkdown>
-  );
+const CALLOUT_TYPES: Record<string, { icon: string; cls: string; label: string }> = {
+  NOTE:    { icon: "ℹ️", cls: "callout callout-info",    label: "Note" },
+  TIP:     { icon: "💡", cls: "callout callout-tip",     label: "Tip" },
+  WARNING: { icon: "⚠️", cls: "callout callout-warning", label: "Warning" },
+  DANGER:  { icon: "🚨", cls: "callout callout-danger",  label: "Important" },
+  INFO:    { icon: "ℹ️", cls: "callout callout-info",    label: "Info" },
+};
+
+function parseCallout(raw: string): { type: string; content: string } | null {
+  const match = raw.match(/^\[!(NOTE|TIP|WARNING|DANGER|INFO)\]\s*([\s\S]*)/i);
+  if (!match) return null;
+  return { type: match[1].toUpperCase(), content: match[2].trim() };
 }
 
 function extractText(children: React.ReactNode): string {
@@ -56,10 +23,81 @@ function extractText(children: React.ReactNode): string {
   React.Children.forEach(children, (child) => {
     if (typeof child === "string") text += child;
     else if (typeof child === "number") text += child;
+    else if (React.isValidElement(child)) text += extractText((child.props as { children?: React.ReactNode }).children);
   });
   return text;
 }
 
 function slugify(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export function MarkdownContent({ content }: { content: string }) {
+  return (
+    <div className="prose">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          h2: ({ children }) => {
+            const text = extractText(children);
+            const id = slugify(text);
+            return <h2 id={id} className="scroll-mt-24">{children}</h2>;
+          },
+          h3: ({ children }) => {
+            const text = extractText(children);
+            const id = slugify(text);
+            return <h3 id={id} className="scroll-mt-24">{children}</h3>;
+          },
+          h4: ({ children }) => <h4 className="text-base font-semibold text-foreground mt-6 mb-2">{children}</h4>,
+          p: ({ children }) => <p>{children}</p>,
+          ul: ({ children }) => <ul className="list-disc">{children}</ul>,
+          ol: ({ children }) => <ol className="list-decimal">{children}</ol>,
+          li: ({ children }) => <li>{children}</li>,
+          a: ({ children, href }) => (
+            <a href={href} target={href?.startsWith("http") ? "_blank" : undefined} rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}>
+              {children}
+            </a>
+          ),
+          strong: ({ children }) => <strong>{children}</strong>,
+          em: ({ children }) => <em className="italic">{children}</em>,
+          blockquote: ({ children }) => {
+            const rawText = extractText(children);
+            const callout = parseCallout(rawText);
+            if (callout) {
+              const meta = CALLOUT_TYPES[callout.type] || CALLOUT_TYPES.NOTE;
+              return (
+                <div className={meta.cls}>
+                  <span className="text-xl shrink-0 mt-0.5">{meta.icon}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground mb-1">{meta.label}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{callout.content}</p>
+                  </div>
+                </div>
+              );
+            }
+            return <blockquote>{children}</blockquote>;
+          },
+          code: ({ children, className }) => {
+            const isBlock = className?.includes("language-");
+            if (isBlock) return <code className={className}>{children}</code>;
+            return <code>{children}</code>;
+          },
+          pre: ({ children }) => <pre>{children}</pre>,
+          table: ({ children }) => (
+            <div className="overflow-x-auto my-8 rounded-xl border border-border">
+              <table className="!my-0">{children}</table>
+            </div>
+          ),
+          thead: ({ children }) => <thead>{children}</thead>,
+          tbody: ({ children }) => <tbody>{children}</tbody>,
+          tr: ({ children }) => <tr>{children}</tr>,
+          th: ({ children }) => <th>{children}</th>,
+          td: ({ children }) => <td>{children}</td>,
+          hr: () => <hr />,
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
+  );
 }
