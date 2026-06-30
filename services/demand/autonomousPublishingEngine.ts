@@ -7,6 +7,7 @@ import { approveDemandTopicQueueItems, buildDemandTopicQueue } from "./demandTop
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
 import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
+import { runKeywordResearch } from "./keywordResearchEngine";
 import { queueArticleExpansionsForTopic, expandAllPendingTopics } from "./topicExpansionEngine";
 import {
   buildHierarchicalLinksForTopic,
@@ -115,29 +116,65 @@ export async function runAutonomousPublishingPipeline(): Promise<PublishingEngin
     result.errors.push(err instanceof Error ? err.message : "Queue filtering failed");
   }
 
-  // Step 4: Promote approved demand topics to the content generation queue as Topics
+  // Step 4: Keyword Research Decision Gate + Promote to content generation queue
   try {
     const approvedItems = await approveDemandTopicQueueItems(10);
     for (const item of approvedItems) {
+      // ── Decision Engine: every keyword must pass research before any content is created ──
+      const research = runKeywordResearch(item.keyword);
+
+      // Store research result back on the demand_topic_queue item regardless of decision
+      await supabase
+        .from("demand_topic_queue")
+        .update({
+          metadata: {
+            ...(item.metadata as Record<string, unknown> || {}),
+            keyword_research: research,
+          },
+        })
+        .eq("id", item.id);
+
+      if (research.decision === "reject") {
+        result.errors.push(`Rejected by Decision Engine: ${item.keyword} — ${research.decisionReason}`);
+        await supabase
+          .from("demand_topic_queue")
+          .update({ status: "rejected", rejection_reason: research.decisionReason })
+          .eq("id", item.id);
+        continue;
+      }
+
+      if (research.decision === "backlog") {
+        // Store in queue but don't promote to content generation yet
+        await supabase
+          .from("demand_topic_queue")
+          .update({ status: "pending", rejection_reason: `Backlog: ${research.decisionReason}` })
+          .eq("id", item.id);
+        continue;
+      }
+
+      // decision === "publish" — promote to content generation queue
       const { error: queueError } = await supabase.from("content_generation_queue").insert({
         object_type: "topic",
         title: item.title,
         description: item.description,
-        reason: `Autonomous demand: ${item.keyword} (score ${item.opportunity_score})`,
-        priority_score: Math.round(item.opportunity_score),
+        reason: `Decision Engine approved: ${item.keyword} (score ${research.finalDecisionScore})`,
+        priority_score: research.finalDecisionScore,
         status: "pending",
         metadata: {
           demand_topic_queue_id: item.id,
           keyword: item.keyword,
           category: item.category,
           collection_id: item.collection_id,
-          intent: item.search_intent,
+          intent: research.searchIntent,
+          detected_entity: research.detectedEntity,
+          keyword_research: research,
         },
       });
 
       if (queueError) {
         result.errors.push(queueError.message);
       } else {
+        result.queuedTopics++;
         await supabase.from("demand_topic_queue").update({ status: "approved" }).eq("id", item.id);
       }
     }

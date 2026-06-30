@@ -1,3 +1,5 @@
+import { runKeywordResearch, type KeywordResearchResult } from "./keywordResearchEngine";
+
 export type DemandIntent =
   | "informational"
   | "educational"
@@ -10,6 +12,10 @@ export type DemandIntent =
   | "news"
   | "entertainment"
   | "blocked";
+
+// Re-export so callers can use the full research result
+export type { KeywordResearchResult } from "./keywordResearchEngine";
+export { runKeywordResearch } from "./keywordResearchEngine";
 
 export interface DemandQualityScore {
   intent: DemandIntent;
@@ -217,48 +223,47 @@ function mapToKnowledgeTopic(keyword: string): string | null {
 }
 
 export function scoreDemandKeyword(keyword: string): DemandQualityScore {
-  const normalized = keyword.trim().replace(/\s+/g, " ");
-  const block = isBlocked(normalized);
-  const intent = block.blocked ? "blocked" : detectIntent(normalized);
-  const evergreen = calculateEvergreenScore(normalized, intent);
-  const knowledgeTopic = mapToKnowledgeTopic(normalized);
-  const entityConfidence = assessEntityConfidence(normalized);
-  const educational =
-    intent === "educational" || intent === "how_to" || intent === "reference" ? 80 : intent === "problem_solving" ? 70 : 40;
-  const commercial =
-    intent === "buying_intent" || intent === "commercial_investigation" || intent === "comparison" ? 80 : 30;
-  const problemSolving = intent === "problem_solving" || intent === "how_to" ? 80 : 50;
-  const knowledgeGap = knowledgeTopic ? 60 : 40;
-  const topicalAuthority =
-    intent === "educational" || intent === "how_to" || intent === "comparison" || intent === "problem_solving" ? 70 : 40;
-  const quality = Math.round(
-    evergreen * 0.25 +
-      educational * 0.2 +
-      commercial * 0.15 +
-      problemSolving * 0.15 +
-      knowledgeGap * 0.1 +
-      topicalAuthority * 0.15
-  );
+  const research = runKeywordResearch(keyword);
+  const normalized = research.normalizedKeyword;
+
+  // Map new intent to legacy DemandIntent
+  const intentMap: Record<string, DemandIntent> = {
+    informational: "informational",
+    educational: "educational",
+    how_to: "how_to",
+    commercial: "buying_intent",
+    buying_guide: "commercial_investigation",
+    comparison: "comparison",
+    local: "blocked",
+    news: "news",
+    entertainment: "entertainment",
+    blocked: "blocked",
+  };
+  const intent: DemandIntent = intentMap[research.searchIntent] ?? "informational";
+
+  const knowledgeTopic = research.detectedEntity;
+  const entityConfidence = research.entityConfidence;
+
   return {
     intent,
-    evergreenScore: evergreen,
-    educationalValue: educational,
-    commercialIntent: commercial,
-    problemSolvingValue: problemSolving,
-    knowledgeGapScore: knowledgeGap,
-    topicalAuthorityScore: topicalAuthority,
-    qualityScore: quality,
-    blockedReason: block.blocked ? block.reason : null,
+    evergreenScore: research.evergreenScore,
+    educationalValue: intent === "educational" || intent === "how_to" || intent === "reference" ? 80 : 40,
+    commercialIntent: research.businessValueScore,
+    problemSolvingValue: intent === "problem_solving" || intent === "how_to" ? 80 : 50,
+    knowledgeGapScore: research.knowledgeGapScore,
+    topicalAuthorityScore: research.rankingOpportunityScore,
+    qualityScore: research.finalDecisionScore,
+    blockedReason: research.decision === "reject" ? research.decisionReason : null,
     normalizedKeyword: normalized,
     knowledgeTopic,
     entityConfidence,
   };
 }
 
-export function isPublishable(score: DemandQualityScore, qualityThreshold = 52): boolean {
+export function isPublishable(score: DemandQualityScore): boolean {
   if (score.blockedReason) return false;
-  if (score.qualityScore < qualityThreshold) return false;
-  if (score.evergreenScore < 35) return false;
+  if (score.qualityScore < 58) return false;
+  if (score.evergreenScore < 30) return false;
   if (score.intent === "news" || score.intent === "entertainment" || score.intent === "blocked") return false;
   if (score.entityConfidence === "low") return false;
   return true;

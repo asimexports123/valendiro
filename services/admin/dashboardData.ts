@@ -236,6 +236,61 @@ export async function getDemandTopicQueue(limit = 50): Promise<{ data: DemandTop
   return { data: (data || []) as DemandTopicQueueItem[], error: error?.message ?? null };
 }
 
+export interface KeywordDecisionRow {
+  id: string;
+  keyword: string;
+  status: string;
+  rejection_reason: string | null;
+  opportunity_score: number;
+  created_at: string;
+  research: {
+    searchIntent: string;
+    detectedEntity: string | null;
+    searchDemandScore: number;
+    competitionScore: number;
+    competitionLevel: string;
+    rankingOpportunityScore: number;
+    evergreenScore: number;
+    businessValueScore: number;
+    knowledgeGapScore: number;
+    entityConfidenceScore: number;
+    entityConfidence: string;
+    finalDecisionScore: number;
+    decision: string;
+    decisionReason: string;
+    newsPenalty: number;
+    celebrityPenalty: number;
+    localPenalty: number;
+  } | null;
+}
+
+export async function getKeywordDecisionReport(limit = 100): Promise<{ data: KeywordDecisionRow[]; error: string | null }> {
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("demand_topic_queue")
+    .select("id, keyword, status, rejection_reason, opportunity_score, created_at, metadata")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error || !data) return { data: [], error: error?.message ?? null };
+
+  const rows: KeywordDecisionRow[] = data.map((item) => {
+    const meta = (item.metadata as Record<string, unknown>) || {};
+    const research = (meta.keyword_research as KeywordDecisionRow["research"]) ?? null;
+    return {
+      id: item.id as string,
+      keyword: item.keyword as string,
+      status: item.status as string,
+      rejection_reason: item.rejection_reason as string | null,
+      opportunity_score: item.opportunity_score as number,
+      created_at: item.created_at as string,
+      research,
+    };
+  });
+
+  return { data: rows, error: null };
+}
+
 export async function getDemandClusters(limit = 50): Promise<{ data: DemandTopicCluster[]; error: string | null }> {
   const supabase = await createAdminClient();
   const { data, error } = await supabase
