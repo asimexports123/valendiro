@@ -4,6 +4,7 @@ import { getItemById } from "@/lib/admin/actions";
 import { Article } from "@/lib/types";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ArticleDeleteButton } from "@/components/admin/ArticleDeleteButton";
+import { ArticleApproveButton } from "@/components/admin/ArticleApproveButton";
 
 export default async function ArticleDetailPage({
   params,
@@ -29,7 +30,10 @@ export default async function ArticleDetailPage({
         <Link href="/admin/articles" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
           ← Articles
         </Link>
-        <ArticleDeleteButton id={id} />
+        <div className="flex items-center gap-2">
+          {article.status === "draft" && <ArticleApproveButton id={id} />}
+          <ArticleDeleteButton id={id} />
+        </div>
       </div>
 
       {/* Title + status */}
