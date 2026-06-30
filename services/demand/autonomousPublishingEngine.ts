@@ -7,6 +7,7 @@ import { approveDemandTopicQueueItems, buildDemandTopicQueue } from "./demandTop
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
 import { runAgentPipeline } from "../intelligence/agentPipeline";
+import { isQuotaExhaustedError } from "../llm";
 import { runKeywordResearch } from "./keywordResearchEngine";
 import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
 import { getActiveCategories } from "./categoryConfig";
@@ -404,7 +405,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
   const { data: queueItems, error } = await supabase
     .from("content_generation_queue")
     .select("*")
-    .eq("status", "pending")
+    .in("status", ["pending", "pending_llm"])   // pending_llm = quota-paused, resume automatically
     .eq("object_type", "article")
     .order("priority_score", { ascending: false })
     .limit(limit);
@@ -442,7 +443,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
 
         content = pipeline.finalContent;
         qualityScore = pipeline.qualityReport.score;
-        seoScore = pipeline.seoReport.seoScore;
+        seoScore = pipeline.qualityReport.score;
         agentDurations = pipeline.agentDurationsMs;
 
         const firstParagraph = content.replace(/^#+.+$/mg, "").split(/\n{2,}/).find(p => p.trim().length > 40) ?? "";
@@ -456,7 +457,25 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
           metaDescription: pipeline.metaDescription,
         };
       } catch (agentErr) {
-        // LLM pipeline failed — fall back to template so queue item is not lost
+        // Quota exhausted: pause this item, skip remaining items — resume tomorrow
+        if (isQuotaExhaustedError(agentErr)) {
+          console.warn(`[Pipeline] Gemini quota exhausted. Pausing pipeline. Item "${item.title}" set to pending_llm.`);
+          await supabase
+            .from("content_generation_queue")
+            .update({ status: "pending_llm", failed_reason: "Gemini quota exhausted — will resume automatically" })
+            .eq("id", item.id);
+          // Set ALL remaining pending items to pending_llm in one update
+          const remaining = queueItems.slice(queueItems.indexOf(item) + 1).map(i => i.id);
+          if (remaining.length > 0) {
+            await supabase
+              .from("content_generation_queue")
+              .update({ status: "pending_llm", failed_reason: "Gemini quota exhausted — will resume automatically" })
+              .in("id", remaining);
+          }
+          result.errors.push(`Gemini quota exhausted after "${item.title}" — ${remaining.length + 1} items paused as pending_llm`);
+          break;
+        }
+        // Other LLM failure — fall back to template so queue item is not lost
         const errMsg = agentErr instanceof Error ? agentErr.message : String(agentErr);
         console.error(`[Pipeline] Agent pipeline failed for "${item.title}": ${errMsg} — falling back to template`);
         const template = (metadata.template as "informational" | "faq" | "comparison" | "affiliate") || "informational";

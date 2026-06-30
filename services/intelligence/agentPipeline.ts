@@ -1,31 +1,34 @@
 /**
- * 5-Agent Gemini Pipeline
+ * 3-Agent Gemini Pipeline  (+ optional deterministic review)
  *
- * Each agent is a focused Gemini call with its own system prompt and task.
- * No single call tries to do everything.
+ * Gemini is used ONLY where reasoning, writing, or judgment is required.
+ * Everything else (slug, SEO validation, duplicate check, links, metadata) stays
+ * in deterministic code — LLM tokens are not wasted on mechanical operations.
  *
- * Agent 1 — Research Agent
- *   Input:  keyword + category context
- *   Output: KnowledgePack JSON (definitions, entities, facts, FAQs, examples, mistakes)
+ * Gemini Calls:
+ *   Agent 1 — Research Agent   (temp 0.3, 4096 tokens)
+ *     Input:  keyword + category
+ *     Output: KnowledgePack JSON — definitions, entities, FAQs, examples, mistakes
  *
- * Agent 2 — Outline Agent
- *   Input:  KnowledgePack
- *   Output: ArticleStructure JSON (sections, headings, guidance, word targets)
+ *   Agent 2 — Outline Agent    (temp 0.3, 2048 tokens)
+ *     Input:  KnowledgePack
+ *     Output: ArticleStructure JSON — sections, order, word targets
  *
- * Agent 3 — Writer Agent
- *   Input:  KnowledgePack + ArticleStructure
- *   Output: Complete article in Markdown (1500–3000 words)
+ *   Agent 3 — Writer Agent     (temp 0.4, 8192 tokens)
+ *     Input:  KnowledgePack + ArticleStructure
+ *     Output: Complete Markdown article (1500–3000 words)
  *
- * Agent 4 — Reviewer Agent
- *   Input:  Article draft
- *   Output: QualityReport JSON (score, issues, corrected article)
+ * Deterministic (no Gemini):
+ *   SEO fields      — meta title/description built from pack + title by code
+ *   Quality check   — structural validation by regex/word count
+ *   Slug            — code
+ *   Internal links  — hierarchical linker
+ *   Schema JSON     — schema generator
  *
- * Agent 5 — SEO Agent
- *   Input:  Article + keyword
- *   Output: SEOReport JSON (meta_title, meta_description, internal_link_suggestions, seo_score)
- *
- * All agents use the same LLM provider (Gemini by default).
- * Temperature: 0.3 for research/outline/SEO, 0.4 for writing, 0.2 for review.
+ * Quota handling:
+ *   QuotaExhaustedError propagates upward without retry.
+ *   The pipeline catches it and sets the queue item to "pending_llm" status,
+ *   then continues to the next item. Resume happens automatically next day.
  */
 
 import { getActiveLLMProvider } from "@/services/llm/llmProvider";
@@ -66,39 +69,39 @@ export interface AgentArticleStructure {
   mustAvoid: string[];
 }
 
+/** Deterministic quality check — no LLM tokens used */
 export interface AgentQualityReport {
-  score: number;                  // 0–100
-  passed: boolean;                // true if score >= 70
+  score: number;       // 0–100 estimated from structural checks
+  passed: boolean;     // true if score >= 60
   issues: string[];
-  strengths: string[];
-  correctedArticle: string;       // revised markdown — may be same as input if no issues
+  wordCount: number;
+  h2Count: number;
+  hasConclusion: boolean;
+  hasFAQ: boolean;
 }
 
-export interface AgentSEOReport {
-  seoScore: number;               // 0–100
-  metaTitle: string;
-  metaDescription: string;
+/** Deterministic SEO fields — built from pack + title by code, no LLM */
+export interface AgentSEOFields {
+  metaTitle: string;         // max 60 chars
+  metaDescription: string;   // max 155 chars
   primaryKeyword: string;
   secondaryKeywords: string[];
-  internalLinkSuggestions: { anchorText: string; targetTopic: string }[];
-  issues: string[];
-  optimizedArticle: string;       // article with SEO improvements applied inline
 }
 
 export interface AgentPipelineResult {
   keyword: string;
   knowledgePack: AgentKnowledgePack;
   articleStructure: AgentArticleStructure;
-  draftContent: string;
-  qualityReport: AgentQualityReport;
-  seoReport: AgentSEOReport;
   finalContent: string;
   finalTitle: string;
+  qualityReport: AgentQualityReport;
+  seoFields: AgentSEOFields;
   metaTitle: string;
   metaDescription: string;
   wordCount: number;
   totalDurationMs: number;
   agentDurationsMs: Record<string, number>;
+  geminiCallCount: number;   // always 3 in normal operation
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -328,131 +331,86 @@ Write the complete article now. Start immediately with the first ## heading.`;
   return { content, durationMs };
 }
 
-// ─── Agent 4: Reviewer Agent ──────────────────────────────────────────────────
+// ─── Deterministic Quality Check (no Gemini) ─────────────────────────────────
+// Structural validation only. No LLM tokens spent on mechanical checks.
 
-const REVIEWER_SYSTEM = `You are a Reviewer Agent for an autonomous knowledge publishing system.
+export function runDeterministicQualityCheck(content: string): AgentQualityReport {
+  const words = content.split(/\s+/).filter(Boolean);
+  const wordCount = words.length;
+  const h2Matches = content.match(/^##\s+.+/gm) ?? [];
+  const h2Count = h2Matches.length;
+  const hasConclusion = /^##\s+(conclusion|summary|final thoughts|key takeaways|next steps)/im.test(content);
+  const hasFAQ = /^##\s+(frequently asked questions|faq|common questions)/im.test(content);
 
-YOUR TASK:
-Review the article draft for quality. Your benchmark is Investopedia, NerdWallet, or Healthline.
-Fix every issue you find and return a corrected article.
+  const issues: string[] = [];
+  let score = 100;
 
-EVALUATION CRITERIA:
-- Factual accuracy: no hallucinations, no vague claims without basis
-- Completeness: all sections present, no section feels thin or rushed
-- Clarity: would a smart non-expert understand every paragraph?
-- Specificity: concrete examples, not vague generalisations
-- Structure: logical flow, good use of headings, proper Markdown
-- No filler: every sentence adds information
-- No marketing language: neutral, educational tone throughout
-- FAQ quality: direct answers, not evasive
+  if (wordCount < 500)  { issues.push(`Too short: ${wordCount} words (minimum 500)`); score -= 30; }
+  if (h2Count < 3)      { issues.push(`Too few H2 sections: ${h2Count} (minimum 3)`); score -= 20; }
+  if (!hasConclusion)   { issues.push("Missing Conclusion section"); score -= 15; }
+  if (!hasFAQ)          { issues.push("Missing FAQ section"); score -= 15; }
+  if (wordCount < 800)  { score -= 10; }
 
-SCORING (0-100):
-- 90-100: Publication-ready. Investopedia level.
-- 70-89: Good. Minor fixes needed.
-- 50-69: Acceptable. Significant improvements needed.
-- 0-49: Rejected. Needs full rewrite.
-
-OUTPUT:
-Return ONLY valid JSON. No preamble.
-{
-  "score": number,
-  "passed": boolean (true if score >= 70),
-  "strengths": string[],
-  "issues": string[],
-  "correctedArticle": string (full corrected Markdown article)
-}`;
-
-export async function runReviewerAgent(
-  content: string,
-  pack: AgentKnowledgePack
-): Promise<{ report: AgentQualityReport; durationMs: number }> {
-  const userPrompt = `KEYWORD: ${pack.keyword}
-
-ARTICLE TO REVIEW:
-${content}
-
-Review this article and return your quality report JSON now.`;
-
-  const { content: raw, durationMs } = await callAgent("ReviewerAgent", REVIEWER_SYSTEM, userPrompt, 0.2, 8192);
-
-  const fallback: AgentQualityReport = {
-    score: 70,
-    passed: true,
-    issues: [],
-    strengths: ["Article generated successfully"],
-    correctedArticle: content,
-  };
-
-  const report = parseJSON<AgentQualityReport>(raw, fallback);
-  // Ensure correctedArticle always has content
-  if (!report.correctedArticle || report.correctedArticle.trim().length < 100) {
-    report.correctedArticle = content;
+  // Filler/placeholder detection
+  const FILLER = [/\[to be completed\]/i, /\[add content\]/i, /lorem ipsum/i, /placeholder/i];
+  for (const p of FILLER) {
+    if (p.test(content)) { issues.push(`Placeholder text detected: ${p.source}`); score -= 20; break; }
   }
-  return { report, durationMs };
+
+  score = Math.max(0, Math.min(100, score));
+
+  return {
+    score,
+    passed: score >= 60,
+    issues,
+    wordCount,
+    h2Count,
+    hasConclusion,
+    hasFAQ,
+  };
 }
 
-// ─── Agent 5: SEO Agent ───────────────────────────────────────────────────────
+// ─── Deterministic SEO Field Builder (no Gemini) ─────────────────────────────
+// meta_title and meta_description built from the KnowledgePack and article title.
+// No LLM tokens spent generating 160-character fields.
 
-const SEO_SYSTEM = `You are an SEO Agent for an autonomous knowledge publishing system.
-
-YOUR TASK:
-Review the article for SEO quality and produce a complete SEO report with meta fields.
-
-SEO RULES:
-- meta_title: 50-60 characters, include primary keyword, compelling
-- meta_description: 140-155 characters, include keyword, clear value proposition, no truncation
-- Primary keyword should appear in: first 100 words, at least 2 H2 headings, naturally 3-5 times total
-- Secondary keywords: related terms that should appear naturally in the article
-- Internal link suggestions: anchor text and topic suggestions based on article content
-- Do NOT keyword-stuff. Natural language always wins over forced repetition.
-
-OUTPUT:
-Return ONLY valid JSON. No preamble.
-{
-  "seoScore": number (0-100),
-  "metaTitle": string,
-  "metaDescription": string,
-  "primaryKeyword": string,
-  "secondaryKeywords": string[],
-  "internalLinkSuggestions": [{"anchorText": string, "targetTopic": string}],
-  "issues": string[],
-  "optimizedArticle": string (article with any inline SEO improvements applied)
-}`;
-
-export async function runSEOAgent(
-  content: string,
+export function buildDeterministicSEOFields(
+  title: string,
   keyword: string,
-  category: string
-): Promise<{ report: AgentSEOReport; durationMs: number }> {
-  const userPrompt = `PRIMARY KEYWORD: ${keyword}
-CATEGORY: ${category}
+  pack: AgentKnowledgePack
+): AgentSEOFields {
+  // meta_title: use article title, trim to 60 chars
+  const rawTitle = title.trim();
+  const metaTitle = rawTitle.length <= 60 ? rawTitle : rawTitle.slice(0, 57).trimEnd() + "...";
 
-ARTICLE:
-${content}
+  // meta_description: keyword + definition snippet, max 155 chars
+  const definitionSnippet = pack.primaryDefinition
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 110);
+  const rawDesc = `${keyword}: ${definitionSnippet}`;
+  const metaDescription = rawDesc.length <= 155 ? rawDesc : rawDesc.slice(0, 152).trimEnd() + "...";
 
-Produce the SEO report JSON now.`;
+  // Secondary keywords: coreConcepts that are not the primary keyword
+  const secondaryKeywords = pack.coreConcepts
+    .filter(c => c.toLowerCase() !== keyword.toLowerCase())
+    .slice(0, 5);
 
-  const { content: raw, durationMs } = await callAgent("SEOAgent", SEO_SYSTEM, userPrompt, 0.3, 4096);
-
-  const fallback: AgentSEOReport = {
-    seoScore: 70,
-    metaTitle: keyword.length <= 60 ? keyword : keyword.slice(0, 57) + "...",
-    metaDescription: `Learn about ${keyword}. Complete guide covering definitions, examples, and expert answers.`.slice(0, 155),
+  return {
+    metaTitle,
+    metaDescription,
     primaryKeyword: keyword,
-    secondaryKeywords: [],
-    internalLinkSuggestions: [],
-    issues: [],
-    optimizedArticle: content,
+    secondaryKeywords,
   };
-
-  const report = parseJSON<AgentSEOReport>(raw, fallback);
-  if (!report.optimizedArticle || report.optimizedArticle.trim().length < 100) {
-    report.optimizedArticle = content;
-  }
-  return { report, durationMs };
 }
 
-// ─── Main Pipeline Orchestrator ───────────────────────────────────────────────
+// ─── Main Pipeline Orchestrator — 3 Gemini Calls ─────────────────────────────
+//
+// Total Gemini calls per article: 3
+// Deterministic operations: quality check, SEO fields, slug, links, schema
+//
+// QuotaExhaustedError is NOT caught here — it propagates to the publishing
+// engine which sets the queue item to "pending_llm" and skips to the next item.
 
 export async function runAgentPipeline(
   keyword: string,
@@ -461,48 +419,48 @@ export async function runAgentPipeline(
   const pipelineStart = Date.now();
   const durations: Record<string, number> = {};
 
-  console.log(`[AgentPipeline] Starting 5-agent pipeline for: "${keyword}"`);
+  console.log(`[AgentPipeline] Starting 3-call pipeline for: "${keyword}" (${category})`);
 
-  // Agent 1: Research
+  // Gemini Call 1: Research
   const { pack, durationMs: d1 } = await runResearchAgent(keyword, category);
   durations["research"] = d1;
 
-  // Agent 2: Outline
+  // Gemini Call 2: Outline
   const { structure, durationMs: d2 } = await runOutlineAgent(pack);
   durations["outline"] = d2;
 
-  // Agent 3: Write
-  const { content: draft, durationMs: d3 } = await runWriterAgent(pack, structure);
+  // Gemini Call 3: Write
+  const { content, durationMs: d3 } = await runWriterAgent(pack, structure);
   durations["write"] = d3;
 
-  // Agent 4: Review + correct
-  const { report: qualityReport, durationMs: d4 } = await runReviewerAgent(draft, pack);
-  durations["review"] = d4;
+  // Deterministic quality check — no Gemini
+  const qualityReport = runDeterministicQualityCheck(content);
 
-  // Agent 5: SEO
-  const reviewedContent = qualityReport.correctedArticle;
-  const { report: seoReport, durationMs: d5 } = await runSEOAgent(reviewedContent, keyword, category);
-  durations["seo"] = d5;
+  // Deterministic SEO fields — no Gemini
+  const seoFields = buildDeterministicSEOFields(structure.title, keyword, pack);
 
-  const finalContent = seoReport.optimizedArticle;
-  const wordCount = finalContent.split(/\s+/).filter(Boolean).length;
+  const wordCount = qualityReport.wordCount;
   const totalDurationMs = Date.now() - pipelineStart;
 
-  console.log(`[AgentPipeline] Complete for "${keyword}" — ${wordCount} words, quality: ${qualityReport.score}/100, SEO: ${seoReport.seoScore}/100, total: ${totalDurationMs}ms`);
+  console.log(
+    `[AgentPipeline] Done "${keyword}" — ${wordCount} words, ` +
+    `quality: ${qualityReport.score}/100 (${qualityReport.passed ? "PASS" : "FAIL"}), ` +
+    `total: ${totalDurationMs}ms, gemini calls: 3`
+  );
 
   return {
     keyword,
     knowledgePack: pack,
     articleStructure: structure,
-    draftContent: draft,
-    qualityReport,
-    seoReport,
-    finalContent,
+    finalContent: content,
     finalTitle: structure.title,
-    metaTitle: seoReport.metaTitle,
-    metaDescription: seoReport.metaDescription,
+    qualityReport,
+    seoFields,
+    metaTitle: seoFields.metaTitle,
+    metaDescription: seoFields.metaDescription,
     wordCount,
     totalDurationMs,
     agentDurationsMs: durations,
+    geminiCallCount: 3,
   };
 }

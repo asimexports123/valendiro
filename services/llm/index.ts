@@ -37,3 +37,5 @@ export type {
   LLMCompletionResponse,
   ProviderHealthStatus,
 } from "./llmProvider";
+
+export { QuotaExhaustedError, isQuotaExhaustedError } from "./providers/geminiProvider";

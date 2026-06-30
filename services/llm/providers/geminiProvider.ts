@@ -27,6 +27,23 @@ const GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta/models
 const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 3000;
 
+/**
+ * Thrown when the Gemini daily quota is exhausted (RESOURCE_EXHAUSTED).
+ * The pipeline should catch this, pause the current item as "pending_llm",
+ * and resume automatically the next day — NOT retry immediately.
+ */
+export class QuotaExhaustedError extends Error {
+  readonly isQuotaExhausted = true as const;
+  constructor(message: string) {
+    super(message);
+    this.name = "QuotaExhaustedError";
+  }
+}
+
+export function isQuotaExhaustedError(err: unknown): err is QuotaExhaustedError {
+  return err instanceof QuotaExhaustedError;
+}
+
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -79,9 +96,26 @@ export class GeminiProvider implements LLMProvider {
         body: JSON.stringify(requestBody),
       });
 
-      // Retry on rate limit and transient server errors
-      if (response.status === 429 || response.status === 503) {
-        lastError = new Error(`Gemini API ${response.status} — retrying (attempt ${attempt + 1}/${MAX_RETRIES + 1})`);
+      // 429: check if daily quota exhausted vs per-minute rate limit
+      if (response.status === 429) {
+        const errBody = await response.text().catch(() => "");
+        const isResourceExhausted =
+          errBody.includes("RESOURCE_EXHAUSTED") ||
+          errBody.includes("quota") ||
+          errBody.includes("Quota exceeded");
+        if (isResourceExhausted) {
+          throw new QuotaExhaustedError(
+            `Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: ${errBody.slice(0, 200)}`
+          );
+        }
+        // Per-minute rate limit — retry with backoff
+        lastError = new Error(`Gemini rate limited (429) — retrying (attempt ${attempt + 1}/${MAX_RETRIES + 1})`);
+        continue;
+      }
+
+      // 503: transient server unavailable — retry
+      if (response.status === 503) {
+        lastError = new Error(`Gemini service unavailable (503) — retrying (attempt ${attempt + 1}/${MAX_RETRIES + 1})`);
         continue;
       }
 
