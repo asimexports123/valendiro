@@ -23,6 +23,24 @@ export type SearchIntent =
   | "entertainment"
   | "blocked";
 
+/**
+ * Who dominates the SERP for this keyword.
+ * This is inferred heuristically from keyword signals — not a live SERP crawl.
+ * - wikipedia: encyclopaedic definitional queries; very hard to rank above
+ * - government: .gov / official / policy / legislation keywords
+ * - university: academic / research / .edu keywords
+ * - major_publisher: large media brands own the SERP (finance, health, tech news)
+ * - small_blogs: long-tail, niche — opportunity exists
+ * - mixed: balanced competition, typical for how-to / tutorial content
+ */
+export type SerpDominatorType =
+  | "wikipedia"
+  | "government"
+  | "university"
+  | "major_publisher"
+  | "small_blogs"
+  | "mixed";
+
 export type EntityConfidenceLevel = "high" | "medium" | "low";
 export type PublishDecision = "publish" | "backlog" | "reject";
 export type CompetitionLevel = "low" | "medium" | "high" | "very_high";
@@ -49,6 +67,11 @@ export interface KeywordResearchResult {
   categorySlug: string;   // e.g. "personal-finance" or "out-of-scope"
   categoryLabel: string;  // e.g. "Personal Finance" or "Out of Scope"
   categoryInScope: boolean;
+
+  // SERP competition analysis
+  serpDominator: SerpDominatorType;
+  serpDominatorReason: string;
+  serpRankingChance: "realistic" | "difficult" | "unlikely";
 
   // Penalties
   newsPenalty: number;
@@ -422,6 +445,89 @@ function calculatePenalties(keyword: string, intent: SearchIntent): { news: numb
   return { news, celebrity, local };
 }
 
+// ─── SERP Competition Analysis ────────────────────────────────────────────────
+
+/** Government / official policy keywords */
+const GOV_SIGNALS = [
+  /\b(tax|irs|social security|medicare|medicaid|government|federal|policy|law|regulation|legislation|statute|act of|passport|visa|dmv|ssa\.gov|irs\.gov)\b/i,
+];
+
+/** Academic / university research keywords */
+const UNIVERSITY_SIGNALS = [
+  /\b(research|study|studies|clinical trial|peer.reviewed|journal|thesis|dissertation|academic|scholarly|university|college|phd|hypothesis|methodology|meta.analysis)\b/i,
+];
+
+/** Wikipedia-dominated keywords — broad definitional single-entity terms */
+const WIKIPEDIA_SIGNALS = [
+  /^(what is|who is|definition of|meaning of|history of|origin of|overview of)\b/i,
+  /\b(wikipedia|encyclopedia|britannica)\b/i,
+];
+
+/** Major publisher / authority site keywords */
+const MAJOR_PUBLISHER_SIGNALS = [
+  /\b(best|top \d+|review|vs|comparison|ranked|recommended|2024|2025|2026)\b/i,
+  /\b(forbes|bloomberg|techcrunch|webmd|healthline|nerdwallet|investopedia|bankrate|pcmag|cnet|wired)\b/i,
+];
+
+/**
+ * Classify who likely dominates the SERP for a given keyword.
+ * Returns dominator type, a human-readable reason, and a 3-level ranking chance.
+ */
+function classifySerp(
+  keyword: string,
+  intent: SearchIntent,
+  competitionScore: number,
+  wordCount: number
+): { dominator: SerpDominatorType; reason: string; rankingChance: "realistic" | "difficult" | "unlikely" } {
+  const lc = keyword.toLowerCase();
+
+  if (GOV_SIGNALS.some((p) => p.test(lc))) {
+    return {
+      dominator: "government",
+      reason: "Keyword contains government/policy/tax signals — SERP likely owned by .gov or official authority sites",
+      rankingChance: "unlikely",
+    };
+  }
+
+  if (UNIVERSITY_SIGNALS.some((p) => p.test(lc))) {
+    return {
+      dominator: "university",
+      reason: "Keyword contains academic/research signals — SERP likely dominated by .edu and peer-reviewed sources",
+      rankingChance: "unlikely",
+    };
+  }
+
+  if (WIKIPEDIA_SIGNALS.some((p) => p.test(lc)) && wordCount <= 3) {
+    return {
+      dominator: "wikipedia",
+      reason: "Short definitional query — Wikipedia and encyclopaedic sources dominate position 1 for these terms",
+      rankingChance: "difficult",
+    };
+  }
+
+  if (MAJOR_PUBLISHER_SIGNALS.some((p) => p.test(lc)) || competitionScore >= 70) {
+    return {
+      dominator: "major_publisher",
+      reason: "Commercial/comparison keyword or high competition score — major authority publishers dominate",
+      rankingChance: "difficult",
+    };
+  }
+
+  if (wordCount >= 5 || (intent === "how_to" && wordCount >= 4)) {
+    return {
+      dominator: "small_blogs",
+      reason: "Long-tail keyword — smaller niche sites and blogs can rank competitively here",
+      rankingChance: "realistic",
+    };
+  }
+
+  return {
+    dominator: "mixed",
+    reason: "Balanced competitive landscape — mix of authority sites and niche publishers",
+    rankingChance: competitionScore >= 60 ? "difficult" : "realistic",
+  };
+}
+
 // ─── Category Fit Scoring ─────────────────────────────────────────────────────
 
 function scoreCategoryFit(
@@ -513,6 +619,8 @@ export function runKeywordResearch(
   const searchDemandScore = scoreSearchDemand(normalized, intent);
   const { score: competitionScore, level: competitionLevel } = scoreCompetition(normalized, intent);
   const rankingOpportunityScore = scoreRankingOpportunity(normalized, competitionScore, intent, entityConfidence);
+  const wordCount = normalized.split(/\s+/).length;
+  const serp = classifySerp(normalized, intent, competitionScore, wordCount);
   const evergreenScore = scoreEvergreen(normalized, intent);
   // Use higher of entity BV boost or category BV boost
   const businessValueScore = scoreBusinessValue(normalized, intent, Math.max(entityBvBoost, categoryBvBoost));
@@ -534,11 +642,16 @@ export function runKeywordResearch(
 
   const finalDecisionScore = Math.max(0, Math.min(100, Math.round(rawScore - totalPenalty * 0.5)));
 
+  // If SERP is unlikely to rank, override ranking opportunity for decision gate
+  const serpAdjustedOpportunity = serp.rankingChance === "unlikely"
+    ? Math.min(rankingOpportunityScore, 19)
+    : rankingOpportunityScore;
+
   const { decision, reason } = makeDecision(
     finalDecisionScore,
     entityConfidence,
     evergreenScore,
-    rankingOpportunityScore,
+    serpAdjustedOpportunity,
     catFit.inScope,
     null
   );
@@ -561,6 +674,9 @@ export function runKeywordResearch(
     categorySlug: catFit.slug,
     categoryLabel: catFit.label,
     categoryInScope: catFit.inScope,
+    serpDominator: serp.dominator,
+    serpDominatorReason: serp.reason,
+    serpRankingChance: serp.rankingChance,
     newsPenalty,
     celebrityPenalty,
     localPenalty,
@@ -583,6 +699,8 @@ export function runKeywordResearch(
       intent,
       entity: detectedEntity ?? "unknown",
       category: catFit.label,
+      serpDominator: serp.dominator,
+      serpRankingChance: serp.rankingChance,
       decision,
     },
   };
@@ -607,6 +725,9 @@ function buildRejectedResult(raw: string, normalized: string, reason: string): K
     categorySlug: "out-of-scope",
     categoryLabel: "Out of Scope",
     categoryInScope: false,
+    serpDominator: "mixed",
+    serpDominatorReason: "Not evaluated — keyword was blocked before SERP analysis",
+    serpRankingChance: "unlikely",
     newsPenalty: 0,
     celebrityPenalty: 0,
     localPenalty: 0,

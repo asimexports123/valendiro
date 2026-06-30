@@ -60,19 +60,24 @@ export async function queueArticleExpansionsForTopic(topicId: string, topicTitle
   const plans = generateArticleExpansionPlans(topicTitle);
   const created: string[] = [];
 
-  for (const plan of plans) {
+  for (let i = 0; i < plans.length; i++) {
+    const plan = plans[i];
     const { error } = await supabase.from("content_generation_queue").insert({
       object_type: "article",
       topic_id: topicId,
       title: plan.title,
-      description: `${plan.title} â€” ${plan.intent} article expanding the topic "${topicTitle}"`,
-      reason: `Topic expansion for "${topicTitle}"`,
+      description: `${plan.articleType} article covering "${plan.title}" within the topic "${topicTitle}".`,
+      reason: `Planned article ${i + 1} of ${plans.length} for topic "${topicTitle}" - ${plan.articleType} format, ${plan.intent} intent`,
       priority_score: plan.priorityScore,
       status: "pending",
       metadata: {
         article_type: plan.articleType,
         intent: plan.intent,
         source: "topic_expansion",
+        plan_position: i + 1,
+        plan_total: plans.length,
+        parent_topic_title: topicTitle,
+        plan_reason: `Addresses a specific knowledge gap within "${topicTitle}". Type: ${plan.articleType}. Intent: ${plan.intent}. Priority: ${plan.priorityScore}.`,
       },
     });
 

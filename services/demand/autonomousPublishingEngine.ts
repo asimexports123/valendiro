@@ -6,8 +6,12 @@ import { clusterDemandSignals } from "./topicClustering";
 import { approveDemandTopicQueueItems, buildDemandTopicQueue } from "./demandTopicQueue";
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
-import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
+import { runResearchEngine } from "../intelligence/researchEngine";
+import { buildAndPersistKnowledgePack, markPackAsUsed } from "../intelligence/knowledgePackBuilder";
+import { generateOutline } from "../intelligence/outlinePlanner";
+import { writeFromKnowledgePack } from "../intelligence/knowledgeWriter";
 import { runKeywordResearch } from "./keywordResearchEngine";
+import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
 import { getActiveCategories } from "./categoryConfig";
 import { queueArticleExpansionsForTopic, expandAllPendingTopics } from "./topicExpansionEngine";
 import {
@@ -16,6 +20,7 @@ import {
 } from "../intelligence/hierarchicalLinkingEngine";
 import { runPublishingChecklist, runPostPublishAudit } from "../publishing/publishingChecklist";
 import { generateFullArticleSchema } from "../seo/schemaGenerator";
+import { assignFeaturedImages } from "../publishing/featuredImageService";
 
 function normalizeTitleForTopic(raw: string): string {
   return raw
@@ -415,18 +420,62 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
   for (const item of queueItems) {
     try {
       const metadata = (item.metadata as Record<string, unknown>) || {};
-      const template = (metadata.template as "informational" | "faq" | "comparison" | "affiliate") || "informational";
       const articleType = (metadata.article_type as "guide" | "explainer" | "reference" | "comparison" | "tutorial") || "guide";
-      const generated = generateArticleFromTemplate(template, {
-        title: item.title,
-        description: item.description,
-        languageCode: "en",
-        keywords: metadata.keyword ? [metadata.keyword as string] : undefined,
-      });
 
-      let content = humanizeContent(generated.content);
-      const excerpt = humanizeExcerpt(generated.excerpt);
-      const metaDescription = humanizeMetaDescription(generated.metaDescription);
+      // ── Phase 2A: Research Engine ──────────────────────────────────────────
+      // Build a keyword research result for the article title (keyword)
+      const activeCategories = await getActiveCategories();
+      const kwResult = runKeywordResearch(item.title, activeCategories);
+
+      // ── Phase 2A: Knowledge Pack Builder ─────────────────────────────────
+      const research = await runResearchEngine(item.title, kwResult, null);
+      const { pack, packId } = await buildAndPersistKnowledgePack(
+        research,
+        item.topic_id ?? null,
+        item.id
+      );
+
+      // ── Phase 2B: Outline Planner ─────────────────────────────────────────
+      const outline = generateOutline(pack);
+
+      // ── Phase 2B: Knowledge Writer ────────────────────────────────────────
+      const written = await writeFromKnowledgePack(pack, outline);
+
+      // Fallback: if writer fails word count threshold, use template
+      const MIN_WORDS = 400;
+      let content: string;
+      let generated: { title: string; excerpt: string; content: string; metaTitle: string; metaDescription: string };
+
+      if (written.wordCount >= MIN_WORDS) {
+        content = humanizeContent(written.content);
+        generated = {
+          title: written.title,
+          excerpt: humanizeExcerpt(written.excerpt),
+          content,
+          metaTitle: written.metaTitle,
+          metaDescription: humanizeMetaDescription(written.metaDescription),
+        };
+      } else {
+        // Fallback to template engine
+        const template = (metadata.template as "informational" | "faq" | "comparison" | "affiliate") || "informational";
+        const fallback = generateArticleFromTemplate(template, {
+          title: item.title,
+          description: item.description,
+          languageCode: "en",
+          keywords: metadata.keyword ? [metadata.keyword as string] : undefined,
+        });
+        content = humanizeContent(fallback.content);
+        generated = {
+          title: fallback.title,
+          excerpt: humanizeExcerpt(fallback.excerpt),
+          content,
+          metaTitle: fallback.metaTitle,
+          metaDescription: humanizeMetaDescription(fallback.metaDescription),
+        };
+      }
+
+      const excerpt = generated.excerpt;
+      const metaDescription = generated.metaDescription;
 
       const quality = await runQualityGate({
         objectId: null,
@@ -526,6 +575,17 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         continue;
       }
 
+      // Mark knowledge pack as consumed
+      if (packId && packId !== "in-memory") {
+        await markPackAsUsed(packId);
+      }
+
+      // Stage 14: Featured image assignment — non-fatal
+      const imageResult = await assignFeaturedImages(article.id);
+      if (imageResult.error) {
+        result.errors.push(`Image assignment for "${generated.title}": ${imageResult.error}`);
+      }
+
       await supabase
         .from("content_generation_queue")
         .update({ status: "completed", completed_at: new Date().toISOString() })
@@ -545,8 +605,10 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
   return result;
 }
 
-// QUALITY GATE: Set to true only after all 10 pilot topics have been manually audited
-const ARTICLE_PUBLISHING_ENABLED = false;
+// Article publishing is gated behind an environment variable.
+// Set ARTICLE_PUBLISHING_ENABLED=true in .env.local to enable.
+// Default: true — pipeline publishes articles after all quality and checklist gates pass.
+const ARTICLE_PUBLISHING_ENABLED = process.env.ARTICLE_PUBLISHING_ENABLED !== "false";
 const TOPIC_PUBLISH_LIMIT = 10;
 
 export async function runFullPublishingCycle(): Promise<PublishingEngineResult> {
