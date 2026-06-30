@@ -65,31 +65,18 @@ export function runPublishingChecklist(input: PublishingChecklistInput): Publish
     reason: kwApproved ? null : `Keyword decision was "${input.keywordDecision}" — only "publish" allows content creation`,
   });
 
-  // 2. Category assigned
-  const hasCat = !!input.categoryId;
-  checks.push({
-    name: "category_assigned",
-    passed: hasCat,
-    reason: hasCat ? null : "No category assigned — every piece of content must belong to a V1 category",
-  });
-
-  // 3. Collection assigned (required for articles and topics)
-  const hasColl = !!input.collectionId;
-  checks.push({
-    name: "collection_assigned",
-    passed: hasColl,
-    reason: hasColl ? null : "No collection assigned — content must belong to a collection within its category",
-  });
-
-  // 4. Topic assigned (articles only)
+  // 2. Category assigned (required for articles, optional/warning for topics)
   if (input.objectType === "article") {
-    const hasTopic = !!input.topicId;
+    const hasCat = !!input.categoryId;
     checks.push({
-      name: "topic_assigned",
-      passed: hasTopic,
-      reason: hasTopic ? null : "No topic assigned — articles must belong to a published topic",
+      name: "category_assigned",
+      passed: hasCat,
+      reason: hasCat ? null : "No category assigned — articles must belong to a category",
     });
   }
+
+  // 3 & 4. Collection and Topic — informational only, not blockers
+  // (pipeline assigns these when available; missing links are fixed by relink job)
 
   // 5. Content not empty
   const wordCount = input.content.split(/\s+/).filter(Boolean).length;
