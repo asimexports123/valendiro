@@ -6,6 +6,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { ArticleDeleteButton } from "@/components/admin/ArticleDeleteButton";
 import { ArticleApproveButton } from "@/components/admin/ArticleApproveButton";
 
+export const dynamic = "force-dynamic";
+
 export default async function ArticleDetailPage({
   params,
 }: {
@@ -31,14 +33,25 @@ export default async function ArticleDetailPage({
   if (article.topic_id) {
     const { data: topic } = await supabase
       .from("topics")
-      .select("id, name, category_id, categories(name)")
+      .select("id, category_id, topic_translations(title, language_code)")
       .eq("id", article.topic_id)
       .maybeSingle();
 
     if (topic) {
-      topicName = topic.name;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      categoryName = (topic as any).categories?.name ?? null;
+      const topicTrans = (topic as any).topic_translations ?? [];
+      topicName = topicTrans.find((t: any) => t.language_code === "en")?.title ?? topicTrans[0]?.title ?? null;
+
+      if (topic.category_id) {
+        const { data: cat } = await supabase
+          .from("categories")
+          .select("id, category_translations(name, language_code)")
+          .eq("id", topic.category_id)
+          .maybeSingle();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const catTrans = (cat as any)?.category_translations ?? [];
+        categoryName = catTrans.find((t: any) => t.language_code === "en")?.name ?? catTrans[0]?.name ?? null;
+      }
 
       // Related articles from same topic
       const { data: related } = await supabase
