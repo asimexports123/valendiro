@@ -674,6 +674,81 @@ export async function getQuestionsByCategory(categoryId: string, limit = 5): Pro
   }));
 }
 
+export interface PublicCollectionWithCounts extends PublicCollection {
+  topic_count: number;
+  article_count: number;
+}
+
+export interface CategoryPageData {
+  category: PublicCategoryDetail;
+  collections: PublicCollectionWithCounts[];
+  featuredTopics: PublicTopic[];
+  latestArticles: PublicArticle[];
+  faqs: PublicQuestion[];
+  relatedCategories: PublicCategory[];
+  totalArticles: number;
+  lastUpdated: string | null;
+}
+
+export async function getCategoryPageData(slug: string): Promise<CategoryPageData | null> {
+  const category = await getCategoryBySlug(slug);
+  if (!category) return null;
+
+  const [rawCollections, topics, faqs, relatedCategories, articles] = await Promise.all([
+    getCollectionsByCategory(category.id, 16),
+    getTopicsByCategory(category.id, 16),
+    getQuestionsByCategory(category.id, 8),
+    getCategoriesWithCounts(8),
+    getArticlesByCategory(category.id, 8),
+  ]);
+
+  const supabase = await createClient();
+
+  const collectionsWithCounts: PublicCollectionWithCounts[] = await Promise.all(
+    rawCollections.map(async (col) => {
+      const [{ count: tc }, { count: ac }] = await Promise.all([
+        supabase
+          .from("topics")
+          .select("id", { count: "exact", head: true })
+          .eq("collection_id", col.id)
+          .eq("status", "published"),
+        (async () => {
+          const { data: tids } = await supabase
+            .from("topics")
+            .select("id")
+            .eq("collection_id", col.id)
+            .eq("status", "published");
+          const ids = (tids || []).map((t: any) => t.id);
+          if (ids.length === 0) return { count: 0 };
+          const { count } = await supabase
+            .from("articles")
+            .select("id", { count: "exact", head: true })
+            .eq("status", "published")
+            .in("topic_id", ids);
+          return { count };
+        })(),
+      ]);
+      return { ...col, topic_count: tc ?? 0, article_count: ac ?? 0 };
+    })
+  );
+
+  const lastUpdated = articles[0]?.updated_at ?? null;
+  const totalArticles = articles.length > 0
+    ? collectionsWithCounts.reduce((s, c) => s + c.article_count, 0)
+    : 0;
+
+  return {
+    category,
+    collections: collectionsWithCounts,
+    featuredTopics: topics,
+    latestArticles: articles,
+    faqs,
+    relatedCategories: relatedCategories.filter((c) => c.slug !== slug),
+    totalArticles,
+    lastUpdated,
+  };
+}
+
 export function extractHeadings(content: string | null): { id: string; text: string; level: number }[] {
   if (!content) return [];
   const headings: { id: string; text: string; level: number }[] = [];
