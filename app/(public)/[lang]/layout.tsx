@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 import { isValidLanguage } from "@/lib/utils/helpers";
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/lib/constants";
-import { getCurrentUser } from "@/lib/auth/session";
-import { isAdmin } from "@/lib/auth/roles";
+import { SUPPORTED_LANGUAGES } from "@/lib/constants";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { PublicHeader } from "@/components/public/PublicHeader";
+import { ScrollToTop } from "@/components/public/ScrollToTop";
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ lang }));
@@ -25,12 +24,10 @@ export default async function PublicLayout({
     notFound();
   }
 
-  const user = await getCurrentUser();
-  const showAdmin = !!user && isAdmin(user.role);
-
   return (
     <div className="min-h-full flex flex-col bg-background">
-      <PublicHeader lang={lang} showAdmin={showAdmin} />
+      <ScrollToTop />
+      <PublicHeader lang={lang} />
       <main className="flex-1">{children}</main>
       <PublicFooter lang={lang} />
     </div>

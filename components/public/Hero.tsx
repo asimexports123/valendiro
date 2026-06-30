@@ -69,8 +69,8 @@ export function Hero({ lang }: { lang: string }) {
             </div>
           </div>
 
-          {/* Right: Illustration */}
-          <div className="flex-1 flex items-center justify-center lg:justify-end w-full max-w-lg">
+          {/* Right: Illustration — hidden on mobile */}
+          <div className="hidden lg:flex flex-1 items-center justify-center lg:justify-end w-full max-w-lg">
             <div className="relative w-full max-w-md">
               {/* Glow */}
               <div className="absolute inset-0 rounded-3xl bg-primary/5 blur-3xl scale-110" />

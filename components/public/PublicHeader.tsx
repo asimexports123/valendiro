@@ -56,7 +56,7 @@ function DarkModeToggle() {
   );
 }
 
-export function PublicHeader({ lang, showAdmin }: { lang: string; showAdmin?: boolean }) {
+export function PublicHeader({ lang }: { lang: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -128,11 +128,6 @@ export function PublicHeader({ lang, showAdmin }: { lang: string; showAdmin?: bo
 
               <DarkModeToggle />
 
-              {showAdmin && (
-                <Link href="/admin/dashboard" className="hidden md:inline-flex items-center rounded-xl border border-border/60 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
-                  Admin
-                </Link>
-              )}
 
               {/* Mobile hamburger */}
               <button
@@ -189,12 +184,6 @@ export function PublicHeader({ lang, showAdmin }: { lang: string; showAdmin?: bo
                   </Link>
                 ))}
               </div>
-              {showAdmin && (
-                <Link href="/admin/dashboard" onClick={() => setMobileOpen(false)}
-                  className="flex items-center px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
-                  Admin Dashboard
-                </Link>
-              )}
             </div>
           </div>
         </div>
