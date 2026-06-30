@@ -19,8 +19,38 @@ export default async function DashboardPage() {
   const data = await getOwnerDashboardData();
   const { stats, system, notifications } = data;
 
-  // Fetch drafts for inline review
   const supabase = createAdminClient();
+
+  // Editorial stats — today's pipeline activity
+  const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+  const { data: todayQueue } = await supabase
+    .from("content_generation_queue")
+    .select("status, metadata")
+    .gte("updated_at", todayStart.toISOString());
+
+  const todayCompleted = (todayQueue ?? []).filter(q => q.status === "completed");
+  const todayFailed    = (todayQueue ?? []).filter(q => q.status === "failed");
+  const todayPending   = (todayQueue ?? []).filter(q => q.status === "pending" || q.status === "pending_llm");
+
+  const scoresArr = todayCompleted
+    .map(q => (q.metadata as Record<string,unknown>)?.editorial_review as Record<string,number>)
+    .filter(Boolean);
+  const avg = (key: string) => scoresArr.length
+    ? Math.round(scoresArr.reduce((s,r) => s + (r[key] ?? 0), 0) / scoresArr.length)
+    : null;
+  const editorial = {
+    generated: todayCompleted.length,
+    failed: todayFailed.length,
+    pendingLLM: (todayQueue ?? []).filter(q => q.status === "pending_llm").length,
+    pendingQueue: (todayQueue ?? []).filter(q => q.status === "pending").length,
+    avgQuality: avg("quality"),
+    avgFact: avg("fact"),
+    avgSEO: avg("seo"),
+    avgOverall: avg("overall"),
+    autoPublished: todayCompleted.filter(q => (q.metadata as Record<string,unknown>)?.auto_published).length,
+  };
+
+  // Fetch drafts for inline review
   const { data: draftArticles, error: draftError } = await supabase
     .from("articles")
     .select("id, slug, created_at, updated_at")
@@ -146,6 +176,48 @@ export default async function DashboardPage() {
             </Link>
           ))}
         </div>
+      </div>
+
+      {/* Editorial Control Center */}
+      <div>
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">Editorial Control Center — Today</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          {[
+            { label: "Generated",    value: editorial.generated,    color: "text-emerald-600" },
+            { label: "Auto-Published",value: editorial.autoPublished, color: "text-blue-600" },
+            { label: "Failed",        value: editorial.failed,        color: "text-rose-600" },
+            { label: "Pending Queue", value: editorial.pendingQueue + editorial.pendingLLM, color: "text-amber-600" },
+          ].map(card => (
+            <div key={card.label} className="rounded-2xl border border-border/60 bg-card p-4">
+              <span className={`text-2xl font-bold tabular-nums ${card.color}`}>{card.value}</span>
+              <p className="text-xs text-muted-foreground mt-1">{card.label}</p>
+            </div>
+          ))}
+        </div>
+        {editorial.generated > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { label: "Avg Quality", value: editorial.avgQuality },
+              { label: "Avg Fact",    value: editorial.avgFact },
+              { label: "Avg SEO",     value: editorial.avgSEO },
+              { label: "Avg Overall", value: editorial.avgOverall },
+            ].map(card => (
+              <div key={card.label} className="rounded-2xl border border-border/60 bg-card p-4">
+                <span className={`text-2xl font-bold tabular-nums ${
+                  card.value === null ? "text-muted-foreground" :
+                  card.value >= 70 ? "text-emerald-600" :
+                  card.value >= 50 ? "text-amber-600" : "text-rose-600"
+                }`}>{card.value ?? "—"}</span>
+                <p className="text-xs text-muted-foreground mt-1">{card.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {editorial.pendingLLM > 0 && (
+          <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-950/20 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+            ⏸️ {editorial.pendingLLM} items paused — LLM quota exhausted, will resume automatically
+          </div>
+        )}
       </div>
 
       {/* Actions */}
