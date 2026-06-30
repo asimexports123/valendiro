@@ -330,6 +330,68 @@ export async function getSystemStatus(): Promise<{ status: SystemStatus }> {
   };
 }
 
+export interface OwnerDashboardData {
+  stats: {
+    totalArticles: number;
+    totalTopics: number;
+    totalCollections: number;
+    totalCategories: number;
+    publishedToday: number;
+    pendingReview: number;
+  };
+  system: {
+    healthy: boolean;
+    automationEnabled: boolean;
+    publishLimitPerRun: number;
+    failedJobs: number;
+    lastPublish: string | null;
+    errorMessage: string | null;
+  };
+  notifications: Array<{ type: "success" | "warning" | "error"; message: string }>;
+}
+
+export async function getOwnerDashboardData(): Promise<OwnerDashboardData> {
+  const supabase = createAdminClient();
+  const config = await getAutomationConfig();
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+
+  const [
+    totalArticles, totalTopics, totalCollections, totalCategories,
+    publishedToday, pendingReview, failedJobs, lastPublish,
+  ] = await Promise.all([
+    safeCount(async () => supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "published")),
+    safeCount(async () => supabase.from("topics").select("*", { count: "exact", head: true }).eq("status", "published")),
+    safeCount(async () => supabase.from("collections").select("*", { count: "exact", head: true })),
+    safeCount(async () => supabase.from("categories").select("*", { count: "exact", head: true })),
+    safeCount(async () => supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "published").gte("created_at", todayStart.toISOString())),
+    safeCount(async () => supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "review")),
+    safeCount(async () => supabase.from("execution_logs").select("*", { count: "exact", head: true }).eq("status", "failed").gte("created_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())),
+    safeData(async () => supabase.from("system_events").select("created_at").eq("event_name", "jobs_execute").eq("status", "success").order("created_at", { ascending: false }).limit(1).maybeSingle(), null as { created_at: string } | null),
+  ]);
+
+  const healthy = failedJobs === 0 && config.automationEnabled;
+  const notifications: OwnerDashboardData["notifications"] = [];
+
+  if (publishedToday > 0) notifications.push({ type: "success", message: `${publishedToday} article${publishedToday !== 1 ? "s" : ""} published today.` });
+  if (pendingReview > 0) notifications.push({ type: "warning", message: `${pendingReview} article${pendingReview !== 1 ? "s" : ""} require manual review.` });
+  if (failedJobs > 0) notifications.push({ type: "error", message: `Publishing paused — ${failedJobs} error${failedJobs !== 1 ? "s" : ""} in the last 24 hours.` });
+  if (!config.automationEnabled) notifications.push({ type: "warning", message: "Automation is currently paused." });
+
+  return {
+    stats: { totalArticles, totalTopics, totalCollections, totalCategories, publishedToday, pendingReview },
+    system: {
+      healthy,
+      automationEnabled: config.automationEnabled,
+      publishLimitPerRun: config.publishLimitPerRun,
+      failedJobs,
+      lastPublish: lastPublish?.created_at ?? null,
+      errorMessage: failedJobs > 0 ? `${failedJobs} failed job${failedJobs !== 1 ? "s" : ""} in the last 24 h` : null,
+    },
+    notifications,
+  };
+}
+
 export async function getPublishingMetrics(): Promise<{ metrics: PublishingMetrics }> {
   const supabase = createAdminClient();
 

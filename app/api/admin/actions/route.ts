@@ -6,6 +6,7 @@ import {
   buildHierarchicalLinksForTopic,
   buildHierarchicalLinksForArticle,
 } from "@/services/intelligence/hierarchicalLinkingEngine";
+import { setSystemSetting } from "@/services/system/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -54,6 +55,14 @@ export async function POST(request: Request) {
         result = { topicsPublished: topicResult.topicsPublished, articlesPublished: articleResult.articlesPublished };
         break;
       }
+      case "pause_automation":
+        await setSystemSetting("AUTOMATION_ENABLED", "false");
+        result = { automationEnabled: false };
+        break;
+      case "resume_automation":
+        await setSystemSetting("AUTOMATION_ENABLED", "true");
+        result = { automationEnabled: true };
+        break;
       default:
         return NextResponse.json({ error: "Unknown action" }, { status: 400 });
     }

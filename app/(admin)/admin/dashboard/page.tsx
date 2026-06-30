@@ -1,101 +1,117 @@
-import { MetricCard } from "@/components/admin/MetricCard";
-import { SimpleBarChart } from "@/components/admin/SimpleBarChart";
-import { DashboardActions } from "@/components/admin/DashboardActions";
-import { getDashboardMetrics, getSystemStatus, getPublishingMetrics } from "@/services/admin/dashboardData";
+import Link from "next/link";
+import { getOwnerDashboardData } from "@/services/admin/dashboardData";
+import { OwnerActions } from "@/components/admin/OwnerActions";
 
-function EmptyState({ message }: { message: string }) {
-  return (
-    <div className="rounded-2xl border border-dashed border-border/60 bg-muted/30 p-8 text-center">
-      <p className="text-sm text-muted-foreground">{message}</p>
-    </div>
-  );
+function timeAgo(iso: string | null) {
+  if (!iso) return "Never";
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "Just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
 }
 
 export default async function DashboardPage() {
-  const [{ metrics }, { status }, { metrics: publishing }] = await Promise.all([
-    getDashboardMetrics(),
-    getSystemStatus(),
-    getPublishingMetrics(),
-  ]);
+  const data = await getOwnerDashboardData();
+  const { stats, system, notifications } = data;
 
-  const totalContent = metrics.totalArticles + metrics.totalTopics + metrics.totalQuestions;
+  const greeting = (() => {
+    const h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 17) return "Good afternoon";
+    return "Good evening";
+  })();
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-semibold tracking-tight text-foreground">Overview</h1>
+    <div className="max-w-4xl mx-auto space-y-8">
 
-      <DashboardActions />
+      {/* Greeting */}
+      <div>
+        <h1 className="text-2xl font-bold text-foreground">{greeting} 👋</h1>
+        <p className="mt-1 text-muted-foreground text-sm">Here is what is happening on your website today.</p>
+      </div>
 
-      <div className="rounded-2xl border border-border/60 bg-background p-5 shadow-[var(--shadow)]">
-        <h2 className="font-semibold text-foreground mb-3">System Status</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Website Health Banner */}
+      {system.healthy ? (
+        <div className="flex items-center gap-4 rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 px-6 py-5">
+          <span className="text-3xl">✅</span>
           <div>
-            <p className="text-sm text-muted-foreground">Automation</p>
-            <p className={`text-lg font-semibold ${status.automationEnabled ? "text-emerald-600" : "text-rose-600"}`}>
-              {status.automationEnabled ? "ON" : "OFF"}
+            <p className="font-semibold text-emerald-800 dark:text-emerald-200">Everything is working</p>
+            <p className="text-sm text-emerald-700 dark:text-emerald-300 mt-0.5">
+              Automation is ON · Last publish: {timeAgo(system.lastPublish)}
             </p>
           </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Publish Limit / Run</p>
-            <p className="text-lg font-semibold text-foreground">{status.publishLimitPerRun}</p>
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Queue Size</p>
-            <p className="text-lg font-semibold text-foreground">{status.queueSize}</p>
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Failed Jobs (24h)</p>
-            <p className={`text-lg font-semibold ${status.failedJobs > 0 ? "text-rose-600" : "text-emerald-600"}`}>{status.failedJobs}</p>
-          </div>
         </div>
-        <div className="mt-4 flex flex-wrap gap-4 text-sm text-muted-foreground">
-          <span>Demand Discovery: {status.demandDiscoveryEnabled ? "ON" : "OFF"}</span>
-          <span>Quality Gate: {status.qualityGateEnabled ? "ON" : "OFF"}</span>
-          <span>Last Cron: {status.lastCronRun ? new Date(status.lastCronRun).toLocaleString() : "—"}</span>
-          <span>Last Publish: {status.lastSuccessfulPublish ? new Date(status.lastSuccessfulPublish).toLocaleString() : "—"}</span>
-        </div>
-      </div>
-
-      {totalContent === 0 ? (
-        <EmptyState message="No content yet. Use the operational actions above to run demand discovery and generate the first articles." />
       ) : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricCard title="Total Articles" value={metrics.totalArticles} />
-            <MetricCard title="Topics" value={metrics.totalTopics} />
-            <MetricCard title="Questions" value={metrics.totalQuestions} />
-            <MetricCard title="Active Queue" value={metrics.activeQueueItems} />
+        <div className="flex items-start gap-4 rounded-2xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-6 py-5">
+          <span className="text-3xl">{system.automationEnabled ? "⚠️" : "⏸️"}</span>
+          <div className="flex-1">
+            <p className="font-semibold text-rose-800 dark:text-rose-200">
+              {system.automationEnabled ? "Attention required" : "Publishing is paused"}
+            </p>
+            {system.errorMessage && (
+              <p className="text-sm text-rose-700 dark:text-rose-300 mt-0.5">{system.errorMessage}</p>
+            )}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <MetricCard title="Avg Health Score" value={`${metrics.avgHealthScore}/100`} trend={metrics.avgHealthScore >= 60 ? "up" : "down"} />
-            <MetricCard title="Low Health Content" value={metrics.lowHealthCount} trend={metrics.lowHealthCount > 0 ? "down" : "up"} />
-            <MetricCard title="Pending SEO Suggestions" value={metrics.pendingSeoSuggestions} />
-            <MetricCard title="Est. Revenue (30d)" value={`$${metrics.estimatedRevenue.toFixed(2)}`} />
-          </div>
-        </>
+          <Link href="/admin/settings" className="shrink-0 rounded-xl bg-rose-600 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-700 transition-colors">
+            Go to Settings
+          </Link>
+        </div>
       )}
 
-      <div className="rounded-2xl border border-border/60 bg-background p-5 shadow-[var(--shadow)]">
-        <h2 className="font-semibold text-foreground mb-3">Publishing</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard title="Drafts" value={publishing.drafts} />
-          <MetricCard title="Published" value={publishing.published} />
-          <MetricCard title="Archived" value={publishing.archived} />
-          <MetricCard title="Update Queue" value={publishing.updateQueue} />
+      {/* Notifications */}
+      {notifications.length > 0 && (
+        <div className="space-y-2">
+          {notifications.map((n, i) => {
+            const styles = {
+              success: "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-200",
+              warning: "border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-200",
+              error:   "border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/20 text-rose-800 dark:text-rose-200",
+            };
+            const icons = { success: "✅", warning: "⚠️", error: "❌" };
+            return (
+              <div key={i} className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium ${styles[n.type]}`}>
+                <span>{icons[n.type]}</span>
+                {n.message}
+              </div>
+            );
+          })}
         </div>
-        <div className="mt-6">
-          {publishing.published === 0 && publishing.drafts === 0 && publishing.archived === 0 ? (
-            <EmptyState message="No articles in publishing lifecycle yet." />
-          ) : (
-            <SimpleBarChart
-              data={Object.entries(publishing.lifecycle).map(([key, value]) => ({
-                label: key.replace("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-                value,
-              }))}
-            />
-          )}
+      )}
+
+      {/* Stats Grid */}
+      <div>
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">Content Overview</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {[
+            { label: "Total Articles",    value: stats.totalArticles,    href: "/admin/articles",   emoji: "📝" },
+            { label: "Total Topics",       value: stats.totalTopics,      href: "/admin/topics",     emoji: "📖" },
+            { label: "Total Collections",  value: stats.totalCollections, href: "/admin/collections",emoji: "📂" },
+            { label: "Total Categories",   value: stats.totalCategories,  href: "/admin/categories", emoji: "📚" },
+            { label: "Published Today",    value: stats.publishedToday,   href: "/admin/articles",   emoji: "🚀" },
+            { label: "Awaiting Review",    value: stats.pendingReview,    href: "/admin/articles",   emoji: stats.pendingReview > 0 ? "⚠️" : "✅" },
+          ].map((card) => (
+            <Link
+              key={card.label}
+              href={card.href}
+              className="group flex flex-col rounded-2xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-md transition-all duration-200"
+            >
+              <span className="text-2xl mb-3">{card.emoji}</span>
+              <span className="text-3xl font-bold text-foreground tabular-nums">{card.value}</span>
+              <span className="mt-1 text-sm text-muted-foreground">{card.label}</span>
+            </Link>
+          ))}
         </div>
       </div>
+
+      {/* Actions */}
+      <div>
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">Quick Actions</h2>
+        <OwnerActions automationEnabled={system.automationEnabled} />
+      </div>
+
     </div>
   );
 }

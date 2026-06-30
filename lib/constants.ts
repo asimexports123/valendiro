@@ -13,28 +13,15 @@ export const APP_ROLES = {
 export type AppRole = (typeof APP_ROLES)[keyof typeof APP_ROLES];
 
 export const ADMIN_NAV_ITEMS = [
-  { label: "Overview", href: "/admin/dashboard" },
-  { label: "Demand Intelligence", href: "/admin/demand-intelligence" },
-  { label: "Category Config", href: "/admin/categories" },
-  { label: "Content Performance", href: "/admin/performance" },
-  { label: "SEO Insights", href: "/admin/seo-insights" },
-  { label: "Affiliate Revenue", href: "/admin/affiliate-revenue" },
-  { label: "Queue Monitor", href: "/admin/queue-monitor" },
-  { label: "System Logs", href: "/admin/system-logs" },
-  { label: "Knowledge", href: "/admin/knowledge" },
-  { label: "Topics", href: "/admin/topics" },
-  { label: "Questions", href: "/admin/questions" },
-  { label: "Entities", href: "/admin/entities" },
-  { label: "Articles", href: "/admin/articles" },
-  { label: "Publishing", href: "/admin/publishing" },
-  { label: "SEO", href: "/admin/seo" },
-  { label: "Translation", href: "/admin/translation" },
-  { label: "Affiliate", href: "/admin/affiliate" },
-  { label: "Analytics", href: "/admin/analytics" },
-  { label: "CMS", href: "/admin/cms" },
-  { label: "Auth", href: "/admin/auth" },
-  { label: "Jobs", href: "/admin/jobs" },
-  { label: "Settings", href: "/admin/settings" },
+  { label: "🏠  Dashboard",         href: "/admin/dashboard" },
+  { label: "📚  Categories",        href: "/admin/categories" },
+  { label: "📂  Collections",       href: "/admin/collections" },
+  { label: "📖  Topics",            href: "/admin/topics" },
+  { label: "📝  Articles",          href: "/admin/articles" },
+  { label: "🔍  Keyword Research",  href: "/admin/demand-intelligence" },
+  { label: "🚀  Publishing",        href: "/admin/publishing" },
+  { label: "🖼  Media",             href: "/admin/media" },
+  { label: "⚙  Settings",          href: "/admin/settings" },
 ];
 
 export const MAX_PAGE_SIZE = 100;
