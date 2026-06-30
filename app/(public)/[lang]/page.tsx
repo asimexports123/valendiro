@@ -6,6 +6,8 @@ import {
   getCategoriesWithCounts,
   getPopularGuides,
   getFeaturedCollections,
+  getHomepageStats,
+  type HomepageStats,
 } from "@/services/public/publicData";
 import { Hero } from "@/components/public/Hero";
 import { CategoryGrid } from "@/components/public/CategoryGrid";
@@ -38,23 +40,24 @@ export default async function PublicHomePage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  const [latestArticles, trending, categories, guides, collections] = await Promise.all([
+  const [latestArticles, trending, categories, guides, collections, stats] = await Promise.all([
     getLatestArticles(12),
     getTrendingTopics(16),
     getCategoriesWithCounts(12),
     getPopularGuides(4),
     getFeaturedCollections(),
+    getHomepageStats(),
   ]);
 
   return (
     <div>
-      <Hero lang={lang} />
+      <Hero lang={lang} stats={stats} />
       <CategoryGrid lang={lang} categories={categories} />
-      <TrendingToday lang={lang} topics={trending} />
-      <PopularGuides lang={lang} guides={guides} />
-      <LatestArticles lang={lang} articles={latestArticles.slice(0, 6)} />
-      <FeaturedCollections lang={lang} collections={collections} />
-      <RecentlyUpdated lang={lang} articles={latestArticles.slice(6, 12)} />
+      {trending.length >= 4 && <TrendingToday lang={lang} topics={trending} />}
+      {collections.length >= 3 && <FeaturedCollections lang={lang} collections={collections} />}
+      {latestArticles.length >= 3 && <LatestArticles lang={lang} articles={latestArticles.slice(0, 6)} />}
+      {guides.length >= 2 && <PopularGuides lang={lang} guides={guides} />}
+      {latestArticles.length > 6 && <RecentlyUpdated lang={lang} articles={latestArticles.slice(6, 12)} />}
       <WhyValendiro />
     </div>
   );

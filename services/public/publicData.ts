@@ -24,7 +24,15 @@ export interface PublicCategory {
   slug: string;
   name: string;
   description: string | null;
+  collection_count: number;
+  topic_count: number;
   article_count: number;
+}
+
+export interface HomepageStats {
+  collections: number;
+  topics: number;
+  articles: number;
 }
 
 export interface PublicCollection {
@@ -53,11 +61,78 @@ const V1_DISPLAY_NAMES: Record<string, string> = {
   technology: "Technology",
   "personal-finance": "Personal Finance",
   business: "Business",
-  education: "Education",
+  education: "Education & Learning",
   "health-wellness": "Health & Wellness",
   "home-lifestyle": "Home & Lifestyle",
-  travel: "Travel",
+  travel: "Travel & Transportation",
 };
+
+/** Canonical short descriptions shown on category cards */
+const V1_DESCRIPTIONS: Record<string, string> = {
+  technology: "AI, programming, software, gadgets & the future of tech.",
+  "personal-finance": "Investing, budgeting, credit, retirement & financial freedom.",
+  business: "Startups, marketing, entrepreneurship & business growth.",
+  education: "Learning strategies, courses, skills & self-improvement.",
+  "health-wellness": "Fitness, nutrition, mental health & healthy habits.",
+  "home-lifestyle": "DIY, cooking, organization, decor & daily routines.",
+  travel: "Destinations, budget travel, packing tips & trip planning.",
+};
+
+/**
+ * Normalizes AI-generated collection names to premium, human-quality titles.
+ * Strips filler prefixes and cleans up redundant words.
+ */
+export function normalizeCollectionName(raw: string): string {
+  const prefixes = [
+    /^(learn|learning|understand|understanding|introduction to|intro to|guide to|how to|complete guide to|beginners guide to|beginner guide to|about|all about|exploring|explore|overview of|master|mastering)/i,
+  ];
+  let name = raw.trim();
+  for (const re of prefixes) name = name.replace(re, "").trim();
+  // Capitalize first letter
+  name = name.charAt(0).toUpperCase() + name.slice(1);
+  // Replace " And " with " & "
+  name = name.replace(/\band\b/gi, "&");
+  // Remove trailing punctuation
+  name = name.replace(/[.,:;]+$/, "").trim();
+  return name || raw.trim();
+}
+
+/**
+ * Auto-seeds any missing V1 category rows into the DB (categories +
+ * category_translations). Safe to call on every homepage render — it
+ * only writes rows that don't yet exist.
+ */
+export async function ensureV1Categories(): Promise<void> {
+  const supabase = createAdminClient();
+
+  const { data: existing } = await supabase
+    .from("categories")
+    .select("id, slug")
+    .in("slug", V1_CATEGORY_SLUGS);
+
+  const existingSlugs = new Set((existing || []).map((c: any) => c.slug));
+  const missingSlugs = V1_CATEGORY_SLUGS.filter((s) => !existingSlugs.has(s));
+  if (missingSlugs.length === 0) return;
+
+  for (let i = 0; i < missingSlugs.length; i++) {
+    const slug = missingSlugs[i];
+    // Insert category row
+    const { data: inserted, error } = await supabase
+      .from("categories")
+      .insert({ slug, sort_order: V1_CATEGORY_SLUGS.indexOf(slug) + 1 })
+      .select("id")
+      .maybeSingle();
+    if (error || !inserted) continue;
+
+    // Insert English translation
+    await supabase.from("category_translations").insert({
+      category_id: inserted.id,
+      language_code: "en",
+      name: V1_DISPLAY_NAMES[slug] ?? slug,
+      description: V1_DESCRIPTIONS[slug] ?? null,
+    });
+  }
+}
 
 async function getV1CategoryIds(): Promise<string[]> {
   const supabase = createAdminClient();
@@ -139,9 +214,11 @@ export async function getTrendingTopics(limit = 16): Promise<PublicTopic[]> {
 }
 
 export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategory[]> {
+  // Ensure all V1 categories exist in DB before querying
+  await ensureV1Categories();
+
   const supabase = createAdminClient();
 
-  // Only query V1 slugs — prevents General, Finance, Health, AI, etc. from appearing publicly
   const { data } = await supabase
     .from("categories")
     .select("id, slug, sort_order, category_translations(name, description)")
@@ -150,40 +227,80 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     .order("sort_order", { ascending: true })
     .limit(limit);
 
-  const dbCategories = (data || []).map((category: any) => ({
+  const dbCategories: PublicCategory[] = (data || []).map((category: any) => ({
     id: category.id,
     slug: category.slug,
     name: V1_DISPLAY_NAMES[category.slug] ?? category.category_translations?.[0]?.name ?? "Uncategorized",
-    description: category.category_translations?.[0]?.description || "",
+    description: V1_DESCRIPTIONS[category.slug] ?? category.category_translations?.[0]?.description ?? null,
+    collection_count: 0,
+    topic_count: 0,
     article_count: 0,
   }));
 
-  // Count published topics per V1 category
-  for (const category of dbCategories) {
-    const { count } = await supabase
-      .from("topics")
-      .select("id", { count: "exact", head: true })
-      .eq("category_id", category.id)
-      .eq("status", "published");
-    category.article_count = count ?? 0;
-  }
+  // Fetch all counts in parallel per category
+  await Promise.all(dbCategories.map(async (cat) => {
+    const [colRes, topicRes] = await Promise.all([
+      supabase.from("collections").select("id", { count: "exact", head: true }).eq("category_id", cat.id),
+      supabase.from("topics").select("id", { count: "exact", head: true }).eq("category_id", cat.id).eq("status", "published"),
+    ]);
+    cat.collection_count = colRes.count ?? 0;
+    cat.topic_count = topicRes.count ?? 0;
 
-  // Only show categories that actually exist in the DB — no phantom cards that 404 on click
-  // v1Extras (categories not yet seeded into DB) are intentionally excluded here
-  const merged = [...dbCategories];
+    // Article count: topics under this category
+    const { data: topicIds } = await supabase
+      .from("topics").select("id").eq("category_id", cat.id).eq("status", "published");
+    const ids = (topicIds || []).map((t: any) => t.id);
+    if (ids.length > 0) {
+      const { count } = await supabase
+        .from("articles").select("id", { count: "exact", head: true })
+        .eq("status", "published").in("topic_id", ids);
+      cat.article_count = count ?? 0;
+    }
+  }));
 
   // Sort by canonical V1 order
-  const v1Order = V1_CATEGORY_SLUGS;
-  return merged
+  return dbCategories
     .sort((a, b) => {
-      const ai = v1Order.indexOf(a.slug);
-      const bi = v1Order.indexOf(b.slug);
+      const ai = V1_CATEGORY_SLUGS.indexOf(a.slug);
+      const bi = V1_CATEGORY_SLUGS.indexOf(b.slug);
       if (ai === -1 && bi === -1) return a.name.localeCompare(b.name);
       if (ai === -1) return 1;
       if (bi === -1) return -1;
       return ai - bi;
     })
     .slice(0, limit);
+}
+
+export async function getHomepageStats(): Promise<HomepageStats> {
+  const supabase = createAdminClient();
+  const categoryIds = await getV1CategoryIds();
+
+  const [colRes, topicRes] = await Promise.all([
+    categoryIds.length > 0
+      ? supabase.from("collections").select("id", { count: "exact", head: true }).in("category_id", categoryIds)
+      : Promise.resolve({ count: 0 }),
+    categoryIds.length > 0
+      ? supabase.from("topics").select("id", { count: "exact", head: true }).in("category_id", categoryIds).eq("status", "published")
+      : Promise.resolve({ count: 0 }),
+  ]);
+
+  const collections = (colRes as any).count ?? 0;
+  const topics = (topicRes as any).count ?? 0;
+
+  let articles = 0;
+  if (categoryIds.length > 0) {
+    const { data: topicIds } = await supabase
+      .from("topics").select("id").in("category_id", categoryIds).eq("status", "published");
+    const ids = (topicIds || []).map((t: any) => t.id);
+    if (ids.length > 0) {
+      const { count } = await supabase
+        .from("articles").select("id", { count: "exact", head: true })
+        .eq("status", "published").in("topic_id", ids);
+      articles = count ?? 0;
+    }
+  }
+
+  return { collections, topics, articles };
 }
 
 export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
@@ -272,12 +389,13 @@ export async function getFeaturedCollections(limit = 6): Promise<PublicCollectio
       articleCount = count ?? 0;
     }
 
+    const rawName = col.collection_translations?.[0]?.name || col.slug;
     return {
       id: col.id,
       slug: col.slug,
       category_id: col.category_id,
       category_slug: (col.categories as any)?.slug ?? null,
-      name: col.collection_translations?.[0]?.name || col.slug,
+      name: normalizeCollectionName(rawName),
       description: col.collection_translations?.[0]?.description || "",
       topic_count: topicCount ?? 0,
       article_count: articleCount,
@@ -300,7 +418,7 @@ export async function getCollectionsByCategory(categoryId: string, limit = 12): 
     slug: collection.slug,
     category_id: collection.category_id,
     category_slug: (collection.categories as any)?.slug ?? null,
-    name: collection.collection_translations?.[0]?.name || collection.slug,
+    name: normalizeCollectionName(collection.collection_translations?.[0]?.name || collection.slug),
     description: collection.collection_translations?.[0]?.description || "",
     topic_count: 0,
     article_count: 0,
@@ -322,7 +440,7 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
     slug: data.slug,
     category_id: data.category_id,
     category_slug: (data.categories as any)?.slug ?? null,
-    name: data.collection_translations?.[0]?.name || data.slug,
+    name: normalizeCollectionName(data.collection_translations?.[0]?.name || data.slug),
     description: data.collection_translations?.[0]?.description || "",
     topic_count: 0,
     article_count: 0,
@@ -472,12 +590,24 @@ export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDet
     .eq("category_id", data.id)
     .eq("status", "published");
 
+  const { count: colCount } = await supabase
+    .from("collections")
+    .select("id", { count: "exact", head: true })
+    .eq("category_id", data.id);
+
+  const { count: topicCount } = await supabase
+    .from("topics")
+    .select("id", { count: "exact", head: true })
+    .eq("category_id", data.id)
+    .eq("status", "published");
+
   return {
     id: data.id,
     slug: data.slug,
-    // Always use canonical display name; fall back to DB name, then slug
     name: V1_DISPLAY_NAMES[data.slug] ?? translation?.name ?? data.slug,
-    description: translation?.description || null,
+    description: V1_DESCRIPTIONS[data.slug] ?? translation?.description ?? null,
+    collection_count: colCount ?? 0,
+    topic_count: topicCount ?? 0,
     article_count: count ?? 0,
   };
 }
