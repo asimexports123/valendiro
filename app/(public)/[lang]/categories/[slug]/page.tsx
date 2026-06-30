@@ -103,6 +103,45 @@ const DEFAULT_ACCENT = {
   collectionEmojis: ["📖","📄","🗂️","📑","📃","📋","📓","📔","📒","📕"],
 };
 
+/* ─── Rich hero descriptions per category ────────────────────────── */
+const HERO_INTROS: Record<string, { headline: string; body: string; pillars: string[] }> = {
+  technology: {
+    headline: "The definitive knowledge hub for modern technology",
+    body: "From foundational computer science to cutting-edge AI, this hub covers every layer of the technology stack. Whether you are learning to code, evaluating software tools, or tracking the future of hardware and infrastructure, every collection here is built around lasting, evergreen knowledge.",
+    pillars: ["Artificial Intelligence", "Software Development", "Cybersecurity", "Cloud & Infrastructure", "Hardware & Electronics", "Web & Mobile"],
+  },
+  "personal-finance": {
+    headline: "Build real financial knowledge, not just tips",
+    body: "Personal finance is not about tricks — it is about building systems. This hub covers the full financial life cycle: earning more, spending less, investing wisely, protecting wealth, and retiring on your terms. Collections are structured for beginners and advanced readers alike.",
+    pillars: ["Investing & Markets", "Budgeting & Saving", "Debt & Credit", "Retirement Planning", "Tax Strategies", "Real Estate"],
+  },
+  business: {
+    headline: "Strategy, growth, and leadership knowledge in one place",
+    body: "Building and scaling a business requires knowledge across many disciplines. This hub brings together the core frameworks of entrepreneurship, marketing, operations, and leadership — structured as deep collections rather than surface-level listicles.",
+    pillars: ["Entrepreneurship", "Marketing & Growth", "Leadership & Management", "Operations", "Sales", "Strategy"],
+  },
+  education: {
+    headline: "Learn how to learn — and keep learning",
+    body: "Education is more than certificates. This hub covers learning science, skill acquisition, academic disciplines, and self-directed study. Whether you are a student, professional, or lifelong learner, the collections here support structured progress.",
+    pillars: ["Learning Methods", "Academic Skills", "STEM Subjects", "Languages", "Critical Thinking", "Career & Skills"],
+  },
+  "health-wellness": {
+    headline: "Evidence-based health knowledge for every stage of life",
+    body: "Health decisions require reliable information. This hub covers fitness, nutrition, mental health, sleep, preventive care, and chronic condition management — all grounded in research, not trends. Collections are designed for practical, long-term wellbeing.",
+    pillars: ["Fitness & Exercise", "Nutrition & Diet", "Mental Health", "Sleep & Recovery", "Preventive Health", "Chronic Conditions"],
+  },
+  "home-lifestyle": {
+    headline: "Make your home and daily life work better",
+    body: "A well-run home is a foundation for everything else. This hub covers home organisation, cooking, DIY, decor, sustainability, and the routines that make daily life more intentional. Practical knowledge, not aspirational content.",
+    pillars: ["Home Organisation", "Cooking & Food", "DIY & Repairs", "Interior & Decor", "Sustainability", "Daily Routines"],
+  },
+  travel: {
+    headline: "Travel smarter with structured, practical knowledge",
+    body: "Travel is a skill. This hub covers trip planning, budgeting, packing, visa logistics, destination guides, and the mindset shifts that make travel more rewarding. Collections are built for independent travellers who prefer knowledge over generic itineraries.",
+    pillars: ["Destination Guides", "Budget Travel", "Trip Planning", "Packing & Gear", "Visas & Logistics", "Solo & Group Travel"],
+  },
+};
+
 function formatDate(iso: string | null) {
   if (!iso) return null;
   return new Date(iso).toLocaleDateString("en-GB", { month: "short", year: "numeric" });
@@ -139,8 +178,20 @@ export default async function CategoryPage({
   const accent = ACCENTS[slug] ?? DEFAULT_ACCENT;
   const hasContent = collections.length > 0 || featuredTopics.length > 0 || latestArticles.length > 0;
 
-  /* Learning path — group first 5 collections into a flow */
-  const pathCollections = collections.slice(0, 5);
+  /* Learning path — group first 6 collections into a flow */
+  const pathCollections = collections.slice(0, 6);
+  const heroIntro = HERO_INTROS[slug] ?? null;
+
+  /* Difficulty labels for learning path steps */
+  const STEP_DIFFICULTY = ["Beginner", "Beginner", "Intermediate", "Intermediate", "Advanced", "Expert"] as const;
+  const STEP_DIFFICULTY_STYLE = [
+    "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+    "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+    "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+    "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+    "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
+    "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
+  ] as const;
 
   const breadcrumbs = [
     { name: "Home",       href: `/${lang}`,            isCurrent: false },
@@ -175,9 +226,25 @@ export default async function CategoryPage({
               <h1 className={`text-3xl sm:text-5xl font-bold tracking-tight ${accent.text} leading-tight`}>
                 {category.name}
               </h1>
-              <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                {category.description || accent.tagline}
-              </p>
+              {heroIntro ? (
+                <>
+                  <p className="mt-3 text-base sm:text-lg font-medium text-foreground/80 max-w-2xl leading-relaxed">
+                    {heroIntro.headline}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground max-w-2xl leading-relaxed">
+                    {heroIntro.body}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {heroIntro.pillars.map((p) => (
+                      <span key={p} className={`rounded-lg px-2.5 py-1 text-xs font-medium ${accent.iconBg} ${accent.iconText}`}>{p}</span>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
+                  {category.description || accent.tagline}
+                </p>
+              )}
 
               {/* Stats bar */}
               <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
@@ -215,6 +282,11 @@ export default async function CategoryPage({
                   {featuredTopics.length > 0 && (
                     <a href="#topics" className="inline-flex items-center gap-1.5 rounded-xl border border-border/60 bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors">
                       Explore topics ↓
+                    </a>
+                  )}
+                  {latestArticles.length > 0 && (
+                    <a href="#articles" className="inline-flex items-center gap-1.5 rounded-xl border border-border/60 bg-card px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors">
+                      Featured articles ↓
                     </a>
                   )}
                 </div>
@@ -307,20 +379,25 @@ export default async function CategoryPage({
               <div>
                 <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${accent.iconText}`}>Knowledge</p>
                 <h2 className="text-2xl font-bold tracking-tight text-foreground">Popular Topics</h2>
-                <p className="mt-1 text-sm text-muted-foreground">In-depth guides with curated articles and answers</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {featuredTopics.length} in-depth guides with curated articles and answers
+                </p>
               </div>
               <Link href={`/${lang}/topics`} className="text-sm font-medium text-muted-foreground hover:text-primary transition shrink-0">
                 All topics →
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
               {featuredTopics.map((topic, i) => (
                 <Link
                   key={topic.id}
                   href={`/${lang}/topics/${topic.slug}`}
                   className="group flex flex-col rounded-2xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-md transition-all duration-200"
                 >
-                  <span className={`text-xs font-bold mb-2 ${accent.iconText} opacity-60`}>#{i + 1}</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-xs font-bold ${accent.iconText} opacity-50`}>#{i + 1}</span>
+                    <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${accent.iconBg} ${accent.iconText}`}>Guide</span>
+                  </div>
                   <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm leading-snug">
                     {topic.title}
                   </h3>
@@ -338,33 +415,44 @@ export default async function CategoryPage({
           </section>
         )}
 
-        {/* ── LATEST ARTICLES ─────────────────────────────────────── */}
+        {/* ── FEATURED ARTICLES ───────────────────────────────────── */}
         {latestArticles.length > 0 && (
           <section id="articles">
-            <div className="mb-7">
-              <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${accent.iconText}`}>Articles</p>
-              <h2 className="text-2xl font-bold tracking-tight text-foreground">Latest Articles</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Recently published in {category.name}</p>
+            <div className="flex items-end justify-between mb-7">
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${accent.iconText}`}>Reading List</p>
+                <h2 className="text-2xl font-bold tracking-tight text-foreground">Featured Articles</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {latestArticles.length} recently published in {category.name}
+                </p>
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {latestArticles.map((article) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {latestArticles.map((article, i) => (
                 <Link
                   key={article.id}
                   href={`/${lang}/articles/${article.slug}`}
-                  className="group flex flex-col rounded-2xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-md transition-all duration-200"
+                  className={`group flex flex-col rounded-2xl border bg-card p-5 hover:shadow-md transition-all duration-200 ${
+                    i < 3 ? `${accent.border} hover:border-opacity-80` : "border-border/60 hover:border-primary/30"
+                  }`}
                 >
-                  <span className={`text-xs font-semibold uppercase tracking-wide mb-2 ${accent.iconText}`}>Article</span>
-                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm leading-snug">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className={`rounded-lg px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${accent.iconBg} ${accent.iconText}`}>
+                      Article
+                    </span>
+                    <span className="text-[10px] text-muted-foreground">{article.reading_time} min read</span>
+                  </div>
+                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm leading-snug flex-1">
                     {article.title}
                   </h3>
                   {article.description && (
-                    <p className="mt-2 text-xs text-muted-foreground line-clamp-3 leading-relaxed flex-1">
+                    <p className="mt-2 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                       {article.description}
                     </p>
                   )}
-                  <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-                    <span>{article.reading_time} min read</span>
-                    {article.updated_at && <span>{formatDate(article.updated_at)}</span>}
+                  <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground border-t border-border/40 pt-3">
+                    {article.updated_at && <span>Updated {formatDate(article.updated_at)}</span>}
+                    <span className={`font-medium ${accent.iconText} opacity-0 group-hover:opacity-100 transition-opacity ml-auto`}>Read →</span>
                   </div>
                 </Link>
               ))}
@@ -378,40 +466,65 @@ export default async function CategoryPage({
             <div className="mb-7">
               <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${accent.iconText}`}>Guided</p>
               <h2 className="text-2xl font-bold tracking-tight text-foreground">Learning Path</h2>
-              <p className="mt-1 text-sm text-muted-foreground">A suggested route through {category.name}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                A structured route through {category.name} — from foundations to advanced mastery
+              </p>
             </div>
+
+            {/* Progress rail */}
+            <div className="mb-5 flex items-center gap-2 overflow-x-auto pb-1">
+              {pathCollections.map((col, i) => (
+                <div key={col.id} className="flex items-center gap-2 shrink-0">
+                  <a
+                    href={`#step-${i + 1}`}
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold shadow-sm transition-colors ${
+                      accent.iconBg
+                    } ${accent.iconText}`}
+                  >
+                    {i + 1}
+                  </a>
+                  {i < pathCollections.length - 1 && (
+                    <div className={`h-px w-8 ${accent.border} border-t`} />
+                  )}
+                </div>
+              ))}
+            </div>
+
             <div className="relative">
-              {/* Vertical line */}
               <div className="absolute left-6 top-8 bottom-8 w-px bg-border/60 hidden sm:block" />
               <div className="space-y-3">
                 {pathCollections.map((col, i) => {
                   const colEmoji = accent.collectionEmojis[i % accent.collectionEmojis.length];
+                  const diffLabel = STEP_DIFFICULTY[i] ?? "Advanced";
+                  const diffStyle = STEP_DIFFICULTY_STYLE[i] ?? STEP_DIFFICULTY_STYLE[4];
                   return (
                     <Link
                       key={col.id}
+                      id={`step-${i + 1}`}
                       href={`/${lang}/collections/${col.slug}`}
-                      className="group relative flex items-center gap-5 rounded-2xl border border-border/60 bg-card px-5 py-4 hover:border-primary/30 hover:shadow-md transition-all duration-200 sm:ml-0"
+                      className="group relative flex items-center gap-5 rounded-2xl border border-border/60 bg-card px-5 py-4 hover:border-primary/30 hover:shadow-md transition-all duration-200"
                     >
-                      {/* Step badge */}
                       <span className={`relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl shadow-sm ${accent.iconBg}`}>
                         {colEmoji}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <span className={`text-xs font-bold ${accent.iconText}`}>Step {i + 1}</span>
-                          {i === 0 && <span className={`rounded px-1.5 py-0.5 text-xs font-semibold ${accent.iconBg} ${accent.iconText}`}>Start here</span>}
-                          {i === pathCollections.length - 1 && <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-semibold text-muted-foreground">Final</span>}
+                          <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${diffStyle}`}>{diffLabel}</span>
+                          {i === 0 && <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${accent.iconBg} ${accent.iconText}`}>Start here</span>}
+                          {i === pathCollections.length - 1 && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">Final step</span>}
                         </div>
-                        <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mt-0.5">
+                        <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mt-1">
                           {col.name}
                         </h3>
                         {col.description && (
                           <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{col.description}</p>
                         )}
                       </div>
-                      <div className="hidden sm:flex items-center gap-3 text-xs text-muted-foreground shrink-0">
-                        {col.topic_count > 0 && <span>{col.topic_count} topics</span>}
-                        <span className={`font-semibold ${accent.iconText} opacity-0 group-hover:opacity-100 transition-opacity`}>Start →</span>
+                      <div className="hidden sm:flex flex-col items-end gap-1 text-xs text-muted-foreground shrink-0">
+                        {col.topic_count > 0 && <span>{col.topic_count} topic{col.topic_count !== 1 ? "s" : ""}</span>}
+                        {col.article_count > 0 && <span>{col.article_count} article{col.article_count !== 1 ? "s" : ""}</span>}
+                        <span className={`font-semibold ${accent.iconText} opacity-0 group-hover:opacity-100 transition-opacity`}>Begin →</span>
                       </div>
                     </Link>
                   );

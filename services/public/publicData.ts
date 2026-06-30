@@ -696,10 +696,10 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
 
   const [rawCollections, topics, faqs, relatedCategories, articles] = await Promise.all([
     getCollectionsByCategory(category.id, 16),
-    getTopicsByCategory(category.id, 16),
+    getTopicsByCategory(category.id, 24),
     getQuestionsByCategory(category.id, 8),
     getCategoriesWithCounts(8),
-    getArticlesByCategory(category.id, 8),
+    getArticlesByCategory(category.id, 12),
   ]);
 
   const supabase = createAdminClient();

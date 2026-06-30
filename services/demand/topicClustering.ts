@@ -29,18 +29,78 @@ function jaccardSimilarity(a: string[], b: string[]): number {
   return union.size === 0 ? 0 : intersection.size / union.size;
 }
 
+const NOISE_PREFIXES = new Set([
+  "best", "top", "code", "learn", "learning", "study", "make", "create",
+  "buy", "find", "get", "use", "using", "try", "free", "cheap", "easy",
+  "simple", "quick", "fast", "new", "good", "great", "cool",
+]);
+
+const KNOWLEDGE_SUFFIXES: Record<string, string> = {
+  programming: "Programming",
+  software: "Software Development",
+  hardware: "Computer Hardware",
+  arduino: "Arduino & Microcontrollers",
+  python: "Python Programming",
+  javascript: "JavaScript Development",
+  typescript: "TypeScript Development",
+  react: "React Development",
+  music: "Music",
+  guitar: "Guitar",
+  piano: "Piano",
+  investing: "Investing",
+  budgeting: "Budgeting",
+  finance: "Personal Finance",
+  fitness: "Fitness",
+  nutrition: "Nutrition",
+  meditation: "Meditation & Mindfulness",
+  travel: "Travel",
+  cooking: "Cooking",
+  marketing: "Marketing",
+  startup: "Startups",
+  leadership: "Leadership",
+};
+
+function toTitleCase(str: string): string {
+  const minorWords = new Set(["a", "an", "the", "and", "but", "or", "for", "nor", "on", "at", "to", "of", "in", "by", "up", "as", "vs"]);
+  return str
+    .split(" ")
+    .map((w, i) => (i === 0 || !minorWords.has(w)) ? w.charAt(0).toUpperCase() + w.slice(1) : w)
+    .join(" ");
+}
+
 function generateClusterName(keywords: string[], fallback?: string): string {
+  // Collect all significant words with frequency
   const words = keywords.flatMap(getSignificantWords);
   const frequency: Record<string, number> = {};
   for (const w of words) frequency[w] = (frequency[w] || 0) + 1;
+
+  // Check for known high-quality domain terms first
+  for (const [term, label] of Object.entries(KNOWLEDGE_SUFFIXES)) {
+    if (words.includes(term) || keywords.some((k) => k.toLowerCase().includes(term))) {
+      return label;
+    }
+  }
+
+  // Pick top significant words, filtering noise prefixes
   const top = Object.entries(frequency)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 3)
-    .map(([w]) => w);
-  const name = top.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
-  if (name.trim()) return name;
-  const fb = (fallback || keywords[0] || "").trim();
-  return fb ? fb.charAt(0).toUpperCase() + fb.slice(1) : "General Topic";
+    .map(([w]) => w)
+    .filter((w) => !NOISE_PREFIXES.has(w))
+    .slice(0, 3);
+
+  if (top.length >= 2) {
+    return toTitleCase(top.join(" "));
+  }
+  if (top.length === 1) {
+    return toTitleCase(top[0]);
+  }
+
+  // Fallback: clean the seed keyword
+  const raw = (fallback || keywords[0] || "").trim().toLowerCase();
+  const cleaned = raw
+    .replace(/^(best|top|learn|code|how to|get|buy|free|cheap|easy)\s+/i, "")
+    .trim();
+  return cleaned ? toTitleCase(cleaned) : "General Topic";
 }
 
 async function ensureCategory(categoryName: string, languageCode = "en") {
