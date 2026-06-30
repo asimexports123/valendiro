@@ -3,7 +3,7 @@ import { DataTable } from "@/components/admin/DataTable";
 import { Pagination } from "@/components/admin/Pagination";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { Button } from "@/components/ui/Button";
-import { listItems, deleteItem } from "@/lib/admin/actions";
+import { listItems } from "@/lib/admin/actions";
 import { Topic } from "@/lib/types";
 import { slugify } from "@/lib/utils/helpers";
 
@@ -26,11 +26,6 @@ export default async function TopicsPage({
       orderBy: "created_at",
     }
   );
-
-  async function removeTopic(id: string) {
-    "use server";
-    await deleteItem({ table: "topics", revalidatePaths: ["/admin/topics"] }, id);
-  }
 
   return (
     <div className="space-y-6">
@@ -55,7 +50,7 @@ export default async function TopicsPage({
         ]}
         getRowId={(row) => row.id}
         basePath="/admin/topics"
-        onDelete={removeTopic}
+        deleteTable="topics"
       />
       <Pagination
         page={currentPage}

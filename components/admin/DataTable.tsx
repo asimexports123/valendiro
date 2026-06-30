@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 
 interface DataTableProps<T> {
   rows: T[];
   columns: { key: string; label: string; render?: (row: T) => React.ReactNode }[];
   getRowId: (row: T) => string;
   basePath: string;
+  deleteTable?: string;
   onDelete?: (id: string) => Promise<void>;
 }
 
@@ -17,16 +18,34 @@ export function DataTable<T>({
   columns,
   getRowId,
   basePath,
+  deleteTable,
   onDelete,
 }: DataTableProps<T>) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this item?")) return;
-    if (onDelete) {
-      await onDelete(id);
+    if (!confirm("Delete this item? This cannot be undone.")) return;
+    setDeletingId(id);
+    try {
+      if (deleteTable) {
+        const res = await fetch("/api/admin/delete", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ table: deleteTable, id }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          alert(err.error || "Delete failed");
+          return;
+        }
+      } else if (onDelete) {
+        await onDelete(id);
+      }
       startTransition(() => router.refresh());
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -61,13 +80,13 @@ export function DataTable<T>({
                     >
                       Edit
                     </Link>
-                    {onDelete && (
+                    {(deleteTable || onDelete) && (
                       <button
                         onClick={() => handleDelete(id)}
-                        disabled={isPending}
-                        className="text-rose-600 hover:text-rose-700 disabled:opacity-50 font-medium transition-colors"
+                        disabled={isPending || deletingId === id}
+                        className="text-rose-600 hover:text-rose-700 disabled:opacity-40 font-medium transition-colors"
                       >
-                        Delete
+                        {deletingId === id ? "Deleting…" : "Delete"}
                       </button>
                     )}
                   </div>
