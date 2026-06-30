@@ -420,6 +420,20 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       const metadata = (item.metadata as Record<string, unknown>) || {};
       const articleType = (metadata.article_type as "guide" | "explainer" | "reference" | "comparison" | "tutorial") || "guide";
 
+      // If no topic_id on queue item, try to find matching topic by keyword
+      let resolvedTopicId: string | null = item.topic_id ?? null;
+      if (!resolvedTopicId) {
+        const keyword = (metadata.keyword as string) || item.title;
+        const slugGuess = keyword.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
+        const { data: matchedTopic } = await supabase
+          .from("topics")
+          .select("id, slug")
+          .or(`slug.ilike.%${slugGuess.slice(0, 30)}%,name.ilike.%${keyword.slice(0, 40)}%`)
+          .limit(1)
+          .maybeSingle();
+        if (matchedTopic) resolvedTopicId = matchedTopic.id;
+      }
+
       // ── 5-Agent Gemini Pipeline ────────────────────────────────────────────
       // Agent 1: Research  → Agent 2: Outline → Agent 3: Write
       // Agent 4: Review    → Agent 5: SEO     → Save as DRAFT
@@ -530,7 +544,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         .insert({
           slug,
           canonical_path: canonicalPath,
-          topic_id: item.topic_id,
+          topic_id: resolvedTopicId,
           article_type: articleType,
           status: articleStatus,
           ...(publishedAt ? { published_at: publishedAt } : {}),

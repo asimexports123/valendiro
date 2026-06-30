@@ -127,6 +127,33 @@ export function OwnerActions({ automationEnabled }: Props) {
           </div>
         </button>
 
+        {/* Relink Topics */}
+        <button
+          onClick={async () => {
+            setLoading("relink_topics");
+            setFeedback(null);
+            try {
+              const res = await fetch("/api/admin/articles/relink-topics", { method: "POST" });
+              const json = await res.json();
+              if (!res.ok) throw new Error(json.error || "Relink failed");
+              setFeedback({ ok: true, message: json.message ?? "Done" });
+              setTimeout(() => setFeedback(null), 4000);
+            } catch (err) {
+              setFeedback({ ok: false, message: err instanceof Error ? err.message : "Relink failed" });
+            } finally {
+              setLoading(null);
+            }
+          }}
+          disabled={busy}
+          className="flex items-center justify-center gap-2.5 rounded-2xl border border-border/60 bg-card px-5 py-4 font-semibold text-foreground hover:border-primary/30 hover:shadow-md disabled:opacity-50 transition-all duration-200"
+        >
+          <span className="text-xl">{loading === "relink_topics" ? "⏳" : "🔗"}</span>
+          <div className="text-left">
+            <p className="font-semibold">{loading === "relink_topics" ? "Linking…" : "Relink Topics"}</p>
+            <p className="text-xs font-normal mt-0.5 text-muted-foreground">Fix articles missing topic</p>
+          </div>
+        </button>
+
         {/* Site Audit */}
         <button
           onClick={async () => {
