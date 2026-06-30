@@ -442,9 +442,18 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         }
 
         content = pipeline.finalContent;
-        qualityScore = pipeline.qualityReport.score;
-        seoScore = pipeline.qualityReport.score;
+        qualityScore = pipeline.editorialReview?.qualityReview?.score ?? pipeline.qualityReport.score;
+        seoScore = pipeline.editorialReview?.seoReview?.score ?? pipeline.qualityReport.score;
         agentDurations = pipeline.agentDurationsMs;
+        // Store autoPublish decision and editorial scores for later use
+        (metadata as Record<string, unknown>)._autoPublish = pipeline.autoPublish;
+        (metadata as Record<string, unknown>)._editorialReview = {
+          overall: pipeline.editorialReview?.overallScore,
+          fact: pipeline.editorialReview?.factCheck?.score,
+          quality: qualityScore,
+          seo: seoScore,
+          retries: pipeline.retryCount,
+        };
 
         const firstParagraph = content.replace(/^#+.+$/mg, "").split(/\n{2,}/).find(p => p.trim().length > 40) ?? "";
         const excerpt = firstParagraph.replace(/\*\*/g, "").trim().slice(0, 250);
@@ -511,8 +520,11 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       const slug = slugSource;
       const canonicalPath = `/en/articles/${slug}`;
 
-      // ── Always save as DRAFT — manual review required before publishing ──
-      // Set ARTICLE_PUBLISHING_ENABLED=true only after reviewing first 20 articles.
+      // Auto-publish if editorial review passed; draft if failed or fallback template used
+      const autoPublish = !!(metadata as Record<string, unknown>)._autoPublish;
+      const articleStatus = autoPublish ? "published" : "draft";
+      const publishedAt = autoPublish ? new Date().toISOString() : null;
+
       const { data: article, error: articleError } = await supabase
         .from("articles")
         .insert({
@@ -520,7 +532,8 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
           canonical_path: canonicalPath,
           topic_id: item.topic_id,
           article_type: articleType,
-          status: "draft",
+          status: articleStatus,
+          ...(publishedAt ? { published_at: publishedAt } : {}),
         })
         .select()
         .single();
@@ -581,7 +594,8 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         throw new Error(`Translation insert failed: ${translationInsert.error.message}`);
       }
 
-      // Log agent quality scores to queue metadata for review dashboard
+      // Log editorial scores and article id to queue metadata for dashboard
+      const editorialMeta = (metadata as Record<string, unknown>)._editorialReview ?? {};
       await supabase
         .from("content_generation_queue")
         .update({
@@ -591,6 +605,8 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
             seo_score: seoScore,
             agent_durations_ms: agentDurations,
             article_id: article.id,
+            auto_published: autoPublish,
+            editorial_review: editorialMeta,
           },
         })
         .eq("id", item.id);

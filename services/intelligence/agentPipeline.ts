@@ -33,6 +33,7 @@
 
 import { getActiveLLMProvider } from "@/services/llm/llmProvider";
 import "@/services/llm";
+import { runFullEditorialReview, type EditorialReviewResult } from "./editorialReviewEngine"
 
 // ─── Shared Types ─────────────────────────────────────────────────────────────
 
@@ -95,13 +96,16 @@ export interface AgentPipelineResult {
   finalContent: string;
   finalTitle: string;
   qualityReport: AgentQualityReport;
+  editorialReview: EditorialReviewResult;
   seoFields: AgentSEOFields;
   metaTitle: string;
   metaDescription: string;
   wordCount: number;
   totalDurationMs: number;
   agentDurationsMs: Record<string, number>;
-  geminiCallCount: number;   // always 3 in normal operation
+  geminiCallCount: number;   // 3 writer + 3 editorial = 6 per article
+  retryCount: number;
+  autoPublish: boolean;      // true if all editorial reviewers passed
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -412,55 +416,91 @@ export function buildDeterministicSEOFields(
 // QuotaExhaustedError is NOT caught here — it propagates to the publishing
 // engine which sets the queue item to "pending_llm" and skips to the next item.
 
+const MAX_RETRIES = 2; // Max rewrite attempts if editorial review fails
+
 export async function runAgentPipeline(
   keyword: string,
   category: string
 ): Promise<AgentPipelineResult> {
   const pipelineStart = Date.now();
   const durations: Record<string, number> = {};
+  let retryCount = 0;
 
-  console.log(`[AgentPipeline] Starting 3-call pipeline for: "${keyword}" (${category})`);
+  console.log(`[AgentPipeline] Starting 6-call pipeline for: "${keyword}" (${category})`);
 
-  // Gemini Call 1: Research
+  // Call 1: Research (always once — reuse on retries)
   const { pack, durationMs: d1 } = await runResearchAgent(keyword, category);
   durations["research"] = d1;
 
-  // Gemini Call 2: Outline
+  // Call 2: Outline (always once — reuse on retries)
   const { structure, durationMs: d2 } = await runOutlineAgent(pack);
   durations["outline"] = d2;
 
-  // Gemini Call 3: Write
-  const { content, durationMs: d3 } = await runWriterAgent(pack, structure);
-  durations["write"] = d3;
+  let content: string;
+  let editorialReview: EditorialReviewResult;
+  let seoFields: AgentSEOFields;
 
-  // Deterministic quality check — no Gemini
-  const qualityReport = runDeterministicQualityCheck(content);
+  // Retry loop: Write → Editorial Review → Rewrite if needed
+  while (true) {
+    // Call 3: Write
+    const writeStart = Date.now();
+    const writeResult = await runWriterAgent(pack, structure);
+    content = writeResult.content;
+    durations[`write_${retryCount}`] = writeResult.durationMs;
 
-  // Deterministic SEO fields — no Gemini
-  const seoFields = buildDeterministicSEOFields(structure.title, keyword, pack);
+    // Deterministic SEO fields
+    seoFields = buildDeterministicSEOFields(structure.title, keyword, pack);
 
+    // Calls 4+5+6: Editorial Review (Fact + Quality + SEO) — parallel
+    const reviewStart = Date.now();
+    editorialReview = await runFullEditorialReview(
+      content,
+      keyword,
+      seoFields.metaTitle,
+      seoFields.metaDescription
+    );
+    durations[`review_${retryCount}`] = Date.now() - reviewStart;
+
+    console.log(
+      `[AgentPipeline] Review attempt ${retryCount + 1}: ` +
+      `fact=${editorialReview.factCheck.score} quality=${editorialReview.qualityReview.score} ` +
+      `seo=${editorialReview.seoReview.score} overall=${editorialReview.overallScore} ` +
+      `passed=${editorialReview.passed}`
+    );
+
+    if (editorialReview.passed || retryCount >= MAX_RETRIES) break;
+
+    retryCount++;
+    console.log(`[AgentPipeline] Rewriting "${keyword}" (attempt ${retryCount + 1}/${MAX_RETRIES + 1})...`);
+  }
+
+  // Deterministic quality check — no LLM
+  const qualityReport = runDeterministicQualityCheck(content!);
   const wordCount = qualityReport.wordCount;
   const totalDurationMs = Date.now() - pipelineStart;
 
   console.log(
     `[AgentPipeline] Done "${keyword}" — ${wordCount} words, ` +
-    `quality: ${qualityReport.score}/100 (${qualityReport.passed ? "PASS" : "FAIL"}), ` +
-    `total: ${totalDurationMs}ms, gemini calls: 3`
+    `overall: ${editorialReview!.overallScore}/100 (${editorialReview!.passed ? "PASS" : "FAIL"}), ` +
+    `retries: ${retryCount}, total: ${totalDurationMs}ms`
   );
 
   return {
     keyword,
     knowledgePack: pack,
     articleStructure: structure,
-    finalContent: content,
+    finalContent: content!,
     finalTitle: structure.title,
     qualityReport,
-    seoFields,
-    metaTitle: seoFields.metaTitle,
-    metaDescription: seoFields.metaDescription,
+    editorialReview: editorialReview!,
+    seoFields: seoFields!,
+    metaTitle: seoFields!.metaTitle,
+    metaDescription: seoFields!.metaDescription,
     wordCount,
     totalDurationMs,
     agentDurationsMs: durations,
-    geminiCallCount: 3,
+    geminiCallCount: 3 + (3 * (retryCount + 1)), // 3 editorial per attempt
+    retryCount,
+    autoPublish: editorialReview!.passed,
   };
 }
