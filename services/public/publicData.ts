@@ -35,6 +35,8 @@ export interface HomepageStats {
   articles: number;
 }
 
+export type CollectionDifficulty = "Beginner" | "Intermediate" | "Advanced";
+
 export interface PublicCollection {
   id: string;
   slug: string;
@@ -44,6 +46,8 @@ export interface PublicCollection {
   description: string;
   topic_count: number;
   article_count: number;
+  difficulty: CollectionDifficulty;
+  estimated_hours: number;
 }
 
 const V1_CATEGORY_SLUGS = [
@@ -350,6 +354,17 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
   });
 }
 
+/** Infer difficulty from topic count; infer reading hours from article count */
+function inferDifficulty(topicCount: number): CollectionDifficulty {
+  if (topicCount >= 20) return "Advanced";
+  if (topicCount >= 8) return "Intermediate";
+  return "Beginner";
+}
+
+function inferEstimatedHours(articleCount: number): number {
+  return Math.max(1, Math.round((articleCount * 8) / 60));
+}
+
 export async function getFeaturedCollections(limit = 6): Promise<PublicCollection[]> {
   const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
@@ -390,6 +405,7 @@ export async function getFeaturedCollections(limit = 6): Promise<PublicCollectio
     }
 
     const rawName = col.collection_translations?.[0]?.name || col.slug;
+    const tc = topicCount ?? 0;
     return {
       id: col.id,
       slug: col.slug,
@@ -397,8 +413,10 @@ export async function getFeaturedCollections(limit = 6): Promise<PublicCollectio
       category_slug: (col.categories as any)?.slug ?? null,
       name: normalizeCollectionName(rawName),
       description: col.collection_translations?.[0]?.description || "",
-      topic_count: topicCount ?? 0,
+      topic_count: tc,
       article_count: articleCount,
+      difficulty: inferDifficulty(tc),
+      estimated_hours: inferEstimatedHours(articleCount),
     };
   }));
 }
@@ -413,15 +431,48 @@ export async function getCollectionsByCategory(categoryId: string, limit = 12): 
     .order("sort_order", { ascending: true })
     .limit(limit);
 
-  return (data || []).map((collection: any) => ({
-    id: collection.id,
-    slug: collection.slug,
-    category_id: collection.category_id,
-    category_slug: (collection.categories as any)?.slug ?? null,
-    name: normalizeCollectionName(collection.collection_translations?.[0]?.name || collection.slug),
-    description: collection.collection_translations?.[0]?.description || "",
-    topic_count: 0,
-    article_count: 0,
+  if (!data || data.length === 0) return [];
+
+  return Promise.all(data.map(async (collection: any) => {
+    const collId = collection.id as string;
+
+    // Real topic count
+    const { count: topicCount } = await supabase
+      .from("topics")
+      .select("id", { count: "exact", head: true })
+      .eq("collection_id", collId)
+      .eq("status", "published");
+
+    // Real article count via topics in this collection
+    const { data: topicRows } = await supabase
+      .from("topics")
+      .select("id")
+      .eq("collection_id", collId)
+      .eq("status", "published");
+    const topicIds = (topicRows || []).map((t: any) => t.id as string);
+    let articleCount = 0;
+    if (topicIds.length > 0) {
+      const { count } = await supabase
+        .from("articles")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "published")
+        .in("topic_id", topicIds);
+      articleCount = count ?? 0;
+    }
+
+    const tc = topicCount ?? 0;
+    return {
+      id: collId,
+      slug: collection.slug,
+      category_id: collection.category_id,
+      category_slug: (collection.categories as any)?.slug ?? null,
+      name: normalizeCollectionName(collection.collection_translations?.[0]?.name || collection.slug),
+      description: collection.collection_translations?.[0]?.description || "",
+      topic_count: tc,
+      article_count: articleCount,
+      difficulty: inferDifficulty(tc),
+      estimated_hours: inferEstimatedHours(articleCount),
+    };
   }));
 }
 
@@ -435,15 +486,42 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
     .maybeSingle();
 
   if (!data) return null;
+
+  const collId = data.id as string;
+  const { count: topicCount } = await supabase
+    .from("topics")
+    .select("id", { count: "exact", head: true })
+    .eq("collection_id", collId)
+    .eq("status", "published");
+
+  const { data: topicRows } = await supabase
+    .from("topics")
+    .select("id")
+    .eq("collection_id", collId)
+    .eq("status", "published");
+  const topicIds = (topicRows || []).map((t: any) => t.id as string);
+  let articleCount = 0;
+  if (topicIds.length > 0) {
+    const { count } = await supabase
+      .from("articles")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "published")
+      .in("topic_id", topicIds);
+    articleCount = count ?? 0;
+  }
+
+  const tc = topicCount ?? 0;
   return {
-    id: data.id,
+    id: collId,
     slug: data.slug,
     category_id: data.category_id,
     category_slug: (data.categories as any)?.slug ?? null,
     name: normalizeCollectionName(data.collection_translations?.[0]?.name || data.slug),
     description: data.collection_translations?.[0]?.description || "",
-    topic_count: 0,
-    article_count: 0,
+    topic_count: tc,
+    article_count: articleCount,
+    difficulty: inferDifficulty(tc),
+    estimated_hours: inferEstimatedHours(articleCount),
   };
 }
 
