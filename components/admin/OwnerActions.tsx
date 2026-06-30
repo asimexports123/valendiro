@@ -102,11 +102,41 @@ export function OwnerActions({ automationEnabled }: Props) {
             <p className="text-xs font-normal mt-0.5 text-muted-foreground">Refresh all public pages</p>
           </div>
         </button>
+
+        {/* Validate routes */}
+        <button
+          onClick={async () => {
+            setLoading("validate_routes");
+            setFeedback(null);
+            try {
+              const res = await fetch("/api/admin/validate-routes");
+              const json = await res.json();
+              if (!res.ok) throw new Error(json.error || "Validation failed");
+              const { total, ok, broken, byType } = json;
+              const msg = broken === 0
+                ? `✅ All ${total} routes OK — cats:${byType.categories.ok}/${byType.categories.total} cols:${byType.collections.ok}/${byType.collections.total} topics:${byType.topics.ok}/${byType.topics.total} articles:${byType.articles.ok}/${byType.articles.total}`
+                : `⚠️ ${broken} broken of ${total} — check /api/admin/validate-routes for details`;
+              setFeedback({ ok: broken === 0, message: msg });
+            } catch (err) {
+              setFeedback({ ok: false, message: err instanceof Error ? err.message : "Validation failed" });
+            } finally {
+              setLoading(null);
+            }
+          }}
+          disabled={busy}
+          className="flex items-center justify-center gap-2.5 rounded-2xl border border-border/60 bg-card px-5 py-4 font-semibold text-foreground hover:border-primary/30 hover:shadow-md disabled:opacity-50 transition-all duration-200"
+        >
+          <span className="text-xl">{loading === "validate_routes" ? "⏳" : "🔍"}</span>
+          <div className="text-left">
+            <p className="font-semibold">{loading === "validate_routes" ? "Checking…" : "Validate Routes"}</p>
+            <p className="text-xs font-normal mt-0.5 text-muted-foreground">Check for broken public pages</p>
+          </div>
+        </button>
       </div>
 
       {feedback && (
         <div className={`rounded-xl px-4 py-3 text-sm font-medium ${feedback.ok ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800" : "bg-rose-50 dark:bg-rose-950/30 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800"}`}>
-          {feedback.ok ? "✅" : "❌"} {feedback.message}
+          {feedback.message}
         </div>
       )}
     </div>

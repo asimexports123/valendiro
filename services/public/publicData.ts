@@ -8,6 +8,7 @@ export interface PublicArticle {
   description: string | null;
   reading_time: number;
   updated_at: string | null;
+  category_slug: string | null;
 }
 
 export interface PublicTopic {
@@ -15,6 +16,7 @@ export interface PublicTopic {
   slug: string;
   title: string;
   subtitle: string | null;
+  category_slug: string | null;
 }
 
 export interface PublicCategory {
@@ -29,8 +31,11 @@ export interface PublicCollection {
   id: string;
   slug: string;
   category_id: string;
+  category_slug: string | null;
   name: string;
   description: string;
+  topic_count: number;
+  article_count: number;
 }
 
 const V1_CATEGORY_SLUGS = [
@@ -110,14 +115,14 @@ export async function getRecentQuestions(limit = 5): Promise<PublicQuestion[]> {
   }));
 }
 
-export async function getTrendingTopics(limit = 10): Promise<PublicTopic[]> {
+export async function getTrendingTopics(limit = 16): Promise<PublicTopic[]> {
   const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
   if (categoryIds.length === 0) return [];
 
   const { data } = await supabase
     .from("topics")
-    .select("id, slug, topic_translations(title, subtitle)")
+    .select("id, slug, category_id, topic_translations(title, subtitle), categories(slug)")
     .eq("status", "published")
     .in("category_id", categoryIds)
     .eq("topic_translations.language_code", "en")
@@ -128,7 +133,8 @@ export async function getTrendingTopics(limit = 10): Promise<PublicTopic[]> {
     id: topic.id,
     slug: topic.slug,
     title: topic.topic_translations?.[0]?.title || "Untitled",
-    subtitle: topic.topic_translations?.[0]?.subtitle || "",
+    subtitle: topic.topic_translations?.[0]?.subtitle || null,
+    category_slug: (topic.categories as any)?.slug ?? null,
   }));
 }
 
@@ -162,19 +168,9 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     category.article_count = count ?? 0;
   }
 
-  // Always show all 7 V1 categories — fill gaps with config defaults
-  const dbSlugs = new Set(dbCategories.map((c) => c.slug));
-  const v1Extras: PublicCategory[] = V1_DEFAULT_CONFIG.categories
-    .filter((v) => v.enabled && !dbSlugs.has(v.slug))
-    .map((v) => ({
-      id: v.slug,
-      slug: v.slug,
-      name: V1_DISPLAY_NAMES[v.slug] ?? v.label,
-      description: `Explore ${V1_DISPLAY_NAMES[v.slug] ?? v.label} guides, tutorials and resources.`,
-      article_count: 0,
-    }));
-
-  const merged = [...dbCategories, ...v1Extras];
+  // Only show categories that actually exist in the DB — no phantom cards that 404 on click
+  // v1Extras (categories not yet seeded into DB) are intentionally excluded here
+  const merged = [...dbCategories];
 
   // Sort by canonical V1 order
   const v1Order = V1_CATEGORY_SLUGS;
@@ -195,23 +191,36 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
   const categoryIds = await getV1CategoryIds();
 
   const { data: v1Topics } = categoryIds.length > 0
-    ? await supabase.from("topics").select("id").in("category_id", categoryIds).eq("status", "published")
+    ? await supabase.from("topics").select("id, category_id").in("category_id", categoryIds).eq("status", "published")
     : { data: [] };
   const v1TopicIds = (v1Topics || []).map((t: any) => t.id);
   if (v1TopicIds.length === 0) return [];
 
+  // Build topic→categoryId map
+  const topicCategoryMap: Record<string, string> = {};
+  for (const t of v1Topics || []) topicCategoryMap[t.id] = t.category_id;
+
   const { data } = await supabase
     .from("articles")
-    .select("id, slug, updated_at, article_translations(title, excerpt, content)")
+    .select("id, slug, topic_id, updated_at, article_translations(title, excerpt, content)")
     .eq("status", "published")
     .in("topic_id", v1TopicIds)
     .eq("article_translations.language_code", "en")
     .order("updated_at", { ascending: false })
     .limit(limit);
 
+  // Fetch category slugs for the category ids we have
+  const catIds = [...new Set(Object.values(topicCategoryMap))];
+  const { data: catRows } = catIds.length > 0
+    ? await supabase.from("categories").select("id, slug").in("id", catIds)
+    : { data: [] };
+  const catSlugMap: Record<string, string> = {};
+  for (const c of catRows || []) catSlugMap[c.id] = c.slug;
+
   return (data || []).map((article: any) => {
     const translation = article.article_translations?.[0];
     const text = translation?.content || translation?.excerpt || "";
+    const catId = topicCategoryMap[article.topic_id] ?? null;
     return {
       id: article.id,
       slug: article.slug,
@@ -219,6 +228,7 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
       description: translation?.excerpt || null,
       reading_time: estimateReadingTime(text),
       updated_at: article.updated_at,
+      category_slug: catId ? (catSlugMap[catId] ?? null) : null,
     };
   });
 }
@@ -230,18 +240,48 @@ export async function getFeaturedCollections(limit = 6): Promise<PublicCollectio
 
   const { data } = await supabase
     .from("collections")
-    .select("id, slug, category_id, collection_translations(name, description)")
+    .select("id, slug, category_id, collection_translations(name, description), categories(slug)")
     .in("category_id", categoryIds)
     .eq("collection_translations.language_code", "en")
     .order("sort_order", { ascending: true })
     .limit(limit);
 
-  return (data || []).map((collection: any) => ({
-    id: collection.id,
-    slug: collection.slug,
-    category_id: collection.category_id,
-    name: collection.collection_translations?.[0]?.name || collection.slug,
-    description: collection.collection_translations?.[0]?.description || "",
+  const collections = data || [];
+
+  return Promise.all(collections.map(async (col: any) => {
+    const { count: topicCount } = await supabase
+      .from("topics")
+      .select("id", { count: "exact", head: true })
+      .eq("collection_id", col.id)
+      .eq("status", "published");
+
+    const { data: topicIds } = await supabase
+      .from("topics")
+      .select("id")
+      .eq("collection_id", col.id)
+      .eq("status", "published");
+
+    let articleCount = 0;
+    const ids = (topicIds || []).map((t: any) => t.id);
+    if (ids.length > 0) {
+      const { count } = await supabase
+        .from("articles")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "published")
+        .in("topic_id", ids);
+      articleCount = count ?? 0;
+    }
+
+    return {
+      id: col.id,
+      slug: col.slug,
+      category_id: col.category_id,
+      category_slug: (col.categories as any)?.slug ?? null,
+      name: col.collection_translations?.[0]?.name || col.slug,
+      description: col.collection_translations?.[0]?.description || "",
+      topic_count: topicCount ?? 0,
+      article_count: articleCount,
+    };
   }));
 }
 
@@ -249,7 +289,7 @@ export async function getCollectionsByCategory(categoryId: string, limit = 12): 
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("collections")
-    .select("id, slug, category_id, collection_translations(name, description)")
+    .select("id, slug, category_id, collection_translations(name, description), categories(slug)")
     .eq("category_id", categoryId)
     .eq("collection_translations.language_code", "en")
     .order("sort_order", { ascending: true })
@@ -259,8 +299,11 @@ export async function getCollectionsByCategory(categoryId: string, limit = 12): 
     id: collection.id,
     slug: collection.slug,
     category_id: collection.category_id,
+    category_slug: (collection.categories as any)?.slug ?? null,
     name: collection.collection_translations?.[0]?.name || collection.slug,
     description: collection.collection_translations?.[0]?.description || "",
+    topic_count: 0,
+    article_count: 0,
   }));
 }
 
@@ -268,7 +311,7 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("collections")
-    .select("id, slug, category_id, collection_translations(name, description)")
+    .select("id, slug, category_id, collection_translations(name, description), categories(slug)")
     .eq("slug", slug)
     .eq("collection_translations.language_code", "en")
     .maybeSingle();
@@ -278,8 +321,11 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
     id: data.id,
     slug: data.slug,
     category_id: data.category_id,
+    category_slug: (data.categories as any)?.slug ?? null,
     name: data.collection_translations?.[0]?.name || data.slug,
     description: data.collection_translations?.[0]?.description || "",
+    topic_count: 0,
+    article_count: 0,
   };
 }
 
@@ -298,7 +344,8 @@ export async function getTopicsByCollection(collectionId: string, limit = 12): P
     id: topic.id,
     slug: topic.slug,
     title: topic.topic_translations?.[0]?.title || "Untitled",
-    subtitle: topic.topic_translations?.[0]?.subtitle || "",
+    subtitle: topic.topic_translations?.[0]?.subtitle || null,
+    category_slug: null,
   }));
 }
 
@@ -323,6 +370,7 @@ export async function getArticlesByTopic(topicId: string, limit = 12): Promise<P
       description: translation?.excerpt || null,
       reading_time: estimateReadingTime(text),
       updated_at: article.updated_at,
+      category_slug: null,
     };
   });
 }
@@ -356,6 +404,7 @@ export async function getArticlesByCollection(collectionId: string, limit = 12):
       description: translation?.excerpt || null,
       reading_time: estimateReadingTime(text),
       updated_at: article.updated_at,
+      category_slug: null,
     };
   });
 }
@@ -402,6 +451,9 @@ export async function searchPublicContent(query: string, limit = 20) {
 export interface PublicCategoryDetail extends PublicCategory {}
 
 export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDetail | null> {
+  // Only serve V1 category slugs — any other slug is not a valid public page
+  if (!V1_CATEGORY_SLUGS.includes(slug)) return null;
+
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("categories")
@@ -410,6 +462,7 @@ export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDet
     .eq("category_translations.language_code", "en")
     .maybeSingle();
 
+  // Category row doesn't exist in DB yet — return null so page 404s cleanly
   if (!data) return null;
 
   const translation = data.category_translations?.[0];
@@ -422,7 +475,8 @@ export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDet
   return {
     id: data.id,
     slug: data.slug,
-    name: translation?.name || "Uncategorized",
+    // Always use canonical display name; fall back to DB name, then slug
+    name: V1_DISPLAY_NAMES[data.slug] ?? translation?.name ?? data.slug,
     description: translation?.description || null,
     article_count: count ?? 0,
   };
@@ -443,7 +497,8 @@ export async function getTopicsByCategory(categoryId: string, limit = 12): Promi
     id: topic.id,
     slug: topic.slug,
     title: topic.topic_translations?.[0]?.title || "Untitled",
-    subtitle: topic.topic_translations?.[0]?.subtitle || "",
+    subtitle: topic.topic_translations?.[0]?.subtitle || null,
+    category_slug: null,
   }));
 }
 
@@ -477,6 +532,7 @@ export async function getArticlesByCategory(categoryId: string, limit = 12): Pro
       description: translation?.excerpt || null,
       reading_time: estimateReadingTime(text),
       updated_at: article.updated_at,
+      category_slug: null,
     };
   });
 }
@@ -512,6 +568,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     slug: data.slug,
     title: translation?.title || "Untitled",
     subtitle: translation?.subtitle || null,
+    category_slug: null,
     content: translation?.content || null,
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
@@ -542,7 +599,8 @@ export async function getRelatedTopics(topicId: string, categoryId: string | nul
     id: topic.id,
     slug: topic.slug,
     title: topic.topic_translations?.[0]?.title || "Untitled",
-    subtitle: topic.topic_translations?.[0]?.subtitle || "",
+    subtitle: topic.topic_translations?.[0]?.subtitle || null,
+    category_slug: null,
   }));
 }
 
@@ -638,6 +696,7 @@ export async function getRelatedArticles(articleId: string, topicId: string | nu
       description: translation?.excerpt || null,
       reading_time: estimateReadingTime(text),
       updated_at: article.updated_at,
+      category_slug: null,
     };
   });
 }

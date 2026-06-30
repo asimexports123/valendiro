@@ -268,13 +268,17 @@ export interface KeywordDecisionRow {
   } | null;
 }
 
-export async function getKeywordDecisionReport(limit = 100): Promise<{ data: KeywordDecisionRow[]; error: string | null }> {
+export async function getKeywordDecisionReport(limit = 500, statusFilter?: string): Promise<{ data: KeywordDecisionRow[]; error: string | null }> {
   const supabase = createAdminClient();
-  const { data, error } = await supabase
+  let query = supabase
     .from("demand_topic_queue")
     .select("id, keyword, status, rejection_reason, opportunity_score, created_at, metadata")
     .order("created_at", { ascending: false })
     .limit(limit);
+  if (statusFilter && statusFilter !== "all") {
+    query = query.eq("status", statusFilter);
+  }
+  const { data, error } = await query;
 
   if (error || !data) return { data: [], error: error?.message ?? null };
 

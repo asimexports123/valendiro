@@ -165,7 +165,7 @@ const BLOCKED_PATTERNS = [
   /^special:/i, /^wikipedia:/i, /^main page$/i, /^featured/i,
   /^search$/i, /^\d{4}$/, /\bdeath\b/i, /\bobituary\b/i,
   /\bgossip\b/i, /\bscandal\b/i, /\bleaked\b/i, /\bnude\b/i,
-  /\bgerrymandering\b/i, /^best buy$/i, /^how to$/i,
+  /\bgerrymandering\b/i, /^best buy$/i,
   /what is my\b/i, /^my ip$/i,
   // TV / film / media titles
   /\(miniseries\)/i, /\(tv series\)/i, /\(film\)/i, /\(movie\)/i,
@@ -173,6 +173,45 @@ const BLOCKED_PATTERNS = [
   /\(rapper\)/i, /\(actor\)/i, /\(actress\)/i,
   // Wikipedia disambiguation suffixes are unreliable topics
   /\(disambiguation\)/i, /\(character\)/i, /\(comics\)/i,
+
+  // ── Incomplete / stub phrases (no subject) ────────────────────────────────
+  // Bare intent starters with no meaningful object after them
+  /^how to$/i,
+  /^how to \w{1,3}$/i,           // "how to do", "how to be"
+  /^what is$/i,
+  /^what are$/i,
+  /^who is$/i,
+  /^why is$/i,
+  /^why are$/i,
+  /^how does$/i,
+  /^how do$/i,
+  /^best$/i,
+  /^best \w{1,4}$/i,             // "best way", "best tips"
+  /^list$/i,
+  /^list of$/i,
+  /^top \d+$/i,                  // "top 10", "top 5"
+  /^examples of$/i,
+  /^types of$/i,
+  /^ways to$/i,
+  /^tips for$/i,
+  /^tips to$/i,
+  /^guide to$/i,
+  /^guide for$/i,
+  /^introduction to$/i,
+  /^overview of$/i,
+  /^difference between$/i,
+  /^comparison of$/i,
+  /^vs$/i,
+  /^learn$/i,
+  /^learn \w{1,4}$/i,            // "learn how", "learn more"
+  /^study$/i,
+  /^what$/i,
+  /^why$/i,
+  /^how$/i,
+  /^when$/i,
+  /^where$/i,
+  /^who$/i,
+  /^which$/i,
 ];
 
 // ─── Data: High-business-value keyword signals ────────────────────────────────

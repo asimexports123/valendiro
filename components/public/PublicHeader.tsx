@@ -13,13 +13,13 @@ const NAV_ITEMS = [
 ];
 
 const CATEGORY_QUICK = [
-  { label: "💻 Technology", href: "categories/technology" },
-  { label: "💰 Finance", href: "categories/personal-finance" },
-  { label: "🚀 Business", href: "categories/business" },
-  { label: "📚 Education", href: "categories/education" },
-  { label: "🏃 Health", href: "categories/health-wellness" },
-  { label: "🏠 Home", href: "categories/home-lifestyle" },
-  { label: "✈️ Travel", href: "categories/travel" },
+  { label: "💻 Technology",       href: "categories/technology" },
+  { label: "💰 Personal Finance", href: "categories/personal-finance" },
+  { label: "🚀 Business",         href: "categories/business" },
+  { label: "📚 Education",        href: "categories/education" },
+  { label: "🏃 Health & Wellness",href: "categories/health-wellness" },
+  { label: "🏠 Home & Lifestyle", href: "categories/home-lifestyle" },
+  { label: "✈️ Travel",           href: "categories/travel" },
 ];
 
 function DarkModeToggle() {

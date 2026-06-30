@@ -8,7 +8,8 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { EmptyState } from "@/components/public/EmptyState";
 import { SITE_URL } from "@/lib/constants";
 
-export const revalidate = 86400;
+export const revalidate = 3600;
+export const dynamicParams = true;
 
 async function getCategoryById(categoryId: string) {
   const { createAdminClient } = await import("@/lib/supabase/admin");
