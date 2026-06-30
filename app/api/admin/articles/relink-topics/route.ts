@@ -20,10 +20,16 @@ export async function POST() {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  // Fetch all topics
-  const { data: topics } = await admin
+  // Fetch all topics with translations (name is in topic_translations, not topics)
+  const { data: topicsRaw } = await admin
     .from("topics")
-    .select("id, slug, name");
+    .select("id, slug, topic_translations(title, language_code)");
+
+  const topics = (topicsRaw ?? []).map((t) => {
+    const trans = (t.topic_translations as { title: string; language_code: string }[]) ?? [];
+    const name = trans.find((x) => x.language_code === "en")?.title ?? trans[0]?.title ?? t.slug;
+    return { id: t.id, slug: t.slug, name };
+  });
 
   if (!topics?.length) return NextResponse.json({ linked: 0, total: articles?.length ?? 0 });
 

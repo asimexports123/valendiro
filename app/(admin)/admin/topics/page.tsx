@@ -3,9 +3,7 @@ import { AdminTable } from "@/components/admin/AdminTable";
 import { Pagination } from "@/components/admin/Pagination";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { Button } from "@/components/ui/Button";
-import { listItems } from "@/lib/admin/actions";
-import { Topic } from "@/lib/types";
-import { slugify } from "@/lib/utils/helpers";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export default async function TopicsPage({
   searchParams,
@@ -16,18 +14,28 @@ export default async function TopicsPage({
   const currentPage = parseInt(page, 10) || 1;
   const pageSize = 20;
 
-  const { data: rawRows, count } = await listItems<Topic>(
-    { table: "topics", revalidatePaths: ["/admin/topics"] },
-    {
-      page: currentPage,
-      pageSize,
-      search: q,
-      searchColumns: ["slug"],
-      orderBy: "created_at",
-    }
-  );
+  const supabase = createAdminClient();
+  const offset = (currentPage - 1) * pageSize;
 
-  const rows = rawRows.map((r) => ({ ...r, _published: r.published_at ? new Date(r.published_at).toLocaleDateString() : "—" }));
+  let query = supabase
+    .from("topics")
+    .select("id, slug, status, difficulty, published_at, topic_translations(title, language_code)", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(offset, offset + pageSize - 1);
+
+  if (q) query = query.ilike("slug", `%${q}%`);
+
+  const { data: rawRows, count } = await query;
+
+  const rows = (rawRows ?? []).map((r) => {
+    const trans = (r.topic_translations as { title: string; language_code: string }[]) ?? [];
+    const enTitle = trans.find((t) => t.language_code === "en")?.title ?? trans[0]?.title ?? "—";
+    return {
+      ...r,
+      _name: enTitle,
+      _published: r.published_at ? new Date(r.published_at).toLocaleDateString() : "—",
+    };
+  });
 
   return (
     <div className="space-y-6">
@@ -41,9 +49,9 @@ export default async function TopicsPage({
       <AdminTable
         rows={rows as Record<string, unknown>[]}
         columns={[
+          { key: "_name",      label: "Name" },
           { key: "slug",       label: "Slug" },
           { key: "status",     label: "Status" },
-          { key: "difficulty", label: "Difficulty" },
           { key: "_published", label: "Published" },
         ]}
         basePath="/admin/topics"
@@ -52,7 +60,7 @@ export default async function TopicsPage({
       <Pagination
         page={currentPage}
         pageSize={pageSize}
-        total={count}
+        total={count ?? 0}
         basePath="/admin/topics"
         searchParams={{ q }}
       />
