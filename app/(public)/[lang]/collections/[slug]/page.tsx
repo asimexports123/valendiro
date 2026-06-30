@@ -11,14 +11,14 @@ import { SITE_URL } from "@/lib/constants";
 export const revalidate = 86400;
 
 async function getCategoryById(categoryId: string) {
-  const { createClient } = await import("@/lib/supabase/server");
-  const supabase = await createClient();
+  const { createAdminClient } = await import("@/lib/supabase/admin");
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("categories")
     .select("id, slug, category_translations(name)")
     .eq("id", categoryId)
     .eq("category_translations.language_code", "en")
-    .single();
+    .maybeSingle();
   if (!data) return null;
   return { id: data.id, slug: data.slug, name: data.category_translations?.[0]?.name || "Category" };
 }

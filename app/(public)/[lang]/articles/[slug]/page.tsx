@@ -155,14 +155,14 @@ export default async function ArticlePage({
 }
 
 async function getCategoryBySlugForArticle(categoryId: string) {
-  const { createClient } = await import("@/lib/supabase/server");
-  const supabase = await createClient();
+  const { createAdminClient } = await import("@/lib/supabase/admin");
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("categories")
     .select("id, slug, category_translations(name)")
     .eq("id", categoryId)
     .eq("category_translations.language_code", "en")
-    .single();
+    .maybeSingle();
   if (!data) return null;
   return {
     id: data.id,
@@ -172,14 +172,14 @@ async function getCategoryBySlugForArticle(categoryId: string) {
 }
 
 async function getCollectionBySlugForArticle(collectionId: string) {
-  const { createClient } = await import("@/lib/supabase/server");
-  const supabase = await createClient();
+  const { createAdminClient } = await import("@/lib/supabase/admin");
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("collections")
     .select("id, slug, collection_translations(name)")
     .eq("id", collectionId)
     .eq("collection_translations.language_code", "en")
-    .single();
+    .maybeSingle();
   if (!data) return null;
   return {
     id: data.id,
@@ -189,14 +189,14 @@ async function getCollectionBySlugForArticle(collectionId: string) {
 }
 
 async function getTopicBySlugForArticle(topicId: string) {
-  const { createClient } = await import("@/lib/supabase/server");
-  const supabase = await createClient();
+  const { createAdminClient } = await import("@/lib/supabase/admin");
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
     .select("id, slug, topic_translations(title)")
     .eq("id", topicId)
     .eq("topic_translations.language_code", "en")
-    .single();
+    .maybeSingle();
   if (!data) return null;
   return {
     id: data.id,

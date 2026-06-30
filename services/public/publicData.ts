@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 
 export interface PublicArticle {
@@ -44,7 +44,7 @@ const V1_CATEGORY_SLUGS = [
 ];
 
 async function getV1CategoryIds(): Promise<string[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("categories")
     .select("id")
@@ -59,7 +59,7 @@ export function estimateReadingTime(text: string | null): number {
 }
 
 export async function getCategories(limit = 12): Promise<{ id: string; slug: string; name: string }[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("categories")
     .select("id, slug, sort_order, category_translations(name)")
@@ -83,7 +83,7 @@ export interface PublicQuestion {
 }
 
 export async function getRecentQuestions(limit = 5): Promise<PublicQuestion[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("questions")
     .select("id, question_translations(question_text, answer)")
@@ -100,7 +100,7 @@ export async function getRecentQuestions(limit = 5): Promise<PublicQuestion[]> {
 }
 
 export async function getTrendingTopics(limit = 10): Promise<PublicTopic[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
   if (categoryIds.length === 0) return [];
 
@@ -122,7 +122,7 @@ export async function getTrendingTopics(limit = 10): Promise<PublicTopic[]> {
 }
 
 export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategory[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("categories")
     .select("id, slug, sort_order, category_translations(name, description)")
@@ -177,7 +177,7 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
 }
 
 export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
 
   const { data: v1Topics } = categoryIds.length > 0
@@ -210,7 +210,7 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
 }
 
 export async function getFeaturedCollections(limit = 6): Promise<PublicCollection[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
   if (categoryIds.length === 0) return [];
 
@@ -232,7 +232,7 @@ export async function getFeaturedCollections(limit = 6): Promise<PublicCollectio
 }
 
 export async function getCollectionsByCategory(categoryId: string, limit = 12): Promise<PublicCollection[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("collections")
     .select("id, slug, category_id, collection_translations(name, description)")
@@ -251,13 +251,13 @@ export async function getCollectionsByCategory(categoryId: string, limit = 12): 
 }
 
 export async function getCollectionBySlug(slug: string): Promise<PublicCollection | null> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("collections")
     .select("id, slug, category_id, collection_translations(name, description)")
     .eq("slug", slug)
     .eq("collection_translations.language_code", "en")
-    .single();
+    .maybeSingle();
 
   if (!data) return null;
   return {
@@ -270,7 +270,7 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
 }
 
 export async function getTopicsByCollection(collectionId: string, limit = 12): Promise<PublicTopic[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
     .select("id, slug, topic_translations(title, subtitle)")
@@ -289,7 +289,7 @@ export async function getTopicsByCollection(collectionId: string, limit = 12): P
 }
 
 export async function getArticlesByTopic(topicId: string, limit = 12): Promise<PublicArticle[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("articles")
     .select("id, slug, updated_at, article_translations(title, excerpt, content)")
@@ -314,7 +314,7 @@ export async function getArticlesByTopic(topicId: string, limit = 12): Promise<P
 }
 
 export async function getArticlesByCollection(collectionId: string, limit = 12): Promise<PublicArticle[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: topicIds } = await supabase
     .from("topics")
     .select("id")
@@ -351,7 +351,7 @@ export async function getPopularGuides(limit = 4): Promise<PublicArticle[]> {
 }
 
 export async function searchPublicContent(query: string, limit = 20) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const [articles, topics] = await Promise.all([
     supabase
       .from("articles")
@@ -388,13 +388,13 @@ export async function searchPublicContent(query: string, limit = 20) {
 export interface PublicCategoryDetail extends PublicCategory {}
 
 export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDetail | null> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("categories")
     .select("id, slug, category_translations(name, description, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("category_translations.language_code", "en")
-    .single();
+    .maybeSingle();
 
   if (!data) return null;
 
@@ -415,7 +415,7 @@ export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDet
 }
 
 export async function getTopicsByCategory(categoryId: string, limit = 12): Promise<PublicTopic[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
     .select("id, slug, topic_translations(title, subtitle)")
@@ -434,7 +434,7 @@ export async function getTopicsByCategory(categoryId: string, limit = 12): Promi
 }
 
 export async function getArticlesByCategory(categoryId: string, limit = 12): Promise<PublicArticle[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: topics } = await supabase
     .from("topics")
     .select("id")
@@ -481,14 +481,14 @@ export interface PublicTopicDetail extends PublicTopic {
 }
 
 export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | null> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
     .select("id, slug, category_id, collection_id, updated_at, topic_translations(title, subtitle, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .eq("status", "published")
-    .single();
+    .maybeSingle();
 
   if (!data) return null;
 
@@ -508,7 +508,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
 }
 
 export async function getRelatedTopics(topicId: string, categoryId: string | null, limit = 6): Promise<PublicTopic[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   let query = supabase
     .from("topics")
     .select("id, slug, topic_translations(title, subtitle)")
@@ -549,14 +549,14 @@ export interface PublicArticleDetail {
 }
 
 export async function getArticleBySlug(slug: string): Promise<PublicArticleDetail | null> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("articles")
     .select("id, slug, topic_id, published_at, updated_at, article_translations(title, excerpt, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("article_translations.language_code", "en")
     .eq("status", "published")
-    .single();
+    .maybeSingle();
 
   if (!data) return null;
 
@@ -570,7 +570,7 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
       .from("topics")
       .select("category_id, collection_id")
       .eq("id", data.topic_id)
-      .single();
+      .maybeSingle();
     category_id = topic?.category_id ?? null;
     collection_id = topic?.collection_id ?? null;
   }
@@ -593,7 +593,7 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
 }
 
 export async function getRelatedArticles(articleId: string, topicId: string | null, categoryId: string | null, limit = 4): Promise<PublicArticle[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   let topicIds: string[] = [];
   if (topicId) {
@@ -629,7 +629,7 @@ export async function getRelatedArticles(articleId: string, topicId: string | nu
 }
 
 export async function getQuestionsByTopic(topicId: string, limit = 5): Promise<PublicQuestion[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data } = await supabase
     .from("questions")
     .select("id, question_translations(question_text, answer)")
@@ -647,7 +647,7 @@ export async function getQuestionsByTopic(topicId: string, limit = 5): Promise<P
 }
 
 export async function getQuestionsByCategory(categoryId: string, limit = 5): Promise<PublicQuestion[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: topics } = await supabase
     .from("topics")
     .select("id")
@@ -702,7 +702,7 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
     getArticlesByCategory(category.id, 8),
   ]);
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const collectionsWithCounts: PublicCollectionWithCounts[] = await Promise.all(
     rawCollections.map(async (col) => {
