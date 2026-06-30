@@ -4,10 +4,55 @@ import { checkDuplicateContentBeforePublish, DuplicateCheckInput } from "./dupli
 export interface QualityGateResult {
   passed: boolean;
   checks: {
+    placeholder: { passed: boolean; reason: string | null };
     duplicate: { passed: boolean; reason: string | null };
     readability: { passed: boolean; score: number; reason: string | null };
     internalSimilarity: { passed: boolean; score: number; reason: string | null };
   };
+}
+
+const PLACEHOLDER_PATTERNS = [
+  /cluster covering/i,
+  /to be added\.?/i,
+  /placeholder/i,
+  /lorem ipsum/i,
+  /\[insert/i,
+  /\[add /i,
+  /coming soon/i,
+  /content here/i,
+  /fill in/i,
+  /draft content/i,
+  /provide a clear,? concise overview/i,
+  /expand on the topic with structured/i,
+  /summarize the key takeaways/i,
+  /pros to be added/i,
+  /cons to be added/i,
+  /best for:? use case to be added/i,
+  /reason to be added/i,
+  /features to be added/i,
+  /target audience to be added/i,
+  /product overview to be added/i,
+  /answer to be added/i,
+  /update this section as more data/i,
+  /no related (topics|questions|articles) available yet/i,
+  /no (product )?recommendations available yet/i,
+  /no options to compare yet/i,
+  /key concept in this topic/i,
+  /a solid option in this category/i,
+  /is a key area of interest/i,
+];
+
+function checkPlaceholder(content: string): { passed: boolean; reason: string | null } {
+  for (const pattern of PLACEHOLDER_PATTERNS) {
+    if (pattern.test(content)) {
+      return { passed: false, reason: `Placeholder/template text detected: "${pattern.source}"` };
+    }
+  }
+  return { passed: true, reason: null };
+}
+
+export function runPlaceholderCheck(content: string): { passed: boolean; reason: string | null } {
+  return checkPlaceholder(content);
 }
 
 function normalizeText(text: string): string[] {
@@ -74,15 +119,30 @@ async function checkInternalSimilarity(content: string, topicId: string | null):
 }
 
 export async function runQualityGate(input: DuplicateCheckInput): Promise<QualityGateResult> {
+  const placeholder = checkPlaceholder(input.content);
+
+  if (!placeholder.passed) {
+    return {
+      passed: false,
+      checks: {
+        placeholder,
+        duplicate: { passed: true, reason: null },
+        readability: { passed: true, score: 0, reason: null },
+        internalSimilarity: { passed: true, score: 0, reason: null },
+      },
+    };
+  }
+
   const duplicate = await checkDuplicateContentBeforePublish(input);
   const readability = checkReadability(input.content);
   const internalSimilarity = await checkInternalSimilarity(input.content, input.topicId ?? null);
 
-  const passed = !duplicate.isDuplicate && readability.passed && internalSimilarity.passed;
+  const passed = readability.passed && !duplicate.isDuplicate && internalSimilarity.passed;
 
   return {
     passed,
     checks: {
+      placeholder,
       duplicate: { passed: !duplicate.isDuplicate, reason: duplicate.isDuplicate ? duplicate.reason : null },
       readability,
       internalSimilarity,

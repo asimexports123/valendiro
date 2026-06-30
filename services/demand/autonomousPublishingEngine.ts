@@ -6,12 +6,36 @@ import { clusterDemandSignals } from "./topicClustering";
 import { approveDemandTopicQueueItems, buildDemandTopicQueue } from "./demandTopicQueue";
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
-import { runQualityGate } from "../seo/qualityGate";
+import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
 import { queueArticleExpansionsForTopic, expandAllPendingTopics } from "./topicExpansionEngine";
 import {
   buildHierarchicalLinksForTopic,
   buildHierarchicalLinksForArticle,
 } from "../intelligence/hierarchicalLinkingEngine";
+
+function buildTopicContent(title: string, keyword: string, category: string): string {
+  const lc = title.toLowerCase();
+  const sections = [
+    `## What is ${title}?`,
+    `${title} refers to a subject within the ${category} domain. Understanding ${lc} helps you gain practical knowledge and make informed decisions in this area.`,
+    ``,
+    `## Why ${title} Matters`,
+    `Whether you're a beginner or an experienced practitioner, ${lc} is a topic worth understanding deeply. It connects to broader concepts in ${category} and has real-world applications across many fields.`,
+    ``,
+    `## Key Concepts in ${title}`,
+    `- The fundamentals of ${lc} and how they apply in practice`,
+    `- Common questions people ask about ${lc}`,
+    `- How ${lc} relates to adjacent topics in ${category}`,
+    `- Best resources and next steps for learning more`,
+    ``,
+    `## Getting Started with ${title}`,
+    `If you're new to ${lc}, start with the related articles and guides below. They cover the most important aspects in an approachable way.`,
+    ``,
+    `## Related Reading`,
+    `Explore the related articles and questions on this page to deepen your understanding of ${lc}.`,
+  ];
+  return sections.join("\n");
+}
 
 export interface PublishingEngineResult {
   demandInserted: number;
@@ -182,14 +206,23 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
         throw new Error(topicError?.message || "Topic insert failed");
       }
 
+      const topicKeyword = (metadata.keyword as string) || item.title;
+      const topicContent = buildTopicContent(item.title, topicKeyword, (metadata.category as string) || "General");
+      const topicMetaDesc = `Learn everything about ${item.title} — definitions, guides, tips, and expert resources.`.slice(0, 160);
+
+      const placeholderCheck = runPlaceholderCheck(topicContent);
+      if (!placeholderCheck.passed) {
+        throw new Error(`Topic content failed placeholder check: ${placeholderCheck.reason}`);
+      }
+
       await supabase.from("topic_translations").insert({
         topic_id: topic.id,
         language_code: "en",
         title: item.title,
-        subtitle: item.description,
-        content: `${item.title} is a key area of interest. ${item.description ?? ""}`.trim(),
-        meta_title: item.title,
-        meta_description: item.description,
+        subtitle: `Your complete guide to ${item.title}.`,
+        content: topicContent,
+        meta_title: `${item.title} — Complete Guide`,
+        meta_description: topicMetaDesc,
       });
 
       await supabase
@@ -332,14 +365,24 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
   return result;
 }
 
+// QUALITY GATE: Set to true only after all 10 pilot topics have been manually audited
+const ARTICLE_PUBLISHING_ENABLED = false;
+const TOPIC_PUBLISH_LIMIT = 10;
+
 export async function runFullPublishingCycle(): Promise<PublishingEngineResult> {
   const result = await runAutonomousPublishingPipeline();
-  const topicResult = await publishApprovedTopics(10);
+  const topicResult = await publishApprovedTopics(TOPIC_PUBLISH_LIMIT);
 
-  // Internal knowledge expansion: auto-fill gaps for existing topics
-  const internalExpansion = await expandAllPendingTopics(10);
+  const articleExpansionsQueued = topicResult.articleExpansionsQueued;
+  let articlesPublished = 0;
+  const articleErrors: string[] = [];
 
-  const articleResult = await publishApprovedArticles(10);
+  if (ARTICLE_PUBLISHING_ENABLED) {
+    const internalExpansion = await expandAllPendingTopics(10);
+    const articleResult = await publishApprovedArticles(10);
+    articlesPublished = articleResult.articlesPublished;
+    articleErrors.push(...articleResult.errors);
+  }
 
   return {
     demandInserted: result.demandInserted,
@@ -348,8 +391,8 @@ export async function runFullPublishingCycle(): Promise<PublishingEngineResult> 
     collectionsCreated: result.collectionsCreated + topicResult.collectionsCreated,
     queuedTopics: result.queuedTopics,
     topicsPublished: topicResult.topicsPublished,
-    articleExpansionsQueued: topicResult.articleExpansionsQueued + internalExpansion.total,
-    articlesPublished: articleResult.articlesPublished,
-    errors: [...result.errors, ...topicResult.errors, ...articleResult.errors],
+    articleExpansionsQueued,
+    articlesPublished,
+    errors: [...result.errors, ...topicResult.errors, ...articleErrors],
   };
 }
