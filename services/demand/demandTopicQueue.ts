@@ -69,10 +69,11 @@ export async function buildDemandTopicQueue(
     .eq("language_code", "en");
   const existingTitles = (existingTopics || []).map((t) => t.title as string);
 
+  // Fetch ALL historical queue keywords — not just pending/approved — to prevent re-inserting
+  // keywords that were previously seen in any status (rejected, duplicate, cannibalized, etc.)
   const { data: existingQueued } = await supabase
     .from("demand_topic_queue")
-    .select("keyword")
-    .in("status", ["pending", "approved"]);
+    .select("keyword");
   const existingKeywords = (existingQueued || []).map((q) => q.keyword as string);
 
   const allExistingKeywords = [...existingTitles, ...existingKeywords];

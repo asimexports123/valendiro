@@ -160,6 +160,12 @@ const BLOCKED_PATTERNS = [
   /\bgossip\b/i, /\bscandal\b/i, /\bleaked\b/i, /\bnude\b/i,
   /\bgerrymandering\b/i, /^best buy$/i, /^how to$/i,
   /what is my\b/i, /^my ip$/i,
+  // TV / film / media titles
+  /\(miniseries\)/i, /\(tv series\)/i, /\(film\)/i, /\(movie\)/i,
+  /\(video game\)/i, /\(album\)/i, /\(song\)/i, /\(singer\)/i,
+  /\(rapper\)/i, /\(actor\)/i, /\(actress\)/i,
+  // Wikipedia disambiguation suffixes are unreliable topics
+  /\(disambiguation\)/i, /\(character\)/i, /\(comics\)/i,
 ];
 
 // ─── Data: High-business-value keyword signals ────────────────────────────────
