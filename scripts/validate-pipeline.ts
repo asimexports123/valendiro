@@ -194,16 +194,36 @@ async function validateStage2() {
 
 // ── STAGE 3: Knowledge Expansion ─────────────────────────────────────────────
 async function validateStage3() {
-  h1("STAGE 3: Knowledge Expansion (Article Plans)");
+  h1("STAGE 3: Knowledge Expansion — Entity + Intent + Level");
 
-  const testTopics = ["Docker", "Python", "Index Funds", "Type 2 Diabetes"];
+  // Each test case documents: topic → expected intent → expected level → key article signal
+  const testTopics: Array<{ topic: string; expectedIntent: string; expectedLevel: string; mustContain: string }> = [
+    { topic: "Docker",                    expectedIntent: "definition",      expectedLevel: "beginner",      mustContain: "What Is"          },
+    { topic: "Docker Commands",           expectedIntent: "reference",       expectedLevel: "beginner",      mustContain: "Cheat Sheet"       },
+    { topic: "Learn Python",             expectedIntent: "tutorial",        expectedLevel: "beginner",      mustContain: "Beginners"         },
+    { topic: "Advanced Docker",          expectedIntent: "definition",      expectedLevel: "advanced",      mustContain: "Deep Dive"         },
+    { topic: "Docker for DevOps",        expectedIntent: "definition",      expectedLevel: "professional",  mustContain: "Production"        },
+    { topic: "Docker vs Kubernetes",     expectedIntent: "comparison",      expectedLevel: "beginner",      mustContain: "Comparison"        },
+    { topic: "Python Intermediate Guide", expectedIntent: "guide",          expectedLevel: "intermediate",  mustContain: "Practical"         },
+    { topic: "Compound Interest Formula", expectedIntent: "calculator",     expectedLevel: "beginner",      mustContain: "Formula"           },
+    { topic: "Index Funds",              expectedIntent: "definition",      expectedLevel: "beginner",      mustContain: "What Is"           },
+    { topic: "Best Index Funds 2024",    expectedIntent: "review",          expectedLevel: "beginner",      mustContain: "Review"            },
+    { topic: "Docker not working",       expectedIntent: "troubleshooting", expectedLevel: "beginner",      mustContain: "Errors"            },
+    { topic: "Type 2 Diabetes",          expectedIntent: "definition",      expectedLevel: "beginner",      mustContain: "What Is"           },
+  ];
 
-  for (const topic of testTopics) {
+  // Import intent + level classifiers
+  const { classifySearchIntent, classifyReaderLevel } = await import("../services/intelligence/topicSearchIntentClassifier");
+
+  for (const { topic, expectedIntent, expectedLevel, mustContain } of testTopics) {
     const domain = classifyTopicDomain(topic);
-    const plans = generateArticleExpansionPlans(topic);
+    const intent = classifySearchIntent(topic);
+    const level  = classifyReaderLevel(topic);
+    const plans  = generateArticleExpansionPlans(topic);
 
     const genericCount = plans.filter((p) => isGenericTitle(p.title)).length;
-    const hasGeneric = genericCount > 0;
+    const hasGeneric   = genericCount > 0;
+    const containsKey  = plans.some((p) => p.title.toLowerCase().includes(mustContain.toLowerCase()));
 
     const entry: ValidationReport["stage3_expansion"][0] = {
       topic,
@@ -214,17 +234,32 @@ async function validateStage3() {
       issues: [],
     };
 
-    h2(`Topic: ${topic} (${domain})`);
-    ok(`${plans.length} article plans generated`);
-    for (const p of plans.slice(0, 5)) {
+    const intentOk = intent === expectedIntent;
+    const levelOk  = level  === expectedLevel;
+
+    h2(`"${topic}"`);
+    intentOk ? ok(`Intent: ${intent} ✓`) : warn(`Intent: ${intent} (expected ${expectedIntent})`);
+    levelOk  ? ok(`Level: ${level} ✓`)   : warn(`Level: ${level} (expected ${expectedLevel})`);
+    ok(`Entity: ${domain}`);
+    ok(`${plans.length} article plans`);
+
+    for (const p of plans.slice(0, 3)) {
       const generic = isGenericTitle(p.title);
       if (generic) { warn(`GENERIC: "${p.title}"`); entry.issues.push(`Generic title: ${p.title}`); }
-      else ok(`"${p.title}" [keyword: ${p.keyword}]`);
+      else ok(`  → "${p.title}"`);
     }
 
+    if (!containsKey) {
+      warn(`Missing expected article containing "${mustContain}"`);
+      entry.issues.push(`Roadmap missing article containing "${mustContain}"`);
+    } else {
+      ok(`Roadmap contains expected article (${mustContain}) ✓`);
+    }
+
+    if (!intentOk) entry.issues.push(`Wrong intent: ${intent} vs expected ${expectedIntent}`);
+    if (!levelOk)  entry.issues.push(`Wrong level: ${level} vs expected ${expectedLevel}`);
     if (plans.length < 4) { entry.issues.push("Too few article plans"); fail(`Only ${plans.length} plans`); }
-    if (hasGeneric) { entry.issues.push(`${genericCount} generic titles detected`); report.summary.criticalIssues.push(`Generic expansion titles for: ${topic}`); }
-    else ok("No generic titles detected ✓");
+    if (hasGeneric) { entry.issues.push(`${genericCount} generic titles`); report.summary.criticalIssues.push(`Generic expansion: ${topic}`); }
 
     report.stage3_expansion.push(entry);
     if (entry.issues.length === 0) report.summary.expansionOk++;

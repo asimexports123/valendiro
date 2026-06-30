@@ -1,5 +1,11 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { classifyTopicDomain, type TopicDomain } from "@/services/intelligence/topicDomainClassifier";
+import {
+  classifySearchIntent,
+  classifyReaderLevel,
+  type SearchIntent,
+  type ReaderLevel,
+} from "@/services/intelligence/topicSearchIntentClassifier";
 
 export interface ArticleExpansionPlan {
   title: string;
@@ -296,38 +302,210 @@ function plans_educational_general(t: string): ArticleExpansionPlan[] {
   ];
 }
 
+// ─── Intent + Level override roadmaps ─────────────────────────────────────────
+// These are shared across entity types when intent is strongly detected.
+// They override the entity-default roadmap.
+
+function plans_intent_comparison(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t}: Complete Comparison`, keyword: `${t} comparison`, articleType: "comparison", intent: "informational", priorityScore: 98 },
+    { title: `${t} Feature Comparison Table`, keyword: `${t} features table`, articleType: "reference", intent: "informational", priorityScore: 94 },
+    { title: `${t} Use Cases`, keyword: `${t} use cases`, articleType: "guide", intent: "informational", priorityScore: 90 },
+    { title: `${t} Pros and Cons`, keyword: `${t} pros and cons`, articleType: "guide", intent: "informational", priorityScore: 86 },
+    { title: `Which Should You Choose? Decision Guide`, keyword: `${t} which to choose`, articleType: "guide", intent: "informational", priorityScore: 82 },
+    { title: `${t} Performance Benchmarks`, keyword: `${t} performance benchmark`, articleType: "reference", intent: "informational", priorityScore: 78 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_intent_reference(t: string, entity: TopicDomain): ArticleExpansionPlan[] {
+  const isTech = entity.startsWith("tech_");
+  if (isTech) {
+    return [
+      { title: `${t} Cheat Sheet`, keyword: `${t} cheat sheet`, articleType: "reference", intent: "informational", priorityScore: 98 },
+      { title: `${t} Command Reference`, keyword: `${t} all commands`, articleType: "reference", intent: "informational", priorityScore: 94 },
+      { title: `${t} with Examples`, keyword: `${t} examples`, articleType: "tutorial", intent: "informational", priorityScore: 90 },
+      { title: `${t} Flags and Options Explained`, keyword: `${t} flags options`, articleType: "reference", intent: "informational", priorityScore: 86 },
+      { title: `${t} Common Patterns`, keyword: `${t} common patterns`, articleType: "guide", intent: "informational", priorityScore: 80 },
+      { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+    ];
+  }
+  return [
+    { title: `${t}: Complete Reference`, keyword: `${t} reference`, articleType: "reference", intent: "informational", priorityScore: 98 },
+    { title: `${t} Key Terms and Definitions`, keyword: `${t} key terms`, articleType: "reference", intent: "informational", priorityScore: 90 },
+    { title: `${t} Examples`, keyword: `${t} examples`, articleType: "guide", intent: "informational", priorityScore: 84 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_intent_troubleshooting(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t}: Common Errors and Fixes`, keyword: `${t} errors fixes`, articleType: "guide", intent: "informational", priorityScore: 98 },
+    { title: `How to Debug ${t}`, keyword: `how to debug ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
+    { title: `${t} Error Messages Explained`, keyword: `${t} error messages`, articleType: "reference", intent: "informational", priorityScore: 90 },
+    { title: `${t} Troubleshooting Checklist`, keyword: `${t} troubleshooting checklist`, articleType: "guide", intent: "informational", priorityScore: 86 },
+    { title: `Why Is ${t} Not Working?`, keyword: `why is ${t} not working`, articleType: "guide", intent: "informational", priorityScore: 82 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_intent_calculator(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t} Formula Explained`, keyword: `${t} formula`, articleType: "reference", intent: "informational", priorityScore: 98 },
+    { title: `How to Calculate ${t}`, keyword: `how to calculate ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 95 },
+    { title: `${t} Calculator: Step-by-Step`, keyword: `${t} calculator step by step`, articleType: "tutorial", intent: "informational", priorityScore: 92 },
+    { title: `${t} Examples with Numbers`, keyword: `${t} examples`, articleType: "guide", intent: "informational", priorityScore: 88 },
+    { title: `${t} vs Related Formulas`, keyword: `${t} vs`, articleType: "comparison", intent: "informational", priorityScore: 82 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_intent_checklist(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t} Checklist`, keyword: `${t} checklist`, articleType: "guide", intent: "informational", priorityScore: 98 },
+    { title: `${t} Step-by-Step Process`, keyword: `${t} step by step`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
+    { title: `${t} Best Practices`, keyword: `${t} best practices`, articleType: "guide", intent: "informational", priorityScore: 88 },
+    { title: `${t} Common Mistakes`, keyword: `${t} common mistakes`, articleType: "guide", intent: "informational", priorityScore: 84 },
+    { title: `${t} Template`, keyword: `${t} template`, articleType: "reference", intent: "informational", priorityScore: 80 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_intent_review(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t}: Honest Review`, keyword: `${t} review`, articleType: "review", intent: "commercial", priorityScore: 98 },
+    { title: `Is ${t} Worth It?`, keyword: `is ${t} worth it`, articleType: "guide", intent: "commercial", priorityScore: 94 },
+    { title: `${t} Pros and Cons`, keyword: `${t} pros and cons`, articleType: "guide", intent: "commercial", priorityScore: 90 },
+    { title: `${t} vs Alternatives`, keyword: `${t} vs alternatives`, articleType: "comparison", intent: "commercial", priorityScore: 86 },
+    { title: `Who Should Use ${t}?`, keyword: `who should use ${t}`, articleType: "guide", intent: "informational", priorityScore: 82 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+// Level-specific tutorial roadmaps for technology
+function plans_tutorial_tech_beginner(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t} for Beginners: Complete Guide`, keyword: `${t} for beginners`, articleType: "tutorial", intent: "informational", priorityScore: 98 },
+    { title: `How to Install ${t}`, keyword: `how to install ${t}`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
+    { title: `${t} Basics: Your First Steps`, keyword: `${t} basics first steps`, articleType: "tutorial", intent: "informational", priorityScore: 90 },
+    { title: `${t} Syntax and Core Concepts`, keyword: `${t} syntax core concepts`, articleType: "tutorial", intent: "informational", priorityScore: 86 },
+    { title: `Your First ${t} Project`, keyword: `first ${t} project`, articleType: "tutorial", intent: "informational", priorityScore: 83 },
+    { title: `Common ${t} Beginner Mistakes`, keyword: `${t} beginner mistakes`, articleType: "guide", intent: "informational", priorityScore: 78 },
+    { title: `${t} Exercises for Beginners`, keyword: `${t} exercises beginners`, articleType: "tutorial", intent: "informational", priorityScore: 74 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_tutorial_tech_intermediate(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t} Practical Guide`, keyword: `${t} practical guide`, articleType: "tutorial", intent: "informational", priorityScore: 98 },
+    { title: `${t} Real-World Project Tutorial`, keyword: `${t} real world project`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
+    { title: `${t} Design Patterns`, keyword: `${t} design patterns`, articleType: "guide", intent: "informational", priorityScore: 90 },
+    { title: `${t} Testing and Debugging`, keyword: `${t} testing debugging`, articleType: "tutorial", intent: "informational", priorityScore: 86 },
+    { title: `${t} Best Practices`, keyword: `${t} best practices`, articleType: "guide", intent: "informational", priorityScore: 82 },
+    { title: `${t} Performance Optimization`, keyword: `${t} performance optimization`, articleType: "guide", intent: "informational", priorityScore: 78 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_tutorial_tech_advanced(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t} Architecture Deep Dive`, keyword: `${t} architecture deep dive`, articleType: "guide", intent: "informational", priorityScore: 98 },
+    { title: `${t} Internals Explained`, keyword: `${t} internals explained`, articleType: "explainer", intent: "informational", priorityScore: 94 },
+    { title: `Advanced ${t} Patterns`, keyword: `advanced ${t} patterns`, articleType: "guide", intent: "informational", priorityScore: 90 },
+    { title: `${t} Performance Tuning`, keyword: `${t} performance tuning`, articleType: "guide", intent: "informational", priorityScore: 86 },
+    { title: `${t} Security Hardening`, keyword: `${t} security hardening`, articleType: "guide", intent: "informational", priorityScore: 82 },
+    { title: `${t} at Scale`, keyword: `${t} at scale`, articleType: "guide", intent: "informational", priorityScore: 78 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+function plans_tutorial_tech_professional(t: string): ArticleExpansionPlan[] {
+  return [
+    { title: `${t} for Production Teams`, keyword: `${t} production teams`, articleType: "guide", intent: "informational", priorityScore: 98 },
+    { title: `${t} CI/CD Pipeline Setup`, keyword: `${t} ci cd pipeline`, articleType: "tutorial", intent: "informational", priorityScore: 94 },
+    { title: `${t} Enterprise Architecture`, keyword: `${t} enterprise architecture`, articleType: "guide", intent: "informational", priorityScore: 90 },
+    { title: `${t} Monitoring and Observability`, keyword: `${t} monitoring observability`, articleType: "guide", intent: "informational", priorityScore: 86 },
+    { title: `${t} Security and Compliance`, keyword: `${t} security compliance`, articleType: "guide", intent: "informational", priorityScore: 82 },
+    { title: `${t} Cost Optimization`, keyword: `${t} cost optimization`, articleType: "guide", intent: "informational", priorityScore: 78 },
+    { title: `${t} FAQ`, keyword: `${t} frequently asked questions`, articleType: "guide", intent: "informational", priorityScore: 65 },
+  ];
+}
+
+// ─── 3D Router: Entity + Intent + Level ───────────────────────────────────────
+
 export function generateArticleExpansionPlans(topicTitle: string): ArticleExpansionPlan[] {
   const clean = topicTitle.trim();
   const entity = classifyTopicDomain(clean);
+  const intent = classifySearchIntent(clean);
+  const level  = classifyReaderLevel(clean);
 
   let plans: ArticleExpansionPlan[];
-  switch (entity) {
-    // Technology
-    case "tech_programming_language":  plans = plans_tech_programming_language(clean); break;
-    case "tech_framework":             plans = plans_tech_framework(clean); break;
-    case "tech_tool_cli":              plans = plans_tech_tool_cli(clean); break;
-    case "tech_cloud_service":         plans = plans_tech_cloud_service(clean); break;
-    case "tech_database":              plans = plans_tech_database(clean); break;
-    case "tech_programming_concept":   plans = plans_tech_programming_concept(clean); break;
-    // Finance
-    case "finance_investment_instrument": plans = plans_finance_investment_instrument(clean); break;
-    case "finance_financial_formula":     plans = plans_finance_financial_formula(clean); break;
-    case "finance_investment_strategy":   plans = plans_finance_investment_strategy(clean); break;
-    case "finance_banking_product":       plans = plans_finance_banking_product(clean); break;
-    case "finance_tax_concept":           plans = plans_finance_tax_concept(clean); break;
-    case "finance_market_concept":        plans = plans_finance_market_concept(clean); break;
-    // Health
-    case "health_disease":             plans = plans_health_disease(clean); break;
-    case "health_medication":          plans = plans_health_medication(clean); break;
-    case "health_nutrition_topic":     plans = plans_health_nutrition_topic(clean); break;
-    case "health_fitness_topic":       plans = plans_health_fitness_topic(clean); break;
-    case "health_medical_concept":     plans = plans_health_medical_concept(clean); break;
-    // Other
-    case "movie_tv":                   plans = plans_movie_tv(clean); break;
-    case "historical_event":           plans = plans_historical_event(clean); break;
-    case "place_travel":               plans = plans_place_travel(clean); break;
-    case "product_review":             plans = plans_product_review(clean); break;
-    default:                           plans = plans_educational_general(clean); break;
+
+  // ── Intent overrides (cross-entity) ─────────────────────────────────────
+  // These fire when the title contains strong intent signals regardless of entity type.
+
+  if (intent === "comparison") {
+    plans = plans_intent_comparison(clean);
+  } else if (intent === "troubleshooting") {
+    plans = plans_intent_troubleshooting(clean);
+  } else if (intent === "calculator") {
+    plans = plans_intent_calculator(clean);
+  } else if (intent === "checklist") {
+    plans = plans_intent_checklist(clean);
+  } else if (intent === "review") {
+    plans = plans_intent_review(clean);
+  } else if (intent === "reference") {
+    plans = plans_intent_reference(clean, entity);
+
+  // ── Tutorial intent: route by entity family + reader level ───────────────
+  } else if (intent === "tutorial" && entity.startsWith("tech_")) {
+    switch (level) {
+      case "beginner":      plans = plans_tutorial_tech_beginner(clean); break;
+      case "intermediate":  plans = plans_tutorial_tech_intermediate(clean); break;
+      case "advanced":      plans = plans_tutorial_tech_advanced(clean); break;
+      case "professional":  plans = plans_tutorial_tech_professional(clean); break;
+    }
+
+  // ── Level override for tech entities with advanced/professional signals ──
+  // Covers: "Advanced Docker" (definition+advanced), "Docker for DevOps" (definition+professional)
+  } else if (entity.startsWith("tech_") && level === "advanced") {
+    plans = plans_tutorial_tech_advanced(clean);
+  } else if (entity.startsWith("tech_") && level === "professional") {
+    plans = plans_tutorial_tech_professional(clean);
+  } else if (entity.startsWith("tech_") && level === "intermediate") {
+    plans = plans_tutorial_tech_intermediate(clean);
+
+  // ── Entity-type default roadmaps (definition / guide intent) ─────────────
+  } else {
+    switch (entity) {
+      // Technology
+      case "tech_programming_language":  plans = plans_tech_programming_language(clean); break;
+      case "tech_framework":             plans = plans_tech_framework(clean); break;
+      case "tech_tool_cli":              plans = plans_tech_tool_cli(clean); break;
+      case "tech_cloud_service":         plans = plans_tech_cloud_service(clean); break;
+      case "tech_database":              plans = plans_tech_database(clean); break;
+      case "tech_programming_concept":   plans = plans_tech_programming_concept(clean); break;
+      // Finance
+      case "finance_investment_instrument": plans = plans_finance_investment_instrument(clean); break;
+      case "finance_financial_formula":     plans = plans_finance_financial_formula(clean); break;
+      case "finance_investment_strategy":   plans = plans_finance_investment_strategy(clean); break;
+      case "finance_banking_product":       plans = plans_finance_banking_product(clean); break;
+      case "finance_tax_concept":           plans = plans_finance_tax_concept(clean); break;
+      case "finance_market_concept":        plans = plans_finance_market_concept(clean); break;
+      // Health
+      case "health_disease":             plans = plans_health_disease(clean); break;
+      case "health_medication":          plans = plans_health_medication(clean); break;
+      case "health_nutrition_topic":     plans = plans_health_nutrition_topic(clean); break;
+      case "health_fitness_topic":       plans = plans_health_fitness_topic(clean); break;
+      case "health_medical_concept":     plans = plans_health_medical_concept(clean); break;
+      // Other
+      case "movie_tv":                   plans = plans_movie_tv(clean); break;
+      case "historical_event":           plans = plans_historical_event(clean); break;
+      case "place_travel":               plans = plans_place_travel(clean); break;
+      case "product_review":             plans = plans_product_review(clean); break;
+      default:                           plans = plans_educational_general(clean); break;
+    }
   }
 
   return plans.filter((plan, index, self) =>

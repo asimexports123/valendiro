@@ -15,8 +15,8 @@ export function PopularGuides({ lang, guides }: { lang: string; guides: PublicAr
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-7">
           <div>
-            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">Popular Articles</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Most-read articles worth reading today</p>
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">Featured Guides</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Editor-picked guides worth reading today</p>
           </div>
           <Link href={`/${lang}/articles`} className="text-sm font-medium text-primary hover:text-primary/80 transition shrink-0">
             Browse all →
