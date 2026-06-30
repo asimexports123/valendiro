@@ -669,36 +669,77 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
   return result;
 }
 
-// Article publishing is gated behind an environment variable.
-// Set ARTICLE_PUBLISHING_ENABLED=true in .env.local to enable.
-// Default: true — pipeline publishes articles after all quality and checklist gates pass.
+// ─── Knowledge-First Publishing Cycle ────────────────────────────────────────
+//
+// Flow:
+//   1. Knowledge Tree → queue new topics from Category→Collection→Topic hierarchy
+//   2. Publish queued topics (Gemini writes topic description)
+//   3. Expand published topics → queue domain-specific articles
+//   4. Publish queued articles (full 6-agent Gemini pipeline per article)
+//
+// This replaces keyword-first demand discovery entirely.
+
 const ARTICLE_PUBLISHING_ENABLED = process.env.ARTICLE_PUBLISHING_ENABLED !== "false";
-const TOPIC_PUBLISH_LIMIT = 10;
+const TOPIC_PUBLISH_LIMIT = parseInt(process.env.TOPIC_PUBLISH_LIMIT ?? "5", 10);
+const ARTICLE_PUBLISH_LIMIT = parseInt(process.env.ARTICLE_PUBLISH_LIMIT ?? "3", 10);
+const TOPICS_PER_COLLECTION = parseInt(process.env.TOPICS_PER_COLLECTION ?? "3", 10);
 
 export async function runFullPublishingCycle(): Promise<PublishingEngineResult> {
-  const result = await runAutonomousPublishingPipeline();
-  const topicResult = await publishApprovedTopics(TOPIC_PUBLISH_LIMIT);
+  const combined: PublishingEngineResult = {
+    demandInserted: 0,
+    clustersCreated: 0,
+    categoriesCreated: 0,
+    collectionsCreated: 0,
+    queuedTopics: 0,
+    topicsPublished: 0,
+    articleExpansionsQueued: 0,
+    articlesPublished: 0,
+    errors: [],
+  };
 
-  const articleExpansionsQueued = topicResult.articleExpansionsQueued;
-  let articlesPublished = 0;
-  const articleErrors: string[] = [];
-
-  if (ARTICLE_PUBLISHING_ENABLED) {
-    const internalExpansion = await expandAllPendingTopics(10);
-    const articleResult = await publishApprovedArticles(10);
-    articlesPublished = articleResult.articlesPublished;
-    articleErrors.push(...articleResult.errors);
+  // Step 1: Knowledge Tree → queue new topics
+  try {
+    const { expandKnowledgeTree } = await import("@/services/demand/knowledgeTreeGenerator");
+    const treeResult = await expandKnowledgeTree(TOPICS_PER_COLLECTION);
+    combined.queuedTopics += treeResult.totalTopicsQueued;
+    combined.errors.push(...treeResult.errors);
+    console.log(`[PublishingCycle] Knowledge tree: queued ${treeResult.totalTopicsQueued} new topics across ${treeResult.collectionsProcessed} collections`);
+  } catch (err) {
+    combined.errors.push(`Knowledge tree expansion failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 
-  return {
-    demandInserted: result.demandInserted,
-    clustersCreated: result.clustersCreated,
-    categoriesCreated: result.categoriesCreated + topicResult.categoriesCreated,
-    collectionsCreated: result.collectionsCreated + topicResult.collectionsCreated,
-    queuedTopics: result.queuedTopics,
-    topicsPublished: topicResult.topicsPublished,
-    articleExpansionsQueued,
-    articlesPublished,
-    errors: [...result.errors, ...topicResult.errors, ...articleErrors],
-  };
+  // Step 2: Publish queued topics
+  try {
+    const topicResult = await publishApprovedTopics(TOPIC_PUBLISH_LIMIT);
+    combined.topicsPublished += topicResult.topicsPublished;
+    combined.articleExpansionsQueued += topicResult.articleExpansionsQueued;
+    combined.errors.push(...topicResult.errors);
+    console.log(`[PublishingCycle] Topics published: ${topicResult.topicsPublished}`);
+  } catch (err) {
+    combined.errors.push(`Topic publishing failed: ${err instanceof Error ? err.message : String(err)}`);
+  }
+
+  // Step 3: Expand published topics → queue domain-specific articles
+  try {
+    const { expandAllPendingTopics } = await import("@/services/demand/topicExpansionEngine");
+    const expansionResult = await expandAllPendingTopics(10);
+    combined.articleExpansionsQueued += expansionResult.total;
+    console.log(`[PublishingCycle] Article expansions queued: ${expansionResult.total}`);
+  } catch (err) {
+    combined.errors.push(`Topic expansion failed: ${err instanceof Error ? err.message : String(err)}`);
+  }
+
+  // Step 4: Publish queued articles
+  if (ARTICLE_PUBLISHING_ENABLED) {
+    try {
+      const articleResult = await publishApprovedArticles(ARTICLE_PUBLISH_LIMIT);
+      combined.articlesPublished += articleResult.articlesPublished;
+      combined.errors.push(...articleResult.errors);
+      console.log(`[PublishingCycle] Articles published: ${articleResult.articlesPublished}`);
+    } catch (err) {
+      combined.errors.push(`Article publishing failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  return combined;
 }
