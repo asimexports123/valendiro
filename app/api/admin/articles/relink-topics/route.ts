@@ -29,28 +29,35 @@ export async function POST() {
 
   let linked = 0;
   for (const article of articles ?? []) {
-    const title = (article.article_translations as { title: string }[])?.[0]?.title ?? article.slug;
-    const titleWords = title.toLowerCase().replace(/[^a-z0-9 ]/g, "").split(" ").filter(Boolean);
-
-    // Score each topic by word overlap with article title
+    const title = ((article.article_translations as { title: string }[])?.[0]?.title ?? article.slug)
+      .toLowerCase().replace(/[^a-z0-9 ]/g, "");
+    const slugText = article.slug.toLowerCase().replace(/[-_]/g, " ");
+    const searchText = title + " " + slugText;
+    // Score each topic by word overlap
     let bestTopicId: string | null = null;
     let bestScore = 0;
 
     for (const topic of topics) {
-      const topicWords = (topic.name + " " + topic.slug)
+      const topicText = (topic.name + " " + topic.slug)
         .toLowerCase()
-        .replace(/[^a-z0-9 ]/g, "")
-        .split(/[\s-]+/)
-        .filter(Boolean);
+        .replace(/[-_]/g, " ")
+        .replace(/[^a-z0-9 ]/g, "");
+      const topicWords = topicText.split(" ").filter((w) => w.length > 3);
 
-      const overlap = titleWords.filter((w) => topicWords.includes(w) && w.length > 3).length;
-      if (overlap > bestScore) {
-        bestScore = overlap;
+      // Count how many topic words appear in article text
+      const overlap = topicWords.filter((w) => searchText.includes(w)).length;
+      // Also check if article slug contains topic slug
+      const slugContains = article.slug.includes(topic.slug.slice(0, 15)) ? 2 : 0;
+
+      const score = overlap + slugContains;
+      if (score > bestScore) {
+        bestScore = score;
         bestTopicId = topic.id;
       }
     }
 
-    if (bestTopicId && bestScore >= 2) {
+    // threshold = 1: at least one meaningful word match
+    if (bestTopicId && bestScore >= 1) {
       const { error: updateError } = await admin
         .from("articles")
         .update({ topic_id: bestTopicId })
