@@ -72,22 +72,25 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const topic = await getTopicBySlug(slug);
   if (!topic) notFound();
 
-  const [relatedTopics, relatedArticles, faqs, collection] = await Promise.all([
+  const [relatedTopics, topicArticles, faqs, collection] = await Promise.all([
     getRelatedTopics(topic.id, topic.category_id, 6),
-    getArticlesByTopic(topic.id, 6),
+    getArticlesByTopic(topic.id, 12),
     getQuestionsByTopic(topic.id, 5),
     topic.collection_id ? getCollectionBySlugFromId(topic.collection_id) : null,
   ]);
 
   const category = topic.category_id ? await getCategoryBySlugFromId(topic.category_id) : null;
+  const relatedArticles = topicArticles.slice(0, 4);
   const accent = CATEGORY_ACCENT[category?.slug ?? ""] ?? { bg: "bg-muted", text: "text-muted-foreground", border: "border-border" };
   const readingTime = estimateReadingTime(topic.content);
   const headings = topic.content ? extractHeadings(topic.content) : [];
   const keyTakeaways = topic.content ? extractKeyTakeaways(topic.content) : [];
 
+  /* Full breadcrumb: Home > Category > Collection > Topic */
   const breadcrumbs = [
     { name: "Home", href: `/${lang}`, isCurrent: false },
-    { name: category?.name || "Topics", href: category ? `/${lang}/categories/${category.slug}` : `/${lang}/topics`, isCurrent: false },
+    ...(category ? [{ name: category.name, href: `/${lang}/categories/${category.slug}`, isCurrent: false }] : []),
+    ...(collection ? [{ name: collection.name, href: `/${lang}/collections/${collection.slug}`, isCurrent: false }] : []),
     { name: topic.title, href: `/${lang}/topics/${slug}`, isCurrent: true },
   ];
 
@@ -176,6 +179,41 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
             {/* Article content */}
             {topic.content && <MarkdownContent content={topic.content} />}
 
+            {/* Articles in this topic — numbered list (spec: Topic Page = Articles List) */}
+            {topicArticles.length > 0 && (
+              <div className="mt-14">
+                <div className="flex items-center justify-between mb-5">
+                  <div>
+                    <h2 className="text-xl font-bold tracking-tight text-foreground">Articles in this topic</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">{topicArticles.length} article{topicArticles.length !== 1 ? "s" : ""} — read in any order</p>
+                  </div>
+                </div>
+                <ol className="space-y-2">
+                  {topicArticles.map((a, i) => (
+                    <li key={a.id}>
+                      <Link
+                        href={`/${lang}/articles/${a.slug}`}
+                        className="group flex items-start gap-4 rounded-xl border border-border/60 bg-card px-4 py-3.5 hover:border-primary/40 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200"
+                      >
+                        <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold border-2 border-border/60 bg-background text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors mt-0.5 ${accent.text}`}>
+                          {i + 1}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors leading-snug">
+                            {a.title}
+                          </h3>
+                          {a.description && (
+                            <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">{a.description}</p>
+                          )}
+                        </div>
+                        <span className="text-xs text-muted-foreground shrink-0 pt-0.5">{a.reading_time} min</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
             {/* FAQ */}
             {faqs.length > 0 && (
               <div className="mt-14">
@@ -183,7 +221,7 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
               </div>
             )}
 
-            {/* Related articles */}
+            {/* Related articles (from other topics) */}
             {relatedArticles.length > 0 && (
               <div className="mt-14">
                 <h2 className="text-xl font-semibold text-foreground mb-6">Related Guides</h2>
