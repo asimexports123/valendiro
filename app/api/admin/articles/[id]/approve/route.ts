@@ -1,24 +1,19 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
 
-  // Allow local dev with pipeline test secret
-  const body = await request.json().catch(() => ({})) as { secret?: string };
-  const isLocalDev = process.env.NODE_ENV === "development" &&
-    body.secret === (process.env.PIPELINE_TEST_SECRET ?? "local-test");
-
-  if (!isLocalDev) {
-    // Production: require service role key in Authorization header
-    const auth = request.headers.get("authorization") ?? "";
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
-    if (!serviceKey || !auth.includes(serviceKey.slice(-10))) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Not signed in" }, { status: 401 });
   }
 
   const admin = createAdminClient();
