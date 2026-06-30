@@ -162,15 +162,18 @@ async function validateStage2() {
     } else {
       ok(`${seedTopics.length} seed topics defined`);
 
-      // Domain check — all topics in docker collection should be technology
+      // Domain check — verify entity types are in correct domain family
       for (const topic of seedTopics.slice(0, 5)) {
         const domain = classifyTopicDomain(topic);
         const expectedDomains: Record<string, string[]> = {
-          docker: ["technology"],
-          python: ["technology"],
-          "investing-basics": ["finance_concept", "finance_product"],
+          docker: ["tech_tool_cli", "tech_programming_concept", "tech_framework"],
+          python: ["tech_programming_language", "tech_programming_concept", "tech_framework"],
+          "investing-basics": [
+            "finance_investment_instrument", "finance_financial_formula",
+            "finance_investment_strategy", "finance_market_concept", "finance_banking_product",
+          ],
         };
-        const correct = (expectedDomains[slug] ?? ["technology"]).includes(domain);
+        const correct = (expectedDomains[slug] ?? ["tech_programming_language"]).includes(domain);
         stageEntry.domainCheck.push({ topic, domain, correct });
 
         if (correct) ok(`"${topic}" → ${domain} ✓`);
