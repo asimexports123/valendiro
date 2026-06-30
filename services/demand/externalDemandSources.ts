@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { DemandSourceResult, ExternalTrendInput } from "./demandSources";
+import { fetchStackOverflowQuestions, fetchGitHubTrending, detectInternalContentGaps } from "./additionalDemandSources";
 import { DemandIntent, DemandQualityScore, isPublishable, scoreDemandKeyword } from "./topicQualityEngine";
 import {
   getActiveCategories,
@@ -195,6 +196,19 @@ export async function captureAllExternalDemand(): Promise<DemandSourceResult> {
   const cats = await getActiveCategories();
   const seedEntries = await getAllActiveSeedQueries();
   const seedKeywords = seedEntries.map((s) => s.query);
+
+  // Run additional structured sources in parallel before the keyword loop
+  const [soResult, ghResult, gapResult] = await Promise.allSettled([
+    fetchStackOverflowQuestions("en"),
+    fetchGitHubTrending("en"),
+    detectInternalContentGaps("en"),
+  ]);
+  if (soResult.status === "fulfilled") inserted += soResult.value.inserted;
+  else errors.push(`Stack Overflow: ${soResult.reason}`);
+  if (ghResult.status === "fulfilled") inserted += ghResult.value.inserted;
+  else errors.push(`GitHub Trending: ${ghResult.reason}`);
+  if (gapResult.status === "fulfilled") inserted += gapResult.value.inserted;
+  else errors.push(`Internal gaps: ${gapResult.reason}`);
 
   const sources: (() => Promise<DiscoveredKeyword[]>)[] = [
     () => Promise.all(seedKeywords.slice(0, 20).map((s) => fetchGoogleAutocomplete(s, "en", cats))).then((r) => r.flat()),

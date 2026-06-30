@@ -8,6 +8,7 @@ export interface QualityGateResult {
     duplicate: { passed: boolean; reason: string | null };
     readability: { passed: boolean; score: number; reason: string | null };
     internalSimilarity: { passed: boolean; score: number; reason: string | null };
+    structural: { passed: boolean; reason: string | null };
   };
 }
 
@@ -118,6 +119,38 @@ async function checkInternalSimilarity(content: string, topicId: string | null):
   return { passed: true, score: bestScore, reason: null };
 }
 
+function checkStructural(content: string, objectType: "topic" | "article" = "article"): { passed: boolean; reason: string | null } {
+  const words = content.split(/\s+/).filter((w) => w.length > 0);
+  const minWords = objectType === "topic" ? 200 : 300;
+  if (words.length < minWords) {
+    return { passed: false, reason: `Content too short: ${words.length} words (minimum ${minWords} for ${objectType})` };
+  }
+
+  const h2Matches = content.match(/^##\s+.+/gm) || [];
+  if (h2Matches.length < 3) {
+    return { passed: false, reason: `Too few H2 sections: ${h2Matches.length} found (minimum 3)` };
+  }
+
+  // Articles must have a conclusion and FAQ — topics are index pages and do not require these
+  if (objectType === "article") {
+    const hasConclusion = /^##\s+(conclusion|summary|final thoughts|takeaways|next steps)/im.test(content);
+    if (!hasConclusion) {
+      return { passed: false, reason: "Missing conclusion section (H2 with 'Conclusion' or 'Summary')" };
+    }
+
+    const hasFAQ = /^##\s+(frequently asked questions|faq|common questions)/im.test(content);
+    if (!hasFAQ) {
+      return { passed: false, reason: "Missing FAQ section (H2 with 'FAQ' or 'Frequently Asked Questions')" };
+    }
+  }
+
+  return { passed: true, reason: null };
+}
+
+export function runStructuralCheck(content: string, objectType: "topic" | "article" = "article"): { passed: boolean; reason: string | null } {
+  return checkStructural(content, objectType);
+}
+
 export async function runQualityGate(input: DuplicateCheckInput): Promise<QualityGateResult> {
   const placeholder = checkPlaceholder(input.content);
 
@@ -129,6 +162,21 @@ export async function runQualityGate(input: DuplicateCheckInput): Promise<Qualit
         duplicate: { passed: true, reason: null },
         readability: { passed: true, score: 0, reason: null },
         internalSimilarity: { passed: true, score: 0, reason: null },
+        structural: { passed: true, reason: null },
+      },
+    };
+  }
+
+  const structural = checkStructural(input.content, input.objectType === "topic" ? "topic" : "article");
+  if (!structural.passed) {
+    return {
+      passed: false,
+      checks: {
+        placeholder,
+        duplicate: { passed: true, reason: null },
+        readability: { passed: true, score: 0, reason: null },
+        internalSimilarity: { passed: true, score: 0, reason: null },
+        structural,
       },
     };
   }
@@ -146,6 +194,7 @@ export async function runQualityGate(input: DuplicateCheckInput): Promise<Qualit
       duplicate: { passed: !duplicate.isDuplicate, reason: duplicate.isDuplicate ? duplicate.reason : null },
       readability,
       internalSimilarity,
+      structural,
     },
   };
 }

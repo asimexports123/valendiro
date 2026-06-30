@@ -11,29 +11,48 @@ export function generateArticleExpansionPlans(topicTitle: string): ArticleExpans
   const clean = topicTitle.trim();
   const lower = clean.toLowerCase();
 
+  // Core evergreen knowledge articles — every topic gets these
   const plans: ArticleExpansionPlan[] = [
-    { title: `Best ${clean}`, articleType: "guide", intent: "commercial", priorityScore: 95 },
-    { title: `${clean} Buying Guide`, articleType: "guide", intent: "commercial", priorityScore: 90 },
-    { title: `What is ${clean}?`, articleType: "explainer", intent: "informational", priorityScore: 85 },
-    { title: `Beginner's Guide to ${clean}`, articleType: "guide", intent: "informational", priorityScore: 80 },
-    { title: `${clean} FAQ`, articleType: "guide", intent: "informational", priorityScore: 75 },
-    { title: `Common ${clean} Mistakes`, articleType: "guide", intent: "informational", priorityScore: 70 },
-    { title: `How to Use ${clean}`, articleType: "tutorial", intent: "informational", priorityScore: 65 },
-    { title: `${clean} Safety Tips`, articleType: "guide", intent: "informational", priorityScore: 60 },
-    { title: `${clean} Maintenance`, articleType: "guide", intent: "informational", priorityScore: 55 },
-    { title: `${clean} Troubleshooting`, articleType: "guide", intent: "informational", priorityScore: 50 },
+    { title: `What Is ${clean}? A Complete Introduction`, articleType: "explainer", intent: "informational", priorityScore: 95 },
+    { title: `How ${clean} Works: Step-by-Step Explanation`, articleType: "explainer", intent: "informational", priorityScore: 90 },
+    { title: `${clean} for Beginners: Everything You Need to Know`, articleType: "guide", intent: "informational", priorityScore: 85 },
+    { title: `Key Concepts in ${clean} Explained`, articleType: "explainer", intent: "informational", priorityScore: 80 },
+    { title: `${clean}: Common Mistakes and How to Avoid Them`, articleType: "guide", intent: "informational", priorityScore: 75 },
+    { title: `${clean} vs Related Approaches: Key Differences`, articleType: "comparison", intent: "informational", priorityScore: 70 },
+    { title: `Frequently Asked Questions About ${clean}`, articleType: "guide", intent: "informational", priorityScore: 65 },
+    { title: `Advanced ${clean}: Taking Your Skills Further`, articleType: "guide", intent: "informational", priorityScore: 60 },
   ];
 
-  if (lower.includes("charger") || lower.includes("tool") || lower.includes("software") || lower.includes("app")) {
-    plans.push({ title: `Level 1 vs Level 2 ${clean}`, articleType: "comparison", intent: "commercial", priorityScore: 88 });
-    plans.push({ title: `${clean} Installation Guide`, articleType: "tutorial", intent: "informational", priorityScore: 72 });
+  // Technology-specific articles
+  if (lower.includes("programming") || lower.includes("code") || lower.includes("software") ||
+      lower.includes("python") || lower.includes("javascript") || lower.includes("api") ||
+      lower.includes("algorithm") || lower.includes("framework") || lower.includes("library")) {
+    plans.push({ title: `Getting Started with ${clean}: Installation and Setup`, articleType: "tutorial", intent: "informational", priorityScore: 88 });
+    plans.push({ title: `${clean} Best Practices Every Developer Should Know`, articleType: "guide", intent: "informational", priorityScore: 83 });
+    plans.push({ title: `Debugging Common ${clean} Errors`, articleType: "guide", intent: "informational", priorityScore: 72 });
   }
 
-  if (lower.includes("cost") || lower.includes("price") || lower.includes("buy") || lower.includes("best")) {
-    plans.push({ title: `${clean} Cost Breakdown`, articleType: "explainer", intent: "informational", priorityScore: 78 });
+  // Finance-specific articles
+  if (lower.includes("invest") || lower.includes("budget") || lower.includes("saving") ||
+      lower.includes("credit") || lower.includes("loan") || lower.includes("tax") ||
+      lower.includes("retirement") || lower.includes("fund") || lower.includes("stock")) {
+    plans.push({ title: `${clean}: A Practical Guide for Beginners`, articleType: "guide", intent: "informational", priorityScore: 87 });
+    plans.push({ title: `How to Get Started with ${clean} Safely`, articleType: "guide", intent: "informational", priorityScore: 82 });
+    plans.push({ title: `${clean} Risks and How to Manage Them`, articleType: "guide", intent: "informational", priorityScore: 74 });
   }
 
-  return plans.filter((plan, index, self) => index === self.findIndex((p) => p.title.toLowerCase() === plan.title.toLowerCase()));
+  // Health-specific articles
+  if (lower.includes("health") || lower.includes("fitness") || lower.includes("nutrition") ||
+      lower.includes("mental") || lower.includes("diet") || lower.includes("exercise") ||
+      lower.includes("sleep") || lower.includes("supplement") || lower.includes("vitamin")) {
+    plans.push({ title: `${clean}: Benefits, Risks, and What the Research Says`, articleType: "guide", intent: "informational", priorityScore: 86 });
+    plans.push({ title: `How to Incorporate ${clean} Into Your Daily Routine`, articleType: "guide", intent: "informational", priorityScore: 79 });
+  }
+
+  // Deduplicate by normalized title
+  return plans.filter((plan, index, self) =>
+    index === self.findIndex((p) => p.title.toLowerCase() === plan.title.toLowerCase())
+  );
 }
 
 export async function queueArticleExpansionsForTopic(topicId: string, topicTitle: string, languageCode = "en") {
