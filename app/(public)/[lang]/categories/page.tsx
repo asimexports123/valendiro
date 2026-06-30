@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { getCategoriesWithCounts } from "@/services/public/publicData";
 import { CategoryGrid } from "@/components/public/CategoryGrid";
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function generateMetadata({
   params,
@@ -12,8 +12,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   return buildMetadata({
-    title: "Categories — Valendiro",
-    description: "Browse knowledge categories on Valendiro, the global knowledge platform.",
+    title: "All Categories — Valendiro",
+    description: "Browse all knowledge categories on Valendiro — technology, finance, health, education, travel and more.",
     canonical: `/${lang}/categories`,
   });
 }
@@ -27,12 +27,23 @@ export default async function CategoriesPage({
   const categories = await getCategoriesWithCounts(24);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <div className="mb-10">
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">Categories</h1>
-        <p className="mt-3 text-muted-foreground">Explore trusted knowledge organized by topic.</p>
+    <>
+      {/* Hero */}
+      <div className="border-b border-border/50 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            Explore by Category
+          </h1>
+          <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
+            Every subject you care about — organised, structured, and ready to explore. Pick a category to dive in.
+          </p>
+        </div>
       </div>
-      <CategoryGrid lang={lang} categories={categories} />
-    </div>
+
+      {/* Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <CategoryGrid lang={lang} categories={categories} />
+      </div>
+    </>
   );
 }

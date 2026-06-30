@@ -1,9 +1,10 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { searchPublicContent } from "@/services/public/publicData";
-import Link from "next/link";
+import { EmptyState } from "@/components/public/EmptyState";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -15,8 +16,8 @@ export async function generateMetadata({
   const { lang } = await params;
   const { q } = await searchParams;
   return buildMetadata({
-    title: q ? `Search results for "${q}" — Valendiro` : "Search — Valendiro",
-    description: "Search millions of articles, guides, and answers on Valendiro.",
+    title: q ? `"${q}" — Valendiro Search` : "Search — Valendiro",
+    description: "Search trusted articles, guides, and topics on Valendiro.",
     canonical: `/${lang}/search`,
   });
 }
@@ -30,59 +31,87 @@ export default async function SearchPage({
 }) {
   const { lang } = await params;
   const { q = "" } = await searchParams;
-  const results = q ? await searchPublicContent(q) : { articles: [], topics: [] };
+  const results = q.trim() ? await searchPublicContent(q.trim()) : { articles: [], topics: [] };
   const hasResults = results.articles.length > 0 || results.topics.length > 0;
+  const total = results.articles.length + results.topics.length;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
-        {q ? `Search results for "${q}"` : "Search Valendiro"}
-      </h1>
-      <p className="mt-3 text-muted-foreground">
-        Find trusted articles, guides, and answers across every topic.
-      </p>
-
-      {q && !hasResults && (
-        <p className="mt-8 text-muted-foreground">
-          No results found. Try a different keyword or browse <Link href={`/${lang}/categories`} className="text-accent hover:underline">categories</Link>.
-        </p>
-      )}
-
-      {results.articles.length > 0 && (
-        <div className="mt-10">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Articles</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {results.articles.map((article) => (
-              <Link
-                key={article.id}
-                href={`/${lang}/articles/${article.slug}`}
-                className="group rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow)] hover:shadow-[var(--shadow-elevated)] hover:border-primary/20 transition-all duration-200"
-              >
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">{article.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{article.excerpt || ""}</p>
-              </Link>
-            ))}
-          </div>
+    <>
+      {/* Search header */}
+      <div className="border-b border-border/50 bg-muted/30">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
+          {q ? (
+            <>
+              <p className="text-sm font-medium text-muted-foreground mb-2">Search results</p>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">&ldquo;{q}&rdquo;</h1>
+              {hasResults && <p className="mt-2 text-sm text-muted-foreground">{total} result{total !== 1 ? "s" : ""} found</p>}
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">Search Valendiro</h1>
+              <p className="mt-3 text-muted-foreground">Find trusted articles, guides, and topics.</p>
+            </>
+          )}
         </div>
-      )}
+      </div>
 
-      {results.topics.length > 0 && (
-        <div className="mt-10">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Topics</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {results.topics.map((topic) => (
-              <Link
-                key={topic.id}
-                href={`/${lang}/topics/${topic.slug}`}
-                className="group rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow)] hover:shadow-[var(--shadow-elevated)] hover:border-primary/20 transition-all duration-200"
-              >
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">{topic.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{topic.subtitle || ""}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-12">
+        {!q && (
+          <EmptyState
+            emoji="🔍"
+            title="Start searching"
+            description="Type a keyword in the search bar above to find articles, guides, and topics."
+            action={{ label: "Browse Categories", href: `/${lang}/categories` }}
+          />
+        )}
+
+        {q && !hasResults && (
+          <EmptyState
+            emoji="💭"
+            title={`No results for \u201c${q}\u201d`}
+            description="Try a different keyword, or browse our categories to find what you are looking for."
+            action={{ label: "Browse Categories", href: `/${lang}/categories` }}
+          />
+        )}
+
+        {results.topics.length > 0 && (
+          <section>
+            <h2 className="text-lg font-semibold text-foreground mb-4">Topics</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {results.topics.map((topic) => (
+                <Link
+                  key={topic.id}
+                  href={`/${lang}/topics/${topic.slug}`}
+                  className="group flex flex-col rounded-2xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-md transition-all duration-200"
+                >
+                  <span className="text-xs font-semibold text-primary/60 mb-1 uppercase tracking-wide">Topic</span>
+                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">{topic.title}</h3>
+                  {topic.subtitle && <p className="mt-2 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{topic.subtitle}</p>}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {results.articles.length > 0 && (
+          <section>
+            <h2 className="text-lg font-semibold text-foreground mb-4">Articles</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {results.articles.map((article) => (
+                <Link
+                  key={article.id}
+                  href={`/${lang}/articles/${article.slug}`}
+                  className="group flex flex-col rounded-2xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-md transition-all duration-200"
+                >
+                  <span className="text-xs font-semibold text-accent/70 mb-1 uppercase tracking-wide">Article</span>
+                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">{article.title}</h3>
+                  {article.excerpt && <p className="mt-2 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{article.excerpt}</p>}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </>
   );
 }
