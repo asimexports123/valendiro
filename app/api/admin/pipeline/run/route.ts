@@ -1,25 +1,28 @@
 /**
  * POST /api/admin/pipeline/run
  *
- * Triggers the Autonomous Intelligence Engine pipeline.
+ * Triggers the Knowledge-First Publishing Pipeline.
  * Requires admin or editor role.
  *
  * Body: { stage?: "full" | "discover" | "topics" | "articles" | "images" | "links", limit?: number }
  *
  * Stages:
  *   full      — run the entire pipeline end-to-end (default)
- *   discover  — keyword discovery + clustering + queue building only
- *   topics    — publish approved topics from content_generation_queue
- *   articles  — publish approved articles from content_generation_queue
+ *   discover  — scan knowledge tree: Category → Collection → Topic → queue new topics
+ *   topics    — publish queued topics from content_generation_queue
+ *   articles  — generate + publish queued articles (5-agent Gemini pipeline)
  *   images    — assign featured images to articles missing them
  *   links     — rebuild hierarchical internal links for all topics + articles
+ *
+ * Content always originates from the curated knowledge hierarchy, never from
+ * keyword tools. Keywords are used AFTER publish (GSC/GA) to optimize existing
+ * content, not to decide what content to create.
  */
 
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import {
   runFullPublishingCycle,
-  runAutonomousPublishingPipeline,
   publishApprovedTopics,
   publishApprovedArticles,
   type PublishingEngineResult,
@@ -76,10 +79,17 @@ export async function POST(request: Request) {
         break;
       }
 
-      // ── Stage 1-4: Discovery → Clustering → Queue → Keyword Research ─────
+      // ── Knowledge Tree Scan: Category → Collection → Topic → Queue ────────
       case "discover": {
-        const r = await runAutonomousPublishingPipeline();
-        result = buildPipelineResponse(r, stage);
+        const { expandKnowledgeTree } = await import("@/services/demand/knowledgeTreeGenerator");
+        const treeResult = await expandKnowledgeTree(limit);
+        result = {
+          stage,
+          topicsQueued: treeResult.totalTopicsQueued,
+          collectionsProcessed: treeResult.collectionsProcessed,
+          errors: treeResult.errors,
+          errorCount: treeResult.errors.length,
+        };
         break;
       }
 

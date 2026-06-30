@@ -1,17 +1,11 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { ENABLE_DEMAND_DISCOVERY } from "@/lib/constants";
-import { captureAllExternalDemand } from "./externalDemandSources";
-import { captureInternalSearchIntentDemand, captureSeasonalTrends } from "./demandSources";
-import { clusterDemandSignals } from "./topicClustering";
-import { approveDemandTopicQueueItems, buildDemandTopicQueue } from "./demandTopicQueue";
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
 import { runAgentPipeline } from "../intelligence/agentPipeline";
 import { isQuotaExhaustedError } from "../llm";
-import { runKeywordResearch } from "./keywordResearchEngine";
 import { runQualityGate, runPlaceholderCheck } from "../seo/qualityGate";
-import { getActiveCategories } from "./categoryConfig";
 import { queueArticleExpansionsForTopic, expandAllPendingTopics } from "./topicExpansionEngine";
+import { classifyTopicDomain } from "../intelligence/topicDomainClassifier";
 import {
   buildHierarchicalLinksForTopic,
   buildHierarchicalLinksForArticle,
@@ -119,128 +113,46 @@ export interface PublishingEngineResult {
   errors: string[];
 }
 
+/**
+ * @deprecated Keyword-first discovery is retired.
+ * Content discovery now flows from Category → Collection → Topic (knowledge tree).
+ * This function is kept as an alias to runFullPublishingCycle for backward compatibility.
+ * All callers should migrate to runFullPublishingCycle().
+ */
 export async function runAutonomousPublishingPipeline(): Promise<PublishingEngineResult> {
-  const result: PublishingEngineResult = {
-    demandInserted: 0,
-    clustersCreated: 0,
-    categoriesCreated: 0,
-    collectionsCreated: 0,
-    queuedTopics: 0,
-    topicsPublished: 0,
-    articleExpansionsQueued: 0,
-    articlesPublished: 0,
-    errors: [],
-  };
-
-  const supabase = createAdminClient();
-
-  if (!ENABLE_DEMAND_DISCOVERY) {
-    return result;
-  }
-
-  // Step 1: Demand discovery
-  try {
-    const internal = await captureInternalSearchIntentDemand("en");
-    const seasonal = await captureSeasonalTrends("en");
-    const external = await captureAllExternalDemand();
-    result.demandInserted = internal.inserted + seasonal.inserted + external.inserted;
-    if (internal.error) result.errors.push(internal.error);
-    if (seasonal.error) result.errors.push(seasonal.error);
-    if (external.error) result.errors.push(external.error);
-  } catch (err) {
-    result.errors.push(err instanceof Error ? err.message : "Demand discovery failed");
-  }
-
-  // Step 2: Topic clustering + automatic category and collection creation
-  try {
-    const clusterResult = await clusterDemandSignals("en");
-    result.clustersCreated += clusterResult.clustersCreated;
-    result.categoriesCreated += clusterResult.categoriesCreated;
-    result.collectionsCreated += clusterResult.collectionsCreated;
-    result.errors.push(...clusterResult.errors);
-  } catch (err) {
-    result.errors.push(err instanceof Error ? err.message : "Clustering failed");
-  }
-
-  // Step 3: Queue filtering (duplicates, near-duplicates, cannibalization)
-  try {
-    const queueResult = await buildDemandTopicQueue(45, 100);
-    result.queuedTopics += queueResult.queued;
-    result.errors.push(...queueResult.errors);
-  } catch (err) {
-    result.errors.push(err instanceof Error ? err.message : "Queue filtering failed");
-  }
-
-  // Step 4: Keyword Research Decision Gate + Promote to content generation queue
-  try {
-    const approvedItems = await approveDemandTopicQueueItems(10);
-    // Load active categories once for all keywords in this run
-    const activeCategories = await getActiveCategories();
-    for (const item of approvedItems) {
-      // ── Decision Engine: every keyword must pass research before any content is created ──
-      const research = runKeywordResearch(item.keyword, activeCategories);
-
-      // Store research result back on the demand_topic_queue item regardless of decision
-      await supabase
-        .from("demand_topic_queue")
-        .update({
-          metadata: {
-            ...(item.metadata as Record<string, unknown> || {}),
-            keyword_research: research,
-          },
-        })
-        .eq("id", item.id);
-
-      if (research.decision === "reject") {
-        result.errors.push(`Rejected by Decision Engine: ${item.keyword} — ${research.decisionReason}`);
-        await supabase
-          .from("demand_topic_queue")
-          .update({ status: "rejected", rejection_reason: research.decisionReason })
-          .eq("id", item.id);
-        continue;
-      }
-
-      if (research.decision === "backlog") {
-        // Store in queue but don't promote to content generation yet
-        await supabase
-          .from("demand_topic_queue")
-          .update({ status: "pending", rejection_reason: `Backlog: ${research.decisionReason}` })
-          .eq("id", item.id);
-        continue;
-      }
-
-      // decision === "publish" — promote to content generation queue
-      const { error: queueError } = await supabase.from("content_generation_queue").insert({
-        object_type: "topic",
-        title: item.title,
-        description: item.description,
-        reason: `Decision Engine approved: ${item.keyword} (score ${research.finalDecisionScore})`,
-        priority_score: research.finalDecisionScore,
-        status: "pending",
-        metadata: {
-          demand_topic_queue_id: item.id,
-          keyword: item.keyword,
-          category: item.category,
-          collection_id: item.collection_id,
-          intent: research.searchIntent,
-          detected_entity: research.detectedEntity,
-          keyword_research: research,
-        },
-      });
-
-      if (queueError) {
-        result.errors.push(queueError.message);
-      } else {
-        result.queuedTopics++;
-        await supabase.from("demand_topic_queue").update({ status: "approved" }).eq("id", item.id);
-      }
-    }
-  } catch (err) {
-    result.errors.push(err instanceof Error ? err.message : "Promotion to generation queue failed");
-  }
-
-  return result;
+  console.warn("[runAutonomousPublishingPipeline] DEPRECATED — routing to runFullPublishingCycle (knowledge-first)");
+  return runFullPublishingCycle();
 }
+
+// ─── RETIRED: Keyword-First Discovery Pipeline ────────────────────────────────
+//
+// The following stages have been permanently retired (Jul 2026):
+//
+//   OLD FLOW (keyword-first):
+//     captureInternalSearchIntentDemand()
+//     captureSeasonalTrends()
+//     captureAllExternalDemand()
+//     clusterDemandSignals()
+//     buildDemandTopicQueue()
+//     approveDemandTopicQueueItems() + runKeywordResearch() decision gate
+//     → promote to content_generation_queue
+//
+//   NEW FLOW (knowledge-first):
+//     expandKnowledgeTree()           — Category → Collection → Topic hierarchy
+//     publishApprovedTopics()         — write topic pages
+//     expandAllPendingTopics()        — entity-type + intent + level roadmaps
+//     publishApprovedArticles()       — 5-agent Gemini pipeline per article
+//
+// Keywords now serve as optimization signals (GSC/GA) AFTER publish,
+// not as content discovery inputs.
+//
+// Files that can be deleted when confirmed stable (30-day window):
+//   services/demand/externalDemandSources.ts
+//   services/demand/demandSources.ts
+//   services/demand/topicClustering.ts
+//   services/demand/demandTopicQueue.ts
+//   services/demand/keywordResearchEngine.ts (keep API route for GSC integration)
+//   services/demand/categoryConfig.ts
 
 export async function publishApprovedTopics(limit = 10): Promise<PublishingEngineResult> {
   const result: PublishingEngineResult = {
@@ -462,9 +374,15 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       // ── 5-Agent Gemini Pipeline ────────────────────────────────────────────
       // Agent 1: Research  → Agent 2: Outline → Agent 3: Write
       // Agent 4: Review    → Agent 5: SEO     → Save as DRAFT
-      const activeCategories = await getActiveCategories();
-      const kwResult = runKeywordResearch(item.title, activeCategories);
-      const categoryLabel = kwResult.categoryLabel ?? "General Knowledge";
+      // Derive category label from entity type — no keyword tool needed
+      const entityType = classifyTopicDomain(item.title);
+      const categoryLabel = entityType.startsWith("tech_") ? "Technology"
+        : entityType.startsWith("finance_") ? "Personal Finance"
+        : entityType.startsWith("health_") ? "Health & Wellness"
+        : entityType === "place_travel" ? "Travel"
+        : entityType === "product_review" ? "Consumer Products"
+        : entityType === "historical_event" ? "Education"
+        : "General Knowledge";
 
       let content: string;
       let generated: { title: string; excerpt: string; content: string; metaTitle: string; metaDescription: string };
