@@ -1028,6 +1028,56 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
   };
 }
 
+export interface NavSubcategory {
+  name: string;
+  slug: string;
+}
+
+export interface NavCategory {
+  label: string;
+  slug: string;
+  subcategories: NavSubcategory[];
+}
+
+export async function getNavData(): Promise<NavCategory[]> {
+  const supabase = createAdminClient();
+  const { data: cats } = await supabase
+    .from("categories")
+    .select("id, slug, category_translations(name)")
+    .in("slug", V1_CATEGORY_SLUGS)
+    .eq("category_translations.language_code", "en")
+    .order("sort_order", { ascending: true });
+
+  if (!cats || cats.length === 0) return [];
+
+  const results: NavCategory[] = await Promise.all(
+    (cats as any[]).map(async (cat) => {
+      const { data: subs } = await supabase
+        .from("subcategories")
+        .select("slug, subcategory_translations(name)")
+        .eq("category_id", cat.id)
+        .eq("subcategory_translations.language_code", "en")
+        .order("sort_order", { ascending: true })
+        .limit(10);
+
+      return {
+        label: V1_DISPLAY_NAMES[cat.slug] ?? cat.category_translations?.[0]?.name ?? cat.slug,
+        slug: cat.slug,
+        subcategories: (subs || []).map((s: any) => ({
+          name: normalizeSubcategoryName(s.subcategory_translations?.[0]?.name || s.slug),
+          slug: s.slug,
+        })),
+      };
+    })
+  );
+
+  return results.sort((a, b) => {
+    const ai = V1_CATEGORY_SLUGS.indexOf(a.slug);
+    const bi = V1_CATEGORY_SLUGS.indexOf(b.slug);
+    return ai - bi;
+  });
+}
+
 export interface FeaturedTopicWithMeta {
   id: string;
   slug: string;
@@ -1047,7 +1097,7 @@ export async function getFeaturedTopicsWithMeta(limit = 8): Promise<FeaturedTopi
 
   const { data } = await supabase
     .from("topics")
-    .select("id, slug, category_id, subcategory_id, topic_translations(title, subtitle), categories(slug, category_translations(name)), subcategories(slug, subcategory_translations(name))")
+    .select("id, slug, category_id, subcategory_id, topic_translations(title, subtitle)")
     .eq("status", "published")
     .in("category_id", categoryIds)
     .eq("topic_translations.language_code", "en")
@@ -1056,6 +1106,26 @@ export async function getFeaturedTopicsWithMeta(limit = 8): Promise<FeaturedTopi
 
   if (!data || data.length === 0) return [];
 
+  // Fetch category names separately
+  const catIds = [...new Set((data as any[]).map((t) => t.category_id).filter(Boolean))];
+  const { data: catRows } = catIds.length > 0
+    ? await supabase.from("categories").select("id, slug, category_translations(name)").in("id", catIds).eq("category_translations.language_code", "en")
+    : { data: [] };
+  const catMap: Record<string, { slug: string; name: string }> = {};
+  for (const c of (catRows || []) as any[]) {
+    catMap[c.id] = { slug: c.slug, name: c.category_translations?.[0]?.name || c.slug };
+  }
+
+  // Fetch subcategory names separately
+  const subIds = [...new Set((data as any[]).map((t) => t.subcategory_id).filter(Boolean))];
+  const { data: subRows } = subIds.length > 0
+    ? await supabase.from("subcategories").select("id, slug, subcategory_translations(name)").in("id", subIds).eq("subcategory_translations.language_code", "en")
+    : { data: [] };
+  const subMap: Record<string, { slug: string; name: string }> = {};
+  for (const s of (subRows || []) as any[]) {
+    subMap[s.id] = { slug: s.slug, name: s.subcategory_translations?.[0]?.name || s.slug };
+  }
+
   return Promise.all((data as any[]).map(async (topic) => {
     const { count } = await supabase
       .from("articles")
@@ -1063,15 +1133,18 @@ export async function getFeaturedTopicsWithMeta(limit = 8): Promise<FeaturedTopi
       .eq("topic_id", topic.id)
       .eq("status", "published");
 
+    const cat = catMap[topic.category_id] || null;
+    const sub = subMap[topic.subcategory_id] || null;
+
     return {
       id: topic.id,
       slug: topic.slug,
       title: topic.topic_translations?.[0]?.title || "Untitled",
       subtitle: topic.topic_translations?.[0]?.subtitle || null,
-      category_name: topic.categories?.category_translations?.[0]?.name || null,
-      category_slug: topic.categories?.slug || null,
-      subcategory_name: topic.subcategories?.subcategory_translations?.[0]?.name || null,
-      subcategory_slug: topic.subcategories?.slug || null,
+      category_name: cat?.name || null,
+      category_slug: cat?.slug || null,
+      subcategory_name: sub?.name || null,
+      subcategory_slug: sub?.slug || null,
       article_count: count ?? 0,
     };
   }));

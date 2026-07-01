@@ -4,90 +4,17 @@ import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { SITE_NAME } from "@/lib/constants";
+import { NavCategory } from "@/services/public/publicData";
 
-const CATEGORIES = [
-  {
-    label: "Technology",
-    slug: "technology",
-    color: "text-blue-600 dark:text-blue-400",
-    bg: "bg-blue-50 dark:bg-blue-950/40",
-    subcategories: [
-      "Artificial Intelligence", "Web Development", "Mobile Development",
-      "Cloud Computing", "Cybersecurity", "Data Science",
-      "DevOps", "Blockchain", "Software Engineering", "Hardware & IoT",
-    ],
-  },
-  {
-    label: "Personal Finance",
-    slug: "personal-finance",
-    color: "text-emerald-600 dark:text-emerald-400",
-    bg: "bg-emerald-50 dark:bg-emerald-950/40",
-    subcategories: [
-      "Investing", "Budgeting & Saving", "Credit & Debt",
-      "Retirement Planning", "Tax Strategies", "Real Estate",
-      "Insurance", "Cryptocurrency", "Financial Independence", "Banking",
-    ],
-  },
-  {
-    label: "Business",
-    slug: "business",
-    color: "text-violet-600 dark:text-violet-400",
-    bg: "bg-violet-50 dark:bg-violet-950/40",
-    subcategories: [
-      "Entrepreneurship", "Marketing & Growth", "Leadership",
-      "Operations", "Sales", "Strategy",
-      "E-commerce", "Freelancing", "Startups", "Product Management",
-    ],
-  },
-  {
-    label: "Education",
-    slug: "education",
-    color: "text-amber-600 dark:text-amber-400",
-    bg: "bg-amber-50 dark:bg-amber-950/40",
-    subcategories: [
-      "Learning Methods", "Study Skills", "Online Courses",
-      "STEM Education", "Languages", "Career Development",
-      "Academic Writing", "Critical Thinking", "Teaching", "Certifications",
-    ],
-  },
-  {
-    label: "Health & Wellness",
-    slug: "health-wellness",
-    color: "text-rose-600 dark:text-rose-400",
-    bg: "bg-rose-50 dark:bg-rose-950/40",
-    subcategories: [
-      "Fitness & Exercise", "Nutrition & Diet", "Mental Health",
-      "Sleep", "Meditation", "Weight Management",
-      "Preventive Health", "Supplements", "Yoga", "Chronic Conditions",
-    ],
-  },
-  {
-    label: "Home & Lifestyle",
-    slug: "home-lifestyle",
-    color: "text-orange-600 dark:text-orange-400",
-    bg: "bg-orange-50 dark:bg-orange-950/40",
-    subcategories: [
-      "Home Organisation", "Cooking & Recipes", "DIY & Repairs",
-      "Interior Design", "Gardening", "Sustainability",
-      "Parenting", "Relationships", "Productivity", "Minimalism",
-    ],
-  },
-  {
-    label: "Travel",
-    slug: "travel",
-    color: "text-sky-600 dark:text-sky-400",
-    bg: "bg-sky-50 dark:bg-sky-950/40",
-    subcategories: [
-      "Destination Guides", "Budget Travel", "Solo Travel",
-      "Packing & Gear", "Travel Planning", "Visas & Documents",
-      "Adventure Travel", "Digital Nomad", "Road Trips", "Travel Safety",
-    ],
-  },
-];
-
-function toSlug(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
+const CAT_COLORS: Record<string, { color: string; bg: string }> = {
+  technology:        { color: "text-blue-600 dark:text-blue-400",    bg: "bg-blue-50 dark:bg-blue-950/40" },
+  "personal-finance":{ color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/40" },
+  business:          { color: "text-violet-600 dark:text-violet-400", bg: "bg-violet-50 dark:bg-violet-950/40" },
+  education:         { color: "text-amber-600 dark:text-amber-400",  bg: "bg-amber-50 dark:bg-amber-950/40" },
+  "health-wellness": { color: "text-rose-600 dark:text-rose-400",    bg: "bg-rose-50 dark:bg-rose-950/40" },
+  "home-lifestyle":  { color: "text-orange-600 dark:text-orange-400", bg: "bg-orange-50 dark:bg-orange-950/40" },
+  travel:            { color: "text-sky-600 dark:text-sky-400",      bg: "bg-sky-50 dark:bg-sky-950/40" },
+};
 
 function DarkModeToggle() {
   const [dark, setDark] = useState(false);
@@ -123,7 +50,12 @@ function DarkModeToggle() {
   );
 }
 
-export function PublicHeader({ lang }: { lang: string }) {
+export function PublicHeader({ lang, navCategories }: { lang: string; navCategories: NavCategory[] }) {
+  const CATEGORIES = navCategories.map((cat) => ({
+    ...cat,
+    color: CAT_COLORS[cat.slug]?.color || "text-primary",
+    bg: CAT_COLORS[cat.slug]?.bg || "bg-muted",
+  }));
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -230,13 +162,13 @@ export function PublicHeader({ lang }: { lang: string }) {
                         <div className="space-y-0.5">
                           {cat.subcategories.map((sub) => (
                             <Link
-                              key={sub}
-                              href={`/${lang}/categories/${cat.slug}`}
+                              key={sub.slug}
+                              href={`/${lang}/subcategories/${sub.slug}`}
                               onClick={() => setActiveDropdown(null)}
                               className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-all duration-100"
                             >
                               <span className="flex h-1.5 w-1.5 rounded-full bg-border shrink-0" />
-                              {sub}
+                              {sub.name}
                             </Link>
                           ))}
                         </div>
@@ -340,13 +272,13 @@ export function PublicHeader({ lang }: { lang: string }) {
                       </Link>
                       {cat.subcategories.map((sub) => (
                         <Link
-                          key={sub}
-                          href={`/${lang}/categories/${cat.slug}`}
+                          key={sub.slug}
+                          href={`/${lang}/subcategories/${sub.slug}`}
                           onClick={() => setMobileOpen(false)}
                           className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
                         >
                           <span className="h-1 w-1 rounded-full bg-border shrink-0" />
-                          {sub}
+                          {sub.name}
                         </Link>
                       ))}
                     </div>

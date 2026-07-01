@@ -1,27 +1,14 @@
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/constants";
+import { NavCategory } from "@/services/public/publicData";
 
-const FOOTER_CATEGORIES = [
-  { label: "Technology", slug: "technology", subs: ["Artificial Intelligence", "Web Development", "Cybersecurity", "Data Science"] },
-  { label: "Personal Finance", slug: "personal-finance", subs: ["Investing", "Budgeting & Saving", "Credit & Debt", "Retirement"] },
-  { label: "Business", slug: "business", subs: ["Entrepreneurship", "Marketing & Growth", "Leadership", "Startups"] },
-  { label: "Education", slug: "education", subs: ["Learning Methods", "Study Skills", "Career Development", "Languages"] },
-  { label: "Health & Wellness", slug: "health-wellness", subs: ["Fitness & Exercise", "Nutrition & Diet", "Mental Health", "Sleep"] },
-  { label: "Home & Lifestyle", slug: "home-lifestyle", subs: ["Home Organisation", "Cooking & Recipes", "DIY & Repairs", "Productivity"] },
-  { label: "Travel", slug: "travel", subs: ["Destination Guides", "Budget Travel", "Solo Travel", "Travel Planning"] },
-];
-
-function toSlug(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
-
-export function PublicFooter({ lang }: { lang: string }) {
+export function PublicFooter({ lang, navCategories }: { lang: string; navCategories: NavCategory[] }) {
   return (
     <footer className="border-t border-border/30 bg-muted/20">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Categories Grid */}
         <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {FOOTER_CATEGORIES.map((cat) => (
+          {navCategories.map((cat) => (
             <div key={cat.slug}>
               <Link
                 href={`/${lang}/categories/${cat.slug}`}
@@ -30,13 +17,13 @@ export function PublicFooter({ lang }: { lang: string }) {
                 {cat.label}
               </Link>
               <ul className="mt-3 space-y-2">
-                {cat.subs.map((sub) => (
-                  <li key={sub}>
+                {cat.subcategories.slice(0, 4).map((sub) => (
+                  <li key={sub.slug}>
                     <Link
-                      href={`/${lang}/categories/${cat.slug}`}
+                      href={`/${lang}/subcategories/${sub.slug}`}
                       className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {sub}
+                      {sub.name}
                     </Link>
                   </li>
                 ))}
