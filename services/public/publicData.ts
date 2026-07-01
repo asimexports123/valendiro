@@ -1028,6 +1028,55 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
   };
 }
 
+export interface FeaturedTopicWithMeta {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  category_name: string | null;
+  category_slug: string | null;
+  subcategory_name: string | null;
+  subcategory_slug: string | null;
+  article_count: number;
+}
+
+export async function getFeaturedTopicsWithMeta(limit = 8): Promise<FeaturedTopicWithMeta[]> {
+  const supabase = createAdminClient();
+  const categoryIds = await getV1CategoryIds();
+  if (categoryIds.length === 0) return [];
+
+  const { data } = await supabase
+    .from("topics")
+    .select("id, slug, category_id, subcategory_id, topic_translations(title, subtitle), categories(slug, category_translations(name)), subcategories(slug, subcategory_translations(name))")
+    .eq("status", "published")
+    .in("category_id", categoryIds)
+    .eq("topic_translations.language_code", "en")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (!data || data.length === 0) return [];
+
+  return Promise.all((data as any[]).map(async (topic) => {
+    const { count } = await supabase
+      .from("articles")
+      .select("id", { count: "exact", head: true })
+      .eq("topic_id", topic.id)
+      .eq("status", "published");
+
+    return {
+      id: topic.id,
+      slug: topic.slug,
+      title: topic.topic_translations?.[0]?.title || "Untitled",
+      subtitle: topic.topic_translations?.[0]?.subtitle || null,
+      category_name: topic.categories?.category_translations?.[0]?.name || null,
+      category_slug: topic.categories?.slug || null,
+      subcategory_name: topic.subcategories?.subcategory_translations?.[0]?.name || null,
+      subcategory_slug: topic.subcategories?.slug || null,
+      article_count: count ?? 0,
+    };
+  }));
+}
+
 export function extractHeadings(content: string | null): { id: string; text: string; level: number }[] {
   if (!content) return [];
   const headings: { id: string; text: string; level: number }[] = [];

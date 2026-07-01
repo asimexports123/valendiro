@@ -33,7 +33,7 @@ export function PublicFooter({ lang }: { lang: string }) {
                 {cat.subs.map((sub) => (
                   <li key={sub}>
                     <Link
-                      href={`/${lang}/subcategories/${toSlug(sub)}`}
+                      href={`/${lang}/categories/${cat.slug}`}
                       className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                     >
                       {sub}

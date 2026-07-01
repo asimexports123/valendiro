@@ -7,10 +7,12 @@ import {
   getFeaturedSubcategories,
   getTrendingTopics,
   getHomepageStats,
+  getFeaturedTopicsWithMeta,
 } from "@/services/public/publicData";
 import { Hero } from "@/components/public/Hero";
 import { CategoryGrid } from "@/components/public/CategoryGrid";
 import { FeaturedSubcategories } from "@/components/public/FeaturedCollections";
+import { FeaturedTopics } from "@/components/public/FeaturedTopics";
 import { PopularGuides } from "@/components/public/PopularGuides";
 import { LatestArticles } from "@/components/public/LatestArticles";
 import { RecentlyUpdated } from "@/components/public/RecentlyUpdated";
@@ -39,22 +41,24 @@ export default async function PublicHomePage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  const [latestArticles, categories, guides, subcategories, trendingTopics, stats] = await Promise.all([
+  const [latestArticles, categories, guides, subcategories, trendingTopics, stats, featuredTopics] = await Promise.all([
     getLatestArticles(12),
     getCategoriesWithCounts(12),
     getPopularGuides(4),
     getFeaturedSubcategories(6),
     getTrendingTopics(8),
     getHomepageStats(),
+    getFeaturedTopicsWithMeta(8),
   ]);
 
   return (
     <div>
       <Hero lang={lang} stats={stats} />
       <CategoryGrid lang={lang} categories={categories} />
+      <FeaturedTopics lang={lang} topics={featuredTopics} />
+      {latestArticles.length > 0 && <LatestArticles lang={lang} articles={latestArticles.slice(0, 6)} />}
       <FeaturedSubcategories lang={lang} subcategories={subcategories} />
       <TrendingTopics lang={lang} topics={trendingTopics} />
-      {latestArticles.length >= 3 && <LatestArticles lang={lang} articles={latestArticles.slice(0, 6)} />}
       {guides.length >= 2 && <PopularGuides lang={lang} guides={guides} />}
       {latestArticles.length > 6 && <RecentlyUpdated lang={lang} articles={latestArticles.slice(6, 12)} />}
       <WhyValendiro />

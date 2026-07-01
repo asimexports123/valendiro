@@ -58,7 +58,7 @@ export function Hero({ lang, stats }: { lang: string; stats: HomepageStats }) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search any topic — investing, React, nutrition, travel..."
+                placeholder="Search articles, topics or questions..."
                 className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none py-1"
               />
               <button
@@ -84,40 +84,31 @@ export function Hero({ lang, stats }: { lang: string; stats: HomepageStats }) {
             ))}
           </div>
 
-          {/* Stats */}
-          <div className="mt-10 flex items-center justify-center gap-6 text-center">
-            <div>
-              <div className="text-xl font-bold text-foreground">7</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">Categories</div>
-            </div>
-            {stats.subcategories > 0 && (
-              <>
-                <div className="w-px h-6 bg-border/50" />
+          {/* Stats — only show if there is meaningful data */}
+          {(stats.subcategories > 0 || stats.topics > 0 || stats.articles > 0) && (
+            <div className="mt-10 flex items-center justify-center gap-6 text-center">
+              {stats.subcategories > 0 && (
                 <div>
                   <div className="text-xl font-bold text-foreground">{fmt(stats.subcategories)}</div>
                   <div className="text-[11px] text-muted-foreground mt-0.5">Subcategories</div>
                 </div>
-              </>
-            )}
-            {stats.topics > 0 && (
-              <>
-                <div className="w-px h-6 bg-border/50" />
+              )}
+              {stats.subcategories > 0 && stats.topics > 0 && <div className="w-px h-6 bg-border/50" />}
+              {stats.topics > 0 && (
                 <div>
                   <div className="text-xl font-bold text-foreground">{fmt(stats.topics)}</div>
                   <div className="text-[11px] text-muted-foreground mt-0.5">Topics</div>
                 </div>
-              </>
-            )}
-            {stats.articles > 0 && (
-              <>
-                <div className="w-px h-6 bg-border/50" />
+              )}
+              {stats.topics > 0 && stats.articles > 0 && <div className="w-px h-6 bg-border/50" />}
+              {stats.articles > 0 && (
                 <div>
                   <div className="text-xl font-bold text-foreground">{fmt(stats.articles)}</div>
                   <div className="text-[11px] text-muted-foreground mt-0.5">Articles</div>
                 </div>
-              </>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>

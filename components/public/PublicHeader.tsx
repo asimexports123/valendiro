@@ -231,7 +231,7 @@ export function PublicHeader({ lang }: { lang: string }) {
                           {cat.subcategories.map((sub) => (
                             <Link
                               key={sub}
-                              href={`/${lang}/subcategories/${toSlug(sub)}`}
+                              href={`/${lang}/categories/${cat.slug}`}
                               onClick={() => setActiveDropdown(null)}
                               className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-all duration-100"
                             >
@@ -341,7 +341,7 @@ export function PublicHeader({ lang }: { lang: string }) {
                       {cat.subcategories.map((sub) => (
                         <Link
                           key={sub}
-                          href={`/${lang}/subcategories/${toSlug(sub)}`}
+                          href={`/${lang}/categories/${cat.slug}`}
                           onClick={() => setMobileOpen(false)}
                           className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
                         >

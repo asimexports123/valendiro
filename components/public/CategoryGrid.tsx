@@ -72,7 +72,7 @@ export function CategoryGrid({ lang, categories }: { lang: string; categories: P
                     </div>
                   )}
                   {!hasAny && (
-                    <p className="mt-2 text-[11px] text-muted-foreground/60 italic">Coming soon</p>
+                    <p className="mt-2 text-[11px] font-medium text-primary/70">Start Exploring →</p>
                   )}
                 </div>
               </Link>
