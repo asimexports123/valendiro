@@ -20,7 +20,7 @@
     },
     {
       "path": "/api/cron/autonomous-pipeline",
-      "schedule": "0 */4 * * *"
+      "schedule": "0 6 * * *"
     }
   ]
 }
