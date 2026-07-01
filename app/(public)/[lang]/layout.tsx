@@ -32,7 +32,7 @@ export default async function PublicLayout({
       <ScrollToTop />
       <PublicHeader lang={lang} navCategories={navCategories} />
       <main className="flex-1">{children}</main>
-      <PublicFooter lang={lang} navCategories={navCategories} />
+      <PublicFooter lang={lang} />
     </div>
   );
 }
