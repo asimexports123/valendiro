@@ -1,85 +1,75 @@
 import Link from "next/link";
-import { getNavData } from "@/services/public/publicData";
+import { SITE_NAME } from "@/lib/constants";
 
-export async function PublicFooter({ lang }: { lang: string }) {
-  const categories = await getNavData();
+const FOOTER_CATEGORIES = [
+  { label: "Technology", slug: "technology", subs: ["Artificial Intelligence", "Web Development", "Cybersecurity", "Data Science"] },
+  { label: "Personal Finance", slug: "personal-finance", subs: ["Investing", "Budgeting & Saving", "Credit & Debt", "Retirement Planning"] },
+  { label: "Business", slug: "business", subs: ["Entrepreneurship", "Marketing & Growth", "Leadership", "Startups"] },
+  { label: "Education", slug: "education", subs: ["Learning Methods", "Study Skills", "Career Development", "Languages"] },
+  { label: "Health & Wellness", slug: "health-wellness", subs: ["Fitness & Exercise", "Nutrition & Diet", "Mental Health", "Sleep"] },
+  { label: "Home & Lifestyle", slug: "home-lifestyle", subs: ["Home Organisation", "Cooking & Recipes", "DIY & Repairs", "Productivity"] },
+  { label: "Travel", slug: "travel", subs: ["Destination Guides", "Budget Travel", "Solo Travel", "Travel Planning"] },
+];
 
-  const quickLinks = [
-    { label: "Articles", href: `/${lang}/articles` },
-    { label: "Categories", href: `/${lang}/categories` },
-    { label: "About", href: `/${lang}/about` },
-    { label: "Contact", href: `/${lang}/contact` },
-    { label: "Privacy Policy", href: `/${lang}/privacy` },
-    { label: "Terms of Service", href: `/${lang}/terms` },
-  ];
+function toSlug(s: string) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export function PublicFooter({ lang }: { lang: string }) {
 
   return (
-    <footer className="border-t border-border/50 bg-card">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12">
-          {/* Logo and Description */}
-          <div className="col-span-full lg:col-span-1">
-            <Link href={`/${lang}`} className="inline-flex items-center gap-2 text-xl font-bold text-foreground">
-              <svg className="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18s-3.332.477-4.5 1.253" />
-              </svg>
-              Valendiro
-            </Link>
-            <p className="mt-4 text-sm text-muted-foreground max-w-xs">
-              Your trusted source for in-depth knowledge and structured learning paths across essential topics.
-            </p>
-          </div>
-
-          {/* Categories with subcategories */}
-          <div className="md:col-span-2 lg:col-span-2">
-            <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase mb-4">Categories</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {categories.map((cat) => (
-                <div key={cat.slug}>
-                  <Link href={`/${lang}/categories/${cat.slug}`} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                    {cat.label}
-                  </Link>
-                  {cat.subcategories.length > 0 && (
-                    <ul className="mt-2 space-y-1">
-                      {cat.subcategories.slice(0, 4).map((sub) => (
-                        <li key={sub.slug}>
-                          <Link href={`/${lang}/subcategories/${sub.slug}`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                            {sub.name}
-                          </Link>
-                        </li>
-                      ))}
-                      {cat.subcategories.length > 4 && (
-                        <li>
-                          <Link href={`/${lang}/categories/${cat.slug}`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                            View all...
-                          </Link>
-                        </li>
-                      )}
-                    </ul>
-                  )}
-                </div>
-              ))}
+    <footer className="border-t border-border/30 bg-muted/20">
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Categories Grid */}
+        <div className="py-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+          {FOOTER_CATEGORIES.map((cat) => (
+            <div key={cat.slug}>
+              <Link
+                href={`/${lang}/categories/${cat.slug}`}
+                className="text-sm font-semibold text-foreground hover:text-primary transition-colors"
+              >
+                {cat.label}
+              </Link>
+              <ul className="mt-3 space-y-2">
+                {cat.subs.map((sub) => (
+                  <li key={sub}>
+                    <Link
+                      href={`/${lang}/subcategories/${toSlug(sub)}`}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {sub}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          ))}
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground tracking-wider uppercase mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+            <p className="text-sm font-semibold text-foreground">Quick Links</p>
+            <ul className="mt-3 space-y-2">
+              <li><Link href={`/${lang}/articles`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">All Articles</Link></li>
+              <li><Link href={`/${lang}/categories`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">All Categories</Link></li>
+              <li><Link href={`/${lang}/about`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">About</Link></li>
+              <li><Link href={`/${lang}/contact`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
+              <li><Link href={`/${lang}/privacy`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link></li>
+              <li><Link href={`/${lang}/terms`} className="text-xs text-muted-foreground hover:text-foreground transition-colors">Terms of Use</Link></li>
             </ul>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-12 border-t border-border/50 pt-8 text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} Valendiro. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="border-t border-border/30 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Link href={`/${lang}`} className="flex items-center gap-2 shrink-0">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground font-bold text-[10px]">
+              V
+            </span>
+            <span className="text-sm font-bold text-foreground">{SITE_NAME}</span>
+          </Link>
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} {SITE_NAME}. Trusted answers for everything that matters.
+          </p>
         </div>
       </div>
     </footer>
