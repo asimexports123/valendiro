@@ -1,6 +1,6 @@
 /**
  * Full Pipeline Validation Script
- * Validates every stage: Collection → Topic → Expansion → Research → Write → Review
+ * Validates every stage: Subcategory → Topic → Expansion → Research → Write → Review
  * Usage: npx tsx scripts/validate-pipeline.ts
  */
 import * as dotenv from "dotenv";
@@ -9,7 +9,7 @@ dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
 import { createClient } from "@supabase/supabase-js";
 import { generateArticleExpansionPlans } from "../services/demand/topicExpansionEngine";
-import { generateTopicsForCollection, COLLECTION_TOPICS } from "../services/demand/knowledgeTreeGenerator";
+import { generateTopicsForSubcategory, SUBCATEGORY_TOPICS } from "../services/demand/knowledgeTreeGenerator";
 import { classifyTopicDomain } from "../services/intelligence/topicDomainClassifier";
 import {
   runResearchAgent,
@@ -25,13 +25,13 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const TARGET_COLLECTIONS = ["docker", "python", "javascript", "react", "kubernetes", "investing-basics", "devops"];
+const TARGET_SUBCATEGORIES = ["docker", "python", "javascript", "react", "kubernetes", "investing-basics", "devops"];
 
 // ── Validation report ──────────────────────────────────────────────────────────
 interface ValidationReport {
-  stage1_collections: { slug: string; found: boolean; categoryId: string | null }[];
+  stage1_subcategories: { slug: string; found: boolean; categoryId: string | null }[];
   stage2_topics: {
-    collection: string;
+    Subcategory: string;
     topicsGenerated: string[];
     domainCheck: { topic: string; domain: string; correct: boolean }[];
     issues: string[];
@@ -67,7 +67,7 @@ interface ValidationReport {
     issues: string[];
   }[];
   summary: {
-    collectionsOk: number;
+    subcategoriesOk: number;
     topicsOk: number;
     expansionOk: number;
     researchOk: number;
@@ -81,13 +81,13 @@ interface ValidationReport {
 }
 
 const report: ValidationReport = {
-  stage1_collections: [],
+  stage1_subcategories: [],
   stage2_topics: [],
   stage3_expansion: [],
   stage4_research: [],
   stage5_writing: [],
   summary: {
-    collectionsOk: 0, topicsOk: 0, expansionOk: 0,
+    subcategoriesOk: 0, topicsOk: 0, expansionOk: 0,
     researchOk: 0, writingOk: 0, writingFailed: 0,
     avgQuality: 0, avgEditorial: 0, totalRewrites: 0,
     criticalIssues: [],
@@ -115,42 +115,42 @@ function ok(s: string) { console.log("  ✓ " + s); }
 function warn(s: string) { console.log("  ⚠ " + s); }
 function fail(s: string) { console.log("  ✗ " + s); }
 
-// ── STAGE 1: Collections ──────────────────────────────────────────────────────
+// ── STAGE 1: Subcategories ──────────────────────────────────────────────────────
 async function validateStage1() {
-  h1("STAGE 1: Collections");
-  const { data: cols } = await supabase.from("collections").select("id, slug, category_id");
+  h1("STAGE 1: Subcategories");
+  const { data: cols } = await supabase.from("subcategories").select("id, slug, category_id");
   const colMap = Object.fromEntries((cols ?? []).map((c) => [c.slug, c]));
 
-  for (const slug of TARGET_COLLECTIONS) {
+  for (const slug of TARGET_SUBCATEGORIES) {
     const col = colMap[slug];
     const found = !!col;
     const categoryId = col?.category_id ?? null;
-    report.stage1_collections.push({ slug, found, categoryId });
+    report.stage1_subcategories.push({ slug, found, categoryId });
 
     if (found && categoryId) ok(`${slug} → category_id: ${categoryId.slice(0, 8)}...`);
     else if (found && !categoryId) warn(`${slug} → found but NO category_id`);
-    else { fail(`${slug} → NOT FOUND`); report.summary.criticalIssues.push(`Collection missing: ${slug}`); }
+    else { fail(`${slug} → NOT FOUND`); report.summary.criticalIssues.push(`Subcategory missing: ${slug}`); }
   }
 
-  report.summary.collectionsOk = report.stage1_collections.filter((c) => c.found && c.categoryId).length;
+  report.summary.subcategoriesOk = report.stage1_subcategories.filter((c) => c.found && c.categoryId).length;
 }
 
 // ── STAGE 2: Topic Generation ─────────────────────────────────────────────────
 async function validateStage2() {
   h1("STAGE 2: Topic Generation");
 
-  // Test 3 collections: docker, python, investing-basics
-  const testCollections = ["docker", "python", "investing-basics"];
+  // Test 3 subcategories: docker, python, investing-basics
+  const testSubcategories = ["docker", "python", "investing-basics"];
 
-  for (const slug of testCollections) {
-    h2(`Collection: ${slug}`);
-    const { data: col } = await supabase.from("collections").select("id, slug, category_id").eq("slug", slug).single();
-    if (!col) { fail(`Collection not found: ${slug}`); continue; }
+  for (const slug of testSubcategories) {
+    h2(`Subcategory: ${slug}`);
+    const { data: col } = await supabase.from("subcategories").select("id, slug, category_id").eq("slug", slug).single();
+    if (!col) { fail(`Subcategory not found: ${slug}`); continue; }
 
-    const seedTopics: string[] = COLLECTION_TOPICS[slug] ?? [];
+    const seedTopics: string[] = SUBCATEGORY_TOPICS[slug] ?? [];
     
     const stageEntry: ValidationReport["stage2_topics"][0] = {
-      collection: slug,
+      Subcategory: slug,
       topicsGenerated: seedTopics,
       domainCheck: [],
       issues: [],
@@ -402,8 +402,8 @@ function printReport() {
   h1("VALIDATION REPORT");
 
   console.log(`
-STAGE 1 – Collections:        ${report.summary.collectionsOk}/${TARGET_COLLECTIONS.length} OK
-STAGE 2 – Topic Generation:   ${report.summary.topicsOk}/3 collections validated
+STAGE 1 – Subcategories:        ${report.summary.subcategoriesOk}/${TARGET_SUBCATEGORIES.length} OK
+STAGE 2 – Topic Generation:   ${report.summary.topicsOk}/3 subcategories validated
 STAGE 3 – Knowledge Expansion: ${report.summary.expansionOk}/4 topics OK
 STAGE 4 – Research:            ${report.summary.researchOk}/2 OK
 STAGE 5 – Writing:             ${report.summary.writingOk} passed / ${report.summary.writingFailed} failed
@@ -419,7 +419,7 @@ Avg Editorial Score:           ${report.summary.avgEditorial.toFixed(1)}/100
   }
 
   console.log("\nTopic samples (Docker):");
-  const dockerStage = report.stage2_topics.find((t) => t.collection === "docker");
+  const dockerStage = report.stage2_topics.find((t) => t.Subcategory === "docker");
   dockerStage?.topicsGenerated.slice(0, 8).forEach((t) => console.log("  •", t));
 
   console.log("\nArticle expansion (Docker):");

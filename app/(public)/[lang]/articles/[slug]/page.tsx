@@ -46,10 +46,10 @@ export default async function ArticlePage({
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
-  const [relatedArticles, category, collection, topic, faqs] = await Promise.all([
+  const [relatedArticles, category, subcategory, topic, faqs] = await Promise.all([
     getRelatedArticles(article.id, article.topic_id, article.category_id, 4),
     article.category_id ? getCategoryBySlugForArticle(article.category_id) : null,
-    article.collection_id ? getCollectionBySlugForArticle(article.collection_id) : null,
+    article.subcategory_id ? getSubcategoryBySlugForArticle(article.subcategory_id) : null,
     article.topic_id ? getTopicBySlugForArticle(article.topic_id) : null,
     article.category_id ? getQuestionsByCategory(article.category_id, 5) : Promise.resolve([]),
   ]);
@@ -57,11 +57,11 @@ export default async function ArticlePage({
   const headings = extractHeadings(article.content);
   const accent = CATEGORY_ACCENT[category?.slug ?? ""] ?? DEFAULT_ACCENT;
 
-  /* Full 4-level breadcrumb: Home > Category > Collection > Topic > Article */
+  /* Full 4-level breadcrumb: Home > Category > Subcategory > Topic > Article */
   const breadcrumbs = [
     { name: "Home", href: `/${lang}`, isCurrent: false },
     ...(category ? [{ name: category.name, href: `/${lang}/categories/${category.slug}`, isCurrent: false }] : []),
-    ...(collection ? [{ name: collection.name, href: `/${lang}/collections/${collection.slug}`, isCurrent: false }] : []),
+    ...(subcategory ? [{ name: subcategory.name, href: `/${lang}/subcategories/${subcategory.slug}`, isCurrent: false }] : []),
     ...(topic ? [{ name: topic.title, href: `/${lang}/topics/${topic.slug}`, isCurrent: false }] : []),
     { name: article.title, href: `/${lang}/articles/${slug}`, isCurrent: true },
   ];
@@ -74,7 +74,7 @@ export default async function ArticlePage({
     datePublished: article.published_at,
     dateModified: article.updated_at,
     url: `${SITE_URL}/${lang}/articles/${slug}`,
-    isPartOf: collection ? { "@type": "Collection", name: collection.name } : undefined,
+    isPartOf: subcategory ? { "@type": "Subcategory", name: subcategory.name } : undefined,
   };
 
   return (
@@ -204,7 +204,7 @@ export default async function ArticlePage({
           <aside className="space-y-5">
 
             {/* Knowledge Hierarchy card — visual tree */}
-            {(category || collection || topic) && (
+            {(category || subcategory || topic) && (
               <div className="rounded-2xl border border-border/60 bg-card p-5">
                 <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-4">
                   Knowledge Hierarchy
@@ -224,19 +224,19 @@ export default async function ArticlePage({
                     </Link>
                   ) : null}
 
-                  {/* Level 2: Collection */}
-                  {collection && (
+                  {/* Level 2: Subcategory */}
+                  {subcategory && (
                     <div className="pl-3 pt-0.5">
                       <div className="flex items-stretch gap-2">
                         <div className="w-px bg-border/60 self-stretch ml-2.5" />
                         <Link
-                          href={`/${lang}/collections/${collection.slug}`}
+                          href={`/${lang}/subcategories/${subcategory.slug}`}
                           className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors py-0.5"
                         >
                           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-[10px] bg-muted">
                             📂
                           </span>
-                          <span className="line-clamp-1">{collection.name}</span>
+                          <span className="line-clamp-1">{subcategory.name}</span>
                         </Link>
                       </div>
                     </div>
@@ -298,16 +298,16 @@ export default async function ArticlePage({
               </Link>
             )}
 
-            {/* Back to collection CTA */}
-            {collection && (
+            {/* Back to subcategory CTA */}
+            {subcategory && (
               <Link
-                href={`/${lang}/collections/${collection.slug}`}
+                href={`/${lang}/subcategories/${subcategory.slug}`}
                 className="flex items-center justify-between gap-3 rounded-2xl border border-border/60 bg-card p-4 hover:border-primary/40 hover:shadow-sm transition-all group"
               >
                 <div className="min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">Collection</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">Subcategory</p>
                   <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                    {collection.name}
+                    {subcategory.name}
                   </p>
                 </div>
                 <svg className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -341,20 +341,20 @@ async function getCategoryBySlugForArticle(categoryId: string) {
   };
 }
 
-async function getCollectionBySlugForArticle(collectionId: string) {
+async function getSubcategoryBySlugForArticle(subcategoryId: string) {
   const { createAdminClient } = await import("@/lib/supabase/admin");
   const supabase = createAdminClient();
   const { data } = await supabase
-    .from("collections")
-    .select("id, slug, collection_translations(name)")
-    .eq("id", collectionId)
-    .eq("collection_translations.language_code", "en")
+    .from("subcategories")
+    .select("id, slug, subcategory_translations(name)")
+    .eq("id", subcategoryId)
+    .eq("subcategory_translations.language_code", "en")
     .maybeSingle();
   if (!data) return null;
   return {
     id: data.id,
     slug: data.slug,
-    name: data.collection_translations?.[0]?.name || "Collection",
+    name: data.subcategory_translations?.[0]?.name || "Subcategory",
   };
 }
 

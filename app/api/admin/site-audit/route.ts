@@ -55,7 +55,7 @@ const FOOTER_LINKS = [
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type CheckStatus = "ok" | "broken" | "no_translation" | "empty_slug" | "orphan" | "no_db_row";
-type PageType = "static" | "category" | "collection" | "topic" | "article" | "nav" | "footer" | "sitemap";
+type PageType = "static" | "category" | "subcategory" | "topic" | "article" | "nav" | "footer" | "sitemap";
 
 interface RouteCheck {
   type: PageType;
@@ -173,19 +173,19 @@ export async function GET(request: Request) {
     else c.http_status = 404; // skip fetch — we know it will 404
   }
 
-  // ── 5. Collections (DB sample — top 200 by created_at) ───────────────────────
-  const { data: collections } = await supabase
-    .from("collections")
-    .select("id, slug, category_id, collection_translations(language_code, name)")
+  // ── 5. Subcategories (DB sample — top 200 by created_at) ───────────────────────
+  const { data: subcategories } = await supabase
+    .from("subcategories")
+    .select("id, slug, category_id, subcategory_translations(language_code, name)")
     .order("created_at", { ascending: false })
     .limit(200);
 
   const validCatIds = new Set((categories ?? []).map((c: any) => c.id));
 
-  for (const col of collections ?? []) {
+  for (const col of subcategories ?? []) {
     if (!col.slug) continue;
-    const url = `${BASE}/collections/${col.slug}`;
-    const hasEn = (col.collection_translations as any[])?.some(
+    const url = `${BASE}/subcategories/${col.slug}`;
+    const hasEn = (col.subcategory_translations as any[])?.some(
       (t: any) => t.language_code === "en" && t.name
     );
     const orphan = col.category_id && !validCatIds.has(col.category_id);
@@ -196,7 +196,7 @@ export async function GET(request: Request) {
       ? `category_id ${col.category_id} not a V1 category`
       : undefined;
 
-    const c: RouteCheck = { type: "collection", url, slug: col.slug, db_status, reason };
+    const c: RouteCheck = { type: "subcategory", url, slug: col.slug, db_status, reason };
     checks.push(c);
     if (db_status === "ok") urlsToFetch.push({ url, ref: c });
     else c.http_status = 404;
@@ -205,13 +205,13 @@ export async function GET(request: Request) {
   // ── 6. Topics (DB sample — top 200 published) ────────────────────────────────
   const { data: topics } = await supabase
     .from("topics")
-    .select("id, slug, status, category_id, collection_id, topic_translations(language_code, title)")
+    .select("id, slug, status, category_id, subcategory_id, topic_translations(language_code, title)")
     .eq("status", "published")
     .order("updated_at", { ascending: false })
     .limit(200);
 
-  // Build set of valid collection IDs for orphan check
-  const validCollectionIds = new Set((collections ?? []).map((c: any) => c.id));
+  // Build set of valid subcategory IDs for orphan check
+  const validsubcategoryIds = new Set((subcategories ?? []).map((c: any) => c.id));
 
   for (const topic of topics ?? []) {
     if (!topic.slug) continue;
@@ -219,12 +219,12 @@ export async function GET(request: Request) {
     const hasEn = (topic.topic_translations as any[])?.some(
       (t: any) => t.language_code === "en" && t.title
     );
-    const orphan = topic.collection_id && !validCollectionIds.has(topic.collection_id);
+    const orphan = topic.subcategory_id && !validsubcategoryIds.has(topic.subcategory_id);
     const db_status: CheckStatus = !hasEn ? "no_translation" : orphan ? "orphan" : "ok";
     const reason = !hasEn
       ? "Published topic missing English translation"
       : orphan
-      ? `collection_id ${topic.collection_id} not found in sampled collections`
+      ? `subcategory_id ${topic.subcategory_id} not found in sampled subcategories`
       : undefined;
 
     const c: RouteCheck = { type: "topic", url, slug: topic.slug, db_status, reason };
@@ -312,7 +312,7 @@ export async function GET(request: Request) {
       nav:        byType("nav"),
       footer:     byType("footer"),
       categories: byType("category"),
-      collections: byType("collection"),
+      subcategories: byType("subcategory"),
       topics:     byType("topic"),
       articles:   byType("article"),
       sitemap:    byType("sitemap"),

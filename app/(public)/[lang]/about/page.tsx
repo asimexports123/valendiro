@@ -44,7 +44,7 @@ export default async function AboutPage({
             {SITE_NAME} was built on a simple belief: everyone deserves access to well-structured, trustworthy, and continuously updated knowledge — regardless of where they are or what they are trying to learn.
           </p>
           <p>
-            We organise knowledge into categories, collections, and topics so that navigating any subject feels natural. Whether you are a student looking for a clear explanation, a professional doing research, or simply someone who wants to understand the world better — {SITE_NAME} is built for you.
+            We organise knowledge into categories, subcategories, and topics so that navigating any subject feels natural. Whether you are a student looking for a clear explanation, a professional doing research, or simply someone who wants to understand the world better — {SITE_NAME} is built for you.
           </p>
           <p>
             Every article, guide, and answer on {SITE_NAME} is written to be readable, accurate, and useful. We do not publish just to publish. We publish to genuinely help.

@@ -23,8 +23,8 @@ export interface ArticleSchemaInput {
   updatedAt: string;
   categoryName: string;
   categorySlug: string;
-  collectionName?: string | null;
-  collectionSlug?: string | null;
+  subcategoryName?: string | null;
+  subcategorySlug?: string | null;
   topicName: string;
   topicSlug: string;
   languageCode?: string;
@@ -39,8 +39,8 @@ export interface TopicSchemaInput {
   updatedAt: string;
   categoryName: string;
   categorySlug: string;
-  collectionName?: string | null;
-  collectionSlug?: string | null;
+  subcategoryName?: string | null;
+  subcategorySlug?: string | null;
   languageCode?: string;
 }
 
@@ -133,7 +133,7 @@ export function generateTopicSchema(input: TopicSchemaInput): Record<string, unk
 
   return {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
+    "@type": "SubcategoryPage",
     "name": input.title,
     "description": input.description.slice(0, 300),
     "url": topicUrl,
@@ -181,8 +181,8 @@ export function buildArticleBreadcrumbs(input: ArticleSchemaInput): BreadcrumbIt
     { name: "Home", url: buildUrl(`/${lang}`) },
     { name: input.categoryName, url: buildUrl(`/${lang}/categories/${input.categorySlug}`) },
   ];
-  if (input.collectionName && input.collectionSlug) {
-    crumbs.push({ name: input.collectionName, url: buildUrl(`/${lang}/collections/${input.collectionSlug}`) });
+  if (input.subcategoryName && input.subcategorySlug) {
+    crumbs.push({ name: input.subcategoryName, url: buildUrl(`/${lang}/subcategories/${input.subcategorySlug}`) });
   }
   crumbs.push({ name: input.topicName, url: buildUrl(`/${lang}/topics/${input.topicSlug}`) });
   crumbs.push({ name: input.title, url: buildUrl(`/${lang}/articles/${input.slug}`) });
@@ -195,8 +195,8 @@ export function buildTopicBreadcrumbs(input: TopicSchemaInput): BreadcrumbItem[]
     { name: "Home", url: buildUrl(`/${lang}`) },
     { name: input.categoryName, url: buildUrl(`/${lang}/categories/${input.categorySlug}`) },
   ];
-  if (input.collectionName && input.collectionSlug) {
-    crumbs.push({ name: input.collectionName, url: buildUrl(`/${lang}/collections/${input.collectionSlug}`) });
+  if (input.subcategoryName && input.subcategorySlug) {
+    crumbs.push({ name: input.subcategoryName, url: buildUrl(`/${lang}/subcategories/${input.subcategorySlug}`) });
   }
   crumbs.push({ name: input.title, url: buildUrl(`/${lang}/topics/${input.slug}`) });
   return crumbs;

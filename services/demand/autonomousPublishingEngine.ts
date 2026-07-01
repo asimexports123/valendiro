@@ -106,7 +106,7 @@ export interface PublishingEngineResult {
   demandInserted: number;
   clustersCreated: number;
   categoriesCreated: number;
-  collectionsCreated: number;
+  subcategoriesCreated: number;
   queuedTopics: number;
   topicsPublished: number;
   articleExpansionsQueued: number;
@@ -116,7 +116,7 @@ export interface PublishingEngineResult {
 
 /**
  * @deprecated Keyword-first discovery is retired.
- * Content discovery now flows from Category → Collection → Topic (knowledge tree).
+ * Content discovery now flows from Category → Subcategory → Topic (knowledge tree).
  * This function is kept as an alias to runFullPublishingCycle for backward compatibility.
  * All callers should migrate to runFullPublishingCycle().
  */
@@ -139,7 +139,7 @@ export async function runAutonomousPublishingPipeline(): Promise<PublishingEngin
 //     → promote to content_generation_queue
 //
 //   NEW FLOW (knowledge-first):
-//     expandKnowledgeTree()           — Category → Collection → Topic hierarchy
+//     expandKnowledgeTree()           — Category → Subcategory → Topic hierarchy
 //     publishApprovedTopics()         — write topic pages
 //     expandAllPendingTopics()        — entity-type + intent + level roadmaps
 //     publishApprovedArticles()       — 5-agent Gemini pipeline per article
@@ -160,7 +160,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
     demandInserted: 0,
     clustersCreated: 0,
     categoriesCreated: 0,
-    collectionsCreated: 0,
+    subcategoriesCreated: 0,
     queuedTopics: 0,
     topicsPublished: 0,
     articleExpansionsQueued: 0,
@@ -186,12 +186,12 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
   for (const item of queueItems) {
     try {
       const metadata = (item.metadata as Record<string, unknown>) || {};
-      const collectionId = metadata.collection_id as string | null;
+      const subcategoryId = metadata.subcategory_id as string | null;
 
       let categoryId: string | null = null;
-      if (collectionId) {
-        const { data: collection } = await supabase.from("collections").select("category_id").eq("id", collectionId).single();
-        categoryId = collection?.category_id ?? null;
+      if (subcategoryId) {
+        const { data: Subcategory } = await supabase.from("subcategories").select("category_id").eq("id", subcategoryId).single();
+        categoryId = Subcategory?.category_id ?? null;
       }
       if (!categoryId && metadata.category) {
         // Look up category by matching slug (keyword-detected category label → slug)
@@ -233,7 +233,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
           slug,
           canonical_path: canonicalPath,
           category_id: categoryId,
-          collection_id: collectionId,
+          subcategory_id: subcategoryId,
           status: "published",
           published_at: new Date().toISOString(),
         })
@@ -264,7 +264,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
         metaTitle: `${cleanTitle} — Complete Guide`,
         metaDescription: topicMetaDesc,
         canonicalPath: canonicalPath,
-        collectionId: collectionId,
+        subcategoryId: subcategoryId,
         categoryId: categoryId,
         keywordDecision: (metadata.keyword_research as { decision?: string } | undefined)?.decision as "publish" | "backlog" | "reject" | null ?? "publish",
       });
@@ -289,7 +289,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
 
       result.topicsPublished++;
 
-      // Build knowledge-graph links: topic -> category, collection, articles, related topics
+      // Build knowledge-graph links: topic -> category, Subcategory, articles, related topics
       await buildHierarchicalLinksForTopic(topic.id);
 
       // Stage 13: Post-publish audit — revert to draft automatically if anything is wrong
@@ -321,7 +321,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
     demandInserted: 0,
     clustersCreated: 0,
     categoriesCreated: 0,
-    collectionsCreated: 0,
+    subcategoriesCreated: 0,
     queuedTopics: 0,
     topicsPublished: 0,
     articleExpansionsQueued: 0,
@@ -506,13 +506,13 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
       let schemaJson: Record<string, unknown> | null = null;
       try {
         const { data: parentTopic } = item.topic_id
-          ? await supabase.from("topics").select("slug, category_id, collection_id, topic_translations(title), categories(slug, category_translations(name)), collections(slug, collection_translations(name))").eq("id", item.topic_id).maybeSingle()
+          ? await supabase.from("topics").select("slug, category_id, subcategory_id, topic_translations(title), categories(slug, category_translations(name)), subcategories(slug, subcategory_translations(name))").eq("id", item.topic_id).maybeSingle()
           : { data: null };
 
         const catSlug = (parentTopic?.categories as any)?.slug ?? "general";
         const catName = (parentTopic?.categories as any)?.category_translations?.[0]?.name ?? "General";
-        const colSlug = (parentTopic?.collections as any)?.slug ?? null;
-        const colName = (parentTopic?.collections as any)?.collection_translations?.[0]?.name ?? null;
+        const colSlug = (parentTopic?.subcategories as any)?.slug ?? null;
+        const colName = (parentTopic?.subcategories as any)?.subcategory_translations?.[0]?.name ?? null;
         const topicSlug = parentTopic?.slug ?? slug;
         const topicName = (parentTopic?.topic_translations as any)?.[0]?.title ?? generated.title;
         const now = new Date().toISOString();
@@ -525,8 +525,8 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
           updatedAt: now,
           categoryName: catName,
           categorySlug: catSlug,
-          collectionName: colName,
-          collectionSlug: colSlug,
+          subcategoryName: colName,
+          subcategorySlug: colSlug,
           topicName,
           topicSlug,
           languageCode: "en",
@@ -593,7 +593,7 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
 // ─── Knowledge-First Publishing Cycle ────────────────────────────────────────
 //
 // Flow:
-//   1. Knowledge Tree → queue new topics from Category→Collection→Topic hierarchy
+//   1. Knowledge Tree → queue new topics from Category→Subcategory→Topic hierarchy
 //   2. Publish queued topics (Gemini writes topic description)
 //   3. Expand published topics → queue domain-specific articles
 //   4. Publish queued articles (full 6-agent Gemini pipeline per article)
@@ -603,14 +603,14 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
 const ARTICLE_PUBLISHING_ENABLED = process.env.ARTICLE_PUBLISHING_ENABLED !== "false";
 const TOPIC_PUBLISH_LIMIT = parseInt(process.env.TOPIC_PUBLISH_LIMIT ?? "5", 10);
 const ARTICLE_PUBLISH_LIMIT = parseInt(process.env.ARTICLE_PUBLISH_LIMIT ?? "3", 10);
-const TOPICS_PER_COLLECTION = parseInt(process.env.TOPICS_PER_COLLECTION ?? "3", 10);
+const TOPICS_PER_Subcategory = parseInt(process.env.TOPICS_PER_Subcategory ?? "3", 10);
 
 export async function runFullPublishingCycle(): Promise<PublishingEngineResult> {
   const combined: PublishingEngineResult = {
     demandInserted: 0,
     clustersCreated: 0,
     categoriesCreated: 0,
-    collectionsCreated: 0,
+    subcategoriesCreated: 0,
     queuedTopics: 0,
     topicsPublished: 0,
     articleExpansionsQueued: 0,
@@ -621,10 +621,10 @@ export async function runFullPublishingCycle(): Promise<PublishingEngineResult> 
   // Step 1: Knowledge Tree → queue new topics
   try {
     const { expandKnowledgeTree } = await import("@/services/demand/knowledgeTreeGenerator");
-    const treeResult = await expandKnowledgeTree(TOPICS_PER_COLLECTION);
+    const treeResult = await expandKnowledgeTree(TOPICS_PER_Subcategory);
     combined.queuedTopics += treeResult.totalTopicsQueued;
     combined.errors.push(...treeResult.errors);
-    console.log(`[PublishingCycle] Knowledge tree: queued ${treeResult.totalTopicsQueued} new topics across ${treeResult.collectionsProcessed} collections`);
+    console.log(`[PublishingCycle] Knowledge tree: queued ${treeResult.totalTopicsQueued} new topics across ${treeResult.subcategoriesProcessed} subcategories`);
   } catch (err) {
     combined.errors.push(`Knowledge tree expansion failed: ${err instanceof Error ? err.message : String(err)}`);
   }

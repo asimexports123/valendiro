@@ -72,11 +72,11 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const topic = await getTopicBySlug(slug);
   if (!topic) notFound();
 
-  const [relatedTopics, topicArticles, faqs, collection] = await Promise.all([
+  const [relatedTopics, topicArticles, faqs, subcategory] = await Promise.all([
     getRelatedTopics(topic.id, topic.category_id, 6),
     getArticlesByTopic(topic.id, 12),
     getQuestionsByTopic(topic.id, 5),
-    topic.collection_id ? getCollectionBySlugFromId(topic.collection_id) : null,
+    topic.subcategory_id ? getCollectionBySlugFromId(topic.subcategory_id) : null,
   ]);
 
   const category = topic.category_id ? await getCategoryBySlugFromId(topic.category_id) : null;
@@ -90,7 +90,7 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const breadcrumbs = [
     { name: "Home", href: `/${lang}`, isCurrent: false },
     ...(category ? [{ name: category.name, href: `/${lang}/categories/${category.slug}`, isCurrent: false }] : []),
-    ...(collection ? [{ name: collection.name, href: `/${lang}/collections/${collection.slug}`, isCurrent: false }] : []),
+    ...(subcategory ? [{ name: subcategory.name, href: `/${lang}/subcategories/${subcategory.slug}`, isCurrent: false }] : []),
     { name: topic.title, href: `/${lang}/topics/${slug}`, isCurrent: true },
   ];
 
@@ -137,13 +137,13 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
                   Updated {new Date(topic.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                 </span>
               )}
-              {collection && (
-                <Link href={`/${lang}/collections/${collection.slug}`}
+              {subcategory && (
+                <Link href={`/${lang}/subcategories/${subcategory.slug}`}
                   className="flex items-center gap-1.5 hover:text-foreground transition-colors">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
-                  {collection.name}
+                  {subcategory.name}
                 </Link>
               )}
             </div>
@@ -281,15 +281,15 @@ async function getCategoryBySlugFromId(categoryId: string) {
   return { id: data.id, slug: data.slug, name: data.category_translations?.[0]?.name || "Category" };
 }
 
-async function getCollectionBySlugFromId(collectionId: string) {
+async function getCollectionBySlugFromId(subcategoryId: string) {
   const { createAdminClient } = await import("@/lib/supabase/admin");
   const supabase = createAdminClient();
   const { data } = await supabase
-    .from("collections")
-    .select("id, slug, collection_translations(name)")
-    .eq("id", collectionId)
-    .eq("collection_translations.language_code", "en")
+    .from("subcategories")
+    .select("id, slug, subcategory_translations(name)")
+    .eq("id", subcategoryId)
+    .eq("subcategory_translations.language_code", "en")
     .maybeSingle();
   if (!data) return null;
-  return { id: data.id, slug: data.slug, name: data.collection_translations?.[0]?.name || "Collection" };
+  return { id: data.id, slug: data.slug, name: data.subcategory_translations?.[0]?.name || "Subcategory" };
 }

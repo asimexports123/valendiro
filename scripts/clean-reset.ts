@@ -3,9 +3,9 @@
  *
  * Step 1: Backup all existing data to JSON files
  * Step 2: Delete articles, article_translations, topics, topic_translations
- * Step 3: Delete old/random collections (keep curated ones)
+ * Step 3: Delete old/random subcategories (keep curated ones)
  * Step 4: Clear all queues
- * Step 5: Setup curated V1 collections with correct slugs
+ * Step 5: Setup curated V1 subcategories with correct slugs
  *
  * Usage: npx tsx scripts/clean-reset.ts
  * Dry run: npx tsx scripts/clean-reset.ts --dry-run
@@ -26,8 +26,8 @@ const supabase = createClient(
 const DRY_RUN = process.argv.includes("--dry-run");
 const BACKUP_DIR = resolve(process.cwd(), "scripts", "backup-" + new Date().toISOString().slice(0, 10));
 
-// ─── V1 Curated Collections ───────────────────────────────────────────────────
-// These are the ONLY collections that should exist after reset.
+// ─── V1 Curated Subcategories ───────────────────────────────────────────────────
+// These are the ONLY subcategories that should exist after reset.
 // Format: { slug, name, categorySlug }
 const V1_COLLECTIONS = [
   // Technology
@@ -64,7 +64,7 @@ async function backup() {
   const tables = [
     "articles", "article_translations",
     "topics", "topic_translations",
-    "collections", "collection_translations",
+    "subcategories", "subcategory_translations",
     "content_generation_queue",
     "demand_topic_queue",
   ];
@@ -125,15 +125,15 @@ async function deleteTopics() {
   }
 }
 
-// ─── Step 4: Delete old collections (keep curated slugs) ─────────────────────
-async function resetCollections() {
-  section("STEP 4: Reset Collections");
+// ─── Step 4: Delete old subcategories (keep curated slugs) ─────────────────────
+async function resetSubcategories() {
+  section("STEP 4: Reset Subcategories");
 
   const curatedSlugs = V1_COLLECTIONS.map((c) => c.slug);
-  const { data: allCols } = await supabase.from("collections").select("id, slug");
+  const { data: allCols } = await supabase.from("subcategories").select("id, slug");
   const oldCols = (allCols ?? []).filter((c) => !curatedSlugs.includes(c.slug));
 
-  log(`  Total collections: ${allCols?.length ?? 0}`);
+  log(`  Total subcategories: ${allCols?.length ?? 0}`);
   log(`  Curated (keep): ${curatedSlugs.length}`);
   log(`  Old/random (delete): ${oldCols.length}`);
 
@@ -145,20 +145,20 @@ async function resetCollections() {
   if (oldCols.length > 0) {
     const oldIds = oldCols.map((c) => c.id);
 
-    // Delete collection_translations first
-    const { error: ctErr } = await supabase.from("collection_translations").delete().in("collection_id", oldIds);
-    if (ctErr) log(`  ⚠ collection_translations: ${ctErr.message}`);
+    // Delete subcategory_translations first
+    const { error: ctErr } = await supabase.from("subcategory_translations").delete().in("subcategory_id", oldIds);
+    if (ctErr) log(`  ⚠ subcategory_translations: ${ctErr.message}`);
 
-    const { error: cErr } = await supabase.from("collections").delete().in("id", oldIds);
-    if (cErr) log(`  ⚠ collections delete: ${cErr.message}`);
-    else log(`  ✓ Old collections deleted: ${oldCols.map((c) => c.slug).join(", ")}`);
+    const { error: cErr } = await supabase.from("subcategories").delete().in("id", oldIds);
+    if (cErr) log(`  ⚠ subcategories delete: ${cErr.message}`);
+    else log(`  ✓ Old subcategories deleted: ${oldCols.map((c) => c.slug).join(", ")}`);
   }
 
-  // Now ensure all curated collections exist with correct category linkage
+  // Now ensure all curated subcategories exist with correct category linkage
   const { data: categories } = await supabase.from("categories").select("id, slug");
   const catMap = Object.fromEntries((categories ?? []).map((c) => [c.slug, c.id]));
 
-  log("\n  Ensuring curated collections exist:");
+  log("\n  Ensuring curated subcategories exist:");
   for (const col of V1_COLLECTIONS) {
     const categoryId = catMap[col.categorySlug];
     if (!categoryId) {
@@ -167,15 +167,15 @@ async function resetCollections() {
     }
 
     // Upsert by slug
-    const { data: existing } = await supabase.from("collections").select("id").eq("slug", col.slug).maybeSingle();
+    const { data: existing } = await supabase.from("subcategories").select("id").eq("slug", col.slug).maybeSingle();
 
     if (existing) {
       // Update category_id if needed
-      await supabase.from("collections").update({ category_id: categoryId }).eq("id", existing.id);
+      await supabase.from("subcategories").update({ category_id: categoryId }).eq("id", existing.id);
       log(`  ✓ Exists: ${col.slug} (updated category)`);
     } else {
       const { data: newCol, error } = await supabase
-        .from("collections")
+        .from("subcategories")
         .insert({ slug: col.slug, category_id: categoryId, sort_order: 0 })
         .select()
         .single();
@@ -183,11 +183,11 @@ async function resetCollections() {
       if (error) { log(`  ✗ Failed to create ${col.slug}: ${error.message}`); continue; }
 
       // Insert English translation
-      await supabase.from("collection_translations").insert({
-        collection_id: newCol.id,
+      await supabase.from("subcategory_translations").insert({
+        subcategory_id: newCol.id,
         language_code: "en",
         title: col.name,
-        description: `${col.name} — curated knowledge collection`,
+        description: `${col.name} — curated knowledge Subcategory`,
       });
       log(`  ✓ Created: ${col.slug} → ${col.categorySlug}`);
     }
@@ -219,10 +219,10 @@ async function clearQueues() {
 async function verifyState() {
   section("STEP 6: Verify Final State");
 
-  const [articles, topics, collections, categories, queue] = await Promise.all([
+  const [articles, topics, subcategories, categories, queue] = await Promise.all([
     supabase.from("articles").select("id", { count: "exact", head: true }),
     supabase.from("topics").select("id", { count: "exact", head: true }),
-    supabase.from("collections").select("id, slug, category_id"),
+    supabase.from("subcategories").select("id, slug, category_id"),
     supabase.from("categories").select("id, slug"),
     supabase.from("content_generation_queue").select("id", { count: "exact", head: true }),
   ]);
@@ -233,21 +233,21 @@ async function verifyState() {
   log(`  Topics:      ${topics.count ?? 0}  (expected: 0)`);
   log(`  Queue items: ${queue.count ?? 0}  (expected: 0)`);
   log(`  Categories:  ${categories.data?.length ?? 0}`);
-  log(`  Collections: ${collections.data?.length ?? 0}`);
+  log(`  Subcategories: ${subcategories.data?.length ?? 0}`);
 
-  log("\n  Collections:");
-  for (const col of collections.data ?? []) {
+  log("\n  Subcategories:");
+  for (const col of subcategories.data ?? []) {
     const catSlug = catMap[col.category_id] ?? "???";
     log(`    • ${col.slug} → ${catSlug}`);
   }
 
   const missingCurated = V1_COLLECTIONS.filter(
-    (v) => !collections.data?.find((c) => c.slug === v.slug)
+    (v) => !subcategories.data?.find((c) => c.slug === v.slug)
   );
   if (missingCurated.length > 0) {
-    log(`\n  ⚠ Missing curated collections: ${missingCurated.map((c) => c.slug).join(", ")}`);
+    log(`\n  ⚠ Missing curated subcategories: ${missingCurated.map((c) => c.slug).join(", ")}`);
   } else {
-    log(`\n  ✓ All ${V1_COLLECTIONS.length} curated collections present`);
+    log(`\n  ✓ All ${V1_COLLECTIONS.length} curated subcategories present`);
   }
 }
 
@@ -259,7 +259,7 @@ async function main() {
   await backup();
   await deleteArticles();
   await deleteTopics();
-  await resetCollections();
+  await resetSubcategories();
   await clearQueues();
   await verifyState();
 

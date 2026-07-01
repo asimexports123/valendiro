@@ -17,6 +17,10 @@
     {
       "path": "/api/affiliate/sync",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/autonomous-pipeline",
+      "schedule": "0 */4 * * *"
     }
   ]
 }

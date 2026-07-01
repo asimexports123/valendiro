@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PublicArticle } from "@/services/public/publicData";
-import { CollectionIcon, CategoryBadge } from "@/components/public/CardVisual";
+import { SubcategoryIcon, CategoryBadge } from "@/components/public/CardVisual";
 
 function fmtDate(iso: string | null) {
   if (!iso) return null;
@@ -29,7 +29,7 @@ export function PopularGuides({ lang, guides }: { lang: string; guides: PublicAr
               href={`/${lang}/articles/${guide.slug}`}
               className="group flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-200"
             >
-              <CollectionIcon categorySlug={guide.category_slug} name={guide.title} size={44} />
+              <SubcategoryIcon categorySlug={guide.category_slug} name={guide.title} size={44} />
               <div className="flex-1 min-w-0">
                 <div className="mb-1.5">
                   <CategoryBadge slug={guide.category_slug} />

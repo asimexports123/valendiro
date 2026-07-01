@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     "/en/categories/health-wellness",
     "/en/categories/home-lifestyle",
     "/en/categories/travel",
-    "/en/collections",
+    "/en/subcategories",
     "/en/topics",
     "/en/articles",
   ];

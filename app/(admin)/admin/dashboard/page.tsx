@@ -4,6 +4,13 @@ import { OwnerActions } from "@/components/admin/OwnerActions";
 import { DraftReviewPanel } from "@/components/admin/DraftReviewPanel";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+interface PublishedArticle {
+  id: string;
+  slug: string;
+  title: string;
+  createdAt: string;
+}
+
 function timeAgo(iso: string | null) {
   if (!iso) return "Never";
   const diff = Date.now() - new Date(iso).getTime();
@@ -86,6 +93,33 @@ export default async function DashboardPage() {
     createdAt: a.created_at ?? a.updated_at ?? new Date().toISOString(),
   }));
 
+  // Fetch latest published articles
+  const { data: latestPublished } = await supabase
+    .from("articles")
+    .select("id, slug, created_at")
+    .eq("status", "published")
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  const pubIds = (latestPublished ?? []).map(a => a.id);
+  const { data: pubTrans } = pubIds.length
+    ? await supabase
+        .from("article_translations")
+        .select("article_id, title")
+        .in("article_id", pubIds)
+        .eq("language_code", "en")
+    : { data: [] };
+
+  const pubTransMap: Record<string, string> = {};
+  for (const t of pubTrans ?? []) pubTransMap[t.article_id] = t.title ?? "";
+
+  const latestArticles: PublishedArticle[] = (latestPublished ?? []).map(a => ({
+    id: a.id,
+    slug: a.slug,
+    title: pubTransMap[a.id] || a.slug,
+    createdAt: a.created_at ?? new Date().toISOString(),
+  }));
+
   const greeting = (() => {
     const h = new Date().getHours();
     if (h < 12) return "Good morning";
@@ -158,7 +192,7 @@ export default async function DashboardPage() {
             { label: "Generated",      value: editorial.generated,    color: "text-emerald-600", emoji: "✍️" },
             { label: "Published",      value: editorial.autoPublished, color: "text-blue-600",    emoji: "�" },
             { label: "Failed",         value: editorial.failed,        color: "text-rose-600",    emoji: "❌" },
-            { label: "In Queue",       value: editorial.pendingQueue + editorial.pendingLLM, color: "text-amber-600", emoji: "⏳" },
+            { label: "Avg Quality",    value: editorial.avgOverall ?? 0, color: editorial.avgOverall && editorial.avgOverall >= 70 ? "text-emerald-600" : "text-amber-600", emoji: "⭐" },
           ].map(card => (
             <div key={card.label} className="rounded-2xl border border-border/60 bg-card p-5">
               <span className="text-2xl">{card.emoji}</span>
@@ -195,10 +229,10 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      {/* Content Overview */}
+      {/* Content Stats */}
       <div>
         <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">Your Content</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           {[
             { label: "Total Articles",  value: stats.totalArticles,  href: "/admin/articles", emoji: "📝" },
             { label: "Published Today", value: stats.publishedToday, href: "/admin/articles", emoji: "🚀" },
@@ -216,6 +250,27 @@ export default async function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {/* Latest Published Articles */}
+      {latestArticles.length > 0 && (
+        <div>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">Latest Published</h2>
+          <div className="rounded-2xl border border-border/60 divide-y divide-border/40 overflow-hidden">
+            {latestArticles.map(a => (
+              <Link
+                key={a.id}
+                href={`/admin/articles/${a.id}`}
+                className="flex items-center justify-between px-4 py-3 hover:bg-muted/30 transition-colors"
+              >
+                <span className="text-sm font-medium text-foreground truncate">{a.title}</span>
+                <span className="text-xs text-muted-foreground shrink-0 ml-3">
+                  {new Date(a.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Draft Review — inline */}
       <DraftReviewPanel drafts={drafts} />

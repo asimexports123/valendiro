@@ -1,0 +1,432 @@
+{
+  "generatedAt": "2026-06-30T23:21:21.170Z",
+  "totalArticles": 20,
+  "passed": 0,
+  "failed": 20,
+  "goalMatchRate": "0/20",
+  "avgWordCount": 0,
+  "avgQualityScore": 0,
+  "avgEditorialScore": 0,
+  "articles": [
+    {
+      "topic": "What Is Docker?",
+      "domain": "Technology",
+      "entity": "tech_tool_cli",
+      "intent": "definition",
+      "level": "beginner",
+      "goal": "understand",
+      "expectedGoal": "understand",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 1035
+    },
+    {
+      "topic": "Learn Python",
+      "domain": "Technology",
+      "entity": "tech_programming_language",
+      "intent": "tutorial",
+      "level": "beginner",
+      "goal": "learn",
+      "expectedGoal": "learn",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 186
+    },
+    {
+      "topic": "Docker Commands",
+      "domain": "Technology",
+      "entity": "tech_tool_cli",
+      "intent": "reference",
+      "level": "beginner",
+      "goal": "reference",
+      "expectedGoal": "reference",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 332
+    },
+    {
+      "topic": "Docker vs Kubernetes",
+      "domain": "Technology",
+      "entity": "tech_tool_cli",
+      "intent": "comparison",
+      "level": "beginner",
+      "goal": "compare",
+      "expectedGoal": "compare",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 212
+    },
+    {
+      "topic": "Docker not working",
+      "domain": "Technology",
+      "entity": "tech_tool_cli",
+      "intent": "troubleshooting",
+      "level": "beginner",
+      "goal": "solve",
+      "expectedGoal": "solve",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 306
+    },
+    {
+      "topic": "Advanced Docker",
+      "domain": "Technology",
+      "entity": "tech_tool_cli",
+      "intent": "definition",
+      "level": "advanced",
+      "goal": "understand",
+      "expectedGoal": "learn",
+      "goalMatch": false,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 207
+    },
+    {
+      "topic": "Python Intermediate Guide",
+      "domain": "Technology",
+      "entity": "tech_programming_language",
+      "intent": "guide",
+      "level": "intermediate",
+      "goal": "decide",
+      "expectedGoal": "decide",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 316
+    },
+    {
+      "topic": "Index Funds",
+      "domain": "Personal Finance",
+      "entity": "finance_investment_instrument",
+      "intent": "definition",
+      "level": "beginner",
+      "goal": "understand",
+      "expectedGoal": "understand",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 179
+    },
+    {
+      "topic": "Compound Interest Formula",
+      "domain": "Personal Finance",
+      "entity": "finance_financial_formula",
+      "intent": "calculator",
+      "level": "beginner",
+      "goal": "calculate",
+      "expectedGoal": "calculate",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 352
+    },
+    {
+      "topic": "Best Index Funds 2024",
+      "domain": "Personal Finance",
+      "entity": "finance_investment_instrument",
+      "intent": "review",
+      "level": "beginner",
+      "goal": "buy",
+      "expectedGoal": "buy",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 200
+    },
+    {
+      "topic": "Index Funds vs ETFs",
+      "domain": "Personal Finance",
+      "entity": "finance_investment_instrument",
+      "intent": "comparison",
+      "level": "beginner",
+      "goal": "compare",
+      "expectedGoal": "compare",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 385
+    },
+    {
+      "topic": "How to Invest in Index Funds",
+      "domain": "Personal Finance",
+      "entity": "finance_investment_instrument",
+      "intent": "tutorial",
+      "level": "beginner",
+      "goal": "learn",
+      "expectedGoal": "learn",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 183
+    },
+    {
+      "topic": "Type 2 Diabetes",
+      "domain": "Health & Wellness",
+      "entity": "health_disease",
+      "intent": "definition",
+      "level": "beginner",
+      "goal": "understand",
+      "expectedGoal": "understand",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 314
+    },
+    {
+      "topic": "Type 2 Diabetes Diet Checklist",
+      "domain": "Health & Wellness",
+      "entity": "health_disease",
+      "intent": "checklist",
+      "level": "beginner",
+      "goal": "execute",
+      "expectedGoal": "execute",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 193
+    },
+    {
+      "topic": "Metformin",
+      "domain": "Health & Wellness",
+      "entity": "health_medication",
+      "intent": "definition",
+      "level": "beginner",
+      "goal": "understand",
+      "expectedGoal": "understand",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 372
+    },
+    {
+      "topic": "Photosynthesis",
+      "domain": "Education",
+      "entity": "scientific_concept",
+      "intent": "definition",
+      "level": "beginner",
+      "goal": "understand",
+      "expectedGoal": "understand",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 204
+    },
+    {
+      "topic": "World War II",
+      "domain": "Education",
+      "entity": "historical_event",
+      "intent": "definition",
+      "level": "beginner",
+      "goal": "understand",
+      "expectedGoal": "understand",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 327
+    },
+    {
+      "topic": "Visit Tokyo",
+      "domain": "Travel",
+      "entity": "place_travel",
+      "intent": "definition",
+      "level": "beginner",
+      "goal": "understand",
+      "expectedGoal": "decide",
+      "goalMatch": false,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 217
+    },
+    {
+      "topic": "Best Mechanical Keyboards 2024",
+      "domain": "Consumer Products",
+      "entity": "news_current",
+      "intent": "review",
+      "level": "beginner",
+      "goal": "buy",
+      "expectedGoal": "buy",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 295
+    },
+    {
+      "topic": "BMI Calculator",
+      "domain": "Health & Wellness",
+      "entity": "health_medical_concept",
+      "intent": "calculator",
+      "level": "beginner",
+      "goal": "calculate",
+      "expectedGoal": "calculate",
+      "goalMatch": true,
+      "wordCount": 0,
+      "qualityScore": 0,
+      "editorialScore": 0,
+      "passed": false,
+      "autoPublish": false,
+      "title": "",
+      "excerpt": "",
+      "issues": [
+        "Gemini daily quota exhausted. Pipeline will resume tomorrow. Details: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      ],
+      "durationMs": 309
+    }
+  ]
+}

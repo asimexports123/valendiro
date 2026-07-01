@@ -15,7 +15,7 @@ const V1_CATEGORY_SLUGS = [
 ];
 
 interface RouteResult {
-  type: "category" | "collection" | "topic" | "article";
+  type: "category" | "subcategory" | "topic" | "article";
   slug: string;
   status: "ok" | "broken" | "no_translation" | "empty_slug";
   reason?: string;
@@ -61,24 +61,24 @@ export async function GET() {
   }
 
   // ── 2. Collections ───────────────────────────────────────────────────────
-  const { data: collections } = await supabase
-    .from("collections")
-    .select("id, slug, category_id, collection_translations(language_code, name)")
+  const { data: subcategories } = await supabase
+    .from("subcategories")
+    .select("id, slug, category_id, subcategory_translations(language_code, name)")
     .order("created_at", { ascending: false })
     .limit(2000);
 
-  for (const col of collections ?? []) {
+  for (const col of subcategories ?? []) {
     if (!col.slug) {
-      results.push({ type: "collection", slug: "(empty)", status: "empty_slug", reason: "Collection row has no slug" });
+      results.push({ type: "subcategory", slug: "(empty)", status: "empty_slug", reason: "Subcategory row has no slug" });
       continue;
     }
-    const hasEnTranslation = (col.collection_translations as any[])?.some(
+    const hasEnTranslation = (col.subcategory_translations as any[])?.some(
       (t: any) => t.language_code === "en" && t.name
     );
     if (!hasEnTranslation) {
-      results.push({ type: "collection", slug: col.slug, status: "no_translation", reason: "Missing English translation — collection page will show slug as name" });
+      results.push({ type: "subcategory", slug: col.slug, status: "no_translation", reason: "Missing English translation — subcategory page will show slug as name" });
     } else {
-      results.push({ type: "collection", slug: col.slug, status: "ok" });
+      results.push({ type: "subcategory", slug: col.slug, status: "ok" });
     }
   }
 
@@ -137,7 +137,7 @@ export async function GET() {
     broken: broken404.length,
     byType: {
       categories:  { total: results.filter((r) => r.type === "category").length,  ok: results.filter((r) => r.type === "category"  && r.status === "ok").length  },
-      collections: { total: results.filter((r) => r.type === "collection").length, ok: results.filter((r) => r.type === "collection" && r.status === "ok").length },
+      subcategories: { total: results.filter((r) => r.type === "subcategory").length, ok: results.filter((r) => r.type === "subcategory" && r.status === "ok").length },
       topics:      { total: results.filter((r) => r.type === "topic").length,      ok: results.filter((r) => r.type === "topic"      && r.status === "ok").length },
       articles:    { total: results.filter((r) => r.type === "article").length,    ok: results.filter((r) => r.type === "article"    && r.status === "ok").length },
     },

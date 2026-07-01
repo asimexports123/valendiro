@@ -4,7 +4,7 @@
  * Provides keyword signals from:
  * - Stack Overflow (technology questions)
  * - GitHub Trending repositories
- * - Internal content gap detection (topics/collections with no articles yet)
+ * - Internal content gap detection (topics/subcategories with no articles yet)
  *
  * Every keyword passes through the existing quality and category filters before
  * being inserted as a demand signal. Out-of-scope keywords are discarded here.
@@ -164,7 +164,7 @@ export async function fetchGitHubTrending(languageCode = "en"): Promise<DemandSo
 // ── Internal Content Gap Detection ────────────────────────────────────────────
 
 /**
- * Scans the database for collections and topics that have no published articles.
+ * Scans the database for subcategories and topics that have no published articles.
  * These represent genuine content gaps — high-priority targets for new articles.
  * Emits demand signals for the gap so the pipeline can fill them.
  */
@@ -174,23 +174,23 @@ export async function detectInternalContentGaps(languageCode = "en"): Promise<De
   const errors: string[] = [];
   const cats = await getActiveCategories();
 
-  // Collections with zero published articles
+  // Subcategories with zero published articles
   try {
-    const { data: collections } = await supabase
-      .from("collections")
-      .select("id, slug, collection_translations(name)")
-      .eq("collection_translations.language_code", languageCode)
+    const { data: subcategories } = await supabase
+      .from("subcategories")
+      .select("id, slug, subcategory_translations(name)")
+      .eq("subcategory_translations.language_code", languageCode)
       .limit(50);
 
-    for (const col of collections || []) {
-      const name = (col.collection_translations as { name: string }[] | null)?.[0]?.name;
+    for (const col of subcategories || []) {
+      const name = (col.subcategory_translations as { name: string }[] | null)?.[0]?.name;
       if (!name) continue;
 
-      // Check if this collection has any published articles via topics
+      // Check if this Subcategory has any published articles via topics
       const { data: topics } = await supabase
         .from("topics")
         .select("id")
-        .eq("collection_id", col.id)
+        .eq("subcategory_id", col.id)
         .eq("status", "published");
 
       if (!topics || topics.length === 0) continue;
@@ -204,7 +204,7 @@ export async function detectInternalContentGaps(languageCode = "en"): Promise<De
 
       if ((count ?? 0) > 0) continue; // Already has articles
 
-      // This collection is a genuine content gap
+      // This Subcategory is a genuine content gap
       const keyword = `${name} guide`;
       const quality = scoreDemandKeyword(keyword);
       if (!isPublishable(quality)) continue;
@@ -227,8 +227,8 @@ export async function detectInternalContentGaps(languageCode = "en"): Promise<De
         freshness_score: 60,
         metadata: {
           discovered_by: "internal_gap_detection",
-          gap_type: "collection_no_articles",
-          collection_id: col.id,
+          gap_type: "subcategory_no_articles",
+          subcategory_id: col.id,
           quality,
           in_scope: true,
           category_slug: categoryMatch.slug,
@@ -239,7 +239,7 @@ export async function detectInternalContentGaps(languageCode = "en"): Promise<De
       else errors.push(error.message);
     }
   } catch (err) {
-    errors.push(err instanceof Error ? err.message : "Collection gap scan failed");
+    errors.push(err instanceof Error ? err.message : "Subcategory gap scan failed");
   }
 
   // Topics with zero published articles

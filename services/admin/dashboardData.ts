@@ -338,7 +338,7 @@ export interface OwnerDashboardData {
   stats: {
     totalArticles: number;
     totalTopics: number;
-    totalCollections: number;
+    totalSubcategories: number;
     totalCategories: number;
     publishedToday: number;
     pendingReview: number;
@@ -361,12 +361,12 @@ export async function getOwnerDashboardData(): Promise<OwnerDashboardData> {
   todayStart.setHours(0, 0, 0, 0);
 
   const [
-    totalArticles, totalTopics, totalCollections, totalCategories,
+    totalArticles, totalTopics, totalSubcategories, totalCategories,
     publishedToday, pendingReview, failedJobs, lastPublish,
   ] = await Promise.all([
     safeCount(async () => supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "published")),
     safeCount(async () => supabase.from("topics").select("*", { count: "exact", head: true }).eq("status", "published")),
-    safeCount(async () => supabase.from("collections").select("*", { count: "exact", head: true })),
+    safeCount(async () => supabase.from("subcategories").select("*", { count: "exact", head: true })),
     safeCount(async () => supabase.from("categories").select("*", { count: "exact", head: true })),
     safeCount(async () => supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "published").gte("created_at", todayStart.toISOString())),
     safeCount(async () => supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "review")),
@@ -383,7 +383,7 @@ export async function getOwnerDashboardData(): Promise<OwnerDashboardData> {
   if (!config.automationEnabled) notifications.push({ type: "warning", message: "Automation is currently paused." });
 
   return {
-    stats: { totalArticles, totalTopics, totalCollections, totalCategories, publishedToday, pendingReview },
+    stats: { totalArticles, totalTopics, totalSubcategories, totalCategories, publishedToday, pendingReview },
     system: {
       healthy,
       automationEnabled: config.automationEnabled,

@@ -1,4 +1,4 @@
-export type MediaType = "category" | "topic" | "article" | "collection" | "guide";
+export type MediaType = "category" | "topic" | "article" | "Subcategory" | "guide";
 
 const categoryColors: Record<string, string> = {
   technology: "3b82f6",

@@ -8,7 +8,7 @@ export async function buildHierarchicalLinksForTopic(topicId: string) {
 
   const { data: topic } = await supabase
     .from("topics")
-    .select("id, category_id, collection_id")
+    .select("id, category_id, subcategory_id")
     .eq("id", topicId)
     .single();
   if (!topic) return { created, count: 0 };
@@ -28,19 +28,19 @@ export async function buildHierarchicalLinksForTopic(topicId: string) {
     created.push({ source: "topic", target: "category" });
   }
 
-  // Topic -> Collection
-  if (topic.collection_id) {
+  // Topic -> Subcategory
+  if (topic.subcategory_id) {
     await createLinkSuggestion({
       sourceObjectId: topicId,
       sourceObjectType: "topic",
-      targetObjectId: topic.collection_id,
-      targetObjectType: "collection",
-      anchorText: "Collection",
+      targetObjectId: topic.subcategory_id,
+      targetObjectType: "subcategory",
+      anchorText: "subcategory",
       relevanceScore: 90,
       clusterStrengthScore: 95,
-      contextSnippet: "Topic belongs to collection",
+      contextSnippet: "Topic belongs to Subcategory",
     });
-    created.push({ source: "topic", target: "collection" });
+    created.push({ source: "topic", target: "subcategory" });
   }
 
   // Topic -> Articles in this topic
@@ -62,14 +62,14 @@ export async function buildHierarchicalLinksForTopic(topicId: string) {
     created.push({ source: "topic", target: "article" });
   }
 
-  // Topic -> Related topics in same collection or category
+  // Topic -> Related topics in same Subcategory or category
   let relatedQuery = supabase
     .from("topics")
     .select("id")
     .neq("id", topicId)
     .eq("status", "published");
-  if (topic.collection_id) {
-    relatedQuery = relatedQuery.eq("collection_id", topic.collection_id);
+  if (topic.subcategory_id) {
+    relatedQuery = relatedQuery.eq("subcategory_id", topic.subcategory_id);
   } else if (topic.category_id) {
     relatedQuery = relatedQuery.eq("category_id", topic.category_id);
   } else {
@@ -106,7 +106,7 @@ export async function buildHierarchicalLinksForArticle(articleId: string) {
 
   const { data: topic } = await supabase
     .from("topics")
-    .select("id, category_id, collection_id")
+    .select("id, category_id, subcategory_id")
     .eq("id", article.topic_id)
     .single();
   if (!topic) return { created, count: 0 };
@@ -124,19 +124,19 @@ export async function buildHierarchicalLinksForArticle(articleId: string) {
   });
   created.push({ source: "article", target: "topic" });
 
-  // Article -> Collection
-  if (topic.collection_id) {
+  // Article -> Subcategory
+  if (topic.subcategory_id) {
     await createLinkSuggestion({
       sourceObjectId: articleId,
       sourceObjectType: "article",
-      targetObjectId: topic.collection_id,
+      targetObjectId: topic.subcategory_id,
       targetObjectType: "topic",
-      anchorText: "Collection",
+      anchorText: "subcategory",
       relevanceScore: 85,
       clusterStrengthScore: 90,
-      contextSnippet: "Article belongs to collection via topic",
+      contextSnippet: "Article belongs to Subcategory via topic",
     });
-    created.push({ source: "article", target: "collection" });
+    created.push({ source: "article", target: "subcategory" });
   }
 
   // Article -> Category
@@ -157,49 +157,49 @@ export async function buildHierarchicalLinksForArticle(articleId: string) {
   return { created, count: created.length };
 }
 
-export async function buildHierarchicalLinksForCollection(collectionId: string) {
+export async function buildHierarchicalLinksForSubcategory(subcategoryId: string) {
   const supabase = createAdminClient();
   const created: { source: string; target: string }[] = [];
 
-  const { data: collection } = await supabase
-    .from("collections")
+  const { data: Subcategory } = await supabase
+    .from("subcategories")
     .select("id, category_id")
-    .eq("id", collectionId)
+    .eq("id", subcategoryId)
     .single();
-  if (!collection) return { created, count: 0 };
+  if (!Subcategory) return { created, count: 0 };
 
-  // Collection -> Category
-  if (collection.category_id) {
+  // Subcategory -> Category
+  if (Subcategory.category_id) {
     await createLinkSuggestion({
-      sourceObjectId: collectionId,
-      sourceObjectType: "collection",
-      targetObjectId: collection.category_id,
+      sourceObjectId: subcategoryId,
+      sourceObjectType: "subcategory",
+      targetObjectId: Subcategory.category_id,
       targetObjectType: "category",
       anchorText: "Category",
       relevanceScore: 90,
       clusterStrengthScore: 95,
-      contextSnippet: "Collection belongs to category",
+      contextSnippet: "Subcategory belongs to category",
     });
-    created.push({ source: "collection", target: "category" });
+    created.push({ source: "subcategory", target: "category" });
   }
 
-  // Collection -> Topics
+  // Subcategory -> Topics
   const { data: topics } = await supabase
     .from("topics")
     .select("id")
-    .eq("collection_id", collectionId)
+    .eq("subcategory_id", subcategoryId)
     .eq("status", "published");
   for (const topic of topics || []) {
     await createLinkSuggestion({
-      sourceObjectId: collectionId,
-      sourceObjectType: "collection",
+      sourceObjectId: subcategoryId,
+      sourceObjectType: "subcategory",
       targetObjectId: topic.id,
       targetObjectType: "topic",
       relevanceScore: 85,
       clusterStrengthScore: 90,
-      contextSnippet: "Topic belongs to collection",
+      contextSnippet: "Topic belongs to Subcategory",
     });
-    created.push({ source: "collection", target: "topic" });
+    created.push({ source: "subcategory", target: "topic" });
   }
 
   return { created, count: created.length };
@@ -209,22 +209,22 @@ export async function buildHierarchicalLinksForCategory(categoryId: string) {
   const supabase = createAdminClient();
   const created: { source: string; target: string }[] = [];
 
-  // Category -> Collections
-  const { data: collections } = await supabase
-    .from("collections")
+  // Category -> Subcategories
+  const { data: subcategories } = await supabase
+    .from("subcategories")
     .select("id")
     .eq("category_id", categoryId);
-  for (const collection of collections || []) {
+  for (const Subcategory of subcategories || []) {
     await createLinkSuggestion({
       sourceObjectId: categoryId,
       sourceObjectType: "category",
-      targetObjectId: collection.id,
-      targetObjectType: "collection",
+      targetObjectId: Subcategory.id,
+      targetObjectType: "subcategory",
       relevanceScore: 85,
       clusterStrengthScore: 90,
-      contextSnippet: "Collection belongs to category",
+      contextSnippet: "Subcategory belongs to category",
     });
-    created.push({ source: "category", target: "collection" });
+    created.push({ source: "category", target: "subcategory" });
   }
 
   // Category -> Topics

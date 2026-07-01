@@ -94,7 +94,7 @@ async function main() {
   // ── By type table ────────────────────────────────────────────────────────────
   console.log(bold("  ── By Type ──────────────────────────────────────────────"));
   const bt = report.by_type;
-  const types = ["static", "nav", "footer", "categories", "collections", "topics", "articles", "sitemap"] as const;
+  const types = ["static", "nav", "footer", "categories", "subcategories", "topics", "articles", "sitemap"] as const;
   for (const t of types) {
     const g = bt[t];
     if (!g || g.total === 0) continue;

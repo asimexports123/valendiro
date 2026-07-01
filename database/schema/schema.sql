@@ -48,7 +48,7 @@ CREATE TABLE category_translations (
   UNIQUE (category_id, language_code)
 );
 
-CREATE TABLE collections (
+CREATE TABLE subcategories (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   slug TEXT NOT NULL UNIQUE,
   category_id UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
@@ -57,9 +57,9 @@ CREATE TABLE collections (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE collection_translations (
+CREATE TABLE subcategory_translations (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  collection_id UUID NOT NULL REFERENCES collections(id) ON DELETE CASCADE,
+  subcategory_id UUID NOT NULL REFERENCES subcategories(id) ON DELETE CASCADE,
   language_code TEXT NOT NULL REFERENCES languages(code) ON DELETE CASCADE,
   name TEXT NOT NULL,
   description TEXT,
@@ -67,7 +67,7 @@ CREATE TABLE collection_translations (
   meta_description TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE (collection_id, language_code)
+  UNIQUE (subcategory_id, language_code)
 );
 
 CREATE TABLE tags (
@@ -93,7 +93,7 @@ CREATE TABLE topics (
   slug TEXT NOT NULL UNIQUE,
   canonical_path TEXT NOT NULL UNIQUE,
   category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
-  collection_id UUID REFERENCES collections(id) ON DELETE SET NULL,
+  subcategory_id UUID REFERENCES subcategories(id) ON DELETE SET NULL,
   difficulty TEXT CHECK (difficulty IN ('beginner', 'intermediate', 'advanced')),
   estimated_read_time INTEGER,
   published_at TIMESTAMPTZ,
@@ -300,9 +300,9 @@ CREATE TABLE knowledge_object_tags (
 CREATE TABLE internal_links (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   source_id UUID NOT NULL,
-  source_type TEXT NOT NULL CHECK (source_type IN ('topic', 'question', 'entity', 'article', 'knowledge_object', 'category', 'collection')),
+  source_type TEXT NOT NULL CHECK (source_type IN ('topic', 'question', 'entity', 'article', 'knowledge_object', 'category', 'subcategory')),
   target_id UUID NOT NULL,
-  target_type TEXT NOT NULL CHECK (target_type IN ('topic', 'question', 'entity', 'article', 'knowledge_object', 'category', 'collection')),
+  target_type TEXT NOT NULL CHECK (target_type IN ('topic', 'question', 'entity', 'article', 'knowledge_object', 'category', 'subcategory')),
   link_text JSONB,
   link_context TEXT NOT NULL CHECK (link_context IN ('inline', 'related', 'see_also', 'breadcrumb', 'navigation')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -345,7 +345,7 @@ CREATE TABLE affiliate_object_links (
 CREATE TABLE seo_metadata (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   object_id UUID NOT NULL,
-  object_type TEXT NOT NULL CHECK (object_type IN ('topic', 'question', 'entity', 'article', 'knowledge_object', 'category', 'collection', 'tag')),
+  object_type TEXT NOT NULL CHECK (object_type IN ('topic', 'question', 'entity', 'article', 'knowledge_object', 'category', 'subcategory', 'tag')),
   language_code TEXT NOT NULL REFERENCES languages(code) ON DELETE CASCADE,
   meta_title TEXT,
   meta_description TEXT,
@@ -392,8 +392,8 @@ CREATE TABLE performance_metrics (
 -- Indexes for performance at scale
 CREATE INDEX idx_topics_status ON topics(status);
 CREATE INDEX idx_topics_published_at ON topics(published_at);
-CREATE INDEX idx_topics_collection ON topics(collection_id);
-CREATE INDEX idx_collections_category ON collections(category_id);
+CREATE INDEX idx_topics_subcategory ON topics(subcategory_id);
+CREATE INDEX idx_subcategories_category ON subcategories(category_id);
 CREATE INDEX idx_articles_topic ON articles(topic_id);
 CREATE INDEX idx_questions_status ON questions(status);
 CREATE INDEX idx_entities_status ON entities(status);

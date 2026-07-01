@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-const ALLOWED_TABLES = ["topics", "articles", "questions", "collections", "entities"] as const;
+const ALLOWED_TABLES = ["topics", "articles", "questions", "subcategories", "entities"] as const;
 type AllowedTable = typeof ALLOWED_TABLES[number];
 
 export async function DELETE(request: Request) {

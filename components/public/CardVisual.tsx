@@ -147,9 +147,9 @@ export function CardThumbnail({
 }
 
 /**
- * A compact square icon for collection cards.
+ * A compact square icon for subcategory cards.
  */
-export function CollectionIcon({
+export function SubcategoryIcon({
   categorySlug,
   name,
   size = 48,

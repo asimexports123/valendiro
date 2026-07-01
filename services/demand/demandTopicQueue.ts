@@ -98,7 +98,7 @@ export async function buildDemandTopicQueue(
         .insert({
           demand_signal_id: demandSignalId,
           cluster_id: cluster.id,
-          collection_id: cluster.collection_id,
+          subcategory_id: cluster.subcategory_id,
           keyword: bestKeyword,
           title,
           description,
@@ -121,7 +121,7 @@ export async function buildDemandTopicQueue(
         .insert({
           demand_signal_id: demandSignalId,
           cluster_id: cluster.id,
-          collection_id: cluster.collection_id,
+          subcategory_id: cluster.subcategory_id,
           keyword: bestKeyword,
           title,
           description,
@@ -141,7 +141,7 @@ export async function buildDemandTopicQueue(
       const { error: insertError } = await supabase.from("demand_topic_queue").insert({
         demand_signal_id: demandSignalId,
         cluster_id: cluster.id,
-        collection_id: cluster.collection_id,
+        subcategory_id: cluster.subcategory_id,
         keyword: bestKeyword,
         title,
         description,

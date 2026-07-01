@@ -41,7 +41,7 @@ export function CategoryGrid({ lang, categories }: { lang: string; categories: P
             const color = meta?.color ?? "text-primary";
             const bg   = meta?.bg   ?? "bg-muted";
             const desc = category.description || `Explore ${category.name} resources.`;
-            const hasAny = category.collection_count > 0 || category.topic_count > 0 || category.article_count > 0;
+            const hasAny = category.subcategory_count > 0 || category.topic_count > 0 || category.article_count > 0;
             return (
               <Link
                 key={category.id}
@@ -60,8 +60,8 @@ export function CategoryGrid({ lang, categories }: { lang: string; categories: P
                   </p>
                   {hasAny && (
                     <div className="mt-2.5 flex flex-wrap items-center gap-2.5">
-                      <CountPill n={category.collection_count} label="collection" />
-                      {category.collection_count > 0 && category.topic_count > 0 && (
+                      <CountPill n={category.subcategory_count} label="subcategory" />
+                      {category.subcategory_count > 0 && category.topic_count > 0 && (
                         <span className="text-border">·</span>
                       )}
                       <CountPill n={category.topic_count} label="topic" />

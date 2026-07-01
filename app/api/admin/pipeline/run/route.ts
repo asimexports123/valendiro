@@ -8,7 +8,7 @@
  *
  * Stages:
  *   full      — run the entire pipeline end-to-end (default)
- *   discover  — scan knowledge tree: Category → Collection → Topic → queue new topics
+ *   discover  — scan knowledge tree: Category → Subcategory → Topic → queue new topics
  *   topics    — publish queued topics from content_generation_queue
  *   articles  — generate + publish queued articles (5-agent Gemini pipeline)
  *   images    — assign featured images to articles missing them
@@ -79,14 +79,14 @@ export async function POST(request: Request) {
         break;
       }
 
-      // ── Knowledge Tree Scan: Category → Collection → Topic → Queue ────────
+      // ── Knowledge Tree Scan: Category → Subcategory → Topic → Queue ────────
       case "discover": {
         const { expandKnowledgeTree } = await import("@/services/demand/knowledgeTreeGenerator");
         const treeResult = await expandKnowledgeTree(limit);
         result = {
           stage,
           topicsQueued: treeResult.totalTopicsQueued,
-          collectionsProcessed: treeResult.collectionsProcessed,
+          subcategoriesProcessed: treeResult.subcategoriesProcessed,
           errors: treeResult.errors,
           errorCount: treeResult.errors.length,
         };
@@ -172,7 +172,7 @@ function buildPipelineResponse(r: PublishingEngineResult, stage: string): Record
     demandInserted: r.demandInserted,
     clustersCreated: r.clustersCreated,
     categoriesCreated: r.categoriesCreated,
-    collectionsCreated: r.collectionsCreated,
+    subcategoriesCreated: r.subcategoriesCreated,
     queuedTopics: r.queuedTopics,
     topicsPublished: r.topicsPublished,
     articleExpansionsQueued: r.articleExpansionsQueued,

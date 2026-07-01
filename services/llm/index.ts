@@ -16,12 +16,14 @@ import { OpenAIProvider }     from "./providers/openaiProvider";
 import { AnthropicProvider }  from "./providers/anthropicProvider";
 import { GeminiProvider }     from "./providers/geminiProvider";
 import { GroqProvider }       from "./providers/groqProvider";
+import { GrokProvider }       from "./providers/grokProvider";
 
 // Register all providers (order determines priority when LLM_PROVIDER is not set)
 registerLLMProvider(new OpenAIProvider());
 registerLLMProvider(new AnthropicProvider());
 registerLLMProvider(new GeminiProvider());
 registerLLMProvider(new GroqProvider());
+registerLLMProvider(new GrokProvider());
 
 // Re-export the public API
 export {

@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo/metadata";
 import {
-  getCollectionBySlug,
-  getTopicsByCollection,
-  getArticlesByCollection,
-  getCollectionsByCategory,
-  CollectionDifficulty,
+  getSubcategoryBySlug,
+  getTopicsBySubcategory,
+  getArticlesBySubcategory,
+  getSubcategoriesByCategory,
+  SubcategoryDifficulty,
 } from "@/services/public/publicData";
 import { LatestArticles } from "@/components/public/LatestArticles";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
@@ -21,13 +21,13 @@ const CATEGORY_META: Record<string, { emoji: string; color: string; bg: string }
   technology:         { emoji: "💻", color: "text-blue-600 dark:text-blue-400",      bg: "bg-blue-50 dark:bg-blue-950/40" },
   "personal-finance": { emoji: "💰", color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/40" },
   business:           { emoji: "🚀", color: "text-amber-600 dark:text-amber-400",    bg: "bg-amber-50 dark:bg-amber-950/40" },
-  education:          { emoji: "📚", color: "text-violet-600 dark:text-violet-400",  bg: "bg-violet-50 dark:bg-violet-950/40" },
+  "education-learning":{ emoji: "📚", color: "text-violet-600 dark:text-violet-400",  bg: "bg-violet-50 dark:bg-violet-950/40" },
   "health-wellness":  { emoji: "🏃", color: "text-rose-600 dark:text-rose-400",      bg: "bg-rose-50 dark:bg-rose-950/40" },
   "home-lifestyle":   { emoji: "🏠", color: "text-orange-600 dark:text-orange-400",  bg: "bg-orange-50 dark:bg-orange-950/40" },
   travel:             { emoji: "✈️", color: "text-sky-600 dark:text-sky-400",        bg: "bg-sky-50 dark:bg-sky-950/40" },
 };
 
-const DIFFICULTY_CONFIG: Record<CollectionDifficulty, { label: string; dot: string; bar: string }> = {
+const DIFFICULTY_CONFIG: Record<SubcategoryDifficulty, { label: string; dot: string; bar: string }> = {
   Beginner:     { label: "Beginner",     dot: "bg-emerald-500", bar: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-400" },
   Intermediate: { label: "Intermediate", dot: "bg-amber-500",   bar: "text-amber-600 bg-amber-50 dark:bg-amber-950/40 dark:text-amber-400" },
   Advanced:     { label: "Advanced",     dot: "bg-rose-500",     bar: "text-rose-600 bg-rose-50 dark:bg-rose-950/40 dark:text-rose-400" },
@@ -59,53 +59,52 @@ export async function generateMetadata({
   params: Promise<{ lang: string; slug: string }>;
 }): Promise<Metadata> {
   const { lang, slug } = await params;
-  const collection = await getCollectionBySlug(slug);
-  if (!collection) return {};
+  const subcategory = await getSubcategoryBySlug(slug);
+  if (!subcategory) return {};
   return buildMetadata({
-    title: `${collection.name} — Valendiro`,
+    title: `${subcategory.name} — Valendiro`,
     description:
-      collection.description ||
-      `A structured learning path covering ${collection.name}. ${collection.topic_count} topics, ${collection.article_count} articles.`,
-    canonical: `/${lang}/collections/${slug}`,
+      subcategory.description ||
+      `A structured learning path covering ${subcategory.name}. ${subcategory.topic_count} topics, ${subcategory.article_count} articles.`,
+    canonical: `/${lang}/subcategories/${slug}`,
   });
 }
 
-export default async function CollectionPage({
+export default async function SubcategoryPage({
   params,
 }: {
   params: Promise<{ lang: string; slug: string }>;
 }) {
   const { lang, slug } = await params;
-  const collection = await getCollectionBySlug(slug);
-  if (!collection) notFound();
+  const subcategory = await getSubcategoryBySlug(slug);
+  if (!subcategory) notFound();
 
-  const [topics, articles, relatedCollections, parentCategory] = await Promise.all([
-    getTopicsByCollection(collection.id, 24),
-    getArticlesByCollection(collection.id, 6),
-    getCollectionsByCategory(collection.category_id, 8),
-    collection.category_id ? getCategoryById(collection.category_id) : null,
+  const [topics, articles, relatedSubcategories, parentCategory] = await Promise.all([
+    getTopicsBySubcategory(subcategory.id, 24),
+    getArticlesBySubcategory(subcategory.id, 6),
+    getSubcategoriesByCategory(subcategory.category_id, 8),
+    subcategory.category_id ? getCategoryById(subcategory.category_id) : null,
   ]);
 
-  const siblings = relatedCollections.filter((c) => c.slug !== slug).slice(0, 4);
-  const diff = DIFFICULTY_CONFIG[collection.difficulty];
+  const siblings = relatedSubcategories.filter((c) => c.slug !== slug).slice(0, 4);
+  const diff = DIFFICULTY_CONFIG[subcategory.difficulty];
   const catMeta = CATEGORY_META[parentCategory?.slug ?? ""] ?? { emoji: "📖", color: "text-primary", bg: "bg-muted" };
   const objectives = buildLearningObjectives(topics.map((t) => t.title));
 
   const breadcrumbs = [
     { name: "Home", href: `/${lang}`, isCurrent: false },
-    { name: "Collections", href: `/${lang}/collections`, isCurrent: false },
     ...(parentCategory
       ? [{ name: parentCategory.name, href: `/${lang}/categories/${parentCategory.slug}`, isCurrent: false }]
       : []),
-    { name: collection.name, href: `/${lang}/collections/${slug}`, isCurrent: true },
+    { name: subcategory.name, href: `/${lang}/subcategories/${slug}`, isCurrent: true },
   ];
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: collection.name,
-    description: collection.description,
-    url: `${SITE_URL}/${lang}/collections/${slug}`,
+    "@type": "SubcategoryPage",
+    name: subcategory.name,
+    description: subcategory.description,
+    url: `${SITE_URL}/${lang}/subcategories/${slug}`,
     numberOfItems: topics.length,
   };
 
@@ -131,12 +130,12 @@ export default async function CollectionPage({
               )}
 
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
-                {collection.name}
+                {subcategory.name}
               </h1>
 
-              {collection.description && (
+              {subcategory.description && (
                 <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                  {collection.description}
+                  {subcategory.description}
                 </p>
               )}
 
@@ -149,28 +148,19 @@ export default async function CollectionPage({
 
                 {topics.length > 0 && (
                   <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-muted text-muted-foreground border border-border/50">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
                     {topics.length} Topic{topics.length !== 1 ? "s" : ""}
                   </span>
                 )}
 
-                {collection.article_count > 0 && (
+                {subcategory.article_count > 0 && (
                   <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-muted text-muted-foreground border border-border/50">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    {collection.article_count} Article{collection.article_count !== 1 ? "s" : ""}
+                    {subcategory.article_count} Article{subcategory.article_count !== 1 ? "s" : ""}
                   </span>
                 )}
 
-                {collection.estimated_hours > 0 && topics.length > 0 && (
+                {subcategory.estimated_hours > 0 && topics.length > 0 && (
                   <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium bg-muted text-muted-foreground border border-border/50">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <circle cx="12" cy="12" r="10" /><path strokeLinecap="round" d="M12 6v6l4 2" />
-                    </svg>
-                    ~{collection.estimated_hours}h estimated
+                    ~{subcategory.estimated_hours}h estimated
                   </span>
                 )}
               </div>
@@ -188,7 +178,7 @@ export default async function CollectionPage({
                 <div className="flex items-center gap-1 text-muted-foreground/50">
                   <span className="w-4 border-b border-dashed border-muted-foreground/30" />
                 </div>
-                <span className={`font-semibold ${catMeta.color}`}>{collection.name}</span>
+                <span className={`font-semibold ${catMeta.color}`}>{subcategory.name}</span>
                 <div className="flex items-center gap-1 text-muted-foreground/50">
                   <span className="w-4 border-b border-dashed border-muted-foreground/30" />
                 </div>
@@ -223,7 +213,7 @@ export default async function CollectionPage({
                       <svg className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
-                      <span>And {topics.length - 5} more topic{topics.length - 5 !== 1 ? "s" : ""} in this collection</span>
+                      <span>And {topics.length - 5} more topic{topics.length - 5 !== 1 ? "s" : ""}</span>
                     </li>
                   )}
                 </ul>
@@ -238,16 +228,14 @@ export default async function CollectionPage({
                   <p className="mt-1 text-sm text-muted-foreground">
                     {topics.length > 0
                       ? `${topics.length} topic${topics.length !== 1 ? "s" : ""} — work through them in order for the best learning experience`
-                      : "Topics are being prepared for this collection"}
+                      : "Topics are being prepared for this subcategory"}
                   </p>
                 </div>
               </div>
 
               {topics.length > 0 ? (
                 <div className="relative">
-                  {/* Vertical progress line */}
                   <div className="absolute left-[19px] top-8 bottom-8 w-px bg-border/60 hidden sm:block" aria-hidden />
-
                   <ol className="space-y-3">
                     {topics.map((topic, i) => (
                       <li key={topic.id}>
@@ -255,11 +243,9 @@ export default async function CollectionPage({
                           href={`/${lang}/topics/${topic.slug}`}
                           className="group flex items-start gap-4 rounded-2xl border border-border/60 bg-card px-5 py-4 hover:border-primary/40 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
                         >
-                          {/* Step number */}
                           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-border/60 bg-background text-xs font-bold text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors">
                             {i + 1}
                           </span>
-
                           <div className="flex-1 min-w-0 pt-1">
                             <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
                               {topic.title}
@@ -270,7 +256,6 @@ export default async function CollectionPage({
                               </p>
                             )}
                           </div>
-
                           <svg className="mt-1.5 h-4 w-4 shrink-0 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                           </svg>
@@ -283,7 +268,7 @@ export default async function CollectionPage({
                 <EmptyState
                   emoji="📖"
                   title="Topics coming soon"
-                  description="Topics for this collection are being prepared. Check back soon."
+                  description="Topics for this subcategory are being prepared. Check back soon."
                 />
               )}
             </section>
@@ -299,11 +284,8 @@ export default async function CollectionPage({
 
           {/* ── Sidebar ─────────────────────────────────────────────────────── */}
           <aside className="space-y-6">
-
-            {/* Collection summary card */}
             <div className="rounded-2xl border border-border/60 bg-card p-6 space-y-4">
-              <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">Collection Overview</h3>
-
+              <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">Overview</h3>
               <dl className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <dt className="text-muted-foreground">Difficulty</dt>
@@ -314,28 +296,18 @@ export default async function CollectionPage({
                     </span>
                   </dd>
                 </div>
-
                 {topics.length > 0 && (
                   <div className="flex items-center justify-between text-sm">
                     <dt className="text-muted-foreground">Topics</dt>
                     <dd className="font-semibold text-foreground">{topics.length}</dd>
                   </div>
                 )}
-
-                {collection.article_count > 0 && (
+                {subcategory.article_count > 0 && (
                   <div className="flex items-center justify-between text-sm">
                     <dt className="text-muted-foreground">Articles</dt>
-                    <dd className="font-semibold text-foreground">{collection.article_count}</dd>
+                    <dd className="font-semibold text-foreground">{subcategory.article_count}</dd>
                   </div>
                 )}
-
-                {collection.estimated_hours > 0 && topics.length > 0 && (
-                  <div className="flex items-center justify-between text-sm">
-                    <dt className="text-muted-foreground">Est. time</dt>
-                    <dd className="font-semibold text-foreground">~{collection.estimated_hours}h</dd>
-                  </div>
-                )}
-
                 {parentCategory && (
                   <div className="flex items-center justify-between text-sm">
                     <dt className="text-muted-foreground">Category</dt>
@@ -360,7 +332,7 @@ export default async function CollectionPage({
                   )}
                   <div className="flex items-center gap-2 pl-4">
                     <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                    <span className="font-semibold text-foreground">{collection.name}</span>
+                    <span className="font-semibold text-foreground">{subcategory.name}</span>
                   </div>
                   {topics.slice(0, 3).map((t) => (
                     <Link key={t.id} href={`/${lang}/topics/${t.slug}`} className="flex items-center gap-2 pl-8 text-muted-foreground hover:text-primary transition-colors">
@@ -375,11 +347,11 @@ export default async function CollectionPage({
               </div>
             </div>
 
-            {/* Related collections */}
+            {/* Related subcategories */}
             {siblings.length > 0 && (
               <div className="rounded-2xl border border-border/60 bg-card p-6">
                 <h3 className="text-sm font-bold text-foreground uppercase tracking-wider mb-4">
-                  Related Collections
+                  Related Subcategories
                 </h3>
                 <ul className="space-y-2">
                   {siblings.map((c) => {
@@ -387,7 +359,7 @@ export default async function CollectionPage({
                     return (
                       <li key={c.id}>
                         <Link
-                          href={`/${lang}/collections/${c.slug}`}
+                          href={`/${lang}/subcategories/${c.slug}`}
                           className="group flex items-start justify-between gap-3 rounded-xl border border-border/50 bg-background/60 p-3.5 hover:border-primary/40 hover:bg-card transition-all"
                         >
                           <div className="min-w-0">
@@ -413,7 +385,7 @@ export default async function CollectionPage({
                     href={`/${lang}/categories/${parentCategory.slug}`}
                     className="mt-4 flex items-center justify-center gap-1 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
                   >
-                    View all {parentCategory.name} collections →
+                    View all {parentCategory.name} subcategories →
                   </Link>
                 )}
               </div>

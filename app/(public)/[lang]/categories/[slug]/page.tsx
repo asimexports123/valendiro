@@ -15,7 +15,7 @@ export const dynamicParams = true;
 const ACCENTS: Record<string, {
   bg: string; heroBg: string; text: string; border: string;
   iconBg: string; iconText: string; emoji: string; tagline: string;
-  collectionEmojis: string[];
+  subcategoryEmojis: string[];
 }> = {
   technology: {
     bg: "bg-blue-50 dark:bg-blue-950/30",
@@ -26,7 +26,7 @@ const ACCENTS: Record<string, {
     iconText: "text-blue-600 dark:text-blue-400",
     emoji: "💻",
     tagline: "AI, software, gadgets, programming & the future of technology.",
-    collectionEmojis: ["🤖","🌐","📱","⚡","🔬","🛡️","☁️","🎮","🔧","📊"],
+    subcategoryEmojis: ["🤖","🌐","📱","⚡","🔬","🛡️","☁️","🎮","🔧","📊"],
   },
   "personal-finance": {
     bg: "bg-emerald-50 dark:bg-emerald-950/30",
@@ -37,7 +37,7 @@ const ACCENTS: Record<string, {
     iconText: "text-emerald-600 dark:text-emerald-400",
     emoji: "💰",
     tagline: "Investing, budgeting, debt, retirement & financial independence.",
-    collectionEmojis: ["📈","🏦","💳","🏠","📊","💎","🌱","🎯","🔄","💵"],
+    subcategoryEmojis: ["📈","🏦","💳","🏠","📊","💎","🌱","🎯","🔄","💵"],
   },
   business: {
     bg: "bg-violet-50 dark:bg-violet-950/30",
@@ -48,7 +48,7 @@ const ACCENTS: Record<string, {
     iconText: "text-violet-600 dark:text-violet-400",
     emoji: "📈",
     tagline: "Entrepreneurship, marketing, leadership, strategy & growth.",
-    collectionEmojis: ["🚀","📣","🤝","🧭","⚙️","🛒","👑","💡","📋","🌍"],
+    subcategoryEmojis: ["🚀","📣","🤝","🧭","⚙️","🛒","👑","💡","📋","🌍"],
   },
   education: {
     bg: "bg-amber-50 dark:bg-amber-950/30",
@@ -59,7 +59,7 @@ const ACCENTS: Record<string, {
     iconText: "text-amber-600 dark:text-amber-400",
     emoji: "🎓",
     tagline: "Learning methods, skills, courses & lifelong self-improvement.",
-    collectionEmojis: ["📚","✏️","🎯","🧠","🗣️","🔭","🎨","💻","📝","🌟"],
+    subcategoryEmojis: ["📚","✏️","🎯","🧠","🗣️","🔭","🎨","💻","📝","🌟"],
   },
   "health-wellness": {
     bg: "bg-rose-50 dark:bg-rose-950/30",
@@ -70,7 +70,7 @@ const ACCENTS: Record<string, {
     iconText: "text-rose-600 dark:text-rose-400",
     emoji: "🌿",
     tagline: "Fitness, nutrition, mental health, sleep & healthy habits.",
-    collectionEmojis: ["🏃","🥗","🧘","😴","💊","🩺","🌞","🧬","❤️","🍎"],
+    subcategoryEmojis: ["🏃","🥗","🧘","😴","💊","🩺","🌞","🧬","❤️","🍎"],
   },
   "home-lifestyle": {
     bg: "bg-orange-50 dark:bg-orange-950/30",
@@ -81,7 +81,7 @@ const ACCENTS: Record<string, {
     iconText: "text-orange-600 dark:text-orange-400",
     emoji: "🏠",
     tagline: "DIY, cooking, organisation, decor & everyday routines.",
-    collectionEmojis: ["🛋️","🍳","🌱","🧹","🏡","🪴","🛠️","🎀","🕯️","🧺"],
+    subcategoryEmojis: ["🛋️","🍳","🌱","🧹","🏡","🪴","🛠️","🎀","🕯️","🧺"],
   },
   travel: {
     bg: "bg-sky-50 dark:bg-sky-950/30",
@@ -92,7 +92,7 @@ const ACCENTS: Record<string, {
     iconText: "text-sky-600 dark:text-sky-400",
     emoji: "✈️",
     tagline: "Destinations, budgeting, packing, tips & trip planning.",
-    collectionEmojis: ["🗺️","🏔️","🏖️","🎒","🛂","🌍","🚂","🏨","📸","🍜"],
+    subcategoryEmojis: ["🗺️","🏔️","🏖️","🎒","🛂","🌍","🚂","🏨","📸","🍜"],
   },
 };
 
@@ -100,35 +100,35 @@ const DEFAULT_ACCENT = {
   bg: "bg-muted/30", heroBg: "from-muted/30 via-background to-background",
   text: "text-foreground", border: "border-border",
   iconBg: "bg-muted", iconText: "text-foreground",
-  emoji: "📚", tagline: "Explore curated knowledge collections and guides.",
-  collectionEmojis: ["📖","📄","🗂️","📑","📃","📋","📓","📔","📒","📕"],
+  emoji: "📚", tagline: "Explore curated knowledge subcategories and guides.",
+  subcategoryEmojis: ["📖","📄","🗂️","📑","📃","📋","📓","📔","📒","📕"],
 };
 
 /* ─── Rich hero descriptions per category ────────────────────────── */
 const HERO_INTROS: Record<string, { headline: string; body: string; pillars: string[] }> = {
   technology: {
     headline: "The definitive knowledge hub for modern technology",
-    body: "From foundational computer science to cutting-edge AI, this hub covers every layer of the technology stack. Whether you are learning to code, evaluating software tools, or tracking the future of hardware and infrastructure, every collection here is built around lasting, evergreen knowledge.",
+    body: "From foundational computer science to cutting-edge AI, this hub covers every layer of the technology stack. Whether you are learning to code, evaluating software tools, or tracking the future of hardware and infrastructure, every subcategory here is built around lasting, evergreen knowledge.",
     pillars: ["Artificial Intelligence", "Software Development", "Cybersecurity", "Cloud & Infrastructure", "Hardware & Electronics", "Web & Mobile"],
   },
   "personal-finance": {
     headline: "Build real financial knowledge, not just tips",
-    body: "Personal finance is not about tricks — it is about building systems. This hub covers the full financial life cycle: earning more, spending less, investing wisely, protecting wealth, and retiring on your terms. Collections are structured for beginners and advanced readers alike.",
+    body: "Personal finance is not about tricks — it is about building systems. This hub covers the full financial life cycle: earning more, spending less, investing wisely, protecting wealth, and retiring on your terms. Subcategories are structured for beginners and advanced readers alike.",
     pillars: ["Investing & Markets", "Budgeting & Saving", "Debt & Credit", "Retirement Planning", "Tax Strategies", "Real Estate"],
   },
   business: {
     headline: "Strategy, growth, and leadership knowledge in one place",
-    body: "Building and scaling a business requires knowledge across many disciplines. This hub brings together the core frameworks of entrepreneurship, marketing, operations, and leadership — structured as deep collections rather than surface-level listicles.",
+    body: "Building and scaling a business requires knowledge across many disciplines. This hub brings together the core frameworks of entrepreneurship, marketing, operations, and leadership — structured as deep subcategories rather than surface-level listicles.",
     pillars: ["Entrepreneurship", "Marketing & Growth", "Leadership & Management", "Operations", "Sales", "Strategy"],
   },
   education: {
     headline: "Learn how to learn — and keep learning",
-    body: "Education is more than certificates. This hub covers learning science, skill acquisition, academic disciplines, and self-directed study. Whether you are a student, professional, or lifelong learner, the collections here support structured progress.",
+    body: "Education is more than certificates. This hub covers learning science, skill acquisition, academic disciplines, and self-directed study. Whether you are a student, professional, or lifelong learner, the subcategories here support structured progress.",
     pillars: ["Learning Methods", "Academic Skills", "STEM Subjects", "Languages", "Critical Thinking", "Career & Skills"],
   },
   "health-wellness": {
     headline: "Evidence-based health knowledge for every stage of life",
-    body: "Health decisions require reliable information. This hub covers fitness, nutrition, mental health, sleep, preventive care, and chronic condition management — all grounded in research, not trends. Collections are designed for practical, long-term wellbeing.",
+    body: "Health decisions require reliable information. This hub covers fitness, nutrition, mental health, sleep, preventive care, and chronic condition management — all grounded in research, not trends. Subcategories are designed for practical, long-term wellbeing.",
     pillars: ["Fitness & Exercise", "Nutrition & Diet", "Mental Health", "Sleep & Recovery", "Preventive Health", "Chronic Conditions"],
   },
   "home-lifestyle": {
@@ -138,7 +138,7 @@ const HERO_INTROS: Record<string, { headline: string; body: string; pillars: str
   },
   travel: {
     headline: "Travel smarter with structured, practical knowledge",
-    body: "Travel is a skill. This hub covers trip planning, budgeting, packing, visa logistics, destination guides, and the mindset shifts that make travel more rewarding. Collections are built for independent travellers who prefer knowledge over generic itineraries.",
+    body: "Travel is a skill. This hub covers trip planning, budgeting, packing, visa logistics, destination guides, and the mindset shifts that make travel more rewarding. Subcategories are built for independent travellers who prefer knowledge over generic itineraries.",
     pillars: ["Destination Guides", "Budget Travel", "Trip Planning", "Packing & Gear", "Visas & Logistics", "Solo & Group Travel"],
   },
 };
@@ -160,7 +160,7 @@ export async function generateMetadata({
   const { category } = data;
   return buildMetadata({
     title: `${category.name} — Valendiro`,
-    description: category.description || `Explore ${category.name} collections, topics and expert guides on Valendiro.`,
+    description: category.description || `Explore ${category.name} subcategories, topics and expert guides on Valendiro.`,
     canonical: `/${lang}/categories/${slug}`,
   });
 }
@@ -175,12 +175,12 @@ export default async function CategoryPage({
   const pageData = await getCategoryPageData(slug);
   if (!pageData) notFound();
 
-  const { category, collections, featuredTopics, latestArticles, faqs, relatedCategories, totalArticles, lastUpdated } = pageData;
+  const { category, subcategories, featuredTopics, latestArticles, faqs, relatedCategories, totalArticles, lastUpdated } = pageData;
   const accent = ACCENTS[slug] ?? DEFAULT_ACCENT;
-  const hasContent = collections.length > 0 || featuredTopics.length > 0 || latestArticles.length > 0;
+  const hasContent = subcategories.length > 0 || featuredTopics.length > 0 || latestArticles.length > 0;
 
-  /* Learning path — group first 6 collections into a flow */
-  const pathCollections = collections.slice(0, 6);
+  /* Learning path — group first 6 subcategories into a flow */
+  const pathSubcategories = subcategories.slice(0, 6);
   const heroIntro = HERO_INTROS[slug] ?? null;
 
   /* Difficulty labels for learning path steps */
@@ -202,7 +202,7 @@ export default async function CategoryPage({
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
+    "@type": "SubcategoryPage",
     name: category.name,
     description: category.description,
     url: `${SITE_URL}/${lang}/categories/${slug}`,
@@ -249,10 +249,10 @@ export default async function CategoryPage({
 
               {/* Stats bar */}
               <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-                {collections.length > 0 && (
+                {subcategories.length > 0 && (
                   <span className="flex items-center gap-1.5 text-muted-foreground">
                     <span className={`inline-flex h-6 w-6 items-center justify-center rounded-md text-xs ${accent.iconBg} ${accent.iconText}`}>📂</span>
-                    <strong className="text-foreground">{collections.length}</strong> collection{collections.length !== 1 ? "s" : ""}
+                    <strong className="text-foreground">{subcategories.length}</strong> subcategory{subcategories.length !== 1 ? "s" : ""}
                   </span>
                 )}
                 {featuredTopics.length > 0 && (
@@ -275,9 +275,9 @@ export default async function CategoryPage({
               {/* CTA pills */}
               {hasContent && (
                 <div className="mt-6 flex flex-wrap gap-2">
-                  {collections.length > 0 && (
-                    <a href="#collections" className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${accent.iconBg} ${accent.iconText} hover:opacity-80`}>
-                      Browse collections ↓
+                  {subcategories.length > 0 && (
+                    <a href="#subcategories" className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${accent.iconBg} ${accent.iconText} hover:opacity-80`}>
+                      Browse subcategories ↓
                     </a>
                   )}
                   {featuredTopics.length > 0 && (
@@ -301,29 +301,29 @@ export default async function CategoryPage({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-20">
 
         {/* ── COLLECTIONS (Subcategories) ─────────────────────────── */}
-        <section id="collections">
+        <section id="subcategories">
           <div className="flex items-end justify-between mb-7">
             <div>
               <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${accent.iconText}`}>Subcategories</p>
-              <h2 className="text-2xl font-bold tracking-tight text-foreground">Browse by Collection</h2>
+              <h2 className="text-2xl font-bold tracking-tight text-foreground">Browse by Subcategory</h2>
               <p className="mt-1 text-sm text-muted-foreground">Focused sub-topics within {category.name}</p>
             </div>
-            {collections.length > 6 && (
-              <Link href={`/${lang}/collections`} className="text-sm font-medium text-muted-foreground hover:text-primary transition shrink-0">
+            {subcategories.length > 6 && (
+              <Link href={`/${lang}/subcategories`} className="text-sm font-medium text-muted-foreground hover:text-primary transition shrink-0">
                 View all →
               </Link>
             )}
           </div>
 
-          {collections.length > 0 ? (
+          {subcategories.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {collections.map((col, i) => {
-                const colEmoji = accent.collectionEmojis[i % accent.collectionEmojis.length];
+              {subcategories.map((col, i) => {
+                const colEmoji = accent.subcategoryEmojis[i % accent.subcategoryEmojis.length];
                 const isFeatured = i < 3;
                 return (
                   <Link
                     key={col.id}
-                    href={`/${lang}/collections/${col.slug}`}
+                    href={`/${lang}/subcategories/${col.slug}`}
                     className={`group relative flex flex-col rounded-2xl border bg-card p-6 hover:shadow-lg transition-all duration-200 ${isFeatured ? `${accent.border} hover:border-opacity-80` : "border-border/60 hover:border-primary/30"}`}
                   >
                     {isFeatured && (
@@ -366,8 +366,8 @@ export default async function CategoryPage({
           ) : (
             <EmptyState
               emoji={accent.emoji}
-              title="Collections coming soon"
-              description={`We are building curated ${category.name.toLowerCase()} collections. Meanwhile, explore popular topics below.`}
+              title="Subcategories coming soon"
+              description={`We are building curated ${category.name.toLowerCase()} subcategories. Meanwhile, explore popular topics below.`}
               action={{ label: "Browse Topics", href: `/${lang}/topics` }}
             />
           )}
@@ -462,7 +462,7 @@ export default async function CategoryPage({
         )}
 
         {/* ── LEARNING PATH ────────────────────────────────────────── */}
-        {pathCollections.length >= 2 && (
+        {pathSubcategories.length >= 2 && (
           <section id="learning-path">
             <div className="mb-7">
               <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${accent.iconText}`}>Guided</p>
@@ -474,7 +474,7 @@ export default async function CategoryPage({
 
             {/* Progress rail */}
             <div className="mb-5 flex items-center gap-2 overflow-x-auto pb-1">
-              {pathCollections.map((col, i) => (
+              {pathSubcategories.map((col, i) => (
                 <div key={col.id} className="flex items-center gap-2 shrink-0">
                   <a
                     href={`#step-${i + 1}`}
@@ -484,7 +484,7 @@ export default async function CategoryPage({
                   >
                     {i + 1}
                   </a>
-                  {i < pathCollections.length - 1 && (
+                  {i < pathSubcategories.length - 1 && (
                     <div className={`h-px w-8 ${accent.border} border-t`} />
                   )}
                 </div>
@@ -494,15 +494,15 @@ export default async function CategoryPage({
             <div className="relative">
               <div className="absolute left-6 top-8 bottom-8 w-px bg-border/60 hidden sm:block" />
               <div className="space-y-3">
-                {pathCollections.map((col, i) => {
-                  const colEmoji = accent.collectionEmojis[i % accent.collectionEmojis.length];
+                {pathSubcategories.map((col, i) => {
+                  const colEmoji = accent.subcategoryEmojis[i % accent.subcategoryEmojis.length];
                   const diffLabel = STEP_DIFFICULTY[i] ?? "Advanced";
                   const diffStyle = STEP_DIFFICULTY_STYLE[i] ?? STEP_DIFFICULTY_STYLE[4];
                   return (
                     <Link
                       key={col.id}
                       id={`step-${i + 1}`}
-                      href={`/${lang}/collections/${col.slug}`}
+                      href={`/${lang}/subcategories/${col.slug}`}
                       className="group relative flex items-center gap-5 rounded-2xl border border-border/60 bg-card px-5 py-4 hover:border-primary/30 hover:shadow-md transition-all duration-200"
                     >
                       <span className={`relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl shadow-sm ${accent.iconBg}`}>
@@ -513,7 +513,7 @@ export default async function CategoryPage({
                           <span className={`text-xs font-bold ${accent.iconText}`}>Step {i + 1}</span>
                           <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${diffStyle}`}>{diffLabel}</span>
                           {i === 0 && <span className={`rounded px-1.5 py-0.5 text-[10px] font-semibold ${accent.iconBg} ${accent.iconText}`}>Start here</span>}
-                          {i === pathCollections.length - 1 && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">Final step</span>}
+                          {i === pathSubcategories.length - 1 && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">Final step</span>}
                         </div>
                         <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mt-1">
                           {col.name}

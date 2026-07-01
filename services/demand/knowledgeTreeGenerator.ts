@@ -1,11 +1,11 @@
 /**
  * Knowledge Tree Generator
  *
- * Generates Topics from the existing Category → Collection hierarchy.
+ * Generates Topics from the existing Category → Subcategory hierarchy.
  * Replaces keyword-first discovery with knowledge-first expansion.
  *
  * Flow:
- *   Category → Collection → Generate Topics → Queue for publishing
+ *   Category → Subcategory → Generate Topics → Queue for publishing
  *
  * The generator thinks like a teacher building a complete course syllabus,
  * not like an SEO scraper chasing trending keywords.
@@ -14,10 +14,10 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 
 // ─── Static knowledge tree ────────────────────────────────────────────────────
-// Each collection has a curated list of topics a learner should master.
+// Each Subcategory has a curated list of topics a learner should master.
 // These are SEED topics. The system will expand each into articles automatically.
 
-export const COLLECTION_TOPICS: Record<string, string[]> = {
+export const SUBCATEGORY_TOPICS: Record<string, string[]> = {
   // ── Technology ──────────────────────────────────────────────────────────────
   "docker": [
     "Docker", "Docker Architecture", "Docker Images", "Docker Containers",
@@ -181,36 +181,36 @@ export const COLLECTION_TOPICS: Record<string, string[]> = {
 // ─── Main generator function ──────────────────────────────────────────────────
 
 export interface TopicGenerationResult {
-  collectionSlug: string;
+  subcategorySlug: string;
   topicsQueued: number;
   topicsSkipped: number;
   errors: string[];
 }
 
 export interface KnowledgeTreeExpansionResult {
-  collectionsProcessed: number;
+  subcategoriesProcessed: number;
   totalTopicsQueued: number;
   totalTopicsSkipped: number;
   errors: string[];
 }
 
 /**
- * Generate topics for a specific collection slug.
+ * Generate topics for a specific Subcategory slug.
  * Inserts into content_generation_queue as object_type="topic".
  * Skips topics that already exist in topics or queue.
  */
-export async function generateTopicsForCollection(
-  collectionSlug: string,
-  collectionId: string,
+export async function generateTopicsForSubcategory(
+  subcategorySlug: string,
+  subcategoryId: string,
   categoryId: string,
   limit = 20
 ): Promise<TopicGenerationResult> {
   const supabase = createAdminClient();
-  const result: TopicGenerationResult = { collectionSlug, topicsQueued: 0, topicsSkipped: 0, errors: [] };
+  const result: TopicGenerationResult = { subcategorySlug, topicsQueued: 0, topicsSkipped: 0, errors: [] };
 
-  const seedTopics = COLLECTION_TOPICS[collectionSlug];
+  const seedTopics = SUBCATEGORY_TOPICS[subcategorySlug];
   if (!seedTopics || seedTopics.length === 0) {
-    result.errors.push(`No seed topics defined for collection: ${collectionSlug}`);
+    result.errors.push(`No seed topics defined for Subcategory: ${subcategorySlug}`);
     return result;
   }
 
@@ -249,15 +249,15 @@ export async function generateTopicsForCollection(
     const { error } = await supabase.from("content_generation_queue").insert({
       object_type: "topic",
       title: topicTitle,
-      description: `Topic: ${topicTitle} — part of the ${collectionSlug} knowledge collection.`,
-      reason: `Knowledge tree expansion for collection: ${collectionSlug}`,
+      description: `Topic: ${topicTitle} — part of the ${subcategorySlug} knowledge Subcategory.`,
+      reason: `Knowledge tree expansion for Subcategory: ${subcategorySlug}`,
       priority_score: 80,
       status: "pending",
       metadata: {
-        collection_id: collectionId,
+        subcategory_id: subcategoryId,
         category_id: categoryId,
         source: "knowledge_tree",
-        collection_slug: collectionSlug,
+        subcategory_slug: subcategorySlug,
       },
     });
 
@@ -274,40 +274,40 @@ export async function generateTopicsForCollection(
 
 /**
  * Expand the entire knowledge tree.
- * Iterates over all collections in the DB that have seed topics defined,
+ * Iterates over all subcategories in the DB that have seed topics defined,
  * and generates topics for each one.
  */
-export async function expandKnowledgeTree(topicsPerCollection = 5): Promise<KnowledgeTreeExpansionResult> {
+export async function expandKnowledgeTree(topicsPerSubcategory = 5): Promise<KnowledgeTreeExpansionResult> {
   const supabase = createAdminClient();
   const overall: KnowledgeTreeExpansionResult = {
-    collectionsProcessed: 0,
+    subcategoriesProcessed: 0,
     totalTopicsQueued: 0,
     totalTopicsSkipped: 0,
     errors: [],
   };
 
-  // Fetch all collections with their category_id
-  const { data: collections, error: colErr } = await supabase
-    .from("collections")
+  // Fetch all subcategories with their category_id
+  const { data: subcategories, error: colErr } = await supabase
+    .from("subcategories")
     .select("id, slug, category_id")
     .order("created_at", { ascending: true });
 
-  if (colErr || !collections) {
-    overall.errors.push(`Failed to fetch collections: ${colErr?.message}`);
+  if (colErr || !subcategories) {
+    overall.errors.push(`Failed to fetch subcategories: ${colErr?.message}`);
     return overall;
   }
 
-  for (const col of collections) {
-    if (!COLLECTION_TOPICS[col.slug]) continue; // No seed topics for this collection
+  for (const col of subcategories) {
+    if (!SUBCATEGORY_TOPICS[col.slug]) continue; // No seed topics for this Subcategory
 
-    const result = await generateTopicsForCollection(
+    const result = await generateTopicsForSubcategory(
       col.slug,
       col.id,
       col.category_id,
-      topicsPerCollection
+      topicsPerSubcategory
     );
 
-    overall.collectionsProcessed++;
+    overall.subcategoriesProcessed++;
     overall.totalTopicsQueued += result.topicsQueued;
     overall.totalTopicsSkipped += result.topicsSkipped;
     overall.errors.push(...result.errors);
@@ -321,11 +321,11 @@ export async function expandKnowledgeTree(topicsPerCollection = 5): Promise<Know
 }
 
 /**
- * Returns the list of collection slugs that have seed topics defined.
+ * Returns the list of Subcategory slugs that have seed topics defined.
  * Used by the admin dashboard to show coverage.
  */
 export function getKnowledgeTreeCoverage(): { slug: string; topicCount: number }[] {
-  return Object.entries(COLLECTION_TOPICS).map(([slug, topics]) => ({
+  return Object.entries(SUBCATEGORY_TOPICS).map(([slug, topics]) => ({
     slug,
     topicCount: topics.length,
   }));

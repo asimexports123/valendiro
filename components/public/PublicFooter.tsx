@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/constants";
 
 const FOOTER_LINKS = [
   { label: "Categories", href: "categories" },
-  { label: "Collections", href: "collections" },
+  { label: "subcategories", href: "subcategories" },
   { label: "Guides", href: "articles" },
   { label: "Topics", href: "topics" },
   { label: "About", href: "about" },

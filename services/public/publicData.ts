@@ -24,20 +24,20 @@ export interface PublicCategory {
   slug: string;
   name: string;
   description: string | null;
-  collection_count: number;
+  subcategory_count: number;
   topic_count: number;
   article_count: number;
 }
 
 export interface HomepageStats {
-  collections: number;
+  subcategories: number;
   topics: number;
   articles: number;
 }
 
-export type CollectionDifficulty = "Beginner" | "Intermediate" | "Advanced";
+export type SubcategoryDifficulty = "Beginner" | "Intermediate" | "Advanced";
 
-export interface PublicCollection {
+export interface PublicSubcategory {
   id: string;
   slug: string;
   category_id: string;
@@ -46,7 +46,7 @@ export interface PublicCollection {
   description: string;
   topic_count: number;
   article_count: number;
-  difficulty: CollectionDifficulty;
+  difficulty: SubcategoryDifficulty;
   estimated_hours: number;
 }
 
@@ -83,10 +83,10 @@ const V1_DESCRIPTIONS: Record<string, string> = {
 };
 
 /**
- * Normalizes AI-generated collection names to premium, human-quality titles.
+ * Normalizes AI-generated subcategory names to premium, human-quality titles.
  * Strips filler prefixes and cleans up redundant words.
  */
-export function normalizeCollectionName(raw: string): string {
+export function normalizeSubcategoryName(raw: string): string {
   const prefixes = [
     /^(learn|learning|understand|understanding|introduction to|intro to|guide to|how to|complete guide to|beginners guide to|beginner guide to|about|all about|exploring|explore|overview of|master|mastering)/i,
   ];
@@ -236,7 +236,7 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
     slug: category.slug,
     name: V1_DISPLAY_NAMES[category.slug] ?? category.category_translations?.[0]?.name ?? "Uncategorized",
     description: V1_DESCRIPTIONS[category.slug] ?? category.category_translations?.[0]?.description ?? null,
-    collection_count: 0,
+    subcategory_count: 0,
     topic_count: 0,
     article_count: 0,
   }));
@@ -244,12 +244,11 @@ export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategor
   // Fetch all counts in parallel per category
   await Promise.all(dbCategories.map(async (cat) => {
     const [colRes, topicRes] = await Promise.all([
-      supabase.from("collections").select("id", { count: "exact", head: true }).eq("category_id", cat.id),
+      supabase.from("subcategories").select("id", { count: "exact", head: true }).eq("category_id", cat.id),
       supabase.from("topics").select("id", { count: "exact", head: true }).eq("category_id", cat.id).eq("status", "published"),
     ]);
-    cat.collection_count = colRes.count ?? 0;
+    cat.subcategory_count = colRes.count ?? 0;
     cat.topic_count = topicRes.count ?? 0;
-
     // Article count: topics under this category
     const { data: topicIds } = await supabase
       .from("topics").select("id").eq("category_id", cat.id).eq("status", "published");
@@ -281,16 +280,15 @@ export async function getHomepageStats(): Promise<HomepageStats> {
 
   const [colRes, topicRes] = await Promise.all([
     categoryIds.length > 0
-      ? supabase.from("collections").select("id", { count: "exact", head: true }).in("category_id", categoryIds)
+      ? supabase.from("subcategories").select("id", { count: "exact", head: true }).in("category_id", categoryIds)
       : Promise.resolve({ count: 0 }),
     categoryIds.length > 0
       ? supabase.from("topics").select("id", { count: "exact", head: true }).in("category_id", categoryIds).eq("status", "published")
       : Promise.resolve({ count: 0 }),
   ]);
 
-  const collections = (colRes as any).count ?? 0;
+  const subcategoriesCount = (colRes as any).count ?? 0;
   const topics = (topicRes as any).count ?? 0;
-
   let articles = 0;
   if (categoryIds.length > 0) {
     const { data: topicIds } = await supabase
@@ -304,7 +302,7 @@ export async function getHomepageStats(): Promise<HomepageStats> {
     }
   }
 
-  return { collections, topics, articles };
+  return { subcategories: subcategoriesCount, topics, articles };
 }
 
 export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
@@ -355,7 +353,7 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
 }
 
 /** Infer difficulty from topic count; infer reading hours from article count */
-function inferDifficulty(topicCount: number): CollectionDifficulty {
+function inferDifficulty(topicCount: number): SubcategoryDifficulty {
   if (topicCount >= 20) return "Advanced";
   if (topicCount >= 8) return "Intermediate";
   return "Beginner";
@@ -365,32 +363,32 @@ function inferEstimatedHours(articleCount: number): number {
   return Math.max(1, Math.round((articleCount * 8) / 60));
 }
 
-export async function getFeaturedCollections(limit = 6): Promise<PublicCollection[]> {
+export async function getFeaturedSubcategories(limit = 6): Promise<PublicSubcategory[]> {
   const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
   if (categoryIds.length === 0) return [];
 
   const { data } = await supabase
-    .from("collections")
-    .select("id, slug, category_id, collection_translations(name, description), categories(slug)")
+    .from("subcategories")
+    .select("id, slug, category_id, subcategory_translations(name, description), categories(slug)")
     .in("category_id", categoryIds)
-    .eq("collection_translations.language_code", "en")
+    .eq("subcategory_translations.language_code", "en")
     .order("sort_order", { ascending: true })
     .limit(limit);
 
-  const collections = data || [];
+  const subcategories = data || [];
 
-  return Promise.all(collections.map(async (col: any) => {
+  return Promise.all(subcategories.map(async (sub: any) => {
     const { count: topicCount } = await supabase
       .from("topics")
       .select("id", { count: "exact", head: true })
-      .eq("collection_id", col.id)
+      .eq("subcategory_id", sub.id)
       .eq("status", "published");
 
     const { data: topicIds } = await supabase
       .from("topics")
       .select("id")
-      .eq("collection_id", col.id)
+      .eq("subcategory_id", sub.id)
       .eq("status", "published");
 
     let articleCount = 0;
@@ -404,15 +402,15 @@ export async function getFeaturedCollections(limit = 6): Promise<PublicCollectio
       articleCount = count ?? 0;
     }
 
-    const rawName = col.collection_translations?.[0]?.name || col.slug;
+    const rawName = sub.subcategory_translations?.[0]?.name || sub.slug;
     const tc = topicCount ?? 0;
     return {
-      id: col.id,
-      slug: col.slug,
-      category_id: col.category_id,
-      category_slug: (col.categories as any)?.slug ?? null,
-      name: normalizeCollectionName(rawName),
-      description: col.collection_translations?.[0]?.description || "",
+      id: sub.id,
+      slug: sub.slug,
+      category_id: sub.category_id,
+      category_slug: (sub.categories as any)?.slug ?? null,
+      name: normalizeSubcategoryName(rawName),
+      description: sub.subcategory_translations?.[0]?.description || "",
       topic_count: tc,
       article_count: articleCount,
       difficulty: inferDifficulty(tc),
@@ -421,33 +419,33 @@ export async function getFeaturedCollections(limit = 6): Promise<PublicCollectio
   }));
 }
 
-export async function getCollectionsByCategory(categoryId: string, limit = 12): Promise<PublicCollection[]> {
+export async function getSubcategoriesByCategory(categoryId: string, limit = 12): Promise<PublicSubcategory[]> {
   const supabase = createAdminClient();
   const { data } = await supabase
-    .from("collections")
-    .select("id, slug, category_id, collection_translations(name, description), categories(slug)")
+    .from("subcategories")
+    .select("id, slug, category_id, subcategory_translations(name, description), categories(slug)")
     .eq("category_id", categoryId)
-    .eq("collection_translations.language_code", "en")
+    .eq("subcategory_translations.language_code", "en")
     .order("sort_order", { ascending: true })
     .limit(limit);
 
   if (!data || data.length === 0) return [];
 
-  return Promise.all(data.map(async (collection: any) => {
-    const collId = collection.id as string;
+  return Promise.all(data.map(async (subcatRow: any) => {
+    const collId = subcatRow.id as string;
 
     // Real topic count
     const { count: topicCount } = await supabase
       .from("topics")
       .select("id", { count: "exact", head: true })
-      .eq("collection_id", collId)
+      .eq("subcategory_id", collId)
       .eq("status", "published");
 
-    // Real article count via topics in this collection
+    // Real article count via topics in this subcategory
     const { data: topicRows } = await supabase
       .from("topics")
       .select("id")
-      .eq("collection_id", collId)
+      .eq("subcategory_id", collId)
       .eq("status", "published");
     const topicIds = (topicRows || []).map((t: any) => t.id as string);
     let articleCount = 0;
@@ -463,11 +461,11 @@ export async function getCollectionsByCategory(categoryId: string, limit = 12): 
     const tc = topicCount ?? 0;
     return {
       id: collId,
-      slug: collection.slug,
-      category_id: collection.category_id,
-      category_slug: (collection.categories as any)?.slug ?? null,
-      name: normalizeCollectionName(collection.collection_translations?.[0]?.name || collection.slug),
-      description: collection.collection_translations?.[0]?.description || "",
+      slug: subcatRow.slug,
+      category_id: subcatRow.category_id,
+      category_slug: (subcatRow.categories as any)?.slug ?? null,
+      name: normalizeSubcategoryName(subcatRow.subcategory_translations?.[0]?.name || subcatRow.slug),
+      description: subcatRow.subcategory_translations?.[0]?.description || "",
       topic_count: tc,
       article_count: articleCount,
       difficulty: inferDifficulty(tc),
@@ -476,13 +474,13 @@ export async function getCollectionsByCategory(categoryId: string, limit = 12): 
   }));
 }
 
-export async function getCollectionBySlug(slug: string): Promise<PublicCollection | null> {
+export async function getSubcategoryBySlug(slug: string): Promise<PublicSubcategory | null> {
   const supabase = createAdminClient();
   const { data } = await supabase
-    .from("collections")
-    .select("id, slug, category_id, collection_translations(name, description), categories(slug)")
+    .from("subcategories")
+    .select("id, slug, category_id, subcategory_translations(name, description), categories(slug)")
     .eq("slug", slug)
-    .eq("collection_translations.language_code", "en")
+    .eq("subcategory_translations.language_code", "en")
     .maybeSingle();
 
   if (!data) return null;
@@ -491,13 +489,13 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
   const { count: topicCount } = await supabase
     .from("topics")
     .select("id", { count: "exact", head: true })
-    .eq("collection_id", collId)
+    .eq("subcategory_id", collId)
     .eq("status", "published");
 
   const { data: topicRows } = await supabase
     .from("topics")
     .select("id")
-    .eq("collection_id", collId)
+    .eq("subcategory_id", collId)
     .eq("status", "published");
   const topicIds = (topicRows || []).map((t: any) => t.id as string);
   let articleCount = 0;
@@ -516,8 +514,8 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
     slug: data.slug,
     category_id: data.category_id,
     category_slug: (data.categories as any)?.slug ?? null,
-    name: normalizeCollectionName(data.collection_translations?.[0]?.name || data.slug),
-    description: data.collection_translations?.[0]?.description || "",
+    name: normalizeSubcategoryName(data.subcategory_translations?.[0]?.name || data.slug),
+    description: data.subcategory_translations?.[0]?.description || "",
     topic_count: tc,
     article_count: articleCount,
     difficulty: inferDifficulty(tc),
@@ -525,12 +523,12 @@ export async function getCollectionBySlug(slug: string): Promise<PublicCollectio
   };
 }
 
-export async function getTopicsByCollection(collectionId: string, limit = 12): Promise<PublicTopic[]> {
+export async function getTopicsBySubcategory(subcategoryId: string, limit = 12): Promise<PublicTopic[]> {
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
     .select("id, slug, topic_translations(title, subtitle)")
-    .eq("collection_id", collectionId)
+    .eq("subcategory_id", subcategoryId)
     .eq("status", "published")
     .eq("topic_translations.language_code", "en")
     .order("created_at", { ascending: false })
@@ -571,12 +569,12 @@ export async function getArticlesByTopic(topicId: string, limit = 12): Promise<P
   });
 }
 
-export async function getArticlesByCollection(collectionId: string, limit = 12): Promise<PublicArticle[]> {
+export async function getArticlesBySubcategory(subcategoryId: string, limit = 12): Promise<PublicArticle[]> {
   const supabase = createAdminClient();
   const { data: topicIds } = await supabase
     .from("topics")
     .select("id")
-    .eq("collection_id", collectionId)
+    .eq("subcategory_id", subcategoryId)
     .eq("status", "published");
   const ids = (topicIds || []).map((t: any) => t.id);
   if (ids.length === 0) return [];
@@ -669,7 +667,7 @@ export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDet
     .eq("status", "published");
 
   const { count: colCount } = await supabase
-    .from("collections")
+    .from("subcategories")
     .select("id", { count: "exact", head: true })
     .eq("category_id", data.id);
 
@@ -684,7 +682,7 @@ export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDet
     slug: data.slug,
     name: V1_DISPLAY_NAMES[data.slug] ?? translation?.name ?? data.slug,
     description: V1_DESCRIPTIONS[data.slug] ?? translation?.description ?? null,
-    collection_count: colCount ?? 0,
+    subcategory_count: colCount ?? 0,
     topic_count: topicCount ?? 0,
     article_count: count ?? 0,
   };
@@ -754,7 +752,7 @@ export interface PublicTopicDetail extends PublicTopic {
   meta_title: string | null;
   meta_description: string | null;
   category_id: string | null;
-  collection_id: string | null;
+  subcategory_id: string | null;
   updated_at: string | null;
 }
 
@@ -762,7 +760,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
-    .select("id, slug, category_id, collection_id, updated_at, topic_translations(title, subtitle, content, meta_title, meta_description)")
+    .select("id, slug, category_id, subcategory_id, updated_at, topic_translations(title, subtitle, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .eq("status", "published")
@@ -781,7 +779,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
     category_id: data.category_id,
-    collection_id: data.collection_id,
+    subcategory_id: data.subcategory_id,
     updated_at: data.updated_at ?? null,
   };
 }
@@ -823,7 +821,7 @@ export interface PublicArticleDetail {
   published_at: string | null;
   topic_id: string | null;
   category_id: string | null;
-  collection_id: string | null;
+  subcategory_id: string | null;
   meta_title: string | null;
   meta_description: string | null;
 }
@@ -844,15 +842,15 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
   const text = translation?.content || translation?.excerpt || "";
 
   let category_id: string | null = null;
-  let collection_id: string | null = null;
+  let subcategory_id: string | null = null;
   if (data.topic_id) {
     const { data: topic } = await supabase
       .from("topics")
-      .select("category_id, collection_id")
+      .select("category_id, subcategory_id")
       .eq("id", data.topic_id)
       .maybeSingle();
     category_id = topic?.category_id ?? null;
-    collection_id = topic?.collection_id ?? null;
+    subcategory_id = topic?.subcategory_id ?? null;
   }
 
   return {
@@ -866,7 +864,7 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
     published_at: data.published_at,
     topic_id: data.topic_id,
     category_id,
-    collection_id,
+    subcategory_id,
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
   };
@@ -955,14 +953,14 @@ export async function getQuestionsByCategory(categoryId: string, limit = 5): Pro
   }));
 }
 
-export interface PublicCollectionWithCounts extends PublicCollection {
+export interface PublicSubcategoryWithCounts extends PublicSubcategory {
   topic_count: number;
   article_count: number;
 }
 
 export interface CategoryPageData {
   category: PublicCategoryDetail;
-  collections: PublicCollectionWithCounts[];
+  subcategories: PublicSubcategoryWithCounts[];
   featuredTopics: PublicTopic[];
   latestArticles: PublicArticle[];
   faqs: PublicQuestion[];
@@ -975,8 +973,8 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
   const category = await getCategoryBySlug(slug);
   if (!category) return null;
 
-  const [rawCollections, topics, faqs, relatedCategories, articles] = await Promise.all([
-    getCollectionsByCategory(category.id, 16),
+  const [rawSubcategories, topics, faqs, relatedCategories, articles] = await Promise.all([
+    getSubcategoriesByCategory(category.id, 16),
     getTopicsByCategory(category.id, 24),
     getQuestionsByCategory(category.id, 8),
     getCategoriesWithCounts(8),
@@ -985,19 +983,19 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
 
   const supabase = createAdminClient();
 
-  const collectionsWithCounts: PublicCollectionWithCounts[] = await Promise.all(
-    rawCollections.map(async (col) => {
+  const subcategoriesWithCounts: PublicSubcategoryWithCounts[] = await Promise.all(
+    rawSubcategories.map(async (sub) => {
       const [{ count: tc }, { count: ac }] = await Promise.all([
         supabase
           .from("topics")
           .select("id", { count: "exact", head: true })
-          .eq("collection_id", col.id)
+          .eq("subcategory_id", sub.id)
           .eq("status", "published"),
         (async () => {
           const { data: tids } = await supabase
             .from("topics")
             .select("id")
-            .eq("collection_id", col.id)
+            .eq("subcategory_id", sub.id)
             .eq("status", "published");
           const ids = (tids || []).map((t: any) => t.id);
           if (ids.length === 0) return { count: 0 };
@@ -1009,18 +1007,18 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
           return { count };
         })(),
       ]);
-      return { ...col, topic_count: tc ?? 0, article_count: ac ?? 0 };
+      return { ...sub, topic_count: tc ?? 0, article_count: ac ?? 0 };
     })
   );
 
   const lastUpdated = articles[0]?.updated_at ?? null;
   const totalArticles = articles.length > 0
-    ? collectionsWithCounts.reduce((s, c) => s + c.article_count, 0)
+    ? subcategoriesWithCounts.reduce((s, c) => s + c.article_count, 0)
     : 0;
 
   return {
     category,
-    collections: collectionsWithCounts,
+    subcategories: subcategoriesWithCounts,
     featuredTopics: topics,
     latestArticles: articles,
     faqs,

@@ -676,7 +676,8 @@ export async function runResearchAgent(
   const intent = classifyIntent(keyword);
   console.log(`[AgentPipeline] Intent classified: "${keyword}" → ${intent}`);
   const userPrompt = buildResearchPromptForIntent(keyword, intent);
-  const { content, durationMs } = await callAgent("ResearchAgent", RESEARCH_SYSTEM_BASE, userPrompt, 0.3, 4096);
+  const researchMaxTokens = process.env.GROQ_MAX_TOKENS ? Math.min(parseInt(process.env.GROQ_MAX_TOKENS, 10), 2048) : 4096;
+  const { content, durationMs } = await callAgent("ResearchAgent", RESEARCH_SYSTEM_BASE, userPrompt, 0.3, researchMaxTokens);
 
   const fallback: AgentKnowledgePack = {
     keyword,
@@ -709,7 +710,8 @@ export async function runOutlineAgent(
 ): Promise<{ structure: AgentArticleStructure; durationMs: number }> {
   const promptTemplate = buildOutlinePromptForIntent(pack.keyword, intent, userGoal);
   const userPrompt = promptTemplate.replace("{{KNOWLEDGE_PACK}}", JSON.stringify(pack, null, 2));
-  const { content, durationMs } = await callAgent("OutlineAgent", OUTLINE_SYSTEM, userPrompt, 0.3, 2048);
+  const outlineMaxTokens = process.env.GROQ_MAX_TOKENS ? Math.min(parseInt(process.env.GROQ_MAX_TOKENS, 10), 1500) : 2048;
+  const { content, durationMs } = await callAgent("OutlineAgent", OUTLINE_SYSTEM, userPrompt, 0.3, outlineMaxTokens);
 
   const fallback: AgentArticleStructure = {
     title: pack.keyword,
@@ -757,16 +759,39 @@ function buildWriterSystemForIntent(intent: TopicIntent): string {
   return `${style}
 
 WRITING RULES (ALL INTENTS):
-- Write for an intelligent reader. Clear, direct, no padding.
+
+LANGUAGE & TONE:
+- Write so a 10th-grade student can understand. No jargon without explaining it.
+- Use "you" — talk directly to the reader like a helpful friend.
+- Short sentences (max 20 words). Short paragraphs (max 3-4 lines).
+- Use bullet points and numbered lists wherever possible.
+- Answer the main question in the FIRST line of each section — no fluff intro.
+
+CONTENT QUALITY:
+- Every section MUST have at least one real-world example or practical tip.
 - Every claim must come from the provided Knowledge Pack.
 - Use **bold** for key terms on first use.
 - Use tables where comparison or structured data exists.
 - FAQ answers: answer directly in the first sentence, then elaborate.
-- Vary sentence length — mix short and long.
-- DO NOT use: "game-changing", "revolutionary", "In today's world", "It is important to note", "Delve into", "unlock your potential".
+- Include a "Quick Tips" or "Key Takeaways" box (use > blockquote format).
+
+DIAGRAMS:
+- If the topic involves a process, flow, hierarchy, or comparison, include a Mermaid diagram.
+- Use \`\`\`mermaid code blocks. Keep diagrams simple (max 8 nodes).
+- Example: graph LR for flows, graph TD for hierarchies, pie for distributions.
+
+STRUCTURE:
+- Start with a 1-2 sentence TL;DR right after the first heading.
+- Include a FAQ section (3-5 real questions people search).
+- End with a clear "Next Steps" or "Summary" section with actionable takeaways.
+- Vary sentence length — mix short and long for rhythm.
+
+FORBIDDEN:
+- DO NOT use: "game-changing", "revolutionary", "In today's world", "It is important to note", "Delve into", "unlock your potential", "In conclusion", "As we all know".
 - DO NOT write placeholder text.
 - DO NOT repeat information across sections.
 - DO NOT add a # title at the top — start directly with the first ## section.
+- DO NOT write walls of text — break everything into scannable chunks.
 
 OUTPUT: Return ONLY the article Markdown. No JSON, no preamble.`;
 }
@@ -779,7 +804,7 @@ export async function runWriterAgent(
   const writerSystem = buildWriterSystemForIntent(intent);
 
   const sectionsGuide = structure.sections
-    .map(s => `## ${s.heading}\nPurpose: ${s.purpose}\nMust cover: ${s.keyPoints.join("; ") || "see knowledge pack"}\nTarget: ~${s.estimatedWords} words`)
+    .map(s => `## ${s.heading}\nPurpose: ${s.purpose}\nMust cover: ${(s.keyPoints ?? []).join("; ") || "see knowledge pack"}\nTarget: ~${s.estimatedWords} words`)
     .join("\n\n");
 
   const userPrompt = `TOPIC: ${pack.keyword}
@@ -791,15 +816,16 @@ ${JSON.stringify(pack, null, 2)}
 ARTICLE STRUCTURE:
 Title: ${structure.title}
 Type: ${structure.articleType}
-Must include: ${structure.mustInclude.join(" | ")}
-Must avoid writing: ${structure.mustAvoid.join(" | ")}
+Must include: ${(structure.mustInclude ?? []).join(" | ")}
+Must avoid writing: ${(structure.mustAvoid ?? []).join(" | ")}
 
 SECTIONS:
 ${sectionsGuide}
 
 Write the complete article now. Start with the first ## heading.`;
 
-  const { content, durationMs } = await callAgent("WriterAgent", writerSystem, userPrompt, 0.4, 8192);
+  const writerMaxTokens = process.env.GROQ_MAX_TOKENS ? parseInt(process.env.GROQ_MAX_TOKENS, 10) : 8192;
+  const { content, durationMs } = await callAgent("WriterAgent", writerSystem, userPrompt, 0.4, writerMaxTokens);
   return { content, durationMs };
 }
 
@@ -875,7 +901,7 @@ export function buildDeterministicSEOFields(
   const metaDescription = rawDesc.length <= 155 ? rawDesc : rawDesc.slice(0, 152).trimEnd() + "...";
 
   // Secondary keywords: coreConcepts that are not the primary keyword
-  const secondaryKeywords = pack.coreConcepts
+  const secondaryKeywords = (pack.coreConcepts ?? [])
     .filter(c => c.toLowerCase() !== keyword.toLowerCase())
     .slice(0, 5);
 
@@ -908,13 +934,19 @@ export async function runAgentPipeline(
 
   console.log(`[AgentPipeline] Starting 6-call pipeline for: "${keyword}" (${category})`);
 
+  // Inter-call delay for rate-limited providers (Groq free tier = 6k tokens/min)
+  const interCallDelayMs = process.env.LLM_INTER_CALL_DELAY ? parseInt(process.env.LLM_INTER_CALL_DELAY, 10) : 0;
+  const delay = (ms: number) => ms > 0 ? new Promise(r => setTimeout(r, ms)) : Promise.resolve();
+
   // Call 1: Research (always once — reuse on retries)
   const { pack, intent, durationMs: d1 } = await runResearchAgent(keyword, category);
   durations["research"] = d1;
+  await delay(interCallDelayMs);
 
   // Call 2: Outline (always once — reuse on retries)
   const { structure, durationMs: d2 } = await runOutlineAgent(pack, intent, userGoal);
   durations["outline"] = d2;
+  await delay(interCallDelayMs);
 
   let content: string;
   let editorialReview: EditorialReviewResult;
@@ -927,11 +959,25 @@ export async function runAgentPipeline(
     const writeResult = await runWriterAgent(pack, structure, intent);
     content = writeResult.content;
     durations[`write_${retryCount}`] = writeResult.durationMs;
+    await delay(interCallDelayMs);
 
     // Deterministic SEO fields
     seoFields = buildDeterministicSEOFields(structure.title, keyword, pack);
 
-    // Calls 4+5+6: Editorial Review (Fact + Quality + SEO) — parallel
+    // Calls 4+5+6: Editorial Review — skip when SKIP_EDITORIAL_REVIEW=true (Groq/rate-limit mode)
+    if (process.env.SKIP_EDITORIAL_REVIEW === "true") {
+      editorialReview = {
+        factCheck:     { score: 0, passed: true, issues: [], hallucinations: [], corrections: [], durationMs: 0 },
+        qualityReview: { score: 0, passed: true, issues: [], suggestions: [], durationMs: 0 },
+        seoReview:     { score: 0, passed: true, issues: [], suggestions: [], durationMs: 0 },
+        overallScore: 0,
+        passed: true,
+        durationMs: 0,
+      } as unknown as EditorialReviewResult;
+      console.log(`[AgentPipeline] Editorial review skipped (SKIP_EDITORIAL_REVIEW=true)`);
+      break;
+    }
+
     const reviewStart = Date.now();
     editorialReview = await runFullEditorialReview(
       content,

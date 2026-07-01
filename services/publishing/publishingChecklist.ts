@@ -5,12 +5,12 @@
  * Stage 12: Every article/topic must pass ALL checks before publishing.
  *   ✓ Keyword approved (decision = "publish")
  *   ✓ Category assigned
- *   ✓ Collection assigned
+ *   ✓ Subcategory assigned
  *   ✓ Topic assigned (articles only)
  *   ✓ Content quality approved (quality gate)
  *   ✓ SEO fields complete (title, meta description, canonical path)
  *   ✓ Internal links generated (hierarchical links exist)
- *   ✓ No orphan: parent topic/collection/category exists and is published
+ *   ✓ No orphan: parent topic/Subcategory/category exists and is published
  *
  * Stage 13: After publishing, automatically verify:
  *   ✓ Row exists and is published
@@ -35,7 +35,7 @@ export interface PublishingChecklistInput {
   metaDescription: string | null | undefined;
   canonicalPath: string | null | undefined;
   topicId?: string | null;
-  collectionId?: string | null;
+  subcategoryId?: string | null;
   categoryId?: string | null;
   keywordDecision?: "publish" | "backlog" | "reject" | null;
 }
@@ -75,7 +75,7 @@ export function runPublishingChecklist(input: PublishingChecklistInput): Publish
     });
   }
 
-  // 3 & 4. Collection and Topic — informational only, not blockers
+  // 3 & 4. Subcategory and Topic — informational only, not blockers
   // (pipeline assigns these when available; missing links are fixed by relink job)
 
   // 5. Content not empty
@@ -179,15 +179,15 @@ export async function runPostPublishAudit(
 
       // Parent topic exists and is published
       if (article.topic_id) {
-        const { data: topic } = await supabase.from("topics").select("id, status, collection_id, category_id").eq("id", article.topic_id).maybeSingle();
+        const { data: topic } = await supabase.from("topics").select("id, status, subcategory_id, category_id").eq("id", article.topic_id).maybeSingle();
         const topicOk = !!topic && topic.status === "published";
         checks.push({ name: "parent_topic_published", passed: topicOk, reason: topicOk ? null : "Parent topic is missing or not published" });
 
         if (topic) {
           const catOk = !!topic.category_id;
           checks.push({ name: "parent_category_assigned", passed: catOk, reason: catOk ? null : "Parent topic has no category_id — orphan risk" });
-          const collOk = !!topic.collection_id;
-          checks.push({ name: "parent_collection_assigned", passed: collOk, reason: collOk ? null : "Parent topic has no collection_id — orphan risk" });
+          const collOk = !!topic.subcategory_id;
+          checks.push({ name: "parent_subcategory_assigned", passed: collOk, reason: collOk ? null : "Parent topic has no subcategory_id — orphan risk" });
         }
       } else {
         checks.push({ name: "parent_topic_published", passed: false, reason: "Article has no topic_id — orphan article" });
@@ -205,7 +205,7 @@ export async function runPostPublishAudit(
     // Topic audit
     const { data: topic } = await supabase
       .from("topics")
-      .select("id, status, canonical_path, category_id, collection_id, topic_translations(title, meta_title, meta_description)")
+      .select("id, status, canonical_path, category_id, subcategory_id, topic_translations(title, meta_title, meta_description)")
       .eq("id", objectId)
       .maybeSingle();
 
@@ -224,8 +224,8 @@ export async function runPostPublishAudit(
       const hasCat = !!topic.category_id;
       checks.push({ name: "category_assigned", passed: hasCat, reason: hasCat ? null : "Topic has no category_id" });
 
-      const hasColl = !!topic.collection_id;
-      checks.push({ name: "collection_assigned", passed: hasColl, reason: hasColl ? null : "Topic has no collection_id" });
+      const hasColl = !!topic.subcategory_id;
+      checks.push({ name: "subcategory_assigned", passed: hasColl, reason: hasColl ? null : "Topic has no subcategory_id" });
 
       const { count: linkCount } = await supabase
         .from("internal_link_suggestions")

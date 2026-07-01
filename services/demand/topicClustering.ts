@@ -1,7 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isPublishable, scoreDemandKeyword } from "./topicQualityEngine";
 
-/** Canonical V1 slugs — only these may produce public collections */
+/** Canonical V1 slugs — only these may produce public subcategories */
 const V1_SLUGS = new Set([
   "technology", "personal-finance", "business",
   "education", "health-wellness", "home-lifestyle", "travel",
@@ -54,7 +54,7 @@ export interface ClusteringResult {
   clustersCreated: number;
   signalsClustered: number;
   categoriesCreated: number;
-  collectionsCreated: number;
+  subcategoriesCreated: number;
   errors: string[];
 }
 
@@ -189,13 +189,13 @@ async function ensureCategory(categoryName: string, languageCode = "en") {
   return { id: inserted.id, created: true };
 }
 
-async function ensureCollection(collectionName: string, categoryId: string, languageCode = "en") {
+async function ensureSubcategory(subcategoryName: string, categoryId: string, languageCode = "en") {
   const supabase = createAdminClient();
 
-  const slug = collectionName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
+  const slug = subcategoryName.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 100);
 
   const { data: existing } = await supabase
-    .from("collections")
+    .from("subcategories")
     .select("id")
     .eq("slug", slug)
     .eq("category_id", categoryId)
@@ -206,19 +206,19 @@ async function ensureCollection(collectionName: string, categoryId: string, lang
   }
 
   const { data: inserted, error } = await supabase
-    .from("collections")
+    .from("subcategories")
     .insert({ slug, category_id: categoryId, sort_order: 0 })
     .select()
     .single();
 
   if (error || !inserted) {
-    throw new Error(error?.message || "Collection insert failed");
+    throw new Error(error?.message || "Subcategory insert failed");
   }
 
-  await supabase.from("collection_translations").insert({
-    collection_id: inserted.id,
+  await supabase.from("subcategory_translations").insert({
+    subcategory_id: inserted.id,
     language_code: languageCode,
-    name: collectionName,
+    name: subcategoryName,
     description: null,
   });
 
@@ -227,7 +227,7 @@ async function ensureCollection(collectionName: string, categoryId: string, lang
 
 export async function clusterDemandSignals(languageCode = "en"): Promise<ClusteringResult> {
   const supabase = createAdminClient();
-  const result: ClusteringResult = { clustersCreated: 0, signalsClustered: 0, categoriesCreated: 0, collectionsCreated: 0, errors: [] };
+  const result: ClusteringResult = { clustersCreated: 0, signalsClustered: 0, categoriesCreated: 0, subcategoriesCreated: 0, errors: [] };
 
   const { data: pendingSignals, error } = await supabase
     .from("demand_signals")
@@ -304,8 +304,8 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
       const quality = scoreDemandKeyword(cluster.seed.keyword || clusterName);
       if (!isPublishable(quality)) continue;
       const finalClusterName = quality.knowledgeTopic || clusterName;
-      const collection = await ensureCollection(finalClusterName, category.id, languageCode);
-      if (collection.created) result.collectionsCreated++;
+      const Subcategory = await ensureSubcategory(finalClusterName, category.id, languageCode);
+      if (Subcategory.created) result.subcategoriesCreated++;
 
       const demandScore = Math.round(
         cluster.members.reduce((sum, m) => sum + m.volume_score + m.trend_score + m.freshness_score, 0) /
@@ -325,14 +325,14 @@ export async function clusterDemandSignals(languageCode = "en"): Promise<Cluster
         .insert({
           cluster_name: finalClusterName,
           category: v1Slug,
-          collection_id: collection.id,
+          subcategory_id: Subcategory.id,
           seed_keyword: cluster.seed.keyword || finalClusterName,
           keywords,
           demand_score: demandScore,
           competition_score: competitionScore,
           opportunity_score: opportunityScore,
           status: "pending",
-          metadata: { category_id: category.id, collection_id: collection.id, quality: quality },
+          metadata: { category_id: category.id, subcategory_id: Subcategory.id, quality: quality },
         })
         .select()
         .single();

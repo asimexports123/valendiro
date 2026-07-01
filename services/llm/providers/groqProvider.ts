@@ -13,8 +13,8 @@
 import type { LLMProvider, LLMCompletionRequest, LLMCompletionResponse } from "../llmProvider";
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MAX_RETRIES = 2;
-const RETRY_DELAY_MS = 2000;
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 65000;
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -68,6 +68,7 @@ export class GroqProvider implements LLMProvider {
 
       if (response.status === 429 || response.status === 503) {
         lastError = new Error(`Groq ${response.status} — retrying (${attempt + 1}/${MAX_RETRIES + 1})`);
+        console.log(`[Groq] Rate limited — waiting ${RETRY_DELAY_MS / 1000}s before retry ${attempt + 1}/${MAX_RETRIES}...`);
         continue;
       }
 

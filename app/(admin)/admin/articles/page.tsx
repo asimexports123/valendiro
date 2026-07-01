@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { Pagination } from "@/components/admin/Pagination";
@@ -26,7 +26,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function QualityBadge({ score }: { score: number | null }) {
-  if (score === null) return <span className="text-xs text-muted-foreground">—</span>;
+  if (score === null) return <span className="text-xs text-muted-foreground">�</span>;
   const color = score >= 70 ? "text-emerald-600" : score >= 50 ? "text-amber-600" : "text-rose-600";
   return <span className={`text-sm font-semibold tabular-nums ${color}`}>{score}/100</span>;
 }
@@ -43,7 +43,7 @@ export default async function ArticlesPage({
 
   const supabase = createAdminClient();
 
-  // ── Fetch articles with optional status + search filter ──────────────────
+  // -- Fetch articles with optional status + search filter ------------------
   let query = supabase
     .from("articles")
     .select("id, slug, status, published_at, created_at, topic_id", { count: "exact" })
@@ -54,7 +54,7 @@ export default async function ArticlesPage({
 
   const { data: articles, count } = await query;
 
-  // ── Fetch translations (title) ────────────────────────────────────────────
+  // -- Fetch translations (title) --------------------------------------------
   const ids = (articles ?? []).map((a) => a.id);
   const { data: translations } = ids.length
     ? await supabase
@@ -69,21 +69,21 @@ export default async function ArticlesPage({
     titleMap[t.article_id] = { title: t.title ?? "", meta: t.meta_description ?? "" };
   }
 
-  // ── Fetch categories via topic → collection → category ───────────────────
+  // -- Fetch categories via topic ? subcategory ? category -------------------
   const topicIds = [...new Set((articles ?? []).map((a) => a.topic_id).filter(Boolean))];
   let categoryMap: Record<string, string> = {};
   if (topicIds.length > 0) {
     const { data: topics } = await supabase
       .from("topics")
-      .select("id, collection_id")
+      .select("id, subcategory_id")
       .in("id", topicIds);
-    const collectionIds = [...new Set((topics ?? []).map((t) => t.collection_id).filter(Boolean))];
-    if (collectionIds.length > 0) {
-      const { data: collections } = await supabase
-        .from("collections")
+    const subcategoryIds = [...new Set((topics ?? []).map((t) => t.subcategory_id).filter(Boolean))];
+    if (subcategoryIds.length > 0) {
+      const { data: subcategories } = await supabase
+        .from("subcategories")
         .select("id, category_id")
-        .in("id", collectionIds);
-      const catIds = [...new Set((collections ?? []).map((c) => c.category_id).filter(Boolean))];
+        .in("id", subcategoryIds);
+      const catIds = [...new Set((subcategories ?? []).map((c) => c.category_id).filter(Boolean))];
       const { data: categoryTranslations } = catIds.length
         ? await supabase
             .from("category_translations")
@@ -94,12 +94,12 @@ export default async function ArticlesPage({
       const catNameMap: Record<string, string> = {};
       for (const ct of categoryTranslations ?? []) catNameMap[ct.category_id] = ct.name;
       const colCatMap: Record<string, string> = {};
-      for (const col of collections ?? []) colCatMap[col.id] = catNameMap[col.category_id] ?? "";
-      for (const topic of topics ?? []) categoryMap[topic.id] = colCatMap[topic.collection_id] ?? "";
+      for (const col of subcategories ?? []) colCatMap[col.id] = catNameMap[col.category_id] ?? "";
+      for (const topic of topics ?? []) categoryMap[topic.id] = colCatMap[topic.subcategory_id] ?? "";
     }
   }
 
-  // ── Fetch quality scores from queue metadata ──────────────────────────────
+  // -- Fetch quality scores from queue metadata ------------------------------
   const slugList = (articles ?? []).map((a) => a.slug);
   const { data: queueItems } = slugList.length
     ? await supabase
@@ -122,7 +122,7 @@ export default async function ArticlesPage({
     slug: a.slug,
     status: a.status as string,
     title: titleMap[a.id]?.title || a.slug,
-    category: a.topic_id ? (categoryMap[a.topic_id] ?? "—") : "—",
+    category: a.topic_id ? (categoryMap[a.topic_id] ?? "�") : "�",
     publishedAt: a.published_at ? new Date(a.published_at).toLocaleDateString() : null,
     createdAt: new Date(a.created_at).toLocaleDateString(),
     quality: qualityMap[a.slug] ?? null,
@@ -165,7 +165,7 @@ export default async function ArticlesPage({
       {/* Article list */}
       {rows.length === 0 ? (
         <div className="rounded-2xl border border-border/60 bg-card px-6 py-16 text-center">
-          <p className="text-4xl mb-3">📝</p>
+          <p className="text-4xl mb-3">??</p>
           <p className="font-semibold text-foreground">No articles yet</p>
           <p className="text-sm text-muted-foreground mt-1">Press Start Pipeline on the dashboard to generate your first articles.</p>
         </div>
@@ -181,7 +181,7 @@ export default async function ArticlesPage({
                   <StatusBadge status={row.status} />
                 </div>
                 <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground flex-wrap">
-                  {row.category !== "—" && <span>{row.category}</span>}
+                  {row.category !== "�" && <span>{row.category}</span>}
                   <span>{row.publishedAt ?? row.createdAt}</span>
                   <QualityBadge score={row.quality} />
                 </div>

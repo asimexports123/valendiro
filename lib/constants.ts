@@ -22,7 +22,7 @@ export const ADMIN_NAV_ITEMS = [
 // Developer-mode nav — hidden by default, shown when ?dev=1 is in URL
 export const ADMIN_DEV_NAV_ITEMS = [
   { label: "�  Categories",        href: "/admin/categories" },
-  { label: "📂  Collections",       href: "/admin/collections" },
+  { label: "📂  Subcategories",      href: "/admin/subcategories" },
   { label: "�  Topics",            href: "/admin/topics" },
   { label: "🔍  Keyword Research",  href: "/admin/demand-intelligence" },
   { label: "🚀  Publishing",        href: "/admin/publishing" },

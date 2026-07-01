@@ -161,9 +161,9 @@ export function Hero({ lang, stats }: { lang: string; stats: HomepageStats }) {
 
               {/* Floating badge — real DB stats */}
               <div className="absolute -top-4 -right-4 rounded-2xl border border-border bg-card px-4 py-3 shadow-elevated">
-                <div className="text-xs text-muted-foreground">Collections</div>
+                <div className="text-xs text-muted-foreground">Subcategories</div>
                 <div className="text-xl font-bold text-primary mt-0.5">
-                  {stats.collections > 0 ? fmt(stats.collections) : "Growing"}
+                  {stats.subcategories > 0 ? fmt(stats.subcategories) : "Growing"}
                 </div>
               </div>
             </div>

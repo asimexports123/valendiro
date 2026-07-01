@@ -15,7 +15,7 @@
  *  4. FAQ Generation         — canonical questions users ask
  *  5. Example Builder        — concrete examples, use cases, analogies
  *  6. Table Opportunities    — where structured comparison adds value
- *  7. Internal Link Signals  — related topics/collections in the hierarchy
+ *  7. Internal Link Signals  — related topics/subcategories in the hierarchy
  *  8. Image Suggestions      — what visuals would serve the reader
  */
 
@@ -69,7 +69,7 @@ export interface InternalLinkSignal {
   suggestedTitle: string;
   suggestedSlug: string;
   linkType: "parent_topic" | "related_topic" | "prerequisite" | "next_step";
-  hierarchyLevel: "category" | "collection" | "topic" | "article";
+  hierarchyLevel: "category" | "Subcategory" | "topic" | "article";
 }
 
 export interface ImageSuggestion {
@@ -393,22 +393,22 @@ async function resolveInternalLinkSignals(
       }
     }
 
-    // Find the parent collection for this category
-    const { data: parentCollection } = await supabase
-      .from("collections")
-      .select("slug, collection_translations(name), categories(slug)")
+    // Find the parent Subcategory for this category
+    const { data: parentSubcategory } = await supabase
+      .from("subcategories")
+      .select("slug, subcategory_translations(name), categories(slug)")
       .eq("categories.slug", categorySlug)
       .limit(1)
       .maybeSingle();
 
-    if (parentCollection) {
-      const name = (parentCollection.collection_translations as { name: string }[] | null)?.[0]?.name;
+    if (parentSubcategory) {
+      const name = (parentSubcategory.subcategory_translations as { name: string }[] | null)?.[0]?.name;
       if (name) {
         signals.push({
           suggestedTitle: name,
-          suggestedSlug: parentCollection.slug,
+          suggestedSlug: parentSubcategory.slug,
           linkType: "parent_topic",
-          hierarchyLevel: "collection",
+          hierarchyLevel: "Subcategory",
         });
       }
     }

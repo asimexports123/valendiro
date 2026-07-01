@@ -4,7 +4,7 @@
  * Given one Topic, this engine thinks like a teacher and expands it into
  * everything a learner may want to know — NOT like an SEO keyword scraper.
  *
- * Input:  Topic (slug, title, category, collection)
+ * Input:  Topic (slug, title, category, Subcategory)
  * Output: List of ArticleIdeas — each with title, intent, angle, priority
  *
  * Groq Call: 1 per topic expansion
