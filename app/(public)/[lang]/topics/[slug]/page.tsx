@@ -9,7 +9,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { SITE_URL } from "@/lib/constants";
 import Link from "next/link";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 export const dynamicParams = true;
 
 const CATEGORY_ACCENT: Record<string, { bg: string; text: string; border: string }> = {
