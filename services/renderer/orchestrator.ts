@@ -203,8 +203,8 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
   }
 
   // ─── 3. Determine Renderer Config ───────────────────────────────────────
-  const rendererId = request.rendererId ?? "long-article";
-  const strategy = STRATEGIES[rendererId] ?? longArticleStrategy;
+  const rendererId = request.rendererId ?? "long-article-v2";
+  const strategy = STRATEGIES[rendererId] ?? longArticleV2Strategy;
   const format: OutputFormat = request.format ?? "html";
   const style = request.style ?? ["intermediate"];
 
