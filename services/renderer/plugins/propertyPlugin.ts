@@ -87,7 +87,7 @@ export function renderPropertySection(facts: PluginFact[], config: PluginConfig)
 
       if (j === 0) {
         // First fact in paragraph — full connector + statement + why
-        sentences.push(`${connector(globalIdx, config.slug)} ${stmt.charAt(0).toLowerCase() + stmt.slice(1)}. ${why(globalIdx, config.slug)}`);
+        sentences.push(`${connector(globalIdx, config.slug)} ${stmt.charAt(0).toLowerCase() + stmt.slice(1)}. ${why(globalIdx, config.slug).replace(/\$\{subject\}/g, subject)}`);
       } else {
         // Subsequent facts in same paragraph — bridge + statement
         const br = bridge(globalIdx, config.slug);

@@ -112,7 +112,7 @@ export class KnowledgeComposer {
   /**
    * Build article structure following natural reader journey
    * Introduction → Core Concept → How it Works → Example → Applications →
-   * Benefits → Limitations → Common Mistakes → Related Concepts → Summary
+   * Benefits → Limitations → Common Mistakes → Best Practices → Related Concepts → Summary
    */
   private buildArticleStructure(context: CompositionContext): ComposedSection[] {
     const sections: ComposedSection[] = [];
@@ -151,6 +151,79 @@ export class KnowledgeComposer {
         required: true,
       });
     }
+
+    // 4. Real-World Example (always add for better comprehension)
+    sections.push({
+      type: "example",
+      heading: "Real-World Example",
+      content: [],
+      order: 4,
+      required: true,
+    });
+
+    // 5. Benefits and Advantages (if property/comparison facts exist)
+    if (byType.property?.length > 0 || byType.comparison?.length > 0) {
+      sections.push({
+        type: "benefits",
+        heading: "Benefits and Advantages",
+        content: [],
+        order: 5,
+        required: true,
+      });
+    }
+
+    // 6. Limitations (if warning facts exist)
+    if (byType.warning?.length > 0) {
+      sections.push({
+        type: "limitations",
+        heading: "Limitations and Considerations",
+        content: [],
+        order: 6,
+        required: true,
+      });
+    }
+
+    // 7. Common Mistakes (if rule facts exist)
+    if (byType.rule?.length > 0) {
+      sections.push({
+        type: "mistakes",
+        heading: "Common Mistakes to Avoid",
+        content: [],
+        order: 7,
+        required: true,
+      });
+    }
+
+    // 8. Best Practices (if procedural facts exist)
+    if (byType.procedural?.length > 0) {
+      sections.push({
+        type: "best-practices",
+        heading: "Best Practices",
+        content: [],
+        order: 8,
+        required: true,
+      });
+    }
+
+    // 9. Applications (if property facts exist)
+    if (byType.property?.length > 0) {
+      sections.push({
+        type: "applications",
+        heading: "Practical Applications",
+        content: [],
+        order: 9,
+        required: true,
+      });
+    }
+
+    // 10. Summary (always required for completeness)
+    sections.push({
+      type: "summary",
+      heading: "Key Takeaways",
+      content: [],
+      order: 10,
+      required: true,
+    });
 
     // 4. When to Use (if procedural facts exist)
     if (byType.procedural?.length > 0) {
