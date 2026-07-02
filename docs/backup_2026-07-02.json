@@ -1,0 +1,4079 @@
+{
+  "categories": [
+    {
+      "id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+      "slug": "technology",
+      "parent_id": null,
+      "sort_order": 2,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "d5fc8ca2-9890-4e62-af8f-276cdfcd034a",
+      "slug": "business",
+      "parent_id": null,
+      "sort_order": 5,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+      "slug": "personal-finance",
+      "parent_id": null,
+      "sort_order": 0,
+      "created_at": "2026-06-30T07:29:47.133337+00:00",
+      "updated_at": "2026-06-30T07:29:47.133337+00:00"
+    },
+    {
+      "id": "5e189c03-12b1-4555-946d-c4cb9faa24f2",
+      "slug": "education",
+      "parent_id": null,
+      "sort_order": 4,
+      "created_at": "2026-06-30T09:19:36.868842+00:00",
+      "updated_at": "2026-06-30T09:19:36.868842+00:00"
+    },
+    {
+      "id": "8425e139-dfda-4e63-acb8-81128b2f58ab",
+      "slug": "health-wellness",
+      "parent_id": null,
+      "sort_order": 5,
+      "created_at": "2026-06-30T09:19:37.440627+00:00",
+      "updated_at": "2026-06-30T09:19:37.440627+00:00"
+    },
+    {
+      "id": "de6223df-9fab-4dcd-acf2-c08f7e643ecf",
+      "slug": "home-lifestyle",
+      "parent_id": null,
+      "sort_order": 6,
+      "created_at": "2026-06-30T09:19:37.973111+00:00",
+      "updated_at": "2026-06-30T09:19:37.973111+00:00"
+    },
+    {
+      "id": "99fab70a-405d-465a-9bab-0811193cbada",
+      "slug": "travel",
+      "parent_id": null,
+      "sort_order": 7,
+      "created_at": "2026-06-30T09:19:38.499396+00:00",
+      "updated_at": "2026-06-30T09:19:38.499396+00:00"
+    }
+  ],
+  "category_translations": [
+    {
+      "id": "d2db3d90-2d0f-4539-8b8e-ac09986a03b4",
+      "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+      "language_code": "en",
+      "name": "Technology",
+      "description": "Articles in technology",
+      "meta_title": null,
+      "meta_description": null,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "b6bf1099-126e-4ea0-8b55-061b64f14dba",
+      "category_id": "d5fc8ca2-9890-4e62-af8f-276cdfcd034a",
+      "language_code": "en",
+      "name": "Business",
+      "description": "Articles in business",
+      "meta_title": null,
+      "meta_description": null,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "a8596d23-b169-49ab-8178-5a646a0254da",
+      "category_id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+      "language_code": "en",
+      "name": "Personal Finance",
+      "description": null,
+      "meta_title": null,
+      "meta_description": null,
+      "created_at": "2026-06-30T07:29:47.401586+00:00",
+      "updated_at": "2026-06-30T07:29:47.401586+00:00"
+    },
+    {
+      "id": "5f5563f0-678a-4b71-ad8e-e7e4b870e40f",
+      "category_id": "5e189c03-12b1-4555-946d-c4cb9faa24f2",
+      "language_code": "en",
+      "name": "Education & Learning",
+      "description": "Learning strategies, courses, skills & self-improvement.",
+      "meta_title": null,
+      "meta_description": null,
+      "created_at": "2026-06-30T09:19:37.176254+00:00",
+      "updated_at": "2026-06-30T09:19:37.176254+00:00"
+    },
+    {
+      "id": "212f3b8c-0f1f-4bb5-9b26-d7a569d42dd8",
+      "category_id": "8425e139-dfda-4e63-acb8-81128b2f58ab",
+      "language_code": "en",
+      "name": "Health & Wellness",
+      "description": "Fitness, nutrition, mental health & healthy habits.",
+      "meta_title": null,
+      "meta_description": null,
+      "created_at": "2026-06-30T09:19:37.703931+00:00",
+      "updated_at": "2026-06-30T09:19:37.703931+00:00"
+    },
+    {
+      "id": "ec01ed3a-273d-49f6-a603-d4152c305d76",
+      "category_id": "de6223df-9fab-4dcd-acf2-c08f7e643ecf",
+      "language_code": "en",
+      "name": "Home & Lifestyle",
+      "description": "DIY, cooking, organization, decor & daily routines.",
+      "meta_title": null,
+      "meta_description": null,
+      "created_at": "2026-06-30T09:19:38.245295+00:00",
+      "updated_at": "2026-06-30T09:19:38.245295+00:00"
+    },
+    {
+      "id": "bdb134c0-21af-4b5c-a96d-4fe405e105cd",
+      "category_id": "99fab70a-405d-465a-9bab-0811193cbada",
+      "language_code": "en",
+      "name": "Travel & Transportation",
+      "description": "Destinations, budget travel, packing tips & trip planning.",
+      "meta_title": null,
+      "meta_description": null,
+      "created_at": "2026-06-30T09:19:38.77143+00:00",
+      "updated_at": "2026-06-30T09:19:38.77143+00:00"
+    }
+  ],
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "native_name": "English",
+      "is_active": true,
+      "sort_order": 1,
+      "created_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "code": "es",
+      "name": "Spanish",
+      "native_name": "Español",
+      "is_active": true,
+      "sort_order": 2,
+      "created_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "code": "fr",
+      "name": "French",
+      "native_name": "Français",
+      "is_active": true,
+      "sort_order": 3,
+      "created_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "code": "de",
+      "name": "German",
+      "native_name": "Deutsch",
+      "is_active": true,
+      "sort_order": 4,
+      "created_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "code": "zh",
+      "name": "Chinese",
+      "native_name": "中文",
+      "is_active": true,
+      "sort_order": 5,
+      "created_at": "2026-06-29T03:54:47.306136+00:00"
+    }
+  ],
+  "tags": [
+    {
+      "id": "0f91d57e-5631-457c-a3a1-2015171e0f4d",
+      "slug": "ai",
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "3dcd2ef1-6bdc-4dec-a714-1a95855671bd",
+      "slug": "climate",
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "c4ad9aa6-809e-4f80-90e9-55396e84feec",
+      "slug": "economics",
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "3c9fac79-3825-4bfb-88b0-48300e29de03",
+      "slug": "medicine",
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "4bedf4b4-4353-4a4d-adcb-c777c06dab37",
+      "slug": "space",
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    }
+  ],
+  "tag_translations": [
+    {
+      "id": "67eb20f5-b962-47f1-8acc-d951d66ed729",
+      "tag_id": "0f91d57e-5631-457c-a3a1-2015171e0f4d",
+      "language_code": "en",
+      "name": "Ai",
+      "description": null,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "e9ade90e-485c-4670-b16c-bebb07409490",
+      "tag_id": "3dcd2ef1-6bdc-4dec-a714-1a95855671bd",
+      "language_code": "en",
+      "name": "Climate",
+      "description": null,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "0c5aa7eb-7b83-4400-969b-1f21ea2388cf",
+      "tag_id": "c4ad9aa6-809e-4f80-90e9-55396e84feec",
+      "language_code": "en",
+      "name": "Economics",
+      "description": null,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "87f9a1a8-d0a5-4487-b95c-08c14b880a0a",
+      "tag_id": "3c9fac79-3825-4bfb-88b0-48300e29de03",
+      "language_code": "en",
+      "name": "Medicine",
+      "description": null,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    },
+    {
+      "id": "355bfcd4-cdfc-4a1b-a1d8-294d8ef0d164",
+      "tag_id": "4bedf4b4-4353-4a4d-adcb-c777c06dab37",
+      "language_code": "en",
+      "name": "Space",
+      "description": null,
+      "created_at": "2026-06-29T03:54:47.306136+00:00",
+      "updated_at": "2026-06-29T03:54:47.306136+00:00"
+    }
+  ],
+  "demand_topic_clusters": [
+    {
+      "id": "c502a89c-9a8a-42fa-aa03-014b2e397ca9",
+      "cluster_name": "Invest Money",
+      "category": "Personal Finance",
+      "seed_keyword": "how to invest money",
+      "keywords": [
+        "how to invest money"
+      ],
+      "demand_score": 56,
+      "competition_score": 70,
+      "opportunity_score": 60,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 65,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to invest money",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+        "collection_id": "51f27904-0793-496f-b6f8-cda6ceec7119"
+      },
+      "created_at": "2026-06-30T07:29:50.482374+00:00",
+      "updated_at": "2026-06-30T07:29:50.482374+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "67971837-6846-4dd0-b537-257295e07ae2",
+      "cluster_name": "Compound Interest Investment",
+      "category": "Personal Finance",
+      "seed_keyword": "what is compound interest investment",
+      "keywords": [
+        "what is compound interest investment"
+      ],
+      "demand_score": 56,
+      "competition_score": 80,
+      "opportunity_score": 46,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 59,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 58,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is compound interest investment",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+        "collection_id": "184c1e3c-fbb4-4ee9-a5ad-7529d4fecf74"
+      },
+      "created_at": "2026-06-30T07:29:52.022979+00:00",
+      "updated_at": "2026-06-30T07:29:52.022979+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "607829ba-96b5-4e53-8025-fc42ccfa2440",
+      "cluster_name": "Best Software Music",
+      "category": "Technology",
+      "seed_keyword": "best software for music production",
+      "keywords": [
+        "best software for music production"
+      ],
+      "demand_score": 56,
+      "competition_score": 80,
+      "opportunity_score": 56,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "commercial_investigation",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 62,
+          "knowledgeTopic": null,
+          "commercialIntent": 95,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "best software for music production",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 45
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "17ba513f-f46f-4e2d-83de-1d76d8649adc"
+      },
+      "created_at": "2026-06-30T07:29:53.551597+00:00",
+      "updated_at": "2026-06-30T07:29:53.551597+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "ddb5f4e6-abe5-42ed-b4c5-5690ae1a4bb5",
+      "cluster_name": "Fifa World 2026",
+      "category": "General",
+      "seed_keyword": "2026 FIFA World Cup",
+      "keywords": [
+        "2026 FIFA World Cup",
+        "List of FIFA World Cup top goalscorers",
+        "FIFA World Cup"
+      ],
+      "demand_score": 80,
+      "competition_score": 73,
+      "opportunity_score": 54,
+      "status": "approved",
+      "metadata": {
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "27cb5d81-5a4c-42f9-9b6b-9bd0ce83b852"
+      },
+      "created_at": "2026-06-29T17:24:52.860984+00:00",
+      "updated_at": "2026-06-29T17:24:52.860984+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "4c0685e0-8726-42be-a657-ffbfb83f7e00",
+      "cluster_name": "Best Credit Card",
+      "category": "Finance",
+      "seed_keyword": "best buy credit card",
+      "keywords": [
+        "best buy credit card",
+        "best buy credit card"
+      ],
+      "demand_score": 56,
+      "competition_score": 70,
+      "opportunity_score": 58,
+      "status": "approved",
+      "metadata": {
+        "category_id": "fc923ed2-0559-45d0-8797-cc0e0b074eac",
+        "collection_id": "25bc38b0-edc7-41be-9cf5-22a3046dd7aa"
+      },
+      "created_at": "2026-06-29T17:26:28.514771+00:00",
+      "updated_at": "2026-06-29T17:26:28.514771+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "e94ea96a-4c1c-4132-8dd3-f1038c216975",
+      "cluster_name": "Best Buns",
+      "category": "General",
+      "seed_keyword": "best buns",
+      "keywords": [
+        "best buns",
+        "best buns",
+        "best buns",
+        "best buns",
+        "best buns",
+        "best buns",
+        "best buns",
+        "best buy",
+        "best buy",
+        "best buy",
+        "best buy",
+        "best buy",
+        "best buy",
+        "best buy"
+      ],
+      "demand_score": 60,
+      "competition_score": 50,
+      "opportunity_score": 61,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "commercial_investigation",
+          "qualityScore": 55,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 80,
+          "educationalValue": 40,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "best buns",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "9aac517c-e3d8-44e8-bb67-880d8e1d5d04"
+      },
+      "created_at": "2026-06-29T18:19:21.122176+00:00",
+      "updated_at": "2026-06-29T18:19:21.122176+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "736c6ee6-50e1-46f0-8583-732a3414498d",
+      "cluster_name": "",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "4890a8e6-edfd-4841-9225-a4c4e2227462"
+      },
+      "created_at": "2026-06-29T18:19:25.5894+00:00",
+      "updated_at": "2026-06-29T18:19:25.5894+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "51f26897-7d50-4fab-a228-84c851fa3e57",
+      "cluster_name": "Best Medicine Western",
+      "category": "General",
+      "seed_keyword": "best",
+      "keywords": [
+        "best",
+        "best medicine",
+        "best western",
+        "best buns"
+      ],
+      "demand_score": 60,
+      "competition_score": 48,
+      "opportunity_score": 61,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "commercial_investigation",
+          "qualityScore": 55,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 80,
+          "educationalValue": 40,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "best",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "37050938-5162-4fb5-bc3c-46eeb5b1edd0"
+      },
+      "created_at": "2026-06-30T03:47:20.268387+00:00",
+      "updated_at": "2026-06-30T03:47:20.268387+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "d3e0a5f1-a74b-4736-a2e4-247b084432a6",
+      "cluster_name": "Gerrymandering",
+      "category": "General",
+      "seed_keyword": "what is gerrymandering",
+      "keywords": [
+        "what is gerrymandering",
+        "what is gerrymandering"
+      ],
+      "demand_score": 59,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is gerrymandering",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "2c93084d-9725-4574-be74-4bdd30cdc4c4"
+      },
+      "created_at": "2026-06-29T18:19:24.521266+00:00",
+      "updated_at": "2026-06-29T18:19:24.521266+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "dbc6279e-0db7-4e73-81eb-9520c43b1f65",
+      "cluster_name": "How to",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b5ddf21a-3263-4ddd-938d-498b32a43c18"
+      },
+      "created_at": "2026-06-30T03:47:22.276953+00:00",
+      "updated_at": "2026-06-30T03:47:22.276953+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "61c8b968-e068-47db-ac8a-7ea69bdf3068",
+      "cluster_name": "How to",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b5ddf21a-3263-4ddd-938d-498b32a43c18"
+      },
+      "created_at": "2026-06-30T03:47:23.285035+00:00",
+      "updated_at": "2026-06-30T03:47:23.285035+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "5f6473d4-3bcf-4028-913f-484075aa1190",
+      "cluster_name": "Main Page",
+      "category": "AI",
+      "seed_keyword": "Main Page",
+      "keywords": [
+        "Main Page",
+        "Main Page"
+      ],
+      "demand_score": 84,
+      "competition_score": 50,
+      "opportunity_score": 61,
+      "status": "approved",
+      "metadata": {
+        "category_id": "4aa3c48d-ecea-46ba-99fa-ee24d774ec43",
+        "collection_id": "0615450a-a6a7-431b-b718-3ada90f934a3"
+      },
+      "created_at": "2026-06-29T17:26:05.194261+00:00",
+      "updated_at": "2026-06-29T17:26:05.194261+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "e53076f9-2505-40aa-964f-e88fce646c45",
+      "cluster_name": "Column Default Value",
+      "category": "technology",
+      "seed_keyword": "how to add a column with a default value to an existing table in sql server?",
+      "keywords": [
+        "how to add a column with a default value to an existing table in sql server?"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to add a column with a default value to an existing table in sql server?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "03155e55-66d4-4c21-996a-4db8e6692db1"
+      },
+      "created_at": "2026-06-30T21:40:08.658532+00:00",
+      "updated_at": "2026-06-30T21:40:08.658532+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "e748724d-71da-4608-8c43-6191bbb8e608",
+      "cluster_name": "TypeScript Development",
+      "category": "technology",
+      "seed_keyword": "interfaces vs types in typescript",
+      "keywords": [
+        "interfaces vs types in typescript"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "interfaces vs types in typescript",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "2eabfcb5-7d19-41df-a4fe-05836c36bc1f"
+      },
+      "created_at": "2026-06-30T20:54:19.048379+00:00",
+      "updated_at": "2026-06-30T20:54:19.048379+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "dae36c73-44fb-4bf6-9f23-e3fd23dbb76b",
+      "cluster_name": "TypeScript Development",
+      "category": "technology",
+      "seed_keyword": "how to convert a string to number in typescript?",
+      "keywords": [
+        "how to convert a string to number in typescript?"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to convert a string to number in typescript?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "2eabfcb5-7d19-41df-a4fe-05836c36bc1f"
+      },
+      "created_at": "2026-06-30T20:54:25.756251+00:00",
+      "updated_at": "2026-06-30T20:54:25.756251+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "a23c1989-011e-4cdf-b447-c885f863ef3e",
+      "cluster_name": "How to",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b5ddf21a-3263-4ddd-938d-498b32a43c18"
+      },
+      "created_at": "2026-06-30T03:47:24.267961+00:00",
+      "updated_at": "2026-06-30T03:47:24.267961+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "f44615e2-de4c-492e-a8f1-bc1aff321363",
+      "cluster_name": "Cortisol",
+      "category": "General",
+      "seed_keyword": "what is cortisol",
+      "keywords": [
+        "what is cortisol",
+        "what is cortisol",
+        "what is cortisol",
+        "what is cortisol",
+        "what is cortisol",
+        "what is cortisol",
+        "what is cortisol",
+        "what is cortisol"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is cortisol",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b8ac7e03-9803-44ec-8fc8-c5fef0411282"
+      },
+      "created_at": "2026-06-30T03:47:29.252116+00:00",
+      "updated_at": "2026-06-30T03:47:29.252116+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "54e1085a-fe06-42e4-9b03-fd35a368362c",
+      "cluster_name": "TypeScript Development",
+      "category": "technology",
+      "seed_keyword": "interfaces vs types in typescript",
+      "keywords": [
+        "interfaces vs types in typescript"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "interfaces vs types in typescript",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "2eabfcb5-7d19-41df-a4fe-05836c36bc1f"
+      },
+      "created_at": "2026-06-30T21:40:09.784077+00:00",
+      "updated_at": "2026-06-30T21:40:09.784077+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "f644a5e9-3f7e-4453-8bde-7b4d974bc5ce",
+      "cluster_name": "Change Output Color",
+      "category": "technology",
+      "seed_keyword": "how to change the output color of echo in linux",
+      "keywords": [
+        "how to change the output color of echo in linux"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to change the output color of echo in linux",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "4fe7f530-5b89-4ac4-88d8-d1654e7d18ef"
+      },
+      "created_at": "2026-06-30T20:33:00.427344+00:00",
+      "updated_at": "2026-06-30T20:33:00.427344+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "7652b4b0-afaa-408d-b23c-519bc656df94",
+      "cluster_name": "Change Output Color",
+      "category": "technology",
+      "seed_keyword": "how to change the output color of echo in linux",
+      "keywords": [
+        "how to change the output color of echo in linux"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to change the output color of echo in linux",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "4fe7f530-5b89-4ac4-88d8-d1654e7d18ef"
+      },
+      "created_at": "2026-06-30T21:40:11.933308+00:00",
+      "updated_at": "2026-06-30T21:40:11.933308+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "1c36deea-5584-496c-b653-d982169529e4",
+      "cluster_name": "Return Date Server",
+      "category": "technology",
+      "seed_keyword": "how to return only the date from a sql server datetime datatype",
+      "keywords": [
+        "how to return only the date from a sql server datetime datatype"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to return only the date from a sql server datetime datatype",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "7f6bb2f5-09df-496c-9a99-6dfee4a90abf"
+      },
+      "created_at": "2026-06-30T20:33:01.933095+00:00",
+      "updated_at": "2026-06-30T20:33:01.933095+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "2a05ff87-6183-4288-b689-faca54f534c0",
+      "cluster_name": "Copy Docker Images",
+      "category": "technology",
+      "seed_keyword": "how to copy docker images from one host to another without using a repository",
+      "keywords": [
+        "how to copy docker images from one host to another without using a repository"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to copy docker images from one host to another without using a repository",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "6caebe55-d6f5-4617-9f1a-6db49a48991a"
+      },
+      "created_at": "2026-06-30T20:33:03.333377+00:00",
+      "updated_at": "2026-06-30T20:33:03.333377+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "0792157b-fd79-4ed8-9335-8898866355ea",
+      "cluster_name": "Docker Container39s Address",
+      "category": "technology",
+      "seed_keyword": "how to get a docker container&#39;s ip address from the host",
+      "keywords": [
+        "how to get a docker container&#39;s ip address from the host"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to get a docker container&#39;s ip address from the host",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "27f61404-1191-40be-8e8e-3152b81b225c"
+      },
+      "created_at": "2026-06-30T20:33:04.661719+00:00",
+      "updated_at": "2026-06-30T20:33:04.661719+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "663f3571-3e3e-4b88-83b1-29a18e1edb67",
+      "cluster_name": "Ingress Load Balancer",
+      "category": "education",
+      "seed_keyword": "ingress vs load balancer",
+      "keywords": [
+        "ingress vs load balancer"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "ingress vs load balancer",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 57
+        },
+        "category_id": "5e189c03-12b1-4555-946d-c4cb9faa24f2",
+        "collection_id": "0fa1e633-50cf-49ca-b701-e8b61c8526d2"
+      },
+      "created_at": "2026-06-30T20:54:27.994017+00:00",
+      "updated_at": "2026-06-30T20:54:27.994017+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "fafe9675-0a04-4255-8539-55efcf614230",
+      "cluster_name": "Logits Difference Softmax",
+      "category": "technology",
+      "seed_keyword": "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?",
+      "keywords": [
+        "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 48,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 60,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 56,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "a7f7f6f3-b44e-4fd2-9186-cd8a6cfca278"
+      },
+      "created_at": "2026-06-30T20:33:10.862371+00:00",
+      "updated_at": "2026-06-30T20:33:10.862371+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "4c87d879-ee59-4544-92ba-16d2f76ef3ff",
+      "cluster_name": "Best Medicine Western",
+      "category": "General",
+      "seed_keyword": "best",
+      "keywords": [
+        "best",
+        "best medicine",
+        "best western",
+        "best buns"
+      ],
+      "demand_score": 60,
+      "competition_score": 48,
+      "opportunity_score": 61,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "commercial_investigation",
+          "qualityScore": 55,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 80,
+          "educationalValue": 40,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "best",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "37050938-5162-4fb5-bc3c-46eeb5b1edd0"
+      },
+      "created_at": "2026-06-30T03:54:11.227342+00:00",
+      "updated_at": "2026-06-30T03:54:11.227342+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "454a2d63-58db-4739-9478-b5f00bc60dd3",
+      "cluster_name": "How to",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b5ddf21a-3263-4ddd-938d-498b32a43c18"
+      },
+      "created_at": "2026-06-30T03:47:25.256213+00:00",
+      "updated_at": "2026-06-30T03:47:25.256213+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "1619bf31-de1f-4da5-a35b-08d24477a79b",
+      "cluster_name": "How to",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b5ddf21a-3263-4ddd-938d-498b32a43c18"
+      },
+      "created_at": "2026-06-30T03:47:26.252996+00:00",
+      "updated_at": "2026-06-30T03:47:26.252996+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "d4a30d75-7b1d-4bc7-8304-4b17038a95db",
+      "cluster_name": "Cortisol",
+      "category": "General",
+      "seed_keyword": "what is cortisol",
+      "keywords": [
+        "what is cortisol"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is cortisol",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b8ac7e03-9803-44ec-8fc8-c5fef0411282"
+      },
+      "created_at": "2026-06-30T03:54:14.701629+00:00",
+      "updated_at": "2026-06-30T03:54:14.701629+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "3cc7affe-2371-4844-83f9-4d5b7bff446c",
+      "cluster_name": "Hantavirus",
+      "category": "General",
+      "seed_keyword": "what is hantavirus",
+      "keywords": [
+        "what is hantavirus",
+        "what is hantavirus",
+        "what is hantavirus",
+        "what is hantavirus",
+        "what is hantavirus",
+        "what is hantavirus",
+        "what is hantavirus",
+        "what is hantavirus"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is hantavirus",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "eaa2753d-6ad9-408e-8b39-d99edbb91906"
+      },
+      "created_at": "2026-06-30T03:47:27.755837+00:00",
+      "updated_at": "2026-06-30T03:47:27.755837+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "77ca003c-4e61-4c33-861d-d61d1b07c8ec",
+      "cluster_name": "Strunk",
+      "category": "General",
+      "seed_keyword": "what is strunk",
+      "keywords": [
+        "what is strunk",
+        "what is strunk"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is strunk",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "3b718e38-5f3f-40d6-b8de-2017aa4052ed"
+      },
+      "created_at": "2026-06-30T03:54:16.224938+00:00",
+      "updated_at": "2026-06-30T03:54:16.224938+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "36e4d341-e5bb-40c3-9a48-ee224d17a542",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T03:54:17.541059+00:00",
+      "updated_at": "2026-06-30T03:54:17.541059+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "768db9ad-77b1-412d-bd67-5b0ddc09aaa5",
+      "cluster_name": "Capo",
+      "category": "General",
+      "seed_keyword": "what is capo",
+      "keywords": [
+        "what is capo",
+        "what is capo",
+        "what is capo",
+        "what is capo"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is capo",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "597f07bd-a5e4-417d-b608-2266964eece7"
+      },
+      "created_at": "2026-06-30T03:54:18.993487+00:00",
+      "updated_at": "2026-06-30T03:54:18.993487+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "16b8767c-00ef-4e0f-8ad0-6c70c9b13cd9",
+      "cluster_name": "Logits Difference Softmax",
+      "category": "technology",
+      "seed_keyword": "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?",
+      "keywords": [
+        "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 48,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 60,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 56,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "a7f7f6f3-b44e-4fd2-9186-cd8a6cfca278"
+      },
+      "created_at": "2026-06-30T20:54:30.235488+00:00",
+      "updated_at": "2026-06-30T20:54:30.235488+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "fcabd416-d474-4e5d-ac3a-3d2190629721",
+      "cluster_name": "Epoch Iteration Training",
+      "category": "technology",
+      "seed_keyword": "epoch vs iteration when training neural networks",
+      "keywords": [
+        "epoch vs iteration when training neural networks"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "epoch vs iteration when training neural networks",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "bb3425cc-dde9-4c00-b5f9-b9dff3324520"
+      },
+      "created_at": "2026-06-30T20:54:31.343007+00:00",
+      "updated_at": "2026-06-30T20:54:31.343007+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "8f8a8a75-95f9-4e14-9613-64860893a298",
+      "cluster_name": "Cern",
+      "category": "General",
+      "seed_keyword": "what is cern",
+      "keywords": [
+        "what is cern",
+        "what is cern",
+        "what is cern",
+        "what is cern"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is cern",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "8a1d3248-a5d4-4dc7-ab99-4d98e839533d"
+      },
+      "created_at": "2026-06-30T03:54:20.506999+00:00",
+      "updated_at": "2026-06-30T03:54:20.506999+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "3d919129-17e5-4ca0-a26e-ef3f37ff0c72",
+      "cluster_name": "Code",
+      "category": "technology",
+      "seed_keyword": "how to code",
+      "keywords": [
+        "how to code"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 75,
+          "normalizedKeyword": "how to code",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "d2706b68-5871-4108-83ae-4d0bd9629db8"
+      },
+      "created_at": "2026-06-30T20:54:33.892797+00:00",
+      "updated_at": "2026-06-30T20:54:33.892797+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "6cf0f2eb-298e-433c-a8a7-b16304ea2d05",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T03:54:23.400078+00:00",
+      "updated_at": "2026-06-30T03:54:23.400078+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "7c835fc0-08b2-4296-894e-a7a8b252e968",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T03:54:24.27398+00:00",
+      "updated_at": "2026-06-30T03:54:24.27398+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "c02f7f4d-5deb-4b64-a28c-9b45751be90a",
+      "cluster_name": "Kosa",
+      "category": "General",
+      "seed_keyword": "what is kosa",
+      "keywords": [
+        "what is kosa",
+        "what is kosa",
+        "what is kosa"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is kosa",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "943f7547-1162-4dfe-95a9-16ef1cd15fb1"
+      },
+      "created_at": "2026-06-30T03:54:22.393649+00:00",
+      "updated_at": "2026-06-30T03:54:22.393649+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "4c729e38-04ce-4039-8e02-48f007a0f95b",
+      "cluster_name": "Cortisol",
+      "category": "General",
+      "seed_keyword": "what is cortisol",
+      "keywords": [
+        "what is cortisol"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 51,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is cortisol",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b8ac7e03-9803-44ec-8fc8-c5fef0411282"
+      },
+      "created_at": "2026-06-30T04:34:53.175634+00:00",
+      "updated_at": "2026-06-30T04:34:53.175634+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "7e26194f-84f7-4411-8d97-622c0cabaf1f",
+      "cluster_name": "Hantavirus",
+      "category": "General",
+      "seed_keyword": "what is hantavirus",
+      "keywords": [
+        "what is hantavirus"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 51,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is hantavirus",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "eaa2753d-6ad9-408e-8b39-d99edbb91906"
+      },
+      "created_at": "2026-06-30T04:34:52.134222+00:00",
+      "updated_at": "2026-06-30T04:34:52.134222+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "a51291bd-465f-496c-862e-8e748b29d3f0",
+      "cluster_name": "Strunk",
+      "category": "General",
+      "seed_keyword": "what is strunk",
+      "keywords": [
+        "what is strunk"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 51,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is strunk",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "3b718e38-5f3f-40d6-b8de-2017aa4052ed"
+      },
+      "created_at": "2026-06-30T04:34:54.535587+00:00",
+      "updated_at": "2026-06-30T04:34:54.535587+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "e5e49508-4d1e-45b3-b922-b241e324f3c0",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T03:54:25.156502+00:00",
+      "updated_at": "2026-06-30T03:54:25.156502+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "edb3623a-55cc-4472-a543-6fd86bd46954",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T04:35:01.777488+00:00",
+      "updated_at": "2026-06-30T04:35:01.777488+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "a8e67fa4-e940-4040-85d1-b87f224566df",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T04:35:02.787012+00:00",
+      "updated_at": "2026-06-30T04:35:02.787012+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "5879c0e4-c7ba-4342-a4fc-586b774f4e04",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T04:35:03.803409+00:00",
+      "updated_at": "2026-06-30T04:35:03.803409+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "aa003c6e-59fc-4b90-bcaa-4df6705fc7af",
+      "cluster_name": "Code Arduino",
+      "category": "Technology",
+      "seed_keyword": "how to code",
+      "keywords": [
+        "how to code",
+        "how to code arduino"
+      ],
+      "demand_score": 57,
+      "competition_score": 65,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 75,
+          "normalizedKeyword": "how to code",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "c6f3c4a3-c001-444d-bc9b-211b18744eb8"
+      },
+      "created_at": "2026-06-30T07:29:43.295378+00:00",
+      "updated_at": "2026-06-30T07:29:43.295378+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "bc982372-ee9d-4fef-abb1-d2078c4396fe",
+      "cluster_name": "Learn Programming",
+      "category": "Technology",
+      "seed_keyword": "how to learn programming",
+      "keywords": [
+        "how to learn programming"
+      ],
+      "demand_score": 57,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 65,
+          "blockedReason": null,
+          "evergreenScore": 89,
+          "knowledgeTopic": null,
+          "commercialIntent": 56,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to learn programming",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "27ac6cf8-fda6-436e-8017-dba391f6febf"
+      },
+      "created_at": "2026-06-30T07:29:46.380649+00:00",
+      "updated_at": "2026-06-30T07:29:46.380649+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "90a5c116-ce39-4001-8ad0-7376944541e6",
+      "cluster_name": "Start Investing",
+      "category": "Personal Finance",
+      "seed_keyword": "how to start investing",
+      "keywords": [
+        "how to start investing"
+      ],
+      "demand_score": 56,
+      "competition_score": 70,
+      "opportunity_score": 60,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 88,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to start investing",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "2c1360f6-fb82-4589-b4aa-6f40f578cc7f",
+        "collection_id": "958ad11b-d393-41c6-974e-d03c70e8e5e5"
+      },
+      "created_at": "2026-06-30T07:29:48.680487+00:00",
+      "updated_at": "2026-06-30T07:29:48.680487+00:00",
+      "collection_id": "958ad11b-d393-41c6-974e-d03c70e8e5e5"
+    },
+    {
+      "id": "4e45c593-38f2-4f88-a0e1-a26d48cdb02c",
+      "cluster_name": "Python",
+      "category": "Technology",
+      "seed_keyword": "how to use python",
+      "keywords": [
+        "how to use python"
+      ],
+      "demand_score": 56,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to use python",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "e446640a-39ac-4eec-829b-25f21e883092"
+      },
+      "created_at": "2026-06-30T07:29:55.073564+00:00",
+      "updated_at": "2026-06-30T07:29:55.073564+00:00",
+      "collection_id": "e446640a-39ac-4eec-829b-25f21e883092"
+    },
+    {
+      "id": "03085ad3-3950-46bf-af7a-9d71b60c9780",
+      "cluster_name": "Will Find Miniseries",
+      "category": "General",
+      "seed_keyword": "I Will Find You (miniseries)",
+      "keywords": [
+        "I Will Find You (miniseries)",
+        "I Will Find You (miniseries)",
+        "I Will Find You (miniseries)",
+        "I Will Find You (miniseries)"
+      ],
+      "demand_score": 79,
+      "competition_score": 80,
+      "opportunity_score": 54,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 58,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "i will find you (miniseries)",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "183418a6-5bd5-49b9-bccf-988386bec744"
+      },
+      "created_at": "2026-06-30T04:34:47.51421+00:00",
+      "updated_at": "2026-06-30T04:34:47.51421+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "57f13f17-6ae3-44cb-a2ea-c846abee0797",
+      "cluster_name": "Prepare Exams",
+      "category": "General",
+      "seed_keyword": "how to prepare for exams",
+      "keywords": [
+        "how to prepare for exams"
+      ],
+      "demand_score": 53,
+      "competition_score": 60,
+      "opportunity_score": 51,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to prepare for exams",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "c8cbfe3a-4f3a-481e-ad07-9fd6cbff3187"
+      },
+      "created_at": "2026-06-30T07:29:39.689733+00:00",
+      "updated_at": "2026-06-30T07:29:39.689733+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "d0087a05-a5b8-4b09-a4ac-b62e818c2df6",
+      "cluster_name": "Machine Learning Algorithms",
+      "category": "Technology",
+      "seed_keyword": "what is machine learning",
+      "keywords": [
+        "what is machine learning",
+        "what is machine learning algorithms",
+        "what is machine learning engineering"
+      ],
+      "demand_score": 56,
+      "competition_score": 77,
+      "opportunity_score": 47,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 59,
+          "blockedReason": null,
+          "evergreenScore": 82,
+          "knowledgeTopic": null,
+          "commercialIntent": 46,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is machine learning",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "acdc1b07-10ee-4709-8ebc-5517ed1d2009"
+      },
+      "created_at": "2026-06-30T07:29:44.857071+00:00",
+      "updated_at": "2026-06-30T07:29:44.857071+00:00",
+      "collection_id": "acdc1b07-10ee-4709-8ebc-5517ed1d2009"
+    },
+    {
+      "id": "51d01926-b37d-4ad3-ad88-965c9479bf56",
+      "cluster_name": "JavaScript Development",
+      "category": "technology",
+      "seed_keyword": "how to check whether a string contains a substring in javascript?",
+      "keywords": [
+        "how to check whether a string contains a substring in javascript?"
+      ],
+      "demand_score": 66,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to check whether a string contains a substring in javascript?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "1e44969c-d581-4c24-8103-798275d642f8"
+      },
+      "created_at": "2026-06-30T20:32:54.890339+00:00",
+      "updated_at": "2026-06-30T20:32:54.890339+00:00",
+      "collection_id": "1e44969c-d581-4c24-8103-798275d642f8"
+    },
+    {
+      "id": "3936cee2-f068-497f-af77-5e8448562b53",
+      "cluster_name": "Column Default Value",
+      "category": "technology",
+      "seed_keyword": "how to add a column with a default value to an existing table in sql server?",
+      "keywords": [
+        "how to add a column with a default value to an existing table in sql server?"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to add a column with a default value to an existing table in sql server?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "03155e55-66d4-4c21-996a-4db8e6692db1"
+      },
+      "created_at": "2026-06-30T20:32:56.420724+00:00",
+      "updated_at": "2026-06-30T20:32:56.420724+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "6c671d62-0810-400a-858f-2fe6be88c65e",
+      "cluster_name": "Difference Dockerfile Entrypoint",
+      "category": "technology",
+      "seed_keyword": "what is the difference between cmd and entrypoint in a dockerfile?",
+      "keywords": [
+        "what is the difference between cmd and entrypoint in a dockerfile?",
+        "what is the difference between the &#39;copy&#39; and &#39;add&#39; commands in a dockerfile?"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 60,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 56,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is the difference between cmd and entrypoint in a dockerfile?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "a30e1d2c-ad48-4918-ae45-86eb342b1a5f"
+      },
+      "created_at": "2026-06-30T20:32:59.084864+00:00",
+      "updated_at": "2026-06-30T20:32:59.084864+00:00",
+      "collection_id": "a30e1d2c-ad48-4918-ae45-86eb342b1a5f"
+    },
+    {
+      "id": "5f7286da-1946-4e8e-a4ef-28ea0aa7cf88",
+      "cluster_name": "TypeScript Development",
+      "category": "technology",
+      "seed_keyword": "how to convert a string to number in typescript?",
+      "keywords": [
+        "how to convert a string to number in typescript?"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to convert a string to number in typescript?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "2eabfcb5-7d19-41df-a4fe-05836c36bc1f"
+      },
+      "created_at": "2026-06-30T20:33:05.578572+00:00",
+      "updated_at": "2026-06-30T20:33:05.578572+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "746e5ff7-0025-4ccc-afcb-3ee83d3fad08",
+      "cluster_name": "Epoch Iteration Training",
+      "category": "technology",
+      "seed_keyword": "epoch vs iteration when training neural networks",
+      "keywords": [
+        "epoch vs iteration when training neural networks"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "epoch vs iteration when training neural networks",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "bb3425cc-dde9-4c00-b5f9-b9dff3324520"
+      },
+      "created_at": "2026-06-30T20:33:12.169594+00:00",
+      "updated_at": "2026-06-30T20:33:12.169594+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "8068c7ab-8515-4c54-9b72-dd8ea03e491e",
+      "cluster_name": "Meaning Word Logits",
+      "category": "technology",
+      "seed_keyword": "what is the meaning of the word logits in tensorflow?",
+      "keywords": [
+        "what is the meaning of the word logits in tensorflow?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 48,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 59,
+          "blockedReason": null,
+          "evergreenScore": 82,
+          "knowledgeTopic": null,
+          "commercialIntent": 46,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is the meaning of the word logits in tensorflow?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "8445b524-2ce0-4518-9673-7efdaf6d85f3"
+      },
+      "created_at": "2026-06-30T20:33:13.499708+00:00",
+      "updated_at": "2026-06-30T20:33:13.499708+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "14887c22-63c8-4d18-9fad-734161cc8e1f",
+      "cluster_name": "React Development",
+      "category": "technology",
+      "seed_keyword": "when to use jsx.element vs reactnode vs reactelement?",
+      "keywords": [
+        "when to use jsx.element vs reactnode vs reactelement?"
+      ],
+      "demand_score": 63,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "when to use jsx.element vs reactnode vs reactelement?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "df8603c7-3292-47b8-864c-83ba46e9c6cd"
+      },
+      "created_at": "2026-06-30T20:33:06.883599+00:00",
+      "updated_at": "2026-06-30T20:33:06.883599+00:00",
+      "collection_id": "df8603c7-3292-47b8-864c-83ba46e9c6cd"
+    },
+    {
+      "id": "d0f05f78-87e3-4358-aaee-0528108c21de",
+      "cluster_name": "TypeScript Development",
+      "category": "technology",
+      "seed_keyword": "interfaces vs types in typescript",
+      "keywords": [
+        "interfaces vs types in typescript"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "interfaces vs types in typescript",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "2eabfcb5-7d19-41df-a4fe-05836c36bc1f"
+      },
+      "created_at": "2026-06-30T20:32:57.740826+00:00",
+      "updated_at": "2026-06-30T20:32:57.740826+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "cfb6edf4-c8c0-443e-adba-be4750475eca",
+      "cluster_name": "Kubectl Apply",
+      "category": "technology",
+      "seed_keyword": "kubectl apply vs kubectl create?",
+      "keywords": [
+        "kubectl apply vs kubectl create?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "kubectl apply vs kubectl create?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "286038c8-043c-4e5b-8828-10dbf35d1a8b"
+      },
+      "created_at": "2026-06-30T20:33:08.198076+00:00",
+      "updated_at": "2026-06-30T20:33:08.198076+00:00",
+      "collection_id": "286038c8-043c-4e5b-8828-10dbf35d1a8b"
+    },
+    {
+      "id": "a7bbbc50-a642-4549-91d0-56e1d819e97b",
+      "cluster_name": "Code",
+      "category": "technology",
+      "seed_keyword": "how to code",
+      "keywords": [
+        "how to code"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 75,
+          "normalizedKeyword": "how to code",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "d2706b68-5871-4108-83ae-4d0bd9629db8"
+      },
+      "created_at": "2026-06-30T20:33:14.838998+00:00",
+      "updated_at": "2026-06-30T20:33:14.838998+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "85a02ea9-a47e-4298-b668-7c9958cded3f",
+      "cluster_name": "Ingress Load Balancer",
+      "category": "education",
+      "seed_keyword": "ingress vs load balancer",
+      "keywords": [
+        "ingress vs load balancer"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "ingress vs load balancer",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 57
+        },
+        "category_id": "5e189c03-12b1-4555-946d-c4cb9faa24f2",
+        "collection_id": "0fa1e633-50cf-49ca-b701-e8b61c8526d2"
+      },
+      "created_at": "2026-06-30T20:33:09.535515+00:00",
+      "updated_at": "2026-06-30T20:33:09.535515+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "17b7ed77-2602-4fef-a607-5e5ef3179e6d",
+      "cluster_name": "Column Default Value",
+      "category": "technology",
+      "seed_keyword": "how to add a column with a default value to an existing table in sql server?",
+      "keywords": [
+        "how to add a column with a default value to an existing table in sql server?"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to add a column with a default value to an existing table in sql server?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "03155e55-66d4-4c21-996a-4db8e6692db1"
+      },
+      "created_at": "2026-06-30T20:54:17.947821+00:00",
+      "updated_at": "2026-06-30T20:54:17.947821+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "be36d6bc-14c7-41ed-bc41-1d088647dee1",
+      "cluster_name": "Best Medicine Restaurants",
+      "category": "General",
+      "seed_keyword": "best",
+      "keywords": [
+        "best",
+        "best",
+        "best",
+        "best",
+        "best",
+        "best medicine",
+        "best medicine",
+        "best medicine",
+        "best medicine",
+        "best medicine",
+        "best medicine",
+        "best medicine",
+        "best restaurants washington",
+        "best restaurants washington",
+        "best restaurants washington",
+        "best restaurants washington",
+        "best restaurants washington",
+        "best restaurants washington",
+        "best restaurants washington"
+      ],
+      "demand_score": 60,
+      "competition_score": 51,
+      "opportunity_score": 61,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "commercial_investigation",
+          "qualityScore": 55,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 80,
+          "educationalValue": 40,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "best",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "faee06f6-2a64-4f67-916c-e3b8eee52612"
+      },
+      "created_at": "2026-06-29T18:19:19.198504+00:00",
+      "updated_at": "2026-06-29T18:19:19.198504+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "0fd73336-549d-4518-80fa-8257ca5f02d5",
+      "cluster_name": "",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "4890a8e6-edfd-4841-9225-a4c4e2227462"
+      },
+      "created_at": "2026-06-29T18:19:26.69695+00:00",
+      "updated_at": "2026-06-29T18:19:26.69695+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "65d91f65-7edf-4919-9b18-5d38af03ea12",
+      "cluster_name": "",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "approved",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "4890a8e6-edfd-4841-9225-a4c4e2227462"
+      },
+      "created_at": "2026-06-29T18:19:22.809959+00:00",
+      "updated_at": "2026-06-29T18:19:22.809959+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "452acef7-75ef-4ac4-9cd6-a6fcd48e7d8b",
+      "cluster_name": "How to",
+      "category": "General",
+      "seed_keyword": "how to",
+      "keywords": [
+        "how to"
+      ],
+      "demand_score": 59,
+      "competition_score": 50,
+      "opportunity_score": 54,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 67,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "how to",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 70
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "b5ddf21a-3263-4ddd-938d-498b32a43c18"
+      },
+      "created_at": "2026-06-30T03:54:12.516082+00:00",
+      "updated_at": "2026-06-30T03:54:12.516082+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "3bd922e3-96b7-4b7f-baad-1afba0cd129f",
+      "cluster_name": "Hantavirus",
+      "category": "General",
+      "seed_keyword": "what is hantavirus",
+      "keywords": [
+        "what is hantavirus"
+      ],
+      "demand_score": 58,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "reference",
+          "qualityScore": 58,
+          "blockedReason": null,
+          "evergreenScore": 80,
+          "knowledgeTopic": null,
+          "commercialIntent": 30,
+          "educationalValue": 80,
+          "knowledgeGapScore": 40,
+          "normalizedKeyword": "what is hantavirus",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 40
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "eaa2753d-6ad9-408e-8b39-d99edbb91906"
+      },
+      "created_at": "2026-06-30T03:54:13.832507+00:00",
+      "updated_at": "2026-06-30T03:54:13.832507+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "ceba154b-1af0-4821-880e-d96431b1f95a",
+      "cluster_name": "JavaScript Development",
+      "category": "technology",
+      "seed_keyword": "how to check whether a string contains a substring in javascript?",
+      "keywords": [
+        "how to check whether a string contains a substring in javascript?"
+      ],
+      "demand_score": 66,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to check whether a string contains a substring in javascript?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "1e44969c-d581-4c24-8103-798275d642f8"
+      },
+      "created_at": "2026-06-30T20:54:16.528412+00:00",
+      "updated_at": "2026-06-30T20:54:16.528412+00:00",
+      "collection_id": "1e44969c-d581-4c24-8103-798275d642f8"
+    },
+    {
+      "id": "a62799ff-8ef5-4b97-a1d8-9f4f0594ef98",
+      "cluster_name": "Difference Dockerfile Entrypoint",
+      "category": "technology",
+      "seed_keyword": "what is the difference between cmd and entrypoint in a dockerfile?",
+      "keywords": [
+        "what is the difference between cmd and entrypoint in a dockerfile?",
+        "what is the difference between the &#39;copy&#39; and &#39;add&#39; commands in a dockerfile?"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 60,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 56,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is the difference between cmd and entrypoint in a dockerfile?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "a30e1d2c-ad48-4918-ae45-86eb342b1a5f"
+      },
+      "created_at": "2026-06-30T20:54:20.190127+00:00",
+      "updated_at": "2026-06-30T20:54:20.190127+00:00",
+      "collection_id": "a30e1d2c-ad48-4918-ae45-86eb342b1a5f"
+    },
+    {
+      "id": "7abe06f3-e875-4b15-a9fe-3c4464b31d06",
+      "cluster_name": "Change Output Color",
+      "category": "technology",
+      "seed_keyword": "how to change the output color of echo in linux",
+      "keywords": [
+        "how to change the output color of echo in linux"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to change the output color of echo in linux",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "4fe7f530-5b89-4ac4-88d8-d1654e7d18ef"
+      },
+      "created_at": "2026-06-30T20:54:21.286336+00:00",
+      "updated_at": "2026-06-30T20:54:21.286336+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "e6931462-357a-45bd-9171-eafb273d4782",
+      "cluster_name": "Copy Docker Images",
+      "category": "technology",
+      "seed_keyword": "how to copy docker images from one host to another without using a repository",
+      "keywords": [
+        "how to copy docker images from one host to another without using a repository"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to copy docker images from one host to another without using a repository",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "6caebe55-d6f5-4617-9f1a-6db49a48991a"
+      },
+      "created_at": "2026-06-30T20:54:24.636801+00:00",
+      "updated_at": "2026-06-30T20:54:24.636801+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "583af025-b17f-4e45-a9be-3ed67c236feb",
+      "cluster_name": "Docker Container39s Address",
+      "category": "technology",
+      "seed_keyword": "how to get a docker container&#39;s ip address from the host",
+      "keywords": [
+        "how to get a docker container&#39;s ip address from the host"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to get a docker container&#39;s ip address from the host",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "27f61404-1191-40be-8e8e-3152b81b225c"
+      },
+      "created_at": "2026-06-30T20:54:22.397256+00:00",
+      "updated_at": "2026-06-30T20:54:22.397256+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "b1ddb5fb-889f-4ce1-916e-c1ec971d31b5",
+      "cluster_name": "Return Date Server",
+      "category": "technology",
+      "seed_keyword": "how to return only the date from a sql server datetime datatype",
+      "keywords": [
+        "how to return only the date from a sql server datetime datatype"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to return only the date from a sql server datetime datatype",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "7f6bb2f5-09df-496c-9a99-6dfee4a90abf"
+      },
+      "created_at": "2026-06-30T20:54:23.51003+00:00",
+      "updated_at": "2026-06-30T20:54:23.51003+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "bf1b9764-792e-4046-b0b1-e6cf895212e6",
+      "cluster_name": "Meaning Word Logits",
+      "category": "technology",
+      "seed_keyword": "what is the meaning of the word logits in tensorflow?",
+      "keywords": [
+        "what is the meaning of the word logits in tensorflow?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 48,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 59,
+          "blockedReason": null,
+          "evergreenScore": 82,
+          "knowledgeTopic": null,
+          "commercialIntent": 46,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is the meaning of the word logits in tensorflow?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "8445b524-2ce0-4518-9673-7efdaf6d85f3"
+      },
+      "created_at": "2026-06-30T20:54:29.10901+00:00",
+      "updated_at": "2026-06-30T20:54:29.10901+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "5e11a3b0-fc65-455c-8a3a-344a99c940b3",
+      "cluster_name": "React Development",
+      "category": "technology",
+      "seed_keyword": "when to use jsx.element vs reactnode vs reactelement?",
+      "keywords": [
+        "when to use jsx.element vs reactnode vs reactelement?"
+      ],
+      "demand_score": 63,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "when to use jsx.element vs reactnode vs reactelement?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "df8603c7-3292-47b8-864c-83ba46e9c6cd"
+      },
+      "created_at": "2026-06-30T20:54:26.869841+00:00",
+      "updated_at": "2026-06-30T20:54:26.869841+00:00",
+      "collection_id": "df8603c7-3292-47b8-864c-83ba46e9c6cd"
+    },
+    {
+      "id": "4a8f4163-3169-49e9-81f1-1129b80cfe04",
+      "cluster_name": "Kubectl Apply",
+      "category": "technology",
+      "seed_keyword": "kubectl apply vs kubectl create?",
+      "keywords": [
+        "kubectl apply vs kubectl create?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "kubectl apply vs kubectl create?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "286038c8-043c-4e5b-8828-10dbf35d1a8b"
+      },
+      "created_at": "2026-06-30T20:54:32.775003+00:00",
+      "updated_at": "2026-06-30T20:54:32.775003+00:00",
+      "collection_id": "286038c8-043c-4e5b-8828-10dbf35d1a8b"
+    },
+    {
+      "id": "8ba6e8f8-f2b1-41ce-a301-0580c171f6a6",
+      "cluster_name": "JavaScript Development",
+      "category": "technology",
+      "seed_keyword": "how to check whether a string contains a substring in javascript?",
+      "keywords": [
+        "how to check whether a string contains a substring in javascript?"
+      ],
+      "demand_score": 66,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to check whether a string contains a substring in javascript?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "1e44969c-d581-4c24-8103-798275d642f8"
+      },
+      "created_at": "2026-06-30T21:40:07.280403+00:00",
+      "updated_at": "2026-06-30T21:40:07.280403+00:00",
+      "collection_id": "1e44969c-d581-4c24-8103-798275d642f8"
+    },
+    {
+      "id": "988db51a-7c85-42c8-81e3-3f839da9f181",
+      "cluster_name": "Difference Dockerfile Entrypoint",
+      "category": "technology",
+      "seed_keyword": "what is the difference between cmd and entrypoint in a dockerfile?",
+      "keywords": [
+        "what is the difference between cmd and entrypoint in a dockerfile?",
+        "what is the difference between the &#39;copy&#39; and &#39;add&#39; commands in a dockerfile?"
+      ],
+      "demand_score": 65,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 60,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 56,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is the difference between cmd and entrypoint in a dockerfile?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "a30e1d2c-ad48-4918-ae45-86eb342b1a5f"
+      },
+      "created_at": "2026-06-30T21:40:10.848429+00:00",
+      "updated_at": "2026-06-30T21:40:10.848429+00:00",
+      "collection_id": "a30e1d2c-ad48-4918-ae45-86eb342b1a5f"
+    },
+    {
+      "id": "6692c13f-d3c5-4c3e-ae5f-35d95357cff6",
+      "cluster_name": "Return Date Server",
+      "category": "technology",
+      "seed_keyword": "how to return only the date from a sql server datetime datatype",
+      "keywords": [
+        "how to return only the date from a sql server datetime datatype"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to return only the date from a sql server datetime datatype",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "7f6bb2f5-09df-496c-9a99-6dfee4a90abf"
+      },
+      "created_at": "2026-06-30T21:40:13.557746+00:00",
+      "updated_at": "2026-06-30T21:40:13.557746+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "e3aea305-5888-46bc-8fb5-eba49329e180",
+      "cluster_name": "Docker Container39s Address",
+      "category": "technology",
+      "seed_keyword": "how to get a docker container&#39;s ip address from the host",
+      "keywords": [
+        "how to get a docker container&#39;s ip address from the host"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to get a docker container&#39;s ip address from the host",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "27f61404-1191-40be-8e8e-3152b81b225c"
+      },
+      "created_at": "2026-06-30T21:40:15.801815+00:00",
+      "updated_at": "2026-06-30T21:40:15.801815+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "daece5e0-44ec-40de-ae64-4fa9c0f4afd8",
+      "cluster_name": "TypeScript Development",
+      "category": "technology",
+      "seed_keyword": "how to convert a string to number in typescript?",
+      "keywords": [
+        "how to convert a string to number in typescript?"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to convert a string to number in typescript?",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "2eabfcb5-7d19-41df-a4fe-05836c36bc1f"
+      },
+      "created_at": "2026-06-30T21:40:16.883993+00:00",
+      "updated_at": "2026-06-30T21:40:16.883993+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "eb9fe6f2-b9ca-4f7a-9a03-3cc5f845a77b",
+      "cluster_name": "Copy Docker Images",
+      "category": "technology",
+      "seed_keyword": "how to copy docker images from one host to another without using a repository",
+      "keywords": [
+        "how to copy docker images from one host to another without using a repository"
+      ],
+      "demand_score": 64,
+      "competition_score": 70,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 85,
+          "normalizedKeyword": "how to copy docker images from one host to another without using a repository",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "6caebe55-d6f5-4617-9f1a-6db49a48991a"
+      },
+      "created_at": "2026-06-30T21:40:14.691835+00:00",
+      "updated_at": "2026-06-30T21:40:14.691835+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "9aee5f72-f723-432a-b6f5-f3fbbdfe5d2c",
+      "cluster_name": "React Development",
+      "category": "technology",
+      "seed_keyword": "when to use jsx.element vs reactnode vs reactelement?",
+      "keywords": [
+        "when to use jsx.element vs reactnode vs reactelement?"
+      ],
+      "demand_score": 63,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "when to use jsx.element vs reactnode vs reactelement?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "df8603c7-3292-47b8-864c-83ba46e9c6cd"
+      },
+      "created_at": "2026-06-30T21:40:17.961558+00:00",
+      "updated_at": "2026-06-30T21:40:17.961558+00:00",
+      "collection_id": "df8603c7-3292-47b8-864c-83ba46e9c6cd"
+    },
+    {
+      "id": "2eeea299-30d5-4adc-b445-2c111090f9c2",
+      "cluster_name": "Kubectl Apply",
+      "category": "technology",
+      "seed_keyword": "kubectl apply vs kubectl create?",
+      "keywords": [
+        "kubectl apply vs kubectl create?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 62,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "kubectl apply vs kubectl create?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "286038c8-043c-4e5b-8828-10dbf35d1a8b"
+      },
+      "created_at": "2026-06-30T21:40:19.03537+00:00",
+      "updated_at": "2026-06-30T21:40:19.03537+00:00",
+      "collection_id": "286038c8-043c-4e5b-8828-10dbf35d1a8b"
+    },
+    {
+      "id": "e6025ed0-e447-4b28-a1d3-6879d722ecad",
+      "cluster_name": "Ingress Load Balancer",
+      "category": "education",
+      "seed_keyword": "ingress vs load balancer",
+      "keywords": [
+        "ingress vs load balancer"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "ingress vs load balancer",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 57
+        },
+        "category_id": "5e189c03-12b1-4555-946d-c4cb9faa24f2",
+        "collection_id": "0fa1e633-50cf-49ca-b701-e8b61c8526d2"
+      },
+      "created_at": "2026-06-30T21:40:21.813671+00:00",
+      "updated_at": "2026-06-30T21:40:21.813671+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "3829e631-d941-4472-b8c3-4f293bb95b77",
+      "cluster_name": "Epoch Iteration Training",
+      "category": "technology",
+      "seed_keyword": "epoch vs iteration when training neural networks",
+      "keywords": [
+        "epoch vs iteration when training neural networks"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 49,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 68,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "epoch vs iteration when training neural networks",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "bb3425cc-dde9-4c00-b5f9-b9dff3324520"
+      },
+      "created_at": "2026-06-30T21:40:20.145317+00:00",
+      "updated_at": "2026-06-30T21:40:20.145317+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "2b8dd79c-9674-4f8b-ba58-00daf4c2c89e",
+      "cluster_name": "Meaning Word Logits",
+      "category": "technology",
+      "seed_keyword": "what is the meaning of the word logits in tensorflow?",
+      "keywords": [
+        "what is the meaning of the word logits in tensorflow?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 48,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 59,
+          "blockedReason": null,
+          "evergreenScore": 82,
+          "knowledgeTopic": null,
+          "commercialIntent": 46,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what is the meaning of the word logits in tensorflow?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 75
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "8445b524-2ce0-4518-9673-7efdaf6d85f3"
+      },
+      "created_at": "2026-06-30T21:40:22.895781+00:00",
+      "updated_at": "2026-06-30T21:40:22.895781+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "7c60ac47-a597-47c5-ab2a-b50913cd3dfb",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T04:34:58.698149+00:00",
+      "updated_at": "2026-06-30T04:34:58.698149+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "c387550d-db32-4a9a-8939-ef78d9829460",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T04:34:59.684361+00:00",
+      "updated_at": "2026-06-30T04:34:59.684361+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "54bb076c-d355-47c1-9a6b-615e2ff9f603",
+      "cluster_name": "What is als",
+      "category": "General",
+      "seed_keyword": "what is als",
+      "keywords": [
+        "what is als"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is als",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "034c4c2d-b96c-4184-809c-ffdb2bbc7ba7"
+      },
+      "created_at": "2026-06-30T04:35:00.724368+00:00",
+      "updated_at": "2026-06-30T04:35:00.724368+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "7ac7e9d6-1b55-4212-b20c-04f1a4a1d26e",
+      "cluster_name": "Capo",
+      "category": "General",
+      "seed_keyword": "what is capo",
+      "keywords": [
+        "what is capo",
+        "what is capo",
+        "what is capo"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is capo",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "597f07bd-a5e4-417d-b608-2266964eece7"
+      },
+      "created_at": "2026-06-30T04:34:57.661194+00:00",
+      "updated_at": "2026-06-30T04:34:57.661194+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "855c305e-acb9-4449-813a-3d689c65bf47",
+      "cluster_name": "Cern",
+      "category": "General",
+      "seed_keyword": "what is cern",
+      "keywords": [
+        "what is cern",
+        "what is cern",
+        "what is cern",
+        "what is cern",
+        "what is cern",
+        "what is cern"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is cern",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "8a1d3248-a5d4-4dc7-ab99-4d98e839533d"
+      },
+      "created_at": "2026-06-30T04:34:56.642251+00:00",
+      "updated_at": "2026-06-30T04:34:56.642251+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "f140c584-8025-4a5e-8b36-94b71e10948d",
+      "cluster_name": "Kosa",
+      "category": "General",
+      "seed_keyword": "what is kosa",
+      "keywords": [
+        "what is kosa",
+        "what is kosa",
+        "what is kosa",
+        "what is kosa",
+        "what is kosa",
+        "what is kosa"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "informational",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 70,
+          "knowledgeTopic": null,
+          "commercialIntent": 38,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 60,
+          "normalizedKeyword": "what is kosa",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "42702655-3f98-4f38-bff8-299e7f219247",
+        "collection_id": "943f7547-1162-4dfe-95a9-16ef1cd15fb1"
+      },
+      "created_at": "2026-06-30T04:34:55.588965+00:00",
+      "updated_at": "2026-06-30T04:34:55.588965+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "ac138297-56b4-43f4-bc40-7797bf6e8a58",
+      "cluster_name": "Logits Difference Softmax",
+      "category": "technology",
+      "seed_keyword": "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?",
+      "keywords": [
+        "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?"
+      ],
+      "demand_score": 62,
+      "competition_score": 70,
+      "opportunity_score": 48,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "comparison",
+          "qualityScore": 60,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 56,
+          "educationalValue": 40,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 70,
+          "normalizedKeyword": "what are logits? what is the difference between softmax and softmax_cross_entropy_with_logits?",
+          "problemSolvingValue": 50,
+          "topicalAuthorityScore": 65
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "a7f7f6f3-b44e-4fd2-9186-cd8a6cfca278"
+      },
+      "created_at": "2026-06-30T21:40:24.001637+00:00",
+      "updated_at": "2026-06-30T21:40:24.001637+00:00",
+      "collection_id": null
+    },
+    {
+      "id": "23842c5e-852b-4cbc-915a-8ce3bf2f44ef",
+      "cluster_name": "Code",
+      "category": "technology",
+      "seed_keyword": "how to code",
+      "keywords": [
+        "how to code"
+      ],
+      "demand_score": 57,
+      "competition_score": 60,
+      "opportunity_score": 50,
+      "status": "pending",
+      "metadata": {
+        "quality": {
+          "intent": "how_to",
+          "qualityScore": 61,
+          "blockedReason": null,
+          "evergreenScore": 77,
+          "knowledgeTopic": null,
+          "commercialIntent": 48,
+          "educationalValue": 80,
+          "entityConfidence": "medium",
+          "knowledgeGapScore": 75,
+          "normalizedKeyword": "how to code",
+          "problemSolvingValue": 80,
+          "topicalAuthorityScore": 67
+        },
+        "category_id": "5d04b30f-c557-43a3-b315-dd181aecb3c3",
+        "collection_id": "d2706b68-5871-4108-83ae-4d0bd9629db8"
+      },
+      "created_at": "2026-06-30T21:40:25.095902+00:00",
+      "updated_at": "2026-06-30T21:40:25.095902+00:00",
+      "collection_id": null
+    }
+  ],
+  "system_settings": [
+    {
+      "id": "fd75f31d-479e-4ea1-8ddb-e2c82d54b0c3",
+      "key": "publish_limit_per_run",
+      "value": "100",
+      "description": "Max articles to publish per cron run",
+      "updated_at": "2026-06-29T07:37:40.131035+00:00"
+    },
+    {
+      "id": "9f5696b9-afa7-486f-af39-98a31783e21f",
+      "key": "demand_discovery_enabled",
+      "value": "true",
+      "description": "Enable demand discovery sources",
+      "updated_at": "2026-06-29T07:37:40.131035+00:00"
+    },
+    {
+      "id": "49a17a61-18ba-4473-a3eb-0e45ea1717b9",
+      "key": "quality_gate_enabled",
+      "value": "true",
+      "description": "Enable quality gate before publish",
+      "updated_at": "2026-06-29T07:37:40.131035+00:00"
+    },
+    {
+      "id": "16ef034a-1e93-45d0-82fd-6fd6f34cfc3c",
+      "key": "AUTOMATION_ENABLED",
+      "value": "true",
+      "description": "Master kill switch for all automation",
+      "updated_at": "2026-06-30T07:32:24.874+00:00"
+    },
+    {
+      "id": "4ba8fb1d-d3b9-400c-bd48-298791142012",
+      "key": "v1_category_config",
+      "value": "{\"version\":1,\"updatedAt\":\"2026-06-30T07:32:59.816Z\",\"categories\":[{\"slug\":\"technology\",\"label\":\"Technology\",\"enabled\":true,\"priority\":1,\"keywords\":[\"software\",\"app\",\"application\",\"phone\",\"smartphone\",\"laptop\",\"computer\",\"tech\",\"gadget\",\"internet\",\"wifi\",\"cloud\",\"server\",\"api\",\"database\",\"cybersecurity\",\"encryption\",\"saas\",\"platform\",\"tool\",\"plugin\",\"browser\",\"operating system\",\"windows\",\"macos\",\"linux\",\"android\",\"ios\",\"artificial intelligence\",\"machine learning\",\"deep learning\",\"neural network\",\"chatgpt\",\"gpt\",\"llm\",\"ai\",\"automation\",\"robotics\",\"programming\",\"code\",\"coding\",\"developer\",\"python\",\"javascript\",\"typescript\",\"react\",\"nodejs\",\"sql\",\"git\",\"github\",\"web development\",\"frontend\",\"backend\",\"kubernetes\",\"docker\",\"devops\",\"open source\"],\"subreddits\":[\"technology\",\"programming\",\"MachineLearning\",\"learnprogramming\",\"webdev\"],\"seedQueries\":[\"how to code\",\"best software for\",\"what is machine learning\",\"how to use python\",\"best ai tools\",\"how to learn programming\",\"what is api\",\"how to build a website\",\"best developer tools\"],\"businessValueBoost\":25},{\"slug\":\"business\",\"label\":\"Business & Entrepreneurship\",\"enabled\":true,\"priority\":2,\"keywords\":[\"business\",\"startup\",\"entrepreneur\",\"entrepreneurship\",\"company\",\"corporation\",\"marketing\",\"digital marketing\",\"seo\",\"content marketing\",\"social media marketing\",\"sales\",\"revenue\",\"profit\",\"growth hacking\",\"customer acquisition\",\"product management\",\"product market fit\",\"mvp\",\"pitch deck\",\"fundraising\",\"venture capital\",\"angel investor\",\"b2b\",\"b2c\",\"saas business\",\"remote work\",\"freelance\",\"consulting\",\"agency\",\"ecommerce\",\"amazon fba\",\"dropshipping\",\"print on demand\",\"side hustle\",\"leadership\",\"management\",\"team building\",\"hiring\",\"productivity\",\"brand\",\"branding\",\"logo\",\"copywriting\",\"email marketing\"],\"subreddits\":[\"Entrepreneur\",\"startups\",\"smallbusiness\",\"marketing\",\"digitalnomad\"],\"seedQueries\":[\"how to start a business\",\"best marketing strategies\",\"how to grow startup\",\"what is digital marketing\",\"how to get clients\",\"best business tools\",\"how to scale a business\",\"startup ideas\",\"how to write a business plan\"],\"businessValueBoost\":28},{\"slug\":\"personal-finance\",\"label\":\"Personal Finance\",\"enabled\":true,\"priority\":1,\"keywords\":[\"money\",\"finance\",\"personal finance\",\"investing\",\"investment\",\"stock\",\"stocks\",\"index fund\",\"etf\",\"mutual fund\",\"dividend\",\"crypto\",\"bitcoin\",\"ethereum\",\"defi\",\"budget\",\"budgeting\",\"saving\",\"savings\",\"emergency fund\",\"debt\",\"loan\",\"mortgage\",\"credit card\",\"credit score\",\"interest rate\",\"compound interest\",\"dollar cost averaging\",\"roth ira\",\"401k\",\"retirement\",\"financial independence\",\"fire movement\",\"passive income\",\"tax\",\"tax return\",\"income tax\",\"capital gains\",\"tax deduction\",\"insurance\",\"life insurance\",\"health insurance\",\"term insurance\",\"net worth\",\"financial planning\",\"wealth\",\"frugal\"],\"subreddits\":[\"personalfinance\",\"financialindependence\",\"investing\",\"Frugal\",\"povertyfinance\"],\"seedQueries\":[\"how to invest money\",\"best index funds\",\"how to build emergency fund\",\"what is compound interest\",\"how to improve credit score\",\"how to save money\",\"best budgeting apps\",\"how to pay off debt\",\"roth ira vs 401k\",\"how to start investing\",\"what is dollar cost averaging\"],\"businessValueBoost\":30},{\"slug\":\"education\",\"label\":\"Education & Learning\",\"enabled\":true,\"priority\":3,\"keywords\":[\"learn\",\"learning\",\"education\",\"study\",\"studying\",\"course\",\"online course\",\"tutorial\",\"lesson\",\"lecture\",\"certification\",\"certificate\",\"degree\",\"university\",\"college\",\"exam\",\"test\",\"gre\",\"gmat\",\"sat\",\"ielts\",\"toefl\",\"skill\",\"skills\",\"professional development\",\"career change\",\"self improvement\",\"self-learning\",\"autodidact\",\"how to learn\",\"beginner guide\",\"complete guide\",\"step by step\",\"explained\",\"understanding\",\"fundamentals\",\"basics\",\"introduction\",\"memory\",\"focus\",\"study tips\",\"note taking\",\"spaced repetition\"],\"subreddits\":[\"learnprogramming\",\"learnmath\",\"GetStudying\",\"languagelearning\",\"selfimprovement\"],\"seedQueries\":[\"how to learn fast\",\"best online courses\",\"how to study effectively\",\"what is spaced repetition\",\"best free learning resources\",\"how to get certified\",\"beginner guide to\",\"how to understand\"],\"businessValueBoost\":20},{\"slug\":\"health-wellness\",\"label\":\"Health & Wellness\",\"enabled\":true,\"priority\":2,\"keywords\":[\"health\",\"wellness\",\"healthy\",\"fitness\",\"exercise\",\"workout\",\"gym\",\"weight loss\",\"diet\",\"nutrition\",\"calories\",\"protein\",\"supplement\",\"vitamin\",\"mineral\",\"omega 3\",\"mental health\",\"anxiety\",\"depression\",\"stress\",\"sleep\",\"insomnia\",\"meditation\",\"mindfulness\",\"yoga\",\"stretching\",\"running\",\"cardio\",\"strength training\",\"muscle\",\"fat loss\",\"diabetes\",\"hypertension\",\"cholesterol\",\"heart health\",\"immune system\",\"gut health\",\"inflammation\",\"cortisol\",\"keto\",\"intermittent fasting\",\"plant based\",\"vegan nutrition\"],\"subreddits\":[\"fitness\",\"nutrition\",\"loseit\",\"anxiety\",\"meditation\",\"running\"],\"seedQueries\":[\"how to lose weight\",\"best workout routine\",\"what is intermittent fasting\",\"how to reduce anxiety\",\"best supplements for\",\"how to sleep better\",\"what is cortisol\",\"how to build muscle\",\"best diet for\",\"how to improve mental health\",\"beginner workout guide\"],\"businessValueBoost\":22},{\"slug\":\"home-lifestyle\",\"label\":\"Home & Lifestyle\",\"enabled\":true,\"priority\":4,\"keywords\":[\"home\",\"house\",\"apartment\",\"interior design\",\"decor\",\"decoration\",\"clean\",\"cleaning\",\"organize\",\"organization\",\"declutter\",\"minimalism\",\"diy\",\"repair\",\"fix\",\"renovation\",\"home improvement\",\"kitchen\",\"cooking\",\"recipe\",\"meal prep\",\"baking\",\"food\",\"bathroom\",\"bedroom\",\"living room\",\"furniture\",\"storage\",\"garden\",\"gardening\",\"plants\",\"indoor plants\",\"laundry\",\"household\",\"chores\",\"maintenance\",\"lifestyle\",\"morning routine\",\"evening routine\",\"habits\",\"relationship\",\"parenting\",\"family\",\"kids\"],\"subreddits\":[\"HomeImprovement\",\"declutter\",\"MealPrepSunday\",\"malelivingspace\",\"femalelivingspace\"],\"seedQueries\":[\"how to clean\",\"home organization tips\",\"diy home repair\",\"best meal prep ideas\",\"how to decorate\",\"beginner cooking guide\",\"how to organize\",\"interior design tips\",\"how to start gardening\"],\"businessValueBoost\":15},{\"slug\":\"travel\",\"label\":\"Travel & Transportation\",\"enabled\":true,\"priority\":5,\"keywords\":[\"travel\",\"travelling\",\"vacation\",\"holiday\",\"trip\",\"journey\",\"destination\",\"country\",\"city\",\"tourism\",\"tourist\",\"hotel\",\"hostel\",\"airbnb\",\"accommodation\",\"flight\",\"airline\",\"airport\",\"layover\",\"cheap flights\",\"visa\",\"passport\",\"travel insurance\",\"travel tips\",\"backpacking\",\"solo travel\",\"budget travel\",\"luxury travel\",\"train\",\"bus\",\"road trip\",\"car rental\",\"digital nomad\",\"remote work travel\",\"travel hacking\",\"packing\",\"luggage\",\"carry on\"],\"subreddits\":[\"travel\",\"solotravel\",\"digitalnomad\",\"shoestring\",\"backpacking\"],\"seedQueries\":[\"how to travel cheap\",\"best travel destinations\",\"how to get cheap flights\",\"travel tips for beginners\",\"what to pack for\",\"how to plan a trip\",\"best travel credit cards\",\"digital nomad guide\"],\"businessValueBoost\":18}]}",
+      "description": null,
+      "updated_at": "2026-06-30T07:32:59.816+00:00"
+    }
+  ],
+  "system_events": [
+    {
+      "id": "2db2a3e7-160f-4703-9467-fb9f51fc4d75",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "insert or update on table \"demand_topic_queue\" violates foreign key constraint \"demand_topic_queue_demand_signal_id_fkey\""
+        ],
+        "queuedTopics": 0,
+        "demandInserted": 75,
+        "clustersCreated": 1,
+        "topicsPublished": 0,
+        "articlesPublished": 0,
+        "categoriesCreated": 1,
+        "collectionsCreated": 1,
+        "articleExpansionsQueued": 0
+      },
+      "created_at": "2026-06-29T17:25:01.773556+00:00"
+    },
+    {
+      "id": "49aa69fa-b0ff-4550-9f07-a128c62b69d8",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "insert or update on table \"demand_topic_queue\" violates foreign key constraint \"demand_topic_queue_demand_signal_id_fkey\"",
+          "insert or update on table \"demand_topic_queue\" violates foreign key constraint \"demand_topic_queue_demand_signal_id_fkey\"",
+          "insert or update on table \"demand_topic_queue\" violates foreign key constraint \"demand_topic_queue_demand_signal_id_fkey\""
+        ],
+        "queuedTopics": 0,
+        "demandInserted": 75,
+        "clustersCreated": 2,
+        "topicsPublished": 0,
+        "articlesPublished": 0,
+        "categoriesCreated": 2,
+        "collectionsCreated": 2,
+        "articleExpansionsQueued": 0
+      },
+      "created_at": "2026-06-29T17:26:37.49823+00:00"
+    },
+    {
+      "id": "9a7bd335-8082-4b5e-93d7-b30ac5df719a",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "Quality gate failed: Semantic similarity 92% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 90% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 96% exceeds 75% threshold; Internal similarity 96% exceeds 65% threshold",
+          "Quality gate failed: Semantic similarity 90% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 86% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 90% exceeds 75% threshold; Internal similarity 90% exceeds 65% threshold",
+          "Quality gate failed: Semantic similarity 86% exceeds 75% threshold; Readability score 91 is too high (overly simple)",
+          "Quality gate failed: Semantic similarity 83% exceeds 75% threshold; Readability score 91 is too high (overly simple)",
+          "Quality gate failed: Semantic similarity 92% exceeds 75% threshold; Internal similarity 92% exceeds 65% threshold"
+        ],
+        "queuedTopics": 3,
+        "demandInserted": 30,
+        "clustersCreated": 0,
+        "topicsPublished": 3,
+        "articlesPublished": 1,
+        "categoriesCreated": 0,
+        "collectionsCreated": 0,
+        "articleExpansionsQueued": 31
+      },
+      "created_at": "2026-06-29T18:13:21.158962+00:00"
+    },
+    {
+      "id": "4db04ea4-2a24-44fe-9088-30fb4862212e",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "duplicate key value violates unique constraint \"categories_slug_key\"",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table; Internal similarity 96% exceeds 65% threshold",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Semantic similarity 90% exceeds 75% threshold; Readability score 91 is too high (overly simple); Internal similarity 90% exceeds 65% threshold",
+          "Quality gate failed: Semantic similarity 85% exceeds 75% threshold; Readability score 90 is too high (overly simple)",
+          "Quality gate failed: Semantic similarity 83% exceeds 75% threshold; Readability score 90 is too high (overly simple)",
+          "Quality gate failed: Exact hash match found in duplicate detection table; Internal similarity 92% exceeds 65% threshold",
+          "Quality gate failed: Semantic similarity 86% exceeds 75% threshold"
+        ],
+        "queuedTopics": 0,
+        "demandInserted": 30,
+        "clustersCreated": 0,
+        "topicsPublished": 0,
+        "articlesPublished": 0,
+        "categoriesCreated": 0,
+        "collectionsCreated": 0,
+        "articleExpansionsQueued": 0
+      },
+      "created_at": "2026-06-29T18:14:13.412109+00:00"
+    },
+    {
+      "id": "851acfc3-6dab-4998-9e12-dcb6b82daabd",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Semantic similarity 94% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 96% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 94% exceeds 75% threshold",
+          "Quality gate failed: Exact hash match found in duplicate detection table; Internal similarity 96% exceeds 65% threshold",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Semantic similarity 92% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 92% exceeds 75% threshold"
+        ],
+        "queuedTopics": 3,
+        "demandInserted": 30,
+        "clustersCreated": 6,
+        "topicsPublished": 3,
+        "articlesPublished": 0,
+        "categoriesCreated": 0,
+        "collectionsCreated": 4,
+        "articleExpansionsQueued": 31
+      },
+      "created_at": "2026-06-29T18:20:01.555457+00:00"
+    },
+    {
+      "id": "a53fa4f4-06ab-4072-bbf5-ba6e636de803",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Semantic similarity 94% exceeds 75% threshold",
+          "Quality gate failed: Semantic similarity 94% exceeds 75% threshold",
+          "Quality gate failed: Exact hash match found in duplicate detection table; Internal similarity 96% exceeds 65% threshold",
+          "Quality gate failed: Exact hash match found in duplicate detection table",
+          "Quality gate failed: Exact hash match found in duplicate detection table"
+        ],
+        "queuedTopics": 2,
+        "demandInserted": 22,
+        "clustersCreated": 8,
+        "topicsPublished": 2,
+        "articlesPublished": 0,
+        "categoriesCreated": 0,
+        "collectionsCreated": 4,
+        "articleExpansionsQueued": 20
+      },
+      "created_at": "2026-06-30T03:47:54.128064+00:00"
+    },
+    {
+      "id": "9268a963-dbc0-4d6d-9c88-479f76f5ce76",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [],
+        "queuedTopics": 5,
+        "demandInserted": 22,
+        "clustersCreated": 12,
+        "topicsPublished": 5,
+        "articlesPublished": 0,
+        "categoriesCreated": 0,
+        "collectionsCreated": 5,
+        "articleExpansionsQueued": 50
+      },
+      "created_at": "2026-06-30T03:54:56.994988+00:00"
+    },
+    {
+      "id": "6754318f-e742-4c27-bcba-55791361742a",
+      "event_type": "cron",
+      "event_name": "demand_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "errors": [],
+        "queuedTopics": 2,
+        "demandInserted": 14,
+        "clustersCreated": 13,
+        "topicsPublished": 1,
+        "articlesPublished": 0,
+        "categoriesCreated": 0,
+        "collectionsCreated": 1,
+        "articleExpansionsQueued": 10
+      },
+      "created_at": "2026-06-30T04:35:20.719933+00:00"
+    },
+    {
+      "id": "00818962-3364-4ca1-9433-7a1bc4bd945d",
+      "event_type": "cron",
+      "event_name": "learning_run",
+      "status": "success",
+      "message": null,
+      "metadata": {
+        "seo": {
+          "errors": [
+            "set-returning functions are not allowed in WHERE",
+            "operator does not exist: text && text"
+          ],
+          "keywordGaps": 0,
+          "weakClusters": 7,
+          "linkSuggestions": 0
+        },
+        "health": {
+          "error": null,
+          "calculated": 0
+        },
+        "affiliate": {
+          "errors": [],
+          "newLinks": 0,
+          "optimized": 0
+        },
+        "execution": {
+          "errors": [],
+          "update": {
+            "error": null,
+            "results": [],
+            "processed": 0
+          },
+          "priority": {
+            "errors": [],
+            "processed": 0,
+            "createCount": 0,
+            "ignoreCount": 0,
+            "updateCount": 0
+          },
+          "generation": {
+            "error": null,
+            "results": [],
+            "processed": 0
+          }
+        },
+        "lifecycle": {
+          "error": null,
+          "updated": 0
+        },
+        "duplicates": {
+          "error": null,
+          "scanned": 0,
+          "duplicates": 0
+        },
+        "optimization": {
+          "errors": [],
+          "requeued": 0,
+          "seoDecay": 0,
+          "lowHealth": 0,
+          "highPotential": 0
+        }
+      },
+      "created_at": "2026-07-01T05:00:50.463056+00:00"
+    }
+  ]
+}

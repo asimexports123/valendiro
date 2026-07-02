@@ -656,3 +656,298 @@ export interface OpportunitySource {
   created_at: string;
   updated_at: string;
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// Entity Types & Blueprint Templates (Knowledge Hub Architecture)
+// ═══════════════════════════════════════════════════════════════════
+
+export interface EntityType {
+  id: string;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EntityTypeTranslation {
+  id: string;
+  entity_type_id: string;
+  language_code: SupportedLanguage;
+  name: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EntityTypeSection {
+  id: string;
+  entity_type_id: string;
+  slug: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EntityTypeSectionTranslation {
+  id: string;
+  section_id: string;
+  language_code: SupportedLanguage;
+  name: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EntityTypeSlot {
+  id: string;
+  section_id: string;
+  entity_type_id: string;
+  slug: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EntityTypeSlotTranslation {
+  id: string;
+  slot_id: string;
+  language_code: SupportedLanguage;
+  title: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// Hub Sections & Slots (Materialized per Topic)
+// ═══════════════════════════════════════════════════════════════════
+
+export type HubSlotStatus = "empty" | "drafted" | "published";
+
+export interface HubSection {
+  id: string;
+  topic_id: string;
+  entity_type_section_id: string | null;
+  slug: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface HubSectionTranslation {
+  id: string;
+  section_id: string;
+  language_code: SupportedLanguage;
+  name: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface HubSlot {
+  id: string;
+  section_id: string;
+  topic_id: string;
+  entity_type_slot_id: string | null;
+  slug: string;
+  sort_order: number;
+  status: HubSlotStatus;
+  article_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface HubSlotTranslation {
+  id: string;
+  slot_id: string;
+  language_code: SupportedLanguage;
+  title: string;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// ─── Discovery Engine ────────────────────────────────────────────────
+
+export type DiscoveryAdapterType = "static" | "wikipedia" | "docs" | "llm" | "manual";
+export type DiscoverySourceStatus = "active" | "paused" | "disabled";
+export type DiscoveryRunStatus = "running" | "completed" | "failed";
+export type DiscoveryCandidateStatus = "pending" | "accepted" | "rejected" | "duplicate";
+
+export interface DiscoverySource {
+  id: string;
+  slug: string;
+  name: string;
+  adapter_type: DiscoveryAdapterType;
+  config: Record<string, unknown>;
+  status: DiscoverySourceStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DiscoveryRun {
+  id: string;
+  source_id: string;
+  topic_id: string;
+  entity_type_id: string | null;
+  status: DiscoveryRunStatus;
+  slots_analyzed: number;
+  candidates_found: number;
+  candidates_accepted: number;
+  candidates_rejected: number;
+  candidates_duplicate: number;
+  error_message: string | null;
+  started_at: string;
+  completed_at: string | null;
+  metadata: Record<string, unknown> | null;
+}
+
+export interface DiscoveryCandidate {
+  id: string;
+  run_id: string;
+  hub_slot_id: string | null;
+  title: string;
+  description: string | null;
+  source_url: string | null;
+  relevance_score: number;
+  confidence_score: number;
+  status: DiscoveryCandidateStatus;
+  rejection_reason: string | null;
+  metadata: Record<string, unknown> | null;
+  created_at: string;
+}
+
+// ─── Knowledge Package Architecture v3.1 ──────────────────────────────────────
+
+// Domain Glossary
+
+export interface DomainGlossaryEntry {
+  id: string;
+  abbreviation: string;
+  canonical_form: string;
+  domain: string | null;
+  created_at: string;
+}
+
+// Knowledge Package
+
+export type KnowledgePackageStatus = "draft" | "ready" | "stale" | "archived";
+
+export interface KnowledgePackageRow {
+  id: string;
+  hub_slot_id: string | null;
+  topic_id: string | null;
+  slug: string;
+  version: number;
+  knowledge_hash: string;
+  source_count: number;
+  fact_count: number;
+  relationship_count: number;
+  discovery_run_ids: string[];
+  status: KnowledgePackageStatus;
+  last_updated_at: string;
+  last_verified_at: string | null;
+  created_at: string;
+}
+
+// Knowledge Citation
+
+export type SourceAuthority = "official" | "encyclopedic" | "community" | "academic" | "unknown";
+
+export interface KnowledgeCitationRow {
+  id: string;
+  package_id: string;
+  source_name: string;
+  source_url: string | null;
+  adapter_name: string;
+  extraction_method: string;
+  source_authority: SourceAuthority;
+  retrieved_at: string;
+  last_verified_at: string | null;
+  created_at: string;
+}
+
+// Knowledge Fact
+
+export type FactType =
+  | "definition"
+  | "property"
+  | "rule"
+  | "measurement"
+  | "historical"
+  | "causal"
+  | "procedural"
+  | "warning"
+  | "comparison"
+  | "opinion";
+
+export type FactConfidence = "verified" | "high" | "medium" | "low" | "disputed";
+export type FactScope = "universal" | "contextual" | "narrow";
+
+export interface KnowledgeFactRow {
+  id: string;
+  package_id: string;
+  statement: string;
+  fact_type: FactType;
+  confidence: FactConfidence;
+  domain: string | null;
+  scope: FactScope;
+  tags: string[];
+  created_at: string;
+}
+
+// Knowledge Evidence
+
+export interface KnowledgeEvidenceRow {
+  id: string;
+  fact_id: string;
+  citation_id: string;
+  excerpt: string | null;
+  retrieved_at: string;
+  last_verified_at: string | null;
+  created_at: string;
+}
+
+// Knowledge Provenance
+
+export interface KnowledgeProvenanceRow {
+  id: string;
+  fact_id: string;
+  discovery_run_id: string | null;
+  discovery_candidate_id: string | null;
+  adapter_name: string;
+  source_slug: string;
+  extracted_at: string;
+  created_at: string;
+}
+
+// Knowledge Relationship
+
+export type KnowledgeRelationshipType =
+  | "requires"
+  | "depends_on"
+  | "contradicts"
+  | "extends"
+  | "replaces"
+  | "related_to"
+  | "part_of"
+  | "causes"
+  | "prevents"
+  | "precedes"
+  | "specializes"
+  | "generalizes";
+
+export type RelationshipLevel = "fact" | "package" | "slot" | "topic";
+export type RelationshipStrength = "strong" | "moderate" | "weak";
+
+export interface KnowledgeRelationshipRow {
+  id: string;
+  source_id: string;
+  source_level: RelationshipLevel;
+  target_id: string;
+  target_level: RelationshipLevel;
+  relationship_type: KnowledgeRelationshipType;
+  strength: RelationshipStrength;
+  explanation: string | null;
+  bidirectional: boolean;
+  created_at: string;
+}

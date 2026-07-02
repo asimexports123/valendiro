@@ -24,11 +24,16 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
+  // Block /preview routes in production
+  if (pathname.startsWith("/preview") && process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Not available" }, { status: 404 });
+  }
+
   // Validate language segment for public routes
   const segments = pathname.split("/").filter(Boolean);
   const firstSegment = segments[0];
   const isLang = firstSegment && isValidLanguage(firstSegment);
-  if (!isLang && !pathname.startsWith("/admin") && !pathname.startsWith("/api") && !pathname.startsWith("/auth")) {
+  if (!isLang && !pathname.startsWith("/admin") && !pathname.startsWith("/api") && !pathname.startsWith("/auth") && !pathname.startsWith("/preview")) {
     const url = request.nextUrl.clone();
     url.pathname = `/${DEFAULT_LANGUAGE}${pathname}`;
     return NextResponse.redirect(url);

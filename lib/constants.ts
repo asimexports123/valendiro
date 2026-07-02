@@ -14,9 +14,11 @@ export type AppRole = (typeof APP_ROLES)[keyof typeof APP_ROLES];
 
 // Owner-facing nav — what the platform owner sees by default
 export const ADMIN_NAV_ITEMS = [
-  { label: "🏠  Dashboard",     href: "/admin/dashboard" },
-  { label: "�  Articles",      href: "/admin/articles" },
-  { label: "⚙️  Settings",      href: "/admin/settings" },
+  { label: "🏠  Dashboard",      href: "/admin/dashboard" },
+  { label: "📝  Articles",       href: "/admin/articles" },
+  { label: "🧬  Entity Types",   href: "/admin/entity-types" },
+  { label: "🧩  Knowledge Hubs", href: "/admin/hubs" },
+  { label: "⚙️  Settings",       href: "/admin/settings" },
 ];
 
 // Developer-mode nav — hidden by default, shown when ?dev=1 is in URL

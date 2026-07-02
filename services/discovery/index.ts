@@ -1,0 +1,10 @@
+export { StaticMockAdapter } from "./adapters";
+export type { DiscoveryAdapter, SlotInfo, RawCandidate, SourceAttribution } from "./adapters";
+export { WikipediaAdapter } from "./adapters/wikipediaAdapter";
+export { DocsAdapter } from "./adapters/docsAdapter";
+export { scoreCandidate, scoreCandidates } from "./scoringEngine";
+export type { ScoringConfig, ScoredCandidate, ScoreExplanation, ScoreComponent } from "./scoringEngine";
+export { deduplicateCandidates } from "./deduplicationEngine";
+export type { DeduplicationResult } from "./deduplicationEngine";
+export { runDiscovery } from "./discoveryOrchestrator";
+export type { DiscoveryResult } from "./discoveryOrchestrator";

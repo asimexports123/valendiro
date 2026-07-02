@@ -1,0 +1,370 @@
+/**
+ * Rendering Layer — Type Definitions
+ *
+ * Document Tree block model, render configuration, diagnostics, and quality scoring.
+ * Implements the frozen Rendering Architecture v1.0.
+ */
+
+// ─── Document Tree Nodes ─────────────────────────────────────────────────────
+
+export type DocumentNode =
+  | HeadingNode
+  | ParagraphNode
+  | ListNode
+  | ListItemNode
+  | CodeBlockNode
+  | BlockquoteNode
+  | TableNode
+  | CitationRefNode
+  | CitationBlockNode
+  | InternalLinkNode
+  | DividerNode
+  | MetadataNode
+  | MissingKnowledgeNode
+  | ImagePlaceholderNode
+  | CommercialPlaceholderNode
+  | CalloutNode
+  | TableOfContentsNode
+  | SummaryNode;
+
+export interface HeadingNode {
+  type: "heading";
+  level: 1 | 2 | 3 | 4;
+  text: string;
+  anchor: string;
+}
+
+export interface ParagraphNode {
+  type: "paragraph";
+  children: InlineNode[];
+}
+
+export interface ListNode {
+  type: "list";
+  ordered: boolean;
+  items: ListItemNode[];
+}
+
+export interface ListItemNode {
+  type: "list-item";
+  children: InlineNode[];
+}
+
+export interface CodeBlockNode {
+  type: "code-block";
+  language: string;
+  code: string;
+}
+
+export interface BlockquoteNode {
+  type: "blockquote";
+  children: DocumentNode[];
+}
+
+export interface TableNode {
+  type: "table";
+  headers: string[];
+  rows: string[][];
+}
+
+export interface CitationRefNode {
+  type: "citation-ref";
+  index: number;
+  citationId: string;
+}
+
+export interface CitationBlockNode {
+  type: "citation-block";
+  entries: CitationEntry[];
+}
+
+export interface InternalLinkNode {
+  type: "internal-link";
+  targetSlug: string;
+  text: string;
+  relationship: string;
+  strength: string;
+}
+
+export interface DividerNode {
+  type: "divider";
+}
+
+export interface MetadataNode {
+  type: "metadata";
+  key: string;
+  value: string;
+}
+
+export interface MissingKnowledgeNode {
+  type: "missing-knowledge";
+  expectedFactType: string;
+  sectionName: string;
+  severity: "critical" | "recommended" | "optional";
+}
+
+export interface ImagePlaceholderNode {
+  type: "image-placeholder";
+  altText: string;
+  context: string;
+  suggestedType: "diagram" | "screenshot" | "chart" | "illustration" | "photo";
+  width: "full" | "half" | "inline";
+}
+
+export interface CommercialPlaceholderNode {
+  type: "commercial-placeholder";
+  placement: "top" | "mid" | "bottom" | "sidebar";
+  context: string;
+  category: string;
+  reserved: true;
+}
+
+export interface CalloutNode {
+  type: "callout";
+  variant: "info" | "warning" | "tip" | "important" | "example";
+  title: string | null;
+  children: DocumentNode[];
+}
+
+export interface TableOfContentsNode {
+  type: "table-of-contents";
+  entries: { text: string; anchor: string; level: number }[];
+}
+
+export interface SummaryNode {
+  type: "summary";
+  keyPoints: string[];
+  closingSentence: string;
+}
+
+export interface CitationEntry {
+  index: number;
+  sourceName: string;
+  sourceUrl: string | null;
+  authority: string;
+  retrievedAt: string;
+}
+
+export type InlineNode =
+  | string
+  | CitationRefNode
+  | InternalLinkNode
+  | BoldNode
+  | ItalicNode
+  | CodeNode;
+
+export interface BoldNode {
+  type: "bold";
+  text: string;
+}
+
+export interface ItalicNode {
+  type: "italic";
+  text: string;
+}
+
+export interface CodeNode {
+  type: "code";
+  text: string;
+}
+
+// ─── Render Configuration ────────────────────────────────────────────────────
+
+export type OutputFormat = "html" | "markdown" | "json";
+
+export interface RendererConfig {
+  rendererId: string;         // "long-article-v1", "faq-v1"
+  rendererVersion: string;    // "1.0.0"
+  templateVersion: string;    // "1.0.0"
+  format: OutputFormat;
+  style: string[];            // ["intermediate"], ["expert", "concise"]
+  slug: string;
+}
+
+// ─── Render Rules Engine ─────────────────────────────────────────────────────
+
+export interface BlockPriority {
+  sectionType: string;
+  priority: number;
+  required: boolean;
+  minFacts: number;
+  maxFacts: number | null;
+}
+
+export interface MissingKnowledgeFlag {
+  factType: string;
+  sectionName: string;
+  severity: "critical" | "recommended" | "optional";
+  suggestion: string;
+}
+
+export interface RenderingPolicy {
+  id: string;
+  name: string;
+  categoryMatch: string[];
+  requiredFactTypes: string[];
+  preferredFormat: string;
+  preferredStyle: string[];
+  minFactCount: number;
+  minCitationCount: number;
+  sectionOverrides: BlockPriority[];
+  commercialPlaceholders: boolean;
+}
+
+export interface RenderDecision {
+  eligible: boolean;
+  reason: string | null;
+  policy: RenderingPolicy;
+  blockOrder: BlockPriority[];
+  missingKnowledge: MissingKnowledgeFlag[];
+  warnings: string[];
+}
+
+// ─── Quality Score ───────────────────────────────────────────────────────────
+
+export interface RenderQualityScore {
+  overall: number;
+  factCoverage: number;
+  citationCoverage: number;
+  sectionCompleteness: number;
+  readabilityEstimate: number;
+  missingKnowledgeCount: number;
+  missingKnowledgeSeverity: Record<string, number>;
+  wordCount: number;
+  sectionCount: number;
+  internalLinkCount: number;
+  citationCount: number;
+  readingFlow: ReadingFlowMetrics;
+}
+
+export interface ReadingFlowMetrics {
+  repeatedOpenings: number;
+  paragraphLengthBalance: number;
+  headingDensity: number;
+  bulletListRatio: number;
+  transitionQuality: number;
+  sentenceVariety: number;
+  overallFlowScore: number;
+}
+
+// ─── Render Diagnostics ──────────────────────────────────────────────────────
+
+export interface RenderDiagnostics {
+  rendererId: string;
+  rendererVersion: string;
+  templateVersion: string;
+  packageSlug: string;
+  knowledgeHash: string;
+  cacheKey: string;
+
+  // Timing
+  renderDurationMs: number;
+  rulesEvaluationMs: number;
+  citationRenderMs: number;
+  serializationMs: number;
+
+  // Coverage
+  factsTotal: number;
+  factsUsed: number;
+  factsSkipped: string[];
+  citationsTotal: number;
+  citationsReferenced: number;
+
+  // Quality
+  qualityScore: RenderQualityScore;
+  missingKnowledge: MissingKnowledgeFlag[];
+
+  // Decisions
+  policyApplied: string;
+  blockOrder: BlockPriority[];
+  templateSelectionsUsed: number;
+  variantSeed: string;
+
+  // Warnings
+  warnings: string[];
+}
+
+// ─── Rendered Output ─────────────────────────────────────────────────────────
+
+export interface RenderedOutputRow {
+  id: string;
+  package_id: string;
+  knowledge_hash: string;
+  renderer_id: string;
+  renderer_version: string;
+  template_version: string;
+  output_format: OutputFormat;
+  style: string[];
+  cache_key: string;
+  content: string;
+  document_tree: object;
+  word_count: number;
+  section_count: number;
+  citation_count: number;
+  quality_score: RenderQualityScore;
+  diagnostics: RenderDiagnostics;
+  render_duration_ms: number;
+  status: "draft" | "published" | "stale" | "failed";
+  created_at: string;
+  updated_at: string;
+}
+
+// ─── Plugin Interface ────────────────────────────────────────────────────────
+
+export interface RendererPlugin {
+  id: string;
+  name: string;
+  version: string;
+  sectionTypes: string[];
+  render(facts: PluginFact[], config: PluginConfig): DocumentNode[];
+}
+
+export interface PluginFact {
+  id: string;
+  statement: string;
+  factType: string;
+  confidence: string;
+  scope: string;
+  tags: string[];
+  domain: string | null;
+}
+
+export interface PluginConfig {
+  style: string[];
+  maxFacts: number | null;
+  slug: string;
+  sectionIndex: number;
+}
+
+// ─── Renderer Strategy ───────────────────────────────────────────────────────
+
+export interface RenderStrategy {
+  name: string;
+  version: string;
+  render(
+    facts: PluginFact[],
+    citations: CitationInput[],
+    relationships: RelationshipInput[],
+    config: RendererConfig,
+    decision: RenderDecision
+  ): DocumentNode[];
+}
+
+export interface CitationInput {
+  id: string;
+  sourceName: string;
+  sourceUrl: string | null;
+  adapterName: string;
+  sourceAuthority: string;
+  retrievedAt: string;
+}
+
+export interface RelationshipInput {
+  id: string;
+  sourceId: string;
+  targetId: string;
+  relationshipType: string;
+  strength: string;
+  explanation: string | null;
+  bidirectional: boolean;
+}

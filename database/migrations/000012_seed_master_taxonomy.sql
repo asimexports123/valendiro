@@ -1,5 +1,5 @@
 -- Migration: Seed Master Taxonomy
--- 7 Categories + 85 Subcategories
+-- 7 Categories + Official Master Taxonomy (82 Subcategories)
 -- Architecture: Category → Subcategory → Topic → Article
 
 -- ═══════════════════════════════════════════════════════════════════
@@ -34,7 +34,7 @@ INSERT INTO category_translations (category_id, language_code, name, description
   ('c0000001-0000-0000-0000-000000000007', 'en', 'Travel',              'Destinations, planning, budget travel, luxury travel, visa, safety and tips.', 'Travel Articles & Guides', 'Plan your travels with guides on destinations, budget tips, visa info, safety and cultural experiences.');
 
 -- ═══════════════════════════════════════════════════════════════════
--- 2. Subcategories — Technology (14)
+-- 2. Subcategories — Technology (13)
 -- ═══════════════════════════════════════════════════════════════════
 
 INSERT INTO subcategories (id, slug, category_id, sort_order) VALUES
