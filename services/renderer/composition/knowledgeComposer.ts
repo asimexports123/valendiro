@@ -53,7 +53,7 @@ export interface QualityReport {
 }
 
 export interface QualityIssue {
-  type: "missing_explanation" | "weak_transition" | "no_example" | "repetitive" | "unclear";
+  type: "missing_explanation" | "weak_transition" | "no_example" | "repetitive" | "unclear" | "complexity_jump" | "missing_section";
   severity: "critical" | "warning" | "info";
   message: string;
   location: string;
