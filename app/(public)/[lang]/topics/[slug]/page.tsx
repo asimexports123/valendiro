@@ -177,7 +177,12 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
             )}
 
             {/* Article content */}
-            {topic.content && <MarkdownContent content={topic.content} />}
+            {topic.content && (
+              <div 
+                dangerouslySetInnerHTML={{ __html: topic.content }}
+                className="prose max-w-none"
+              />
+            )}
 
             {/* Articles in this topic — numbered list (spec: Topic Page = Articles List) */}
             {topicArticles.length > 0 && (
