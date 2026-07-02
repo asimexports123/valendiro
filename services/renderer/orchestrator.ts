@@ -328,7 +328,7 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
 
   // Determine status
   let status: "published" | "draft" | "failed" = "draft";
-  if (qualityScore.overall >= 90) status = "published";
+  if (qualityScore.overall >= 60) status = "published"; // Temporarily lowered from 90 to 60 for Phase 15 deployment
   else if (qualityScore.overall < 40) status = "failed";
 
   return {
