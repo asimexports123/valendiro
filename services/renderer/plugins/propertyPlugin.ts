@@ -33,6 +33,8 @@ const WHY_TEMPLATES = [
   "Grasping this early makes the rest of the topic much easier to follow.",
   "This is one of those properties that separates beginners from practitioners.",
   "It is this quality that gives the concept much of its practical value.",
+  "These characteristics work together to provide a complete understanding.",
+  "This feature is essential for mastering the topic effectively.",
 ];
 
 // Paragraph bridge phrases that connect two facts in one paragraph
