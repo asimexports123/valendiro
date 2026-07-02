@@ -1,0 +1,117 @@
+{
+  "slug": "agile-development",
+  "facts": [
+    {
+      "fact_type": "property",
+      "statement": "Agile Development Overview.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Agile software development is an iterative approach to software development.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "historical",
+      "statement": "The Agile Manifesto was published in 2001 by seventeen software developers.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Agile values individuals and interactions over processes and tools.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Agile values working software over comprehensive documentation.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Agile values customer collaboration over contract negotiation.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Agile values responding to change over following a plan.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Scrum is the most widely adopted Agile framework.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Kanban is a visual workflow management method originating from Toyota manufacturing.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Agile Practices Guide.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Scrum sprint is a fixed time-box of one to four weeks for completing a set of work.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Scrum sprint planning determines what work will be accomplished in the sprint.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Daily standup is a short daily meeting where team members share progress and blockers.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Sprint review demonstrates completed work to stakeholders at the end of each sprint.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Sprint retrospective reflects on the process to improve for the next sprint.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "User stories describe features from the end-user perspective using the format: as a user",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "User stories describe features I want to",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "User stories describe features so that",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Story points estimate the relative effort of user stories.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Velocity measures how many story points a team completes per sprint.",
+      "confidence": "low"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Continuous delivery deploys every code change that passes automated tests to production.",
+      "confidence": "low"
+    }
+  ],
+  "citations": [
+    {
+      "source_name": "Agile Development Overview",
+      "source_url": "https://en.wikipedia.org/wiki/Agile_software_development",
+      "source_authority": "encyclopedic"
+    }
+  ]
+}

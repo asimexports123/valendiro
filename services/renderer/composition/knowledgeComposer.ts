@@ -152,68 +152,79 @@ export class KnowledgeComposer {
       });
     }
 
-    // 4. Real Example (if properties exist)
-    if (byType.property?.length > 0) {
+    // 4. When to Use (if procedural facts exist)
+    if (byType.procedural?.length > 0) {
       sections.push({
-        type: "example",
-        heading: "Real-World Example",
+        type: "when-to-use",
+        heading: "When to Use",
         content: [],
         order: 4,
         required: false,
       });
     }
 
-    // 5. Applications (if procedural facts exist)
-    if (byType.procedural?.length > 0) {
+    // 5. Real Example (if properties exist)
+    if (byType.property?.length > 0) {
       sections.push({
-        type: "applications",
-        heading: "Practical Applications",
+        type: "example",
+        heading: "Real-World Example",
         content: [],
         order: 5,
         required: false,
       });
     }
 
-    // 6. Benefits (if property facts exist)
-    if (byType.property?.length > 0) {
+    // 6. Applications (if procedural facts exist)
+    if (byType.procedural?.length > 0) {
       sections.push({
-        type: "benefits",
-        heading: "Benefits and Advantages",
+        type: "applications",
+        heading: "Practical Applications",
         content: [],
         order: 6,
         required: false,
       });
     }
 
-    // 7. Limitations (if comparison/warning facts exist)
-    if (byType.comparison?.length > 0 || byType.warning?.length > 0) {
+    // 7. Benefits (if property facts exist)
+    if (byType.property?.length > 0) {
       sections.push({
-        type: "limitations",
-        heading: "Limitations and Considerations",
+        type: "benefits",
+        heading: "Benefits and Advantages",
         content: [],
         order: 7,
         required: false,
       });
     }
 
-    // 8. Common Mistakes (if warning/rule facts exist)
-    if (byType.warning?.length > 0 || byType.rule?.length > 0) {
+    // 8. Limitations (if comparison/warning facts exist)
+    if (byType.comparison?.length > 0 || byType.warning?.length > 0) {
       sections.push({
-        type: "mistakes",
-        heading: "Common Mistakes to Avoid",
+        type: "limitations",
+        heading: "Limitations and Considerations",
         content: [],
         order: 8,
         required: false,
       });
     }
 
-    // 9. Best Practices (if rule facts exist)
+    // 9. Common Mistakes (if warning/rule facts exist)
+    if (byType.warning?.length > 0 || byType.rule?.length > 0) {
+      sections.push({
+        type: "mistakes",
+        heading: "Common Mistakes to Avoid",
+        content: [],
+        order: 9,
+        required: false,
+      });
+    }
+
+    // 10. Best Practices (if rule facts exist)
     if (byType.rule?.length > 0) {
       sections.push({
         type: "best-practices",
         heading: "Best Practices",
         content: [],
-        order: 9,
+        order: 10,
         required: false,
       });
     }
@@ -228,15 +239,6 @@ export class KnowledgeComposer {
         required: false,
       });
     }
-
-    // 11. Related Concepts (always add if space permits)
-    sections.push({
-      type: "related",
-      heading: "Related Concepts",
-      content: [],
-      order: 11,
-      required: false,
-    });
 
     // 12. Summary (always required)
     sections.push({
@@ -442,16 +444,14 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    
-    // Lead with the strongest definition, but add explanatory context
-    const leadFact = facts[0];
     const subject = context.subject;
+    const leadFact = facts[0];
     
-    // Add "why this matters" context with varied phrasing
+    // Direct definition without repetitive openers
     const openers = [
-      `Understanding ${subject} begins with this core concept. ${leadFact.statement}`,
-      `At its core, ${subject} is defined as follows: ${leadFact.statement}`,
-      `The foundation of ${subject} rests on this principle: ${leadFact.statement}`,
+      `${leadFact.statement}`,
+      `${subject} is ${leadFact.statement.toLowerCase()}`,
+      `At its core, ${subject} means: ${leadFact.statement}`,
     ];
     nodes.push({
       type: "paragraph",
@@ -461,18 +461,19 @@ export class KnowledgeComposer {
     // Add remaining definitions with varied connectors
     const rest = facts.slice(1);
     const connectors = [
-      ["Building on this foundation,", "This aspect clarifies how the concept works in practice."],
-      ["Additionally,", "This point helps explain why ${subject} functions this way."],
-      ["It's also worth noting that", "This characteristic is essential for a complete understanding."],
-      ["Furthermore,", "This element contributes to the overall effectiveness of ${subject}."],
+      ["Additionally", ""],
+      ["Building on this", ""],
+      ["Furthermore", ""],
+      ["In practice", ""],
+      ["This means", ""],
     ];
     
     for (let i = 0; i < rest.length; i++) {
       const fact = rest[i];
-      const [connector, explanation] = connectors[i % connectors.length];
+      const [connector] = connectors[i % connectors.length];
       nodes.push({
         type: "paragraph",
-        children: [`${connector} ${fact.statement.charAt(0).toLowerCase() + fact.statement.slice(1)}. ${explanation}`],
+        children: [`${connector}, ${fact.statement.charAt(0).toLowerCase() + fact.statement.slice(1)}.`],
       });
     }
 
@@ -637,9 +638,9 @@ export class KnowledgeComposer {
     const subject = context.subject;
     
     const intros = [
-      `Let's consolidate what we've learned about ${subject}. These key takeaways will help you apply this knowledge effectively and serve as a reference for future work.`,
-      `To summarize the key points about ${subject}, we've covered the essential concepts that form the foundation of this topic. Reviewing these will reinforce your understanding.`,
-      `Here are the main takeaways from our discussion of ${subject}. These points capture the most important aspects you should remember and apply in your work.`,
+      `To summarize ${subject}:`,
+      `Key points about ${subject}:`,
+      `Here's what to remember about ${subject}:`,
     ];
     nodes.push({
       type: "paragraph",
@@ -649,9 +650,9 @@ export class KnowledgeComposer {
     // Take top 5 facts for summary
     const topFacts = facts.slice(0, 5);
     const closings = [
-      `With these fundamentals in place, you're now equipped to apply ${subject} in your work. The concepts we've covered provide a solid foundation for further exploration and practical application.`,
-      `These key points will help you use ${subject} effectively. Keep these principles in mind as you work with this topic, and you'll achieve better results.`,
-      `Armed with this knowledge, you can now work with ${subject} confidently. The understanding you've gained will serve you well as you apply these concepts in real-world situations.`,
+      `With these fundamentals, you can apply ${subject} effectively.`,
+      `These points will help you work with ${subject}.`,
+      `You now have the basics to continue exploring ${subject}.`,
     ];
     nodes.push({
       type: "summary",

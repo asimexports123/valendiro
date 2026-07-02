@@ -172,6 +172,17 @@ export interface CodeNode {
 
 export type OutputFormat = "html" | "markdown" | "json";
 
+/**
+ * The primary job of the page. Every topic is assigned one dominant intent
+ * which drives section order, heading language, and prose connectors.
+ *
+ * inform   — reference material, definitions, specifications
+ * educate  — tutorials, explanations, learning guides
+ * guide    — step-by-step, planning, decision support
+ * decide   — comparisons, tradeoffs, "which should I choose"
+ */
+export type PageIntent = "inform" | "educate" | "guide" | "decide";
+
 export interface RendererConfig {
   rendererId: string;         // "long-article-v1", "faq-v1"
   rendererVersion: string;    // "1.0.0"
@@ -179,6 +190,8 @@ export interface RendererConfig {
   format: OutputFormat;
   style: string[];            // ["intermediate"], ["expert", "concise"]
   slug: string;
+  intent: PageIntent;         // primary page job — drives composition
+  category: string;           // category slug e.g. "technology", "travel"
 }
 
 // ─── Render Rules Engine ─────────────────────────────────────────────────────

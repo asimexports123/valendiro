@@ -79,6 +79,8 @@ async function main() {
     format: "html",
     style: ["intermediate"],
     slug: pkg.slug,
+    intent: "educate",
+    category: "technology",
   };
 
   // Render

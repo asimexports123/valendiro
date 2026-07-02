@@ -176,8 +176,12 @@ export default async function CategoryPage({
   if (!pageData) notFound();
 
   const { category, subcategories, featuredTopics, latestArticles, faqs, relatedCategories, totalArticles, lastUpdated } = pageData;
-  const accent = ACCENTS[slug] ?? DEFAULT_ACCENT;
+
+  // Hide category pages with no published content — never show an empty shell
   const hasContent = subcategories.length > 0 || featuredTopics.length > 0 || latestArticles.length > 0;
+  if (!hasContent) notFound();
+
+  const accent = ACCENTS[slug] ?? DEFAULT_ACCENT;
 
   /* Learning path — group first 6 subcategories into a flow */
   const pathSubcategories = subcategories.slice(0, 6);

@@ -1,0 +1,137 @@
+{
+  "slug": "pandas-data-analysis",
+  "facts": [
+    {
+      "fact_type": "property",
+      "statement": "Pandas Library Overview.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Pandas is an open-source data analysis and manipulation library for Python.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "historical",
+      "statement": "Pandas was created by Wes McKinney and first released",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "historical",
+      "statement": "Pandas was created in 2008",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas provides two primary data structures: Series for one-dimensional data",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas provides DataFrame for two-dimensional data",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Pandas is built on top of NumPy.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Pandas is widely used for data cleaning, transformation, and analysis.",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas supports reading",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas supports writing to CSV",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas supports Excel",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas supports JSON",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas supports Structured Query Language",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas supports many other formats",
+      "confidence": "medium"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas Documentation.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "definition",
+      "statement": "Pandas DataFrame is a two-dimensional labeled data structure with columns of potentially different types.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas read_csv reads a CSV file into a DataFrame.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas groupby groups data by one or more columns for aggregate operations.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas merge combines DataFrames on common columns similar to Structured Query Language joins.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas dropna removes rows with missing values.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas fillna replaces missing values with specified values.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas apply applies a function along an axis of the DataFrame.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "procedural",
+      "statement": "To install pandas, run pip install pandas.",
+      "confidence": "verified"
+    },
+    {
+      "fact_type": "property",
+      "statement": "Pandas loc selects rows and columns by label, while iloc selects by integer position.",
+      "confidence": "verified"
+    }
+  ],
+  "citations": [
+    {
+      "source_name": "Pandas Library Overview",
+      "source_url": "https://en.wikipedia.org/wiki/Pandas_(software)",
+      "source_authority": "encyclopedic"
+    },
+    {
+      "source_name": "Pandas Documentation",
+      "source_url": "https://pandas.pydata.org/docs/",
+      "source_authority": "official"
+    }
+  ]
+}

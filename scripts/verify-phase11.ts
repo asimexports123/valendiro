@@ -103,6 +103,8 @@ async function main() {
     format: "html",
     style: ["intermediate"],
     slug: pkg.slug,
+    intent: "educate",
+    category: "technology",
   };
 
   const tree = longArticleStrategy.render(facts, citations, relationships, config, decision);

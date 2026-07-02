@@ -203,8 +203,8 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
   }
 
   // ─── 3. Determine Renderer Config ───────────────────────────────────────
-  const rendererId = request.rendererId ?? "long-article-v2";
-  const strategy = STRATEGIES[rendererId] ?? longArticleV2Strategy;
+  const rendererId = request.rendererId ?? "long-article";
+  const strategy = STRATEGIES[rendererId] ?? longArticleStrategy;
   const format: OutputFormat = request.format ?? "html";
   const style = request.style ?? ["intermediate"];
 
@@ -328,7 +328,7 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
 
   // Determine status
   let status: "published" | "draft" | "failed" = "draft";
-  if (qualityScore.overall >= 60) status = "published";
+  if (qualityScore.overall >= 90) status = "published";
   else if (qualityScore.overall < 40) status = "failed";
 
   return {

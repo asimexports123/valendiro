@@ -86,6 +86,9 @@ export default async function SubcategoryPage({
     subcategory.category_id ? getCategoryById(subcategory.category_id) : null,
   ]);
 
+  // Hide subcategories with no published topics — never show a "coming soon" dead end
+  if (topics.length === 0) notFound();
+
   const siblings = relatedSubcategories.filter((c) => c.slug !== slug).slice(0, 4);
   const diff = DIFFICULTY_CONFIG[subcategory.difficulty];
   const catMeta = CATEGORY_META[parentCategory?.slug ?? ""] ?? { emoji: "📖", color: "text-primary", bg: "bg-muted" };

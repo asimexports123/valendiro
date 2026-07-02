@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getTopicBySlug, getRelatedTopics, getArticlesByTopic, getQuestionsByTopic } from "@/services/public/publicData";
+import { getSemanticRecommendations, getLearningJourney } from "@/services/knowledge/knowledgeGraph";
 import { MarkdownContent } from "@/components/public/MarkdownContent";
 import { FaqSection } from "@/components/public/FaqSection";
 import { TableOfContents } from "@/components/public/TableOfContents";
@@ -72,8 +73,9 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const topic = await getTopicBySlug(slug);
   if (!topic) notFound();
 
-  const [relatedTopics, topicArticles, faqs, subcategory] = await Promise.all([
-    getRelatedTopics(topic.id, topic.category_id, 6),
+  const [semanticRecommendations, learningJourney, topicArticles, faqs, subcategory] = await Promise.all([
+    getSemanticRecommendations(topic.id, topic.category_id, 9),
+    getLearningJourney(topic.id, 5),
     getArticlesByTopic(topic.id, 12),
     getQuestionsByTopic(topic.id, 5),
     topic.subcategory_id ? getCollectionBySlugFromId(topic.subcategory_id) : null,
@@ -242,16 +244,71 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
                 </div>
               </div>
             )}
+{/* Learning Journey */}
+            {learningJourney.continueWith.length > 0 && (
+              <div className="mt-14 rounded-2xl border border-border/60 bg-gradient-to-br from-primary/5 to-card p-6 shadow-sm">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <span className="text-xl">🎯</span>
+                  <h2 className="text-base font-semibold text-foreground">Continue Learning</h2>
+                </div>
+                <div className="mb-4 text-sm text-muted-foreground">
+                  You have completed <span className="font-medium text-foreground">{topic.title}</span>. Continue with:
+                </div>
+                <ol className="space-y-2">
+                  {learningJourney.continueWith.map((slug, i) => (
+                    <li key={slug} className="flex items-start gap-3 text-sm">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-bold mt-0.5">{i + 1}</span>
+                      <Link href={`/${lang}/topics/${slug}`} className="text-foreground hover:text-primary transition-colors line-clamp-1">
+                        {slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
 
-            {/* Related topics */}
-            {relatedTopics.length > 0 && (
+            {/* Semantic Recommendations - Prerequisites */}
+            {semanticRecommendations.prerequisites.length > 0 && (
               <div className="mt-14">
-                <h2 className="text-xl font-semibold text-foreground mb-5">Related Topics</h2>
+                <h3 className="text-lg font-semibold text-foreground mb-4">Prerequisites</h3>
                 <div className="flex flex-wrap gap-2">
-                  {relatedTopics.map((t) => (
-                    <Link key={t.id} href={`/${lang}/topics/${t.slug}`}
-                      className="rounded-xl border border-border/60 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors">
-                      {t.title}
+                  {semanticRecommendations.prerequisites.map((rec) => (
+                    <Link key={rec.topicId} href={`/${lang}/topics/${rec.topicSlug}`}
+                      className="group rounded-xl border border-border/60 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors flex items-center gap-2">
+                      {rec.topicTitle}
+                      <span className="text-xs text-muted-foreground group-hover:text-primary/70 transition-colors">({rec.relationshipReason})</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Semantic Recommendations - Next Topics */}
+            {semanticRecommendations.nextTopics.length > 0 && (
+              <div className="mt-14">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Next Topics</h3>
+                <div className="flex flex-wrap gap-2">
+                  {semanticRecommendations.nextTopics.map((rec) => (
+                    <Link key={rec.topicId} href={`/${lang}/topics/${rec.topicSlug}`}
+                      className="group rounded-xl border border-border/60 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors flex items-center gap-2">
+                      {rec.topicTitle}
+                      <span className="text-xs text-muted-foreground group-hover:text-primary/70 transition-colors">({rec.relationshipReason})</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Semantic Recommendations - Applications */}
+            {semanticRecommendations.applications.length > 0 && (
+              <div className="mt-14">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Applications</h3>
+                <div className="flex flex-wrap gap-2">
+                  {semanticRecommendations.applications.map((rec) => (
+                    <Link key={rec.topicId} href={`/${lang}/topics/${rec.topicSlug}`}
+                      className="group rounded-xl border border-border/60 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors flex items-center gap-2">
+                      {rec.topicTitle}
+                      <span className="text-xs text-muted-foreground group-hover:text-primary/70 transition-colors">({rec.relationshipReason})</span>
                     </Link>
                   ))}
                 </div>

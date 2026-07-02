@@ -368,17 +368,18 @@ export async function getFeaturedSubcategories(limit = 6): Promise<PublicSubcate
   const categoryIds = await getV1CategoryIds();
   if (categoryIds.length === 0) return [];
 
+  // Over-fetch so the topic_count filter below can still return `limit` results
   const { data } = await supabase
     .from("subcategories")
     .select("id, slug, category_id, subcategory_translations(name, description), categories(slug)")
     .in("category_id", categoryIds)
     .eq("subcategory_translations.language_code", "en")
     .order("sort_order", { ascending: true })
-    .limit(limit);
+    .limit(limit * 6);
 
   const subcategories = data || [];
 
-  return Promise.all(subcategories.map(async (sub: any) => {
+  const all = await Promise.all(subcategories.map(async (sub: any) => {
     const { count: topicCount } = await supabase
       .from("topics")
       .select("id", { count: "exact", head: true })
@@ -417,6 +418,10 @@ export async function getFeaturedSubcategories(limit = 6): Promise<PublicSubcate
       estimated_hours: inferEstimatedHours(articleCount),
     };
   }));
+
+  // Only surface subcategories that have at least one published topic.
+  // A subcategory with no topics must never appear in navigation.
+  return all.filter((s) => s.topic_count > 0).slice(0, limit);
 }
 
 export async function getSubcategoriesByCategory(categoryId: string, limit = 12): Promise<PublicSubcategory[]> {
@@ -431,7 +436,7 @@ export async function getSubcategoriesByCategory(categoryId: string, limit = 12)
 
   if (!data || data.length === 0) return [];
 
-  return Promise.all(data.map(async (subcatRow: any) => {
+  const all = await Promise.all(data.map(async (subcatRow: any) => {
     const collId = subcatRow.id as string;
 
     // Real topic count
@@ -472,6 +477,9 @@ export async function getSubcategoriesByCategory(categoryId: string, limit = 12)
       estimated_hours: inferEstimatedHours(articleCount),
     };
   }));
+
+  // Only return subcategories that have at least one published topic
+  return all.filter((s) => s.topic_count > 0);
 }
 
 export async function getSubcategoryBySlug(slug: string): Promise<PublicSubcategory | null> {
@@ -690,7 +698,9 @@ export async function getCategoryBySlug(slug: string): Promise<PublicCategoryDet
 
 export async function getTopicsByCategory(categoryId: string, limit = 12): Promise<PublicTopic[]> {
   const supabase = createAdminClient();
-  const { data } = await supabase
+
+  // Primary: topics directly linked to category
+  const { data: direct } = await supabase
     .from("topics")
     .select("id, slug, topic_translations(title, subtitle)")
     .eq("category_id", categoryId)
@@ -699,7 +709,33 @@ export async function getTopicsByCategory(categoryId: string, limit = 12): Promi
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  return (data || []).map((topic: any) => ({
+  // Fallback: topics linked via subcategory (seeded topics have category_id=null)
+  const { data: subcatIds } = await supabase
+    .from("subcategories")
+    .select("id")
+    .eq("category_id", categoryId);
+
+  const ids = (subcatIds || []).map((s: any) => s.id);
+  const { data: indirect } = ids.length > 0
+    ? await supabase
+        .from("topics")
+        .select("id, slug, topic_translations(title, subtitle)")
+        .in("subcategory_id", ids)
+        .eq("status", "published")
+        .eq("topic_translations.language_code", "en")
+        .order("created_at", { ascending: false })
+        .limit(limit)
+    : { data: [] };
+
+  // Merge, deduplicate
+  const seen = new Set<string>();
+  const merged = [...(direct || []), ...(indirect || [])].filter((t: any) => {
+    if (seen.has(t.id)) return false;
+    seen.add(t.id);
+    return true;
+  }).slice(0, limit);
+
+  return merged.map((topic: any) => ({
     id: topic.id,
     slug: topic.slug,
     title: topic.topic_translations?.[0]?.title || "Untitled",
@@ -710,13 +746,24 @@ export async function getTopicsByCategory(categoryId: string, limit = 12): Promi
 
 export async function getArticlesByCategory(categoryId: string, limit = 12): Promise<PublicArticle[]> {
   const supabase = createAdminClient();
-  const { data: topics } = await supabase
-    .from("topics")
-    .select("id")
-    .eq("category_id", categoryId)
-    .eq("status", "published");
 
-  const topicIds = (topics || []).map((t: any) => t.id);
+  // Direct category_id link
+  const { data: directTopics } = await supabase
+    .from("topics").select("id").eq("category_id", categoryId).eq("status", "published");
+
+  // Via subcategory
+  const { data: subcatIds } = await supabase
+    .from("subcategories").select("id").eq("category_id", categoryId);
+  const subIds = (subcatIds || []).map((s: any) => s.id);
+  const { data: indirectTopics } = subIds.length > 0
+    ? await supabase.from("topics").select("id").in("subcategory_id", subIds).eq("status", "published")
+    : { data: [] };
+
+  const seen = new Set<string>();
+  const topicIds = [...(directTopics || []), ...(indirectTopics || [])]
+    .map((t: any) => t.id)
+    .filter((id) => { if (seen.has(id)) return false; seen.add(id); return true; });
+
   if (topicIds.length === 0) return [];
 
   const { data } = await supabase
@@ -1016,9 +1063,12 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
     ? subcategoriesWithCounts.reduce((s, c) => s + c.article_count, 0)
     : 0;
 
+  // Only show subcategories that have at least one published topic
+  const populated = subcategoriesWithCounts.filter((s) => s.topic_count > 0);
+
   return {
     category,
-    subcategories: subcategoriesWithCounts,
+    subcategories: populated,
     featuredTopics: topics,
     latestArticles: articles,
     faqs,
@@ -1054,19 +1104,34 @@ export async function getNavData(): Promise<NavCategory[]> {
     (cats as any[]).map(async (cat) => {
       const { data: subs } = await supabase
         .from("subcategories")
-        .select("slug, subcategory_translations(name)")
+        .select("id, slug, subcategory_translations(name)")
         .eq("category_id", cat.id)
         .eq("subcategory_translations.language_code", "en")
         .order("sort_order", { ascending: true })
-        .limit(10);
+        .limit(30);
+
+      // Filter to only subcategories that have at least one published topic
+      const subsWithTopics = await Promise.all(
+        (subs || []).map(async (s: any) => {
+          const { count } = await supabase
+            .from("topics")
+            .select("id", { count: "exact", head: true })
+            .eq("subcategory_id", s.id)
+            .eq("status", "published");
+          return count && count > 0 ? s : null;
+        })
+      );
 
       return {
         label: V1_DISPLAY_NAMES[cat.slug] ?? cat.category_translations?.[0]?.name ?? cat.slug,
         slug: cat.slug,
-        subcategories: (subs || []).map((s: any) => ({
-          name: normalizeSubcategoryName(s.subcategory_translations?.[0]?.name || s.slug),
-          slug: s.slug,
-        })),
+        subcategories: subsWithTopics
+          .filter(Boolean)
+          .slice(0, 10)
+          .map((s: any) => ({
+            name: normalizeSubcategoryName(s.subcategory_translations?.[0]?.name || s.slug),
+            slug: s.slug,
+          })),
       };
     })
   );

@@ -189,6 +189,60 @@ export class ExampleGenerator {
     fact: PluginFact,
     context: CompositionContext
   ): GeneratedExample | null {
+    const subject = context.subject.toLowerCase();
+    
+    // Domain-specific realistic examples
+    const realisticExamples: Record<string, string[]> = {
+      "machine learning": [
+        "Gmail automatically filters spam emails by learning patterns from millions of messages",
+        "Netflix recommends movies based on your viewing history and preferences",
+        "YouTube suggests videos you might like based on watch time and engagement",
+        "Google Photos organizes your images by recognizing faces and objects",
+        "Credit card companies detect fraud by analyzing transaction patterns",
+      ],
+      "css": [
+        "Amazon product pages use CSS grid for responsive product layouts",
+        "YouTube uses CSS flexbox for video player controls",
+        "News websites use CSS media queries for mobile-responsive layouts",
+        "Personal portfolios use CSS animations for smooth scrolling effects",
+      ],
+      "docker": [
+        "Companies deploy entire applications as Docker containers for consistency",
+        "Development teams use Docker Compose to run multi-service environments locally",
+        "CI/CD pipelines use Docker to build and test applications in isolated environments",
+      ],
+      "nutrition": [
+        "Athletes track macronutrients to optimize performance and recovery",
+        "Meal prep services balance protein, carbs, and fats for health goals",
+        "Food labels help consumers make informed dietary choices",
+      ],
+      "retirement": [
+        "401(k) plans offer employer matching to grow retirement savings",
+        "Compound interest allows investments to grow exponentially over time",
+        "Roth IRAs provide tax-free growth for retirement withdrawals",
+      ],
+    };
+
+    const domainExamples = Object.entries(realisticExamples).find(([key]) => 
+      subject.includes(key)
+    );
+
+    if (domainExamples) {
+      const examples = domainExamples[1];
+      const selectedExample = examples[Math.floor(Math.random() * examples.length)];
+      const templates = [
+        `For example, ${selectedExample}.`,
+        `Consider: ${selectedExample}.`,
+        `In practice, this looks like ${selectedExample}.`,
+      ];
+      return {
+        text: templates[Math.floor(Math.random() * templates.length)],
+        type: "real-world",
+        context: fact.statement,
+      };
+    }
+
+    // Fallback to generic real-world example
     const templates = [
       `For example, in everyday life, ${this.applyToRealWorld(fact.statement)}.`,
       `Consider a real scenario: ${this.applyToRealWorld(fact.statement)}.`,

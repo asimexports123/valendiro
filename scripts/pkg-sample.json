@@ -1,0 +1,18 @@
+{
+  "id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+  "hub_slot_id": null,
+  "topic_id": "55c9e8eb-9d8b-48e5-a037-1aa729789e02",
+  "slug": "python-programming-fundamentals",
+  "version": 1,
+  "knowledge_hash": "69a6c0d71c9722c1baa636e80764cfa4ba38d4a856ce51b26512eb1130308042",
+  "source_count": 3,
+  "fact_count": 29,
+  "relationship_count": 67,
+  "discovery_run_ids": [
+    "333dc3cd-7171-46f1-a366-1787d2a4384c"
+  ],
+  "status": "ready",
+  "last_updated_at": "2026-07-02T05:02:41.463108+00:00",
+  "last_verified_at": null,
+  "created_at": "2026-07-02T05:02:41.463108+00:00"
+}

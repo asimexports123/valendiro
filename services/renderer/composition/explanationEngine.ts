@@ -39,6 +39,7 @@ export class ExplanationEngine {
 
   /**
    * Explain a single fact by analyzing its content and adding context
+   * Teaching before defining: Problem → Why it matters → Solution → Definition → How it works
    */
   private explainFact(fact: PluginFact, context: CompositionContext): ExplainedFact {
     const explained: ExplainedFact = {
@@ -50,15 +51,20 @@ export class ExplanationEngine {
     // Analyze the fact to determine what explanations are needed
     const analysis = this.analyzeFact(fact);
     
-    // Generate explanations based on analysis
-    if (analysis.needsWhatExplanation) {
-      explained.explanation += this.generateWhatExplanation(fact, context);
-      explained.questionsAnswered.push("What?");
+    // Teach before defining: Start with why it matters, then what it is
+    if (analysis.needsImportanceExplanation) {
+      explained.explanation += this.generateImportanceExplanation(fact, context);
+      explained.questionsAnswered.push("Why it matters?");
     }
     
-    if (analysis.needsWhyExplanation) {
-      explained.explanation += " " + this.generateWhyExplanation(fact, context);
-      explained.questionsAnswered.push("Why?");
+    if (analysis.needsImplicationExplanation) {
+      explained.explanation += " " + this.generateImplicationExplanation(fact, context);
+      explained.questionsAnswered.push("What happens if ignored?");
+    }
+    
+    if (analysis.needsWhatExplanation) {
+      explained.explanation += " " + this.generateWhatExplanation(fact, context);
+      explained.questionsAnswered.push("What?");
     }
     
     if (analysis.needsHowExplanation) {
@@ -66,19 +72,14 @@ export class ExplanationEngine {
       explained.questionsAnswered.push("How?");
     }
     
+    if (analysis.needsWhyExplanation) {
+      explained.explanation += " " + this.generateWhyExplanation(fact, context);
+      explained.questionsAnswered.push("Why?");
+    }
+    
     if (analysis.needsWhenExplanation) {
       explained.explanation += " " + this.generateWhenExplanation(fact, context);
       explained.questionsAnswered.push("When?");
-    }
-    
-    if (analysis.needsImportanceExplanation) {
-      explained.explanation += " " + this.generateImportanceExplanation(fact, context);
-      explained.questionsAnswered.push("Why does it matter?");
-    }
-    
-    if (analysis.needsImplicationExplanation) {
-      explained.explanation += " " + this.generateImplicationExplanation(fact, context);
-      explained.questionsAnswered.push("What happens if ignored?");
     }
 
     return explained;
@@ -188,13 +189,14 @@ export class ExplanationEngine {
   }
 
   /**
-   * Generate importance explanation - why it matters
+   * Generate importance explanation - why it matters (teaching before defining)
    */
   private generateImportanceExplanation(fact: PluginFact, context: CompositionContext): string {
+    const subject = context.subject;
     const templates = [
-      `This is critical because ${this.extractImportance(fact.statement)}.`,
-      `Ignoring this can lead to problems because ${this.extractImportance(fact.statement)}.`,
-      `This is essential for success because ${this.extractImportance(fact.statement)}.`,
+      `Understanding ${subject} matters because it helps you solve real problems effectively.`,
+      `${subject} is important because it provides practical solutions to common challenges.`,
+      `Learning about ${subject} is valuable because it enables better decision-making.`,
     ];
     return templates[Math.floor(Math.random() * templates.length)];
   }

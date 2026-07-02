@@ -17,9 +17,12 @@ export function decorateWithLinks(
   tree: DocumentNode[],
   relationships: RelationshipInput[],
   facts: PluginFact[],
-  currentSlug: string
+  currentSlug: string,
+  format: "html" | "markdown" | "json" = "html"
 ): DocumentNode[] {
   if (relationships.length === 0) return tree;
+  // Suppress relationship dump from public markdown output
+  if (format === "markdown") return tree;
 
   // Build a fact ID → statement map
   const factMap = new Map<string, string>();
