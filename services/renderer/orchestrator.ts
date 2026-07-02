@@ -4,7 +4,14 @@
  * Coordinates the full rendering pipeline:
  * Rules → Cache Check → Render → Citations → Links → Score → Serialize → Persist
  *
- * This is the single entry point for rendering. External callers use this.
+ * ─── OFFLINE PROCESS — CRITICAL RULE ────────────────────────────────────────
+ * The renderer must NEVER execute during a normal page request.
+ * Rendering is an offline process. The result is a static artifact.
+ * The website serves pre-rendered content from the database.
+ *
+ * render() is protected by assertOfflineContext() which throws immediately
+ * if called outside of an authorized offline pipeline or admin endpoint.
+ * ────────────────────────────────────────────────────────────────────────────
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -20,8 +27,10 @@ import type {
   RenderedOutputRow,
 } from "./types";
 import { evaluate } from "./rulesEngine";
+import { inferIntent } from "./compositionPolicy";
 import { longArticleStrategy } from "./renderers/longArticle";
 import { faqStrategy } from "./renderers/faq";
+import { longArticleV2Strategy } from "./renderers/longArticleV2";
 import { decorateWithCitations } from "./citationRenderer";
 import { decorateWithLinks } from "./linkRenderer";
 import { scoreQuality } from "./qualityScorer";
@@ -31,10 +40,37 @@ import { computeCacheKey, checkCache, storeRenderedOutput } from "./cacheManager
 
 const TEMPLATE_VERSION = "1.0.0";
 
+// ─── Offline Context Guard ────────────────────────────────────────────────────
+// Rendering is an offline process. render() must never run during a live page
+// request. Permitted callers:
+//   1. CLI scripts (tsx scripts/...) — process.env.ALLOW_RENDER = "true"
+//   2. Admin API routes — must present X-Render-Secret which sets RENDER_SECRET
+//
+// In practice: scripts set ALLOW_RENDER=true before importing this module.
+// The two protected API routes (POST /api/render and /preview) load this via
+// dynamic import() only after verifying the secret header — not at module load.
+//
+// If neither signal is present the call is rejected immediately.
+
+function assertOfflineContext(): void {
+  if (
+    process.env.ALLOW_RENDER === "true" ||
+    process.env.RENDER_SECRET !== undefined
+  ) {
+    return;
+  }
+  throw new Error(
+    "[Renderer] render() was called outside of an offline pipeline. " +
+    "Rendering is an offline process — set ALLOW_RENDER=true in scripts " +
+    "or call via the authorized API endpoint with X-Render-Secret."
+  );
+}
+
 // ─── Strategy Registry ───────────────────────────────────────────────────────
 
 const STRATEGIES: Record<string, typeof longArticleStrategy> = {
   "long-article": longArticleStrategy,
+  "long-article-v2": longArticleV2Strategy,
   "faq": faqStrategy,
 };
 
@@ -59,6 +95,8 @@ export interface RenderResult {
 }
 
 export async function render(request: RenderRequest): Promise<RenderResult> {
+  assertOfflineContext();
+
   const startTime = Date.now();
 
   // ─── 1. Load Package Data ────────────────────────────────────────────────
@@ -123,7 +161,48 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
     bidirectional: r.bidirectional ?? false,
   }));
 
-  // ─── 2. Determine Renderer Config ───────────────────────────────────────
+  // ─── 2. Resolve category for composition policy ─────────────────────────
+  // Chain: knowledge_packages.topic_id → topics → topic_subcategories
+  //        → subcategories → categories
+  let categorySlug = "general";
+  try {
+    const { data: topic } = await sb
+      .from("topics")
+      .select("id")
+      .eq("slug", pkg.slug)
+      .maybeSingle();
+
+    if (topic?.id) {
+      const { data: tsub } = await sb
+        .from("topic_subcategories")
+        .select("subcategory_id")
+        .eq("topic_id", topic.id)
+        .limit(1)
+        .maybeSingle();
+
+      if (tsub?.subcategory_id) {
+        const { data: sub } = await sb
+          .from("subcategories")
+          .select("category_id")
+          .eq("id", tsub.subcategory_id)
+          .maybeSingle();
+
+        if (sub?.category_id) {
+          const { data: cat } = await sb
+            .from("categories")
+            .select("slug")
+            .eq("id", sub.category_id)
+            .maybeSingle();
+
+          if (cat?.slug) categorySlug = cat.slug;
+        }
+      }
+    }
+  } catch (_) {
+    // non-fatal — fall back to default policy
+  }
+
+  // ─── 3. Determine Renderer Config ───────────────────────────────────────
   const rendererId = request.rendererId ?? "long-article";
   const strategy = STRATEGIES[rendererId] ?? longArticleStrategy;
   const format: OutputFormat = request.format ?? "html";
@@ -136,9 +215,11 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
     format,
     style,
     slug: pkg.slug,
+    category: categorySlug,
+    intent: inferIntent(categorySlug, pkg.slug),
   };
 
-  // ─── 3. Cache Check ─────────────────────────────────────────────────────
+  // ─── 4. Cache Check ─────────────────────────────────────────────────────
   const cacheKey = computeCacheKey(pkg.knowledge_hash, strategy.version, TEMPLATE_VERSION, format);
 
   if (!request.forceRerender) {
@@ -156,7 +237,7 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
     }
   }
 
-  // ─── 4. Rules Evaluation ────────────────────────────────────────────────
+  // ─── 5. Rules Evaluation ────────────────────────────────────────────────
   const rulesStart = Date.now();
   const decision = evaluate(facts, citations);
   const rulesMs = Date.now() - rulesStart;
@@ -189,23 +270,23 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
     };
   }
 
-  // ─── 5. Render ──────────────────────────────────────────────────────────
+  // ─── 6. Render ──────────────────────────────────────────────────────────
   const renderStart = Date.now();
   let tree: DocumentNode[] = strategy.render(facts, citations, relationships, config, decision);
   const renderMs = Date.now() - renderStart;
 
-  // ─── 6. Citation Rendering ──────────────────────────────────────────────
+  // ─── 7. Citation Rendering ──────────────────────────────────────────────
   const citationStart = Date.now();
-  tree = decorateWithCitations(tree, citations);
+  tree = decorateWithCitations(tree, citations, format);
   const citationMs = Date.now() - citationStart;
 
-  // ─── 7. Internal Link Rendering ─────────────────────────────────────────
-  tree = decorateWithLinks(tree, relationships, facts, pkg.slug);
+  // ─── 8. Internal Link Rendering ─────────────────────────────────────────
+  tree = decorateWithLinks(tree, relationships, facts, pkg.slug, format);
 
-  // ─── 8. Quality Scoring ─────────────────────────────────────────────────
+  // ─── 9. Quality Scoring ─────────────────────────────────────────────────
   const qualityScore = scoreQuality(tree, facts, citations, decision);
 
-  // ─── 9. Serialization ───────────────────────────────────────────────────
+  // ─── 10. Serialization ──────────────────────────────────────────────────
   const serializeStart = Date.now();
   let content: string;
   if (format === "html") {
@@ -217,7 +298,7 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
   }
   const serializeMs = Date.now() - serializeStart;
 
-  // ─── 10. Diagnostics ────────────────────────────────────────────────────
+  // ─── 11. Diagnostics ────────────────────────────────────────────────────
   const totalDuration = Date.now() - startTime;
   const diagnostics = buildDiagnostics({
     config, cacheKey, pkg, facts, citations,
@@ -225,7 +306,7 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
     factsUsed: facts.length, totalDuration,
   });
 
-  // ─── 11. Persist ────────────────────────────────────────────────────────
+  // ─── 12. Persist ────────────────────────────────────────────────────────
   const outputId = await storeRenderedOutput({
     packageId: request.packageId,
     knowledgeHash: pkg.knowledge_hash,
