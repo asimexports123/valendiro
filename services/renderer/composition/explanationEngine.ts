@@ -172,6 +172,7 @@ export class ExplanationEngine {
       `This works by ${this.extractMechanism(fact.statement)}.`,
       `The mechanism involves ${this.extractMechanism(fact.statement)}.`,
       `This operates through ${this.extractMechanism(fact.statement)}.`,
+      `The process works as follows: ${this.extractMechanism(fact.statement)}.`,
     ];
     return templates[Math.floor(Math.random() * templates.length)];
   }
@@ -311,5 +312,7 @@ interface FactAnalysis {
   needsHowExplanation: boolean;
   needsWhenExplanation: boolean;
   needsImportanceExplanation: boolean;
+  needsImplicationExplanation: boolean;
+}
   needsImplicationExplanation: boolean;
 }
