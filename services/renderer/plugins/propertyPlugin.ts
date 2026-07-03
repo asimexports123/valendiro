@@ -45,6 +45,12 @@ const BRIDGES = [
   "Alongside this,",
   "This connects directly to another key property:",
   "On the same thread,",
+  "Similarly,",
+  "In addition,",
+  "Furthermore,",
+  "This relates to another important aspect:",
+  "Expanding on this idea,",
+  "This leads to another consideration:",
 ];
 
 function connector(i: number, slug: string): string {
@@ -104,6 +110,14 @@ export function renderPropertySection(facts: PluginFact[], config: PluginConfig)
     nodes.push({
       type: "paragraph",
       children: [sentences.join(" ")],
+    });
+  }
+
+  return nodes;
+}
+
+  return nodes;
+}
     });
   }
 
