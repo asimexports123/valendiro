@@ -121,7 +121,7 @@ export class KnowledgeComposer {
     // Group facts by type for intelligent section allocation
     const byType = this.groupFactsByType(facts);
 
-    // 1. Introduction (always required)
+    // 1. Problem/Introduction (always required)
     sections.push({
       type: "introduction",
       heading: `What is ${subject}?`,
@@ -130,193 +130,111 @@ export class KnowledgeComposer {
       required: true,
     });
 
-    // 2. Core Concept (if definitions exist)
+    // 2. Why it matters (importance context)
+    sections.push({
+      type: "importance",
+      heading: "Why This Matters",
+      content: [],
+      order: 2,
+      required: true,
+    });
+
+    // 3. Fundamental concept (if definitions exist)
     if (byType.definition?.length > 0) {
       sections.push({
         type: "core-concept",
         heading: "Core Concept",
-        content: [],
-        order: 2,
-        required: true,
-      });
-    }
-
-    // 3. How it Works (if procedural/causal facts exist)
-    if (byType.procedural?.length > 0 || byType.causal?.length > 0) {
-      sections.push({
-        type: "how-it-works",
-        heading: "How It Works",
         content: [],
         order: 3,
         required: true,
       });
     }
 
-    // 4. Real-World Example (always add for better comprehension)
-    sections.push({
-      type: "example",
-      heading: "Real-World Example",
-      content: [],
-      order: 4,
-      required: true,
-    });
-
-    // 5. Benefits and Advantages (if property/comparison facts exist)
-    if (byType.property?.length > 0 || byType.comparison?.length > 0) {
+    // 4. How it works (if procedural/causal facts exist)
+    if (byType.procedural?.length > 0 || byType.causal?.length > 0) {
       sections.push({
-        type: "benefits",
-        heading: "Benefits and Advantages",
+        type: "how-it-works",
+        heading: "How It Works",
         content: [],
-        order: 5,
+        order: 4,
         required: true,
       });
     }
 
-    // 6. Limitations (if warning facts exist)
+    // 5. Real-world example (always add for better comprehension)
+    sections.push({
+      type: "example",
+      heading: "Real-World Example",
+      content: [],
+      order: 5,
+      required: true,
+    });
+
+    // 6. Applications (if property facts exist)
+    if (byType.property?.length > 0) {
+      sections.push({
+        type: "applications",
+        heading: "Practical Applications",
+        content: [],
+        order: 6,
+        required: true,
+      });
+    }
+
+    // 7. Advantages (if property/comparison facts exist)
+    if (byType.property?.length > 0 || byType.comparison?.length > 0) {
+      sections.push({
+        type: "benefits",
+        heading: "Advantages and Benefits",
+        content: [],
+        order: 7,
+        required: true,
+      });
+    }
+
+    // 8. Limitations (if warning facts exist)
     if (byType.warning?.length > 0) {
       sections.push({
         type: "limitations",
         heading: "Limitations and Considerations",
         content: [],
-        order: 6,
-        required: true,
-      });
-    }
-
-    // 7. Common Mistakes (if rule facts exist)
-    if (byType.rule?.length > 0) {
-      sections.push({
-        type: "mistakes",
-        heading: "Common Mistakes to Avoid",
-        content: [],
-        order: 7,
-        required: true,
-      });
-    }
-
-    // 8. Best Practices (if procedural facts exist)
-    if (byType.procedural?.length > 0) {
-      sections.push({
-        type: "best-practices",
-        heading: "Best Practices",
-        content: [],
         order: 8,
         required: true,
       });
     }
 
-    // 9. Applications (if property facts exist)
-    if (byType.property?.length > 0) {
+    // 9. Common mistakes (if rule facts exist)
+    if (byType.rule?.length > 0) {
       sections.push({
-        type: "applications",
-        heading: "Practical Applications",
+        type: "mistakes",
+        heading: "Common Mistakes to Avoid",
         content: [],
         order: 9,
         required: true,
       });
     }
 
-    // 10. Summary (always required for completeness)
+    // 10. Best practices (if procedural facts exist)
+    if (byType.procedural?.length > 0) {
+      sections.push({
+        type: "best-practices",
+        heading: "Best Practices",
+        content: [],
+        order: 10,
+        required: true,
+      });
+    }
+
+    // 11. Summary (always required for completeness)
     sections.push({
       type: "summary",
       heading: "Key Takeaways",
       content: [],
-      order: 10,
+      order: 11,
       required: true,
     });
 
-    // 4. When to Use (if procedural facts exist)
-    if (byType.procedural?.length > 0) {
-      sections.push({
-        type: "when-to-use",
-        heading: "When to Use",
-        content: [],
-        order: 4,
-        required: false,
-      });
-    }
-
-    // 5. Real Example (if properties exist)
-    if (byType.property?.length > 0) {
-      sections.push({
-        type: "example",
-        heading: "Real-World Example",
-        content: [],
-        order: 5,
-        required: false,
-      });
-    }
-
-    // 6. Applications (if procedural facts exist)
-    if (byType.procedural?.length > 0) {
-      sections.push({
-        type: "applications",
-        heading: "Practical Applications",
-        content: [],
-        order: 6,
-        required: false,
-      });
-    }
-
-    // 7. Benefits (if property facts exist)
-    if (byType.property?.length > 0) {
-      sections.push({
-        type: "benefits",
-        heading: "Benefits and Advantages",
-        content: [],
-        order: 7,
-        required: false,
-      });
-    }
-
-    // 8. Limitations (if comparison/warning facts exist)
-    if (byType.comparison?.length > 0 || byType.warning?.length > 0) {
-      sections.push({
-        type: "limitations",
-        heading: "Limitations and Considerations",
-        content: [],
-        order: 8,
-        required: false,
-      });
-    }
-
-    // 9. Common Mistakes (if warning/rule facts exist)
-    if (byType.warning?.length > 0 || byType.rule?.length > 0) {
-      sections.push({
-        type: "mistakes",
-        heading: "Common Mistakes to Avoid",
-        content: [],
-        order: 9,
-        required: false,
-      });
-    }
-
-    // 10. Best Practices (if rule facts exist)
-    if (byType.rule?.length > 0) {
-      sections.push({
-        type: "best-practices",
-        heading: "Best Practices",
-        content: [],
-        order: 10,
-        required: false,
-      });
-    }
-
-    // 10. Historical Context (if historical facts exist)
-    if (byType.historical?.length > 0) {
-      sections.push({
-        type: "history",
-        heading: "Historical Context",
-        content: [],
-        order: 10,
-        required: false,
-      });
-    }
-
-    // 12. Summary (always required)
-    sections.push({
-      type: "summary",
-      heading: "Key Takeaways",
+    return sections;
       content: [],
       order: 12,
       required: true,

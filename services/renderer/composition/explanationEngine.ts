@@ -314,5 +314,3 @@ interface FactAnalysis {
   needsImportanceExplanation: boolean;
   needsImplicationExplanation: boolean;
 }
-  needsImplicationExplanation: boolean;
-}
