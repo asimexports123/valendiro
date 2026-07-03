@@ -235,12 +235,6 @@ export class KnowledgeComposer {
     });
 
     return sections;
-      content: [],
-      order: 12,
-      required: true,
-    });
-
-    return sections;
   }
 
   /**
