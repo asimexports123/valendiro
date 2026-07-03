@@ -115,11 +115,3 @@ export function renderPropertySection(facts: PluginFact[], config: PluginConfig)
 
   return nodes;
 }
-
-  return nodes;
-}
-    });
-  }
-
-  return nodes;
-}
