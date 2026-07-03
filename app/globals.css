@@ -48,6 +48,14 @@
   --shadow-elevated: 0 12px 32px -8px rgb(0 0 0 / 0.6), 0 4px 8px -4px rgb(0 0 0 / 0.4);
 }
 
+/* Hide Sources section from public pages */
+.prose h2[id="sources"],
+.prose h3[id="sources"],
+.prope h4[id="sources"],
+.prose .citation-list {
+  display: none !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

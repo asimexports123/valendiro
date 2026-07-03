@@ -67,22 +67,40 @@ export async function getSemanticRecommendations(
   // Fetch relationships where this topic is the source (outgoing)
   const { data: outgoing } = await supabase
     .from("knowledge_relationships")
-    .select("*, topics!inner(slug, topic_translations(title))")
+    .select("*")
     .eq("source_id", topicId)
     .eq("source_level", "topic")
     .eq("target_level", "topic")
-    .eq("topics.status", "published")
     .limit(limit * 2);
 
   // Fetch relationships where this topic is the target (incoming)
   const { data: incoming } = await supabase
     .from("knowledge_relationships")
-    .select("*, topics!inner(slug, topic_translations(title))")
+    .select("*")
     .eq("target_id", topicId)
     .eq("target_level", "topic")
     .eq("source_level", "topic")
-    .eq("topics.status", "published")
     .limit(limit * 2);
+
+  // Fetch all topic IDs involved in relationships
+  const topicIds = new Set<string>();
+  outgoing?.forEach(rel => topicIds.add(rel.target_id));
+  incoming?.forEach(rel => topicIds.add(rel.source_id));
+
+  // Fetch topic details separately
+  const { data: topics } = await supabase
+    .from("topics")
+    .select("id, slug, topic_translations(title)")
+    .eq("status", "published")
+    .in("id", Array.from(topicIds));
+
+  const topicMap = new Map();
+  topics?.forEach(t => {
+    topicMap.set(t.id, {
+      slug: t.slug,
+      title: t.topic_translations?.[0]?.title || t.slug,
+    });
+  });
 
   const recommendations = {
     prerequisites: [] as SemanticRecommendation[],
@@ -93,14 +111,13 @@ export async function getSemanticRecommendations(
 
   // Process outgoing relationships (this topic → other topics)
   for (const rel of outgoing || []) {
-    const topic = rel.topics;
-    const translation = topic.topic_translations?.[0];
-    if (!translation) continue;
+    const topicInfo = topicMap.get(rel.target_id);
+    if (!topicInfo) continue;
 
     const rec: SemanticRecommendation = {
       topicId: rel.target_id,
-      topicSlug: topic.slug,
-      topicTitle: translation.title,
+      topicSlug: topicInfo.slug,
+      topicTitle: topicInfo.title,
       relationshipReason: mapRelationshipToReason(rel.relationship_type, 'outgoing'),
       strength: rel.strength,
     };
@@ -119,14 +136,13 @@ export async function getSemanticRecommendations(
 
   // Process incoming relationships (other topics → this topic)
   for (const rel of incoming || []) {
-    const topic = rel.topics;
-    const translation = topic.topic_translations?.[0];
-    if (!translation) continue;
+    const topicInfo = topicMap.get(rel.source_id);
+    if (!topicInfo) continue;
 
     const rec: SemanticRecommendation = {
       topicId: rel.source_id,
-      topicSlug: topic.slug,
-      topicTitle: translation.title,
+      topicSlug: topicInfo.slug,
+      topicTitle: topicInfo.title,
       relationshipReason: mapRelationshipToReason(rel.relationship_type, 'incoming'),
       strength: rel.strength,
     };
@@ -191,31 +207,45 @@ export async function getLearningJourney(topicId: string, maxDepth = 5): Promise
   // Get prerequisites (what should come before)
   const { data: prerequisites } = await supabase
     .from("knowledge_relationships")
-    .select("target_id, topics!inner(slug, topic_translations(title))")
+    .select("target_id")
     .eq("source_id", topicId)
     .eq("source_level", "topic")
     .eq("target_level", "topic")
     .eq("relationship_type", "requires")
-    .eq("topics.status", "published")
-    .order("strength", { ascending: false })
     .limit(3);
 
   // Get next topics (what should come after)
   const { data: nextTopics } = await supabase
     .from("knowledge_relationships")
-    .select("target_id, topics!inner(slug, topic_translations(title))")
+    .select("target_id")
     .eq("source_id", topicId)
     .eq("source_level", "topic")
     .eq("target_level", "topic")
-    .in("relationship_type", ["extends", "precedes", "specializes"])
-    .eq("topics.status", "published")
-    .order("strength", { ascending: false })
+    .in("relationship_type", ["precedes", "extends", "specializes"])
     .limit(5);
 
-  const continueWith = [
-    ...(prerequisites || []).map((r: any) => r.topics.slug),
-    ...(nextTopics || []).map((r: any) => r.topics.slug),
+  // Fetch topic slugs for all related topic IDs
+  const allTopicIds = [
+    ...(prerequisites || []).map((r: any) => r.target_id),
+    ...(nextTopics || []).map((r: any) => r.target_id),
   ];
+
+  let continueWith: string[] = [];
+  if (allTopicIds.length > 0) {
+    const { data: relatedTopics } = await supabase
+      .from("topics")
+      .select("id, slug")
+      .eq("status", "published")
+      .in("id", allTopicIds);
+
+    const topicSlugMap = new Map();
+    relatedTopics?.forEach(t => topicSlugMap.set(t.id, t.slug));
+
+    continueWith = [
+      ...(prerequisites || []).map((r: any) => topicSlugMap.get(r.target_id)).filter(Boolean),
+      ...(nextTopics || []).map((r: any) => topicSlugMap.get(r.target_id)).filter(Boolean),
+    ];
+  }
 
   return {
     completed,

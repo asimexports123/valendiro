@@ -537,9 +537,9 @@ export class KnowledgeComposer {
         return `${connector} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
       });
       
-      nodes.push({ 
-        type: "paragraph", 
-        children: [parts.join(" ") + (i + 2 < facts.length ? " These characteristics work together to define ${subject}." : "")] 
+      nodes.push({
+        type: "paragraph",
+        children: [parts.join(" ") + (i + 2 < facts.length ? ` These characteristics work together to define ${subject}.` : "")]
       });
     }
 

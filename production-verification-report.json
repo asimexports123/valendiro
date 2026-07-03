@@ -1,0 +1,219 @@
+{
+  "summary": {
+    "pagesCrawled": 75,
+    "pagesPassed": 60,
+    "pagesFailed": 15
+  },
+  "failedPages": [
+    {
+      "url": "https://valendiro.com/en/subcategories/budgeting-saving",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/credit-debt",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/marketing-growth",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/startups",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/learning-methods",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/languages",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/fitness-exercise",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/nutrition-diet",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/sleep",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/home-organisation",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/cooking-recipes",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/diy-repairs",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/productivity",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/destination-guides",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    },
+    {
+      "url": "https://valendiro.com/en/subcategories/solo-travel",
+      "pageType": "subcategory",
+      "status": 200,
+      "hasKnowledgeGraph": true,
+      "hasContinueLearning": false,
+      "hasSources": false,
+      "hasSameCategory": false,
+      "hasLearningPath": false,
+      "errors": [
+        "Learning Path not visible"
+      ],
+      "warnings": []
+    }
+  ]
+}

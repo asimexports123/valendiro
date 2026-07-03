@@ -175,7 +175,7 @@ export default async function CategoryPage({
   const pageData = await getCategoryPageData(slug);
   if (!pageData) notFound();
 
-  const { category, subcategories, featuredTopics, latestArticles, faqs, relatedCategories, totalArticles, lastUpdated } = pageData;
+  const { category, subcategories, featuredTopics, latestArticles, faqs, relatedCategories, totalArticles, lastUpdated, beginnerTopics, intermediateTopics, advancedTopics, learningPath } = pageData;
 
   // Hide category pages with no published content — never show an empty shell
   const hasContent = subcategories.length > 0 || featuredTopics.length > 0 || latestArticles.length > 0;
@@ -376,6 +376,60 @@ export default async function CategoryPage({
             />
           )}
         </section>
+
+        {/* ── LEARNING PATH ─────────────────────────────────────────── */}
+        {learningPath.length > 0 && (
+          <section id="learning-path">
+            <div className="flex items-end justify-between mb-7">
+              <div>
+                <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${accent.iconText}`}>Learning Path</p>
+                <h2 className="text-2xl font-bold tracking-tight text-foreground">Recommended Learning Journey</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Start from basics and progress to advanced topics</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/20 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-lg">🌱</span>
+                  <h3 className="font-bold text-emerald-700 dark:text-emerald-300">Beginner</h3>
+                </div>
+                <div className="space-y-2">
+                  {learningPath.filter(s => s.difficulty === "Beginner").slice(0, 3).map((sub) => (
+                    <Link key={sub.id} href={`/${lang}/subcategories/${sub.slug}`} className="block text-sm text-foreground hover:text-primary transition-colors">
+                      {sub.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/20 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-lg">📈</span>
+                  <h3 className="font-bold text-amber-700 dark:text-amber-300">Intermediate</h3>
+                </div>
+                <div className="space-y-2">
+                  {learningPath.filter(s => s.difficulty === "Intermediate").slice(0, 3).map((sub) => (
+                    <Link key={sub.id} href={`/${lang}/subcategories/${sub.slug}`} className="block text-sm text-foreground hover:text-primary transition-colors">
+                      {sub.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-2xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/20 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-lg">🚀</span>
+                  <h3 className="font-bold text-rose-700 dark:text-rose-300">Advanced</h3>
+                </div>
+                <div className="space-y-2">
+                  {learningPath.filter(s => s.difficulty === "Advanced").slice(0, 3).map((sub) => (
+                    <Link key={sub.id} href={`/${lang}/subcategories/${sub.slug}`} className="block text-sm text-foreground hover:text-primary transition-colors">
+                      {sub.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── POPULAR TOPICS ──────────────────────────────────────── */}
         {featuredTopics.length > 0 && (

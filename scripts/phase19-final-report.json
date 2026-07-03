@@ -1,0 +1,846 @@
+{
+  "timestamp": "2026-07-03T05:52:20.345Z",
+  "phase": "Phase 19 - Knowledge Graph Completion",
+  "knowledgeGraphMetrics": {
+    "totalTopics": 47,
+    "totalConnections": 604,
+    "avgDegree": 12.851063829787234,
+    "orphanCount": 0,
+    "weakCount": 0,
+    "missingPrerequisites": 6,
+    "missingNextTopics": 12,
+    "missingApplications": 47,
+    "missingRelated": 1
+  },
+  "productionVerification": {
+    "timestamp": "2026-07-03T05:52:09.731Z",
+    "baseUrl": "https://valendiro.com",
+    "totalChecked": 47,
+    "statistics": {
+      "successful": 47,
+      "withNavigation": 47,
+      "withPrevious": 5,
+      "withNext": 47,
+      "withContinue": 47,
+      "withRelated": 7,
+      "withKnowledgeGraph": 0,
+      "deadEnds": 0,
+      "withBrokenLinks": 47,
+      "withEmptyRecs": 0
+    },
+    "urls": [
+      {
+        "url": "https://valendiro.com/topics/machine-learning-basics",
+        "slug": "machine-learning-basics",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": true,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/budget-travel-strategies",
+        "slug": "budget-travel-strategies",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/career-development-fundamentals",
+        "slug": "career-development-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/cooking-fundamentals",
+        "slug": "cooking-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/cryptocurrency-fundamentals",
+        "slug": "cryptocurrency-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/cybersecurity-fundamentals",
+        "slug": "cybersecurity-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": true,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/machine-learning-fundamentals",
+        "slug": "machine-learning-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/pandas-data-analysis",
+        "slug": "pandas-data-analysis",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/neural-networks",
+        "slug": "neural-networks",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/data-visualization",
+        "slug": "data-visualization",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/statistics-fundamentals",
+        "slug": "statistics-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/database-design",
+        "slug": "database-design",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/entrepreneurship-fundamentals",
+        "slug": "entrepreneurship-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/business-strategy-fundamentals",
+        "slug": "business-strategy-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": true,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": true,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/fitness-fundamentals",
+        "slug": "fitness-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/home-organization-fundamentals",
+        "slug": "home-organization-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/investing-basics",
+        "slug": "investing-basics",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/project-management-fundamentals",
+        "slug": "project-management-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": true,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/marketing-fundamentals",
+        "slug": "marketing-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/mental-health-fundamentals",
+        "slug": "mental-health-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/nutrition-fundamentals",
+        "slug": "nutrition-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/online-learning-strategies",
+        "slug": "online-learning-strategies",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/operating-systems",
+        "slug": "operating-systems",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/budgeting-fundamentals",
+        "slug": "budgeting-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/python-programming-fundamentals",
+        "slug": "python-programming-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/javascript-fundamentals",
+        "slug": "javascript-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/typescript-language",
+        "slug": "typescript-language",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": true,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/rust-programming-language",
+        "slug": "rust-programming-language",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/go-programming-language",
+        "slug": "go-programming-language",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/sql-fundamentals",
+        "slug": "sql-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/algorithms-fundamentals",
+        "slug": "algorithms-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/data-structures",
+        "slug": "data-structures",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/retirement-planning-fundamentals",
+        "slug": "retirement-planning-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/git-version-control",
+        "slug": "git-version-control",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": true,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/software-testing",
+        "slug": "software-testing",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/design-patterns",
+        "slug": "design-patterns",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/agile-development",
+        "slug": "agile-development",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/effective-study-techniques",
+        "slug": "effective-study-techniques",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/travel-planning-fundamentals",
+        "slug": "travel-planning-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/react-library",
+        "slug": "react-library",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/nextjs-framework",
+        "slug": "nextjs-framework",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": true,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/restful-apis",
+        "slug": "restful-apis",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/html-fundamentals",
+        "slug": "html-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/computer-networks",
+        "slug": "computer-networks",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": true,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/docker-containers",
+        "slug": "docker-containers",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": true,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/css-fundamentals",
+        "slug": "css-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": false,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": false,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      },
+      {
+        "url": "https://valendiro.com/topics/cloud-computing-fundamentals",
+        "slug": "cloud-computing-fundamentals",
+        "status": 200,
+        "navigationWorks": true,
+        "hasPrevious": true,
+        "hasNext": true,
+        "hasContinueLearning": true,
+        "hasRelatedTopics": true,
+        "hasKnowledgeGraph": false,
+        "hasDeadEnd": false,
+        "hasBrokenLinks": true,
+        "hasEmptyRecommendations": false,
+        "errors": [
+          "Potential broken links"
+        ]
+      }
+    ]
+  },
+  "acceptanceCriteria": {
+    "zeroOrphanTopics": true,
+    "zeroDeadEndPages": true,
+    "navigationCoverage": true,
+    "learningPathCoverage": true,
+    "graphDegreeTarget": true
+  },
+  "remainingGaps": {
+    "orphanTopics": [],
+    "weakTopics": []
+  },
+  "overallStatus": "PASS",
+  "criteriaMet": "5/5"
+}

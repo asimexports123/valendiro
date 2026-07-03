@@ -4,7 +4,7 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo/metadata";
 import {
   getSubcategoryBySlug,
-  getTopicsBySubcategory,
+  getTopicsBySubcategorySimple,
   getArticlesBySubcategory,
   getSubcategoriesByCategory,
   SubcategoryDifficulty,
@@ -80,7 +80,7 @@ export default async function SubcategoryPage({
   if (!subcategory) notFound();
 
   const [topics, articles, relatedSubcategories, parentCategory] = await Promise.all([
-    getTopicsBySubcategory(subcategory.id, 24),
+    getTopicsBySubcategorySimple(subcategory.id, 24),
     getArticlesBySubcategory(subcategory.id, 6),
     getSubcategoriesByCategory(subcategory.category_id, 8),
     subcategory.category_id ? getCategoryById(subcategory.category_id) : null,

@@ -1,0 +1,1528 @@
+[
+  {
+    "id": "a2a64f4e-728a-481b-a73b-21379ea08d99",
+    "slug": "401k-fundamentals",
+    "title": "401(k) Fundamentals",
+    "subcategoryId": "87e9ff00-9b8b-4c0e-bde1-dc21b0d35905",
+    "status": "draft"
+  },
+  {
+    "id": "303aefd0-21e3-4476-a517-d5730b0114b7",
+    "slug": "actively-managed-funds",
+    "title": "Actively Managed Funds",
+    "subcategoryId": "cb9dc912-0ccd-402f-a10c-7cbe0b50ebb7",
+    "status": "draft"
+  },
+  {
+    "id": "04f92dc7-a0ba-416c-bd6c-7c6878dc0486",
+    "slug": "agile-development",
+    "title": "Agile Development",
+    "subcategoryId": "58c42ac7-c23e-46cb-9323-41273e3fe72a",
+    "status": "published"
+  },
+  {
+    "id": "c0c6515b-afc4-49e0-b4eb-0780a6cc9bb8",
+    "slug": "agile-management",
+    "title": "Agile Management",
+    "subcategoryId": "decb3a83-3b33-432c-906b-ca823901cf3b",
+    "status": "draft"
+  },
+  {
+    "id": "692111e6-8fd7-4530-bcf6-9098b44ffa27",
+    "slug": "ai-ethics-and-bias",
+    "title": "AI Ethics & Bias",
+    "subcategoryId": "c55711a3-876a-4fa8-b739-99c26029e1e4",
+    "status": "draft"
+  },
+  {
+    "id": "919cbaa1-da76-42ea-9ca3-6b54aa10dda8",
+    "slug": "ai-fundamentals",
+    "title": "AI Fundamentals",
+    "subcategoryId": "c55711a3-876a-4fa8-b739-99c26029e1e4",
+    "status": "draft"
+  },
+  {
+    "id": "50fbc394-1682-4425-b547-8868cc7c8906",
+    "slug": "ai-in-practice",
+    "title": "AI in Practice",
+    "subcategoryId": "c55711a3-876a-4fa8-b739-99c26029e1e4",
+    "status": "draft"
+  },
+  {
+    "id": "11909573-cba6-4a88-9b49-03c8ff950698",
+    "slug": "algorithms-fundamentals",
+    "title": "Algorithms Fundamentals",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "342b23d7-a907-4f22-9942-4d159a3c6f84",
+    "slug": "android-development",
+    "title": "Android Development",
+    "subcategoryId": "788a75de-bb49-49e2-8e9e-4545397c0240",
+    "status": "draft"
+  },
+  {
+    "id": "67617f14-7f39-41d3-971a-4112ef626d7b",
+    "slug": "auto-insurance",
+    "title": "Auto Insurance",
+    "subcategoryId": "debf45ca-ca10-40f6-94e5-8fcdd13e1acd",
+    "status": "draft"
+  },
+  {
+    "id": "12bebcc4-567f-4931-90bb-5a6f6798c9bd",
+    "slug": "autoimmune-conditions",
+    "title": "Autoimmune Conditions",
+    "subcategoryId": "ed63339a-3bbe-4f91-a5b8-fda799339aca",
+    "status": "draft"
+  },
+  {
+    "id": "1ea73e78-a5c3-4ab4-b259-e867ec9adaf0",
+    "slug": "aws-essentials",
+    "title": "AWS Essentials",
+    "subcategoryId": "624b2e72-3b96-41aa-af72-26a7b3f4e31a",
+    "status": "draft"
+  },
+  {
+    "id": "9a0132e5-e8c7-4b9f-a193-298cae801a31",
+    "slug": "azure-and-gcp-overview",
+    "title": "Azure & GCP Overview",
+    "subcategoryId": "624b2e72-3b96-41aa-af72-26a7b3f4e31a",
+    "status": "draft"
+  },
+  {
+    "id": "ae98bdb3-0398-4228-8121-2d84c396170d",
+    "slug": "b2b-sales",
+    "title": "B2B Sales",
+    "subcategoryId": "7ecc0114-5660-47ab-b53d-3b68d69cda44",
+    "status": "draft"
+  },
+  {
+    "id": "621efa6b-168e-4459-b8fc-0d76e681b9fb",
+    "slug": "baking-basics",
+    "title": "Baking Basics",
+    "subcategoryId": "324a8dc9-a4cf-4134-be22-8c8dbdc5f25f",
+    "status": "draft"
+  },
+  {
+    "id": "28c357f8-4c5c-46a4-9d45-89683239d7f1",
+    "slug": "bond-etfs",
+    "title": "Bond ETFs",
+    "subcategoryId": "391b9a76-29f7-4ad0-ba3a-9027100637af",
+    "status": "draft"
+  },
+  {
+    "id": "02935741-7323-4669-81ff-972f2ae365d6",
+    "slug": "budget-travel",
+    "title": "Budget Travel",
+    "subcategoryId": "ace6a14f-0f7f-4bf1-8744-563b99d83f06",
+    "status": "draft"
+  },
+  {
+    "id": "3bb00606-b7de-4233-92cd-36d193ac1c8a",
+    "slug": "budget-travel-strategies",
+    "title": "Budget Travel Strategies",
+    "subcategoryId": "11598015-ea99-4ac1-aa7c-64ad9b13ae95",
+    "status": "published"
+  },
+  {
+    "id": "a514cd52-ea5d-48c5-9706-c87f47f6f5ba",
+    "slug": "budgeting-fundamentals",
+    "title": "Budgeting Fundamentals",
+    "subcategoryId": "2894d805-f788-4546-a2bb-c9be42e6bfd1",
+    "status": "published"
+  },
+  {
+    "id": "1d08b4bd-e166-43e7-b0ac-87fa6e0d2b07",
+    "slug": "building-credit-with-cards",
+    "title": "Building Credit with Cards",
+    "subcategoryId": "4b6384c7-7dc0-4639-a2f7-f255474c1b20",
+    "status": "draft"
+  },
+  {
+    "id": "618cca0a-0f5a-4cb6-8c5b-9efa18e68bec",
+    "slug": "business-process-automation",
+    "title": "Business Process Automation",
+    "subcategoryId": "6b400acf-3d20-4f76-b252-6181a4f473c6",
+    "status": "draft"
+  },
+  {
+    "id": "f15e3896-f20c-48f7-bdbd-7843ebaee497",
+    "slug": "business-strategy-fundamentals",
+    "title": "Business Strategy Fundamentals",
+    "subcategoryId": "dbd95af5-8f88-4077-81a4-4fa379909032",
+    "status": "published"
+  },
+  {
+    "id": "6db8ca16-631c-4682-8aae-f2ab387511f6",
+    "slug": "cancer-fundamentals",
+    "title": "Cancer Fundamentals",
+    "subcategoryId": "ed63339a-3bbe-4f91-a5b8-fda799339aca",
+    "status": "draft"
+  },
+  {
+    "id": "6e408bd6-b5bf-432e-9261-6ef17bd3c409",
+    "slug": "car-rental-fundamentals",
+    "title": "Car Rental Fundamentals",
+    "subcategoryId": "531692d8-712c-4e8e-bfcc-a5ea1314625b",
+    "status": "draft"
+  },
+  {
+    "id": "076bd96a-dd0d-426e-90ef-7a8dd435e66f",
+    "slug": "cardiac-tests",
+    "title": "Cardiac Tests",
+    "subcategoryId": "7ef35f69-2247-43f0-be0e-628bbf78e58e",
+    "status": "draft"
+  },
+  {
+    "id": "7a9dda86-66f2-449e-af38-4c50f3099148",
+    "slug": "career-development-fundamentals",
+    "title": "Career Development Fundamentals",
+    "subcategoryId": "30d76920-86ff-4279-86a2-5b5694f493e3",
+    "status": "published"
+  },
+  {
+    "id": "721472c6-dd22-4842-b1ac-b0f834f3f0f8",
+    "slug": "career-planning",
+    "title": "Career Planning",
+    "subcategoryId": "30d76920-86ff-4279-86a2-5b5694f493e3",
+    "status": "draft"
+  },
+  {
+    "id": "0c483af8-2622-444d-95f3-d07aed5bb3de",
+    "slug": "certifications-and-credentials",
+    "title": "Certifications & Credentials",
+    "subcategoryId": "a3ac0257-03ff-4bd5-ac3a-36ea4f2c0b6f",
+    "status": "draft"
+  },
+  {
+    "id": "7166ac00-dfd9-4746-82bc-4ff642886b8f",
+    "slug": "change-management",
+    "title": "Change Management",
+    "subcategoryId": "88dcad21-23ff-43df-b53c-dea16a63b3a0",
+    "status": "draft"
+  },
+  {
+    "id": "c8b0a338-ee40-478b-b45e-28e4bee0a6b5",
+    "slug": "choosing-a-credit-card",
+    "title": "Choosing a Credit Card",
+    "subcategoryId": "4b6384c7-7dc0-4639-a2f7-f255474c1b20",
+    "status": "draft"
+  },
+  {
+    "id": "26fbd0bb-e7a7-435c-bd71-b1e70f0a4584",
+    "slug": "chronic-disease-management",
+    "title": "Chronic Disease Management",
+    "subcategoryId": "ed63339a-3bbe-4f91-a5b8-fda799339aca",
+    "status": "draft"
+  },
+  {
+    "id": "d406f602-d7c6-4020-9f95-008ef8c92c30",
+    "slug": "ci-cd-pipelines",
+    "title": "CI/CD Pipelines",
+    "subcategoryId": "efb645cb-5982-498f-b705-4e1b1e77a24c",
+    "status": "draft"
+  },
+  {
+    "id": "19e7e701-298e-4acd-a3e6-f723723adf8e",
+    "slug": "cloud-architecture-patterns",
+    "title": "Cloud Architecture Patterns",
+    "subcategoryId": "624b2e72-3b96-41aa-af72-26a7b3f4e31a",
+    "status": "draft"
+  },
+  {
+    "id": "070978fe-6f10-4452-ab65-832a0c850a05",
+    "slug": "cloud-computing-fundamentals",
+    "title": "Cloud Computing Fundamentals",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "9afc7837-582f-4763-a472-f402faab4ca2",
+    "slug": "cloud-security",
+    "title": "Cloud Security",
+    "subcategoryId": "624b2e72-3b96-41aa-af72-26a7b3f4e31a",
+    "status": "draft"
+  },
+  {
+    "id": "be23a9f8-e3c8-4b59-b339-7b08ce9c04b9",
+    "slug": "coding-bootcamps",
+    "title": "Coding Bootcamps",
+    "subcategoryId": "a3ac0257-03ff-4bd5-ac3a-36ea4f2c0b6f",
+    "status": "draft"
+  },
+  {
+    "id": "85f60295-19e3-4852-a1f6-5806f9d13df6",
+    "slug": "communication-for-leaders",
+    "title": "Communication for Leaders",
+    "subcategoryId": "88dcad21-23ff-43df-b53c-dea16a63b3a0",
+    "status": "draft"
+  },
+  {
+    "id": "330cd8fb-2adc-4ce7-a8bd-c735bc699b53",
+    "slug": "compensation-and-benefits",
+    "title": "Compensation & Benefits",
+    "subcategoryId": "e8243e4f-2d2c-4e49-a939-3d42456d6efd",
+    "status": "draft"
+  },
+  {
+    "id": "38b8835d-d71a-443c-8553-04d92131c55d",
+    "slug": "competitive-analysis",
+    "title": "Competitive Analysis",
+    "subcategoryId": "87184112-7035-4a63-9b29-41294bab1cde",
+    "status": "draft"
+  },
+  {
+    "id": "84dee6a2-5ac0-4bb7-a95f-3a47d4ed1216",
+    "slug": "computer-hardware-fundamentals",
+    "title": "Computer Hardware Fundamentals",
+    "subcategoryId": "34833c27-5532-44f0-bbbd-d6cdff2ee0d6",
+    "status": "draft"
+  },
+  {
+    "id": "fc7f43a1-75b3-4414-95c9-b3aec797b6bd",
+    "slug": "computer-networks",
+    "title": "Computer Networks",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "cfc24ae7-43d8-4da2-b2af-51ad35586630",
+    "slug": "containerization-with-docker",
+    "title": "Containerization with Docker",
+    "subcategoryId": "efb645cb-5982-498f-b705-4e1b1e77a24c",
+    "status": "draft"
+  },
+  {
+    "id": "157beba6-d40c-4e2a-83e7-c782824e2387",
+    "slug": "cooking-fundamentals",
+    "title": "Cooking Fundamentals",
+    "subcategoryId": "324a8dc9-a4cf-4134-be22-8c8dbdc5f25f",
+    "status": "published"
+  },
+  {
+    "id": "42c755e5-6222-4875-956d-29d676c368b2",
+    "slug": "corporate-strategy",
+    "title": "Corporate Strategy",
+    "subcategoryId": "87184112-7035-4a63-9b29-41294bab1cde",
+    "status": "draft"
+  },
+  {
+    "id": "49c42bf9-b6d8-4275-b07a-d705c4c03ee8",
+    "slug": "credit-card-debt",
+    "title": "Credit Card Debt",
+    "subcategoryId": "4b6384c7-7dc0-4639-a2f7-f255474c1b20",
+    "status": "draft"
+  },
+  {
+    "id": "6c8582f7-3fab-481d-9bc6-5f5f3c1cd5af",
+    "slug": "credit-card-fundamentals",
+    "title": "Credit Card Fundamentals",
+    "subcategoryId": "4b6384c7-7dc0-4639-a2f7-f255474c1b20",
+    "status": "draft"
+  },
+  {
+    "id": "93881695-a857-4b37-970e-9a65abdeaf6d",
+    "slug": "credit-card-rewards",
+    "title": "Credit Card Rewards",
+    "subcategoryId": "4b6384c7-7dc0-4639-a2f7-f255474c1b20",
+    "status": "draft"
+  },
+  {
+    "id": "7988aba9-4e14-4b90-9033-27b559ebe622",
+    "slug": "crm-and-sales-tools",
+    "title": "CRM & Sales Tools",
+    "subcategoryId": "7ecc0114-5660-47ab-b53d-3b68d69cda44",
+    "status": "draft"
+  },
+  {
+    "id": "652c333d-848f-4609-86cc-ef008cd02ada",
+    "slug": "cross-platform-development",
+    "title": "Cross-Platform Development",
+    "subcategoryId": "788a75de-bb49-49e2-8e9e-4545397c0240",
+    "status": "draft"
+  },
+  {
+    "id": "05fdc685-bc50-4c0d-aece-8f20ed342c2d",
+    "slug": "cruise-travel",
+    "title": "Cruise Travel",
+    "subcategoryId": "531692d8-712c-4e8e-bfcc-a5ea1314625b",
+    "status": "draft"
+  },
+  {
+    "id": "74dc1417-8cec-4a12-b2fd-22df319f5efc",
+    "slug": "cryptocurrency-fundamentals",
+    "title": "Cryptocurrency Fundamentals",
+    "subcategoryId": "d6a7deb2-e744-4bdb-8f48-d8c5b4fc3659",
+    "status": "published"
+  },
+  {
+    "id": "c9841e65-df66-45bf-98c3-8a6e1cc72c71",
+    "slug": "cryptography-basics",
+    "title": "Cryptography Basics",
+    "subcategoryId": "87d5268d-9995-4005-bb0c-6ee66c2bb00c",
+    "status": "draft"
+  },
+  {
+    "id": "caa48104-0058-48b2-a0ec-a77991bb7436",
+    "slug": "css-fundamentals",
+    "title": "CSS Fundamentals",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "dacd4274-f540-4524-b09d-333fb97f2788",
+    "slug": "customer-experience-design",
+    "title": "Customer Experience Design",
+    "subcategoryId": "3e502ba7-b420-4630-ba75-3f241f05efbd",
+    "status": "draft"
+  },
+  {
+    "id": "4a02009a-44db-4d42-9669-4ee78942adf2",
+    "slug": "customer-retention-strategies",
+    "title": "Customer Retention Strategies",
+    "subcategoryId": "3e502ba7-b420-4630-ba75-3f241f05efbd",
+    "status": "draft"
+  },
+  {
+    "id": "c1c0a05c-d8d5-4368-9c29-2641731a7b7f",
+    "slug": "customer-service-fundamentals",
+    "title": "Customer Service Fundamentals",
+    "subcategoryId": "3e502ba7-b420-4630-ba75-3f241f05efbd",
+    "status": "draft"
+  },
+  {
+    "id": "cef45ee3-6563-4a8f-90af-6907ec10ecb8",
+    "slug": "cybersecurity-fundamentals",
+    "title": "Cybersecurity Fundamentals",
+    "subcategoryId": "87d5268d-9995-4005-bb0c-6ee66c2bb00c",
+    "status": "published"
+  },
+  {
+    "id": "d48f8b35-f460-4b31-9712-0d3890f5202d",
+    "slug": "data-structures",
+    "title": "Data Structures",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "2a9fa1aa-bbc9-4dd3-ac4f-29c71d36623d",
+    "slug": "data-visualization",
+    "title": "Data Visualization",
+    "subcategoryId": "717ba0e5-3334-4a62-837a-5cda60105d54",
+    "status": "published"
+  },
+  {
+    "id": "75c2aa95-ce74-420c-bb10-3cf7cfd22a45",
+    "slug": "database-design",
+    "title": "Database Design",
+    "subcategoryId": "2d58645f-34f8-4d25-b190-1419c4edbae2",
+    "status": "published"
+  },
+  {
+    "id": "0d8a5afa-0e52-4508-9c17-137a6b9a8e69",
+    "slug": "decision-making",
+    "title": "Decision Making",
+    "subcategoryId": "88dcad21-23ff-43df-b53c-dea16a63b3a0",
+    "status": "draft"
+  },
+  {
+    "id": "58b0744c-bfaf-4c18-9a1e-b3bd47f1c022",
+    "slug": "design-patterns",
+    "title": "Software Design Patterns",
+    "subcategoryId": "58c42ac7-c23e-46cb-9323-41273e3fe72a",
+    "status": "published"
+  },
+  {
+    "id": "ac2a0c1a-a0cd-4b8a-a3a3-e9bc6dae52ea",
+    "slug": "devops-fundamentals",
+    "title": "DevOps Fundamentals",
+    "subcategoryId": "efb645cb-5982-498f-b705-4e1b1e77a24c",
+    "status": "draft"
+  },
+  {
+    "id": "3c28dafb-1813-44fd-a2d6-57244eac69a3",
+    "slug": "diabetes",
+    "title": "Diabetes",
+    "subcategoryId": "ed63339a-3bbe-4f91-a5b8-fda799339aca",
+    "status": "draft"
+  },
+  {
+    "id": "1f3e2bcf-7571-4fed-bce8-f632ef89f6c7",
+    "slug": "diagnostic-imaging",
+    "title": "Diagnostic Imaging",
+    "subcategoryId": "7ef35f69-2247-43f0-be0e-628bbf78e58e",
+    "status": "draft"
+  },
+  {
+    "id": "9e7b4276-bb20-409a-94c2-d013ff71bcf2",
+    "slug": "digital-security-while-traveling",
+    "title": "Digital Security While Traveling",
+    "subcategoryId": "0fd59787-9a1a-4d5d-8f2a-5670998b2a09",
+    "status": "draft"
+  },
+  {
+    "id": "170564f6-b1bb-474d-b5d3-a66d5e75ca0c",
+    "slug": "dividend-investing",
+    "title": "Dividend Investing",
+    "subcategoryId": "20d28269-9d80-4312-9771-07ff7bced5a7",
+    "status": "draft"
+  },
+  {
+    "id": "4801b2ee-0842-45d6-a99d-2df58752dd29",
+    "slug": "diy-home-repairs",
+    "title": "DIY Home Repairs",
+    "subcategoryId": "5cbde4b9-63b8-4978-9abb-287746e5ad51",
+    "status": "draft"
+  },
+  {
+    "id": "42dde06e-ee36-4169-b164-650b5bf7b0a1",
+    "slug": "docker-containers",
+    "title": "Docker Containers",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "39071f75-4775-4fe2-ab83-2f37f10dd371",
+    "slug": "e-commerce-analytics",
+    "title": "E-Commerce Analytics",
+    "subcategoryId": "5a7436fb-e302-4568-9e06-1b149bf6f145",
+    "status": "draft"
+  },
+  {
+    "id": "08b3abd7-ea39-45c1-b088-fb8ce6dc0162",
+    "slug": "e-commerce-fundamentals",
+    "title": "E-Commerce Fundamentals",
+    "subcategoryId": "5a7436fb-e302-4568-9e06-1b149bf6f145",
+    "status": "draft"
+  },
+  {
+    "id": "3444a1c0-f49c-4503-ac4c-530774799c6a",
+    "slug": "e-commerce-growth-strategies",
+    "title": "E-Commerce Growth Strategies",
+    "subcategoryId": "5a7436fb-e302-4568-9e06-1b149bf6f145",
+    "status": "draft"
+  },
+  {
+    "id": "2dffa38f-c870-4766-b8e5-175d8b1a0c7a",
+    "slug": "effective-study-techniques",
+    "title": "Effective Study Techniques",
+    "subcategoryId": "74b4e757-47c3-418a-a4f0-d48fe3f1c494",
+    "status": "published"
+  },
+  {
+    "id": "46bb28a4-29f3-4734-96a5-ed81be8bf95d",
+    "slug": "embedded-systems",
+    "title": "Embedded Systems",
+    "subcategoryId": "34833c27-5532-44f0-bbbd-d6cdff2ee0d6",
+    "status": "draft"
+  },
+  {
+    "id": "76d4ac4d-ade1-4aae-b77f-f04f0ced97ed",
+    "slug": "emergency-preparedness",
+    "title": "Emergency Preparedness",
+    "subcategoryId": "0fd59787-9a1a-4d5d-8f2a-5670998b2a09",
+    "status": "draft"
+  },
+  {
+    "id": "e7164d13-9cd6-45fb-bebe-21c783230477",
+    "slug": "english-as-a-second-language",
+    "title": "English as a Second Language",
+    "subcategoryId": "080840ac-219d-4fac-87c3-c331f3960d75",
+    "status": "draft"
+  },
+  {
+    "id": "7d3fe38a-22f4-4ada-b952-63099b96b7bb",
+    "slug": "entrepreneurship-fundamentals",
+    "title": "Entrepreneurship Fundamentals",
+    "subcategoryId": "dbd95af5-8f88-4077-81a4-4fa379909032",
+    "status": "published"
+  },
+  {
+    "id": "da436dc1-a0d5-4eaa-9576-fe39926db99a",
+    "slug": "estate-planning-basics",
+    "title": "Estate Planning Basics",
+    "subcategoryId": "87e9ff00-9b8b-4c0e-bde1-dc21b0d35905",
+    "status": "draft"
+  },
+  {
+    "id": "4475b1c0-4178-4f43-8ff7-8e05bc4ead49",
+    "slug": "etf-fundamentals",
+    "title": "ETF Fundamentals",
+    "subcategoryId": "391b9a76-29f7-4ad0-ba3a-9027100637af",
+    "status": "draft"
+  },
+  {
+    "id": "1826489a-b44e-4aec-a6bb-4813750bca66",
+    "slug": "etf-selection-and-comparison",
+    "title": "ETF Selection & Comparison",
+    "subcategoryId": "391b9a76-29f7-4ad0-ba3a-9027100637af",
+    "status": "draft"
+  },
+  {
+    "id": "050ef3f5-516c-491d-b2b7-29487ee4b552",
+    "slug": "family-travel",
+    "title": "Family Travel",
+    "subcategoryId": "ace6a14f-0f7f-4bf1-8744-563b99d83f06",
+    "status": "draft"
+  },
+  {
+    "id": "6ffa2eec-0f13-4f9e-a881-5c702d310e16",
+    "slug": "fitness-fundamentals",
+    "title": "Fitness Fundamentals",
+    "subcategoryId": "c69d8ec9-096c-4a87-9843-0f331e4fa326",
+    "status": "published"
+  },
+  {
+    "id": "fad644fa-8282-41eb-ae92-17c1faee2db4",
+    "slug": "food-safety",
+    "title": "Food Safety",
+    "subcategoryId": "324a8dc9-a4cf-4134-be22-8c8dbdc5f25f",
+    "status": "draft"
+  },
+  {
+    "id": "8289049b-5ea1-4ca8-a7f2-a412cec2bee7",
+    "slug": "fund-selection",
+    "title": "Fund Selection",
+    "subcategoryId": "cb9dc912-0ccd-402f-a10c-7cbe0b50ebb7",
+    "status": "draft"
+  },
+  {
+    "id": "b23f43c4-47f9-473a-a476-72eb8664f6c2",
+    "slug": "genetic-testing",
+    "title": "Genetic Testing",
+    "subcategoryId": "7ef35f69-2247-43f0-be0e-628bbf78e58e",
+    "status": "draft"
+  },
+  {
+    "id": "ff96a9c0-57a3-4df2-86b5-ef3357c954a1",
+    "slug": "git-version-control",
+    "title": "Git Version Control",
+    "subcategoryId": "58c42ac7-c23e-46cb-9323-41273e3fe72a",
+    "status": "published"
+  },
+  {
+    "id": "8f68092d-4b48-4f55-acbe-08371944b374",
+    "slug": "go-programming-language",
+    "title": "Go Programming Language",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "fa712cc2-2f96-4b13-8e7b-c6149c39eb8a",
+    "slug": "go-to-market-strategy",
+    "title": "Go-to-Market Strategy",
+    "subcategoryId": "cba765fb-2853-4291-b0b6-92496c650e90",
+    "status": "draft"
+  },
+  {
+    "id": "097eb66b-81ea-4447-9caa-807754ad5782",
+    "slug": "ground-transportation",
+    "title": "Ground Transportation",
+    "subcategoryId": "531692d8-712c-4e8e-bfcc-a5ea1314625b",
+    "status": "draft"
+  },
+  {
+    "id": "16cfc577-c6d3-44da-8b99-0c88f8859e89",
+    "slug": "handling-difficult-customers",
+    "title": "Handling Difficult Customers",
+    "subcategoryId": "3e502ba7-b420-4630-ba75-3f241f05efbd",
+    "status": "draft"
+  },
+  {
+    "id": "bb7e6d3c-743f-4117-b43d-95584a55835d",
+    "slug": "hardware-security",
+    "title": "Hardware Security",
+    "subcategoryId": "34833c27-5532-44f0-bbbd-d6cdff2ee0d6",
+    "status": "draft"
+  },
+  {
+    "id": "cbf15bf6-6d27-4c3b-a782-6811693bdcb7",
+    "slug": "health-before-travel",
+    "title": "Health Before Travel",
+    "subcategoryId": "0fd59787-9a1a-4d5d-8f2a-5670998b2a09",
+    "status": "draft"
+  },
+  {
+    "id": "b1db3b70-e974-4d53-8f38-9a0197edc984",
+    "slug": "health-insurance",
+    "title": "Health Insurance",
+    "subcategoryId": "debf45ca-ca10-40f6-94e5-8fcdd13e1acd",
+    "status": "draft"
+  },
+  {
+    "id": "29a46c95-8fc1-496e-94dd-6fcb5960fb6c",
+    "slug": "health-screenings",
+    "title": "Health Screenings",
+    "subcategoryId": "7ef35f69-2247-43f0-be0e-628bbf78e58e",
+    "status": "draft"
+  },
+  {
+    "id": "64dff9ef-2cc5-4f00-ac66-3d720c2bef3f",
+    "slug": "healthy-habits",
+    "title": "Healthy Habits",
+    "subcategoryId": "d50efddf-c2e9-4a33-8ec7-ceecb614b2be",
+    "status": "draft"
+  },
+  {
+    "id": "dd0115ed-d732-45dd-b968-1f276047d56f",
+    "slug": "heart-disease",
+    "title": "Heart Disease",
+    "subcategoryId": "ed63339a-3bbe-4f91-a5b8-fda799339aca",
+    "status": "draft"
+  },
+  {
+    "id": "9c2b9dec-23da-4247-8e51-290a165e1382",
+    "slug": "home-buying-process",
+    "title": "Home Buying Process",
+    "subcategoryId": "fa13d99e-0c5f-4001-b07e-24cf611461e8",
+    "status": "draft"
+  },
+  {
+    "id": "393d4019-4dae-4bbd-a1e9-4eacfd8e1e55",
+    "slug": "home-maintenance-basics",
+    "title": "Home Maintenance Basics",
+    "subcategoryId": "a7ce352c-02aa-4f40-bcf2-eacc12e9ed24",
+    "status": "draft"
+  },
+  {
+    "id": "2583a909-57d5-49be-8d4e-11e56f561281",
+    "slug": "home-organization-fundamentals",
+    "title": "Home Organization Fundamentals",
+    "subcategoryId": "52075190-a3df-4848-8ee1-81d0c7851f34",
+    "status": "published"
+  },
+  {
+    "id": "245046dc-993b-4380-8ae9-0f6abda2080e",
+    "slug": "home-renovation",
+    "title": "Home Renovation",
+    "subcategoryId": "a7ce352c-02aa-4f40-bcf2-eacc12e9ed24",
+    "status": "draft"
+  },
+  {
+    "id": "ee70ec2c-39c0-4dd9-8e10-63d0847700de",
+    "slug": "homeowners-and-renters-insurance",
+    "title": "Homeowners & Renters Insurance",
+    "subcategoryId": "debf45ca-ca10-40f6-94e5-8fcdd13e1acd",
+    "status": "draft"
+  },
+  {
+    "id": "aaa665e9-3df7-41c0-a3fb-8964985c94b0",
+    "slug": "hr-fundamentals",
+    "title": "HR Fundamentals",
+    "subcategoryId": "e8243e4f-2d2c-4e49-a939-3d42456d6efd",
+    "status": "draft"
+  },
+  {
+    "id": "cfe18b5f-c7aa-4005-9f77-aa5d1045e26a",
+    "slug": "html-fundamentals",
+    "title": "HTML Fundamentals",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "f67b99bd-651d-4153-9984-54644ab5a082",
+    "slug": "identity-and-access-management",
+    "title": "Identity & Access Management",
+    "subcategoryId": "87d5268d-9995-4005-bb0c-6ee66c2bb00c",
+    "status": "draft"
+  },
+  {
+    "id": "7cb84e02-e075-4a77-8347-66dc768bdb02",
+    "slug": "immigration-fundamentals",
+    "title": "Immigration Fundamentals",
+    "subcategoryId": "3812286a-27b3-424a-861a-4754ed0f65fd",
+    "status": "draft"
+  },
+  {
+    "id": "82f755c5-d133-4431-9fd2-0cf7e475a776",
+    "slug": "incident-response",
+    "title": "Incident Response",
+    "subcategoryId": "87d5268d-9995-4005-bb0c-6ee66c2bb00c",
+    "status": "draft"
+  },
+  {
+    "id": "b078802a-b110-4c9b-8362-8ae9ebf79467",
+    "slug": "index-etfs",
+    "title": "Index ETFs",
+    "subcategoryId": "391b9a76-29f7-4ad0-ba3a-9027100637af",
+    "status": "draft"
+  },
+  {
+    "id": "f27edcb1-64c5-45ac-8404-05ccf5878cb2",
+    "slug": "index-funds",
+    "title": "Index Funds",
+    "subcategoryId": "cb9dc912-0ccd-402f-a10c-7cbe0b50ebb7",
+    "status": "draft"
+  },
+  {
+    "id": "a6491b1e-a6bf-4136-8775-27a58a618078",
+    "slug": "infrastructure-as-code",
+    "title": "Infrastructure as Code",
+    "subcategoryId": "efb645cb-5982-498f-b705-4e1b1e77a24c",
+    "status": "draft"
+  },
+  {
+    "id": "1d48da66-f00e-421d-9f4f-1551219d673e",
+    "slug": "innovation-and-disruption",
+    "title": "Innovation & Disruption",
+    "subcategoryId": "87184112-7035-4a63-9b29-41294bab1cde",
+    "status": "draft"
+  },
+  {
+    "id": "9be9c5bd-ef5a-4de7-9913-f1e57e48eddb",
+    "slug": "insurance-fundamentals",
+    "title": "Insurance Fundamentals",
+    "subcategoryId": "debf45ca-ca10-40f6-94e5-8fcdd13e1acd",
+    "status": "draft"
+  },
+  {
+    "id": "ba90aca1-36ee-40e0-8a7b-0d03361ef250",
+    "slug": "investing-basics",
+    "title": "Investing Basics",
+    "subcategoryId": "d7c1ede9-dc27-49a2-88f3-3bc1042fc755",
+    "status": "published"
+  },
+  {
+    "id": "12f04d7e-7833-4d50-b6a1-69ef3478feba",
+    "slug": "investing-psychology",
+    "title": "Investing Psychology",
+    "subcategoryId": "20d28269-9d80-4312-9771-07ff7bced5a7",
+    "status": "draft"
+  },
+  {
+    "id": "dba56408-1fc9-4b84-a26b-e14f8fe5ef4e",
+    "slug": "ios-development",
+    "title": "iOS Development",
+    "subcategoryId": "788a75de-bb49-49e2-8e9e-4545397c0240",
+    "status": "draft"
+  },
+  {
+    "id": "e834995e-0643-4092-a1da-277720cae02a",
+    "slug": "iot-fundamentals",
+    "title": "IoT Fundamentals",
+    "subcategoryId": "34833c27-5532-44f0-bbbd-d6cdff2ee0d6",
+    "status": "draft"
+  },
+  {
+    "id": "2b954720-3c4f-4266-916f-418504f0284e",
+    "slug": "ira-fundamentals",
+    "title": "IRA Fundamentals",
+    "subcategoryId": "87e9ff00-9b8b-4c0e-bde1-dc21b0d35905",
+    "status": "draft"
+  },
+  {
+    "id": "b447ef95-8357-4269-80d8-e54904a146cf",
+    "slug": "javascript-fundamentals",
+    "title": "JavaScript Fundamentals",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "16d4a451-5654-434a-bcff-688c1afe03e6",
+    "slug": "job-interviews",
+    "title": "Job Interviews",
+    "subcategoryId": "30d76920-86ff-4279-86a2-5b5694f493e3",
+    "status": "draft"
+  },
+  {
+    "id": "d9c2498b-500d-4dbc-b459-3aed6fe19eba",
+    "slug": "kitchen-equipment",
+    "title": "Kitchen Equipment",
+    "subcategoryId": "324a8dc9-a4cf-4134-be22-8c8dbdc5f25f",
+    "status": "draft"
+  },
+  {
+    "id": "e9139084-55bc-4d2a-b13b-ce647a717931",
+    "slug": "kubernetes-fundamentals",
+    "title": "Kubernetes Fundamentals",
+    "subcategoryId": "efb645cb-5982-498f-b705-4e1b1e77a24c",
+    "status": "draft"
+  },
+  {
+    "id": "0527fe08-36d9-4667-9fc9-e22aa34f8f9f",
+    "slug": "language-learning-fundamentals",
+    "title": "Language Learning Fundamentals",
+    "subcategoryId": "080840ac-219d-4fac-87c3-c331f3960d75",
+    "status": "draft"
+  },
+  {
+    "id": "02982c31-c474-4c44-bc92-66ffe3c63d54",
+    "slug": "language-learning-tools-and-apps",
+    "title": "Language Learning Tools & Apps",
+    "subcategoryId": "080840ac-219d-4fac-87c3-c331f3960d75",
+    "status": "draft"
+  },
+  {
+    "id": "aec97303-f79c-4ab5-abb1-88cf0dd9ca09",
+    "slug": "large-language-models",
+    "title": "Large Language Models",
+    "subcategoryId": "c55711a3-876a-4fa8-b739-99c26029e1e4",
+    "status": "draft"
+  },
+  {
+    "id": "960efd82-e487-48a7-be16-78a7956311a3",
+    "slug": "leadership-fundamentals",
+    "title": "Leadership Fundamentals",
+    "subcategoryId": "88dcad21-23ff-43df-b53c-dea16a63b3a0",
+    "status": "draft"
+  },
+  {
+    "id": "7f178980-a297-4440-9ec5-971da154a007",
+    "slug": "lean-operations",
+    "title": "Lean Operations",
+    "subcategoryId": "6b400acf-3d20-4f76-b252-6181a4f473c6",
+    "status": "draft"
+  },
+  {
+    "id": "1681ef71-c688-4f80-876e-c12f50c5a012",
+    "slug": "learning-mandarin",
+    "title": "Learning Mandarin",
+    "subcategoryId": "080840ac-219d-4fac-87c3-c331f3960d75",
+    "status": "draft"
+  },
+  {
+    "id": "bdc40da2-e353-402d-a5e3-b7a854af9982",
+    "slug": "learning-spanish",
+    "title": "Learning Spanish",
+    "subcategoryId": "080840ac-219d-4fac-87c3-c331f3960d75",
+    "status": "draft"
+  },
+  {
+    "id": "04156575-31f1-4736-bbba-26dc43c85c8c",
+    "slug": "life-insurance",
+    "title": "Life Insurance",
+    "subcategoryId": "debf45ca-ca10-40f6-94e5-8fcdd13e1acd",
+    "status": "draft"
+  },
+  {
+    "id": "fefbbdc3-a0ae-459f-ba39-d3046c704eb1",
+    "slug": "long-term-visas",
+    "title": "Long-Term Visas",
+    "subcategoryId": "3812286a-27b3-424a-861a-4754ed0f65fd",
+    "status": "draft"
+  },
+  {
+    "id": "f0a698b9-9009-4155-9c2d-16b7b6b1c05c",
+    "slug": "machine-learning-basics",
+    "title": "Machine Learning Basics",
+    "subcategoryId": "c55711a3-876a-4fa8-b739-99c26029e1e4",
+    "status": "published"
+  },
+  {
+    "id": "318308e5-6ac8-4210-9428-f861fbb73aba",
+    "slug": "machine-learning-fundamentals",
+    "title": "Machine Learning Fundamentals",
+    "subcategoryId": "717ba0e5-3334-4a62-837a-5cda60105d54",
+    "status": "published"
+  },
+  {
+    "id": "0fea020d-b231-467e-824e-f6d42a2dec7e",
+    "slug": "management-fundamentals",
+    "title": "Management Fundamentals",
+    "subcategoryId": "decb3a83-3b33-432c-906b-ca823901cf3b",
+    "status": "draft"
+  },
+  {
+    "id": "782a38cf-800a-4710-bd29-8258996e363b",
+    "slug": "marketing-fundamentals",
+    "title": "Marketing Fundamentals",
+    "subcategoryId": "233257ee-d4f1-4d10-b3b1-b0dd8b23b189",
+    "status": "published"
+  },
+  {
+    "id": "a56ad762-8bdc-4d31-b114-ffec1237b20d",
+    "slug": "meal-planning",
+    "title": "Meal Planning",
+    "subcategoryId": "324a8dc9-a4cf-4134-be22-8c8dbdc5f25f",
+    "status": "draft"
+  },
+  {
+    "id": "fd5eb0a5-ca15-49c4-9a85-130c3be85e21",
+    "slug": "mental-health-fundamentals",
+    "title": "Mental Health Fundamentals",
+    "subcategoryId": "b28824ad-4447-4ef8-8a79-38871d97853d",
+    "status": "published"
+  },
+  {
+    "id": "b087c2ac-6aac-4d31-9330-e8e2abc72420",
+    "slug": "mobile-development-fundamentals",
+    "title": "Mobile Development Fundamentals",
+    "subcategoryId": "788a75de-bb49-49e2-8e9e-4545397c0240",
+    "status": "draft"
+  },
+  {
+    "id": "0038db89-acf8-47f5-a902-e5668ad82d08",
+    "slug": "mobile-ui-ux-design",
+    "title": "Mobile UI/UX Design",
+    "subcategoryId": "788a75de-bb49-49e2-8e9e-4545397c0240",
+    "status": "draft"
+  },
+  {
+    "id": "72f2334e-e176-44c2-9c3e-e359f9f57486",
+    "slug": "monitoring-and-observability",
+    "title": "Monitoring & Observability",
+    "subcategoryId": "efb645cb-5982-498f-b705-4e1b1e77a24c",
+    "status": "draft"
+  },
+  {
+    "id": "af10a450-5a17-4071-a4c6-a34b9a2453d2",
+    "slug": "mortgage-fundamentals",
+    "title": "Mortgage Fundamentals",
+    "subcategoryId": "fa13d99e-0c5f-4001-b07e-24cf611461e8",
+    "status": "draft"
+  },
+  {
+    "id": "29c7690d-c81f-4d29-85e9-c6cbe130c2af",
+    "slug": "mutual-fund-fundamentals",
+    "title": "Mutual Fund Fundamentals",
+    "subcategoryId": "cb9dc912-0ccd-402f-a10c-7cbe0b50ebb7",
+    "status": "draft"
+  },
+  {
+    "id": "3013ee88-43d0-46e3-ad20-d7735acff60d",
+    "slug": "natural-language-processing",
+    "title": "Natural Language Processing",
+    "subcategoryId": "c55711a3-876a-4fa8-b739-99c26029e1e4",
+    "status": "draft"
+  },
+  {
+    "id": "c0d71d9a-a596-4f08-b596-683609c80d48",
+    "slug": "network-administration",
+    "title": "Network Administration",
+    "subcategoryId": "f24492f5-1737-4cfa-9f0f-1a5d784630db",
+    "status": "draft"
+  },
+  {
+    "id": "cb20de8b-fdfb-4196-8ede-62df047e2869",
+    "slug": "network-architecture",
+    "title": "Network Architecture",
+    "subcategoryId": "f24492f5-1737-4cfa-9f0f-1a5d784630db",
+    "status": "draft"
+  },
+  {
+    "id": "54bec4bd-976e-4e1c-a6c6-3ebb1faee85c",
+    "slug": "network-security",
+    "title": "Network Security",
+    "subcategoryId": "87d5268d-9995-4005-bb0c-6ee66c2bb00c",
+    "status": "draft"
+  },
+  {
+    "id": "4b8e08dc-cacc-47a6-b3c5-84a2027a1275",
+    "slug": "networking-fundamentals",
+    "title": "Networking Fundamentals",
+    "subcategoryId": "f24492f5-1737-4cfa-9f0f-1a5d784630db",
+    "status": "draft"
+  },
+  {
+    "id": "bed8d418-b324-4800-8841-e8c7b421d20c",
+    "slug": "networking-hardware",
+    "title": "Networking Hardware",
+    "subcategoryId": "34833c27-5532-44f0-bbbd-d6cdff2ee0d6",
+    "status": "draft"
+  },
+  {
+    "id": "da394a62-aefd-45ba-b921-3e22f701fe8e",
+    "slug": "neural-networks",
+    "title": "Neural Networks",
+    "subcategoryId": "717ba0e5-3334-4a62-837a-5cda60105d54",
+    "status": "published"
+  },
+  {
+    "id": "c5688be3-3f4e-4c8c-9d72-63d3c0a43f9d",
+    "slug": "neural-networks-and-deep-learning",
+    "title": "Neural Networks & Deep Learning",
+    "subcategoryId": "c55711a3-876a-4fa8-b739-99c26029e1e4",
+    "status": "draft"
+  },
+  {
+    "id": "c3a9a358-e17f-4dae-9254-a4ae58b2e64e",
+    "slug": "nextjs-framework",
+    "title": "Next.js Framework",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "2f756b44-d210-4186-b60e-ed8387aea23c",
+    "slug": "nutrition-fundamentals",
+    "title": "Nutrition Fundamentals",
+    "subcategoryId": "39ec3da6-bbe4-45eb-b511-fed03e018972",
+    "status": "published"
+  },
+  {
+    "id": "1bd56162-5c75-41ca-a4e2-87a591bc46dc",
+    "slug": "online-learning-fundamentals",
+    "title": "Online Learning Fundamentals",
+    "subcategoryId": "a3ac0257-03ff-4bd5-ac3a-36ea4f2c0b6f",
+    "status": "draft"
+  },
+  {
+    "id": "625e25c2-b8d5-4467-ba24-0c6868c011ed",
+    "slug": "online-learning-strategies",
+    "title": "Online Learning Strategies",
+    "subcategoryId": "a3ac0257-03ff-4bd5-ac3a-36ea4f2c0b6f",
+    "status": "published"
+  },
+  {
+    "id": "9e7011bb-9efa-4861-b7b1-087907b11906",
+    "slug": "operating-systems",
+    "title": "Operating Systems",
+    "subcategoryId": "25b48cd5-e2be-4b9e-a9d5-ce3f4836aa1b",
+    "status": "published"
+  },
+  {
+    "id": "ac1687ef-72f5-458c-ab00-4c4174a324c9",
+    "slug": "operations-fundamentals",
+    "title": "Operations Fundamentals",
+    "subcategoryId": "6b400acf-3d20-4f76-b252-6181a4f473c6",
+    "status": "draft"
+  },
+  {
+    "id": "376930e9-17ca-4df0-9ddd-8b19e014f630",
+    "slug": "operations-management",
+    "title": "Operations Management",
+    "subcategoryId": "decb3a83-3b33-432c-906b-ca823901cf3b",
+    "status": "draft"
+  },
+  {
+    "id": "e0d50989-7377-46d6-adf9-7478f13cfbbd",
+    "slug": "pandas-data-analysis",
+    "title": "Pandas Data Analysis",
+    "subcategoryId": "717ba0e5-3334-4a62-837a-5cda60105d54",
+    "status": "published"
+  },
+  {
+    "id": "c461eb86-e495-47b0-bc7a-f4180ba4132a",
+    "slug": "passport-optimization",
+    "title": "Passport Optimization",
+    "subcategoryId": "3812286a-27b3-424a-861a-4754ed0f65fd",
+    "status": "draft"
+  },
+  {
+    "id": "6251af8e-3544-423b-9669-0e20e6295fe8",
+    "slug": "payments-and-checkout-optimization",
+    "title": "Payments & Checkout Optimization",
+    "subcategoryId": "5a7436fb-e302-4568-9e06-1b149bf6f145",
+    "status": "draft"
+  },
+  {
+    "id": "95704fd4-562b-4483-a9da-983ea58ddb0a",
+    "slug": "performance-management",
+    "title": "Performance Management",
+    "subcategoryId": "e8243e4f-2d2c-4e49-a939-3d42456d6efd",
+    "status": "draft"
+  },
+  {
+    "id": "8ba90ffc-b6f2-41a5-8915-748799d6ac4a",
+    "slug": "personal-loans",
+    "title": "Personal Loans",
+    "subcategoryId": "fa13d99e-0c5f-4001-b07e-24cf611461e8",
+    "status": "draft"
+  },
+  {
+    "id": "e15fadec-6c67-4812-9b96-078b3120d896",
+    "slug": "portfolio-construction",
+    "title": "Portfolio Construction",
+    "subcategoryId": "20d28269-9d80-4312-9771-07ff7bced5a7",
+    "status": "draft"
+  },
+  {
+    "id": "394fee5b-b5e1-4978-9103-ae3d92c6d8cd",
+    "slug": "product-sourcing-and-inventory",
+    "title": "Product Sourcing & Inventory",
+    "subcategoryId": "5a7436fb-e302-4568-9e06-1b149bf6f145",
+    "status": "draft"
+  },
+  {
+    "id": "b311d08f-01d9-4242-9011-998d35557a64",
+    "slug": "professional-networking",
+    "title": "Professional Networking",
+    "subcategoryId": "30d76920-86ff-4279-86a2-5b5694f493e3",
+    "status": "draft"
+  },
+  {
+    "id": "7c77cfa2-d679-463e-804a-9cbc2c490d1e",
+    "slug": "project-management-fundamentals",
+    "title": "Project Management Fundamentals",
+    "subcategoryId": "88dcad21-23ff-43df-b53c-dea16a63b3a0",
+    "status": "published"
+  },
+  {
+    "id": "936cb2d8-7f04-498b-9317-0c4828f0e432",
+    "slug": "project-planning",
+    "title": "Project Planning",
+    "subcategoryId": "decb3a83-3b33-432c-906b-ca823901cf3b",
+    "status": "draft"
+  },
+  {
+    "id": "83f5d380-2cb8-468e-922e-0dc8ab436bed",
+    "slug": "python",
+    "title": "Python",
+    "subcategoryId": null,
+    "status": "draft"
+  },
+  {
+    "id": "55c9e8eb-9d8b-48e5-a037-1aa729789e02",
+    "slug": "python-programming-fundamentals",
+    "title": "Python Programming Fundamentals",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "5aadd9da-1852-4da7-9729-a2027ed3b802",
+    "slug": "quality-management",
+    "title": "Quality Management",
+    "subcategoryId": "6b400acf-3d20-4f76-b252-6181a4f473c6",
+    "status": "draft"
+  },
+  {
+    "id": "20553a26-715e-46fc-b1a3-49039aa45e90",
+    "slug": "rail-travel",
+    "title": "Rail Travel",
+    "subcategoryId": "531692d8-712c-4e8e-bfcc-a5ea1314625b",
+    "status": "draft"
+  },
+  {
+    "id": "700f7cb5-d84a-4658-a482-77f3afc457ad",
+    "slug": "react-library",
+    "title": "React Library",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "af88da56-0938-4121-abfe-67581860559d",
+    "slug": "recruiting-and-hiring",
+    "title": "Recruiting & Hiring",
+    "subcategoryId": "e8243e4f-2d2c-4e49-a939-3d42456d6efd",
+    "status": "draft"
+  },
+  {
+    "id": "7331f2d3-3765-4298-b7af-f8ee62f925f6",
+    "slug": "refinancing",
+    "title": "Refinancing",
+    "subcategoryId": "fa13d99e-0c5f-4001-b07e-24cf611461e8",
+    "status": "draft"
+  },
+  {
+    "id": "9fbdd5a9-cfe7-4ca7-a0b3-a1d37c86e9d6",
+    "slug": "remote-team-management",
+    "title": "Remote Team Management",
+    "subcategoryId": "decb3a83-3b33-432c-906b-ca823901cf3b",
+    "status": "draft"
+  },
+  {
+    "id": "302a9470-ab2e-4dc4-ba51-3ccf5757e684",
+    "slug": "restful-apis",
+    "title": "RESTful APIs",
+    "subcategoryId": "76cf0684-38ff-4e44-a633-8f744a321a67",
+    "status": "published"
+  },
+  {
+    "id": "f8f4a6d0-709a-4cf1-8d22-d5a9a1215d3b",
+    "slug": "resume-and-linkedin",
+    "title": "Resume & LinkedIn",
+    "subcategoryId": "30d76920-86ff-4279-86a2-5b5694f493e3",
+    "status": "draft"
+  },
+  {
+    "id": "9dbf7a11-74e6-471f-bce9-8bb1a274fe9b",
+    "slug": "retirement-income-strategies",
+    "title": "Retirement Income Strategies",
+    "subcategoryId": "87e9ff00-9b8b-4c0e-bde1-dc21b0d35905",
+    "status": "draft"
+  },
+  {
+    "id": "e380df2d-13a9-4e39-a44c-0c8cb99f52d1",
+    "slug": "retirement-planning-fundamentals",
+    "title": "Retirement Planning Fundamentals",
+    "subcategoryId": "87e9ff00-9b8b-4c0e-bde1-dc21b0d35905",
+    "status": "published"
+  },
+  {
+    "id": "b5294675-0cf9-4a7f-8093-f9a86ec0092b",
+    "slug": "road-trips",
+    "title": "Road Trips",
+    "subcategoryId": "531692d8-712c-4e8e-bfcc-a5ea1314625b",
+    "status": "draft"
+  },
+  {
+    "id": "afce8f09-0e69-4afc-b5ae-28a1bf891241",
+    "slug": "rust-programming-language",
+    "title": "Rust Programming Language",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "1c6b6cf8-e19b-4b3f-b03a-f289c383520a",
+    "slug": "salary-negotiation",
+    "title": "Salary Negotiation",
+    "subcategoryId": "30d76920-86ff-4279-86a2-5b5694f493e3",
+    "status": "draft"
+  },
+  {
+    "id": "d702d8e4-b000-4dd7-801d-4a3772bfa70b",
+    "slug": "sales-fundamentals",
+    "title": "Sales Fundamentals",
+    "subcategoryId": "7ecc0114-5660-47ab-b53d-3b68d69cda44",
+    "status": "draft"
+  },
+  {
+    "id": "02c339a5-7925-473c-8405-78b6029fee12",
+    "slug": "sales-leadership",
+    "title": "Sales Leadership",
+    "subcategoryId": "7ecc0114-5660-47ab-b53d-3b68d69cda44",
+    "status": "draft"
+  },
+  {
+    "id": "0b0a6a58-b147-45ac-a67f-d43c82d122a6",
+    "slug": "sales-negotiation",
+    "title": "Sales Negotiation",
+    "subcategoryId": "7ecc0114-5660-47ab-b53d-3b68d69cda44",
+    "status": "draft"
+  },
+  {
+    "id": "3d9dadd0-226e-44f0-9c56-3248f5dd7dc0",
+    "slug": "sector-and-thematic-etfs",
+    "title": "Sector & Thematic ETFs",
+    "subcategoryId": "391b9a76-29f7-4ad0-ba3a-9027100637af",
+    "status": "draft"
+  },
+  {
+    "id": "8d001edf-f4c3-4212-b487-743eae7f5223",
+    "slug": "security-certifications",
+    "title": "Security Certifications",
+    "subcategoryId": "87d5268d-9995-4005-bb0c-6ee66c2bb00c",
+    "status": "draft"
+  },
+  {
+    "id": "b6a1b622-f0aa-42a3-8614-578bb4563a86",
+    "slug": "self-directed-learning",
+    "title": "Self-Directed Learning",
+    "subcategoryId": "a3ac0257-03ff-4bd5-ac3a-36ea4f2c0b6f",
+    "status": "draft"
+  },
+  {
+    "id": "976dc314-0c82-4f4f-86eb-79e25c69b991",
+    "slug": "site-reliability-engineering",
+    "title": "Site Reliability Engineering",
+    "subcategoryId": "efb645cb-5982-498f-b705-4e1b1e77a24c",
+    "status": "draft"
+  },
+  {
+    "id": "b6a00a55-bfa2-4dba-8db3-998bed0c32fb",
+    "slug": "sleep-health",
+    "title": "Sleep Health",
+    "subcategoryId": "d50efddf-c2e9-4a33-8ec7-ceecb614b2be",
+    "status": "draft"
+  },
+  {
+    "id": "3916fc94-5f45-4b69-88b8-0f9a0db47fc7",
+    "slug": "social-security",
+    "title": "Social Security",
+    "subcategoryId": "87e9ff00-9b8b-4c0e-bde1-dc21b0d35905",
+    "status": "draft"
+  },
+  {
+    "id": "a15a8586-7fff-4e82-b9fa-7b8f78fde092",
+    "slug": "software-testing",
+    "title": "Software Testing",
+    "subcategoryId": "58c42ac7-c23e-46cb-9323-41273e3fe72a",
+    "status": "published"
+  },
+  {
+    "id": "431cffbf-dd3f-4e71-ba80-20bd175cd46e",
+    "slug": "solo-travel",
+    "title": "Solo Travel",
+    "subcategoryId": "ace6a14f-0f7f-4bf1-8744-563b99d83f06",
+    "status": "draft"
+  },
+  {
+    "id": "1e58f3bf-74d2-40ad-92c9-69e9494cc905",
+    "slug": "sql-fundamentals",
+    "title": "SQL Fundamentals",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "e01a7797-db0c-49ef-8271-cb1e9e811ac9",
+    "slug": "startup-fundamentals",
+    "title": "Startup Fundamentals",
+    "subcategoryId": "cba765fb-2853-4291-b0b6-92496c650e90",
+    "status": "draft"
+  },
+  {
+    "id": "7fdfd3d6-8110-4889-ac87-2e560e386bb2",
+    "slug": "startup-operations-and-growth",
+    "title": "Startup Operations & Growth",
+    "subcategoryId": "cba765fb-2853-4291-b0b6-92496c650e90",
+    "status": "draft"
+  },
+  {
+    "id": "8cd5f7a9-4002-4684-828d-2df575e8627f",
+    "slug": "statistics-fundamentals",
+    "title": "Statistics Fundamentals",
+    "subcategoryId": "717ba0e5-3334-4a62-837a-5cda60105d54",
+    "status": "published"
+  },
+  {
+    "id": "233db473-0945-42d6-8139-1b7ed1fc9d2a",
+    "slug": "stock-analysis",
+    "title": "Stock Analysis",
+    "subcategoryId": "20d28269-9d80-4312-9771-07ff7bced5a7",
+    "status": "draft"
+  },
+  {
+    "id": "19b47545-69f7-4491-bd75-13301a551411",
+    "slug": "stock-market-fundamentals",
+    "title": "Stock Market Fundamentals",
+    "subcategoryId": "20d28269-9d80-4312-9771-07ff7bced5a7",
+    "status": "draft"
+  },
+  {
+    "id": "20449fef-3579-4df8-8098-a19d1cacd2a2",
+    "slug": "strategic-planning",
+    "title": "Strategic Planning",
+    "subcategoryId": "87184112-7035-4a63-9b29-41294bab1cde",
+    "status": "draft"
+  },
+  {
+    "id": "345ceb1f-c235-494f-9024-b69f0fed0ac0",
+    "slug": "stress-management",
+    "title": "Stress Management",
+    "subcategoryId": "d50efddf-c2e9-4a33-8ec7-ceecb614b2be",
+    "status": "draft"
+  },
+  {
+    "id": "1885c01a-2127-4288-8e7d-f5eecdee037a",
+    "slug": "student-loans",
+    "title": "Student Loans",
+    "subcategoryId": "fa13d99e-0c5f-4001-b07e-24cf611461e8",
+    "status": "draft"
+  },
+  {
+    "id": "ccbf8ca8-2d91-4067-a6f7-3d5a0b320464",
+    "slug": "supply-chain-management",
+    "title": "Supply Chain Management",
+    "subcategoryId": "6b400acf-3d20-4f76-b252-6181a4f473c6",
+    "status": "draft"
+  },
+  {
+    "id": "d89960d8-d6ee-4250-8708-f43632a292ee",
+    "slug": "support-tools-and-helpdesks",
+    "title": "Support Tools & Helpdesks",
+    "subcategoryId": "3e502ba7-b420-4630-ba75-3f241f05efbd",
+    "status": "draft"
+  },
+  {
+    "id": "cbdbd358-9d81-4ed0-af6d-d401c7c48b82",
+    "slug": "tax-efficient-investing",
+    "title": "Tax-Efficient Investing (Mutual Funds)",
+    "subcategoryId": "cb9dc912-0ccd-402f-a10c-7cbe0b50ebb7",
+    "status": "draft"
+  },
+  {
+    "id": "480589de-8e87-499b-8983-a0d6ad395da5",
+    "slug": "tcp-ip-and-protocols",
+    "title": "TCP/IP & Protocols",
+    "subcategoryId": "f24492f5-1737-4cfa-9f0f-1a5d784630db",
+    "status": "draft"
+  },
+  {
+    "id": "01eeadc9-b6ac-4160-8f9c-d93aa381eea0",
+    "slug": "team-leadership",
+    "title": "Team Leadership",
+    "subcategoryId": "88dcad21-23ff-43df-b53c-dea16a63b3a0",
+    "status": "draft"
+  },
+  {
+    "id": "f9db16c3-c141-41b1-a045-e0aa9b3d99d9",
+    "slug": "tourist-visas",
+    "title": "Tourist Visas",
+    "subcategoryId": "3812286a-27b3-424a-861a-4754ed0f65fd",
+    "status": "draft"
+  },
+  {
+    "id": "98c4c3ca-72fd-4780-91f5-61ca95fddbc0",
+    "slug": "travel-insurance",
+    "title": "Travel Insurance",
+    "subcategoryId": "0fd59787-9a1a-4d5d-8f2a-5670998b2a09",
+    "status": "draft"
+  },
+  {
+    "id": "de6dcbde-cc8e-42ae-a100-7d8b4ae6604b",
+    "slug": "travel-planning-fundamentals",
+    "title": "Travel Planning Fundamentals",
+    "subcategoryId": "ace6a14f-0f7f-4bf1-8744-563b99d83f06",
+    "status": "published"
+  },
+  {
+    "id": "21df6373-72ed-4b70-83c3-d901a99dd873",
+    "slug": "travel-rewards-and-points",
+    "title": "Travel Rewards & Points",
+    "subcategoryId": "ace6a14f-0f7f-4bf1-8744-563b99d83f06",
+    "status": "draft"
+  },
+  {
+    "id": "ca7e015a-448c-4ac1-9a8b-191d96cd7a57",
+    "slug": "travel-safety-fundamentals",
+    "title": "Travel Safety Fundamentals",
+    "subcategoryId": "0fd59787-9a1a-4d5d-8f2a-5670998b2a09",
+    "status": "draft"
+  },
+  {
+    "id": "992718eb-0e31-4782-b142-126ca86b28f4",
+    "slug": "typescript-language",
+    "title": "TypeScript Language",
+    "subcategoryId": "c2958e16-3155-4946-95fd-816ead05e8d9",
+    "status": "published"
+  },
+  {
+    "id": "5664dda4-58fa-48c1-a438-f867c27162d0",
+    "slug": "understanding-lab-results",
+    "title": "Understanding Lab Results",
+    "subcategoryId": "7ef35f69-2247-43f0-be0e-628bbf78e58e",
+    "status": "draft"
+  },
+  {
+    "id": "47cb8d1c-3eb3-4f73-95fa-3f4848064d45",
+    "slug": "venture-capital-and-funding",
+    "title": "Venture Capital & Funding",
+    "subcategoryId": "cba765fb-2853-4291-b0b6-92496c650e90",
+    "status": "draft"
+  },
+  {
+    "id": "258ecef9-6a4f-4009-8930-ba11d41e421e",
+    "slug": "visa-fundamentals",
+    "title": "Visa Fundamentals",
+    "subcategoryId": "3812286a-27b3-424a-861a-4754ed0f65fd",
+    "status": "draft"
+  },
+  {
+    "id": "86a1060a-aecb-406f-8673-d31a43d63d65",
+    "slug": "web-application-security",
+    "title": "Web Application Security",
+    "subcategoryId": "87d5268d-9995-4005-bb0c-6ee66c2bb00c",
+    "status": "draft"
+  },
+  {
+    "id": "87e1167d-1db6-44c5-92b5-ab77ffef1b87",
+    "slug": "wireless-networking",
+    "title": "Wireless Networking",
+    "subcategoryId": "f24492f5-1737-4cfa-9f0f-1a5d784630db",
+    "status": "draft"
+  },
+  {
+    "id": "1c169503-5f3e-413f-a43e-491baf323429",
+    "slug": "work-life-balance",
+    "title": "Work-Life Balance",
+    "subcategoryId": "d50efddf-c2e9-4a33-8ec7-ceecb614b2be",
+    "status": "draft"
+  },
+  {
+    "id": "4a0249f4-55f0-4c79-bca8-1559f259a927",
+    "slug": "workplace-culture-and-engagement",
+    "title": "Workplace Culture & Engagement",
+    "subcategoryId": "e8243e4f-2d2c-4e49-a939-3d42456d6efd",
+    "status": "draft"
+  }
+]

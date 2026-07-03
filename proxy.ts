@@ -3,7 +3,7 @@ import { createMiddlewareClient } from "@/lib/supabase/middleware";
 import { DEFAULT_LANGUAGE } from "@/lib/constants";
 import { isValidLanguage } from "@/lib/utils/helpers";
 
-export async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { supabase, response } = createMiddlewareClient(request);
 
   // Refresh session if it exists

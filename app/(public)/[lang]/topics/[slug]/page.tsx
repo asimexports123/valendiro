@@ -1,12 +1,13 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo/metadata";
-import { getTopicBySlug, getRelatedTopics, getArticlesByTopic, getQuestionsByTopic } from "@/services/public/publicData";
+import { getTopicBySlug, getRelatedTopics, getArticlesByTopic, getQuestionsByTopic, getTopicsByCategory, getTopicsBySubcategorySimple, getSequentialNavigation } from "@/services/public/publicData";
 import { getSemanticRecommendations, getLearningJourney } from "@/services/knowledge/knowledgeGraph";
 import { MarkdownContent } from "@/components/public/MarkdownContent";
 import { FaqSection } from "@/components/public/FaqSection";
 import { TableOfContents } from "@/components/public/TableOfContents";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { KnowledgeGraph } from "@/components/public/KnowledgeGraph";
 import { SITE_URL } from "@/lib/constants";
 import Link from "next/link";
 
@@ -73,12 +74,15 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const topic = await getTopicBySlug(slug);
   if (!topic) notFound();
 
-  const [semanticRecommendations, learningJourney, topicArticles, faqs, subcategory] = await Promise.all([
+  const [semanticRecommendations, learningJourney, topicArticles, faqs, subcategory, categoryTopics, subcategoryTopics, sequentialNav] = await Promise.all([
     getSemanticRecommendations(topic.id, topic.category_id, 9),
     getLearningJourney(topic.id, 5),
     getArticlesByTopic(topic.id, 12),
     getQuestionsByTopic(topic.id, 5),
     topic.subcategory_id ? getCollectionBySlugFromId(topic.subcategory_id) : null,
+    topic.category_id ? getTopicsByCategory(topic.category_id, 6) : [],
+    topic.subcategory_id ? getTopicsBySubcategorySimple(topic.subcategory_id, 6) : [],
+    topic.category_id ? getSequentialNavigation(topic.id, topic.category_id) : null,
   ]);
 
   const category = topic.category_id ? await getCategoryBySlugFromId(topic.category_id) : null;
@@ -181,9 +185,152 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
             {/* Article content */}
             {topic.content && (
               <div 
-                dangerouslySetInnerHTML={{ __html: topic.content }}
+                dangerouslySetInnerHTML={{ 
+                  __html: topic.content
+                    .replace(/## Sources\n[\s\S]*?(?=\n##|$)/g, "")
+                    .replace(/### Sources\n[\s\S]*?(?=\n##|$)/g, "")
+                    .replace(/#### Sources\n[\s\S]*?(?=\n##|$)/g, "")
+                }}
                 className="prose max-w-none"
               />
+            )}
+
+            {/* Prerequisites */}
+            {semanticRecommendations.prerequisites.length > 0 && (
+              <div className="mt-14 rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <span className="text-xl">📖</span>
+                  <h3 className="text-base font-semibold text-foreground">Prerequisites</h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {semanticRecommendations.prerequisites.map((rec) => (
+                    <Link key={rec.topicId} href={`/${lang}/topics/${rec.topicSlug}`}
+                      className="group rounded-xl border border-border/60 bg-muted/50 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all">
+                      <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{rec.topicTitle}</h4>
+                      <p className="mt-1 text-xs text-muted-foreground">{rec.relationshipReason}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Knowledge Graph Visualization - Always show */}
+            <KnowledgeGraph
+              prerequisites={semanticRecommendations.prerequisites.map(r => ({
+                id: r.topicId,
+                slug: r.topicSlug,
+                title: r.topicTitle,
+                relationship: r.relationshipReason,
+              }))}
+              currentTopic={{ title: topic.title }}
+              nextTopics={semanticRecommendations.nextTopics.map(r => ({
+                id: r.topicId,
+                slug: r.topicSlug,
+                title: r.topicTitle,
+                relationship: r.relationshipReason,
+              }))}
+              applications={semanticRecommendations.applications.map(r => ({
+                id: r.topicId,
+                slug: r.topicSlug,
+                title: r.topicTitle,
+                relationship: r.relationshipReason,
+              }))}
+              lang={lang}
+            />
+
+            {/* Continue Learning (from Learning Journey) */}
+            {(learningJourney.continueWith.length > 0 || learningJourney.completed.length > 0) && (
+              <div className="mt-14 rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <span className="text-xl">📚</span>
+                  <h3 className="text-base font-semibold text-foreground">Continue Learning</h3>
+                </div>
+                <div className="space-y-3">
+                  {learningJourney.continueWith.map((slug, index) => (
+                    <Link
+                      key={slug}
+                      href={`/${lang}/topics/${slug}`}
+                      className="flex items-center gap-3 p-3 rounded-xl border border-border/60 bg-muted/30 hover:border-primary/30 hover:bg-primary/5 transition-all group"
+                    >
+                      <div className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold ${index === 0 ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                        {index + 1}
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-foreground group-hover:text-primary transition-colors">{slug}</div>
+                        <div className="text-xs text-muted-foreground">Recommended next topic</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Applications */}
+            {semanticRecommendations.applications.length > 0 && (
+              <div className="mt-14 rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <span className="text-xl">🔧</span>
+                  <h3 className="text-base font-semibold text-foreground">Applications</h3>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {semanticRecommendations.applications.map((rec) => (
+                    <Link key={rec.topicId} href={`/${lang}/topics/${rec.topicSlug}`}
+                      className="group rounded-xl border border-border/60 bg-muted/50 p-4 hover:border-primary/30 hover:bg-primary/5 transition-all">
+                      <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{rec.topicTitle}</h4>
+                      <p className="mt-1 text-xs text-muted-foreground">{rec.relationshipReason}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Related Guides */}
+            {topicArticles.length > 0 && (
+              <div className="mt-14 rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
+                <div className="flex items-center gap-2.5 mb-6">
+                  <span className="text-xl">📝</span>
+                  <h3 className="text-base font-semibold text-foreground">Related Guides</h3>
+                </div>
+                <div className="space-y-3">
+                  {relatedArticles.map((article) => (
+                    <Link key={article.id} href={`/${lang}/articles/${article.slug}`}
+                      className="flex items-start gap-4 p-4 rounded-xl border border-border/60 bg-muted/30 hover:border-primary/30 hover:bg-primary/5 transition-all group">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{article.title}</h4>
+                        {article.description && (
+                          <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{article.description}</p>
+                        )}
+                        <div className="mt-2 text-xs text-muted-foreground">{article.reading_time} min read</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Sequential Navigation (Previous/Next) */}
+            {sequentialNav && (sequentialNav.previous || sequentialNav.next) && (
+              <div className="mt-12 flex items-center justify-between gap-4 border-t border-border/60 pt-8">
+                {sequentialNav.previous && (
+                  <Link
+                    href={`/${lang}/topics/${sequentialNav.previous.slug}`}
+                    className="flex-1 rounded-xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-sm transition-all text-left"
+                  >
+                    <div className="text-xs text-muted-foreground mb-1">← Previous</div>
+                    <div className="font-semibold text-foreground text-sm">{sequentialNav.previous.title}</div>
+                  </Link>
+                )}
+                <div className="flex-1" /> {/* Spacer */}
+                {sequentialNav.next && (
+                  <Link
+                    href={`/${lang}/topics/${sequentialNav.next.slug}`}
+                    className="flex-1 rounded-xl border border-border/60 bg-card p-5 hover:border-primary/30 hover:shadow-sm transition-all text-right"
+                  >
+                    <div className="text-xs text-muted-foreground mb-1">Next →</div>
+                    <div className="font-semibold text-foreground text-sm">{sequentialNav.next.title}</div>
+                  </Link>
+                )}
+              </div>
             )}
 
             {/* Articles in this topic — numbered list (spec: Topic Page = Articles List) */}
@@ -309,6 +456,38 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
                       className="group rounded-xl border border-border/60 bg-muted/50 px-4 py-2 text-sm font-medium text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors flex items-center gap-2">
                       {rec.topicTitle}
                       <span className="text-xs text-muted-foreground group-hover:text-primary/70 transition-colors">({rec.relationshipReason})</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Same Category Topics */}
+            {categoryTopics.length > 0 && (
+              <div className="mt-14">
+                <h3 className="text-lg font-semibold text-foreground mb-4">More in {category?.name || "This Category"}</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {categoryTopics.map((t) => (
+                    <Link key={t.id} href={`/${lang}/topics/${t.slug}`}
+                      className="group rounded-xl border border-border/60 bg-card p-4 hover:border-primary/30 hover:shadow-sm transition-all">
+                      <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{t.title}</h4>
+                      {t.subtitle && <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{t.subtitle}</p>}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Same Subcategory Topics */}
+            {subcategoryTopics.length > 0 && subcategory && (
+              <div className="mt-14">
+                <h3 className="text-lg font-semibold text-foreground mb-4">More in {subcategory.name}</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {subcategoryTopics.map((t) => (
+                    <Link key={t.id} href={`/${lang}/topics/${t.slug}`}
+                      className="group rounded-xl border border-border/60 bg-card p-4 hover:border-primary/30 hover:shadow-sm transition-all">
+                      <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{t.title}</h4>
+                      {t.subtitle && <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{t.subtitle}</p>}
                     </Link>
                   ))}
                 </div>

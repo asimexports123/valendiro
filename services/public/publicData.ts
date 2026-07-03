@@ -531,26 +531,6 @@ export async function getSubcategoryBySlug(slug: string): Promise<PublicSubcateg
   };
 }
 
-export async function getTopicsBySubcategory(subcategoryId: string, limit = 12): Promise<PublicTopic[]> {
-  const supabase = createAdminClient();
-  const { data } = await supabase
-    .from("topics")
-    .select("id, slug, topic_translations(title, subtitle)")
-    .eq("subcategory_id", subcategoryId)
-    .eq("status", "published")
-    .eq("topic_translations.language_code", "en")
-    .order("created_at", { ascending: false })
-    .limit(limit);
-
-  return (data || []).map((topic: any) => ({
-    id: topic.id,
-    slug: topic.slug,
-    title: topic.topic_translations?.[0]?.title || "Untitled",
-    subtitle: topic.topic_translations?.[0]?.subtitle || null,
-    category_slug: null,
-  }));
-}
-
 export async function getArticlesByTopic(topicId: string, limit = 12): Promise<PublicArticle[]> {
   const supabase = createAdminClient();
   const { data } = await supabase
@@ -575,6 +555,63 @@ export async function getArticlesByTopic(topicId: string, limit = 12): Promise<P
       category_slug: null,
     };
   });
+}
+
+export async function getTopicsBySubcategorySimple(subcategoryId: string, limit = 6): Promise<PublicTopic[]> {
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("topics")
+    .select("id, slug, topic_translations(title, subtitle)")
+    .eq("subcategory_id", subcategoryId)
+    .eq("status", "published")
+    .eq("topic_translations.language_code", "en")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return (data || []).map((topic: any) => ({
+    id: topic.id,
+    slug: topic.slug,
+    title: topic.topic_translations?.[0]?.title || "Untitled",
+    subtitle: topic.topic_translations?.[0]?.subtitle || null,
+    category_slug: null,
+  }));
+}
+
+export async function getSequentialNavigation(currentTopicId: string, categoryId: string): Promise<{
+  previous: PublicTopic | null;
+  next: PublicTopic | null;
+} | null> {
+  const supabase = createAdminClient();
+  const { data: allTopics } = await supabase
+    .from("topics")
+    .select("id, slug, topic_translations(title, subtitle)")
+    .eq("category_id", categoryId)
+    .eq("status", "published")
+    .eq("topic_translations.language_code", "en")
+    .order("created_at", { ascending: true });
+
+  if (!allTopics || allTopics.length === 0) return null;
+
+  const currentIndex = allTopics.findIndex((t: any) => t.id === currentTopicId);
+  if (currentIndex === -1) return null;
+
+  const previous = currentIndex > 0 ? {
+    id: allTopics[currentIndex - 1].id,
+    slug: allTopics[currentIndex - 1].slug,
+    title: allTopics[currentIndex - 1].topic_translations?.[0]?.title || "Untitled",
+    subtitle: allTopics[currentIndex - 1].topic_translations?.[0]?.subtitle || null,
+    category_slug: null,
+  } : null;
+
+  const next = currentIndex < allTopics.length - 1 ? {
+    id: allTopics[currentIndex + 1].id,
+    slug: allTopics[currentIndex + 1].slug,
+    title: allTopics[currentIndex + 1].topic_translations?.[0]?.title || "Untitled",
+    subtitle: allTopics[currentIndex + 1].topic_translations?.[0]?.subtitle || null,
+    category_slug: null,
+  } : null;
+
+  return { previous, next };
 }
 
 export async function getArticlesBySubcategory(subcategoryId: string, limit = 12): Promise<PublicArticle[]> {
@@ -1014,6 +1051,10 @@ export interface CategoryPageData {
   relatedCategories: PublicCategory[];
   totalArticles: number;
   lastUpdated: string | null;
+  beginnerTopics: PublicTopic[];
+  intermediateTopics: PublicTopic[];
+  advancedTopics: PublicTopic[];
+  learningPath: PublicSubcategory[];
 }
 
 export async function getCategoryPageData(slug: string): Promise<CategoryPageData | null> {
@@ -1066,6 +1107,22 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
   // Only show subcategories that have at least one published topic
   const populated = subcategoriesWithCounts.filter((s) => s.topic_count > 0);
 
+  // Group subcategories by difficulty for learning path
+  const beginner = populated.filter(s => s.difficulty === "Beginner").slice(0, 4);
+  const intermediate = populated.filter(s => s.difficulty === "Intermediate").slice(0, 4);
+  const advanced = populated.filter(s => s.difficulty === "Advanced").slice(0, 4);
+
+  // Get topics by subcategory difficulty
+  const beginnerSubIds = beginner.map(s => s.id);
+  const intermediateSubIds = intermediate.map(s => s.id);
+  const advancedSubIds = advanced.map(s => s.id);
+
+  const [beginnerTopics, intermediateTopics, advancedTopics] = await Promise.all([
+    beginnerSubIds.length > 0 ? getTopicsBySubcategories(beginnerSubIds, 6) : [],
+    intermediateSubIds.length > 0 ? getTopicsBySubcategories(intermediateSubIds, 6) : [],
+    advancedSubIds.length > 0 ? getTopicsBySubcategories(advancedSubIds, 6) : [],
+  ]);
+
   return {
     category,
     subcategories: populated,
@@ -1075,7 +1132,31 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
     relatedCategories: relatedCategories.filter((c) => c.slug !== slug),
     totalArticles,
     lastUpdated,
+    beginnerTopics,
+    intermediateTopics,
+    advancedTopics,
+    learningPath: [...beginner, ...intermediate, ...advanced].slice(0, 6),
   };
+}
+
+export async function getTopicsBySubcategories(subcategoryIds: string[], limit = 6): Promise<PublicTopic[]> {
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("topics")
+    .select("id, slug, topic_translations(title, subtitle)")
+    .in("subcategory_id", subcategoryIds)
+    .eq("status", "published")
+    .eq("topic_translations.language_code", "en")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return (data || []).map((topic: any) => ({
+    id: topic.id,
+    slug: topic.slug,
+    title: topic.topic_translations?.[0]?.title || "Untitled",
+    subtitle: topic.topic_translations?.[0]?.subtitle || null,
+    category_slug: null,
+  }));
 }
 
 export interface NavSubcategory {
