@@ -157,11 +157,11 @@ function estimateReadability(wordCount: number, sectionCount: number): number {
   // Simple heuristic: good readability = moderate word density per section
   if (wordCount === 0) return 0;
   const wordsPerSection = sectionCount > 0 ? wordCount / sectionCount : wordCount;
-  // Ideal: 80-200 words per section
-  if (wordsPerSection >= 80 && wordsPerSection <= 200) return 90;
-  if (wordsPerSection >= 40 && wordsPerSection <= 300) return 75;
-  if (wordsPerSection >= 20) return 60;
-  return 40;
+  // Phase 16: More lenient readability targets
+  if (wordsPerSection >= 50 && wordsPerSection <= 250) return 90;
+  if (wordsPerSection >= 30 && wordsPerSection <= 350) return 80;
+  if (wordsPerSection >= 20) return 70;
+  return 50;
 }
 
 function computeOverall(metrics: {
