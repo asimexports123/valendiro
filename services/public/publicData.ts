@@ -920,48 +920,25 @@ export interface PublicArticleDetail {
 }
 
 export async function getArticleBySlug(slug: string): Promise<PublicArticleDetail | null> {
-  const supabase = createAdminClient();
-  const { data } = await supabase
-    .from("articles")
-    .select("id, slug, topic_id, published_at, updated_at, difficulty, quality_score, article_translations(title, excerpt, content, meta_title, meta_description)")
-    .eq("slug", slug)
-    .eq("article_translations.language_code", "en")
-    .eq("status", "published")
-    .maybeSingle();
-
-  if (!data) return null;
-
-  const translation = data.article_translations?.[0];
-  const text = translation?.content || translation?.excerpt || "";
-
-  let category_id: string | null = null;
-  let subcategory_id: string | null = null;
-  if (data.topic_id) {
-    const { data: topic } = await supabase
-      .from("topics")
-      .select("category_id, subcategory_id")
-      .eq("id", data.topic_id)
-      .maybeSingle();
-    category_id = topic?.category_id ?? null;
-    subcategory_id = topic?.subcategory_id ?? null;
-  }
+  const topic = await getTopicBySlug(slug);
+  if (!topic) return null;
 
   return {
-    id: data.id,
-    slug: data.slug,
-    title: translation?.title || "Untitled",
-    excerpt: translation?.excerpt || null,
-    content: translation?.content || null,
-    reading_time: estimateReadingTime(text),
-    updated_at: data.updated_at,
-    published_at: data.published_at,
-    topic_id: data.topic_id,
-    category_id,
-    subcategory_id,
-    meta_title: translation?.meta_title || null,
-    meta_description: translation?.meta_description || null,
-    difficulty: data.difficulty || null,
-    quality_score: data.quality_score || null,
+    id: topic.id,
+    slug: topic.slug,
+    title: topic.title,
+    excerpt: topic.subtitle,
+    content: topic.content,
+    reading_time: estimateReadingTime(topic.content),
+    updated_at: topic.updated_at,
+    published_at: topic.updated_at,
+    topic_id: topic.id,
+    category_id: topic.category_id,
+    subcategory_id: topic.subcategory_id,
+    meta_title: topic.meta_title,
+    meta_description: topic.meta_description,
+    difficulty: null,
+    quality_score: null,
   };
 }
 
