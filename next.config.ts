@@ -40,6 +40,12 @@ const nextConfig: NextConfig = {
           { key: "Access-Control-Allow-Headers", value: "Content-Type, Authorization" },
         ],
       },
+      {
+        source: "/:lang/topics/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-store, no-cache, must-revalidate" },
+        ],
+      },
     ];
   },
 };
