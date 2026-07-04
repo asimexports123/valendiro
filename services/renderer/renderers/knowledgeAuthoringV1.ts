@@ -34,6 +34,7 @@ export const knowledgeAuthoringV1Strategy = {
     const authoringContext: AuthoringContext = {
       topic: config.slug,
       category: config.category,
+      subject: config.category,
       intent: config.intent as "inform" | "educate" | "guide" | "decide",
       complexity: config.style.includes("beginner") ? "beginner" :
                    config.style.includes("advanced") ? "advanced" : "intermediate",
