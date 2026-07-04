@@ -36,6 +36,10 @@ function cleanMarkdownArtifacts(text: string): string {
 }
 
 function generateIntroduction(title: string, facts: any[]): string {
+  if (!facts || facts.length === 0) {
+    return `${title} is an important topic to understand. This guide will help you learn the fundamentals.`;
+  }
+  
   const primaryFact = facts.find(f => f.confidence > 0.8);
   if (!primaryFact) {
     return `${title} is an important topic to understand. This guide will help you learn the fundamentals.`;
