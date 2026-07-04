@@ -671,17 +671,24 @@ export async function searchPublicContent(query: string, limit = 20) {
       .limit(limit),
   ]);
 
+  const slugToTitle = (slug: string): string => {
+    return slug
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
   return {
     articles: (articles.data || []).map((article: any) => ({
       id: article.id,
       slug: article.slug,
-      title: article.article_translations?.[0]?.title || "Untitled",
+      title: article.article_translations?.[0]?.title || slugToTitle(article.slug),
       excerpt: article.article_translations?.[0]?.excerpt || "",
     })),
     topics: (topics.data || []).map((topic: any) => ({
       id: topic.id,
       slug: topic.slug,
-      title: topic.topic_translations?.[0]?.title || "Untitled",
+      title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
       subtitle: topic.topic_translations?.[0]?.subtitle || "",
     })),
   };
@@ -908,13 +915,15 @@ export interface PublicArticleDetail {
   subcategory_id: string | null;
   meta_title: string | null;
   meta_description: string | null;
+  difficulty: string | null;
+  quality_score: number | null;
 }
 
 export async function getArticleBySlug(slug: string): Promise<PublicArticleDetail | null> {
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("articles")
-    .select("id, slug, topic_id, published_at, updated_at, article_translations(title, excerpt, content, meta_title, meta_description)")
+    .select("id, slug, topic_id, published_at, updated_at, difficulty, quality_score, article_translations(title, excerpt, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("article_translations.language_code", "en")
     .eq("status", "published")
@@ -951,6 +960,8 @@ export async function getArticleBySlug(slug: string): Promise<PublicArticleDetai
     subcategory_id,
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
+    difficulty: data.difficulty || null,
+    quality_score: data.quality_score || null,
   };
 }
 
