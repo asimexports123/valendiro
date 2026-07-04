@@ -48,6 +48,21 @@ export async function generateArticleContent(topicSlug: string, knowledgePackage
 }
 
 /**
+ * Clean markdown artifacts from text
+ */
+function cleanMarkdownArtifacts(text: string): string {
+  return text
+    .replace(/\[!NOTE\]/g, "")
+    .replace(/\[!TIP\]/g, "")
+    .replace(/\[!WARNING\]/g, "")
+    .replace(/\[!IMPORTANT\]/g, "")
+    .replace(/Definition /g, "")
+    .replace(/Expert Perspective /g, "")
+    .replace(/What to Learn Next /g, "")
+    .trim();
+}
+
+/**
  * Generate introduction from facts
  */
 function generateIntroduction(title: string, facts: any[]): string {
@@ -55,7 +70,9 @@ function generateIntroduction(title: string, facts: any[]): string {
   if (!primaryFact) {
     return `${title} is an important topic to understand. This guide will help you learn the fundamentals.`;
   }
-  return `${title} is essential for building a strong foundation. ${primaryFact.statement || ""}`;
+  // Clean up markdown artifacts from the statement
+  const cleanStatement = cleanMarkdownArtifacts(primaryFact.statement || "");
+  return `${title} is essential for building a strong foundation. ${cleanStatement}`;
 }
 
 /**
@@ -70,7 +87,7 @@ function generateSections(facts: any[]): ArticleSection[] {
   for (const [category, categoryFacts] of Object.entries(factGroups)) {
     if (categoryFacts.length > 0) {
       const sectionContent = categoryFacts
-        .map(f => f.statement)
+        .map(f => cleanMarkdownArtifacts(f.statement || ""))
         .join(" ");
       
       sections.push({
