@@ -1,0 +1,617 @@
+{
+  "timestamp": "2026-07-03T06:53:16.623Z",
+  "scoreChanges": [
+    {
+      "slug": "python-programming-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "business-strategy-fundamentals",
+      "intent": "learn",
+      "category": "business",
+      "newScore": 76
+    },
+    {
+      "slug": "sql-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "effective-study-techniques",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 83
+    },
+    {
+      "slug": "git-version-control",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "typescript-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "docker-containers",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "react-library",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "nextjs-framework",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "restful-apis",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "css-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "algorithms-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "html-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "python-programming-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "data-structures",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "design-patterns",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 74
+    },
+    {
+      "slug": "operating-systems",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 71
+    },
+    {
+      "slug": "machine-learning-fundamentals",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 74
+    },
+    {
+      "slug": "rust-programming-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "pandas-data-analysis",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "computer-networks",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "data-visualization",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "neural-networks",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "statistics-fundamentals",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 71
+    },
+    {
+      "slug": "agile-development",
+      "intent": "decide",
+      "category": "business",
+      "newScore": 72
+    },
+    {
+      "slug": "database-design",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "git-version-control",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "restful-apis",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "javascript-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "sql-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "software-testing",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "data-visualization",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "computer-networks",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "javascript-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "entrepreneurship-fundamentals",
+      "intent": "learn",
+      "category": "business",
+      "newScore": 83
+    },
+    {
+      "slug": "python-programming-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "data-structures",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "docker-containers",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "budgeting-fundamentals",
+      "intent": "learn",
+      "category": "finance",
+      "newScore": 77
+    },
+    {
+      "slug": "pandas-data-analysis",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "go-programming-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "go-programming-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "css-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 73
+    },
+    {
+      "slug": "project-management-fundamentals",
+      "intent": "learn",
+      "category": "business",
+      "newScore": 80
+    },
+    {
+      "slug": "nutrition-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 78
+    },
+    {
+      "slug": "retirement-planning-fundamentals",
+      "intent": "learn",
+      "category": "finance",
+      "newScore": 79
+    },
+    {
+      "slug": "cloud-computing-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "machine-learning-basics",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 83
+    },
+    {
+      "slug": "japan-travel-guide",
+      "intent": "learn",
+      "category": "travel",
+      "newScore": 73
+    },
+    {
+      "slug": "cybersecurity-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "retirement-planning-fundamentals",
+      "intent": "learn",
+      "category": "finance",
+      "newScore": 76
+    },
+    {
+      "slug": "machine-learning-basics",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 75
+    },
+    {
+      "slug": "docker-containers",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "css-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "typescript-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "statistics-fundamentals",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 78
+    },
+    {
+      "slug": "html-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "react-library",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "design-patterns",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 78
+    },
+    {
+      "slug": "data-structures",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "operating-systems",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 78
+    },
+    {
+      "slug": "neural-networks",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "cryptocurrency-fundamentals",
+      "intent": "learn",
+      "category": "finance",
+      "newScore": 75
+    },
+    {
+      "slug": "agile-development",
+      "intent": "decide",
+      "category": "business",
+      "newScore": 79
+    },
+    {
+      "slug": "investing-basics",
+      "intent": "learn",
+      "category": "finance",
+      "newScore": 78
+    },
+    {
+      "slug": "software-testing",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "algorithms-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "machine-learning-fundamentals",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 84
+    },
+    {
+      "slug": "mental-health-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 78
+    },
+    {
+      "slug": "online-learning-strategies",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 83
+    },
+    {
+      "slug": "cooking-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 80
+    },
+    {
+      "slug": "career-development-fundamentals",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 81
+    },
+    {
+      "slug": "travel-planning-fundamentals",
+      "intent": "learn",
+      "category": "travel",
+      "newScore": 75
+    },
+    {
+      "slug": "marketing-fundamentals",
+      "intent": "learn",
+      "category": "business",
+      "newScore": 78
+    },
+    {
+      "slug": "budget-travel-strategies",
+      "intent": "travel",
+      "category": "finance",
+      "newScore": 79
+    },
+    {
+      "slug": "fitness-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 78
+    },
+    {
+      "slug": "budget-travel-strategies",
+      "intent": "travel",
+      "category": "finance",
+      "newScore": 76
+    },
+    {
+      "slug": "home-organization-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 79
+    },
+    {
+      "slug": "operating-systems",
+      "intent": "learn",
+      "category": "education",
+      "newScore": 73
+    },
+    {
+      "slug": "software-testing",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 73
+    },
+    {
+      "slug": "typescript-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "cloud-computing-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 73
+    },
+    {
+      "slug": "nextjs-framework",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 73
+    },
+    {
+      "slug": "investing-basics",
+      "intent": "learn",
+      "category": "finance",
+      "newScore": 75
+    },
+    {
+      "slug": "algorithms-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "javascript-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 71
+    },
+    {
+      "slug": "entrepreneurship-fundamentals",
+      "intent": "learn",
+      "category": "business",
+      "newScore": 78
+    },
+    {
+      "slug": "project-management-fundamentals",
+      "intent": "learn",
+      "category": "business",
+      "newScore": 72
+    },
+    {
+      "slug": "cybersecurity-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "fitness-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 79
+    },
+    {
+      "slug": "restful-apis",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "go-programming-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 72
+    },
+    {
+      "slug": "mental-health-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 75
+    },
+    {
+      "slug": "home-organization-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 81
+    },
+    {
+      "slug": "cryptocurrency-fundamentals",
+      "intent": "learn",
+      "category": "finance",
+      "newScore": 78
+    },
+    {
+      "slug": "computer-networks",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 74
+    },
+    {
+      "slug": "database-design",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "rust-programming-language",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "python-programming-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "nextjs-framework",
+      "intent": "understand",
+      "category": "technology",
+      "newScore": 75
+    },
+    {
+      "slug": "nutrition-fundamentals",
+      "intent": "learn",
+      "category": "home",
+      "newScore": 76
+    },
+    {
+      "slug": "business-strategy-fundamentals",
+      "intent": "learn",
+      "category": "business",
+      "newScore": 83
+    }
+  ]
+}

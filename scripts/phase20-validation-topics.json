@@ -1,0 +1,155 @@
+{
+  "timestamp": "2026-07-03T06:02:16.320Z",
+  "selectedTopics": [
+    {
+      "id": "2f756b44-d210-4186-b60e-ed8387aea23c",
+      "slug": "nutrition-fundamentals",
+      "title": "Nutrition Fundamentals",
+      "subcategorySlug": "nutrition"
+    },
+    {
+      "id": "3bb00606-b7de-4233-92cd-36d193ac1c8a",
+      "slug": "budget-travel-strategies",
+      "title": "Budget Travel Strategies",
+      "subcategorySlug": "budget-travel"
+    },
+    {
+      "id": "55c9e8eb-9d8b-48e5-a037-1aa729789e02",
+      "slug": "python-programming-fundamentals",
+      "title": "Python Programming Fundamentals",
+      "subcategorySlug": "programming"
+    },
+    {
+      "id": "070978fe-6f10-4452-ab65-832a0c850a05",
+      "slug": "cloud-computing-fundamentals",
+      "title": "Cloud Computing Fundamentals",
+      "subcategorySlug": "web-development"
+    },
+    {
+      "id": "992718eb-0e31-4782-b142-126ca86b28f4",
+      "slug": "typescript-language",
+      "title": "TypeScript Language",
+      "subcategorySlug": "programming"
+    },
+    {
+      "id": "74dc1417-8cec-4a12-b2fd-22df319f5efc",
+      "slug": "cryptocurrency-fundamentals",
+      "title": "Cryptocurrency Fundamentals",
+      "subcategorySlug": "cryptocurrency"
+    },
+    {
+      "id": "a15a8586-7fff-4e82-b9fa-7b8f78fde092",
+      "slug": "software-testing",
+      "title": "Software Testing",
+      "subcategorySlug": "software-engineering"
+    },
+    {
+      "id": "9e7011bb-9efa-4861-b7b1-087907b11906",
+      "slug": "operating-systems",
+      "title": "Operating Systems",
+      "subcategorySlug": "operating-systems"
+    },
+    {
+      "id": "42dde06e-ee36-4169-b164-650b5bf7b0a1",
+      "slug": "docker-containers",
+      "title": "Docker Containers",
+      "subcategorySlug": "web-development"
+    },
+    {
+      "id": "ba90aca1-36ee-40e0-8a7b-0d03361ef250",
+      "slug": "investing-basics",
+      "title": "Investing Basics",
+      "subcategorySlug": "investing"
+    },
+    {
+      "id": "b447ef95-8357-4269-80d8-e54904a146cf",
+      "slug": "javascript-fundamentals",
+      "title": "JavaScript Fundamentals",
+      "subcategorySlug": "programming"
+    },
+    {
+      "id": "7c77cfa2-d679-463e-804a-9cbc2c490d1e",
+      "slug": "project-management-fundamentals",
+      "title": "Project Management Fundamentals",
+      "subcategorySlug": "leadership"
+    },
+    {
+      "id": "e380df2d-13a9-4e39-a44c-0c8cb99f52d1",
+      "slug": "retirement-planning-fundamentals",
+      "title": "Retirement Planning Fundamentals",
+      "subcategorySlug": "retirement-planning"
+    },
+    {
+      "id": "fc7f43a1-75b3-4414-95c9-b3aec797b6bd",
+      "slug": "computer-networks",
+      "title": "Computer Networks",
+      "subcategorySlug": "web-development"
+    },
+    {
+      "id": "cef45ee3-6563-4a8f-90af-6907ec10ecb8",
+      "slug": "cybersecurity-fundamentals",
+      "title": "Cybersecurity Fundamentals",
+      "subcategorySlug": "cybersecurity"
+    },
+    {
+      "id": "6ffa2eec-0f13-4f9e-a881-5c702d310e16",
+      "slug": "fitness-fundamentals",
+      "title": "Fitness Fundamentals",
+      "subcategorySlug": "fitness"
+    },
+    {
+      "id": "8f68092d-4b48-4f55-acbe-08371944b374",
+      "slug": "go-programming-language",
+      "title": "Go Programming Language",
+      "subcategorySlug": "programming"
+    },
+    {
+      "id": "302a9470-ab2e-4dc4-ba51-3ccf5757e684",
+      "slug": "restful-apis",
+      "title": "RESTful APIs",
+      "subcategorySlug": "web-development"
+    },
+    {
+      "id": "c3a9a358-e17f-4dae-9254-a4ae58b2e64e",
+      "slug": "nextjs-framework",
+      "title": "Next.js Framework",
+      "subcategorySlug": "web-development"
+    },
+    {
+      "id": "11909573-cba6-4a88-9b49-03c8ff950698",
+      "slug": "algorithms-fundamentals",
+      "title": "Algorithms Fundamentals",
+      "subcategorySlug": "programming"
+    },
+    {
+      "id": "7d3fe38a-22f4-4ada-b952-63099b96b7bb",
+      "slug": "entrepreneurship-fundamentals",
+      "title": "Entrepreneurship Fundamentals",
+      "subcategorySlug": "entrepreneurship"
+    },
+    {
+      "id": "f15e3896-f20c-48f7-bdbd-7843ebaee497",
+      "slug": "business-strategy-fundamentals",
+      "title": "Business Strategy Fundamentals",
+      "subcategorySlug": "entrepreneurship"
+    },
+    {
+      "id": "d48f8b35-f460-4b31-9712-0d3890f5202d",
+      "slug": "data-structures",
+      "title": "Data Structures",
+      "subcategorySlug": "programming"
+    },
+    {
+      "id": "2583a909-57d5-49be-8d4e-11e56f561281",
+      "slug": "home-organization-fundamentals",
+      "title": "Home Organization Fundamentals",
+      "subcategorySlug": "home-organization"
+    },
+    {
+      "id": "fd5eb0a5-ca15-49c4-9a85-130c3be85e21",
+      "slug": "mental-health-fundamentals",
+      "title": "Mental Health Fundamentals",
+      "subcategorySlug": "mental-health"
+    }
+  ]
+}

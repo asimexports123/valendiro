@@ -1,0 +1,746 @@
+{
+  "timestamp": "2026-07-03T06:28:14.509Z",
+  "totalProcessed": 20,
+  "results": [
+    {
+      "slug": "mental-health-fundamentals",
+      "outputId": "84bb5a6f-4224-4ba6-8fd2-6d2cb76a29d2",
+      "packageId": "67a8b6a2-38a7-4b0b-a219-40dce5772765",
+      "oldScore": 0,
+      "newOverall": 78,
+      "scoreChange": 78,
+      "breakdown": {
+        "overall": 78,
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 303,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 83
+        }
+      }
+    },
+    {
+      "slug": "home-organization-fundamentals",
+      "outputId": "de594042-04b4-4604-bcfe-561bb803cec3",
+      "packageId": "9784c5ff-c00d-42b0-86de-6513772493c4",
+      "oldScore": 0,
+      "newOverall": 78,
+      "scoreChange": 78,
+      "breakdown": {
+        "overall": 78,
+        "educationalDepth": 80,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 308,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 75,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 80
+        }
+      }
+    },
+    {
+      "slug": "data-structures",
+      "outputId": "88f8eb78-ca76-44e0-9244-a38b1d4811a6",
+      "packageId": "89c00e81-e50b-4bdc-8df5-ec540537cb99",
+      "oldScore": 0,
+      "newOverall": 77,
+      "scoreChange": 77,
+      "breakdown": {
+        "overall": 77,
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 375,
+        "sectionCount": 3,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 83
+        }
+      }
+    },
+    {
+      "slug": "business-strategy-fundamentals",
+      "outputId": "c6c7a49a-5508-41fd-ba68-1cc11209f0f0",
+      "packageId": "e669af3e-421d-4311-82c8-78159239e78b",
+      "oldScore": 0,
+      "newOverall": 80,
+      "scoreChange": 80,
+      "breakdown": {
+        "overall": 80,
+        "educationalDepth": 80,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 306,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 75,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 80
+        }
+      }
+    },
+    {
+      "slug": "entrepreneurship-fundamentals",
+      "outputId": "7edd832a-faa4-4ef7-b4a1-0915c63a0b8a",
+      "packageId": "039c7bc3-2b30-4548-9903-51cdea4b043f",
+      "oldScore": 0,
+      "newOverall": 77,
+      "scoreChange": 77,
+      "breakdown": {
+        "overall": 77,
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 328,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 83
+        }
+      }
+    },
+    {
+      "slug": "algorithms-fundamentals",
+      "outputId": "498e63b7-589e-4f8f-b607-5d2b411f6063",
+      "packageId": "2507a296-f8db-4d28-bf5b-b6fb25c61b0c",
+      "oldScore": 0,
+      "newOverall": 77,
+      "scoreChange": 77,
+      "breakdown": {
+        "overall": 77,
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 360,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 80,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 80
+        }
+      }
+    },
+    {
+      "slug": "nextjs-framework",
+      "outputId": "b6121e00-ae9f-48ca-a003-a7ba5aede7ee",
+      "packageId": "54fc07bf-928e-413e-81e2-f3328b3936b6",
+      "oldScore": 0,
+      "newOverall": 80,
+      "scoreChange": 80,
+      "breakdown": {
+        "overall": 80,
+        "educationalDepth": 86.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 345,
+        "sectionCount": 3,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 40,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 74
+        }
+      }
+    },
+    {
+      "slug": "restful-apis",
+      "outputId": "8b797bfe-bc9d-456f-a50e-b08994dcd7b5",
+      "packageId": "68a1e087-831e-4efa-bdd4-b3ab255416a0",
+      "oldScore": 0,
+      "newOverall": 79,
+      "scoreChange": 79,
+      "breakdown": {
+        "overall": 79,
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 416,
+        "sectionCount": 5,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 40,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 74
+        }
+      }
+    },
+    {
+      "slug": "go-programming-language",
+      "outputId": "915b17a0-74ac-4fac-ab74-8c323299ed5e",
+      "packageId": "15bc5fbd-b32d-4d08-8d5a-e68cfe5378b5",
+      "oldScore": 0,
+      "newOverall": 81,
+      "scoreChange": 81,
+      "breakdown": {
+        "overall": 81,
+        "educationalDepth": 86.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 320,
+        "sectionCount": 5,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 50,
+          "overallFlowScore": 79
+        }
+      }
+    },
+    {
+      "slug": "fitness-fundamentals",
+      "outputId": "3bb884f6-de6c-4d1f-9471-8c3ccbb3d774",
+      "packageId": "d6d46d2a-b6e6-40ad-b033-0c20f7837cda",
+      "oldScore": 0,
+      "newOverall": 78,
+      "scoreChange": 78,
+      "breakdown": {
+        "overall": 78,
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 320,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 80,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 80
+        }
+      }
+    },
+    {
+      "slug": "computer-networks",
+      "outputId": "99b0798b-d656-44fa-a38b-3a25e99e99d1",
+      "packageId": "f3f303b7-2d5d-417d-8cc1-8b442e16ba89",
+      "oldScore": 0,
+      "newOverall": 78,
+      "scoreChange": 78,
+      "breakdown": {
+        "overall": 78,
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 359,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 85,
+          "overallFlowScore": 86
+        }
+      }
+    },
+    {
+      "slug": "project-management-fundamentals",
+      "outputId": "51e1cfbe-f4df-4b56-a26b-8b5abc6ca3d9",
+      "packageId": "0945cad6-218c-4286-876c-6dd84c8e69b7",
+      "oldScore": 0,
+      "newOverall": 78,
+      "scoreChange": 78,
+      "breakdown": {
+        "overall": 78,
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 348,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 75,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 80
+        }
+      }
+    },
+    {
+      "slug": "javascript-fundamentals",
+      "outputId": "ccec26dc-6933-434a-8977-5bc95dbb8297",
+      "packageId": "63ec8e85-121c-4d73-a144-0037b088c7ae",
+      "oldScore": 0,
+      "newOverall": 79,
+      "scoreChange": 79,
+      "breakdown": {
+        "overall": 79,
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 388,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 0,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 68
+        }
+      }
+    },
+    {
+      "slug": "investing-basics",
+      "outputId": "eb1cf3ae-58ec-4479-a630-da5f2bf1e648",
+      "packageId": "3218e854-2856-4e5c-8ec1-650835088f3f",
+      "oldScore": 0,
+      "newOverall": 77,
+      "scoreChange": 77,
+      "breakdown": {
+        "overall": 77,
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 346,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 83
+        }
+      }
+    },
+    {
+      "slug": "operating-systems",
+      "outputId": "db0a4656-06cc-4ade-ac7a-da1f4be54b55",
+      "packageId": "9a07b423-b225-4e93-8c8f-e606b252dfcd",
+      "oldScore": 0,
+      "newOverall": 78,
+      "scoreChange": 78,
+      "breakdown": {
+        "overall": 78,
+        "educationalDepth": 80,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 415,
+        "sectionCount": 3,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 83
+        }
+      }
+    },
+    {
+      "slug": "software-testing",
+      "outputId": "24222483-fcb8-4860-83b7-39b79c6f4280",
+      "packageId": "e0b2319b-7075-438c-bb17-edddade8011f",
+      "oldScore": 0,
+      "newOverall": 79,
+      "scoreChange": 79,
+      "breakdown": {
+        "overall": 79,
+        "educationalDepth": 83.33333333333334,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 331,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 50,
+          "overallFlowScore": 79
+        }
+      }
+    },
+    {
+      "slug": "cryptocurrency-fundamentals",
+      "outputId": "fdd0ca9a-b600-4507-bb1c-3db81d497c9c",
+      "packageId": "4a82034f-94af-4a39-ab12-52abf800ed22",
+      "oldScore": 0,
+      "newOverall": 79,
+      "scoreChange": 79,
+      "breakdown": {
+        "overall": 79,
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 332,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 100,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 83
+        }
+      }
+    },
+    {
+      "slug": "typescript-language",
+      "outputId": "f590daab-fde3-4893-bff2-62eb793b515c",
+      "packageId": "86006ebf-778e-4557-85a6-9e97c6a28845",
+      "oldScore": 0,
+      "newOverall": 78,
+      "scoreChange": 78,
+      "breakdown": {
+        "overall": 78,
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 305,
+        "sectionCount": 3,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 20,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 71
+        }
+      }
+    },
+    {
+      "slug": "cloud-computing-fundamentals",
+      "outputId": "cfe31f1b-70c9-4ff6-b7a2-cf1e88ceb15d",
+      "packageId": "32cb34c6-8fa3-44e2-9ad1-bd36dbd00155",
+      "oldScore": 0,
+      "newOverall": 77,
+      "scoreChange": 77,
+      "breakdown": {
+        "overall": 77,
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 339,
+        "sectionCount": 4,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 80,
+          "paragraphLengthBalance": 75,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 85,
+          "overallFlowScore": 80
+        }
+      }
+    },
+    {
+      "slug": "python-programming-fundamentals",
+      "outputId": "9bcbb653-45b8-4a28-a567-3e203fbaf6e8",
+      "packageId": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "oldScore": 0,
+      "newOverall": 82,
+      "scoreChange": 82,
+      "breakdown": {
+        "overall": 82,
+        "educationalDepth": 86.66666666666667,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "recommended": 0,
+          "optional": 0
+        },
+        "wordCount": 381,
+        "sectionCount": 5,
+        "internalLinkCount": 0,
+        "citationCount": 0,
+        "readingFlow": {
+          "repeatedOpenings": 20,
+          "paragraphLengthBalance": 90,
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "transitionQuality": 55,
+          "sentenceVariety": 70,
+          "overallFlowScore": 71
+        }
+      }
+    }
+  ]
+}

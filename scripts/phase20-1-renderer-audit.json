@@ -1,0 +1,165 @@
+{
+  "timestamp": "2026-07-03T06:18:32.279Z",
+  "auditResults": [
+    {
+      "topic": "nutrition-fundamentals",
+      "enrichmentFacts": 5,
+      "renderedWordCount": 472,
+      "avgWordsPerFact": 94.4,
+      "possiblySummarized": false,
+      "enrichmentPresence": {
+        "coreConcepts": {
+          "facts": 1,
+          "keywordMatches": 4,
+          "present": true
+        },
+        "mentalModels": {
+          "facts": 0,
+          "present": false
+        },
+        "analogies": {
+          "facts": 0,
+          "present": false
+        },
+        "historicalContext": {
+          "facts": 1,
+          "keywordMatches": 3,
+          "present": true
+        },
+        "applications": {
+          "facts": 3,
+          "keywordMatches": 2,
+          "present": true
+        }
+      }
+    },
+    {
+      "topic": "budget-travel-strategies",
+      "enrichmentFacts": 5,
+      "renderedWordCount": 472,
+      "avgWordsPerFact": 94.4,
+      "possiblySummarized": false,
+      "enrichmentPresence": {
+        "coreConcepts": {
+          "facts": 1,
+          "keywordMatches": 2,
+          "present": true
+        },
+        "mentalModels": {
+          "facts": 0,
+          "present": false
+        },
+        "analogies": {
+          "facts": 0,
+          "present": false
+        },
+        "historicalContext": {
+          "facts": 1,
+          "keywordMatches": 2,
+          "present": true
+        },
+        "applications": {
+          "facts": 3,
+          "keywordMatches": 2,
+          "present": true
+        }
+      }
+    },
+    {
+      "topic": "python-programming-fundamentals",
+      "enrichmentFacts": 10,
+      "renderedWordCount": 491,
+      "avgWordsPerFact": 49.1,
+      "possiblySummarized": false,
+      "enrichmentPresence": {
+        "coreConcepts": {
+          "facts": 2,
+          "keywordMatches": 4,
+          "present": true
+        },
+        "mentalModels": {
+          "facts": 0,
+          "present": false
+        },
+        "analogies": {
+          "facts": 0,
+          "present": false
+        },
+        "historicalContext": {
+          "facts": 2,
+          "keywordMatches": 4,
+          "present": true
+        },
+        "applications": {
+          "facts": 6,
+          "keywordMatches": 2,
+          "present": true
+        }
+      }
+    },
+    {
+      "topic": "cloud-computing-fundamentals",
+      "enrichmentFacts": 5,
+      "renderedWordCount": 494,
+      "avgWordsPerFact": 98.8,
+      "possiblySummarized": false,
+      "enrichmentPresence": {
+        "coreConcepts": {
+          "facts": 1,
+          "keywordMatches": 4,
+          "present": true
+        },
+        "mentalModels": {
+          "facts": 0,
+          "present": false
+        },
+        "analogies": {
+          "facts": 0,
+          "present": false
+        },
+        "historicalContext": {
+          "facts": 1,
+          "keywordMatches": 3,
+          "present": true
+        },
+        "applications": {
+          "facts": 3,
+          "keywordMatches": 2,
+          "present": true
+        }
+      }
+    },
+    {
+      "topic": "typescript-language",
+      "enrichmentFacts": 5,
+      "renderedWordCount": 391,
+      "avgWordsPerFact": 78.2,
+      "possiblySummarized": false,
+      "enrichmentPresence": {
+        "coreConcepts": {
+          "facts": 1,
+          "keywordMatches": 3,
+          "present": true
+        },
+        "mentalModels": {
+          "facts": 0,
+          "present": false
+        },
+        "analogies": {
+          "facts": 0,
+          "present": false
+        },
+        "historicalContext": {
+          "facts": 1,
+          "keywordMatches": 4,
+          "present": true
+        },
+        "applications": {
+          "facts": 3,
+          "keywordMatches": 2,
+          "present": true
+        }
+      }
+    }
+  ]
+}

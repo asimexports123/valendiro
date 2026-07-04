@@ -73,10 +73,8 @@ export class ImprovedQualityScorer {
 
     return {
       overall: detailed.overall,
-      factCoverage: detailed.explanationDepth,
+      educationalDepth: detailed.explanationDepth,
       citationCoverage: 100, // Assume full coverage for now
-      sectionCompleteness: detailed.breakdown.completenessScore,
-      readabilityEstimate: detailed.clarity,
       missingKnowledgeCount: 0,
       missingKnowledgeSeverity: {},
       wordCount,

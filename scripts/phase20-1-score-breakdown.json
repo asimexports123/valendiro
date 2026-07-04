@@ -1,0 +1,425 @@
+{
+  "timestamp": "2026-07-03T06:17:15.526Z",
+  "breakdown": [
+    {
+      "topic": "nutrition-fundamentals",
+      "before": {
+        "overall": 71,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 85,
+        "wordCount": 763,
+        "sectionCount": 8,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 2
+      },
+      "after": {
+        "overall": 72,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 79,
+        "wordCount": 316,
+        "sectionCount": 4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": 1,
+        "factCoverage": 0,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": -6,
+        "wordCount": -447,
+        "sectionCount": -4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": -1
+      }
+    },
+    {
+      "topic": "budget-travel-strategies",
+      "before": {
+        "overall": 71,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 86,
+        "wordCount": 834,
+        "sectionCount": 8,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 2
+      },
+      "after": {
+        "overall": 72,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 80,
+        "wordCount": 311,
+        "sectionCount": 4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": 1,
+        "factCoverage": 0,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": -6,
+        "wordCount": -523,
+        "sectionCount": -4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": -1
+      }
+    },
+    {
+      "topic": "python-programming-fundamentals",
+      "before": {
+        "overall": 79,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 71,
+        "wordCount": 854,
+        "sectionCount": 10,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      },
+      "after": {
+        "overall": 73,
+        "factCoverage": 81,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 71,
+        "wordCount": 381,
+        "sectionCount": 5,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      },
+      "changes": {
+        "overall": -6,
+        "factCoverage": -19,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": 0,
+        "wordCount": -473,
+        "sectionCount": -5,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      }
+    },
+    {
+      "topic": "cloud-computing-fundamentals",
+      "before": {
+        "overall": 86,
+        "factCoverage": 100,
+        "citationCoverage": 100,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 83,
+        "wordCount": 928,
+        "sectionCount": 9,
+        "citationCount": 1,
+        "internalLinkCount": 0,
+        "missingKnowledge": 2
+      },
+      "after": {
+        "overall": 72,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 80,
+        "wordCount": 339,
+        "sectionCount": 4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": -14,
+        "factCoverage": 0,
+        "citationCoverage": -100,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": -3,
+        "wordCount": -589,
+        "sectionCount": -5,
+        "citationCount": -1,
+        "internalLinkCount": 0,
+        "missingKnowledge": -1
+      }
+    },
+    {
+      "topic": "typescript-language",
+      "before": {
+        "overall": 74,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 73,
+        "wordCount": 686,
+        "sectionCount": 7,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "after": {
+        "overall": 70,
+        "factCoverage": 98,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 71,
+        "wordCount": 305,
+        "sectionCount": 3,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": -4,
+        "factCoverage": -2,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": -2,
+        "wordCount": -381,
+        "sectionCount": -4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      }
+    },
+    {
+      "topic": "cryptocurrency-fundamentals",
+      "before": {
+        "overall": 77,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 88,
+        "wordCount": 804,
+        "sectionCount": 8,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "after": {
+        "overall": 73,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 83,
+        "wordCount": 332,
+        "sectionCount": 4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": -4,
+        "factCoverage": 0,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": -5,
+        "wordCount": -472,
+        "sectionCount": -4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      }
+    },
+    {
+      "topic": "software-testing",
+      "before": {
+        "overall": 70,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 77,
+        "wordCount": 923,
+        "sectionCount": 8,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 2
+      },
+      "after": {
+        "overall": 72,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 79,
+        "wordCount": 331,
+        "sectionCount": 4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": 2,
+        "factCoverage": 0,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": 2,
+        "wordCount": -592,
+        "sectionCount": -4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": -1
+      }
+    },
+    {
+      "topic": "operating-systems",
+      "before": {
+        "overall": 69,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 71,
+        "wordCount": 1069,
+        "sectionCount": 7,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 2
+      },
+      "after": {
+        "overall": 74,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 83,
+        "wordCount": 415,
+        "sectionCount": 3,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": 5,
+        "factCoverage": 0,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": 12,
+        "wordCount": -654,
+        "sectionCount": -4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": -1
+      }
+    },
+    {
+      "topic": "docker-containers",
+      "before": {
+        "overall": 79,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 73,
+        "wordCount": 946,
+        "sectionCount": 9,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      },
+      "after": {
+        "overall": 74,
+        "factCoverage": 91,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 70,
+        "wordCount": 337,
+        "sectionCount": 4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      },
+      "changes": {
+        "overall": -5,
+        "factCoverage": -9,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": -3,
+        "wordCount": -609,
+        "sectionCount": -5,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      }
+    },
+    {
+      "topic": "investing-basics",
+      "before": {
+        "overall": 77,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 88,
+        "wordCount": 842,
+        "sectionCount": 8,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "after": {
+        "overall": 73,
+        "factCoverage": 100,
+        "citationCoverage": 0,
+        "sectionCompleteness": 100,
+        "readability": 90,
+        "readingFlow": 83,
+        "wordCount": 346,
+        "sectionCount": 4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 1
+      },
+      "changes": {
+        "overall": -4,
+        "factCoverage": 0,
+        "citationCoverage": 0,
+        "sectionCompleteness": 0,
+        "readability": 0,
+        "readingFlow": -5,
+        "wordCount": -496,
+        "sectionCount": -4,
+        "citationCount": 0,
+        "internalLinkCount": 0,
+        "missingKnowledge": 0
+      }
+    }
+  ]
+}

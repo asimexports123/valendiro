@@ -1,0 +1,1285 @@
+{
+  "timestamp": "2026-07-03T06:02:03.720Z",
+  "sampleRendered": [
+    {
+      "id": "c59f5ea3-adfd-409e-8778-6415ccfaf3c6",
+      "package_id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "knowledge_hash": "69a6c0d71c9722c1baa636e80764cfa4ba38d4a856ce51b26512eb1130308042",
+      "renderer_id": "long-article-v1.0.0",
+      "renderer_version": "1.0.0",
+      "template_version": "1.0.0",
+      "output_format": "markdown",
+      "style": [
+        "intermediate"
+      ],
+      "cache_key": "bd3af1ef5ca049d64fe7527d4ebe8e537f964d4d86b060f584be825a8e6dabb0",
+      "content": "# Python Programming Fundamentals\n\nBy definition, Python is a high-level, general-purpose programming language.. Put simply, Python is consistently ranked among the top programming languages..\n\n## Notable Features\n\n- Python Programming Language.\n- Python supports multiple programming paradigms including object-oriented\n- Python supports procedural\n- Python supports functional programming\n- Python has a comprehensive standard library.\n- Python uses dynamic typing and garbage collection.\n- Python Official Documentation.\n- Python has several built-in data types including integers\n- Python has floating-point numbers\n- Python has strings\n- Python has lists\n- Python has dictionaries\n- Python has tuples\n- Python has sets\n- Python supports list comprehensions for concise list creation.\n- Warning: avoid using mutable objects as dictionary keys.\n- Python Getting Started.\n- Python virtual environments isolate project dependencies.\n\n## Origins and History\n\nHistorically, python was created by Guido van Rossum.. Python was first released in 1991.. Looking back, python was designed to emphasize code readability..\n\n## Getting Started\n\n1. To install Python, download the installer from python.org.\n\n## Rule\n\n- Python requires proper indentation for code blocks.\n- Python requires version 3.8 or higher for modern features.\n\n---\n\n## Sources\n\n[1] Python Programming Language (encyclopedic) — [source](https://en.wikipedia.org/wiki/Python_(programming_language))\n[2] Python Official Documentation (official) — [source](https://docs.python.org/3/)\n[3] Python Getting Started (official) — [source](https://docs.python.org/3/tutorial/)\n\n### See Also\n\n- Definition \"Python is a high-level, general-purpose ...\" generalizes to properties\n- Definition \"Python is consistently ranked among the ...\" generalizes to properties\n- \"Python requires proper indentation for c...\" requires \"Python Programming Language.\"\n- \"Python requires version 3.8 or higher fo...\" requires \"Python Programming Language.\"\n- Definition \"Python lists are mutable ordered sequenc...\" generalizes to properties",
+      "document_tree": [
+        {
+          "text": "Python Programming Fundamentals",
+          "type": "heading",
+          "level": 1,
+          "anchor": "title"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "By definition, Python is a high-level, general-purpose programming language.. Put simply, Python is consistently ranked among the top programming languages.."
+          ]
+        },
+        {
+          "text": "Notable Features",
+          "type": "heading",
+          "level": 2,
+          "anchor": "properties"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Python Programming Language."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports multiple programming paradigms including object-oriented"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports procedural"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports functional programming"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has a comprehensive standard library."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python uses dynamic typing and garbage collection."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python Official Documentation."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has several built-in data types including integers"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has floating-point numbers"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has strings"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has lists"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has dictionaries"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has tuples"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has sets"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports list comprehensions for concise list creation."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Warning: avoid using mutable objects as dictionary keys."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python Getting Started."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python virtual environments isolate project dependencies."
+              ]
+            }
+          ],
+          "ordered": false
+        },
+        {
+          "text": "Origins and History",
+          "type": "heading",
+          "level": 2,
+          "anchor": "history"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "Historically, python was created by Guido van Rossum.. Python was first released in 1991.. Looking back, python was designed to emphasize code readability.."
+          ]
+        },
+        {
+          "text": "Getting Started",
+          "type": "heading",
+          "level": 2,
+          "anchor": "how-to"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "To install Python, download the installer from python.org."
+              ]
+            }
+          ],
+          "ordered": true
+        },
+        {
+          "text": "Rule",
+          "type": "heading",
+          "level": 2,
+          "anchor": "section-3"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Python requires proper indentation for code blocks."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python requires version 3.8 or higher for modern features."
+              ]
+            }
+          ],
+          "ordered": false
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "text": "Sources",
+          "type": "heading",
+          "level": 2,
+          "anchor": "sources"
+        },
+        {
+          "type": "citation-block",
+          "entries": [
+            {
+              "index": 1,
+              "authority": "encyclopedic",
+              "sourceUrl": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+              "sourceName": "Python Programming Language",
+              "retrievedAt": "2026-07-02T05:02:41.549473+00:00"
+            },
+            {
+              "index": 2,
+              "authority": "official",
+              "sourceUrl": "https://docs.python.org/3/",
+              "sourceName": "Python Official Documentation",
+              "retrievedAt": "2026-07-02T05:02:41.628429+00:00"
+            },
+            {
+              "index": 3,
+              "authority": "official",
+              "sourceUrl": "https://docs.python.org/3/tutorial/",
+              "sourceName": "Python Getting Started",
+              "retrievedAt": "2026-07-02T05:02:41.70663+00:00"
+            }
+          ]
+        },
+        {
+          "text": "See Also",
+          "type": "heading",
+          "level": 3,
+          "anchor": "see-also"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Definition \"Python is a high-level, general-purpose ...\" generalizes to properties"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Definition \"Python is consistently ranked among the ...\" generalizes to properties"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "\"Python requires proper indentation for c...\" requires \"Python Programming Language.\""
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "\"Python requires version 3.8 or higher fo...\" requires \"Python Programming Language.\""
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Definition \"Python lists are mutable ordered sequenc...\" generalizes to properties"
+              ]
+            }
+          ],
+          "ordered": false
+        }
+      ],
+      "word_count": 218,
+      "section_count": 5,
+      "citation_count": 3,
+      "quality_score": {
+        "overall": 77,
+        "wordCount": 218,
+        "factCoverage": 63,
+        "sectionCount": 5,
+        "citationCount": 3,
+        "citationCoverage": 100,
+        "internalLinkCount": 0,
+        "readabilityEstimate": 75,
+        "sectionCompleteness": 100,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "optional": 0,
+          "recommended": 0
+        }
+      },
+      "diagnostics": {
+        "cacheKey": "bd3af1ef5ca049d64fe7527d4ebe8e537f964d4d86b060f584be825a8e6dabb0",
+        "warnings": [],
+        "factsUsed": 29,
+        "blockOrder": [
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 1,
+            "required": true,
+            "sectionType": "definition"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 2,
+            "priority": 2,
+            "required": false,
+            "sectionType": "property"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 3,
+            "required": false,
+            "sectionType": "historical"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 4,
+            "required": false,
+            "sectionType": "procedural"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 2,
+            "priority": 5,
+            "required": false,
+            "sectionType": "comparison"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 6,
+            "required": false,
+            "sectionType": "measurement"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 7,
+            "required": false,
+            "sectionType": "warning"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 8,
+            "required": false,
+            "sectionType": "causal"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 9,
+            "required": false,
+            "sectionType": "rule"
+          }
+        ],
+        "factsTotal": 29,
+        "rendererId": "long-article-v1.0.0",
+        "packageSlug": "python-programming-fundamentals",
+        "variantSeed": "python-programming-fundamentals",
+        "factsSkipped": [],
+        "qualityScore": {
+          "overall": 0,
+          "wordCount": 0,
+          "factCoverage": 0,
+          "sectionCount": 0,
+          "citationCount": 0,
+          "citationCoverage": 0,
+          "internalLinkCount": 0,
+          "readabilityEstimate": 0,
+          "sectionCompleteness": 0,
+          "missingKnowledgeCount": 0,
+          "missingKnowledgeSeverity": {}
+        },
+        "knowledgeHash": "69a6c0d71c9722c1baa636e80764cfa4ba38d4a856ce51b26512eb1130308042",
+        "policyApplied": "default",
+        "citationsTotal": 3,
+        "rendererVersion": "1.0.0",
+        "serializationMs": 0,
+        "templateVersion": "1.0.0",
+        "citationRenderMs": 0,
+        "missingKnowledge": [],
+        "renderDurationMs": 423,
+        "rulesEvaluationMs": 0,
+        "citationsReferenced": 3,
+        "templateSelectionsUsed": 29
+      },
+      "render_duration_ms": 423,
+      "status": "published",
+      "created_at": "2026-07-02T05:58:42.859357+00:00",
+      "updated_at": "2026-07-02T05:58:42.695+00:00"
+    },
+    {
+      "id": "0910b9b7-86db-477f-a439-93ef2169b1f5",
+      "package_id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "knowledge_hash": "69a6c0d71c9722c1baa636e80764cfa4ba38d4a856ce51b26512eb1130308042",
+      "renderer_id": "long-article-v2.0.0",
+      "renderer_version": "2.0.0",
+      "template_version": "1.0.0",
+      "output_format": "html",
+      "style": [
+        "intermediate"
+      ],
+      "cache_key": "0d135370389fbe17cfcbd91130376e0bfaaa3e92bf36831454dcb36bfd917afb",
+      "content": "<!DOCTYPE html>\n<article class=\"knowledge-article\">\n<h1 id=\"title\">Python Programming Fundamentals</h1>\n<p>The concept is straightforward: python is a high-level, general-purpose programming language..</p>\n<nav class=\"table-of-contents\" aria-label=\"Table of contents\">\n<h2 id=\"contents\">Contents</h2>\n<ol>\n<li><a href=\"#properties\">Notable Features</a></li>\n<li><a href=\"#history\">Origins and History</a></li>\n<li><a href=\"#how-to\">Getting Started</a></li>\n<li><a href=\"#rules\">Guidelines</a></li>\n<li><a href=\"#summary\">Key Takeaways</a></li>\n</ol>\n</nav>\n<h2 id=\"properties\">Notable Features</h2>\n<p>The following features are particularly noteworthy.</p>\n<ul>\n<li>Python Programming Language.</li>\n<li>Python supports multiple programming paradigms including object-oriented</li>\n<li>Python supports procedural</li>\n<li>Python supports functional programming</li>\n<li>Python has a comprehensive standard library.</li>\n<li>Python uses dynamic typing and garbage collection.</li>\n<li>Python Official Documentation.</li>\n<li>Python has several built-in data types including integers</li>\n<li>Python has floating-point numbers</li>\n<li>Python has strings</li>\n<li>Python has lists</li>\n<li>Python has dictionaries</li>\n<li>Python has tuples</li>\n<li>Python has sets</li>\n<li>Python supports list comprehensions for concise list creation.</li>\n<li>Warning: avoid using mutable objects as dictionary keys.</li>\n<li>Python Getting Started.</li>\n<li>Python virtual environments isolate project dependencies.</li>\n</ul>\n<p>Together, these characteristics create a comprehensive picture.</p>\n<p>These features didn't emerge overnight. The history explains how they developed.</p>\n<h2 id=\"history\">Origins and History</h2>\n<p>The history behind this topic provides valuable context.</p>\n<p>Dating back to its origins, python was created by Guido van Rossum.. Over time, python was first released in 1991.. The historical record shows that python was designed to emphasize code readability..</p>\n<p>Understanding the history informs how we use it today.</p>\n<h2 id=\"how-to\">Getting Started</h2>\n<ol>\n<li>To install Python, download the installer from python.org.</li>\n</ol>\n<h2 id=\"section-3\">Rule</h2>\n<ul>\n<li>Python requires proper indentation for code blocks.</li>\n<li>Python requires version 3.8 or higher for modern features.</li>\n</ul>\n<section class=\"summary\" aria-label=\"Key takeaways\">\n<h2 id=\"summary\">Key Takeaways</h2>\n<ul>\n<li>Python Official Documentation.</li>\n<li>Python has several built-in data types including integers</li>\n<li>Python has floating-point numbers</li>\n<li>Python has strings</li>\n<li>Python has lists</li>\n</ul>\n<p class=\"closing\">Python Programming Fundamentals represents a topic with 29 verified facts across 4 distinct areas of knowledge.</p>\n</section>\n<hr />\n<h2 id=\"sources\">Sources</h2>\n<ol class=\"citation-list\">\n<li id=\"cite-1\"><span class=\"cite-index\">[1]</span> <a href=\"https://en.wikipedia.org/wiki/Python_(programming_language)\" rel=\"noopener\" target=\"_blank\">Python Programming Language</a> <span class=\"cite-authority\">(encyclopedic)</span></li>\n<li id=\"cite-2\"><span class=\"cite-index\">[2]</span> <a href=\"https://docs.python.org/3/\" rel=\"noopener\" target=\"_blank\">Python Official Documentation</a> <span class=\"cite-authority\">(official)</span></li>\n<li id=\"cite-3\"><span class=\"cite-index\">[3]</span> <a href=\"https://docs.python.org/3/tutorial/\" rel=\"noopener\" target=\"_blank\">Python Getting Started</a> <span class=\"cite-authority\">(official)</span></li>\n</ol>\n<h3 id=\"see-also\">See Also</h3>\n<ul>\n<li>Definition &quot;Python is a high-level, general-purpose ...&quot; generalizes to properties</li>\n<li>Definition &quot;Python is consistently ranked among the ...&quot; generalizes to properties</li>\n<li>&quot;Python requires proper indentation for c...&quot; requires &quot;Python Programming Language.&quot;</li>\n<li>&quot;Python requires version 3.8 or higher fo...&quot; requires &quot;Python Programming Language.&quot;</li>\n<li>Definition &quot;Python lists are mutable ordered sequenc...&quot; generalizes to properties</li>\n</ul>\n</article>",
+      "document_tree": [
+        {
+          "text": "Python Programming Fundamentals",
+          "type": "heading",
+          "level": 1,
+          "anchor": "title"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "The concept is straightforward: python is a high-level, general-purpose programming language.."
+          ]
+        },
+        {
+          "type": "table-of-contents",
+          "entries": [
+            {
+              "text": "Notable Features",
+              "level": 2,
+              "anchor": "properties"
+            },
+            {
+              "text": "Origins and History",
+              "level": 2,
+              "anchor": "history"
+            },
+            {
+              "text": "Getting Started",
+              "level": 2,
+              "anchor": "how-to"
+            },
+            {
+              "text": "Guidelines",
+              "level": 2,
+              "anchor": "rules"
+            },
+            {
+              "text": "Key Takeaways",
+              "level": 2,
+              "anchor": "summary"
+            }
+          ]
+        },
+        {
+          "text": "Notable Features",
+          "type": "heading",
+          "level": 2,
+          "anchor": "properties"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "The following features are particularly noteworthy."
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Python Programming Language."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports multiple programming paradigms including object-oriented"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports procedural"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports functional programming"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has a comprehensive standard library."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python uses dynamic typing and garbage collection."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python Official Documentation."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has several built-in data types including integers"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has floating-point numbers"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has strings"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has lists"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has dictionaries"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has tuples"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python has sets"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python supports list comprehensions for concise list creation."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Warning: avoid using mutable objects as dictionary keys."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python Getting Started."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python virtual environments isolate project dependencies."
+              ]
+            }
+          ],
+          "ordered": false
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "Together, these characteristics create a comprehensive picture."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "These features didn't emerge overnight. The history explains how they developed."
+          ]
+        },
+        {
+          "text": "Origins and History",
+          "type": "heading",
+          "level": 2,
+          "anchor": "history"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "The history behind this topic provides valuable context."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "Dating back to its origins, python was created by Guido van Rossum.. Over time, python was first released in 1991.. The historical record shows that python was designed to emphasize code readability.."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "Understanding the history informs how we use it today."
+          ]
+        },
+        {
+          "text": "Getting Started",
+          "type": "heading",
+          "level": 2,
+          "anchor": "how-to"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "To install Python, download the installer from python.org."
+              ]
+            }
+          ],
+          "ordered": true
+        },
+        {
+          "text": "Rule",
+          "type": "heading",
+          "level": 2,
+          "anchor": "section-3"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Python requires proper indentation for code blocks."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Python requires version 3.8 or higher for modern features."
+              ]
+            }
+          ],
+          "ordered": false
+        },
+        {
+          "type": "summary",
+          "keyPoints": [
+            "Python Official Documentation.",
+            "Python has several built-in data types including integers",
+            "Python has floating-point numbers",
+            "Python has strings",
+            "Python has lists"
+          ],
+          "closingSentence": "Python Programming Fundamentals represents a topic with 29 verified facts across 4 distinct areas of knowledge."
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "text": "Sources",
+          "type": "heading",
+          "level": 2,
+          "anchor": "sources"
+        },
+        {
+          "type": "citation-block",
+          "entries": [
+            {
+              "index": 1,
+              "authority": "encyclopedic",
+              "sourceUrl": "https://en.wikipedia.org/wiki/Python_(programming_language)",
+              "sourceName": "Python Programming Language",
+              "retrievedAt": "2026-07-02T05:02:41.549473+00:00"
+            },
+            {
+              "index": 2,
+              "authority": "official",
+              "sourceUrl": "https://docs.python.org/3/",
+              "sourceName": "Python Official Documentation",
+              "retrievedAt": "2026-07-02T05:02:41.628429+00:00"
+            },
+            {
+              "index": 3,
+              "authority": "official",
+              "sourceUrl": "https://docs.python.org/3/tutorial/",
+              "sourceName": "Python Getting Started",
+              "retrievedAt": "2026-07-02T05:02:41.70663+00:00"
+            }
+          ]
+        },
+        {
+          "text": "See Also",
+          "type": "heading",
+          "level": 3,
+          "anchor": "see-also"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Definition \"Python is a high-level, general-purpose ...\" generalizes to properties"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Definition \"Python is consistently ranked among the ...\" generalizes to properties"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "\"Python requires proper indentation for c...\" requires \"Python Programming Language.\""
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "\"Python requires version 3.8 or higher fo...\" requires \"Python Programming Language.\""
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Definition \"Python lists are mutable ordered sequenc...\" generalizes to properties"
+              ]
+            }
+          ],
+          "ordered": false
+        }
+      ],
+      "word_count": 259,
+      "section_count": 5,
+      "citation_count": 3,
+      "quality_score": {
+        "overall": 83,
+        "wordCount": 259,
+        "readingFlow": {
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "sentenceVariety": 50,
+          "overallFlowScore": 81,
+          "repeatedOpenings": 80,
+          "transitionQuality": 90,
+          "paragraphLengthBalance": 90
+        },
+        "factCoverage": 74,
+        "sectionCount": 5,
+        "citationCount": 3,
+        "citationCoverage": 100,
+        "internalLinkCount": 0,
+        "readabilityEstimate": 75,
+        "sectionCompleteness": 100,
+        "missingKnowledgeCount": 0,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "optional": 0,
+          "recommended": 0
+        }
+      },
+      "diagnostics": {
+        "cacheKey": "0d135370389fbe17cfcbd91130376e0bfaaa3e92bf36831454dcb36bfd917afb",
+        "warnings": [],
+        "factsUsed": 29,
+        "blockOrder": [
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 1,
+            "required": true,
+            "sectionType": "definition"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 2,
+            "priority": 2,
+            "required": false,
+            "sectionType": "property"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 3,
+            "required": false,
+            "sectionType": "historical"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 4,
+            "required": false,
+            "sectionType": "procedural"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 2,
+            "priority": 5,
+            "required": false,
+            "sectionType": "comparison"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 6,
+            "required": false,
+            "sectionType": "measurement"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 7,
+            "required": false,
+            "sectionType": "warning"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 8,
+            "required": false,
+            "sectionType": "causal"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 9,
+            "required": false,
+            "sectionType": "rule"
+          }
+        ],
+        "factsTotal": 29,
+        "rendererId": "long-article-v2.0.0",
+        "packageSlug": "python-programming-fundamentals",
+        "variantSeed": "python-programming-fundamentals",
+        "factsSkipped": [],
+        "qualityScore": {
+          "overall": 0,
+          "wordCount": 0,
+          "readingFlow": {
+            "headingDensity": 0,
+            "bulletListRatio": 0,
+            "sentenceVariety": 0,
+            "overallFlowScore": 0,
+            "repeatedOpenings": 0,
+            "transitionQuality": 0,
+            "paragraphLengthBalance": 0
+          },
+          "factCoverage": 0,
+          "sectionCount": 0,
+          "citationCount": 0,
+          "citationCoverage": 0,
+          "internalLinkCount": 0,
+          "readabilityEstimate": 0,
+          "sectionCompleteness": 0,
+          "missingKnowledgeCount": 0,
+          "missingKnowledgeSeverity": {}
+        },
+        "knowledgeHash": "69a6c0d71c9722c1baa636e80764cfa4ba38d4a856ce51b26512eb1130308042",
+        "policyApplied": "default",
+        "citationsTotal": 3,
+        "rendererVersion": "2.0.0",
+        "serializationMs": 1,
+        "templateVersion": "1.0.0",
+        "citationRenderMs": 0,
+        "missingKnowledge": [],
+        "renderDurationMs": 278,
+        "rulesEvaluationMs": 0,
+        "citationsReferenced": 3,
+        "templateSelectionsUsed": 29
+      },
+      "render_duration_ms": 278,
+      "status": "published",
+      "created_at": "2026-07-02T06:20:24.878656+00:00",
+      "updated_at": "2026-07-02T06:24:29.145+00:00"
+    },
+    {
+      "id": "f315e97a-85c5-4a18-bf06-74bd405618d8",
+      "package_id": "c7615008-4152-4eb7-97b8-5b11a08fa11e",
+      "knowledge_hash": "fb8439b426f6c13e9d84732780b7275deac2a6e0a63b34c5b148e7e1c27ed63d",
+      "renderer_id": "long-article-v2.0.0",
+      "renderer_version": "2.0.0",
+      "template_version": "1.0.0",
+      "output_format": "html",
+      "style": [
+        "intermediate"
+      ],
+      "cache_key": "b34c449793e7716be3bb0bedf18e15d9c8424994da6dbde90e39991916193cb9",
+      "content": "<!DOCTYPE html>\n<article class=\"knowledge-article\">\n<h1 id=\"title\">Sql Fundamentals</h1>\n<p>To be precise, structured Query Language is used to manage and query relational databases..</p>\n<h2 id=\"properties\">Characteristics</h2>\n<p>A closer look reveals several distinctive qualities.</p>\n<ul>\n<li>Structured Query Language Overview.</li>\n<li>Structured Query Language stands for Structured Query Language.</li>\n<li>Structured Query Language supports four main data manipulation operations: SELECT</li>\n<li>Structured Query Language supports INSERT</li>\n<li>Structured Query Language supports UPDATE</li>\n<li>Structured Query Language supports DELETE</li>\n<li>Structured Query Language databases organize data in tables with rows and columns.</li>\n<li>Structured Query Language joins combine rows from two or more tables based on a related column.</li>\n<li>Structured Query Language Reference Guide.</li>\n<li>Structured Query Language SELECT retrieves data from one or more tables.</li>\n<li>Structured Query Language WHERE clause filters rows based on specified conditions.</li>\n<li>Structured Query Language GROUP BY groups rows with the same values into summary rows.</li>\n<li>Structured Query Language ORDER BY sorts the result set in ascending or descending order.</li>\n<li>Structured Query Language indexes improve query performance on large tables.</li>\n<li>Structured Query Language primary keys uniquely identify each row in a table.</li>\n<li>Structured Query Language foreign keys create referential integrity between tables.</li>\n<li>Structured Query Language transactions ensure atomicity through COMMIT and ROLLBACK.</li>\n<li>Warning: avoid using SELECT * in production queries as it retrieves unnecessary columns.</li>\n</ul>\n<p>Together, these characteristics create a comprehensive picture.</p>\n<p>These features didn't emerge overnight. The history explains how they developed.</p>\n<h2 id=\"history\">History</h2>\n<p>The story begins with the fact that structured Query Language was developed at IBM in the early 1970s.. From a historical perspective, structured Query Language was standardized by ANSI in 1986..</p>\n<section class=\"summary\" aria-label=\"Key takeaways\">\n<h2 id=\"summary\">Key Takeaways</h2>\n<ul>\n<li>Structured Query Language Overview.</li>\n<li>Structured Query Language stands for Structured Query Language.</li>\n<li>Structured Query Language is used to manage and query relational databases.</li>\n<li>Structured Query Language was developed at IBM in the early 1970s.</li>\n<li>Structured Query Language was standardized by ANSI in 1986.</li>\n</ul>\n<p class=\"closing\">Sql Fundamentals represents a topic with 22 verified facts across 2 distinct areas of knowledge.</p>\n</section>\n<!-- MISSING: procedural (recommended) — How To -->\n<hr />\n<h2 id=\"sources\">Sources</h2>\n<ol class=\"citation-list\">\n<li id=\"cite-1\"><span class=\"cite-index\">[1]</span> <a href=\"https://en.wikipedia.org/wiki/SQL\" rel=\"noopener\" target=\"_blank\">SQL Overview</a> <span class=\"cite-authority\">(encyclopedic)</span></li>\n</ol>\n<h3 id=\"see-also\">See Also</h3>\n<ul>\n<li>Definition &quot;Structured Query Language is used to man...&quot; generalizes to properties</li>\n</ul>\n</article>",
+      "document_tree": [
+        {
+          "text": "Sql Fundamentals",
+          "type": "heading",
+          "level": 1,
+          "anchor": "title"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "To be precise, structured Query Language is used to manage and query relational databases.."
+          ]
+        },
+        {
+          "text": "Characteristics",
+          "type": "heading",
+          "level": 2,
+          "anchor": "properties"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "A closer look reveals several distinctive qualities."
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language Overview."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language stands for Structured Query Language."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language supports four main data manipulation operations: SELECT"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language supports INSERT"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language supports UPDATE"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language supports DELETE"
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language databases organize data in tables with rows and columns."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language joins combine rows from two or more tables based on a related column."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language Reference Guide."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language SELECT retrieves data from one or more tables."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language WHERE clause filters rows based on specified conditions."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language GROUP BY groups rows with the same values into summary rows."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language ORDER BY sorts the result set in ascending or descending order."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language indexes improve query performance on large tables."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language primary keys uniquely identify each row in a table."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language foreign keys create referential integrity between tables."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Structured Query Language transactions ensure atomicity through COMMIT and ROLLBACK."
+              ]
+            },
+            {
+              "type": "list-item",
+              "children": [
+                "Warning: avoid using SELECT * in production queries as it retrieves unnecessary columns."
+              ]
+            }
+          ],
+          "ordered": false
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "Together, these characteristics create a comprehensive picture."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "These features didn't emerge overnight. The history explains how they developed."
+          ]
+        },
+        {
+          "text": "History",
+          "type": "heading",
+          "level": 2,
+          "anchor": "history"
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            "The story begins with the fact that structured Query Language was developed at IBM in the early 1970s.. From a historical perspective, structured Query Language was standardized by ANSI in 1986.."
+          ]
+        },
+        {
+          "type": "summary",
+          "keyPoints": [
+            "Structured Query Language Overview.",
+            "Structured Query Language stands for Structured Query Language.",
+            "Structured Query Language is used to manage and query relational databases.",
+            "Structured Query Language was developed at IBM in the early 1970s.",
+            "Structured Query Language was standardized by ANSI in 1986."
+          ],
+          "closingSentence": "Sql Fundamentals represents a topic with 22 verified facts across 2 distinct areas of knowledge."
+        },
+        {
+          "type": "missing-knowledge",
+          "severity": "recommended",
+          "sectionName": "How To",
+          "expectedFactType": "procedural"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "text": "Sources",
+          "type": "heading",
+          "level": 2,
+          "anchor": "sources"
+        },
+        {
+          "type": "citation-block",
+          "entries": [
+            {
+              "index": 1,
+              "authority": "encyclopedic",
+              "sourceUrl": "https://en.wikipedia.org/wiki/SQL",
+              "sourceName": "SQL Overview",
+              "retrievedAt": "2026-07-02T07:00:42.685645+00:00"
+            }
+          ]
+        },
+        {
+          "text": "See Also",
+          "type": "heading",
+          "level": 3,
+          "anchor": "see-also"
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "type": "list-item",
+              "children": [
+                "Definition \"Structured Query Language is used to man...\" generalizes to properties"
+              ]
+            }
+          ],
+          "ordered": false
+        }
+      ],
+      "word_count": 263,
+      "section_count": 3,
+      "citation_count": 1,
+      "quality_score": {
+        "overall": 87,
+        "wordCount": 263,
+        "readingFlow": {
+          "headingDensity": 90,
+          "bulletListRatio": 95,
+          "sentenceVariety": 70,
+          "overallFlowScore": 88,
+          "repeatedOpenings": 100,
+          "transitionQuality": 90,
+          "paragraphLengthBalance": 90
+        },
+        "factCoverage": 100,
+        "sectionCount": 3,
+        "citationCount": 1,
+        "citationCoverage": 100,
+        "internalLinkCount": 0,
+        "readabilityEstimate": 90,
+        "sectionCompleteness": 100,
+        "missingKnowledgeCount": 1,
+        "missingKnowledgeSeverity": {
+          "critical": 0,
+          "optional": 0,
+          "recommended": 1
+        }
+      },
+      "diagnostics": {
+        "cacheKey": "b34c449793e7716be3bb0bedf18e15d9c8424994da6dbde90e39991916193cb9",
+        "warnings": [
+          "Single source — consider additional discovery"
+        ],
+        "factsUsed": 22,
+        "blockOrder": [
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 1,
+            "required": true,
+            "sectionType": "definition"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 2,
+            "priority": 2,
+            "required": false,
+            "sectionType": "property"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 3,
+            "required": false,
+            "sectionType": "historical"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 4,
+            "required": false,
+            "sectionType": "procedural"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 2,
+            "priority": 5,
+            "required": false,
+            "sectionType": "comparison"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 6,
+            "required": false,
+            "sectionType": "measurement"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 7,
+            "required": false,
+            "sectionType": "warning"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 8,
+            "required": false,
+            "sectionType": "causal"
+          },
+          {
+            "maxFacts": null,
+            "minFacts": 1,
+            "priority": 9,
+            "required": false,
+            "sectionType": "rule"
+          }
+        ],
+        "factsTotal": 22,
+        "rendererId": "long-article-v2.0.0",
+        "packageSlug": "sql-fundamentals",
+        "variantSeed": "sql-fundamentals",
+        "factsSkipped": [],
+        "qualityScore": {
+          "overall": 0,
+          "wordCount": 0,
+          "readingFlow": {
+            "headingDensity": 0,
+            "bulletListRatio": 0,
+            "sentenceVariety": 0,
+            "overallFlowScore": 0,
+            "repeatedOpenings": 0,
+            "transitionQuality": 0,
+            "paragraphLengthBalance": 0
+          },
+          "factCoverage": 0,
+          "sectionCount": 0,
+          "citationCount": 0,
+          "citationCoverage": 0,
+          "internalLinkCount": 0,
+          "readabilityEstimate": 0,
+          "sectionCompleteness": 0,
+          "missingKnowledgeCount": 0,
+          "missingKnowledgeSeverity": {}
+        },
+        "knowledgeHash": "fb8439b426f6c13e9d84732780b7275deac2a6e0a63b34c5b148e7e1c27ed63d",
+        "policyApplied": "default",
+        "citationsTotal": 1,
+        "rendererVersion": "2.0.0",
+        "serializationMs": 0,
+        "templateVersion": "1.0.0",
+        "citationRenderMs": 0,
+        "missingKnowledge": [
+          {
+            "factType": "procedural",
+            "severity": "recommended",
+            "suggestion": "Consider adding procedural facts to improve coverage",
+            "sectionName": "How To"
+          }
+        ],
+        "renderDurationMs": 258,
+        "rulesEvaluationMs": 0,
+        "citationsReferenced": 1,
+        "templateSelectionsUsed": 22
+      },
+      "render_duration_ms": 258,
+      "status": "published",
+      "created_at": "2026-07-02T07:00:59.145647+00:00",
+      "updated_at": "2026-07-02T07:00:58.965+00:00"
+    }
+  ]
+}

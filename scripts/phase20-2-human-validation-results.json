@@ -1,0 +1,353 @@
+{
+  "timestamp": "2026-07-03T06:29:36.182Z",
+  "validationFramework": "Educator Assessment Criteria",
+  "criteria": {
+    "teachingEffectiveness": "Clear explanations, appropriate difficulty progression",
+    "clarity": "Concepts explained without unnecessary jargon",
+    "memorability": "Content designed for retention",
+    "practicalValue": "Actionable takeaways and applications",
+    "conciseness": "Information-dense without verbosity"
+  },
+  "results": [
+    {
+      "slug": "nextjs-framework",
+      "url": "https://valendiro.com/nextjs-framework",
+      "overallScore": 84,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 83.33333333333334,
+        "learningProgression": 85,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 93.33333333333334,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "nextjs-framework",
+      "url": "https://valendiro.com/nextjs-framework",
+      "overallScore": 78,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "sql-fundamentals",
+      "url": "https://valendiro.com/sql-fundamentals",
+      "overallScore": 78,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "machine-learning-basics",
+      "url": "https://valendiro.com/machine-learning-basics",
+      "overallScore": 78,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "rust-programming-language",
+      "url": "https://valendiro.com/rust-programming-language",
+      "overallScore": 78,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "retirement-planning-fundamentals",
+      "url": "https://valendiro.com/retirement-planning-fundamentals",
+      "overallScore": 85,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 83.33333333333334,
+        "learningProgression": 95,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "python-programming-fundamentals",
+      "url": "https://valendiro.com/python-programming-fundamentals",
+      "overallScore": 79,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "python-programming-fundamentals",
+      "url": "https://valendiro.com/python-programming-fundamentals",
+      "overallScore": 77,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "investing-basics",
+      "url": "https://valendiro.com/investing-basics",
+      "overallScore": 85,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 95,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 93.33333333333334,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "mental-health-fundamentals",
+      "url": "https://valendiro.com/mental-health-fundamentals",
+      "overallScore": 78,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "css-fundamentals",
+      "url": "https://valendiro.com/css-fundamentals",
+      "overallScore": 79,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "home-organization-fundamentals",
+      "url": "https://valendiro.com/home-organization-fundamentals",
+      "overallScore": 78,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "html-fundamentals",
+      "url": "https://valendiro.com/html-fundamentals",
+      "overallScore": 78,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 70
+      }
+    },
+    {
+      "slug": "budget-travel-strategies",
+      "url": "https://valendiro.com/budget-travel-strategies",
+      "overallScore": 84,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 95,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "javascript-fundamentals",
+      "url": "https://valendiro.com/javascript-fundamentals",
+      "overallScore": 80,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "nutrition-fundamentals",
+      "url": "https://valendiro.com/nutrition-fundamentals",
+      "overallScore": 81,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 86.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "retirement-planning-fundamentals",
+      "url": "https://valendiro.com/retirement-planning-fundamentals",
+      "overallScore": 77,
+      "assessment": {
+        "rating": "Acceptable",
+        "reasoning": "Meets basic educational standards with room for improvement in specific areas"
+      },
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "machine-learning-fundamentals",
+      "url": "https://valendiro.com/machine-learning-fundamentals",
+      "overallScore": 86,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 83.33333333333334,
+        "learningProgression": 95,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 93.33333333333334,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "machine-learning-basics",
+      "url": "https://valendiro.com/machine-learning-basics",
+      "overallScore": 86,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 100,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 93.33333333333334,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    },
+    {
+      "slug": "cloud-computing-fundamentals",
+      "url": "https://valendiro.com/cloud-computing-fundamentals",
+      "overallScore": 84,
+      "assessment": {
+        "rating": "Good",
+        "reasoning": "Strong educational content with solid educational depth, good learning progression, good reader journey"
+      },
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 95,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 86.66666666666667,
+        "contentDensity": 90,
+        "retentionFactors": 80
+      }
+    }
+  ]
+}

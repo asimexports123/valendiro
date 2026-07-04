@@ -27,6 +27,7 @@ export interface CompositionContext {
   subject: string;
   intent: "inform" | "educate" | "guide" | "decide";
   complexity: "beginner" | "intermediate" | "advanced";
+  category: string;
 }
 
 export interface ComposedSection {
@@ -88,6 +89,7 @@ export class KnowledgeComposer {
       subject: this.extractSubject(config.slug),
       intent: config.intent,
       complexity: this.assessComplexity(facts, config.style),
+      category: config.category,
     };
 
     // Build the article structure following reader-first principles
@@ -111,17 +113,26 @@ export class KnowledgeComposer {
 
   /**
    * Build article structure following natural reader journey
-   * Introduction → Core Concept → How it Works → Example → Applications →
-   * Benefits → Limitations → Common Mistakes → Best Practices → Related Concepts → Summary
+   * Introduction → Why it Matters → Core Concept → How it Works → Example →
+   * Applications → Benefits → Pros & Cons → Common Mistakes → Best Practices →
+   * Expert Insight → Comparison → FAQ → Summary → Continue Learning
+   * 
+   * Philosophy: Progressive teaching from simple to complex
+   * Every section builds on the previous one
+   * Reader should never feel lost or overwhelmed
    */
   private buildArticleStructure(context: CompositionContext): ComposedSection[] {
     const sections: ComposedSection[] = [];
     const { facts, subject } = context;
+    const category = context.config.category;
 
     // Group facts by type for intelligent section allocation
     const byType = this.groupFactsByType(facts);
 
-    // 1. Problem/Introduction (always required)
+    // Category-specific component emphasis
+    const categoryEmphasis = this.getCategoryEmphasis(category);
+
+    // 1. Introduction (always required - sets the stage)
     sections.push({
       type: "introduction",
       heading: `What is ${subject}?`,
@@ -130,111 +141,157 @@ export class KnowledgeComposer {
       required: true,
     });
 
-    // 2. Why it matters (importance context)
-    sections.push({
-      type: "importance",
-      heading: "Why This Matters",
-      content: [],
-      order: 2,
-      required: true,
-    });
+    // Phase 19: Remove Learning Objectives and Importance sections to reduce word count
 
-    // 3. Fundamental concept (if definitions exist)
+    // 2. Core Concept (foundational understanding)
     if (byType.definition?.length > 0) {
       sections.push({
         type: "core-concept",
         heading: "Core Concept",
         content: [],
-        order: 3,
+        order: 2,
         required: true,
       });
     }
 
-    // 4. How it works (if procedural/causal facts exist)
-    if (byType.procedural?.length > 0 || byType.causal?.length > 0) {
+    // Phase 19: Remove How It Works, Real-World Example, Practical Applications to reduce word count
+    // These are redundant with Core Concept and don't add significant value for compression goal
+
+    // 3. Comparison (when relevant - context matters)
+    if (byType.comparison?.length > 0 && (context.intent === "decide" || context.intent === "guide")) {
       sections.push({
-        type: "how-it-works",
-        heading: "How It Works",
+        type: "comparison-table",
+        heading: "Comparison",
         content: [],
-        order: 4,
-        required: true,
+        order: 9,
+        required: false,
       });
     }
 
-    // 5. Real-world example (always add for better comprehension)
-    sections.push({
-      type: "example",
-      heading: "Real-World Example",
-      content: [],
-      order: 5,
-      required: true,
-    });
-
-    // 6. Applications (if property facts exist)
-    if (byType.property?.length > 0) {
+    // 10. Pros & Cons (balanced view)
+    if (byType.comparison?.length > 0 || byType.warning?.length > 0) {
       sections.push({
-        type: "applications",
-        heading: "Practical Applications",
+        type: "pros-cons",
+        heading: "Pros & Cons",
         content: [],
-        order: 6,
-        required: true,
+        order: 10,
+        required: false,
       });
     }
 
-    // 7. Advantages (if property/comparison facts exist)
-    if (byType.property?.length > 0 || byType.comparison?.length > 0) {
-      sections.push({
-        type: "benefits",
-        heading: "Advantages and Benefits",
-        content: [],
-        order: 7,
-        required: true,
-      });
-    }
-
-    // 8. Limitations (if warning facts exist)
+    // 11. Common Mistakes (what to avoid)
     if (byType.warning?.length > 0) {
-      sections.push({
-        type: "limitations",
-        heading: "Limitations and Considerations",
-        content: [],
-        order: 8,
-        required: true,
-      });
-    }
-
-    // 9. Common mistakes (if rule facts exist)
-    if (byType.rule?.length > 0) {
       sections.push({
         type: "mistakes",
         heading: "Common Mistakes to Avoid",
         content: [],
-        order: 9,
+        order: 11,
         required: true,
       });
     }
 
-    // 10. Best practices (if procedural facts exist)
-    if (byType.procedural?.length > 0) {
+    // 12. Best Practices (what to do)
+    if (byType.rule?.length > 0 || byType.procedural?.length > 0) {
       sections.push({
         type: "best-practices",
         heading: "Best Practices",
         content: [],
-        order: 10,
+        order: 12,
         required: true,
       });
     }
 
-    // 11. Summary (always required for completeness)
+    // Category-specific: Pro Tip (expert advice)
+    if ((category === "technology" || category === "business") && (byType.rule?.length > 0 || byType.procedural?.length > 0)) {
+      sections.push({
+        type: "pro-tip",
+        heading: "Pro Tip",
+        content: [],
+        order: 13,
+        required: false,
+      });
+    }
+
+    // 13. Expert Insight (deeper context)
+    if (byType.definition?.length > 0 || byType.historical?.length > 0) {
+      sections.push({
+        type: "expert-insight",
+        heading: "Expert Insight",
+        content: [],
+        order: 14,
+        required: false,
+      });
+    }
+
+    // Category-specific: Framework (structured understanding)
+    if ((category === "technology" || category === "education") && byType.definition?.length > 2) {
+      sections.push({
+        type: "framework-box",
+        heading: "Key Framework",
+        content: [],
+        order: 15,
+        required: false,
+      });
+    }
+
+    // Category-specific: FAQ (natural questions)
+    if (byType.definition?.length > 0 || byType.procedural?.length > 0) {
+      sections.push({
+        type: "faq",
+        heading: "Frequently Asked Questions",
+        content: [],
+        order: 16,
+        required: false,
+      });
+    }
+
+    // Category-specific: Checklist (actionable steps)
+    if ((category === "travel" || context.intent === "guide") && byType.procedural?.length > 0) {
+      sections.push({
+        type: "checklist",
+        heading: "Practical Checklist",
+        content: [],
+        order: 17,
+        required: false,
+      });
+    }
+
+    // 18. Summary (key takeaways)
     sections.push({
       type: "summary",
       heading: "Key Takeaways",
       content: [],
-      order: 11,
+      order: 18,
       required: true,
     });
 
+    // 19. Continue Learning (next steps)
+    sections.push({
+      type: "continue-learning",
+      heading: "Continue Learning",
+      content: [],
+      order: 19,
+      required: false,
+    });
+
     return sections;
+  }
+
+  /**
+   * Get category-specific component emphasis
+   */
+  private getCategoryEmphasis(category: string): string[] {
+    const emphasis: Record<string, string[]> = {
+      technology: ["comparison-table", "framework-box", "pro-tip"],
+      business: ["pros-cons", "comparison-table", "expert-insight"],
+      travel: ["timeline", "checklist", "did-you-know"],
+      finance: ["pros-cons", "comparison-table", "expert-insight"],
+      health: ["pros-cons", "common-mistake", "remember-this"],
+      home: ["checklist", "pro-tip", "comparison-table"],
+      education: ["framework-box", "timeline", "did-you-know"],
+    };
+
+    return emphasis[category] || [];
   }
 
   /**
@@ -279,6 +336,31 @@ export class KnowledgeComposer {
   ): DocumentNode[] {
     const tree: DocumentNode[] = [];
 
+    // Add header metadata nodes at the beginning
+    tree.push({
+      type: "metadata",
+      key: "reading-time",
+      value: this.estimateReadingTime(context.facts).toString(),
+    });
+
+    tree.push({
+      type: "metadata",
+      key: "difficulty",
+      value: context.complexity,
+    });
+
+    tree.push({
+      type: "metadata",
+      key: "category",
+      value: context.config.category,
+    });
+
+    tree.push({
+      type: "metadata",
+      key: "updated-date",
+      value: new Date().toISOString(),
+    });
+
     // Title
     tree.push({
       type: "heading",
@@ -316,6 +398,37 @@ export class KnowledgeComposer {
       previousSection = section.type;
     }
 
+    // Add footer component nodes at the end
+    tree.push({
+      type: "metadata",
+      key: "footer-continue-learning",
+      value: "Continue Learning",
+    });
+
+    tree.push({
+      type: "metadata",
+      key: "footer-explore-category",
+      value: context.config.category,
+    });
+
+    tree.push({
+      type: "metadata",
+      key: "footer-knowledge-graph",
+      value: "Knowledge Graph",
+    });
+
+    tree.push({
+      type: "metadata",
+      key: "footer-related-topics",
+      value: "Related Topics",
+    });
+
+    tree.push({
+      type: "metadata",
+      key: "footer-readers-also-read",
+      value: "Readers Also Read",
+    });
+
     return tree;
   }
 
@@ -337,18 +450,32 @@ export class KnowledgeComposer {
     byType: Record<string, PluginFact[]>
   ): PluginFact[] {
     const allocation: Record<string, string[]> = {
+      "hero-summary": ["definition"],
       "introduction": ["definition"],
+      "quick-answer": ["definition"],
+      "learning-objectives": ["definition", "procedural"],
+      "importance": ["definition", "property"],
       "core-concept": ["definition"],
       "how-it-works": ["procedural", "causal"],
       "example": ["property"],
       "applications": ["procedural"],
       "benefits": ["property"],
-      "limitations": ["comparison", "warning"],
+      "comparison-table": ["comparison"],
+      "pros-cons": ["property", "warning"],
       "mistakes": ["warning", "rule"],
       "best-practices": ["rule"],
+      "pro-tip": ["rule", "procedural"],
+      "expert-insight": ["definition", "historical"],
+      "framework-box": ["definition"],
+      "faq": ["definition", "procedural", "rule"],
+      "checklist": ["procedural"],
+      "timeline": ["historical"],
+      "remember-this": ["definition"],
       "history": ["historical"],
       "related": [],
       "summary": [],
+      "continue-learning": ["definition", "procedural"],
+      "decision-box": ["comparison", "definition"],
     };
 
     const factTypes = allocation[sectionType] || [];
@@ -377,17 +504,53 @@ export class KnowledgeComposer {
       return nodes;
     }
 
-    // Add section intro transition (not context - avoid duplication)
-    const sectionIntro = this.transitionGenerator.generateSectionIntro(sectionType, context);
-    if (sectionIntro) {
-      nodes.push({ type: "paragraph", children: [sectionIntro] });
-    }
+    // Phase 19: Remove section intro transitions to reduce word count
+    // const sectionIntro = this.transitionGenerator.generateSectionIntro(sectionType, context);
+    // if (sectionIntro) {
+    //   nodes.push({ type: "paragraph", children: [sectionIntro] });
+    // }
 
     // Render facts based on section type with better explanations
     switch (sectionType) {
+      case "learning-objectives":
+        nodes.push(...this.renderLearningObjectives(facts, context));
+        break;
+      case "importance":
+        nodes.push(...this.renderImportance(facts, context));
+        break;
+      case "pro-tip":
+        nodes.push(...this.renderProTip(facts, context));
+        break;
+      case "expert-insight":
+        nodes.push(...this.renderExpertInsight(facts, context));
+        break;
+      case "remember-this":
+        nodes.push(...this.renderRememberThis(facts, context));
+        break;
+      case "comparison-table":
+        nodes.push(...this.renderComparisonTable(facts, context));
+        break;
+      case "pros-cons":
+        nodes.push(...this.renderProsCons(facts, context));
+        break;
+      case "checklist":
+        nodes.push(...this.renderChecklist(facts, context));
+        break;
+      case "timeline":
+        nodes.push(...this.renderTimeline(facts, context));
+        break;
+      case "framework-box":
+        nodes.push(...this.renderFrameworkBox(facts, context));
+        break;
+      case "faq":
+        nodes.push(...this.renderFAQ(facts, context));
+        break;
+      case "continue-learning":
+        nodes.push(...this.renderContinueLearning(facts, context));
+        break;
       case "introduction":
       case "core-concept":
-        nodes.push(...this.renderDefinitionSection(facts, context));
+        nodes.push(...this.renderDefinitionSection(facts, context, sectionType));
         break;
       case "how-it-works":
       case "applications":
@@ -424,7 +587,7 @@ export class KnowledgeComposer {
   }
 
   // Section renderers
-  private renderDefinitionSection(
+  private renderHeroSummary(
     facts: PluginFact[],
     context: CompositionContext
   ): DocumentNode[] {
@@ -432,34 +595,557 @@ export class KnowledgeComposer {
     const subject = context.subject;
     const leadFact = facts[0];
     
-    // Direct definition without repetitive openers
-    const openers = [
-      `${leadFact.statement}`,
-      `${subject} is ${leadFact.statement.toLowerCase()}`,
-      `At its core, ${subject} means: ${leadFact.statement}`,
-    ];
+    if (!leadFact) return nodes;
+
+    // Estimate reading time based on fact count
+    const readingTime = Math.max(3, Math.ceil(facts.length / 8));
+    
+    // Generate hero summary with key information
     nodes.push({
-      type: "paragraph",
-      children: [openers[Math.floor(Math.random() * openers.length)]],
+      type: "hero-summary",
+      definition: leadFact.statement,
+      whyItMatters: `Understanding ${subject} is essential for making informed decisions and solving problems effectively.`,
+      difficulty: context.complexity,
+      readingTime: `${readingTime} min`,
+      audience: this.determineAudience(context),
+      learningObjectives: this.extractLearningObjectives(facts),
+      prerequisites: this.extractPrerequisites(facts),
     });
 
-    // Add remaining definitions with varied connectors
-    const rest = facts.slice(1);
-    const connectors = [
-      ["Additionally", ""],
-      ["Building on this", ""],
-      ["Furthermore", ""],
-      ["In practice", ""],
-      ["This means", ""],
-    ];
+    return nodes;
+  }
+
+  private determineAudience(context: CompositionContext): string {
+    const { complexity, category } = context;
+    const audienceMap: Record<string, Record<string, string>> = {
+      beginner: {
+        technology: "Beginner programmers and students",
+        finance: "New investors and curious learners",
+        health: "Health-conscious individuals",
+        travel: "Travel enthusiasts and planners",
+        business: "Aspiring entrepreneurs and professionals",
+        education: "Students and lifelong learners",
+      },
+      intermediate: {
+        technology: "Developers with basic programming knowledge",
+        finance: "Investors with some experience",
+        health: "Individuals with basic health knowledge",
+        travel: "Experienced travelers",
+        business: "Professionals with business experience",
+        education: "Learners with foundational knowledge",
+      },
+      advanced: {
+        technology: "Experienced developers and engineers",
+        finance: "Seasoned investors and financial professionals",
+        health: "Individuals with advanced health knowledge",
+        travel: "Expert travelers and nomads",
+        business: "Business leaders and executives",
+        education: "Advanced learners and professionals",
+      },
+    };
     
-    for (let i = 0; i < rest.length; i++) {
-      const fact = rest[i];
-      const [connector] = connectors[i % connectors.length];
+    return audienceMap[complexity]?.[category] || "Learners interested in this topic";
+  }
+
+  private extractLearningObjectives(facts: PluginFact[]): string[] {
+    return facts.slice(0, 3).map(f => {
+      const statement = f.statement
+        .replace(/^(Think of|Think about|Consider|Remember that)\s+/i, "")
+        .replace(/\.$/, "");
+      return `Understand ${statement.toLowerCase()}`;
+    });
+  }
+
+  private extractPrerequisites(facts: PluginFact[]): string[] {
+    // Extract prerequisites from facts tagged with "prerequisite"
+    const prereqFacts = facts.filter(f => f.tags && f.tags.includes("prerequisite"));
+    if (prereqFacts.length > 0) {
+      return prereqFacts.slice(0, 2).map(f => f.statement);
+    }
+    return [];
+  }
+
+  private renderQuickAnswer(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+    const leadFact = facts[0];
+    
+    if (!leadFact) return nodes;
+
+    // Generate quick answer - the shortest correct explanation
+    nodes.push({
+      type: "quick-answer",
+      answer: leadFact.statement,
+      context: `In short, ${subject} ${leadFact.statement.toLowerCase()}`,
+    });
+
+    return nodes;
+  }
+
+  private renderDecisionBox(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+    const category = context.category;
+    
+    // Only show decision box for certain intents and categories
+    if (context.intent !== "decide" && context.intent !== "guide") {
+      return nodes;
+    }
+
+    // Generate decision framework based on category
+    let question = "";
+    let options: { option: string; whenToChoose: string; considerations: string[] }[] = [];
+
+    if (category === "finance" && subject.toLowerCase().includes("invest")) {
+      question = "Should I invest now?";
+      options = [
+        {
+          option: "Yes, invest now",
+          whenToChoose: "If you have emergency savings, no high-interest debt, and a long time horizon",
+          considerations: [
+            "Market timing is difficult - time in market is more important",
+            "Start with index funds for diversification",
+            "Consider dollar-cost averaging to reduce risk",
+          ],
+        },
+        {
+          option: "Wait and learn more",
+          whenToChoose: "If you're not confident about your understanding or need to build emergency savings first",
+          considerations: [
+            "Education before action reduces mistakes",
+            "Build a 3-6 month emergency fund first",
+            "Pay off high-interest debt before investing",
+          ],
+        },
+      ];
+    } else if (category === "technology") {
+      question = "Should I learn this?";
+      options = [
+        {
+          option: "Yes, learn it",
+          whenToChoose: "If it aligns with your career goals or project requirements",
+          considerations: [
+            "Practical application reinforces learning",
+            "Build small projects to practice",
+            "Join a community for support",
+          ],
+        },
+        {
+          option: "Start with basics first",
+          whenToChoose: "If you're new to the field or lack foundational knowledge",
+          considerations: [
+            "Strong fundamentals make advanced topics easier",
+            "Don't rush - understanding beats memorization",
+            "Focus on concepts before syntax",
+          ],
+        },
+      ];
+    } else {
+      // Generic decision framework
+      question = `How should I approach ${subject}?`;
+      options = [
+        {
+          option: "Start with fundamentals",
+          whenToChoose: "If you're new to this topic",
+          considerations: [
+            "Build a strong foundation first",
+            "Understand core concepts before diving deep",
+            "Practice with simple examples",
+          ],
+        },
+        {
+          option: "Apply directly",
+          whenToChoose: "If you have some experience and want to solve a specific problem",
+          considerations: [
+            "Learn by doing - practical application cements knowledge",
+            "Focus on what you need for your current situation",
+            "Reference as you go",
+          ],
+        },
+      ];
+    }
+
+    nodes.push({
+      type: "decision-box",
+      question,
+      options,
+    });
+
+    return nodes;
+  }
+
+  private renderLearningObjectives(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+    
+    // Generate learning objectives from facts
+    const objectives = facts.slice(0, 4).map(f => {
+      // Convert fact statements into learning objectives
+      const statement = f.statement
+        .replace(/^(Think of|Think about|Consider|Remember that)\s+/i, "")
+        .replace(/\.$/, "");
+      return `Understand ${statement.toLowerCase()}`;
+    });
+    
+    if (objectives.length > 0) {
+      nodes.push({
+        type: "list",
+        ordered: true,
+        items: objectives.map(obj => ({
+          type: "list-item",
+          children: [obj],
+        })),
+      });
+    }
+
+    return nodes;
+  }
+
+  private renderImportance(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+    
+    nodes.push({
+      type: "paragraph",
+      children: [`Understanding ${subject} is essential because it forms the foundation for more advanced learning and practical application.`],
+    });
+    
+    // Add importance facts
+    for (const fact of facts.slice(0, 3)) {
       nodes.push({
         type: "paragraph",
-        children: [`${connector}, ${fact.statement.charAt(0).toLowerCase() + fact.statement.slice(1)}.`],
+        children: [fact.statement],
       });
+    }
+
+    return nodes;
+  }
+
+  private renderFAQ(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Create FAQ items from facts that are tagged with 'faq'
+    const faqFacts = facts.filter(f => f.tags && f.tags.includes("faq")).slice(0, 4);
+    
+    for (const fact of faqFacts) {
+      // Extract question from statement (first sentence or up to question mark)
+      const statement = fact.statement;
+      const questionEnd = statement.indexOf("?") + 1 || statement.indexOf(".");
+      const question = statement.substring(0, questionEnd) || statement;
+      const answer = statement.substring(questionEnd).trim() || statement;
+      
+      nodes.push({
+        type: "callout",
+        variant: "info",
+        title: question,
+        children: [{ type: "paragraph", children: [answer] }],
+      });
+    }
+
+    return nodes;
+  }
+
+  private renderContinueLearning(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Extract continue learning facts
+    const learningFacts = facts.filter(f => f.tags && f.tags.includes("continue-learning")).slice(0, 4);
+    
+    if (learningFacts.length > 0) {
+      nodes.push({
+        type: "paragraph",
+        children: ["To deepen your understanding, explore these next steps:"],
+      });
+      
+      nodes.push({
+        type: "list",
+        ordered: true,
+        items: learningFacts.map(f => ({
+          type: "list-item",
+          children: [f.statement],
+        })),
+      });
+    }
+
+    return nodes;
+  }
+
+  private renderQuickSummary(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+    
+    // Take top 3-5 definition facts for quick summary
+    const summaryFacts = facts.slice(0, 5);
+    
+    nodes.push({
+      type: "quick-summary",
+      content: [
+        `${subject} is ${summaryFacts[0]?.statement.toLowerCase() || "an important concept"}.`,
+        ...summaryFacts.slice(1).map(f => f.statement),
+      ],
+    });
+
+    return nodes;
+  }
+
+  private renderProTip(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Take the first rule or procedural fact as a pro tip
+    const tipFact = facts[0];
+    if (!tipFact) return nodes;
+    
+    nodes.push({
+      type: "pro-tip",
+      content: tipFact.statement,
+      context: `When working with ${context.subject}, keep this in mind.`,
+    });
+
+    return nodes;
+  }
+
+  private renderDidYouKnow(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Take the first historical or property fact
+    const fact = facts[0];
+    if (!fact) return nodes;
+    
+    nodes.push({
+      type: "did-you-know",
+      fact: fact.statement,
+    });
+
+    return nodes;
+  }
+
+  private renderExpertInsight(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Take the first definition or historical fact as expert insight
+    const fact = facts[0];
+    if (!fact) return nodes;
+    
+    nodes.push({
+      type: "expert-insight",
+      insight: fact.statement,
+      source: "Valendiro Editorial Team",
+    });
+
+    return nodes;
+  }
+
+  private renderRememberThis(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Take the most important definition fact
+    const fact = facts[0];
+    if (!fact) return nodes;
+    
+    nodes.push({
+      type: "remember-this",
+      point: fact.statement,
+    });
+
+    return nodes;
+  }
+
+  private renderComparisonTable(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Group comparison facts into a table structure
+    // For now, create a simple table from comparison facts
+    const items = facts.slice(0, 5).map(f => ({
+      name: context.subject,
+      values: [f.statement],
+    }));
+    
+    nodes.push({
+      type: "comparison-table",
+      headers: ["Feature", "Description"],
+      items,
+    });
+
+    return nodes;
+  }
+
+  private renderProsCons(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Split facts into pros (property) and cons (warning)
+    const pros = facts.filter(f => f.factType === "property").slice(0, 3).map(f => f.statement);
+    const cons = facts.filter(f => f.factType === "warning").slice(0, 3).map(f => f.statement);
+    
+    nodes.push({
+      type: "pros-cons",
+      pros,
+      cons,
+    });
+
+    return nodes;
+  }
+
+  private renderChecklist(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Create checklist from procedural facts
+    const items = facts.slice(0, 8).map(f => ({
+      text: f.statement,
+      checked: false,
+    }));
+    
+    nodes.push({
+      type: "checklist",
+      items,
+    });
+
+    return nodes;
+  }
+
+  private renderTimeline(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Create timeline from historical facts
+    const events = facts.slice(0, 5).map((f, i) => ({
+      title: `Event ${i + 1}`,
+      description: f.statement,
+      date: undefined,
+    }));
+    
+    nodes.push({
+      type: "timeline",
+      events,
+    });
+
+    return nodes;
+  }
+
+  private renderFrameworkBox(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Create framework from definition facts
+    const components = facts.slice(0, 5).map(f => f.statement);
+    
+    nodes.push({
+      type: "framework-box",
+      title: `Key Framework: ${context.subject}`,
+      components,
+      description: `The core components of ${context.subject} that you need to understand.`,
+    });
+
+    return nodes;
+  }
+
+  private renderDefinitionSection(
+    facts: PluginFact[],
+    context: CompositionContext,
+    sectionType: string = "core-concept"
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+    const leadFact = facts[0];
+    
+    if (!leadFact) return nodes;
+
+    if (sectionType === "introduction") {
+      // Introduction section: Hook reader, define concept, explain relevance
+      nodes.push({
+        type: "paragraph",
+        children: [`${subject} is a fundamental concept that you'll encounter in various contexts. Understanding it will help you make better decisions and solve problems more effectively.`],
+      });
+
+      nodes.push({
+        type: "paragraph",
+        children: [leadFact.statement],
+      });
+
+      // Add remaining definitions with natural flow
+      const rest = facts.slice(1, 3);
+      for (const fact of rest) {
+        nodes.push({
+          type: "paragraph",
+          children: [fact.statement],
+        });
+      }
+
+      // Add motivation paragraph
+      nodes.push({
+        type: "paragraph",
+        children: [`Mastering ${subject} opens doors to deeper understanding and practical application. Let's explore what makes this concept important and how you can use it.`],
+      });
+    } else {
+      // Core Concept section: Focus on the definition itself
+      nodes.push({
+        type: "paragraph",
+        children: [leadFact.statement],
+      });
+
+      // Add remaining definitions with varied connectors
+      const rest = facts.slice(1);
+      const connectors = [
+        ["Additionally", ""],
+        ["Building on this", ""],
+        ["Furthermore", ""],
+        ["In practice", ""],
+        ["This means", ""],
+      ];
+      
+      for (let i = 0; i < rest.length; i++) {
+        const fact = rest[i];
+        const [connector] = connectors[i % connectors.length];
+        nodes.push({
+          type: "paragraph",
+          children: [`${connector}, ${fact.statement.charAt(0).toLowerCase() + fact.statement.slice(1)}.`],
+        });
+      }
     }
 
     return nodes;
@@ -470,44 +1156,38 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
+    
+    // Phase 19: Remove redundancy and filler
+    const compressedFacts = this.removeRedundantFacts(facts);
     
     if (context.intent === "guide" || context.intent === "decide") {
-      // Numbered steps with explanations for guide/decide intent
-      nodes.push({
-        type: "paragraph",
-        children: [`To apply ${subject} effectively, follow these steps in order. Each step builds on the previous one, so don't skip ahead.`],
-      });
+      // Numbered steps for guide/decide intent - remove filler explanations
       nodes.push({
         type: "list",
         ordered: true,
-        items: facts.map((f, i) => ({
+        items: compressedFacts.map(f => ({
           type: "list-item",
-          children: [`${f.statement} ${i === 0 ? "This is your starting point." : i === facts.length - 1 ? "This completes the process." : "Continue to the next step."}`],
+          children: [this.removeFillerTransitions(f.statement)],
         })),
       });
     } else {
-      // Prose for educate/inform intent with explanatory flow
-      nodes.push({
-        type: "paragraph",
-        children: [`The process for ${subject} follows a logical sequence. Understanding each step helps you apply the knowledge effectively.`],
-      });
-      
-      const connectors = [
-        "First,",
-        "Next,",
-        "Then,",
-        "After that,",
-        "Finally,",
-      ];
-      
-      for (let i = 0; i < facts.length; i++) {
-        const fact = facts[i];
-        const connector = connectors[Math.min(i, connectors.length - 1)];
+      // Phase 19: Lower threshold to 2+ for more aggressive compression
+      if (compressedFacts.length >= 2) {
         nodes.push({
-          type: "paragraph",
-          children: [`${connector} ${fact.statement.charAt(0).toLowerCase() + fact.statement.slice(1)}. ${i === facts.length - 1 ? "This completes the core process." : "Let's continue to the next step."}`],
+          type: "list",
+          ordered: false,
+          items: compressedFacts.map(f => ({
+            type: "list-item",
+            children: [this.removeFillerTransitions(f.statement)],
+          })),
         });
+      } else {
+        for (const fact of compressedFacts) {
+          nodes.push({
+            type: "paragraph",
+            children: [this.removeFillerTransitions(fact.statement)],
+          });
+        }
       }
     }
 
@@ -519,28 +1199,28 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
     
-    nodes.push({
-      type: "paragraph",
-      children: [`Understanding the characteristics of ${subject} helps explain why it's valuable and how it functions in practice.`],
-    });
+    // Phase 19: Remove redundancy and compress for scanning
+    const compressedFacts = this.removeRedundantFacts(facts);
     
-    // Group 2-3 facts per paragraph with explanatory connectors
-    for (let i = 0; i < facts.length; i += 2) {
-      const group = facts.slice(i, i + 2);
-      const parts = group.map((f, j) => {
-        const s = f.statement.replace(/\.$/, "");
-        if (j === 0) return `${s}.`;
-        const connectors = ["This means", "This is important because", "This suggests that"];
-        const connector = connectors[Math.floor(Math.random() * connectors.length)];
-        return `${connector} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
-      });
-      
+    // Phase 19: Lower threshold to 2+ for more aggressive compression
+    if (compressedFacts.length >= 2) {
       nodes.push({
-        type: "paragraph",
-        children: [parts.join(" ") + (i + 2 < facts.length ? ` These characteristics work together to define ${subject}.` : "")]
+        type: "list",
+        ordered: false,
+        items: compressedFacts.map(f => ({
+          type: "list-item",
+          children: [this.removeFillerTransitions(f.statement)],
+        })),
       });
+    } else {
+      // For single facts, keep as paragraphs but remove filler
+      for (const fact of compressedFacts) {
+        nodes.push({
+          type: "paragraph",
+          children: [this.removeFillerTransitions(fact.statement)],
+        });
+      }
     }
 
     return nodes;
@@ -551,20 +1231,29 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
     
-    nodes.push({
-      type: "paragraph",
-      children: [`Being aware of these common pitfalls when working with ${subject} will help you avoid costly mistakes and achieve better results.`],
-    });
+    // Phase 19: Remove filler intro, compress to bullet list
+    const compressedFacts = this.removeRedundantFacts(facts);
     
-    for (const fact of facts) {
+    // Phase 19: Lower threshold to 2+ for more aggressive compression
+    if (compressedFacts.length >= 2) {
       nodes.push({
-        type: "callout",
-        variant: "warning",
-        title: null,
-        children: [{ type: "paragraph", children: [fact.statement] }],
+        type: "list",
+        ordered: false,
+        items: compressedFacts.map(f => ({
+          type: "list-item",
+          children: [this.removeFillerTransitions(f.statement)],
+        })),
       });
+    } else {
+      for (const fact of compressedFacts) {
+        nodes.push({
+          type: "callout",
+          variant: "warning",
+          title: null,
+          children: [{ type: "paragraph", children: [this.removeFillerTransitions(fact.statement)] }],
+        });
+      }
     }
 
     return nodes;
@@ -575,20 +1264,29 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
     
-    nodes.push({
-      type: "paragraph",
-      children: [`Following these best practices will help you get the most out of ${subject} and avoid common mistakes that many people make.`],
-    });
+    // Phase 19: Remove filler intro, compress to bullet list
+    const compressedFacts = this.removeRedundantFacts(facts);
     
-    for (const fact of facts) {
+    // Phase 19: Lower threshold to 2+ for more aggressive compression
+    if (compressedFacts.length >= 2) {
       nodes.push({
-        type: "callout",
-        variant: "tip",
-        title: null,
-        children: [{ type: "paragraph", children: [fact.statement] }],
+        type: "list",
+        ordered: false,
+        items: compressedFacts.map(f => ({
+          type: "list-item",
+          children: [this.removeFillerTransitions(f.statement)],
+        })),
       });
+    } else {
+      for (const fact of compressedFacts) {
+        nodes.push({
+          type: "callout",
+          variant: "tip",
+          title: null,
+          children: [{ type: "paragraph", children: [this.removeFillerTransitions(fact.statement)] }],
+        });
+      }
     }
 
     return nodes;
@@ -599,17 +1297,27 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
     
-    nodes.push({
-      type: "paragraph",
-      children: [`Understanding the history of ${subject} provides valuable context for why it exists in its current form and how it has evolved over time.`],
-    });
+    // Phase 19: Remove filler intro, compress to bullet list
+    const compressedFacts = this.removeRedundantFacts(facts);
     
-    for (let i = 0; i < facts.length; i += 2) {
-      const group = facts.slice(i, i + 2);
-      const parts = group.map((f) => f.statement).join(" ");
-      nodes.push({ type: "paragraph", children: [parts] });
+    // Phase 19: Lower threshold to 2+ for more aggressive compression
+    if (compressedFacts.length >= 2) {
+      nodes.push({
+        type: "list",
+        ordered: false,
+        items: compressedFacts.map(f => ({
+          type: "list-item",
+          children: [this.removeFillerTransitions(f.statement)],
+        })),
+      });
+    } else {
+      for (const fact of compressedFacts) {
+        nodes.push({
+          type: "paragraph",
+          children: [this.removeFillerTransitions(fact.statement)],
+        });
+      }
     }
 
     return nodes;
@@ -622,27 +1330,33 @@ export class KnowledgeComposer {
     const nodes: DocumentNode[] = [];
     const subject = context.subject;
     
-    const intros = [
-      `To summarize ${subject}:`,
-      `Key points about ${subject}:`,
-      `Here's what to remember about ${subject}:`,
-    ];
+    // Generate a synthesized summary that connects key concepts
     nodes.push({
       type: "paragraph",
-      children: [intros[Math.floor(Math.random() * intros.length)]],
+      children: [`${subject} is a fundamental concept that serves as a foundation for deeper learning and practical application. Throughout this guide, we've explored its core principles, practical uses, and best practices.`],
     });
     
-    // Take top 5 facts for summary
-    const topFacts = facts.slice(0, 5);
-    const closings = [
-      `With these fundamentals, you can apply ${subject} effectively.`,
-      `These points will help you work with ${subject}.`,
-      `You now have the basics to continue exploring ${subject}.`,
+    // Synthesize key takeaways from all fact types
+    const keyPoints = [
+      "Understanding the core concept provides the foundation for practical application.",
+      "Following best practices helps avoid common mistakes and achieve better results.",
+      "Real-world examples demonstrate how concepts apply in everyday situations.",
+      "Awareness of potential pitfalls enables more effective problem-solving.",
     ];
+    
     nodes.push({
-      type: "summary",
-      keyPoints: topFacts.map((f) => f.statement),
-      closingSentence: closings[Math.floor(Math.random() * closings.length)],
+      type: "list",
+      ordered: true,
+      items: keyPoints.map(point => ({
+        type: "list-item",
+        children: [point],
+      })),
+    });
+
+    // Add forward-looking conclusion
+    nodes.push({
+      type: "paragraph",
+      children: [`With these fundamentals in place, you're now equipped to apply ${subject} in your own context. Continue exploring the suggested learning paths to deepen your understanding and unlock new possibilities.`],
     });
 
     return nodes;
@@ -697,5 +1411,98 @@ export class KnowledgeComposer {
     if (style.includes("expert")) return "advanced";
     if (style.includes("beginner")) return "beginner";
     return "intermediate";
+  }
+
+  private estimateReadingTime(facts: PluginFact[]): number {
+    // Estimate reading time based on word count
+    // Average reading speed: 200-250 words per minute
+    const totalWords = facts.reduce((sum, f) => sum + f.statement.split(/\s+/).length, 0);
+    return Math.ceil(totalWords / 200);
+  }
+
+  // Compression utilities for Phase 19 - Content Compression & Information Gain
+  private compressParagraphs(facts: PluginFact[], context: CompositionContext): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Group facts by similarity to remove redundancy
+    const uniqueFacts = this.removeRedundantFacts(facts);
+    
+    // Compress long paragraphs into bullets where appropriate
+    const compressed = this.compressToStructuredFormat(uniqueFacts, context);
+    
+    return compressed;
+  }
+
+  private removeRedundantFacts(facts: PluginFact[]): PluginFact[] {
+    const seen = new Set<string>();
+    const unique: PluginFact[] = [];
+    
+    for (const fact of facts) {
+      // Normalize for comparison
+      const normalized = fact.statement
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .replace(/[^\w\s]/g, '')
+        .trim();
+      
+      // Skip if very similar to already seen
+      let isRedundant = false;
+      for (const seenKey of seen) {
+        if (this.calculateSimilarity(normalized, seenKey) > 0.8) {
+          isRedundant = true;
+          break;
+        }
+      }
+      
+      if (!isRedundant) {
+        seen.add(normalized);
+        unique.push(fact);
+      }
+    }
+    
+    return unique;
+  }
+
+  private calculateSimilarity(str1: string, str2: string): number {
+    const words1 = str1.split(' ');
+    const words2 = str2.split(' ');
+    const intersection = words1.filter(w => words2.includes(w));
+    const union = [...new Set([...words1, ...words2])];
+    return intersection.length / union.length;
+  }
+
+  private compressToStructuredFormat(facts: PluginFact[], context: CompositionContext): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    
+    // Phase 19: Lower threshold to 2+ facts for more aggressive compression
+    if (facts.length >= 2) {
+      nodes.push({
+        type: "list",
+        ordered: false,
+        items: facts.map(f => ({
+          type: "list-item",
+          children: [f.statement.replace(/^(Additionally|Furthermore|Moreover|Also|In addition),?\s*/i, '')],
+        })),
+      });
+    } else {
+      // For single facts, keep as paragraphs
+      for (const fact of facts) {
+        nodes.push({
+          type: "paragraph",
+          children: [fact.statement],
+        });
+      }
+    }
+    
+    return nodes;
+  }
+
+  private removeFillerTransitions(text: string): string {
+    return text
+      .replace(/^(Additionally|Furthermore|Moreover|Also|In addition|What's more|Plus),?\s*/gi, '')
+      .replace(/^(In conclusion|To summarize|Overall|All in all|In summary),?\s*/gi, '')
+      .replace(/^(It is important to note that|It's worth noting that|It should be mentioned that),?\s*/gi, '')
+      .replace(/^(As mentioned earlier|As previously stated|As we discussed),?\s*/gi, '')
+      .trim();
   }
 }

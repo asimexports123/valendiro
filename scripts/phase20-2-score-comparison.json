@@ -1,0 +1,325 @@
+{
+  "timestamp": "2026-07-03T06:28:41.949Z",
+  "comparisons": [
+    {
+      "slug": "python-programming-fundamentals",
+      "oldScore": 0,
+      "newScore": 82,
+      "scoreChange": 82,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 86.66666666666667,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "go-programming-language",
+      "oldScore": 0,
+      "newScore": 81,
+      "scoreChange": 81,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 86.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "business-strategy-fundamentals",
+      "oldScore": 0,
+      "newScore": 80,
+      "scoreChange": 80,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "nextjs-framework",
+      "oldScore": 0,
+      "newScore": 80,
+      "scoreChange": 80,
+      "reason": "New model rewards strong educational depth, good knowledge graph, strong reader journey instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 86.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "restful-apis",
+      "oldScore": 0,
+      "newScore": 79,
+      "scoreChange": 79,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "javascript-fundamentals",
+      "oldScore": 0,
+      "newScore": 79,
+      "scoreChange": 79,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 80,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "software-testing",
+      "oldScore": 0,
+      "newScore": 79,
+      "scoreChange": 79,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 83.33333333333334,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "cryptocurrency-fundamentals",
+      "oldScore": 0,
+      "newScore": 79,
+      "scoreChange": 79,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "mental-health-fundamentals",
+      "oldScore": 0,
+      "newScore": 78,
+      "scoreChange": 78,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "home-organization-fundamentals",
+      "oldScore": 0,
+      "newScore": 78,
+      "scoreChange": 78,
+      "reason": "New model rewards strong educational depth, good knowledge graph, strong reader journey instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "fitness-fundamentals",
+      "oldScore": 0,
+      "newScore": 78,
+      "scoreChange": 78,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "computer-networks",
+      "oldScore": 0,
+      "newScore": 78,
+      "scoreChange": 78,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "project-management-fundamentals",
+      "oldScore": 0,
+      "newScore": 78,
+      "scoreChange": 78,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "operating-systems",
+      "oldScore": 0,
+      "newScore": 78,
+      "scoreChange": 78,
+      "reason": "New model rewards strong educational depth, good knowledge graph, strong reader journey instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "typescript-language",
+      "oldScore": 0,
+      "newScore": 78,
+      "scoreChange": 78,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 80,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "data-structures",
+      "oldScore": 0,
+      "newScore": 77,
+      "scoreChange": 77,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "entrepreneurship-fundamentals",
+      "oldScore": 0,
+      "newScore": 77,
+      "scoreChange": 77,
+      "reason": "New model rewards strong educational depth, good knowledge graph, strong reader journey instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "algorithms-fundamentals",
+      "oldScore": 0,
+      "newScore": 77,
+      "scoreChange": 77,
+      "reason": "New model rewards strong educational depth, good knowledge graph, strong reader journey instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "investing-basics",
+      "oldScore": 0,
+      "newScore": 77,
+      "scoreChange": 77,
+      "reason": "New model rewards strong educational depth, good knowledge graph, strong reader journey instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 70,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 80,
+        "citationCoverage": 0
+      }
+    },
+    {
+      "slug": "cloud-computing-fundamentals",
+      "oldScore": 0,
+      "newScore": 77,
+      "scoreChange": 77,
+      "reason": "New model rewards strong educational depth, good learning progression, good knowledge graph instead of verbosity",
+      "breakdown": {
+        "educationalDepth": 76.66666666666667,
+        "learningProgression": 75,
+        "knowledgeGraph": 73.33333333333334,
+        "readerJourney": 80,
+        "contentDensity": 90,
+        "retentionFactors": 70,
+        "citationCoverage": 0
+      }
+    }
+  ]
+}

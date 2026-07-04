@@ -75,17 +75,35 @@ export class ReaderFlowValidator {
   private validateStructure(tree: DocumentNode[], context: CompositionContext, issues: QualityIssue[]): void {
     const sectionTypes = this.extractSectionTypes(tree);
 
-    // Check for required sections
-    const requiredSections = ["introduction", "summary"];
-    for (const required of requiredSections) {
-      if (!sectionTypes.includes(required)) {
-        issues.push({
-          type: "missing_section",
-          severity: "critical",
-          message: `Missing required section: ${required}`,
-          location: "structure",
-        });
-      }
+    // Check for required sections using pattern matching
+    // Introduction patterns: "what-is", "introduction"
+    const hasIntroduction = sectionTypes.some(type => 
+      type.includes("what-is") || type === "introduction"
+    );
+    
+    if (!hasIntroduction) {
+      issues.push({
+        type: "missing_section",
+        severity: "critical",
+        message: `Missing required section: introduction`,
+        location: "structure",
+      });
+    }
+
+    // Summary patterns: "key-takeaways", "summary", "remember-this"
+    const hasSummary = sectionTypes.some(type => 
+      type.includes("key-takeaways") || 
+      type === "summary" || 
+      type === "remember-this"
+    );
+    
+    if (!hasSummary) {
+      issues.push({
+        type: "missing_section",
+        severity: "critical",
+        message: `Missing required section: summary`,
+        location: "structure",
+      });
     }
 
     // Check for logical section order

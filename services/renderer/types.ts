@@ -25,7 +25,22 @@ export type DocumentNode =
   | CommercialPlaceholderNode
   | CalloutNode
   | TableOfContentsNode
-  | SummaryNode;
+  | SummaryNode
+  | QuickSummaryNode
+  | KeyTakeawaysNode
+  | ProTipNode
+  | DidYouKnowNode
+  | CommonMistakeNode
+  | ExpertInsightNode
+  | RememberThisNode
+  | ComparisonTableNode
+  | ProsConsNode
+  | ChecklistNode
+  | TimelineNode
+  | FrameworkBoxNode
+  | HeroSummaryNode
+  | QuickAnswerNode
+  | DecisionBoxNode;
 
 export interface HeadingNode {
   type: "heading";
@@ -137,6 +152,110 @@ export interface SummaryNode {
   closingSentence: string;
 }
 
+export interface QuickSummaryNode {
+  type: "quick-summary";
+  content: string[];
+}
+
+export interface KeyTakeawaysNode {
+  type: "key-takeaways";
+  items: string[];
+}
+
+export interface ProTipNode {
+  type: "pro-tip";
+  content: string;
+  context?: string;
+}
+
+export interface DidYouKnowNode {
+  type: "did-you-know";
+  fact: string;
+}
+
+export interface CommonMistakeNode {
+  type: "common-mistake";
+  mistake: string;
+  correction: string;
+}
+
+export interface ExpertInsightNode {
+  type: "expert-insight";
+  insight: string;
+  source?: string;
+}
+
+export interface RememberThisNode {
+  type: "remember-this";
+  point: string;
+}
+
+export interface ComparisonTableNode {
+  type: "comparison-table";
+  items: {
+    name: string;
+    values: string[];
+  }[];
+  headers: string[];
+}
+
+export interface ProsConsNode {
+  type: "pros-cons";
+  pros: string[];
+  cons: string[];
+}
+
+export interface ChecklistNode {
+  type: "checklist";
+  items: {
+    text: string;
+    checked?: boolean;
+  }[];
+}
+
+export interface TimelineNode {
+  type: "timeline";
+  events: {
+    title: string;
+    description: string;
+    date?: string;
+  }[];
+}
+
+export interface FrameworkBoxNode {
+  type: "framework-box";
+  title: string;
+  components: string[];
+  description?: string;
+}
+
+export interface HeroSummaryNode {
+  type: "hero-summary";
+  definition: string;
+  whyItMatters: string;
+  difficulty: "beginner" | "intermediate" | "advanced";
+  readingTime: string;
+  audience: string;
+  learningObjectives: string[];
+  prerequisites: string[];
+}
+
+export interface QuickAnswerNode {
+  type: "quick-answer";
+  answer: string;
+  context?: string;
+}
+
+export interface DecisionBoxNode {
+  type: "decision-box";
+  question: string;
+  options: {
+    option: string;
+    whenToChoose: string;
+    considerations: string[];
+  }[];
+}
+
 export interface CitationEntry {
   index: number;
   sourceName: string;
@@ -237,10 +356,15 @@ export interface RenderDecision {
 
 export interface RenderQualityScore {
   overall: number;
-  factCoverage: number;
-  citationCoverage: number;
-  sectionCompleteness: number;
-  readabilityEstimate: number;
+  intent?: string;
+  category?: string;
+  educationalDepth?: number;
+  learningProgression?: number;
+  knowledgeGraph?: number;
+  readerJourney?: number;
+  contentDensity?: number;
+  retentionFactors?: number;
+  citationCoverage?: number;
   missingKnowledgeCount: number;
   missingKnowledgeSeverity: Record<string, number>;
   wordCount: number;
@@ -380,4 +504,32 @@ export interface RelationshipInput {
   strength: string;
   explanation: string | null;
   bidirectional: boolean;
+}
+
+// ─── Knowledge Package ───────────────────────────────────────────────────────────
+
+/**
+ * Canonical Knowledge Package object
+ *
+ * The renderer and Knowledge Authoring Engine receive this object.
+ * The loader is responsible for assembling it from the database.
+ * The renderer must never query database tables directly.
+ */
+export interface KnowledgePackage {
+  id: string;
+  slug: string;
+  knowledgeHash: string;
+  topicId: string | null;
+  category: string;
+  intent: "inform" | "educate" | "guide" | "decide";
+  facts: PluginFact[];
+  citations: CitationInput[];
+  relationships: RelationshipInput[];
+  metadata: {
+    sourceCount: number;
+    factCount: number;
+    relationshipCount: number;
+    lastUpdated: string;
+    lastVerified: string | null;
+  };
 }

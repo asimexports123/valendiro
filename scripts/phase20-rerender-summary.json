@@ -1,0 +1,207 @@
+{
+  "timestamp": "2026-07-03T06:08:22.365Z",
+  "successCount": 25,
+  "failureCount": 0,
+  "results": [
+    {
+      "topic": "nutrition-fundamentals",
+      "outputId": "6096aa17-0bee-4ca5-8d97-c0067757025d",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 316,
+      "sectionCount": 4
+    },
+    {
+      "topic": "budget-travel-strategies",
+      "outputId": "ba2c9b90-6bff-4263-ac4b-556d7c4dfb4f",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 311,
+      "sectionCount": 4
+    },
+    {
+      "topic": "python-programming-fundamentals",
+      "outputId": "9bcbb653-45b8-4a28-a567-3e203fbaf6e8",
+      "qualityScore": 73,
+      "status": "published",
+      "wordCount": 381,
+      "sectionCount": 5
+    },
+    {
+      "topic": "cloud-computing-fundamentals",
+      "outputId": "cfe31f1b-70c9-4ff6-b7a2-cf1e88ceb15d",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 339,
+      "sectionCount": 4
+    },
+    {
+      "topic": "typescript-language",
+      "outputId": "f590daab-fde3-4893-bff2-62eb793b515c",
+      "qualityScore": 70,
+      "status": "published",
+      "wordCount": 305,
+      "sectionCount": 3
+    },
+    {
+      "topic": "cryptocurrency-fundamentals",
+      "outputId": "fdd0ca9a-b600-4507-bb1c-3db81d497c9c",
+      "qualityScore": 73,
+      "status": "published",
+      "wordCount": 332,
+      "sectionCount": 4
+    },
+    {
+      "topic": "software-testing",
+      "outputId": "24222483-fcb8-4860-83b7-39b79c6f4280",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 331,
+      "sectionCount": 4
+    },
+    {
+      "topic": "operating-systems",
+      "outputId": "db0a4656-06cc-4ade-ac7a-da1f4be54b55",
+      "qualityScore": 74,
+      "status": "published",
+      "wordCount": 415,
+      "sectionCount": 3
+    },
+    {
+      "topic": "docker-containers",
+      "outputId": "338199da-3fe4-45dd-b097-82790684cfac",
+      "qualityScore": 74,
+      "status": "published",
+      "wordCount": 337,
+      "sectionCount": 4
+    },
+    {
+      "topic": "investing-basics",
+      "outputId": "eb1cf3ae-58ec-4479-a630-da5f2bf1e648",
+      "qualityScore": 73,
+      "status": "published",
+      "wordCount": 346,
+      "sectionCount": 4
+    },
+    {
+      "topic": "javascript-fundamentals",
+      "outputId": "ccec26dc-6933-434a-8977-5bc95dbb8297",
+      "qualityScore": 71,
+      "status": "published",
+      "wordCount": 388,
+      "sectionCount": 4
+    },
+    {
+      "topic": "project-management-fundamentals",
+      "outputId": "51e1cfbe-f4df-4b56-a26b-8b5abc6ca3d9",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 348,
+      "sectionCount": 4
+    },
+    {
+      "topic": "retirement-planning-fundamentals",
+      "outputId": "f283b0bf-79ba-4b73-a57e-9439c5326fda",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 344,
+      "sectionCount": 4
+    },
+    {
+      "topic": "computer-networks",
+      "outputId": "99b0798b-d656-44fa-a38b-3a25e99e99d1",
+      "qualityScore": 74,
+      "status": "published",
+      "wordCount": 359,
+      "sectionCount": 4
+    },
+    {
+      "topic": "cybersecurity-fundamentals",
+      "outputId": "105643c4-82af-4c5e-bc41-305f217525fc",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 319,
+      "sectionCount": 4
+    },
+    {
+      "topic": "fitness-fundamentals",
+      "outputId": "3bb884f6-de6c-4d1f-9471-8c3ccbb3d774",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 320,
+      "sectionCount": 4
+    },
+    {
+      "topic": "go-programming-language",
+      "outputId": "915b17a0-74ac-4fac-ab74-8c323299ed5e",
+      "qualityScore": 77,
+      "status": "published",
+      "wordCount": 320,
+      "sectionCount": 5
+    },
+    {
+      "topic": "restful-apis",
+      "outputId": "8b797bfe-bc9d-456f-a50e-b08994dcd7b5",
+      "qualityScore": 73,
+      "status": "published",
+      "wordCount": 416,
+      "sectionCount": 5
+    },
+    {
+      "topic": "nextjs-framework",
+      "outputId": "b6121e00-ae9f-48ca-a003-a7ba5aede7ee",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 345,
+      "sectionCount": 3
+    },
+    {
+      "topic": "algorithms-fundamentals",
+      "outputId": "498e63b7-589e-4f8f-b607-5d2b411f6063",
+      "qualityScore": 73,
+      "status": "published",
+      "wordCount": 360,
+      "sectionCount": 4
+    },
+    {
+      "topic": "entrepreneurship-fundamentals",
+      "outputId": "7edd832a-faa4-4ef7-b4a1-0915c63a0b8a",
+      "qualityScore": 73,
+      "status": "published",
+      "wordCount": 328,
+      "sectionCount": 4
+    },
+    {
+      "topic": "business-strategy-fundamentals",
+      "outputId": "c6c7a49a-5508-41fd-ba68-1cc11209f0f0",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 306,
+      "sectionCount": 4
+    },
+    {
+      "topic": "data-structures",
+      "outputId": "88f8eb78-ca76-44e0-9244-a38b1d4811a6",
+      "qualityScore": 73,
+      "status": "published",
+      "wordCount": 375,
+      "sectionCount": 3
+    },
+    {
+      "topic": "home-organization-fundamentals",
+      "outputId": "de594042-04b4-4604-bcfe-561bb803cec3",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 308,
+      "sectionCount": 4
+    },
+    {
+      "topic": "mental-health-fundamentals",
+      "outputId": "84bb5a6f-4224-4ba6-8fd2-6d2cb76a29d2",
+      "qualityScore": 72,
+      "status": "published",
+      "wordCount": 303,
+      "sectionCount": 4
+    }
+  ]
+}

@@ -25,18 +25,22 @@ import type {
   RelationshipInput,
   OutputFormat,
   RenderedOutputRow,
+  KnowledgePackage,
 } from "./types";
 import { evaluate } from "./rulesEngine";
 import { inferIntent } from "./compositionPolicy";
 import { longArticleStrategy } from "./renderers/longArticle";
 import { faqStrategy } from "./renderers/faq";
 import { longArticleV2Strategy } from "./renderers/longArticleV2";
+import { knowledgeAuthoringV1Strategy } from "./renderers/knowledgeAuthoringV1";
+import { FeatureFlagService } from "../featureFlags/featureFlagService";
 import { decorateWithCitations } from "./citationRenderer";
 import { decorateWithLinks } from "./linkRenderer";
-import { scoreQuality } from "./qualityScorer";
+import { scoreIntentAwareQuality } from "./intentAwareQualityScorer";
 import { serializeToHTML } from "./serializers/html";
 import { serializeToMarkdown } from "./serializers/markdown";
 import { computeCacheKey, checkCache, storeRenderedOutput } from "./cacheManager";
+import { loadKnowledgePackage } from "./knowledgePackageLoader";
 
 const TEMPLATE_VERSION = "1.0.0";
 
@@ -71,6 +75,7 @@ function assertOfflineContext(): void {
 const STRATEGIES: Record<string, typeof longArticleStrategy> = {
   "long-article": longArticleStrategy,
   "long-article-v2": longArticleV2Strategy,
+  "knowledge-authoring-v1": knowledgeAuthoringV1Strategy,
   "faq": faqStrategy,
 };
 
@@ -99,111 +104,43 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
 
   const startTime = Date.now();
 
-  // ─── 1. Load Package Data ────────────────────────────────────────────────
-  const sb = createAdminClient();
+  // ─── 1. Load Knowledge Package using Loader ───────────────────────────
+  const loadResult = await loadKnowledgePackage({ packageId: request.packageId });
 
-  const { data: pkg } = await sb
-    .from("knowledge_packages")
-    .select("*")
-    .eq("id", request.packageId)
-    .single();
-
-  if (!pkg) throw new Error(`Package not found: ${request.packageId}`);
-
-  const { data: factsData } = await sb
-    .from("knowledge_facts")
-    .select("*")
-    .eq("package_id", request.packageId)
-    .order("created_at");
-
-  const { data: citData } = await sb
-    .from("knowledge_citations")
-    .select("*")
-    .eq("package_id", request.packageId);
-
-  const factIds = (factsData ?? []).map((f: any) => f.id);
-  let relData: any[] = [];
-  if (factIds.length > 0) {
-    const { data } = await sb
-      .from("knowledge_relationships")
-      .select("*")
-      .or(`source_id.in.(${factIds.join(",")}),target_id.in.(${factIds.join(",")})`);
-    relData = data ?? [];
+  if (loadResult.error || !loadResult.package) {
+    throw new Error(`Failed to load package: ${loadResult.error}`);
   }
 
-  // Map to renderer input types
-  const facts: PluginFact[] = (factsData ?? []).map((f: any) => ({
-    id: f.id,
-    statement: f.statement,
-    factType: f.fact_type,
-    confidence: f.confidence,
-    scope: f.scope,
-    tags: f.tags ?? [],
-    domain: f.domain,
-  }));
+  const knowledgePackage: KnowledgePackage = loadResult.package;
+  const facts = knowledgePackage.facts;
+  const citations = knowledgePackage.citations;
+  const relationships = knowledgePackage.relationships;
+  const categorySlug = knowledgePackage.category;
+  const pkg = {
+    id: knowledgePackage.id,
+    slug: knowledgePackage.slug,
+    knowledge_hash: knowledgePackage.knowledgeHash,
+    topic_id: knowledgePackage.topicId,
+    source_count: knowledgePackage.metadata.sourceCount,
+    fact_count: knowledgePackage.metadata.factCount,
+    relationship_count: knowledgePackage.metadata.relationshipCount,
+    last_updated_at: knowledgePackage.metadata.lastUpdated,
+    last_verified_at: knowledgePackage.metadata.lastVerified,
+    subcategorySlug: null, // Will be resolved if needed
+  };
 
-  const citations: CitationInput[] = (citData ?? []).map((c: any) => ({
-    id: c.id,
-    sourceName: c.source_name,
-    sourceUrl: c.source_url,
-    adapterName: c.adapter_name,
-    sourceAuthority: c.source_authority,
-    retrievedAt: c.retrieved_at,
-  }));
+  // ─── 2. Determine Renderer Config ───────────────────────────────────────
+  // Check feature flag for Knowledge Authoring Engine
+  const featureFlagService = FeatureFlagService.getInstance();
+  const shouldUseNewEngine = featureFlagService.shouldUseKnowledgeAuthoringEngine(pkg.slug);
 
-  const relationships: RelationshipInput[] = relData.map((r: any) => ({
-    id: r.id,
-    sourceId: r.source_id,
-    targetId: r.target_id,
-    relationshipType: r.relationship_type,
-    strength: r.strength ?? "moderate",
-    explanation: r.explanation,
-    bidirectional: r.bidirectional ?? false,
-  }));
-
-  // ─── 2. Resolve category for composition policy ─────────────────────────
-  // Chain: knowledge_packages.topic_id → topics → topic_subcategories
-  //        → subcategories → categories
-  let categorySlug = "general";
-  try {
-    const { data: topic } = await sb
-      .from("topics")
-      .select("id")
-      .eq("slug", pkg.slug)
-      .maybeSingle();
-
-    if (topic?.id) {
-      const { data: tsub } = await sb
-        .from("topic_subcategories")
-        .select("subcategory_id")
-        .eq("topic_id", topic.id)
-        .limit(1)
-        .maybeSingle();
-
-      if (tsub?.subcategory_id) {
-        const { data: sub } = await sb
-          .from("subcategories")
-          .select("category_id")
-          .eq("id", tsub.subcategory_id)
-          .maybeSingle();
-
-        if (sub?.category_id) {
-          const { data: cat } = await sb
-            .from("categories")
-            .select("slug")
-            .eq("id", sub.category_id)
-            .maybeSingle();
-
-          if (cat?.slug) categorySlug = cat.slug;
-        }
-      }
-    }
-  } catch (_) {
-    // non-fatal — fall back to default policy
+  let rendererId = request.rendererId ?? "long-article";
+  
+  // Override with Knowledge Authoring Engine if feature flag is enabled and no explicit renderer specified
+  if (shouldUseNewEngine && !request.rendererId) {
+    rendererId = "knowledge-authoring-v1";
   }
 
-  // ─── 3. Determine Renderer Config ───────────────────────────────────────
-  const rendererId = request.rendererId ?? "long-article";
   const strategy = STRATEGIES[rendererId] ?? longArticleStrategy;
   const format: OutputFormat = request.format ?? "html";
   const style = request.style ?? ["intermediate"];
@@ -251,8 +188,16 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
     });
 
     const emptyScore: RenderQualityScore = {
-      overall: 0, factCoverage: 0, citationCoverage: 0,
-      sectionCompleteness: 0, readabilityEstimate: 0,
+      overall: 0,
+      intent: undefined,
+      category: undefined,
+      educationalDepth: 0,
+      learningProgression: 0,
+      knowledgeGraph: 0,
+      readerJourney: 0,
+      contentDensity: 0,
+      retentionFactors: 0,
+      citationCoverage: 0,
       missingKnowledgeCount: decision.missingKnowledge.length,
       missingKnowledgeSeverity: { critical: decision.missingKnowledge.length },
       wordCount: 0, sectionCount: 0, internalLinkCount: 0, citationCount: 0,
@@ -284,7 +229,7 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
   tree = decorateWithLinks(tree, relationships, facts, pkg.slug, format);
 
   // ─── 9. Quality Scoring ─────────────────────────────────────────────────
-  const qualityScore = scoreQuality(tree, facts, citations, decision);
+  const qualityScore = scoreIntentAwareQuality(tree, facts, citations, decision, pkg.slug, pkg.subcategorySlug);
 
   // ─── 10. Serialization ──────────────────────────────────────────────────
   const serializeStart = Date.now();
@@ -375,8 +320,16 @@ function buildDiagnostics(ctx: {
     citationsTotal: ctx.citations.length,
     citationsReferenced: ctx.citations.length,
     qualityScore: {
-      overall: 0, factCoverage: 0, citationCoverage: 0,
-      sectionCompleteness: 0, readabilityEstimate: 0,
+      overall: 0,
+      intent: undefined,
+      category: undefined,
+      educationalDepth: 0,
+      learningProgression: 0,
+      knowledgeGraph: 0,
+      readerJourney: 0,
+      contentDensity: 0,
+      retentionFactors: 0,
+      citationCoverage: 0,
       missingKnowledgeCount: 0, missingKnowledgeSeverity: {},
       wordCount: 0, sectionCount: 0, internalLinkCount: 0, citationCount: 0,
       readingFlow: { repeatedOpenings: 0, paragraphLengthBalance: 0, headingDensity: 0, bulletListRatio: 0, transitionQuality: 0, sentenceVariety: 0, overallFlowScore: 0 },

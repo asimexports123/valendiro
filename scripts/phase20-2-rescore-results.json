@@ -1,0 +1,720 @@
+{
+  "timestamp": "2026-07-03T06:26:53.338Z",
+  "totalProcessed": 102,
+  "results": [
+    {
+      "outputId": "84bb5a6f-4224-4ba6-8fd2-6d2cb76a29d2",
+      "packageId": "67a8b6a2-38a7-4b0b-a219-40dce5772765",
+      "oldScore": 0,
+      "newScore": 31,
+      "scoreChange": 31
+    },
+    {
+      "outputId": "de594042-04b4-4604-bcfe-561bb803cec3",
+      "packageId": "9784c5ff-c00d-42b0-86de-6513772493c4",
+      "oldScore": 0,
+      "newScore": 32,
+      "scoreChange": 32
+    },
+    {
+      "outputId": "88f8eb78-ca76-44e0-9244-a38b1d4811a6",
+      "packageId": "89c00e81-e50b-4bdc-8df5-ec540537cb99",
+      "oldScore": 0,
+      "newScore": 29,
+      "scoreChange": 29
+    },
+    {
+      "outputId": "c6c7a49a-5508-41fd-ba68-1cc11209f0f0",
+      "packageId": "e669af3e-421d-4311-82c8-78159239e78b",
+      "oldScore": 0,
+      "newScore": 33,
+      "scoreChange": 33
+    },
+    {
+      "outputId": "7edd832a-faa4-4ef7-b4a1-0915c63a0b8a",
+      "packageId": "039c7bc3-2b30-4548-9903-51cdea4b043f",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "498e63b7-589e-4f8f-b607-5d2b411f6063",
+      "packageId": "2507a296-f8db-4d28-bf5b-b6fb25c61b0c",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    },
+    {
+      "outputId": "b6121e00-ae9f-48ca-a003-a7ba5aede7ee",
+      "packageId": "54fc07bf-928e-413e-81e2-f3328b3936b6",
+      "oldScore": 0,
+      "newScore": 32,
+      "scoreChange": 32
+    },
+    {
+      "outputId": "8b797bfe-bc9d-456f-a50e-b08994dcd7b5",
+      "packageId": "68a1e087-831e-4efa-bdd4-b3ab255416a0",
+      "oldScore": 0,
+      "newScore": 31,
+      "scoreChange": 31
+    },
+    {
+      "outputId": "915b17a0-74ac-4fac-ab74-8c323299ed5e",
+      "packageId": "15bc5fbd-b32d-4d08-8d5a-e68cfe5378b5",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "3bb884f6-de6c-4d1f-9471-8c3ccbb3d774",
+      "packageId": "d6d46d2a-b6e6-40ad-b033-0c20f7837cda",
+      "oldScore": 0,
+      "newScore": 30,
+      "scoreChange": 30
+    },
+    {
+      "outputId": "99b0798b-d656-44fa-a38b-3a25e99e99d1",
+      "packageId": "f3f303b7-2d5d-417d-8cc1-8b442e16ba89",
+      "oldScore": 0,
+      "newScore": 31,
+      "scoreChange": 31
+    },
+    {
+      "outputId": "51e1cfbe-f4df-4b56-a26b-8b5abc6ca3d9",
+      "packageId": "0945cad6-218c-4286-876c-6dd84c8e69b7",
+      "oldScore": 0,
+      "newScore": 29,
+      "scoreChange": 29
+    },
+    {
+      "outputId": "ccec26dc-6933-434a-8977-5bc95dbb8297",
+      "packageId": "63ec8e85-121c-4d73-a144-0037b088c7ae",
+      "oldScore": 0,
+      "newScore": 30,
+      "scoreChange": 30
+    },
+    {
+      "outputId": "eb1cf3ae-58ec-4479-a630-da5f2bf1e648",
+      "packageId": "3218e854-2856-4e5c-8ec1-650835088f3f",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "db0a4656-06cc-4ade-ac7a-da1f4be54b55",
+      "packageId": "9a07b423-b225-4e93-8c8f-e606b252dfcd",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "24222483-fcb8-4860-83b7-39b79c6f4280",
+      "packageId": "e0b2319b-7075-438c-bb17-edddade8011f",
+      "oldScore": 0,
+      "newScore": 31,
+      "scoreChange": 31
+    },
+    {
+      "outputId": "fdd0ca9a-b600-4507-bb1c-3db81d497c9c",
+      "packageId": "4a82034f-94af-4a39-ab12-52abf800ed22",
+      "oldScore": 0,
+      "newScore": 32,
+      "scoreChange": 32
+    },
+    {
+      "outputId": "f590daab-fde3-4893-bff2-62eb793b515c",
+      "packageId": "86006ebf-778e-4557-85a6-9e97c6a28845",
+      "oldScore": 0,
+      "newScore": 30,
+      "scoreChange": 30
+    },
+    {
+      "outputId": "cfe31f1b-70c9-4ff6-b7a2-cf1e88ceb15d",
+      "packageId": "32cb34c6-8fa3-44e2-9ad1-bd36dbd00155",
+      "oldScore": 0,
+      "newScore": 29,
+      "scoreChange": 29
+    },
+    {
+      "outputId": "9bcbb653-45b8-4a28-a567-3e203fbaf6e8",
+      "packageId": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "ba2c9b90-6bff-4263-ac4b-556d7c4dfb4f",
+      "packageId": "c938eb61-b168-41fb-aff4-06d7dafff0c1",
+      "oldScore": 0,
+      "newScore": 29,
+      "scoreChange": 29
+    },
+    {
+      "outputId": "02b9a43f-054d-4b7e-a3cd-11be47350464",
+      "packageId": "c938eb61-b168-41fb-aff4-06d7dafff0c1",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "0d22f6bf-636e-4160-8097-51e7793005d5",
+      "packageId": "6f4cf573-d784-4922-8b4a-3d56496bdbcd",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "260d1de7-cc1d-49c0-8a1d-27bd2cb49b38",
+      "packageId": "9784c5ff-c00d-42b0-86de-6513772493c4",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "06c01b4c-7181-404e-b291-90ff61927c0f",
+      "packageId": "c6cc09fd-d304-4bfe-9779-4d585b9788f7",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "5a74e526-518f-4a09-a648-58854f2fa67c",
+      "packageId": "67a8b6a2-38a7-4b0b-a219-40dce5772765",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "92f31f92-24cb-4877-bed9-e181be8bdaa9",
+      "packageId": "d6d46d2a-b6e6-40ad-b033-0c20f7837cda",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "e9c097fa-a709-4e6f-b907-4432e4a39d49",
+      "packageId": "dbddc9f6-9663-42fe-831a-b50928ce398f",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "5490fd47-74cb-4dd8-9c1b-43dbd29183b5",
+      "packageId": "039c7bc3-2b30-4548-9903-51cdea4b043f",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "421ba744-e7ca-40a6-b1c2-123b21b86d64",
+      "packageId": "29996f32-2b83-41c5-84bf-9e6de6c61ebb",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "5233bd4f-d494-4f5a-b23e-970fdd186348",
+      "packageId": "89cd0ab0-0646-4e27-8b89-e398529e3a1a",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "d2dc8482-34c0-4874-a913-e90a8cd60893",
+      "packageId": "1bdfb179-a72b-46f8-baf0-1d023a707571",
+      "oldScore": 0,
+      "newScore": 39,
+      "scoreChange": 39
+    },
+    {
+      "outputId": "2de21603-b648-4015-881d-28feb6a58bb1",
+      "packageId": "4a82034f-94af-4a39-ab12-52abf800ed22",
+      "oldScore": 0,
+      "newScore": 39,
+      "scoreChange": 39
+    },
+    {
+      "outputId": "c117dbfc-c44c-4ac0-ae8a-7535a30cd9ba",
+      "packageId": "3218e854-2856-4e5c-8ec1-650835088f3f",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "dd628019-34c7-453f-b446-031a135dfd5c",
+      "packageId": "081aec0c-025f-4eac-a722-8f6596b3f91d",
+      "oldScore": 0,
+      "newScore": 40,
+      "scoreChange": 40
+    },
+    {
+      "outputId": "2710b3f6-7811-48b3-9652-3034df592aeb",
+      "packageId": "49a978c2-4a5a-4cdc-a537-f56e0eb43bc1",
+      "oldScore": 0,
+      "newScore": 38,
+      "scoreChange": 38
+    },
+    {
+      "outputId": "f8195083-21e0-43a1-b9fb-14a485c03eda",
+      "packageId": "99aa68cf-6495-4374-b033-aeecb28d7fab",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "01449b81-c5b7-449d-afb1-8661efe29b11",
+      "packageId": "95f1ea64-9f44-4c3b-8af7-0358926ca319",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "e2bf1058-d49a-4a3b-9de8-e335ce8435e9",
+      "packageId": "e0b2319b-7075-438c-bb17-edddade8011f",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "ed6616c6-fd19-4954-a65b-70ca812ec06a",
+      "packageId": "3f84dc9c-b2ef-46b8-97f0-6bb8136d44c0",
+      "oldScore": 0,
+      "newScore": 38,
+      "scoreChange": 38
+    },
+    {
+      "outputId": "2cd41d27-cee7-4d20-8b9e-5ac115bacf10",
+      "packageId": "f3f303b7-2d5d-417d-8cc1-8b442e16ba89",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "b8f93680-a8f3-4b56-93bb-4ba1b95284c1",
+      "packageId": "9a07b423-b225-4e93-8c8f-e606b252dfcd",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "f15afd77-077c-4ccd-b7cc-2ec545fbb41e",
+      "packageId": "89c00e81-e50b-4bdc-8df5-ec540537cb99",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "883bade7-0711-4dbe-beb9-00ec6724b4d2",
+      "packageId": "2507a296-f8db-4d28-bf5b-b6fb25c61b0c",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "20143d52-c9a2-4544-add9-2b45aa2de3f7",
+      "packageId": "a96e4975-fcd3-4d86-8a91-2de5a231f5f2",
+      "oldScore": 0,
+      "newScore": 35,
+      "scoreChange": 35
+    },
+    {
+      "outputId": "2d6cc392-a3b8-4d94-a212-258cfd72e65d",
+      "packageId": "dbd8cdf5-3f18-437a-982e-e6616f99095a",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "b7950bad-47b4-4f07-bfb8-dd3d38f7e066",
+      "packageId": "ce60f8bc-bdf7-445c-b147-fe1780079fb6",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "b2e38864-f300-4831-beae-0268242907b4",
+      "packageId": "b79c59ea-b104-476e-96ba-cebbc2f1ab51",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "43c5e754-3b75-40b4-b548-2ed67b378d9f",
+      "packageId": "138b703c-28f5-48fb-a4f8-a2f0d302897c",
+      "oldScore": 0,
+      "newScore": 38,
+      "scoreChange": 38
+    },
+    {
+      "outputId": "83e780ed-dafc-4e16-aef7-5551226d60af",
+      "packageId": "0f2cb48d-886c-49e4-a34b-45e926601e38",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "c18a6e4e-477d-4671-8f35-7a71a559036a",
+      "packageId": "68a1e087-831e-4efa-bdd4-b3ab255416a0",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "709a3401-0f7e-4805-9558-592cc6dbddb6",
+      "packageId": "54fc07bf-928e-413e-81e2-f3328b3936b6",
+      "oldScore": 0,
+      "newScore": 36,
+      "scoreChange": 36
+    },
+    {
+      "outputId": "575c3f28-d50e-47f3-bbfd-1456e1d53eaa",
+      "packageId": "c6afd68c-2489-47fb-a285-78224385ceb3",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "3952bd5d-9f38-4f4a-a046-b38d87d2f348",
+      "packageId": "c7615008-4152-4eb7-97b8-5b11a08fa11e",
+      "oldScore": 0,
+      "newScore": 35,
+      "scoreChange": 35
+    },
+    {
+      "outputId": "4f3ab7e7-2b2e-4093-9ff6-c795be9a33b8",
+      "packageId": "15bc5fbd-b32d-4d08-8d5a-e68cfe5378b5",
+      "oldScore": 0,
+      "newScore": 35,
+      "scoreChange": 35
+    },
+    {
+      "outputId": "90b91ef6-cdd8-4476-bb0a-cd872f8d7a63",
+      "packageId": "df590e70-5d4a-4606-ba8a-4e23b909ff6a",
+      "oldScore": 0,
+      "newScore": 40,
+      "scoreChange": 40
+    },
+    {
+      "outputId": "d61bcc1e-d574-4a7e-8875-9eb70f182a08",
+      "packageId": "86006ebf-778e-4557-85a6-9e97c6a28845",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "5b68eeaf-985c-4428-8d82-29c55354b3d9",
+      "packageId": "63ec8e85-121c-4d73-a144-0037b088c7ae",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "6164e86f-91d9-40e2-90eb-cb6ec30546d9",
+      "packageId": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "oldScore": 0,
+      "newScore": 40,
+      "scoreChange": 40
+    },
+    {
+      "outputId": "105643c4-82af-4c5e-bc41-305f217525fc",
+      "packageId": "c8288ccb-b8a5-45f6-8c04-5505846c3827",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    },
+    {
+      "outputId": "f283b0bf-79ba-4b73-a57e-9439c5326fda",
+      "packageId": "1aff4ef3-943d-4729-b0f6-a5f119fc6b83",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "6096aa17-0bee-4ca5-8d97-c0067757025d",
+      "packageId": "a78d4791-5cb7-4b3c-8ef4-dd692bcb94ae",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "338199da-3fe4-45dd-b097-82790684cfac",
+      "packageId": "5af8e5e2-b275-4f86-8d2a-caaa7533b66f",
+      "oldScore": 0,
+      "newScore": 34,
+      "scoreChange": 34
+    },
+    {
+      "outputId": "4be56c7e-52f7-4c86-92e6-a42cb892e628",
+      "packageId": "2addd06d-0b4b-42e4-931b-696a156b609c",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "d520c8e1-9dbf-445a-92ac-c55a1ff38eb9",
+      "packageId": "9b91f259-ec3e-4930-bb01-fc5f177bbdaf",
+      "oldScore": 0,
+      "newScore": 30,
+      "scoreChange": 30
+    },
+    {
+      "outputId": "e2fd9d72-baff-4b27-93a0-1d4b5272e5fd",
+      "packageId": "64d60e1e-740b-449e-ba0e-c7fde33ff821",
+      "oldScore": 0,
+      "newScore": 39,
+      "scoreChange": 39
+    },
+    {
+      "outputId": "ba4d7f4a-b7bb-4abe-9dce-ff9a57134997",
+      "packageId": "32cb34c6-8fa3-44e2-9ad1-bd36dbd00155",
+      "oldScore": 0,
+      "newScore": 38,
+      "scoreChange": 38
+    },
+    {
+      "outputId": "6db90926-e14e-4da9-9e4a-8fa027a8f5a9",
+      "packageId": "c8288ccb-b8a5-45f6-8c04-5505846c3827",
+      "oldScore": 0,
+      "newScore": 37,
+      "scoreChange": 37
+    },
+    {
+      "outputId": "b543adb7-d1ef-45f8-b2bb-55edf4a684e8",
+      "packageId": "9b91f259-ec3e-4930-bb01-fc5f177bbdaf",
+      "oldScore": 0,
+      "newScore": 38,
+      "scoreChange": 38
+    },
+    {
+      "outputId": "fb18a3ef-2a93-4afe-8c67-78323a35e875",
+      "packageId": "0945cad6-218c-4286-876c-6dd84c8e69b7",
+      "oldScore": 0,
+      "newScore": 41,
+      "scoreChange": 41
+    },
+    {
+      "outputId": "73e7854d-81f1-4b53-a287-238ad0eb717e",
+      "packageId": "a78d4791-5cb7-4b3c-8ef4-dd692bcb94ae",
+      "oldScore": 0,
+      "newScore": 39,
+      "scoreChange": 39
+    },
+    {
+      "outputId": "798bbdb5-2694-4083-ae49-afc4c8f9df34",
+      "packageId": "e669af3e-421d-4311-82c8-78159239e78b",
+      "oldScore": 0,
+      "newScore": 40,
+      "scoreChange": 40
+    },
+    {
+      "outputId": "51841d29-87a3-4b37-86d2-04ed9d786afa",
+      "packageId": "1aff4ef3-943d-4729-b0f6-a5f119fc6b83",
+      "oldScore": 0,
+      "newScore": 38,
+      "scoreChange": 38
+    },
+    {
+      "outputId": "85a87e92-0db8-4410-81db-e4aaa41be62d",
+      "packageId": "2addd06d-0b4b-42e4-931b-696a156b609c",
+      "oldScore": 0,
+      "newScore": 35,
+      "scoreChange": 35
+    },
+    {
+      "outputId": "397d8ec8-d786-4d06-b7b9-7b1c41eece85",
+      "packageId": "5af8e5e2-b275-4f86-8d2a-caaa7533b66f",
+      "oldScore": 0,
+      "newScore": 35,
+      "scoreChange": 35
+    },
+    {
+      "outputId": "66641dd9-150f-4a0d-ba7d-0fccf250de5f",
+      "packageId": "99aa68cf-6495-4374-b033-aeecb28d7fab",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "01644197-da5c-4939-9218-51452705c54a",
+      "packageId": "95f1ea64-9f44-4c3b-8af7-0358926ca319",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "282b0f12-8b6f-48a6-92cc-9460dbd0a827",
+      "packageId": "e0b2319b-7075-438c-bb17-edddade8011f",
+      "oldScore": 0,
+      "newScore": 25,
+      "scoreChange": 25
+    },
+    {
+      "outputId": "9d8eae03-150d-45f6-ad91-8cf87885752f",
+      "packageId": "5af8e5e2-b275-4f86-8d2a-caaa7533b66f",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "593d6b9b-b7b5-4f95-9d24-3a4f9d912101",
+      "packageId": "3f84dc9c-b2ef-46b8-97f0-6bb8136d44c0",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "10c3117d-6b41-404e-88a7-45879fcc74ef",
+      "packageId": "49a978c2-4a5a-4cdc-a537-f56e0eb43bc1",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "a5946f39-1ff7-45a8-b961-2513acdb2328",
+      "packageId": "f3f303b7-2d5d-417d-8cc1-8b442e16ba89",
+      "oldScore": 0,
+      "newScore": 25,
+      "scoreChange": 25
+    },
+    {
+      "outputId": "fa3c7f9a-c0b2-4484-922e-b49aacfdd63a",
+      "packageId": "9a07b423-b225-4e93-8c8f-e606b252dfcd",
+      "oldScore": 0,
+      "newScore": 24,
+      "scoreChange": 24
+    },
+    {
+      "outputId": "1599eab6-7ff7-4ed1-9e2f-e56b567370c2",
+      "packageId": "89c00e81-e50b-4bdc-8df5-ec540537cb99",
+      "oldScore": 0,
+      "newScore": 25,
+      "scoreChange": 25
+    },
+    {
+      "outputId": "2ae2040b-6bbc-4b2a-bb79-9f8fcf58dce6",
+      "packageId": "2507a296-f8db-4d28-bf5b-b6fb25c61b0c",
+      "oldScore": 0,
+      "newScore": 24,
+      "scoreChange": 24
+    },
+    {
+      "outputId": "66de7a2a-b9b5-4592-8056-52318fe4dec5",
+      "packageId": "a96e4975-fcd3-4d86-8a91-2de5a231f5f2",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "a5d825e3-ac48-425b-837d-a980ff13350a",
+      "packageId": "dbd8cdf5-3f18-437a-982e-e6616f99095a",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "8dafb40d-92af-4019-9436-b4d1c912c943",
+      "packageId": "ce60f8bc-bdf7-445c-b147-fe1780079fb6",
+      "oldScore": 0,
+      "newScore": 24,
+      "scoreChange": 24
+    },
+    {
+      "outputId": "246e1768-22ff-449e-9c44-fbe1b43b70bc",
+      "packageId": "b79c59ea-b104-476e-96ba-cebbc2f1ab51",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    },
+    {
+      "outputId": "ef3c7d13-5de7-449a-a72c-87e11c7f684f",
+      "packageId": "138b703c-28f5-48fb-a4f8-a2f0d302897c",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    },
+    {
+      "outputId": "a89908d4-1f9c-4af6-92cc-778921b5ef9b",
+      "packageId": "0f2cb48d-886c-49e4-a34b-45e926601e38",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "55d475d2-3c7e-438c-9434-8d1397e22551",
+      "packageId": "68a1e087-831e-4efa-bdd4-b3ab255416a0",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "801b4660-e004-42dc-a782-52e4cdb8b403",
+      "packageId": "2addd06d-0b4b-42e4-931b-696a156b609c",
+      "oldScore": 0,
+      "newScore": 29,
+      "scoreChange": 29
+    },
+    {
+      "outputId": "5518aec0-7e94-4ed3-a500-1d7e945a1e47",
+      "packageId": "54fc07bf-928e-413e-81e2-f3328b3936b6",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    },
+    {
+      "outputId": "af6967e9-c51f-4cc6-b62d-8301787a53ca",
+      "packageId": "c6afd68c-2489-47fb-a285-78224385ceb3",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "f315e97a-85c5-4a18-bf06-74bd405618d8",
+      "packageId": "c7615008-4152-4eb7-97b8-5b11a08fa11e",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    },
+    {
+      "outputId": "4fcde1c9-d302-4d05-a5e7-cd82a39942c4",
+      "packageId": "15bc5fbd-b32d-4d08-8d5a-e68cfe5378b5",
+      "oldScore": 0,
+      "newScore": 28,
+      "scoreChange": 28
+    },
+    {
+      "outputId": "5a994f5e-3d39-4edd-a41d-08b240ac3a7d",
+      "packageId": "df590e70-5d4a-4606-ba8a-4e23b909ff6a",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "e1bdc1f7-bed1-4bc2-aa6f-23d6fde47014",
+      "packageId": "86006ebf-778e-4557-85a6-9e97c6a28845",
+      "oldScore": 0,
+      "newScore": 26,
+      "scoreChange": 26
+    },
+    {
+      "outputId": "bd8edb0f-25c8-4f36-8da2-9ca200423832",
+      "packageId": "63ec8e85-121c-4d73-a144-0037b088c7ae",
+      "oldScore": 0,
+      "newScore": 29,
+      "scoreChange": 29
+    },
+    {
+      "outputId": "0910b9b7-86db-477f-a439-93ef2169b1f5",
+      "packageId": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    },
+    {
+      "outputId": "6c1746f9-6a13-417e-b59a-e27747f702ca",
+      "packageId": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "oldScore": 0,
+      "newScore": 27,
+      "scoreChange": 27
+    }
+  ]
+}

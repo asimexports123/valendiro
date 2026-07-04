@@ -1,0 +1,160 @@
+{
+  "timestamp": "2026-07-03T06:01:53.798Z",
+  "structureAnalysis": {
+    "totalSampled": 5,
+    "fields": [
+      "id",
+      "package_id",
+      "statement",
+      "fact_type",
+      "confidence",
+      "domain",
+      "scope",
+      "tags",
+      "created_at",
+      "id",
+      "package_id",
+      "statement",
+      "fact_type",
+      "confidence",
+      "domain",
+      "scope",
+      "tags",
+      "created_at",
+      "id",
+      "package_id",
+      "statement",
+      "fact_type",
+      "confidence",
+      "domain",
+      "scope",
+      "tags",
+      "created_at",
+      "id",
+      "package_id",
+      "statement",
+      "fact_type",
+      "confidence",
+      "domain",
+      "scope",
+      "tags",
+      "created_at",
+      "id",
+      "package_id",
+      "statement",
+      "fact_type",
+      "confidence",
+      "domain",
+      "scope",
+      "tags",
+      "created_at"
+    ],
+    "contentLengths": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "hasCoreConcepts": 0,
+    "hasMentalModels": 0,
+    "hasAnalogies": 0,
+    "hasComparisons": 0,
+    "hasMisconceptions": 0,
+    "hasCaseStudies": 0,
+    "hasHistoricalContext": 0,
+    "hasApplications": 0,
+    "hasDecisionFrameworks": 0,
+    "hasBestPractices": 0,
+    "hasCommonMistakes": 0,
+    "hasFAQs": 0,
+    "hasGlossary": 0,
+    "hasNextLearning": 0
+  },
+  "uniqueFields": [
+    "id",
+    "package_id",
+    "statement",
+    "fact_type",
+    "confidence",
+    "domain",
+    "scope",
+    "tags",
+    "created_at"
+  ],
+  "avgContentLength": 0,
+  "sampleFacts": [
+    {
+      "id": "4463b2fb-ab27-4ced-a8de-bf5f01cfda36",
+      "package_id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "statement": "Python Programming Language.",
+      "fact_type": "property",
+      "confidence": "medium",
+      "domain": "Software Development",
+      "scope": "contextual",
+      "tags": [
+        "software-development",
+        "python-programming-language"
+      ],
+      "created_at": "2026-07-02T05:02:41.775427+00:00"
+    },
+    {
+      "id": "faa87e9c-590f-41f1-a6a7-affc253b7e5c",
+      "package_id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "statement": "Python is a high-level, general-purpose programming language.",
+      "fact_type": "definition",
+      "confidence": "medium",
+      "domain": "Software Development",
+      "scope": "universal",
+      "tags": [
+        "software-development",
+        "python"
+      ],
+      "created_at": "2026-07-02T05:02:41.982791+00:00"
+    },
+    {
+      "id": "545cbebd-fa5e-4790-b4ea-4a1c67edc8a9",
+      "package_id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "statement": "Python was created by Guido van Rossum.",
+      "fact_type": "historical",
+      "confidence": "medium",
+      "domain": "Software Development",
+      "scope": "contextual",
+      "tags": [
+        "software-development",
+        "python",
+        "guido",
+        "rossum"
+      ],
+      "created_at": "2026-07-02T05:02:42.184138+00:00"
+    },
+    {
+      "id": "e85d3c0c-ddfb-4da5-8e75-4f35487de9f8",
+      "package_id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "statement": "Python was first released in 1991.",
+      "fact_type": "historical",
+      "confidence": "medium",
+      "domain": "Software Development",
+      "scope": "contextual",
+      "tags": [
+        "software-development",
+        "python"
+      ],
+      "created_at": "2026-07-02T05:02:42.387433+00:00"
+    },
+    {
+      "id": "3affb053-7c47-4160-97af-ba5574a7417b",
+      "package_id": "a92d2626-8ce5-4f72-9753-84ea9209a8c6",
+      "statement": "Python supports multiple programming paradigms including object-oriented",
+      "fact_type": "property",
+      "confidence": "medium",
+      "domain": "Software Development",
+      "scope": "contextual",
+      "tags": [
+        "software-development",
+        "python"
+      ],
+      "created_at": "2026-07-02T05:02:42.590315+00:00"
+    }
+  ]
+}

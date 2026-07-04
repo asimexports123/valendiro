@@ -1,0 +1,237 @@
+{
+  "timestamp": "2026-07-03T06:53:44.204Z",
+  "verificationResults": [
+    {
+      "topic": "python-programming-fundamentals",
+      "status": "success",
+      "package": "python-programming-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "score": 72,
+      "livePage": "https://valendiro.com/en/topics/python-programming-fundamentals"
+    },
+    {
+      "topic": "javascript-fundamentals",
+      "status": "success",
+      "package": "javascript-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/javascript-fundamentals"
+    },
+    {
+      "topic": "typescript-language",
+      "status": "success",
+      "package": "typescript-language",
+      "intent": "understand",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/typescript-language"
+    },
+    {
+      "topic": "rust-programming-language",
+      "status": "success",
+      "package": "rust-programming-language",
+      "intent": "understand",
+      "category": "technology",
+      "score": 72,
+      "livePage": "https://valendiro.com/en/topics/rust-programming-language"
+    },
+    {
+      "topic": "go-programming-language",
+      "status": "success",
+      "package": "go-programming-language",
+      "intent": "understand",
+      "category": "technology",
+      "score": 74,
+      "livePage": "https://valendiro.com/en/topics/go-programming-language"
+    },
+    {
+      "topic": "sql-fundamentals",
+      "status": "success",
+      "package": "sql-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/sql-fundamentals"
+    },
+    {
+      "topic": "react-library",
+      "status": "success",
+      "package": "react-library",
+      "intent": "understand",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/react-library"
+    },
+    {
+      "topic": "nextjs-framework",
+      "status": "success",
+      "package": "nextjs-framework",
+      "intent": "understand",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/nextjs-framework"
+    },
+    {
+      "topic": "restful-apis",
+      "status": "success",
+      "package": "restful-apis",
+      "intent": "understand",
+      "category": "technology",
+      "score": 74,
+      "livePage": "https://valendiro.com/en/topics/restful-apis"
+    },
+    {
+      "topic": "html-fundamentals",
+      "status": "success",
+      "package": "html-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/html-fundamentals"
+    },
+    {
+      "topic": "machine-learning-fundamentals",
+      "status": "success",
+      "package": "machine-learning-fundamentals",
+      "intent": "learn",
+      "category": "education",
+      "score": 74,
+      "livePage": "https://valendiro.com/en/topics/machine-learning-fundamentals"
+    },
+    {
+      "topic": "pandas-data-analysis",
+      "status": "success",
+      "package": "pandas-data-analysis",
+      "intent": "understand",
+      "category": "technology",
+      "score": 72,
+      "livePage": "https://valendiro.com/en/topics/pandas-data-analysis"
+    },
+    {
+      "topic": "neural-networks",
+      "status": "success",
+      "package": "neural-networks",
+      "intent": "understand",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/neural-networks"
+    },
+    {
+      "topic": "data-visualization",
+      "status": "success",
+      "package": "data-visualization",
+      "intent": "understand",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/data-visualization"
+    },
+    {
+      "topic": "statistics-fundamentals",
+      "status": "success",
+      "package": "statistics-fundamentals",
+      "intent": "learn",
+      "category": "education",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/statistics-fundamentals"
+    },
+    {
+      "topic": "algorithms-fundamentals",
+      "status": "success",
+      "package": "algorithms-fundamentals",
+      "intent": "learn",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/algorithms-fundamentals"
+    },
+    {
+      "topic": "data-structures",
+      "status": "success",
+      "package": "data-structures",
+      "intent": "understand",
+      "category": "technology",
+      "score": 72,
+      "livePage": "https://valendiro.com/en/topics/data-structures"
+    },
+    {
+      "topic": "operating-systems",
+      "status": "success",
+      "package": "operating-systems",
+      "intent": "learn",
+      "category": "education",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/operating-systems"
+    },
+    {
+      "topic": "computer-networks",
+      "status": "success",
+      "package": "computer-networks",
+      "intent": "understand",
+      "category": "technology",
+      "score": 71,
+      "livePage": "https://valendiro.com/en/topics/computer-networks"
+    },
+    {
+      "topic": "git-version-control",
+      "status": "success",
+      "package": "git-version-control",
+      "intent": "understand",
+      "category": "technology",
+      "score": 74,
+      "livePage": "https://valendiro.com/en/topics/git-version-control"
+    },
+    {
+      "topic": "software-testing",
+      "status": "success",
+      "package": "software-testing",
+      "intent": "understand",
+      "category": "technology",
+      "score": 72,
+      "livePage": "https://valendiro.com/en/topics/software-testing"
+    },
+    {
+      "topic": "design-patterns",
+      "status": "success",
+      "package": "design-patterns",
+      "intent": "learn",
+      "category": "education",
+      "score": 74,
+      "livePage": "https://valendiro.com/en/topics/design-patterns"
+    },
+    {
+      "topic": "agile-development",
+      "status": "success",
+      "package": "agile-development",
+      "intent": "decide",
+      "category": "business",
+      "score": 72,
+      "livePage": "https://valendiro.com/en/topics/agile-development"
+    },
+    {
+      "topic": "database-design",
+      "status": "success",
+      "package": "database-design",
+      "intent": "understand",
+      "category": "technology",
+      "score": 72,
+      "livePage": "https://valendiro.com/en/topics/database-design"
+    },
+    {
+      "topic": "budgeting-fundamentals",
+      "status": "success",
+      "package": "budgeting-fundamentals",
+      "intent": "learn",
+      "category": "finance",
+      "score": 77,
+      "livePage": "https://valendiro.com/en/topics/budgeting-fundamentals"
+    }
+  ],
+  "summary": {
+    "total": 25,
+    "success": 25,
+    "partial": 0,
+    "failed": 0,
+    "integrityRate": "100.0%"
+  }
+}
