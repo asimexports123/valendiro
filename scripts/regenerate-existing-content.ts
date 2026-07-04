@@ -170,72 +170,26 @@ async function regenerateContentForTopic(topicSlug: string): Promise<void> {
 }
 
 async function regenerateAllPublishedTopics(): Promise<void> {
-  console.log("Regenerating content from knowledge packages...");
+  console.log("Regenerating content for all topics...");
 
-  // Get all knowledge packages
-  const { data: packages } = await supabase
-    .from("knowledge_packages")
-    .select("*");
+  // Get all topics
+  const { data: topics } = await supabase
+    .from("topics")
+    .select("slug");
 
-  if (!packages || packages.length === 0) {
-    console.log("No knowledge packages found");
+  if (!topics || topics.length === 0) {
+    console.log("No topics found");
     return;
   }
 
-  console.log(`Found ${packages.length} knowledge packages`);
+  console.log(`Found ${topics.length} topics`);
 
-  for (const pkg of packages) {
-    const topicSlug = pkg.slug;
-    console.log(`Processing: ${topicSlug}`);
-
-    try {
-      const facts = pkg.package?.facts || [];
-      const title = pkg.package?.title || topicSlug.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase());
-
-      // Generate article content inline
-      const introduction = generateIntroduction(title, facts);
-      const sections = generateSections(facts);
-      const conclusion = generateConclusion(title);
-      const articleHtml = buildArticleHtml(title, introduction, sections, conclusion);
-
-      // Check if topic exists, if not create it
-      const { data: existingTopic } = await supabase
-        .from("topics")
-        .select("id")
-        .eq("slug", topicSlug)
-        .single();
-
-      if (existingTopic) {
-        // Update existing topic
-        await supabase
-          .from("topics")
-          .update({
-            content: articleHtml,
-            html_content: articleHtml,
-            status: "published"
-          })
-          .eq("slug", topicSlug);
-        console.log(`✓ Updated topic: ${topicSlug}`);
-      } else {
-        // Create new topic
-        await supabase
-          .from("topics")
-          .insert({
-            slug: topicSlug,
-            title: title,
-            content: articleHtml,
-            html_content: articleHtml,
-            status: "published"
-          });
-        console.log(`✓ Created topic: ${topicSlug}`);
-      }
-
-    } catch (error) {
-      console.error(`✗ Failed to process ${topicSlug}:`, error);
-    }
+  for (const topic of topics) {
+    await regenerateContentForTopic(topic.slug);
   }
 
   console.log("Content regeneration complete");
+  console.log("✅ All done");
 }
 
 regenerateAllPublishedTopics()
