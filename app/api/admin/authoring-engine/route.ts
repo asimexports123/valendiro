@@ -82,6 +82,7 @@ export async function POST(request: Request) {
     const context: AuthoringContext = {
       topic: topic_slug,
       category,
+      subject: category,
       intent,
       complexity: "intermediate",
       facts,
