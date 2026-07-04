@@ -1448,7 +1448,7 @@ export class KnowledgeComposer {
     if (!leadFact) return nodes;
 
     if (sectionType === "introduction") {
-      // Introduction section: Engaging hook, clear definition, practical relevance
+      // Introduction section: Single hook + definition, no walls of text
       const openingHook = this.generateOpeningHook(subject, context.category, context.intent);
       nodes.push({
         type: "paragraph",
@@ -1460,46 +1460,17 @@ export class KnowledgeComposer {
         children: [leadFact.statement],
       });
 
-      // Add remaining definitions with natural flow (max 2 to avoid repetition)
-      const rest = facts.slice(1, 3);
-      for (const fact of rest) {
-        nodes.push({
-          type: "paragraph",
-          children: [fact.statement],
-        });
-      }
-
-      // Add motivation paragraph tailored to category
-      const motivation = this.generateMotivationParagraph(subject, context.category, context.intent);
-      nodes.push({
-        type: "paragraph",
-        children: [motivation],
-      });
+      // No additional paragraphs - keep it scannable
     } else {
-      // Core Concept section: Focus on the definition itself
+      // Core Concept section: Convert to bullet points for scanability
       nodes.push({
-        type: "paragraph",
-        children: [leadFact.statement],
+        type: "list",
+        ordered: true,
+        items: facts.slice(0, 5).map(f => ({
+          type: "list-item",
+          children: [f.statement],
+        })),
       });
-
-      // Add remaining definitions with varied connectors
-      const rest = facts.slice(1);
-      const connectors = [
-        ["Additionally", ""],
-        ["Building on this", ""],
-        ["Furthermore", ""],
-        ["In practice", ""],
-        ["This means", ""],
-      ];
-      
-      for (let i = 0; i < rest.length; i++) {
-        const fact = rest[i];
-        const [connector] = connectors[i % connectors.length];
-        nodes.push({
-          type: "paragraph",
-          children: [`${connector}, ${fact.statement.charAt(0).toLowerCase() + fact.statement.slice(1)}.`],
-        });
-      }
     }
 
     return nodes;
@@ -1510,40 +1481,18 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    
-    // Phase 19: Remove redundancy and filler
+
     const compressedFacts = this.removeRedundantFacts(facts);
-    
-    if (context.intent === "guide" || context.intent === "decide") {
-      // Numbered steps for guide/decide intent - remove filler explanations
-      nodes.push({
-        type: "list",
-        ordered: true,
-        items: compressedFacts.map(f => ({
-          type: "list-item",
-          children: [this.removeFillerTransitions(f.statement)],
-        })),
-      });
-    } else {
-      // Phase 19: Lower threshold to 2+ for more aggressive compression
-      if (compressedFacts.length >= 2) {
-        nodes.push({
-          type: "list",
-          ordered: false,
-          items: compressedFacts.map(f => ({
-            type: "list-item",
-            children: [this.removeFillerTransitions(f.statement)],
-          })),
-        });
-      } else {
-        for (const fact of compressedFacts) {
-          nodes.push({
-            type: "paragraph",
-            children: [this.removeFillerTransitions(fact.statement)],
-          });
-        }
-      }
-    }
+
+    // Always use numbered steps - more scannable
+    nodes.push({
+      type: "list",
+      ordered: true,
+      items: compressedFacts.slice(0, 7).map(f => ({
+        type: "list-item",
+        children: [this.removeFillerTransitions(f.statement)],
+      })),
+    });
 
     return nodes;
   }
@@ -1553,29 +1502,18 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    
-    // Phase 19: Remove redundancy and compress for scanning
+
     const compressedFacts = this.removeRedundantFacts(facts);
-    
-    // Phase 19: Lower threshold to 2+ for more aggressive compression
-    if (compressedFacts.length >= 2) {
-      nodes.push({
-        type: "list",
-        ordered: false,
-        items: compressedFacts.map(f => ({
-          type: "list-item",
-          children: [this.removeFillerTransitions(f.statement)],
-        })),
-      });
-    } else {
-      // For single facts, keep as paragraphs but remove filler
-      for (const fact of compressedFacts) {
-        nodes.push({
-          type: "paragraph",
-          children: [this.removeFillerTransitions(fact.statement)],
-        });
-      }
-    }
+
+    // Always use bullet points for scanability
+    nodes.push({
+      type: "list",
+      ordered: false,
+      items: compressedFacts.slice(0, 7).map(f => ({
+        type: "list-item",
+        children: [this.removeFillerTransitions(f.statement)],
+      })),
+    });
 
     return nodes;
   }
@@ -1585,30 +1523,18 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    
-    // Phase 19: Remove filler intro, compress to bullet list
+
     const compressedFacts = this.removeRedundantFacts(facts);
-    
-    // Phase 19: Lower threshold to 2+ for more aggressive compression
-    if (compressedFacts.length >= 2) {
-      nodes.push({
-        type: "list",
-        ordered: false,
-        items: compressedFacts.map(f => ({
-          type: "list-item",
-          children: [this.removeFillerTransitions(f.statement)],
-        })),
-      });
-    } else {
-      for (const fact of compressedFacts) {
-        nodes.push({
-          type: "callout",
-          variant: "warning",
-          title: null,
-          children: [{ type: "paragraph", children: [this.removeFillerTransitions(fact.statement)] }],
-        });
-      }
-    }
+
+    // Always use bullet points for scanability
+    nodes.push({
+      type: "list",
+      ordered: false,
+      items: compressedFacts.slice(0, 5).map(f => ({
+        type: "list-item",
+        children: [this.removeFillerTransitions(f.statement)],
+      })),
+    });
 
     return nodes;
   }
@@ -1618,30 +1544,18 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    
-    // Phase 19: Remove filler intro, compress to bullet list
+
     const compressedFacts = this.removeRedundantFacts(facts);
-    
-    // Phase 19: Lower threshold to 2+ for more aggressive compression
-    if (compressedFacts.length >= 2) {
-      nodes.push({
-        type: "list",
-        ordered: false,
-        items: compressedFacts.map(f => ({
-          type: "list-item",
-          children: [this.removeFillerTransitions(f.statement)],
-        })),
-      });
-    } else {
-      for (const fact of compressedFacts) {
-        nodes.push({
-          type: "callout",
-          variant: "tip",
-          title: null,
-          children: [{ type: "paragraph", children: [this.removeFillerTransitions(fact.statement)] }],
-        });
-      }
-    }
+
+    // Always use bullet points for scanability
+    nodes.push({
+      type: "list",
+      ordered: false,
+      items: compressedFacts.slice(0, 7).map(f => ({
+        type: "list-item",
+        children: [this.removeFillerTransitions(f.statement)],
+      })),
+    });
 
     return nodes;
   }
@@ -1651,28 +1565,18 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    
-    // Phase 19: Remove filler intro, compress to bullet list
+
     const compressedFacts = this.removeRedundantFacts(facts);
-    
-    // Phase 19: Lower threshold to 2+ for more aggressive compression
-    if (compressedFacts.length >= 2) {
-      nodes.push({
-        type: "list",
-        ordered: false,
-        items: compressedFacts.map(f => ({
-          type: "list-item",
-          children: [this.removeFillerTransitions(f.statement)],
-        })),
-      });
-    } else {
-      for (const fact of compressedFacts) {
-        nodes.push({
-          type: "paragraph",
-          children: [this.removeFillerTransitions(fact.statement)],
-        });
-      }
-    }
+
+    // Always use bullet points for scanability
+    nodes.push({
+      type: "list",
+      ordered: false,
+      items: compressedFacts.slice(0, 5).map(f => ({
+        type: "list-item",
+        children: [this.removeFillerTransitions(f.statement)],
+      })),
+    });
 
     return nodes;
   }
@@ -1683,34 +1587,17 @@ export class KnowledgeComposer {
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
     const subject = context.subject;
-    
-    // Generate a synthesized summary that connects key concepts
-    nodes.push({
-      type: "paragraph",
-      children: [`${subject} is a fundamental concept that serves as a foundation for deeper learning and practical application. Throughout this guide, we've explored its core principles, practical uses, and best practices.`],
-    });
-    
-    // Synthesize key takeaways from all fact types
-    const keyPoints = [
-      "Understanding the core concept provides the foundation for practical application.",
-      "Following best practices helps avoid common mistakes and achieve better results.",
-      "Real-world examples demonstrate how concepts apply in everyday situations.",
-      "Awareness of potential pitfalls enables more effective problem-solving.",
-    ];
-    
+
+    // Quick summary as bullet points - no paragraphs
+    const keyPoints = facts.slice(0, 5).map(f => f.statement);
+
     nodes.push({
       type: "list",
       ordered: true,
       items: keyPoints.map(point => ({
         type: "list-item",
-        children: [point],
+        children: [this.removeFillerTransitions(point)],
       })),
-    });
-
-    // Add forward-looking conclusion
-    nodes.push({
-      type: "paragraph",
-      children: [`With these fundamentals in place, you're now equipped to apply ${subject} in your own context. Continue exploring the suggested learning paths to deepen your understanding and unlock new possibilities.`],
     });
 
     return nodes;
