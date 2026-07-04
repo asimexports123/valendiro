@@ -42,6 +42,18 @@ export interface WrittenDocument {
 }
 
 export class WritingEngine {
+  // Placeholder patterns to detect
+  private placeholderPatterns = [
+    /key point \d+ about/i,
+    /type \d+/i,
+    /description \d+/i,
+    /example \d+/i,
+    /step \d+/i,
+    /option [AB]/i,
+    /pro \d+.*con \d+/i,
+    /const result = \w+\(\);/i,
+  ];
+
   /**
    * Compose the full document
    */
@@ -50,21 +62,35 @@ export class WritingEngine {
 
     // Write introduction
     const introduction = this.writeIntroduction(context);
+    this.validateNoPlaceholders(introduction, "Introduction");
 
     // Write each section
     for (const styledSection of context.styledSections) {
       const writtenSection = this.writeSection(styledSection, context);
+      this.validateNoPlaceholders(writtenSection.content, writtenSection.heading);
       sections.push(writtenSection);
     }
 
     // Write conclusion
     const conclusion = this.writeConclusion(context);
+    this.validateNoPlaceholders(conclusion, "Conclusion");
 
     return {
       sections,
       introduction,
       conclusion,
     };
+  }
+
+  /**
+   * Validate that content contains no placeholder text
+   */
+  private validateNoPlaceholders(content: string, sectionName: string): void {
+    for (const pattern of this.placeholderPatterns) {
+      if (pattern.test(content)) {
+        throw new Error(`Placeholder text detected in ${sectionName}: "${content.match(pattern)?.[0]}". Content generation failed - insufficient domain knowledge.`);
+      }
+    }
   }
 
   /**
@@ -100,6 +126,11 @@ export class WritingEngine {
     const { section, personality } = styledSection;
     const { category, complexity } = context;
 
+    // Check if section has facts
+    if (section.factsToInclude.length === 0) {
+      throw new Error(`Section "${section.heading}" has no facts. Cannot generate content without domain knowledge.`);
+    }
+
     let content = "";
 
     // Write section based on type and category
@@ -119,6 +150,11 @@ export class WritingEngine {
       content = this.writeSummarySection(section, personality, category, complexity);
     } else {
       content = this.writeGenericSection(section, personality, category, complexity);
+    }
+
+    // Validate content is not empty
+    if (!content || content.trim().length === 0) {
+      throw new Error(`Section "${section.heading}" generated empty content. Insufficient domain knowledge.`);
     }
 
     return {
@@ -202,17 +238,14 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`Definition section has no facts. Cannot generate content without domain knowledge.`);
+    }
 
     let content = "";
 
-    // Start with the primary definition
-    const primaryFact = facts[0];
-    content += `${primaryFact.statement}\n\n`;
-
-    // Add supporting facts naturally
-    for (let i = 1; i < Math.min(facts.length, 3); i++) {
-      const fact = facts[i];
+    // Use actual facts directly without template text
+    for (const fact of facts) {
       content += `${fact.statement}\n\n`;
     }
 
@@ -226,25 +259,15 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`How-it-works section has no facts. Cannot generate content without domain knowledge.`);
+    }
 
     let content = "";
 
-    if (category === "technology") {
-      content += "The technical implementation follows this logic:\n\n";
-      for (const fact of facts) {
-        content += `${fact.statement}\n\n`;
-      }
-    } else if (category === "travel") {
-      content += "The process works as follows:\n\n";
-      for (const fact of facts) {
-        content += `${fact.statement}\n\n`;
-      }
-    } else {
-      content += "Here's how this works:\n\n";
-      for (const fact of facts) {
-        content += `${fact.statement}\n\n`;
-      }
+    // Use actual facts directly without template text
+    for (const fact of facts) {
+      content += `${fact.statement}\n\n`;
     }
 
     return content.trim();
@@ -257,30 +280,15 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`Example section has no facts. Cannot generate content without domain knowledge.`);
+    }
 
     let content = "";
 
-    if (category === "technology") {
-      content += "Here's a practical example:\n\n";
-      for (const fact of facts) {
-        content += `${fact.statement}\n\n`;
-      }
-    } else if (category === "travel") {
-      content += "For example, during a typical trip:\n\n";
-      for (const fact of facts) {
-        content += `${fact.statement}\n\n`;
-      }
-    } else if (category === "finance") {
-      content += "Consider this scenario:\n\n";
-      for (const fact of facts) {
-        content += `${fact.statement}\n\n`;
-      }
-    } else {
-      content += "Here's a concrete example:\n\n";
-      for (const fact of facts) {
-        content += `${fact.statement}\n\n`;
-      }
+    // Use actual facts directly without template text
+    for (const fact of facts) {
+      content += `${fact.statement}\n\n`;
     }
 
     return content.trim();
@@ -293,18 +301,13 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`Benefits section has no facts. Cannot generate content without domain knowledge.`);
+    }
 
     let content = "";
 
-    if (category === "business") {
-      content += "The business benefits include:\n\n";
-    } else if (category === "finance") {
-      content += "Key advantages:\n\n";
-    } else {
-      content += "Benefits include:\n\n";
-    }
-
+    // Use actual facts directly without template text
     for (const fact of facts) {
       content += `${fact.statement}\n\n`;
     }
@@ -319,18 +322,13 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`Mistakes section has no facts. Cannot generate content without domain knowledge.`);
+    }
 
     let content = "";
 
-    if (category === "health") {
-      content += "Important precautions:\n\n";
-    } else if (category === "finance") {
-      content += "Common pitfalls to avoid:\n\n";
-    } else {
-      content += "Common mistakes:\n\n";
-    }
-
+    // Use actual facts directly without template text
     for (const fact of facts) {
       content += `${fact.statement}\n\n`;
     }
@@ -345,18 +343,13 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`Best practices section has no facts. Cannot generate content without domain knowledge.`);
+    }
 
     let content = "";
 
-    if (category === "technology") {
-      content += "Follow these best practices:\n\n";
-    } else if (category === "health") {
-      content += "Recommended practices:\n\n";
-    } else {
-      content += "Best practices:\n\n";
-    }
-
+    // Use actual facts directly without template text
     for (const fact of facts) {
       content += `${fact.statement}\n\n`;
     }
@@ -371,10 +364,13 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`Summary section has no facts. Cannot generate content without domain knowledge.`);
+    }
 
-    let content = "Key points to remember:\n\n";
+    let content = "";
 
+    // Use actual facts directly without template text
     for (const fact of facts) {
       content += `${fact.statement}\n\n`;
     }
@@ -389,10 +385,13 @@ export class WritingEngine {
     complexity: string
   ): string {
     const facts = section.factsToInclude;
-    if (facts.length === 0) return "";
+    if (facts.length === 0) {
+      throw new Error(`Section "${section.heading}" has no facts. Cannot generate content without domain knowledge.`);
+    }
 
     let content = "";
 
+    // Use actual facts directly without template text
     for (const fact of facts) {
       content += `${fact.statement}\n\n`;
     }

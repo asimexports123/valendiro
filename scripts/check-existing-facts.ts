@@ -1,5 +1,5 @@
 /**
- * Check content_generation_queue
+ * Check existing knowledge_facts to understand schema
  */
 
 import * as dotenv from "dotenv";
@@ -14,21 +14,23 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function checkQueue(): Promise<void> {
-  console.log("Checking content_generation_queue...");
+async function checkExistingFacts() {
+  console.log("Checking existing knowledge_facts...");
 
-  const { data: queueItems } = await supabase
-    .from("content_generation_queue")
+  const { data: facts } = await supabase
+    .from("knowledge_facts")
     .select("*")
-    .limit(10);
+    .limit(3);
 
-  console.log("Queue items:", queueItems?.length || 0);
-  if (queueItems && queueItems.length > 0) {
-    console.log("Sample items:", JSON.stringify(queueItems.slice(0, 3), null, 2));
+  if (facts && facts.length > 0) {
+    console.log("Fact columns:", Object.keys(facts[0]));
+    console.log("Sample fact:", JSON.stringify(facts[0], null, 2));
+  } else {
+    console.log("No facts found");
   }
 }
 
-checkQueue()
+checkExistingFacts()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error("Error:", error);

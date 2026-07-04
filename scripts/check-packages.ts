@@ -1,5 +1,5 @@
 /**
- * Check the single topic in database
+ * Check knowledge_packages structure
  */
 
 import * as dotenv from "dotenv";
@@ -14,25 +14,18 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function checkSingleTopic(): Promise<void> {
-  console.log("Checking single topic...");
-
-  const { data: topics } = await supabase
-    .from("topics")
-    .select("*");
-
-  console.log(`Found ${topics?.length || 0} topics:`);
-  console.log(JSON.stringify(topics, null, 2));
+async function checkPackages() {
+  console.log("Checking existing knowledge packages...");
 
   const { data: packages } = await supabase
     .from("knowledge_packages")
-    .select("*");
+    .select("*")
+    .limit(3);
 
-  console.log(`\nFound ${packages?.length || 0} knowledge packages:`);
-  console.log(JSON.stringify(packages, null, 2));
+  console.log("Existing packages:", JSON.stringify(packages, null, 2));
 }
 
-checkSingleTopic()
+checkPackages()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error("Error:", error);

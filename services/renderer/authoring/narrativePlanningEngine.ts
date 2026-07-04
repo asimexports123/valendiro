@@ -21,6 +21,7 @@ import { ReaderPsychologyEngine, type ReaderQuestion } from "./readerPsychologyE
 
 export interface NarrativePlanningContext {
   topic: string;
+  subject: string;
   category: string;
   intent: "inform" | "educate" | "guide" | "decide";
   complexity: "beginner" | "intermediate" | "advanced";
@@ -50,8 +51,83 @@ export interface NarrativePlan {
   learningJourney: string[];
 }
 
+export interface SubjectValidationRules {
+  mandatorySections: string[];
+  forbiddenSections: string[];
+  requireExamples: boolean;
+  requireTables: boolean;
+  requireCodeBlocks: boolean;
+  requireFormulas: boolean;
+  requireSafetyWarnings: boolean;
+  requireChecklists: boolean;
+  requireFAQs: boolean;
+  requireComparisons: boolean;
+  requireInternalLinks: boolean;
+}
+
+export interface ValidationResult {
+  passes: boolean;
+  violations: string[];
+}
+
 export class NarrativePlanningEngine {
   private readerPsychology: ReaderPsychologyEngine | null = null;
+
+  // Subject-specific validation rules
+  private subjectValidationRules: Record<string, SubjectValidationRules> = {
+    "python-programming-fundamentals": {
+      mandatorySections: ["syntax-basics", "data-types", "control-flow", "functions", "code-example"],
+      forbiddenSections: [],
+      requireExamples: true,
+      requireTables: false,
+      requireCodeBlocks: true,
+      requireFormulas: false,
+      requireSafetyWarnings: false,
+      requireChecklists: false,
+      requireFAQs: false,
+      requireComparisons: false,
+      requireInternalLinks: false,
+    },
+    "git-version-control": {
+      mandatorySections: ["installation", "basic-commands", "branching", "merging", "remote-workflow"],
+      forbiddenSections: [],
+      requireExamples: true,
+      requireTables: false,
+      requireCodeBlocks: true,
+      requireFormulas: false,
+      requireSafetyWarnings: false,
+      requireChecklists: true,
+      requireFAQs: false,
+      requireComparisons: false,
+      requireInternalLinks: false,
+    },
+    "investing-basics": {
+      mandatorySections: ["investment-types", "risk-return", "asset-allocation", "diversification"],
+      forbiddenSections: [],
+      requireExamples: true,
+      requireTables: true,
+      requireCodeBlocks: false,
+      requireFormulas: true,
+      requireSafetyWarnings: false,
+      requireChecklists: false,
+      requireFAQs: true,
+      requireComparisons: true,
+      requireInternalLinks: false,
+    },
+    "data-structures": {
+      mandatorySections: ["arrays", "linked-lists", "trees", "graphs", "hash-tables", "time-complexity", "space-complexity"],
+      forbiddenSections: [],
+      requireExamples: true,
+      requireTables: true,
+      requireCodeBlocks: true,
+      requireFormulas: false,
+      requireSafetyWarnings: false,
+      requireChecklists: false,
+      requireFAQs: false,
+      requireComparisons: true,
+      requireInternalLinks: false,
+    },
+  };
 
   constructor() {
     // Lazy initialization
@@ -121,6 +197,80 @@ export class NarrativePlanningEngine {
   ): string[] {
     const journey: string[] = [];
 
+    // Subject-specific learning journeys (highest priority)
+    const subjectJourneys: Record<string, string[]> = {
+      // Technology subjects
+      "python-programming-fundamentals": [
+        "definition", "why-it-matters", "getting-started", "syntax-basics", "data-types", 
+        "control-flow", "functions", "modules-packages", "common-libraries", "code-example",
+        "best-practices", "common-mistakes", "resources", "summary"
+      ],
+      "git-version-control": [
+        "definition", "why-it-matters", "installation", "basic-commands", "branching", 
+        "merging", "remote-workflow", "common-workflows", "best-practices", "common-mistakes", "resources", "summary"
+      ],
+      "docker-containers": [
+        "definition", "why-it-matters", "installation", "dockerfile-basics", "docker-compose",
+        "images", "volumes", "networks", "best-practices", "common-mistakes", "resources", "summary"
+      ],
+      "data-structures": [
+        "definition", "why-it-matters", "arrays", "linked-lists", "stacks-queues", 
+        "trees", "graphs", "hash-tables", "time-complexity", "space-complexity", 
+        "code-example", "best-practices", "common-mistakes", "summary"
+      ],
+      "javascript-fundamentals": [
+        "definition", "why-it-matters", "getting-started", "syntax-basics", "variables-types",
+        "functions", "dom-manipulation", "es6-features", "common-patterns", "code-example",
+        "best-practices", "common-mistakes", "resources", "summary"
+      ],
+      // Finance subjects
+      "investing-basics": [
+        "definition", "why-it-matters", "investment-types", "risk-return", "getting-started",
+        "asset-allocation", "diversification", "investment-accounts", "tax-implications",
+        "expert-advice", "common-mistakes", "best-practices", "summary"
+      ],
+      "stock-market-fundamentals": [
+        "definition", "why-it-matters", "market-basics", "stock-types", "order-types",
+        "analysis-methods", "risk-management", "tax-implications", "expert-advice",
+        "common-mistakes", "best-practices", "resources", "summary"
+      ],
+      "etf-fundamentals": [
+        "definition", "why-it-matters", "etf-structure", "types-of-etfs", "expense-ratios",
+        "selection-criteria", "tax-efficiency", "portfolio-allocation", "expert-advice",
+        "common-mistakes", "best-practices", "resources", "summary"
+      ],
+      // Health subjects
+      "diabetes": [
+        "definition", "why-it-matters", "types-symptoms", "diagnosis", "blood-sugar-management",
+        "diet-exercise", "medications", "complications", "warning-signs", "expert-recommendations",
+        "when-to-seek-help", "best-practices", "summary"
+      ],
+      "nutrition-fundamentals": [
+        "definition", "why-it-matters", "macronutrients", "micronutrients", "dietary-guidelines",
+        "meal-planning", "supplements", "special-diets", "expert-recommendations", "common-mistakes",
+        "best-practices", "resources", "summary"
+      ],
+      // Travel subjects
+      "travel-planning-fundamentals": [
+        "overview", "booking-strategy", "itinerary-planning", "budgeting", "packing", 
+        "documents", "safety", "common-mistakes", "tips", "resources", "summary"
+      ],
+      "budget-travel": [
+        "definition", "why-it-matters", "destinations", "cost-saving-strategies", "accommodation",
+        "transport", "food", "timing", "common-mistakes", "tips", "resources", "summary"
+      ],
+      // Lifestyle subjects
+      "home-organization-fundamentals": [
+        "definition", "why-it-matters", "decluttering", "storage-solutions", "room-by-room-guide",
+        "systems", "maintenance", "tools", "time-estimates", "common-mistakes", "tips", "summary"
+      ],
+    };
+
+    // Check if subject has specific journey
+    if (context.subject && subjectJourneys[context.subject]) {
+      return subjectJourneys[context.subject];
+    }
+
     // Base order that applies to most topics
     const baseOrder = [
       "definition",
@@ -137,7 +287,7 @@ export class NarrativePlanningEngine {
       "summary",
     ];
 
-    // Adjust based on category
+    // Adjust based on category (fallback if no subject-specific journey)
     if (context.category === "technology") {
       journey.push(
         "definition",
@@ -701,5 +851,78 @@ export class NarrativePlanningEngine {
     }
 
     return omitted;
+  }
+
+  /**
+   * Validate narrative plan against subject-specific rules
+   */
+  validateAgainstSubjectRules(subject: string, narrativePlan: NarrativePlan): ValidationResult {
+    const rules = this.subjectValidationRules[subject];
+    if (!rules) {
+      // No specific rules for this subject, pass by default
+      return { passes: true, violations: [] };
+    }
+
+    const violations: string[] = [];
+    const sectionTypes = narrativePlan.sections.map(s => s.type);
+
+    // Check mandatory sections
+    for (const mandatorySection of rules.mandatorySections) {
+      if (!sectionTypes.includes(mandatorySection)) {
+        violations.push(`Missing mandatory section: ${mandatorySection}`);
+      }
+    }
+
+    // Check forbidden sections
+    for (const forbiddenSection of rules.forbiddenSections) {
+      if (sectionTypes.includes(forbiddenSection)) {
+        violations.push(`Contains forbidden section: ${forbiddenSection}`);
+      }
+    }
+
+    // Check code blocks requirement
+    if (rules.requireCodeBlocks) {
+      const hasCodeBlocks = narrativePlan.sections.some(s => s.visualType === "code-block");
+      if (!hasCodeBlocks) {
+        violations.push("Missing required code blocks");
+      }
+    }
+
+    // Check tables requirement
+    if (rules.requireTables) {
+      const hasTables = narrativePlan.sections.some(s => s.visualType === "comparison-table");
+      if (!hasTables) {
+        violations.push("Missing required tables");
+      }
+    }
+
+    // Check examples requirement
+    if (rules.requireExamples) {
+      const hasExamples = narrativePlan.sections.some(s => s.includeExample);
+      if (!hasExamples) {
+        violations.push("Missing required examples");
+      }
+    }
+
+    // Check comparisons requirement
+    if (rules.requireComparisons) {
+      const hasComparisons = narrativePlan.sections.some(s => s.includeComparison);
+      if (!hasComparisons) {
+        violations.push("Missing required comparisons");
+      }
+    }
+
+    // Check checklists requirement
+    if (rules.requireChecklists) {
+      const hasChecklists = narrativePlan.sections.some(s => s.visualType === "checklist");
+      if (!hasChecklists) {
+        violations.push("Missing required checklists");
+      }
+    }
+
+    return {
+      passes: violations.length === 0,
+      violations,
+    };
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Check topics table schema
+ * Check discovery_sources structure
  */
 
 import * as dotenv from "dotenv";
@@ -14,21 +14,18 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function checkSchema(): Promise<void> {
-  console.log("Checking topics table schema...");
+async function checkDiscoverySources() {
+  console.log("Checking existing discovery sources...");
 
-  const { data: topics } = await supabase
-    .from("topics")
+  const { data: sources } = await supabase
+    .from("discovery_sources")
     .select("*")
-    .limit(1);
+    .limit(5);
 
-  if (topics && topics.length > 0) {
-    console.log("Topics table columns:", Object.keys(topics[0]));
-    console.log("Sample topic:", JSON.stringify(topics[0], null, 2));
-  }
+  console.log("Existing sources:", sources);
 }
 
-checkSchema()
+checkDiscoverySources()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error("Error:", error);

@@ -16,6 +16,7 @@ import type { DiscoveryAdapter, SlotInfo } from "./adapters";
 import { StaticMockAdapter } from "./adapters";
 import { WikipediaAdapter } from "./adapters/wikipediaAdapter";
 import { DocsAdapter } from "./adapters/docsAdapter";
+import { StructuredDocsAdapter } from "./adapters/structuredDocsAdapter";
 import { scoreCandidates, type ScoringConfig } from "./scoringEngine";
 import { deduplicateCandidates } from "./deduplicationEngine";
 
@@ -45,6 +46,8 @@ function getAdapter(adapterType: string, config?: Record<string, unknown>): Disc
         indexPath: (config?.indexPath as string) ?? "/",
         name: (config?.name as string) ?? "Documentation",
       });
+    case "structured-docs":
+      return new StructuredDocsAdapter();
     default:
       return new StaticMockAdapter();
   }

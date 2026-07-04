@@ -31,6 +31,7 @@ import { FinalAcceptanceTestEngine, type AcceptanceTestResult } from "./finalAcc
 
 export interface AuthoringContext {
   topic: string;
+  subject: string;
   category: string;
   intent: "inform" | "educate" | "guide" | "decide";
   complexity: "beginner" | "intermediate" | "advanced";
@@ -166,6 +167,7 @@ export class KnowledgeAuthoringOrchestrator {
     console.log("[Stage 4] Category Personality System...");
     const personalityContext = {
       category: context.category,
+      subject: context.subject,
       intent: context.intent,
       complexity: context.complexity,
       sections: updatedNarrativePlan.sections,
@@ -207,7 +209,15 @@ export class KnowledgeAuthoringOrchestrator {
 
     // Stage 8: Final Acceptance Test - 5 question gate
     console.log("[Stage 8] Final Acceptance Test...");
-    const acceptanceTest = this.getAcceptanceTest().runAcceptanceTest(document, editorialResult);
+    
+    // Validate against subject-specific rules
+    const subjectValidation = this.getNarrativePlanning().validateAgainstSubjectRules(context.subject, updatedNarrativePlan);
+    console.log(`  Subject validation: ${subjectValidation.passes ? "PASSED" : "FAILED"}`);
+    if (!subjectValidation.passes) {
+      console.log(`  Violations: ${subjectValidation.violations.join(", ")}`);
+    }
+    
+    const acceptanceTest = this.getAcceptanceTest().runAcceptanceTest(document, editorialResult, subjectValidation);
     console.log(`  All questions passed: ${acceptanceTest.allPassed}`);
     console.log(`  Overall confidence: ${acceptanceTest.overallConfidence}/100`);
     console.log(`  Recommendation: ${acceptanceTest.recommendation}`);

@@ -18,6 +18,8 @@
 
 import type { WrittenDocument } from "./writingEngine";
 import type { EditorialResult } from "./editorialPassEngine";
+import type { NarrativePlan } from "./narrativePlanningEngine";
+import type { ValidationResult } from "./narrativePlanningEngine";
 
 export interface AcceptanceTestQuestion {
   question: string;
@@ -32,6 +34,7 @@ export interface AcceptanceTestResult {
   overallConfidence: number;
   recommendation: "publish" | "revise" | "reject";
   feedback: string[];
+  subjectValidation?: ValidationResult;
 }
 
 export class FinalAcceptanceTestEngine {
@@ -40,7 +43,8 @@ export class FinalAcceptanceTestEngine {
    */
   runAcceptanceTest(
     document: WrittenDocument,
-    editorialResult: EditorialResult
+    editorialResult: EditorialResult,
+    subjectValidation?: ValidationResult
   ): AcceptanceTestResult {
     const questions: AcceptanceTestQuestion[] = [];
 
@@ -59,6 +63,27 @@ export class FinalAcceptanceTestEngine {
     // Question 5: Does this actually solve the user's problem?
     questions.push(this.testProblemSolving(document));
 
+    // Subject validation check (if provided)
+    let subjectValidationPassed = true;
+    if (subjectValidation) {
+      subjectValidationPassed = subjectValidation.passes;
+      if (!subjectValidationPassed) {
+        questions.push({
+          question: "Does this meet subject-specific requirements?",
+          answer: "NO",
+          confidence: 0,
+          reasoning: subjectValidation.violations.join("; "),
+        });
+      } else {
+        questions.push({
+          question: "Does this meet subject-specific requirements?",
+          answer: "YES",
+          confidence: 100,
+          reasoning: "All subject requirements satisfied",
+        });
+      }
+    }
+
     // Check if all passed
     const allPassed = questions.every(q => q.answer === "YES");
 
@@ -68,10 +93,10 @@ export class FinalAcceptanceTestEngine {
     );
 
     // Generate recommendation
-    const recommendation = this.generateRecommendation(allPassed, overallConfidence, editorialResult);
+    const recommendation = this.generateRecommendation(allPassed, overallConfidence, editorialResult, subjectValidationPassed);
 
     // Generate feedback
-    const feedback = this.generateFeedback(questions, recommendation);
+    const feedback = this.generateFeedback(questions, recommendation, subjectValidation);
 
     return {
       questions,
@@ -79,6 +104,7 @@ export class FinalAcceptanceTestEngine {
       overallConfidence,
       recommendation,
       feedback,
+      subjectValidation,
     };
   }
 
@@ -287,13 +313,14 @@ export class FinalAcceptanceTestEngine {
   private generateRecommendation(
     allPassed: boolean,
     overallConfidence: number,
-    editorialResult: EditorialResult
+    editorialResult: EditorialResult,
+    subjectValidationPassed: boolean
   ): "publish" | "revise" | "reject" {
-    if (allPassed && overallConfidence >= 85 && editorialResult.passesEditorial) {
+    if (allPassed && overallConfidence >= 85 && editorialResult.passesEditorial && subjectValidationPassed) {
       return "publish";
     }
 
-    if (overallConfidence >= 70 && editorialResult.qualityScore >= 70) {
+    if (overallConfidence >= 70 && editorialResult.qualityScore >= 70 && subjectValidationPassed) {
       return "revise";
     }
 
@@ -305,13 +332,21 @@ export class FinalAcceptanceTestEngine {
    */
   private generateFeedback(
     questions: AcceptanceTestQuestion[],
-    recommendation: string
+    recommendation: string,
+    subjectValidation?: ValidationResult
   ): string[] {
     const feedback: string[] = [];
 
     for (const question of questions) {
       if (question.answer === "NO") {
         feedback.push(`Failed: ${question.question} - ${question.reasoning}`);
+      }
+    }
+
+    if (subjectValidation && !subjectValidation.passes) {
+      feedback.push("Subject validation failed:");
+      for (const violation of subjectValidation.violations) {
+        feedback.push(`  - ${violation}`);
       }
     }
 

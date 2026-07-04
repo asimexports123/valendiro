@@ -82,6 +82,7 @@ async function runPilot() {
 
     const context: AuthoringContext = {
       topic: topic.slug,
+      subject: topic.slug,
       category: topic.category,
       intent: topic.intent,
       complexity: "intermediate",

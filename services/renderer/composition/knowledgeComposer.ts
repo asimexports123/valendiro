@@ -70,12 +70,36 @@ export class KnowledgeComposer {
   private contextBuilder: ContextBuilder;
   private flowValidator: ReaderFlowValidator;
 
+  // Placeholder patterns to detect and reject
+  private placeholderPatterns = [
+    /key point \d+ about/i,
+    /type \d+/i,
+    /description \d+/i,
+    /example \d+/i,
+    /step \d+/i,
+    /option [AB]/i,
+    /pro \d+.*con \d+/i,
+    /const result = \w+\(\);/i,
+    /^\/\/ .* example \d+$/i,
+  ];
+
   constructor() {
     this.explanationEngine = new ExplanationEngine();
     this.exampleGenerator = new ExampleGenerator();
     this.transitionGenerator = new TransitionGenerator();
     this.contextBuilder = new ContextBuilder();
     this.flowValidator = new ReaderFlowValidator();
+  }
+
+  /**
+   * Validate that content contains no placeholder text
+   */
+  private validateNoPlaceholders(content: string, sectionName: string): void {
+    for (const pattern of this.placeholderPatterns) {
+      if (pattern.test(content)) {
+        throw new Error(`Placeholder text detected in ${sectionName}: "${content.match(pattern)?.[0]}". Content generation failed - insufficient domain knowledge.`);
+      }
+    }
   }
 
   /**
@@ -95,6 +119,11 @@ export class KnowledgeComposer {
       category: config.category,
     };
 
+    // Validate that we have sufficient facts
+    if (context.facts.length === 0) {
+      throw new Error(`No facts available for ${config.slug}. Cannot generate content without domain knowledge.`);
+    }
+
     // Build the article structure following reader-first principles
     const sections = this.buildArticleStructure(context);
     
@@ -103,6 +132,10 @@ export class KnowledgeComposer {
     
     // Generate the document tree
     const documentTree = this.buildDocumentTree(enrichedSections, context);
+    
+    // Validate document tree contains no placeholder text
+    const documentContent = JSON.stringify(documentTree);
+    this.validateNoPlaceholders(documentContent, "document");
     
     // Validate reader flow and generate quality report
     const qualityReport = this.validateQuality(documentTree, context);

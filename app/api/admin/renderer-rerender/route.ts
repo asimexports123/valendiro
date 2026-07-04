@@ -171,6 +171,23 @@ async function rerenderArticle(article: any, supabase: Awaited<ReturnType<typeof
       return { success: false, error: `Database update failed: ${updateError.message}` };
     }
 
+    // Only update topics.content when rendering succeeds and quality is acceptable
+    if (renderResult.status === "published" && renderResult.qualityScore.overall >= 50) {
+      const { error: topicUpdateError } = await supabase
+        .from("topics")
+        .update({
+          content: renderResult.content,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", article.id);
+
+      if (topicUpdateError) {
+        return { success: false, error: `Topic content update failed: ${topicUpdateError.message}` };
+      }
+    } else {
+      console.log(`Skipping topic.content update for ${article.slug}: render status=${renderResult.status}, quality=${renderResult.qualityScore.overall}`);
+    }
+
     return { 
       success: true, 
       slug: article.slug, 

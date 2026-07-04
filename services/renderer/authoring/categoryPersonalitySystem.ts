@@ -19,6 +19,7 @@ import type { ReaderQuestion } from "./readerPsychologyEngine";
 
 export interface CategoryPersonalityContext {
   category: string;
+  subject: string;
   intent: "inform" | "educate" | "guide" | "decide";
   complexity: "beginner" | "intermediate" | "advanced";
   sections: NarrativeSection[];
@@ -44,9 +45,154 @@ export interface StyledSection {
 
 export class CategoryPersonalitySystem {
   /**
-   * Get the personality profile for a category
+   * Get the personality profile for a category or subject
    */
-  getCategoryPersonality(category: string, intent: string): CategoryPersonality {
+  getCategoryPersonality(category: string, subject: string, intent: string): CategoryPersonality {
+    // Subject-specific personalities (highest priority)
+    const subjectPersonalities: Record<string, CategoryPersonality> = {
+      // Technology subjects
+      "python-programming-fundamentals": {
+        voice: "Clear and instructional",
+        style: "Syntax-focused with practical examples",
+        transitionStyle: "Learning progression",
+        exampleStyle: "Code-first, interactive examples, REPL output",
+        emphasisStyle: "Emphasize syntax correctness and Pythonic patterns",
+        visualPreference: ["code-block", "syntax-diagram", "interactive-example"],
+        sentenceStructure: "Explanatory, then practical",
+        tone: "Encouraging, patient",
+      },
+      "git-version-control": {
+        voice: "Direct and command-focused",
+        style: "Command-first with workflow examples",
+        transitionStyle: "Workflow progression",
+        exampleStyle: "Terminal commands, git workflows, branch visualizations",
+        emphasisStyle: "Emphasize practical commands and common workflows",
+        visualPreference: ["code-block", "terminal-output", "workflow-diagram"],
+        sentenceStructure: "Action-oriented, command-focused",
+        tone: "Professional, efficient",
+      },
+      "docker-containers": {
+        voice: "Technical and practical",
+        style: "Configuration-focused with deployment examples",
+        transitionStyle: "Container lifecycle",
+        exampleStyle: "Dockerfile examples, docker-compose configs, deployment workflows",
+        emphasisStyle: "Emphasize containerization best practices and orchestration",
+        visualPreference: ["code-block", "architecture-diagram", "container-flow"],
+        sentenceStructure: "Declarative, configuration-focused",
+        tone: "Technical, authoritative",
+      },
+      "data-structures": {
+        voice: "Analytical and precise",
+        style: "Algorithm-focused with complexity analysis",
+        transitionStyle: "Structural progression",
+        exampleStyle: "Algorithm implementations, complexity tables, visual diagrams",
+        emphasisStyle: "Emphasize time/space complexity and trade-offs",
+        visualPreference: ["code-block", "complexity-table", "structure-diagram"],
+        sentenceStructure: "Analytical, comparative",
+        tone: "Academic, precise",
+      },
+      "javascript-fundamentals": {
+        voice: "Practical and modern",
+        style: "ES6-focused with browser examples",
+        transitionStyle: "Concept to application",
+        exampleStyle: "Browser console examples, DOM manipulation, modern syntax",
+        emphasisStyle: "Emphasize modern patterns and browser compatibility",
+        visualPreference: ["code-block", "browser-console", "dom-diagram"],
+        sentenceStructure: "Practical, example-driven",
+        tone: "Modern, approachable",
+      },
+      // Finance subjects
+      "investing-basics": {
+        voice: "Educational and cautious",
+        style: "Concept-first with numerical examples",
+        transitionStyle: "Risk-aware progression",
+        exampleStyle: "Portfolio scenarios, allocation examples, compound interest calculations",
+        emphasisStyle: "Emphasize diversification and long-term thinking",
+        visualPreference: ["calculation", "allocation-table", "risk-matrix"],
+        sentenceStructure: "Educational, example-driven",
+        tone: "Responsible, empowering",
+      },
+      "stock-market-fundamentals": {
+        voice: "Analytical and market-aware",
+        style: "Market-focused with trading examples",
+        transitionStyle: "Market mechanics flow",
+        exampleStyle: "Order types, market data examples, trading scenarios",
+        emphasisStyle: "Emphasize market mechanics and risk management",
+        visualPreference: ["comparison-table", "market-chart", "order-flow-diagram"],
+        sentenceStructure: "Analytical, market-focused",
+        tone: "Professional, informative",
+      },
+      "etf-fundamentals": {
+        voice: "Comparative and analytical",
+        style: "Structure-focused with cost analysis",
+        transitionStyle: "Investment vehicle comparison",
+        exampleStyle: "Expense ratio comparisons, portfolio allocation examples",
+        emphasisStyle: "Emphasize cost efficiency and diversification benefits",
+        visualPreference: ["comparison-table", "cost-chart", "allocation-matrix"],
+        sentenceStructure: "Comparative, analytical",
+        tone: "Analytical, objective",
+      },
+      // Health subjects
+      "diabetes": {
+        voice: "Calm and medically-informed",
+        style: "Evidence-based with practical guidance",
+        transitionStyle: "Condition management flow",
+        exampleStyle: "Blood sugar scenarios, medication examples, lifestyle changes",
+        emphasisStyle: "Emphasize safety, monitoring, and medical guidance",
+        visualPreference: ["timeline", "dosage-table", "warning-box", "blood-sugar-chart"],
+        sentenceStructure: "Cautious, medically-informed",
+        tone: "Reassuring, authoritative",
+      },
+      "nutrition-fundamentals": {
+        voice: "Informative and balanced",
+        style: "Science-based with practical meal planning",
+        transitionStyle: "Nutrient-focused progression",
+        exampleStyle: "Meal examples, nutrient breakdowns, dietary scenarios",
+        emphasisStyle: "Emphasize balance and evidence-based guidance",
+        visualPreference: ["comparison-table", "nutrient-chart", "meal-planner"],
+        sentenceStructure: "Informative, balanced",
+        tone: "Encouraging, science-based",
+      },
+      // Travel subjects
+      "travel-planning-fundamentals": {
+        voice: "Organized and helpful",
+        style: "Process-focused with timeline examples",
+        transitionStyle: "Planning workflow",
+        exampleStyle: "Booking timelines, itinerary examples, preparation checklists",
+        emphasisStyle: "Emphasize logistics and preparation",
+        visualPreference: ["timeline", "checklist", "booking-flow"],
+        sentenceStructure: "Organized, process-focused",
+        tone: "Helpful, organized",
+      },
+      "budget-travel": {
+        voice: "Resourceful and practical",
+        style: "Cost-focused with savings examples",
+        transitionStyle: "Budget optimization flow",
+        exampleStyle: "Cost breakdowns, savings scenarios, budget comparisons",
+        emphasisStyle: "Emphasize cost savings without sacrificing experience",
+        visualPreference: ["cost-breakdown", "comparison-table", "savings-calculator"],
+        sentenceStructure: "Resourceful, practical",
+        tone: "Encouraging, resourceful",
+      },
+      // Lifestyle subjects
+      "home-organization-fundamentals": {
+        voice: "Encouraging and practical",
+        style: "Step-by-step with room-by-room examples",
+        transitionStyle: "Organizational workflow",
+        exampleStyle: "Room transformations, storage solutions, time estimates",
+        emphasisStyle: "Emphasize feasibility and sustainable systems",
+        visualPreference: ["checklist", "storage-diagram", "before-after-flow"],
+        sentenceStructure: "Instructional, encouraging",
+        tone: "Encouraging, practical",
+      },
+    };
+
+    // Check if subject has specific personality
+    if (subject && subjectPersonalities[subject]) {
+      return subjectPersonalities[subject];
+    }
+
+    // Fall back to category-based personalities
     const personalities: Record<string, CategoryPersonality> = {
       technology: {
         voice: "Clear and direct",
@@ -145,7 +291,7 @@ export class CategoryPersonalitySystem {
   applyPersonalityToSections(
     context: CategoryPersonalityContext
   ): StyledSection[] {
-    const personality = this.getCategoryPersonality(context.category, context.intent);
+    const personality = this.getCategoryPersonality(context.category, context.subject, context.intent);
     const styledSections: StyledSection[] = [];
 
     for (const section of context.sections) {
