@@ -7,13 +7,10 @@
 
 import { WikipediaAdapter } from "../discovery/adapters/wikipediaAdapter";
 import { DocsAdapter } from "../discovery/adapters/docsAdapter";
-import { createClient } from "@supabase/supabase-js";
+import { getAdminClient } from "@/lib/supabase/clientFactory";
 import type { SlotInfo } from "../discovery/adapters";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabase = getAdminClient();
 
 export interface DiscoveredTopic {
   slug: string;

@@ -5,13 +5,10 @@
  * Only queues topics that are missing from coverage
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { getAdminClient } from "@/lib/supabase/clientFactory";
 import { analyzeCoverage, CoverageAnalysis } from "./coverageEngine";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabase = getAdminClient();
 
 /**
  * Queue missing topics for a domain

@@ -5,12 +5,9 @@
  * No manual intervention required
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { getAdminClient } from "@/lib/supabase/clientFactory";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabase = getAdminClient();
 
 /**
  * Render page for an assembled topic
@@ -19,9 +16,49 @@ export async function renderPage(topicSlug: string): Promise<void> {
   console.log(`Rendering page for: ${topicSlug}`);
 
   try {
-    // For now, mark as rendered directly
-    // In production, this would call the actual rendering function
-    console.log(`Page rendered for ${topicSlug} (simulated)`);
+    // Import the actual render function from renderer orchestrator
+    const { render } = await import("../renderer/orchestrator");
+    const { generateEngagementLayer } = await import("../engagement/engagementLayer");
+
+    // Get the Knowledge Package for this topic
+    const { data: packageData } = await supabase
+      .from("knowledge_packages")
+      .select("*")
+      .eq("topic_slug", topicSlug)
+      .single();
+
+    if (!packageData) {
+      throw new Error(`Knowledge Package not found for ${topicSlug}`);
+    }
+
+    // Render the page using correct RenderRequest structure (Layer 1: Core Content)
+    const result = await render({
+      packageId: packageData.id,
+      format: "html",
+      rendererId: "knowledge-authoring-v1"
+    });
+
+    console.log(`Layer 1 (Core Content) rendered for ${topicSlug}`);
+
+    // Generate Layer 2: Engagement Layer
+    const { data: topic } = await supabase
+      .from("topics")
+      .select("id")
+      .eq("slug", topicSlug)
+      .single();
+
+    if (topic) {
+      // Get related topics for engagement hooks
+      const { data: relatedTopics } = await supabase
+        .from("knowledge_relationships")
+        .select("target_topic_id")
+        .eq("source_topic_id", topic.id)
+        .limit(3);
+
+      const relatedTopicIds = relatedTopics?.map(r => r.target_topic_id) || [];
+      await generateEngagementLayer(topic.id, relatedTopicIds);
+      console.log(`Layer 2 (Engagement Layer) generated for ${topicSlug}`);
+    }
 
     // Update queue item status
     await updateQueueItemStatus(topicSlug, "rendered", { success: true, renderedAt: new Date().toISOString() });
@@ -29,6 +66,7 @@ export async function renderPage(topicSlug: string): Promise<void> {
   } catch (error) {
     console.error(`Error rendering page for ${topicSlug}:`, error);
     await updateQueueItemStatus(topicSlug, "failed", { error: String(error) });
+    throw error; // Re-throw for retry logic
   }
 }
 
@@ -40,6 +78,7 @@ export async function processRenderingQueue(): Promise<void> {
     .from("content_generation_queue")
     .select("*")
     .eq("status", "assembled")
+    .lt("attempts", 3)
     .limit(10);
 
   if (!queueItems || queueItems.length === 0) {
@@ -50,7 +89,19 @@ export async function processRenderingQueue(): Promise<void> {
   console.log(`Processing ${queueItems.length} topics from rendering queue`);
 
   for (const item of queueItems) {
-    await renderPage(item.topic_slug);
+    try {
+      await supabase
+        .from("content_generation_queue")
+        .update({ attempts: (item.attempts || 0) + 1 })
+        .eq("id", item.id);
+
+      await renderPage(item.topic_slug);
+    } catch (error) {
+      console.error(`Failed to render ${item.topic_slug} (attempt ${item.attempts + 1}):`, error);
+      if ((item.attempts || 0) + 1 >= (item.max_attempts || 3)) {
+        await updateQueueItemStatus(item.topic_slug, "failed", { error: String(error), maxAttemptsReached: true });
+      }
+    }
   }
 }
 

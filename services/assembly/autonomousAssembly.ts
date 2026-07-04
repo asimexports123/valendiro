@@ -5,12 +5,9 @@
  * No manual intervention required
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { getAdminClient } from "@/lib/supabase/clientFactory";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabase = getAdminClient();
 
 /**
  * Generate Knowledge Package for a discovered topic
@@ -65,6 +62,7 @@ export async function processAssemblyQueue(): Promise<void> {
     .from("content_generation_queue")
     .select("*")
     .eq("status", "discovered")
+    .lt("attempts", 3) // Only process items that haven't exceeded max attempts
     .limit(10);
 
   if (!queueItems || queueItems.length === 0) {
@@ -75,8 +73,22 @@ export async function processAssemblyQueue(): Promise<void> {
   console.log(`Processing ${queueItems.length} topics from assembly queue`);
 
   for (const item of queueItems) {
-    if (item.discovered_data) {
-      await generateKnowledgePackage(item.topic_slug, item.discovered_data);
+    try {
+      // Increment attempt counter
+      await supabase
+        .from("content_generation_queue")
+        .update({ attempts: (item.attempts || 0) + 1 })
+        .eq("id", item.id);
+
+      if (item.discovered_data) {
+        await generateKnowledgePackage(item.topic_slug, item.discovered_data);
+      }
+    } catch (error) {
+      console.error(`Failed to process ${item.topic_slug} (attempt ${item.attempts + 1}):`, error);
+      // If max attempts reached, mark as failed
+      if ((item.attempts || 0) + 1 >= (item.max_attempts || 3)) {
+        await updateQueueItemStatus(item.topic_slug, "failed", { error: String(error), maxAttemptsReached: true });
+      }
     }
   }
 }

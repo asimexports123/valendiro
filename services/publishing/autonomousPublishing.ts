@@ -5,12 +5,9 @@
  * No manual intervention required
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { getAdminClient } from "@/lib/supabase/clientFactory";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabase = getAdminClient();
 
 /**
  * Publish a rendered page
@@ -19,19 +16,41 @@ export async function publishPage(topicSlug: string): Promise<void> {
   console.log(`Publishing page for: ${topicSlug}`);
 
   try {
-    // For now, mark as published directly
-    // In production, this would call the actual publishing function
-    console.log(`Page published for ${topicSlug} (simulated)`);
+    // Get the rendered content
+    const { data: renderedData } = await supabase
+      .from("rendered_content")
+      .select("*")
+      .eq("topic_slug", topicSlug)
+      .single();
+
+    if (!renderedData) {
+      throw new Error(`Rendered content not found for ${topicSlug}`);
+    }
+
+    // Update the topic with published content
+    const { error: updateError } = await supabase
+      .from("topics")
+      .update({
+        content: renderedData.content,
+        html_content: renderedData.html_content,
+        status: "published",
+        published_at: new Date().toISOString()
+      })
+      .eq("slug", topicSlug);
+
+    if (updateError) {
+      throw new Error(`Failed to update topic: ${updateError.message}`);
+    }
+
+    console.log(`Page published for ${topicSlug}`);
 
     // Update queue item status
     await updateQueueItemStatus(topicSlug, "published", { success: true, publishedAt: new Date().toISOString() });
 
-    // Update topic status to published
-    await updateTopicStatus(topicSlug, "published");
-
   } catch (error) {
     console.error(`Error publishing page for ${topicSlug}:`, error);
     await updateQueueItemStatus(topicSlug, "failed", { error: String(error) });
+    throw error; // Re-throw for retry logic
   }
 }
 
@@ -43,6 +62,7 @@ export async function processPublishingQueue(): Promise<void> {
     .from("content_generation_queue")
     .select("*")
     .eq("status", "rendered")
+    .lt("attempts", 3)
     .limit(10);
 
   if (!queueItems || queueItems.length === 0) {
@@ -53,7 +73,19 @@ export async function processPublishingQueue(): Promise<void> {
   console.log(`Processing ${queueItems.length} topics from publishing queue`);
 
   for (const item of queueItems) {
-    await publishPage(item.topic_slug);
+    try {
+      await supabase
+        .from("content_generation_queue")
+        .update({ attempts: (item.attempts || 0) + 1 })
+        .eq("id", item.id);
+
+      await publishPage(item.topic_slug);
+    } catch (error) {
+      console.error(`Failed to publish ${item.topic_slug} (attempt ${item.attempts + 1}):`, error);
+      if ((item.attempts || 0) + 1 >= (item.max_attempts || 3)) {
+        await updateQueueItemStatus(item.topic_slug, "failed", { error: String(error), maxAttemptsReached: true });
+      }
+    }
   }
 }
 
