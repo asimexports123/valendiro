@@ -1,6 +1,13 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 
+const slugToTitle = (slug: string): string => {
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
 export interface PublicArticle {
   id: string;
   slug: string;
@@ -211,7 +218,7 @@ export async function getTrendingTopics(limit = 16): Promise<PublicTopic[]> {
   return (data || []).map((topic: any) => ({
     id: topic.id,
     slug: topic.slug,
-    title: topic.topic_translations?.[0]?.title || "Untitled",
+    title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
     subtitle: topic.topic_translations?.[0]?.subtitle || null,
     category_slug: (topic.categories as any)?.slug ?? null,
   }));
@@ -571,7 +578,7 @@ export async function getTopicsBySubcategorySimple(subcategoryId: string, limit 
   return (data || []).map((topic: any) => ({
     id: topic.id,
     slug: topic.slug,
-    title: topic.topic_translations?.[0]?.title || "Untitled",
+    title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
     subtitle: topic.topic_translations?.[0]?.subtitle || null,
     category_slug: null,
   }));
@@ -670,13 +677,6 @@ export async function searchPublicContent(query: string, limit = 20) {
       .ilike("topic_translations.title", `%${query}%`)
       .limit(limit),
   ]);
-
-  const slugToTitle = (slug: string): string => {
-    return slug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
 
   return {
     articles: (articles.data || []).map((article: any) => ({
@@ -782,7 +782,7 @@ export async function getTopicsByCategory(categoryId: string, limit = 12): Promi
   return merged.map((topic: any) => ({
     id: topic.id,
     slug: topic.slug,
-    title: topic.topic_translations?.[0]?.title || "Untitled",
+    title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
     subtitle: topic.topic_translations?.[0]?.subtitle || null,
     category_slug: null,
   }));
@@ -895,7 +895,7 @@ export async function getRelatedTopics(topicId: string, categoryId: string | nul
   return (data || []).map((topic: any) => ({
     id: topic.id,
     slug: topic.slug,
-    title: topic.topic_translations?.[0]?.title || "Untitled",
+    title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
     subtitle: topic.topic_translations?.[0]?.subtitle || null,
     category_slug: null,
   }));
@@ -1164,7 +1164,7 @@ export async function getTopicsBySubcategories(subcategoryIds: string[], limit =
   return (data || []).map((topic: any) => ({
     id: topic.id,
     slug: topic.slug,
-    title: topic.topic_translations?.[0]?.title || "Untitled",
+    title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
     subtitle: topic.topic_translations?.[0]?.subtitle || null,
     category_slug: null,
   }));
@@ -1296,7 +1296,7 @@ export async function getFeaturedTopicsWithMeta(limit = 8): Promise<FeaturedTopi
     return {
       id: topic.id,
       slug: topic.slug,
-      title: topic.topic_translations?.[0]?.title || "Untitled",
+      title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
       subtitle: topic.topic_translations?.[0]?.subtitle || null,
       category_name: cat?.name || null,
       category_slug: cat?.slug || null,
