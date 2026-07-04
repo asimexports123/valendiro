@@ -57,6 +57,7 @@ export function renderLongArticleV2(
     subject: extractSubject(config.slug),
     intent: config.intent,
     complexity: assessComplexity(rawFacts, config.style),
+    category: config.category || "general",
   };
 
   // Compose the article using the new engine
