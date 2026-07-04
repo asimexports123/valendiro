@@ -132,10 +132,11 @@ export class KnowledgeComposer {
     // Category-specific component emphasis
     const categoryEmphasis = this.getCategoryEmphasis(category);
 
-    // 1. Introduction (always required - sets the stage)
+    // 1. Introduction (always required - sets the stage with engaging hook)
+    const introHeading = this.generateEngagingIntroHeading(subject, category, context.intent);
     sections.push({
       type: "introduction",
-      heading: `What is ${subject}?`,
+      heading: introHeading,
       content: [],
       order: 1,
       required: true,
@@ -147,7 +148,7 @@ export class KnowledgeComposer {
     if (byType.definition?.length > 0) {
       sections.push({
         type: "core-concept",
-        heading: "Core Concept",
+        heading: this.generateSectionHeading("core-concept", subject, category),
         content: [],
         order: 2,
         required: true,
@@ -246,12 +247,45 @@ export class KnowledgeComposer {
     }
 
     // Category-specific: Checklist (actionable steps)
-    if ((category === "travel" || context.intent === "guide") && byType.procedural?.length > 0) {
+    if ((category === "travel" || context.intent === "guide" || category === "home-lifestyle") && byType.procedural?.length > 0) {
       sections.push({
         type: "checklist",
         heading: "Practical Checklist",
         content: [],
         order: 17,
+        required: false,
+      });
+    }
+
+    // Category-specific: Safety Warning (health category)
+    if (category === "health" && byType.warning?.length > 0) {
+      sections.push({
+        type: "safety-warning",
+        heading: "Safety Considerations",
+        content: [],
+        order: 18,
+        required: false,
+      });
+    }
+
+    // Category-specific: Risk Analysis (finance category)
+    if (category === "finance" && byType.warning?.length > 0) {
+      sections.push({
+        type: "risk-analysis",
+        heading: "Risk Analysis",
+        content: [],
+        order: 18,
+        required: false,
+      });
+    }
+
+    // Category-specific: Code Example (technology category)
+    if (category === "technology" && byType.procedural?.length > 0) {
+      sections.push({
+        type: "code-example",
+        heading: "Code Example",
+        content: [],
+        order: 18,
         required: false,
       });
     }
@@ -278,17 +312,199 @@ export class KnowledgeComposer {
   }
 
   /**
+   * Generate engaging opening hook for introduction
+   */
+  private generateOpeningHook(subject: string, category: string, intent: string): string {
+    const hooks: Record<string, string[]> = {
+      technology: [
+        `In today's rapidly evolving tech landscape, ${subject} has become an essential skill.`,
+        `Whether you're building your first project or scaling a system, ${subject} plays a crucial role.`,
+        `Modern development relies heavily on ${subject} - here's what you need to know.`,
+      ],
+      finance: [
+        `Making smart financial decisions starts with understanding ${subject}.`,
+        `Your financial future depends on mastering concepts like ${subject}.`,
+        `In the world of personal finance, ${subject} is a cornerstone of success.`,
+      ],
+      health: [
+        `Your wellbeing depends on understanding ${subject}.`,
+        `Making informed health choices starts with ${subject}.`,
+        `${subject} is fundamental to maintaining a healthy lifestyle.`,
+      ],
+      travel: [
+        `Great travel experiences begin with ${subject}.`,
+        `Planning your trip? ${subject} is essential to know.`,
+        `Smart travelers understand the importance of ${subject}.`,
+      ],
+      business: [
+        `Business success often hinges on ${subject}.`,
+        `In competitive markets, ${subject} gives you an edge.`,
+        `Strategic thinking requires mastering ${subject}.`,
+      ],
+      education: [
+        `Effective learning starts with ${subject}.`,
+        `Academic success builds on foundations like ${subject}.`,
+        `${subject} is key to developing strong study habits.`,
+      ],
+      "home-lifestyle": [
+        `Everyday life is better when you understand ${subject}.`,
+        `Practical living requires knowledge of ${subject}.`,
+        `${subject} simplifies daily routines and decisions.`,
+      ],
+    };
+
+    const categoryHooks = hooks[category] || [`Understanding ${subject} is important.`];
+    return categoryHooks[Math.floor(Math.random() * categoryHooks.length)];
+  }
+
+  /**
+   * Generate section heading based on type, subject, and category
+   */
+  private generateSectionHeading(sectionType: string, subject: string, category: string): string {
+    const headings: Record<string, string> = {
+      "core-concept": `Understanding ${subject}`,
+      "comparison-table": `Comparing ${subject} Options`,
+      "pros-cons": `${subject}: Pros and Cons`,
+      "mistakes": `Common ${subject} Mistakes`,
+      "best-practices": `${subject} Best Practices`,
+      "expert-insight": `Expert Insight on ${subject}`,
+      "framework-box": `${subject} Framework`,
+      "faq": `${subject} FAQs`,
+      "checklist": `${subject} Checklist`,
+      "timeline": `${subject} Timeline`,
+    };
+
+    return headings[sectionType] || sectionType.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  }
+
+  /**
+   * Generate motivation paragraph tailored to category and intent
+   */
+  private generateMotivationParagraph(subject: string, category: string, intent: string): string {
+    const motivations: Record<string, string[]> = {
+      technology: [
+        `By mastering ${subject}, you'll be equipped to tackle real-world development challenges and build more robust solutions.`,
+        `Learning ${subject} will help you write cleaner code, debug faster, and create more scalable applications.`,
+      ],
+      finance: [
+        `Understanding ${subject} will help you make informed decisions, avoid common pitfalls, and build long-term wealth.`,
+        `With ${subject} as part of your financial toolkit, you'll be better prepared to navigate market changes and achieve your goals.`,
+      ],
+      health: [
+        `Applying this knowledge about ${subject} will help you make better choices for your wellbeing and prevent common health issues.`,
+        `Understanding ${subject} empowers you to take control of your health and make informed decisions with confidence.`,
+      ],
+      travel: [
+        `With ${subject} in your travel toolkit, you'll be able to plan smoother trips and avoid common travel headaches.`,
+        `Mastering ${subject} will help you get more value from your travel experiences and create lasting memories.`,
+      ],
+      business: [
+        `Implementing ${subject} in your business strategy can lead to better decision-making and improved outcomes.`,
+        `By leveraging ${subject}, you'll gain a competitive advantage and drive sustainable growth.`,
+      ],
+      education: [
+        `Mastering ${subject} will enhance your learning efficiency and help you achieve your academic goals.`,
+        `With ${subject} as a foundation, you'll be better prepared for advanced topics and real-world applications.`,
+      ],
+      "home-lifestyle": [
+        `Applying ${subject} in your daily life will simplify routines and improve your overall quality of life.`,
+        `Understanding ${subject} helps you make smarter choices and avoid common household mistakes.`,
+      ],
+    };
+
+    const categoryMotivations = motivations[category] || [`Understanding ${subject} will help you in many situations.`];
+    return categoryMotivations[Math.floor(Math.random() * categoryMotivations.length)];
+  }
+
+  /**
+   * Generate engaging introduction heading based on category and intent
+   */
+  private generateEngagingIntroHeading(subject: string, category: string, intent: string): string {
+    const categoryHooks: Record<string, string[]> = {
+      technology: [
+        `${subject}: A Complete Guide`,
+        `Understanding ${subject} in Modern Development`,
+        `Why ${subject} Matters for Every Developer`,
+      ],
+      finance: [
+        `${subject}: Essential Knowledge for Smart Decisions`,
+        `Mastering ${subject} for Financial Success`,
+        `Why ${subject} is Critical for Your Financial Future`,
+      ],
+      health: [
+        `${subject}: What You Need to Know`,
+        `Understanding ${subject} for Better Health`,
+        `The Truth About ${subject}`,
+      ],
+      travel: [
+        `${subject}: Your Complete Planning Guide`,
+        `How to Make the Most of ${subject}`,
+        `${subject}: Essential Tips for Travelers`,
+      ],
+      business: [
+        `${subject}: A Strategic Framework`,
+        `Why ${subject} Drives Business Success`,
+        `Mastering ${subject} for Competitive Advantage`,
+      ],
+      education: [
+        `${subject}: A Learner's Guide`,
+        `Understanding ${subject} for Academic Success`,
+        `Why ${subject} is Fundamental to Learning`,
+      ],
+      "home-lifestyle": [
+        `${subject}: Practical Guide for Everyday Life`,
+        `Making ${subject} Work for You`,
+        `Why ${subject} Matters at Home`,
+      ],
+    };
+
+    const intentModifiers: Record<string, string[]> = {
+      educate: [
+        "A Comprehensive Overview",
+        "From Basics to Mastery",
+        "Everything You Need to Know",
+      ],
+      guide: [
+        "A Step-by-Step Guide",
+        "Practical Implementation",
+        "Actionable Insights",
+      ],
+      decide: [
+        "Making the Right Choice",
+        "A Decision Framework",
+        "What You Need to Decide",
+      ],
+      inform: [
+        "Key Insights",
+        "Essential Understanding",
+        "Core Concepts",
+      ],
+    };
+
+    const categoryOptions = categoryHooks[category] || [`Understanding ${subject}`];
+    const intentOptions = intentModifiers[intent] || [];
+
+    // Combine category hook with intent modifier for more engaging headings
+    if (intentOptions.length > 0 && Math.random() > 0.5) {
+      const intentHook = intentOptions[Math.floor(Math.random() * intentOptions.length)];
+      return `${subject}: ${intentHook}`;
+    }
+
+    return categoryOptions[Math.floor(Math.random() * categoryOptions.length)];
+  }
+
+  /**
    * Get category-specific component emphasis
    */
   private getCategoryEmphasis(category: string): string[] {
     const emphasis: Record<string, string[]> = {
-      technology: ["comparison-table", "framework-box", "pro-tip"],
-      business: ["pros-cons", "comparison-table", "expert-insight"],
-      travel: ["timeline", "checklist", "did-you-know"],
-      finance: ["pros-cons", "comparison-table", "expert-insight"],
-      health: ["pros-cons", "common-mistake", "remember-this"],
-      home: ["checklist", "pro-tip", "comparison-table"],
-      education: ["framework-box", "timeline", "did-you-know"],
+      technology: ["comparison-table", "framework-box", "pro-tip", "code-example"],
+      business: ["pros-cons", "comparison-table", "expert-insight", "case-study"],
+      travel: ["timeline", "checklist", "did-you-know", "budget-summary"],
+      finance: ["pros-cons", "comparison-table", "expert-insight", "risk-analysis"],
+      health: ["pros-cons", "common-mistake", "remember-this", "safety-warning"],
+      "home-lifestyle": ["checklist", "pro-tip", "comparison-table", "buying-guide"],
+      education: ["framework-box", "timeline", "did-you-know", "learning-path"],
     };
 
     return emphasis[category] || [];
@@ -865,27 +1081,163 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    
+
     // Extract continue learning facts
     const learningFacts = facts.filter(f => f.tags && f.tags.includes("continue-learning")).slice(0, 4);
-    
-    if (learningFacts.length > 0) {
+
+    // Generate intelligent learning progression based on category and complexity
+    const progression = this.generateLearningProgression(context.subject, context.category, context.complexity);
+
+    if (progression.length > 0) {
       nodes.push({
         type: "paragraph",
-        children: ["To deepen your understanding, explore these next steps:"],
+        children: ["To continue your learning journey, explore these next steps:"],
       });
-      
+
       nodes.push({
         type: "list",
         ordered: true,
-        items: learningFacts.map(f => ({
+        items: progression.map(step => ({
           type: "list-item",
-          children: [f.statement],
+          children: [step],
         })),
       });
     }
 
     return nodes;
+  }
+
+  /**
+   * Generate intelligent learning progression based on category and complexity
+   */
+  private generateLearningProgression(subject: string, category: string, complexity: string): string[] {
+    const progressions: Record<string, Record<string, string[]>> = {
+      technology: {
+        beginner: [
+          `Practice ${subject} with small projects to reinforce your understanding`,
+          `Learn related concepts that build on ${subject}`,
+          `Explore real-world applications of ${subject} in modern development`,
+        ],
+        intermediate: [
+          `Apply ${subject} in more complex scenarios and projects`,
+          `Learn advanced techniques and patterns related to ${subject}`,
+          `Contribute to open-source projects using ${subject}`,
+        ],
+        advanced: [
+          `Optimize ${subject} for performance and scalability`,
+          `Teach ${subject} to others to deepen your mastery`,
+          `Stay updated with latest developments in ${subject}`,
+        ],
+      },
+      finance: {
+        beginner: [
+          `Apply ${subject} to create a personal financial plan`,
+          `Learn basic investment strategies that complement ${subject}`,
+          `Track your progress with ${subject} using practical tools`,
+        ],
+        intermediate: [
+          `Diversify your approach to ${subject} for better risk management`,
+          `Analyze case studies of ${subject} in different market conditions`,
+          `Integrate ${subject} with advanced financial planning techniques`,
+        ],
+        advanced: [
+          `Use ${subject} for complex wealth management and tax optimization`,
+          `Evaluate alternative approaches to ${subject} for specific goals`,
+          `Stay informed about regulatory changes affecting ${subject}`,
+        ],
+      },
+      health: {
+        beginner: [
+          `Incorporate ${subject} into your daily routine with simple habits`,
+          `Track your progress with ${subject} using measurable indicators`,
+          `Learn about complementary practices that enhance ${subject}`,
+        ],
+        intermediate: [
+          `Customize ${subject} based on your specific needs and goals`,
+          `Understand the scientific evidence behind ${subject}`,
+          `Consult healthcare professionals to optimize your approach to ${subject}`,
+        ],
+        advanced: [
+          `Teach others about ${subject} to reinforce your own understanding`,
+          `Stay updated with latest research on ${subject}`,
+          `Integrate ${subject} into a comprehensive wellness strategy`,
+        ],
+      },
+      travel: {
+        beginner: [
+          `Plan your first trip using ${subject} as a guide`,
+          `Learn basic travel skills that complement ${subject}`,
+          `Start with short trips to practice ${subject}`,
+        ],
+        intermediate: [
+          `Apply ${subject} to more complex travel itineraries`,
+          `Optimize your travel budget using ${subject}`,
+          `Share your ${subject} experiences with other travelers`,
+        ],
+        advanced: [
+          `Use ${subject} for long-term travel planning`,
+          `Teach ${subject} to aspiring travelers`,
+          `Combine ${subject} with advanced travel hacking techniques`,
+        ],
+      },
+      business: {
+        beginner: [
+          `Apply ${subject} to improve your current work processes`,
+          `Learn foundational business concepts that support ${subject}`,
+          `Practice ${subject} with small-scale projects`,
+        ],
+        intermediate: [
+          `Scale ${subject} across your organization`,
+          `Measure the impact of ${subject} on business outcomes`,
+          `Integrate ${subject} with other business frameworks`,
+        ],
+        advanced: [
+          `Innovate on ${subject} for competitive advantage`,
+          `Teach ${subject} to teams and stakeholders`,
+          `Stay updated with industry best practices for ${subject}`,
+        ],
+      },
+      education: {
+        beginner: [
+          `Apply ${subject} to your current studies or learning goals`,
+          `Practice ${subject} with exercises and quizzes`,
+          `Connect ${subject} to other subjects you're learning`,
+        ],
+        intermediate: [
+          `Use ${subject} to tackle more complex academic challenges`,
+          `Teach ${subject} to peers to reinforce your understanding`,
+          `Apply ${subject} in real-world problem-solving scenarios`,
+        ],
+        advanced: [
+          `Conduct research or projects related to ${subject}`,
+          `Mentor others in ${subject}`,
+          `Stay current with academic developments in ${subject}`,
+        ],
+      },
+      "home-lifestyle": {
+        beginner: [
+          `Implement ${subject} in your daily routine with simple steps`,
+          `Track your progress with ${subject}`,
+          `Learn complementary skills that enhance ${subject}`,
+        ],
+        intermediate: [
+          `Customize ${subject} for your specific home situation`,
+          `Teach family members about ${subject}`,
+          `Optimize ${subject} for efficiency and cost savings`,
+        ],
+        advanced: [
+          `Innovate on ${subject} for your unique needs`,
+          `Share your ${subject} expertise with your community`,
+          `Stay updated with best practices and trends in ${subject}`,
+        ],
+      },
+    };
+
+    return progressions[category]?.[complexity] || [
+      `Continue practicing ${subject} to build mastery`,
+      `Apply ${subject} in new contexts`,
+      `Learn related topics that build on ${subject}`,
+    ];
   }
 
   private renderQuickSummary(
@@ -1096,10 +1448,11 @@ export class KnowledgeComposer {
     if (!leadFact) return nodes;
 
     if (sectionType === "introduction") {
-      // Introduction section: Hook reader, define concept, explain relevance
+      // Introduction section: Engaging hook, clear definition, practical relevance
+      const openingHook = this.generateOpeningHook(subject, context.category, context.intent);
       nodes.push({
         type: "paragraph",
-        children: [`${subject} is a fundamental concept that you'll encounter in various contexts. Understanding it will help you make better decisions and solve problems more effectively.`],
+        children: [openingHook],
       });
 
       nodes.push({
@@ -1107,7 +1460,7 @@ export class KnowledgeComposer {
         children: [leadFact.statement],
       });
 
-      // Add remaining definitions with natural flow
+      // Add remaining definitions with natural flow (max 2 to avoid repetition)
       const rest = facts.slice(1, 3);
       for (const fact of rest) {
         nodes.push({
@@ -1116,10 +1469,11 @@ export class KnowledgeComposer {
         });
       }
 
-      // Add motivation paragraph
+      // Add motivation paragraph tailored to category
+      const motivation = this.generateMotivationParagraph(subject, context.category, context.intent);
       nodes.push({
         type: "paragraph",
-        children: [`Mastering ${subject} opens doors to deeper understanding and practical application. Let's explore what makes this concept important and how you can use it.`],
+        children: [motivation],
       });
     } else {
       // Core Concept section: Focus on the definition itself
