@@ -73,8 +73,7 @@ function generateConclusion(title: string): string {
 }
 
 function buildArticleHtml(title: string, introduction: string, sections: any[], conclusion: string): string {
-  let markdown = `# ${title}\n\n`;
-  markdown += `${introduction}\n\n`;
+  let markdown = `${introduction}\n\n`;
   
   for (const section of sections) {
     markdown += `## ${section.heading}\n`;
