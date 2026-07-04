@@ -73,18 +73,18 @@ function generateConclusion(title: string): string {
 }
 
 function buildArticleHtml(title: string, introduction: string, sections: any[], conclusion: string): string {
-  let html = `<h1>${title}</h1>\n\n`;
-  html += `<p>${introduction}</p>\n\n`;
+  let markdown = `# ${title}\n\n`;
+  markdown += `${introduction}\n\n`;
   
   for (const section of sections) {
-    html += `<h2>${section.heading}</h2>\n`;
-    html += `<p>${section.content}</p>\n\n`;
+    markdown += `## ${section.heading}\n`;
+    markdown += `${section.content}\n\n`;
   }
   
-  html += `<h2>Conclusion</h2>\n`;
-  html += `<p>${conclusion}</p>\n`;
+  markdown += `## Conclusion\n`;
+  markdown += `${conclusion}\n`;
   
-  return html;
+  return markdown;
 }
 
 async function regenerateContentForTopic(topicSlug: string): Promise<void> {

@@ -851,7 +851,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
-    .select("id, slug, category_id, subcategory_id, updated_at, topic_translations(title, subtitle, content, meta_title, meta_description)")
+    .select("id, slug, category_id, subcategory_id, updated_at, content, topic_translations(title, subtitle, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .eq("status", "published")
@@ -866,7 +866,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     title: translation?.title || "Untitled",
     subtitle: translation?.subtitle || null,
     category_slug: null,
-    content: translation?.content || null,
+    content: data.content || null,
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
     category_id: data.category_id,
