@@ -19,6 +19,7 @@ export async function renderPage(topicSlug: string): Promise<void> {
     // Import the actual render function from renderer orchestrator
     const { render } = await import("../renderer/orchestrator");
     const { generateEngagementLayer } = await import("../engagement/engagementLayer");
+    const { generateArticleContent, writeArticleToTopic } = await import("../writing/autonomousWriting");
 
     // Get the Knowledge Package for this topic
     const { data: packageData } = await supabase
@@ -31,7 +32,13 @@ export async function renderPage(topicSlug: string): Promise<void> {
       throw new Error(`Knowledge Package not found for ${topicSlug}`);
     }
 
-    // Render the page using correct RenderRequest structure (Layer 1: Core Content)
+    // Step 1: Generate actual article content from Knowledge Package
+    console.log(`Generating article content for ${topicSlug}`);
+    const articleContent = await generateArticleContent(topicSlug, packageData.package);
+    await writeArticleToTopic(topicSlug, articleContent);
+    console.log(`Article content written for ${topicSlug}`);
+
+    // Step 2: Render the page using correct RenderRequest structure (Layer 1: Core Content)
     const result = await render({
       packageId: packageData.id,
       format: "html",
@@ -40,7 +47,7 @@ export async function renderPage(topicSlug: string): Promise<void> {
 
     console.log(`Layer 1 (Core Content) rendered for ${topicSlug}`);
 
-    // Generate Layer 2: Engagement Layer
+    // Step 3: Generate Layer 2: Engagement Layer
     const { data: topic } = await supabase
       .from("topics")
       .select("id")
