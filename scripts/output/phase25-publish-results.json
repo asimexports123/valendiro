@@ -3,7 +3,7 @@
     {
       "topic": "javascript-fundamentals",
       "success": false,
-      "error": "Validation failed: Renderer version '4.0.0' is below minimum '5.0.0', Output format 'html' is not allowed"
+      "error": "Validation failed: Output format 'html' is not allowed"
     },
     {
       "topic": "investing-basics",
@@ -26,5 +26,5 @@
       "error": null
     }
   ],
-  "timestamp": "2026-07-04T12:21:08.575Z"
+  "timestamp": "2026-07-04T12:43:13.089Z"
 }

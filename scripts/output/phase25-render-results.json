@@ -21,7 +21,7 @@
       "packageId": "a78d4791-5cb7-4b3c-8ef4-dd692bcb94ae",
       "outputId": "e14bf51f-5241-402f-b92b-9c7e789003f8",
       "status": "success",
-      "qualityScore": 83,
+      "qualityScore": 80,
       "error": null
     },
     {
@@ -29,7 +29,7 @@
       "packageId": "c938eb61-b168-41fb-aff4-06d7dafff0c1",
       "outputId": "7fcd8ccd-423b-4218-b4a8-875ee8f49289",
       "status": "success",
-      "qualityScore": 75,
+      "qualityScore": 74,
       "error": null
     },
     {
@@ -37,9 +37,9 @@
       "packageId": "e669af3e-421d-4311-82c8-78159239e78b",
       "outputId": "8e29d035-6586-4ab6-805b-5535d0ccf0ad",
       "status": "success",
-      "qualityScore": 72,
+      "qualityScore": 71,
       "error": null
     }
   ],
-  "timestamp": "2026-07-04T12:20:00.110Z"
+  "timestamp": "2026-07-04T12:42:46.896Z"
 }

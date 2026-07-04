@@ -1,20 +1,23 @@
 /**
  * Knowledge Composition Engine
  *
- * Transforms raw knowledge packages into reader-centric articles.
- * 
- * Philosophy: Every article should feel like it was written by an experienced educator,
- * not by a database. The reader should finish understanding the topic, not just reading facts.
+ * Knowledge Experience 2.0: Interactive Learning System
  *
- * Core principles:
- * - Reader-first: "What does a complete beginner need to understand this?"
- * - Natural flow: Simple → Technical → Example → Application → Implications
- * - Every fact explained: What? Why? How? When? Where? Why does it matter?
- * - Dynamic length: Based on topic complexity, not word count targets
- * - Static output: All reasoning happens before rendering
+ * Philosophy: Every topic should answer 8 key questions for true understanding
+ * - What is it?
+ * - Why should I care?
+ * - When should I use it?
+ * - How does it work?
+ * - What mistakes do beginners make?
+ * - How do experts think about it?
+ * - When should I avoid it?
+ * - What should I learn next?
+ *
+ * Goal: "Now I actually understand it" not "That was a long article"
+ * Optimize for: Understanding, Memory retention, Decision making, Practical application
  */
 
-import type { PluginFact, RendererConfig, DocumentNode } from "../types";
+import type { PluginFact, RendererConfig, DocumentNode, ListItemNode } from "../types";
 import { ExplanationEngine } from "./explanationEngine";
 import { ExampleGenerator } from "./exampleGenerator";
 import { TransitionGenerator } from "./transitionGenerator";
@@ -112,14 +115,12 @@ export class KnowledgeComposer {
   }
 
   /**
-   * Build article structure following natural reader journey
-   * Introduction → Why it Matters → Core Concept → How it Works → Example →
-   * Applications → Benefits → Pros & Cons → Common Mistakes → Best Practices →
-   * Expert Insight → Comparison → FAQ → Summary → Continue Learning
-   * 
-   * Philosophy: Progressive teaching from simple to complex
-   * Every section builds on the previous one
-   * Reader should never feel lost or overwhelmed
+   * Build article structure based on 8 key questions for true understanding
+   *
+   * Philosophy: Question-driven structure, not article-like
+   * Every topic answers: What? Why? When? How? Mistakes? Expert thinking? Avoid? Next?
+   *
+   * Reader should feel like using an interactive knowledge system, not reading a blog
    */
   private buildArticleStructure(context: CompositionContext): ComposedSection[] {
     const sections: ComposedSection[] = [];
@@ -129,184 +130,92 @@ export class KnowledgeComposer {
     // Group facts by type for intelligent section allocation
     const byType = this.groupFactsByType(facts);
 
-    // Category-specific component emphasis
-    const categoryEmphasis = this.getCategoryEmphasis(category);
-
-    // 1. Introduction (always required - sets the stage with engaging hook)
-    const introHeading = this.generateEngagingIntroHeading(subject, category, context.intent);
-    sections.push({
-      type: "introduction",
-      heading: introHeading,
-      content: [],
-      order: 1,
-      required: true,
-    });
-
-    // Phase 19: Remove Learning Objectives and Importance sections to reduce word count
-
-    // 2. Core Concept (foundational understanding)
+    // Q1: What is it? (Quick definition card)
     if (byType.definition?.length > 0) {
       sections.push({
-        type: "core-concept",
-        heading: this.generateSectionHeading("core-concept", subject, category),
+        type: "definition-card",
+        heading: "What is it?",
         content: [],
-        order: 2,
+        order: 1,
         required: true,
       });
     }
 
-    // Phase 19: Remove How It Works, Real-World Example, Practical Applications to reduce word count
-    // These are redundant with Core Concept and don't add significant value for compression goal
-
-    // 3. Comparison (when relevant - context matters)
-    if (byType.comparison?.length > 0 && (context.intent === "decide" || context.intent === "guide")) {
-      sections.push({
-        type: "comparison-table",
-        heading: "Comparison",
-        content: [],
-        order: 9,
-        required: false,
-      });
-    }
-
-    // 10. Pros & Cons (balanced view)
-    if (byType.comparison?.length > 0 || byType.warning?.length > 0) {
-      sections.push({
-        type: "pros-cons",
-        heading: "Pros & Cons",
-        content: [],
-        order: 10,
-        required: false,
-      });
-    }
-
-    // 11. Common Mistakes (what to avoid)
-    if (byType.warning?.length > 0) {
-      sections.push({
-        type: "mistakes",
-        heading: "Common Mistakes to Avoid",
-        content: [],
-        order: 11,
-        required: true,
-      });
-    }
-
-    // 12. Best Practices (what to do)
-    if (byType.rule?.length > 0 || byType.procedural?.length > 0) {
-      sections.push({
-        type: "best-practices",
-        heading: "Best Practices",
-        content: [],
-        order: 12,
-        required: true,
-      });
-    }
-
-    // Category-specific: Pro Tip (expert advice)
-    if ((category === "technology" || category === "business") && (byType.rule?.length > 0 || byType.procedural?.length > 0)) {
-      sections.push({
-        type: "pro-tip",
-        heading: "Pro Tip",
-        content: [],
-        order: 13,
-        required: false,
-      });
-    }
-
-    // 13. Expert Insight (deeper context)
-    if (byType.definition?.length > 0 || byType.historical?.length > 0) {
-      sections.push({
-        type: "expert-insight",
-        heading: "Expert Insight",
-        content: [],
-        order: 14,
-        required: false,
-      });
-    }
-
-    // Category-specific: Framework (structured understanding)
-    if ((category === "technology" || category === "education") && byType.definition?.length > 2) {
-      sections.push({
-        type: "framework-box",
-        heading: "Key Framework",
-        content: [],
-        order: 15,
-        required: false,
-      });
-    }
-
-    // Category-specific: FAQ (natural questions)
-    if (byType.definition?.length > 0 || byType.procedural?.length > 0) {
-      sections.push({
-        type: "faq",
-        heading: "Frequently Asked Questions",
-        content: [],
-        order: 16,
-        required: false,
-      });
-    }
-
-    // Category-specific: Checklist (actionable steps)
-    if ((category === "travel" || context.intent === "guide" || category === "home-lifestyle") && byType.procedural?.length > 0) {
-      sections.push({
-        type: "checklist",
-        heading: "Practical Checklist",
-        content: [],
-        order: 17,
-        required: false,
-      });
-    }
-
-    // Category-specific: Safety Warning (health category)
-    if (category === "health" && byType.warning?.length > 0) {
-      sections.push({
-        type: "safety-warning",
-        heading: "Safety Considerations",
-        content: [],
-        order: 18,
-        required: false,
-      });
-    }
-
-    // Category-specific: Risk Analysis (finance category)
-    if (category === "finance" && byType.warning?.length > 0) {
-      sections.push({
-        type: "risk-analysis",
-        heading: "Risk Analysis",
-        content: [],
-        order: 18,
-        required: false,
-      });
-    }
-
-    // Category-specific: Code Example (technology category)
-    if (category === "technology" && byType.procedural?.length > 0) {
-      sections.push({
-        type: "code-example",
-        heading: "Code Example",
-        content: [],
-        order: 18,
-        required: false,
-      });
-    }
-
-    // 18. Summary (key takeaways)
+    // Q2: Why should I care? (Motivation and relevance)
     sections.push({
-      type: "summary",
-      heading: "Key Takeaways",
+      type: "motivation",
+      heading: "Why it matters",
       content: [],
-      order: 18,
+      order: 2,
       required: true,
     });
 
-    // 19. Continue Learning (next steps)
+    // Q3: When should I use it? (Use cases and scenarios)
+    if (byType.procedural?.length > 0 || byType.comparison?.length > 0) {
+      sections.push({
+        type: "use-cases",
+        heading: "When to use it",
+        content: [],
+        order: 3,
+        required: true,
+      });
+    }
+
+    // Q4: How does it work? (Simplified explanation)
+    if (byType.definition?.length > 0 || byType.procedural?.length > 0) {
+      sections.push({
+        type: "how-it-works",
+        heading: "How it works",
+        content: [],
+        order: 4,
+        required: true,
+      });
+    }
+
+    // Q5: What mistakes do beginners make? (Common pitfalls)
+    if (byType.warning?.length > 0) {
+      sections.push({
+        type: "beginner-mistakes",
+        heading: "Beginner mistakes to avoid",
+        content: [],
+        order: 5,
+        required: true,
+      });
+    }
+
+    // Q6: How do experts think about it? (Expert perspective)
+    if (byType.definition?.length > 0 || byType.historical?.length > 0 || byType.rule?.length > 0) {
+      sections.push({
+        type: "expert-perspective",
+        heading: "Expert perspective",
+        content: [],
+        order: 6,
+        required: true,
+      });
+    }
+
+    // Q7: When should I avoid it? (Anti-patterns and warnings)
+    if (byType.warning?.length > 0 || byType.comparison?.length > 0) {
+      sections.push({
+        type: "when-to-avoid",
+        heading: "When NOT to use it",
+        content: [],
+        order: 7,
+        required: true,
+      });
+    }
+
+    // Q8: What should I learn next? (Learning path)
     sections.push({
-      type: "continue-learning",
-      heading: "Continue Learning",
+      type: "learning-path",
+      heading: "What to learn next",
       content: [],
-      order: 19,
-      required: false,
+      order: 8,
+      required: true,
     });
+
+    // Sort sections by order
+    sections.sort((a, b) => a.order - b.order);
 
     return sections;
   }
@@ -666,13 +575,22 @@ export class KnowledgeComposer {
     byType: Record<string, PluginFact[]>
   ): PluginFact[] {
     const allocation: Record<string, string[]> = {
+      // Knowledge Experience 2.0 - 8 Key Questions
+      "definition-card": ["definition"],
+      "motivation": ["definition", "property"],
+      "use-cases": ["procedural", "comparison"],
+      "how-it-works": ["procedural", "causal"],
+      "beginner-mistakes": ["warning", "rule"],
+      "expert-perspective": ["definition", "historical", "rule"],
+      "when-to-avoid": ["warning", "comparison"],
+      "learning-path": ["definition", "procedural"],
+      // Legacy section types (for backward compatibility)
       "hero-summary": ["definition"],
       "introduction": ["definition"],
       "quick-answer": ["definition"],
       "learning-objectives": ["definition", "procedural"],
       "importance": ["definition", "property"],
       "core-concept": ["definition"],
-      "how-it-works": ["procedural", "causal"],
       "example": ["property"],
       "applications": ["procedural"],
       "benefits": ["property"],
@@ -728,6 +646,29 @@ export class KnowledgeComposer {
 
     // Render facts based on section type with better explanations
     switch (sectionType) {
+      // Knowledge Experience 2.0 - 8 Key Questions
+      case "definition-card":
+        nodes.push(...this.renderDefinitionCard(facts, context));
+        break;
+      case "motivation":
+        nodes.push(...this.renderMotivation(facts, context));
+        break;
+      case "use-cases":
+        nodes.push(...this.renderUseCases(facts, context));
+        break;
+      case "beginner-mistakes":
+        nodes.push(...this.renderBeginnerMistakes(facts, context));
+        break;
+      case "expert-perspective":
+        nodes.push(...this.renderExpertPerspective(facts, context));
+        break;
+      case "when-to-avoid":
+        nodes.push(...this.renderWhenToAvoid(facts, context));
+        break;
+      case "learning-path":
+        nodes.push(...this.renderLearningPath(facts, context));
+        break;
+      // Legacy section types (for backward compatibility)
       case "learning-objectives":
         nodes.push(...this.renderLearningObjectives(facts, context));
         break;
@@ -803,6 +744,286 @@ export class KnowledgeComposer {
   }
 
   // Section renderers
+
+  // Knowledge Experience 2.0 - 8 Key Questions Rendering Methods
+
+  /**
+   * Q1: What is it? - Quick definition card
+   * Visual, scannable definition with key facts
+   */
+  private renderDefinitionCard(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+    const leadFact = facts[0];
+
+    if (!leadFact) return nodes;
+
+    // Create a callout for the definition card
+    nodes.push({
+      type: "callout",
+      variant: "info",
+      title: "Definition",
+      children: [
+        {
+          type: "paragraph",
+          children: [leadFact.statement]
+        }
+      ]
+    });
+
+    // Add key points as a list
+    if (facts.length > 1) {
+      const keyPoints = facts.slice(1, 4).map(f => ({
+        type: "list-item",
+        children: [f.statement]
+      } as ListItemNode));
+
+      nodes.push({
+        type: "list",
+        ordered: false,
+        items: keyPoints
+      });
+    }
+
+    return nodes;
+  }
+
+  /**
+   * Q2: Why should I care? - Motivation and relevance
+   * Answers "What's in it for me?" in a compelling way
+   */
+  private renderMotivation(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+
+    if (facts.length === 0) {
+      // Generate default motivation based on subject and context
+      nodes.push({
+        type: "paragraph",
+        children: [
+          `Understanding ${subject} helps you make better decisions, solve problems more effectively, and build a stronger foundation in this area.`
+        ]
+      });
+      return nodes;
+    }
+
+    // Extract motivation points from facts
+    const motivationPoints = facts.slice(0, 3).map(f => ({
+      type: "list-item",
+      children: [f.statement]
+    } as ListItemNode));
+
+    nodes.push({
+      type: "list",
+      ordered: false,
+      items: motivationPoints
+    });
+
+    return nodes;
+  }
+
+  /**
+   * Q3: When should I use it? - Use cases and scenarios
+   * Practical scenarios where this concept applies
+   */
+  private renderUseCases(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+
+    if (facts.length === 0) {
+      nodes.push({
+        type: "paragraph",
+        children: ["Use this when you need to solve specific problems or achieve particular goals in this domain."]
+      });
+      return nodes;
+    }
+
+    // Render use cases as bullet points
+    const useCases = facts.map(f => ({
+      type: "list-item",
+      children: [f.statement]
+    } as ListItemNode));
+
+    nodes.push({
+      type: "list",
+      ordered: false,
+      items: useCases
+    });
+
+    return nodes;
+  }
+
+  /**
+   * Q5: What mistakes do beginners make? - Common pitfalls
+   * Warning-focused section to help readers avoid errors
+   */
+  private renderBeginnerMistakes(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+
+    if (facts.length === 0) {
+      nodes.push({
+        type: "paragraph",
+        children: ["Focus on understanding fundamentals before rushing to advanced topics. Avoid common traps by learning from others' mistakes."]
+      });
+      return nodes;
+    }
+
+    // Render mistakes as a warning-styled list
+    const mistakes = facts.map(f => ({
+      type: "list-item",
+      children: [f.statement]
+    } as ListItemNode));
+
+    nodes.push({
+      type: "callout",
+      variant: "warning",
+      title: "Common Mistakes",
+      children: [
+        {
+          type: "list",
+          ordered: false,
+          items: mistakes
+        }
+      ]
+    });
+
+    return nodes;
+  }
+
+  /**
+   * Q6: How do experts think about it? - Expert perspective
+   * Deeper insights and expert-level understanding
+   */
+  private renderExpertPerspective(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+
+    if (facts.length === 0) {
+      nodes.push({
+        type: "paragraph",
+        children: ["Experts see this as a foundational concept that connects to many other ideas. They focus on understanding the underlying principles rather than memorizing surface-level details."]
+      });
+      return nodes;
+    }
+
+    // Render expert insights
+    const insights = facts.slice(0, 3).map(f => ({
+      type: "list-item",
+      children: [f.statement]
+    } as ListItemNode));
+
+    nodes.push({
+      type: "callout",
+      variant: "tip",
+      title: "Expert Perspective",
+      children: [
+        {
+          type: "list",
+          ordered: false,
+          items: insights
+        }
+      ]
+    });
+
+    return nodes;
+  }
+
+  /**
+   * Q7: When should I avoid it? - Anti-patterns and warnings
+   * When NOT to use this concept or approach
+   */
+  private renderWhenToAvoid(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+
+    if (facts.length === 0) {
+      nodes.push({
+        type: "paragraph",
+        children: ["Avoid using this when the problem doesn't match its strengths, when simpler alternatives exist, or when you don't fully understand the trade-offs involved."]
+      });
+      return nodes;
+    }
+
+    // Render avoidance scenarios
+    const avoidScenarios = facts.map(f => ({
+      type: "list-item",
+      children: [f.statement]
+    } as ListItemNode));
+
+    nodes.push({
+      type: "callout",
+      variant: "warning",
+      title: "When to Avoid",
+      children: [
+        {
+          type: "list",
+          ordered: false,
+          items: avoidScenarios
+        }
+      ]
+    });
+
+    return nodes;
+  }
+
+  /**
+   * Q8: What should I learn next? - Learning path
+   * Suggested next steps for continued learning
+   */
+  private renderLearningPath(
+    facts: PluginFact[],
+    context: CompositionContext
+  ): DocumentNode[] {
+    const nodes: DocumentNode[] = [];
+    const subject = context.subject;
+
+    // Generate learning path suggestions
+    const nextSteps = facts.length > 0
+      ? facts.slice(0, 3).map(f => f.statement)
+      : [
+          `Practice applying ${subject} in real scenarios`,
+          "Explore related concepts to deepen understanding",
+          "Build projects that use this knowledge"
+        ];
+
+    const nextStepItems = nextSteps.map(step => ({
+      type: "list-item",
+      children: [step]
+    } as ListItemNode));
+
+    nodes.push({
+      type: "callout",
+      variant: "important",
+      title: "What to Learn Next",
+      children: [
+        {
+          type: "list",
+          ordered: false,
+          items: nextStepItems
+        }
+      ]
+    });
+
+    return nodes;
+  }
+
+  // Legacy section renderers (for backward compatibility)
+
   private renderHeroSummary(
     facts: PluginFact[],
     context: CompositionContext
