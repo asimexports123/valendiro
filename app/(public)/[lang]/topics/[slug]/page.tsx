@@ -13,6 +13,7 @@ import Link from "next/link";
 
 export const revalidate = 0;
 export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
 
 const CATEGORY_ACCENT: Record<string, { bg: string; text: string; border: string }> = {
   technology:       { bg: "bg-blue-50 dark:bg-blue-950/30",    text: "text-blue-700 dark:text-blue-300",    border: "border-blue-200 dark:border-blue-800" },
