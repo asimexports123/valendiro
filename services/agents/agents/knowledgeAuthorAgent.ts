@@ -142,6 +142,7 @@ export class KnowledgeAuthorAgent {
     const context: AuthoringContext = {
       topic: input.topic,
       category: input.category,
+      subject: input.category,
       intent: input.category === "travel" ? "guide" as const : "educate" as const,
       complexity: "intermediate",
       facts: input.facts.map(f => ({
