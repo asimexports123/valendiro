@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-07-04T12:00:00.000Z",
+  "selectedTopics": [
+    {
+      "id": "b447ef95-8357-4269-80d8-e54904a146cf",
+      "slug": "javascript-fundamentals",
+      "title": "JavaScript Fundamentals",
+      "category": "technology"
+    },
+    {
+      "id": "ba90aca1-36ee-40e0-8a7b-0d03361ef250",
+      "slug": "investing-basics",
+      "title": "Investing Basics",
+      "category": "finance"
+    },
+    {
+      "id": "2f756b44-d210-4186-b60e-ed8387aea23c",
+      "slug": "nutrition-fundamentals",
+      "title": "Nutrition Fundamentals",
+      "category": "health"
+    },
+    {
+      "id": "3bb00606-b7de-4233-92cd-36d193ac1c8a",
+      "slug": "budget-travel-strategies",
+      "title": "Budget Travel Strategies",
+      "category": "travel"
+    },
+    {
+      "id": "f15e3896-f20c-48f7-bdbd-7843ebaee497",
+      "slug": "business-strategy-fundamentals",
+      "title": "Business Strategy Fundamentals",
+      "category": "business"
+    }
+  ]
+}

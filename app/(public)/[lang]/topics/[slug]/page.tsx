@@ -184,15 +184,7 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
 
             {/* Article content */}
             {topic.content && (
-              <div 
-                dangerouslySetInnerHTML={{ 
-                  __html: topic.content
-                    .replace(/## Sources\n[\s\S]*?(?=\n##|$)/g, "")
-                    .replace(/### Sources\n[\s\S]*?(?=\n##|$)/g, "")
-                    .replace(/#### Sources\n[\s\S]*?(?=\n##|$)/g, "")
-                }}
-                className="prose max-w-none"
-              />
+              <MarkdownContent content={topic.content} />
             )}
 
             {/* Prerequisites */}

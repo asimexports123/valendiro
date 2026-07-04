@@ -1,0 +1,30 @@
+{
+  "results": [
+    {
+      "topic": "javascript-fundamentals",
+      "success": false,
+      "error": "Validation failed: Renderer version '4.0.0' is below minimum '5.0.0', Output format 'html' is not allowed"
+    },
+    {
+      "topic": "investing-basics",
+      "success": true,
+      "error": null
+    },
+    {
+      "topic": "nutrition-fundamentals",
+      "success": true,
+      "error": null
+    },
+    {
+      "topic": "budget-travel-strategies",
+      "success": true,
+      "error": null
+    },
+    {
+      "topic": "business-strategy-fundamentals",
+      "success": true,
+      "error": null
+    }
+  ],
+  "timestamp": "2026-07-04T12:21:08.575Z"
+}

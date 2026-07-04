@@ -1,0 +1,45 @@
+{
+  "results": [
+    {
+      "topic": "javascript-fundamentals",
+      "packageId": "63ec8e85-121c-4d73-a144-0037b088c7ae",
+      "outputId": null,
+      "status": "success",
+      "qualityScore": 0,
+      "error": null
+    },
+    {
+      "topic": "investing-basics",
+      "packageId": "3218e854-2856-4e5c-8ec1-650835088f3f",
+      "outputId": "59a5c531-dbb2-417c-8cf1-190fffa14074",
+      "status": "success",
+      "qualityScore": 82,
+      "error": null
+    },
+    {
+      "topic": "nutrition-fundamentals",
+      "packageId": "a78d4791-5cb7-4b3c-8ef4-dd692bcb94ae",
+      "outputId": "e14bf51f-5241-402f-b92b-9c7e789003f8",
+      "status": "success",
+      "qualityScore": 83,
+      "error": null
+    },
+    {
+      "topic": "budget-travel-strategies",
+      "packageId": "c938eb61-b168-41fb-aff4-06d7dafff0c1",
+      "outputId": "7fcd8ccd-423b-4218-b4a8-875ee8f49289",
+      "status": "success",
+      "qualityScore": 75,
+      "error": null
+    },
+    {
+      "topic": "business-strategy-fundamentals",
+      "packageId": "e669af3e-421d-4311-82c8-78159239e78b",
+      "outputId": "8e29d035-6586-4ab6-805b-5535d0ccf0ad",
+      "status": "success",
+      "qualityScore": 72,
+      "error": null
+    }
+  ],
+  "timestamp": "2026-07-04T12:20:00.110Z"
+}
