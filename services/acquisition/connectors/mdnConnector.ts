@@ -33,23 +33,20 @@ export class MDNConnector implements IConnector {
         return {
           status: "PERMANENT_ERROR" as ConnectorStatus,
           data: null,
-          contentType: "json",
+          contentType: "html",
           sourceUrl: config.sourceUrl || "",
           error: "Invalid configuration: missing sourceUrl",
           metadata: {
             retrievedAt: new Date().toISOString(),
-            contentType: "application/json",
+            contentType: "text/html",
             size: 0,
             latency,
           },
         };
       }
 
-      // Build MDN API URL
-      const apiUrl = this.buildApiUrl(config.sourceUrl!);
-
-      // Fetch from MDN API
-      const response = await fetch(apiUrl, {
+      // Fetch HTML from MDN (not JSON API)
+      const response = await fetch(config.sourceUrl!, {
         headers: {
           "User-Agent": "Valendiro-Knowledge-OS/1.0",
         },
@@ -65,19 +62,19 @@ export class MDNConnector implements IConnector {
         return {
           status,
           data: null,
-          contentType: "json",
+          contentType: "html",
           sourceUrl: config.sourceUrl!,
           error: `HTTP ${response.status}: ${response.statusText}`,
           metadata: {
             retrievedAt: new Date().toISOString(),
-            contentType: "application/json",
+            contentType: "text/html",
             size: 0,
             latency,
           },
         };
       }
 
-      const data = await response.json();
+      const html = await response.text();
       const latency = Date.now() - startTime;
 
       this.health.lastSuccess = new Date().toISOString();
@@ -85,14 +82,14 @@ export class MDNConnector implements IConnector {
 
       return {
         status: "READY" as ConnectorStatus,
-        data: data,
-        contentType: "json",
+        data: html,
+        contentType: "html",
         sourceUrl: config.sourceUrl!,
         error: null,
         metadata: {
           retrievedAt: new Date().toISOString(),
-          contentType: response.headers.get("content-type") || "application/json",
-          size: JSON.stringify(data).length,
+          contentType: response.headers.get("content-type") || "text/html",
+          size: html.length,
           latency,
         },
       };
@@ -104,12 +101,12 @@ export class MDNConnector implements IConnector {
       return {
         status: "RETRYABLE_ERROR" as ConnectorStatus,
         data: null,
-        contentType: "json",
+        contentType: "html",
         sourceUrl: config.sourceUrl || "",
         error: error.message,
         metadata: {
           retrievedAt: new Date().toISOString(),
-          contentType: "application/json",
+          contentType: "text/html",
           size: 0,
           latency,
         },
