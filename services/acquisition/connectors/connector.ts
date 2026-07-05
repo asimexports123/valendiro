@@ -8,18 +8,36 @@
  */
 
 /**
+ * Error Contract Status Types
+ */
+export type ConnectorStatus = "READY" | "RETRYABLE_ERROR" | "PERMANENT_ERROR" | "ACQUISITION_REQUIRED";
+
+/**
+ * Health Monitoring Data
+ */
+export interface ConnectorHealth {
+  available: boolean;
+  lastSuccess: string | null;
+  lastFailure: string | null;
+  latency: number; // milliseconds
+  version: string;
+  sourceType: string;
+}
+
+/**
  * Connector Interface
  * Connectors only retrieve source data from external sources
  */
 export interface ConnectorConfig {
-  sourceType: "local-json" | "wikipedia" | "official-docs" | "rss" | "html";
+  sourceType: "local-mock" | "local-json" | "wikipedia" | "official-docs" | "rss" | "html";
   sourceUrl?: string;
   apiKey?: string;
   timeout?: number;
+  useMock?: boolean; // Phase 32B: Mock infrastructure support
 }
 
 export interface ConnectorResult {
-  success: boolean;
+  status: ConnectorStatus;
   data: string | object | null;
   contentType: "json" | "html" | "xml" | "text";
   sourceUrl: string;
@@ -28,13 +46,16 @@ export interface ConnectorResult {
     retrievedAt: string;
     contentType: string;
     size: number;
+    latency: number;
   };
 }
 
 export interface IConnector {
   readonly sourceType: string;
+  readonly version: string;
   connect(config: ConnectorConfig): Promise<ConnectorResult>;
   validateSource(config: ConnectorConfig): boolean;
+  getHealth(): ConnectorHealth;
 }
 
 /**

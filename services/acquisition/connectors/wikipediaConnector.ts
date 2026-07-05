@@ -5,17 +5,33 @@
  * Uses MediaWiki API for structured data extraction
  */
 
-import type { IConnector, ConnectorConfig, ConnectorResult } from "./connector";
+import type { IConnector, ConnectorConfig, ConnectorResult, ConnectorHealth, ConnectorStatus } from "./connector";
 
 export class WikipediaConnector implements IConnector {
   readonly sourceType = "wikipedia";
+  readonly version = "1.0.0";
   private readonly baseUrl = "https://en.wikipedia.org/w/api.php";
 
+  private health: ConnectorHealth = {
+    available: true,
+    lastSuccess: null,
+    lastFailure: null,
+    latency: 0,
+    version: this.version,
+    sourceType: this.sourceType,
+  };
+
   async connect(config: ConnectorConfig): Promise<ConnectorResult> {
+    const startTime = Date.now();
+
     try {
       if (!this.validateSource(config)) {
+        const latency = Date.now() - startTime;
+        this.health.lastFailure = new Date().toISOString();
+        this.health.latency = latency;
+
         return {
-          success: false,
+          status: "PERMANENT_ERROR" as ConnectorStatus,
           data: null,
           contentType: "json",
           sourceUrl: config.sourceUrl || "",
@@ -24,6 +40,7 @@ export class WikipediaConnector implements IConnector {
             retrievedAt: new Date().toISOString(),
             contentType: "application/json",
             size: 0,
+            latency,
           },
         };
       }
@@ -33,13 +50,33 @@ export class WikipediaConnector implements IConnector {
 
       const response = await fetch(apiUrl);
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        const latency = Date.now() - startTime;
+        this.health.lastFailure = new Date().toISOString();
+        this.health.latency = latency;
+
+        return {
+          status: "RETRYABLE_ERROR" as ConnectorStatus,
+          data: null,
+          contentType: "json",
+          sourceUrl: config.sourceUrl!,
+          error: `HTTP ${response.status}: ${response.statusText}`,
+          metadata: {
+            retrievedAt: new Date().toISOString(),
+            contentType: "application/json",
+            size: 0,
+            latency,
+          },
+        };
       }
 
       const data = await response.json();
+      const latency = Date.now() - startTime;
+
+      this.health.lastSuccess = new Date().toISOString();
+      this.health.latency = latency;
 
       return {
-        success: true,
+        status: "READY" as ConnectorStatus,
         data: data,
         contentType: "json",
         sourceUrl: config.sourceUrl!,
@@ -48,11 +85,16 @@ export class WikipediaConnector implements IConnector {
           retrievedAt: new Date().toISOString(),
           contentType: "application/json",
           size: JSON.stringify(data).length,
+          latency,
         },
       };
     } catch (error: any) {
+      const latency = Date.now() - startTime;
+      this.health.lastFailure = new Date().toISOString();
+      this.health.latency = latency;
+
       return {
-        success: false,
+        status: "RETRYABLE_ERROR" as ConnectorStatus,
         data: null,
         contentType: "json",
         sourceUrl: config.sourceUrl || "",
@@ -61,6 +103,7 @@ export class WikipediaConnector implements IConnector {
           retrievedAt: new Date().toISOString(),
           contentType: "application/json",
           size: 0,
+          latency,
         },
       };
     }
@@ -68,6 +111,10 @@ export class WikipediaConnector implements IConnector {
 
   validateSource(config: ConnectorConfig): boolean {
     return !!config.sourceUrl && config.sourceType === "wikipedia";
+  }
+
+  getHealth(): ConnectorHealth {
+    return { ...this.health };
   }
 
   private extractArticleTitle(sourceUrl: string): string {

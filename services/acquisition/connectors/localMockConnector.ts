@@ -1,15 +1,14 @@
 /**
- * Local JSON Connector
+ * Local Mock Connector
  * 
- * Reads knowledge from local JSON files for testing and development
+ * Produces Knowledge Packages identical to production connectors for testing
+ * Activated via USE_MOCK_DATA=true environment variable
  */
 
-import * as fs from "fs";
-import * as path from "path";
 import type { IConnector, ConnectorConfig, ConnectorResult, ConnectorHealth, ConnectorStatus } from "./connector";
 
-export class LocalJsonConnector implements IConnector {
-  readonly sourceType = "local-json";
+export class LocalMockConnector implements IConnector {
+  readonly sourceType = "local-mock";
   readonly version = "1.0.0";
 
   private health: ConnectorHealth = {
@@ -45,32 +44,8 @@ export class LocalJsonConnector implements IConnector {
         };
       }
 
-      const filePath = config.sourceUrl!;
-      
-      // Check if file exists
-      if (!fs.existsSync(filePath)) {
-        const latency = Date.now() - startTime;
-        this.health.lastFailure = new Date().toISOString();
-        this.health.latency = latency;
-
-        return {
-          status: "PERMANENT_ERROR" as ConnectorStatus,
-          data: null,
-          contentType: "json",
-          sourceUrl: filePath,
-          error: `File not found: ${filePath}`,
-          metadata: {
-            retrievedAt: new Date().toISOString(),
-            contentType: "application/json",
-            size: 0,
-            latency,
-          },
-        };
-      }
-
-      // Read file
-      const fileContent = fs.readFileSync(filePath, "utf-8");
-      const jsonData = JSON.parse(fileContent);
+      // Generate mock data identical to production connector output
+      const mockData = this.generateMockData(config.sourceUrl!);
       const latency = Date.now() - startTime;
 
       this.health.lastSuccess = new Date().toISOString();
@@ -78,14 +53,14 @@ export class LocalJsonConnector implements IConnector {
 
       return {
         status: "READY" as ConnectorStatus,
-        data: jsonData,
+        data: mockData,
         contentType: "json",
-        sourceUrl: filePath,
+        sourceUrl: config.sourceUrl!,
         error: null,
         metadata: {
           retrievedAt: new Date().toISOString(),
           contentType: "application/json",
-          size: fileContent.length,
+          size: JSON.stringify(mockData).length,
           latency,
         },
       };
@@ -111,10 +86,25 @@ export class LocalJsonConnector implements IConnector {
   }
 
   validateSource(config: ConnectorConfig): boolean {
-    return !!config.sourceUrl && config.sourceType === "local-json";
+    return !!config.sourceUrl && config.sourceType === "local-mock";
   }
 
   getHealth(): ConnectorHealth {
     return { ...this.health };
+  }
+
+  private generateMockData(sourceUrl: string): object {
+    // Generate mock data that matches the structure of production connectors
+    // This ensures switching between mock and production requires configuration only
+    return {
+      query: {
+        pages: {
+          [sourceUrl]: {
+            title: sourceUrl,
+            extract: "Mock knowledge content for testing purposes. This simulates the structure of Wikipedia API responses.",
+          },
+        },
+      },
+    };
   }
 }
