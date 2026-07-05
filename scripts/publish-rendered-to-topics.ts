@@ -1,5 +1,5 @@
 /**
- * Publishes rendered Markdown content from rendered_outputs
+ * Publishes rendered HTML content from rendered_outputs
  * into topic_translations.content so the public topic pages show articles.
  */
 
@@ -7,6 +7,7 @@ process.env.NEXT_PUBLIC_SUPABASE_URL = "https://diwwvkbztvhwouttajha.supabase.co
 process.env.SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpd3d2a2J6dHZod291dHRhamhhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjY3NzIwMywiZXhwIjoyMDk4MjUzMjAzfQ.H-H9Ozpnn0M4d65ybDHOMVBQiK-CQFC9OPQPXq2b6yY";
 
 import { createClient } from "@supabase/supabase-js";
+import { serializeToHTML } from "../services/renderer/serializers/html";
 
 const sb = createClient(
   "https://diwwvkbztvhwouttajha.supabase.co",
@@ -34,12 +35,11 @@ async function main() {
   let errors = 0;
 
   for (const pkg of packages) {
-    // Prefer markdown format for topic page rendering
+    // Get document_tree from rendered_outputs
     const { data: mdRender } = await sb
       .from("rendered_outputs")
-      .select("content, output_format, quality_score, status")
+      .select("document_tree, quality_score, status")
       .eq("package_id", pkg.id)
-      .eq("output_format", "markdown")
       .eq("status", "published")
       .order("created_at", { ascending: false })
       .limit(1)
@@ -47,14 +47,25 @@ async function main() {
 
     const rendered = mdRender;
 
-    if (!rendered) {
+    if (!rendered || !rendered.document_tree) {
       console.log(`  SKIP (no render): ${pkg.slug}`);
       skipped++;
       continue;
     }
 
-    const content = rendered.content as string | null;
-    if (!content) {
+    // Convert document_tree to HTML
+    let htmlContent: string;
+    try {
+      htmlContent = serializeToHTML(rendered.document_tree);
+      // Remove <!DOCTYPE html> and <article> wrapper - page already has HTML structure
+      htmlContent = htmlContent.replace(/<!DOCTYPE html>\n?/, '').replace(/<article class="knowledge-article">\n?/, '').replace(/\n?<\/article>$/, '');
+    } catch (error) {
+      console.log(`  SKIP (serialization error): ${pkg.slug}`);
+      skipped++;
+      continue;
+    }
+
+    if (!htmlContent || htmlContent.trim().length === 0) {
       console.log(`  SKIP (empty content): ${pkg.slug}`);
       skipped++;
       continue;
@@ -63,7 +74,7 @@ async function main() {
     // Update topic_translations.content
     const { error } = await sb
       .from("topic_translations")
-      .update({ content })
+      .update({ content: htmlContent })
       .eq("topic_id", pkg.topic_id)
       .eq("language_code", "en");
 
