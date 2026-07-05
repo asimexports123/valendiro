@@ -1,8 +1,9 @@
 /**
- * Phase 40 - Knowledge Package Completeness
+ * Sprint 2 - Subject-Specific Completeness Profiles
  * 
- * Every subject must define a required minimum set of structured collections.
- * Create subject completeness profiles and validate Knowledge Packages.
+ * Replace global completeness requirements with subject-specific completeness profiles.
+ * A package is COMPLETE when all required collections for that subject are present.
+ * Optional collections increase quality but must not block publication.
  */
 
 import * as dotenv from "dotenv";
@@ -18,69 +19,59 @@ import { DataProcessor } from "../services/dataProcessor/dataProcessor";
 import { QualityMetricsCalculator } from "../services/qualityMetrics/qualityMetrics";
 import { createHash } from "crypto";
 
-// Subject completeness profiles
+// Subject-specific completeness profiles
 interface SubjectCompletenessProfile {
-  subjectType: string;
   requiredCollections: string[];
   optionalCollections: string[];
 }
 
-const COMPLETENESS_PROFILES: Record<string, SubjectCompletenessProfile> = {
-  programming: {
-    subjectType: "programming",
+const SUBJECT_COMPLETENESS_PROFILES: Record<string, SubjectCompletenessProfile> = {
+  "python-programming-fundamentals": {
     requiredCollections: [
       "definitions",
       "concepts",
       "procedures",
       "examples",
+      "references",
+    ],
+    optionalCollections: [
       "commands",
+      "warnings",
+      "faqs",
       "bestPractices",
       "commonMistakes",
-      "warnings",
-      "references",
     ],
-    optionalCollections: ["comparisons", "formulae", "faqs"],
   },
-  health: {
-    subjectType: "health",
-    requiredCollections: [
-      "definitions",
-      "symptoms",
-      "causes",
-      "diagnosis",
-      "treatment",
-      "prevention",
-      "warnings",
-      "faqs",
-      "references",
-    ],
-    optionalCollections: ["concepts", "procedures", "examples", "bestPractices", "commonMistakes"],
-  },
-  finance: {
-    subjectType: "finance",
-    requiredCollections: [
-      "definitions",
-      "concepts",
-      "calculations",
-      "examples",
-      "risks",
-      "bestPractices",
-      "warnings",
-      "faqs",
-      "references",
-    ],
-    optionalCollections: ["procedures", "commands", "comparisons", "formulae", "commonMistakes"],
-  },
-  technology: {
-    subjectType: "technology",
+  "git-version-control": {
     requiredCollections: [
       "definitions",
       "concepts",
       "procedures",
+      "commands",
       "examples",
       "references",
     ],
-    optionalCollections: ["commands", "warnings", "bestPractices", "commonMistakes", "faqs", "comparisons", "formulae"],
+    optionalCollections: [
+      "warnings",
+      "faqs",
+      "bestPractices",
+      "commonMistakes",
+    ],
+  },
+  "javascript-fundamentals": {
+    requiredCollections: [
+      "definitions",
+      "concepts",
+      "examples",
+      "procedures",
+      "references",
+    ],
+    optionalCollections: [
+      "commands",
+      "warnings",
+      "bestPractices",
+      "commonMistakes",
+    ],
   },
 };
 
@@ -100,8 +91,11 @@ function generateKnowledgeHash(data: any): string {
   return createHash("sha256").update(JSON.stringify(data)).digest("hex").substring(0, 16);
 }
 
-function validateCompleteness(knowledgePackage: any, subjectType: string): CompletenessValidationResult {
-  const profile = COMPLETENESS_PROFILES[subjectType] || COMPLETENESS_PROFILES["technology"];
+function validateCompleteness(knowledgePackage: any, subjectSlug: string): CompletenessValidationResult {
+  const profile = SUBJECT_COMPLETENESS_PROFILES[subjectSlug] || {
+    requiredCollections: ["definitions", "concepts", "procedures", "examples", "references"],
+    optionalCollections: [],
+  };
   
   const presentCollections: string[] = [];
   const missingCollections: string[] = [];
@@ -118,7 +112,7 @@ function validateCompleteness(knowledgePackage: any, subjectType: string): Compl
     }
   });
 
-  // Calculate completeness percentage
+  // Calculate completeness percentage based on required collections only
   const completenessPercentage = Math.round(
     (presentCollections.length / profile.requiredCollections.length) * 100
   );
@@ -128,7 +122,7 @@ function validateCompleteness(knowledgePackage: any, subjectType: string): Compl
 
   return {
     topic: knowledgePackage.slug || "unknown",
-    subjectType,
+    subjectType: "programming", // Default to programming for pilot subjects
     requiredCollections: profile.requiredCollections,
     presentCollections,
     missingCollections,
@@ -156,7 +150,7 @@ async function runPhase40CompletenessValidation() {
   const pilotTopics = [
     {
       name: "Python Programming Fundamentals",
-      subjectType: "programming",
+      slug: "python-programming-fundamentals",
       sources: [
         { url: "https://docs.python.org/3/tutorial/introduction.html", connector: new PythonDocumentationConnector() },
         { url: "https://docs.python.org/3/reference/index.html", connector: new PythonDocumentationConnector() },
@@ -164,7 +158,7 @@ async function runPhase40CompletenessValidation() {
     },
     {
       name: "Git Version Control",
-      subjectType: "programming",
+      slug: "git-version-control",
       sources: [
         { url: "https://git-scm.com/book/en/v2/Git-Branching-Branching-Workflows", connector: new GitDocumentationConnector() },
         { url: "https://git-scm.com/docs", connector: new GitDocumentationConnector() },
@@ -172,7 +166,7 @@ async function runPhase40CompletenessValidation() {
     },
     {
       name: "JavaScript Fundamentals",
-      subjectType: "programming",
+      slug: "javascript-fundamentals",
       sources: [
         { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures", connector: new MDNConnector() },
         { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference", connector: new MDNConnector() },
@@ -184,7 +178,7 @@ async function runPhase40CompletenessValidation() {
 
   for (const topic of pilotTopics) {
     console.log(`Processing: ${topic.name}`);
-    console.log(`Subject Type: ${topic.subjectType}`);
+    console.log(`Subject Slug: ${topic.slug}`);
     console.log("-".repeat(40));
 
     try {
@@ -334,7 +328,7 @@ async function runPhase40CompletenessValidation() {
 
       // Create Knowledge Package
       const knowledgePackageId = `pkg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      const slug = topic.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+      const slug = topic.slug;
 
       const uniqueConcepts = mergedKnowledge.concepts.filter((concept: any, index: number, self: any[]) => 
         index === self.findIndex((c: any) => c.name === concept.name)
@@ -446,8 +440,8 @@ async function runPhase40CompletenessValidation() {
         },
       };
 
-      // Validate completeness
-      const validationResult = validateCompleteness(testPackage, topic.subjectType);
+      // Validate completeness using subject-specific profile
+      const validationResult = validateCompleteness(testPackage, topic.slug);
       validationResult.topic = topic.name;
       validationResults.push(validationResult);
 
