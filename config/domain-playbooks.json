@@ -64,6 +64,24 @@
         "Link to architectural patterns",
         "Link to pricing guides",
         "Link to security best practices"
+      ],
+      "forbiddenSections": [
+        "Implementation Phase",
+        "Optimization Phase",
+        "Deployment",
+        "Business Strategy",
+        "KPIs",
+        "Metrics",
+        "ROI"
+      ],
+      "forbiddenTerminology": [
+        "Synergy",
+        "Leverage",
+        "Paradigm",
+        "Strategic alignment",
+        "Business value",
+        "Stakeholder engagement",
+        "Cross-functional"
       ]
     },
     "python": {
@@ -127,6 +145,24 @@
         "Link to library documentation",
         "Link to best practices",
         "Link to troubleshooting guides"
+      ],
+      "forbiddenSections": [
+        "Business Strategy",
+        "KPIs",
+        "Metrics",
+        "ROI",
+        "Implementation Phase",
+        "Optimization Phase",
+        "Deployment"
+      ],
+      "forbiddenTerminology": [
+        "Synergy",
+        "Leverage",
+        "Paradigm",
+        "Strategic alignment",
+        "Business value",
+        "Stakeholder engagement",
+        "Cross-functional"
       ]
     },
     "kubernetes": {
@@ -190,6 +226,22 @@
         "Link to deployment strategies",
         "Link to networking guides",
         "Link to monitoring solutions"
+      ],
+      "forbiddenSections": [
+        "Business Strategy",
+        "KPIs",
+        "Metrics",
+        "ROI",
+        "Implementation Phase",
+        "Optimization Phase"
+      ],
+      "forbiddenTerminology": [
+        "Synergy",
+        "Leverage",
+        "Paradigm",
+        "Strategic alignment",
+        "Business value",
+        "Stakeholder engagement"
       ]
     },
     "javascript": {
@@ -253,6 +305,22 @@
         "Link to framework guides",
         "Link to best practices",
         "Link to troubleshooting guides"
+      ],
+      "forbiddenSections": [
+        "Business Strategy",
+        "KPIs",
+        "Metrics",
+        "ROI",
+        "Implementation Phase",
+        "Optimization Phase"
+      ],
+      "forbiddenTerminology": [
+        "Synergy",
+        "Leverage",
+        "Paradigm",
+        "Strategic alignment",
+        "Business value",
+        "Stakeholder engagement"
       ]
     },
     "docker": {
@@ -315,6 +383,22 @@
         "Link to best practices",
         "Link to orchestration guides",
         "Link to troubleshooting guides"
+      ],
+      "forbiddenSections": [
+        "Business Strategy",
+        "KPIs",
+        "Metrics",
+        "ROI",
+        "Implementation Phase",
+        "Optimization Phase"
+      ],
+      "forbiddenTerminology": [
+        "Synergy",
+        "Leverage",
+        "Paradigm",
+        "Strategic alignment",
+        "Business value",
+        "Stakeholder engagement"
       ]
     },
     "git": {
@@ -377,6 +461,22 @@
         "Link to workflow guides",
         "Link to best practices",
         "Link to troubleshooting guides"
+      ],
+      "forbiddenSections": [
+        "Business Strategy",
+        "KPIs",
+        "Metrics",
+        "ROI",
+        "Implementation Phase",
+        "Optimization Phase"
+      ],
+      "forbiddenTerminology": [
+        "Synergy",
+        "Leverage",
+        "Paradigm",
+        "Strategic alignment",
+        "Business value",
+        "Stakeholder engagement"
       ]
     },
     "finance": {
@@ -440,6 +540,20 @@
         "Link to investment guides",
         "Link to tax resources",
         "Link to retirement planning"
+      ],
+      "forbiddenSections": [
+        "Architecture",
+        "Deployment",
+        "Implementation Phase",
+        "Optimization Phase"
+      ],
+      "forbiddenTerminology": [
+        "Container",
+        "Pod",
+        "Deployment",
+        "Service",
+        "Endpoint",
+        "API"
       ]
     },
     "cloud-computing": {
@@ -503,6 +617,22 @@
         "Link to service models",
         "Link to architecture patterns",
         "Link to migration guides"
+      ],
+      "forbiddenSections": [
+        "Business Strategy",
+        "KPIs",
+        "Metrics",
+        "ROI",
+        "Implementation Phase",
+        "Optimization Phase"
+      ],
+      "forbiddenTerminology": [
+        "Synergy",
+        "Leverage",
+        "Paradigm",
+        "Strategic alignment",
+        "Business value",
+        "Stakeholder engagement"
       ]
     }
   }
