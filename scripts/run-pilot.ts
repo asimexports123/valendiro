@@ -22,6 +22,7 @@ interface PilotOptions {
   dryRun: boolean;
   limit?: number;
   slug?: string;
+  skipMigration?: boolean; // Phase 31A: Skip migration if already done
 }
 
 interface PilotResult {
@@ -51,11 +52,28 @@ async function runPilot(options: PilotOptions): Promise<PilotResult[]> {
   const dryRun = options.dryRun;
   const limit = options.limit || 10;
   const specificSlug = options.slug;
+  const skipMigration = options.skipMigration || false;
 
   console.log(`\n${dryRun ? "DRY RUN MODE" : "PRODUCTION MODE"}`);
   console.log(`Limit: ${limit}`);
   if (specificSlug) console.log(`Specific slug: ${specificSlug}`);
+  console.log(`Skip Migration: ${skipMigration}`);
   console.log("=".repeat(50));
+
+  // Phase 31A: Migration Stage (runs only once if not skipped)
+  if (!skipMigration) {
+    console.log("\n" + "=".repeat(50));
+    console.log("PHASE 31A: LEGACY PACKAGE MIGRATION");
+    console.log("=".repeat(50));
+    console.log("Migrating legacy packages to Phase 30 structured schema...");
+    console.log("Legacy Package → Migration → Structured Package → Validation → Authoring\n");
+    
+    // Import and run migration
+    const { migrateLegacyPackages } = await import("./migrate-legacy-packages");
+    const migrationResults = await migrateLegacyPackages();
+    
+    console.log("\nMigration Complete. Proceeding with pilot...\n");
+  }
 
   // Phase 31.4: Validation Gates
   const dataProcessor = new DataProcessor({
@@ -278,6 +296,7 @@ async function main() {
   const limit = limitIndex !== -1 ? parseInt(args[limitIndex + 1]) : undefined;
   const slugIndex = args.indexOf("--slug");
   const slug = slugIndex !== -1 ? args[slugIndex + 1] : undefined;
+  const skipMigration = args.includes("--skip-migration");
 
   if (!dryRun) {
     console.log("⚠️  WARNING: Running in PRODUCTION mode");
@@ -289,6 +308,7 @@ async function main() {
     dryRun,
     limit,
     slug,
+    skipMigration,
   });
 
   console.log("\n" + "=".repeat(50));
