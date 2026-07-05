@@ -1,0 +1,1665 @@
+{
+  "batch": 1,
+  "timestamp": "2026-07-05T15:40:50.075Z",
+  "articlesSelected": 30,
+  "articlesPassed": 0,
+  "articlesFailed": 30,
+  "averageCompliance": 0,
+  "averageSMEScore": 0,
+  "results": [
+    {
+      "topicId": "74cf3eae-4820-4381-8d93-cb4a4389a1ad",
+      "slug": "kubernetes-basics",
+      "category": "Technology",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 47,
+          "violations": [
+            "Missing required section: Framework Overview",
+            "Missing required section: Prerequisites",
+            "Missing required section: Installation",
+            "Missing required section: Setup",
+            "Missing required section: Core Concepts",
+            "Entity rule violation: Must include code blocks",
+            "Entity rule violation: Must include installation steps",
+            "Entity rule violation: Must include configuration examples"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 462,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Framework Tutorial",
+          "expectedFamily": "Framework Tutorial"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 43
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 59,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "50fbc394-1682-4425-b547-8868cc7c8906",
+      "slug": "ai-in-practice",
+      "category": "Technology",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 40,
+          "violations": [
+            "Missing required section: Framework Overview",
+            "Missing required section: Prerequisites",
+            "Missing required section: Installation",
+            "Missing required section: Setup",
+            "Missing required section: Core Concepts",
+            "Contains forbidden section: Storage",
+            "Entity rule violation: Must include code blocks",
+            "Entity rule violation: Must include installation steps",
+            "Entity rule violation: Must include configuration examples"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 498,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Framework Tutorial",
+          "expectedFamily": "Framework Tutorial"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 47
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 56,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "b61d60aa-e87c-49a1-828d-6e1aa8bb53fb",
+      "slug": "funnel-optimization",
+      "category": "Technology",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 50,
+          "violations": [
+            "Missing required section: Performance Overview",
+            "Missing required section: Bottlenecks",
+            "Missing required section: Optimization Techniques",
+            "Missing required section: Monitoring",
+            "Entity rule violation: Must include bottleneck analysis",
+            "Entity rule violation: Must include optimization techniques",
+            "Entity rule violation: Must include monitoring strategies"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 271,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Performance",
+          "expectedFamily": "Performance"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 17
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 60,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "d48f8b35-f460-4b31-9712-0d3890f5202d",
+      "slug": "data-structures",
+      "category": "Technology",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 47,
+          "violations": [
+            "Missing required section: Framework Overview",
+            "Missing required section: Prerequisites",
+            "Missing required section: Installation",
+            "Missing required section: Setup",
+            "Missing required section: Core Concepts",
+            "Entity rule violation: Must include code blocks",
+            "Entity rule violation: Must include installation steps",
+            "Entity rule violation: Must include configuration examples"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 279,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Framework Tutorial",
+          "expectedFamily": "Framework Tutorial"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 32
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 59,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "151aa03e-b9b6-4617-8fb7-c2a64b231ad4",
+      "slug": "preventive-care",
+      "category": "Technology",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 40,
+          "violations": [
+            "Missing required section: Framework Overview",
+            "Missing required section: Prerequisites",
+            "Missing required section: Installation",
+            "Missing required section: Setup",
+            "Missing required section: Core Concepts",
+            "Contains forbidden section: Storage",
+            "Entity rule violation: Must include code blocks",
+            "Entity rule violation: Must include installation steps",
+            "Entity rule violation: Must include configuration examples"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 475,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Framework Tutorial",
+          "expectedFamily": "Framework Tutorial"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 47
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 56,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "9be9c5bd-ef5a-4de7-9913-f1e57e48eddb",
+      "slug": "insurance-fundamentals",
+      "category": "Personal Finance",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 15,
+          "violations": [
+            "Missing required section: Insurance Overview",
+            "Missing required section: Coverage Types",
+            "Missing required section: Policy Details",
+            "Missing required section: Cost Factors",
+            "Missing required section: Claims Process",
+            "Missing required section: Comparison",
+            "Contains forbidden section: Architecture",
+            "Contains forbidden section: Deployment",
+            "Entity rule violation: Must include coverage types",
+            "Entity rule violation: Must include policy details",
+            "Entity rule violation: Must include claims process"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 367,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Insurance",
+          "expectedFamily": "Insurance"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 38
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 46,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "ba90aca1-36ee-40e0-8a7b-0d03361ef250",
+      "slug": "investing-basics",
+      "category": "Personal Finance",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 38,
+          "violations": [
+            "Missing required section: Investment Overview",
+            "Missing required section: Investment Types",
+            "Missing required section: Risk Assessment",
+            "Missing required section: Portfolio Strategy",
+            "Missing required section: Monitoring",
+            "Entity rule violation: Must include investment types",
+            "Entity rule violation: Must include risk assessment",
+            "Entity rule violation: Must include portfolio strategy"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 108,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Investing",
+          "expectedFamily": "Investing"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 21
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 55,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "a6744acd-233b-4530-9d09-e2611b92abd4",
+      "slug": "retirement-planning",
+      "category": "Personal Finance",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 15,
+          "violations": [
+            "Missing required section: Retirement Overview",
+            "Missing required section: Retirement Accounts",
+            "Missing required section: Savings Goals",
+            "Missing required section: Investment Strategy",
+            "Missing required section: Social Security",
+            "Missing required section: Planning Timeline",
+            "Contains forbidden section: Architecture",
+            "Contains forbidden section: Deployment",
+            "Entity rule violation: Must include retirement accounts",
+            "Entity rule violation: Must include savings goals",
+            "Entity rule violation: Must include planning timeline"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 112,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Retirement",
+          "expectedFamily": "Retirement"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 23
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 46,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "04156575-31f1-4736-bbba-26dc43c85c8c",
+      "slug": "life-insurance",
+      "category": "Personal Finance",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 38,
+          "violations": [
+            "Missing required section: Insurance Overview",
+            "Missing required section: Coverage Types",
+            "Missing required section: Policy Details",
+            "Missing required section: Cost Factors",
+            "Missing required section: Claims Process",
+            "Entity rule violation: Must include coverage types",
+            "Entity rule violation: Must include policy details",
+            "Entity rule violation: Must include claims process"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Insurance",
+          "expectedFamily": "Insurance"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 60,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "4e1ad52b-1523-413e-a1df-162fd870d617",
+      "slug": "insurance-basics",
+      "category": "Personal Finance",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 31,
+          "violations": [
+            "Missing required section: Insurance Overview",
+            "Missing required section: Coverage Types",
+            "Missing required section: Policy Details",
+            "Missing required section: Cost Factors",
+            "Missing required section: Claims Process",
+            "Missing required section: Comparison",
+            "Entity rule violation: Must include coverage types",
+            "Entity rule violation: Must include policy details",
+            "Entity rule violation: Must include claims process"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 143,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Insurance",
+          "expectedFamily": "Insurance"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 12
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 52,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "3c49f789-b22b-438f-88b7-8f10c32fbca1",
+      "slug": "analytics-for-marketing",
+      "category": "Business",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 54,
+          "violations": [
+            "Missing required section: Strategy Overview",
+            "Missing required section: Target Audience",
+            "Missing required section: Channels",
+            "Missing required section: Content Strategy",
+            "Entity rule violation: Must include target audience",
+            "Entity rule violation: Must include channel strategy"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 298,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Marketing Strategy",
+          "expectedFamily": "Marketing Strategy"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 19
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 62,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "02c339a5-7925-473c-8405-78b6029fee12",
+      "slug": "sales-leadership",
+      "category": "Business",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 77,
+          "violations": [
+            "Missing required section: Sales Overview",
+            "Missing required section: Sales Process",
+            "Entity rule violation: Must include sales process"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Sales",
+          "expectedFamily": "Sales"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 76,
+          "passed": true
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "7988aba9-4e14-4b90-9033-27b559ebe622",
+      "slug": "crm-and-sales-tools",
+      "category": "Business",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 77,
+          "violations": [
+            "Missing required section: Sales Overview",
+            "Missing required section: Sales Process",
+            "Entity rule violation: Must include sales process"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 787,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Sales",
+          "expectedFamily": "Sales"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 76,
+          "passed": true
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "7fdfd3d6-8110-4889-ac87-2e560e386bb2",
+      "slug": "startup-operations-and-growth",
+      "category": "Business",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 69,
+          "violations": [
+            "Missing required section: Operations Overview",
+            "Missing required section: Processes",
+            "Entity rule violation: Must include process descriptions",
+            "Entity rule violation: Must include efficiency strategies"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 787,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Operations",
+          "expectedFamily": "Operations"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 73,
+          "passed": true
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "23821da0-485b-4840-8df7-5a127e02c124",
+      "slug": "content-marketing",
+      "category": "Business",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 15,
+          "violations": [
+            "Missing required section: Strategy Overview",
+            "Missing required section: Target Audience",
+            "Missing required section: Channels",
+            "Missing required section: Content Strategy",
+            "Missing required section: Metrics",
+            "Missing required section: Implementation",
+            "Contains forbidden section: Architecture",
+            "Contains forbidden section: Deployment",
+            "Entity rule violation: Must include target audience",
+            "Entity rule violation: Must include channel strategy",
+            "Entity rule violation: Must include metrics"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 112,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Marketing Strategy",
+          "expectedFamily": "Marketing Strategy"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 23
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 46,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "a15a8586-7fff-4e82-b9fa-7b8f78fde092",
+      "slug": "software-testing",
+      "category": "Education",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 31,
+          "violations": [
+            "Missing required section: Exam Overview",
+            "Missing required section: Exam Format",
+            "Missing required section: Study Materials",
+            "Missing required section: Practice Tests",
+            "Missing required section: Test-Taking Strategies",
+            "Missing required section: Day of Exam",
+            "Entity rule violation: Must include exam format",
+            "Entity rule violation: Must include study materials",
+            "Entity rule violation: Must include practice tests"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Exam Preparation",
+          "expectedFamily": "Exam Preparation"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 57,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "318308e5-6ac8-4210-9428-f861fbb73aba",
+      "slug": "machine-learning-fundamentals",
+      "category": "Education",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 23,
+          "violations": [
+            "Missing required section: Learning Overview",
+            "Missing required section: Learning Objectives",
+            "Missing required section: Resources",
+            "Missing required section: Study Plan",
+            "Missing required section: Assessment",
+            "Contains forbidden section: Architecture",
+            "Contains forbidden section: Deployment",
+            "Entity rule violation: Must include learning objectives",
+            "Entity rule violation: Must include resources",
+            "Entity rule violation: Must include study plan"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 113,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Learning Guide",
+          "expectedFamily": "Learning Guide"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 23
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 49,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "721472c6-dd22-4842-b1ac-b0f834f3f0f8",
+      "slug": "career-planning",
+      "category": "Education",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 38,
+          "violations": [
+            "Missing required section: Career Overview",
+            "Missing required section: Skills Required",
+            "Missing required section: Career Path",
+            "Missing required section: Job Market",
+            "Missing required section: Tips",
+            "Entity rule violation: Must include skills required",
+            "Entity rule violation: Must include education requirements",
+            "Entity rule violation: Must include career path"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Career Guide",
+          "expectedFamily": "Career Guide"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 60,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "c5688be3-3f4e-4c8c-9d72-63d3c0a43f9d",
+      "slug": "neural-networks-and-deep-learning",
+      "category": "Education",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 62,
+          "violations": [
+            "Missing required section: Learning Overview",
+            "Missing required section: Learning Objectives",
+            "Missing required section: Study Plan",
+            "Entity rule violation: Must include learning objectives",
+            "Entity rule violation: Must include study plan"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 798,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Learning Guide",
+          "expectedFamily": "Learning Guide"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 70,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "0c483af8-2622-444d-95f3-d07aed5bb3de",
+      "slug": "certifications-and-credentials",
+      "category": "Education",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 62,
+          "violations": [
+            "Missing required section: Certification Overview",
+            "Missing required section: Exam Details",
+            "Missing required section: Study Resources",
+            "Entity rule violation: Must include exam details",
+            "Entity rule violation: Must include study resources"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 776,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Certification",
+          "expectedFamily": "Certification"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 70,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "e834995e-0643-4092-a1da-277720cae02a",
+      "slug": "iot-fundamentals",
+      "category": "Health & Wellness",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 47,
+          "violations": [
+            "Missing required section: Wellness Overview",
+            "Missing required section: Mental Health",
+            "Missing required section: Stress Management",
+            "Missing required section: Self-Care",
+            "Missing required section: When to Seek Help",
+            "Entity rule violation: Must include mental health concepts",
+            "Entity rule violation: Must include stress management",
+            "Entity rule violation: Must include self-care strategies"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Mental Health",
+          "expectedFamily": "Mental Health"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 64,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "6ffa2eec-0f13-4f9e-a881-5c702d310e16",
+      "slug": "fitness-fundamentals",
+      "category": "Health & Wellness",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 47,
+          "violations": [
+            "Missing required section: Wellness Overview",
+            "Missing required section: Mental Health",
+            "Missing required section: Stress Management",
+            "Missing required section: Self-Care",
+            "Missing required section: When to Seek Help",
+            "Entity rule violation: Must include mental health concepts",
+            "Entity rule violation: Must include stress management",
+            "Entity rule violation: Must include self-care strategies"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Mental Health",
+          "expectedFamily": "Mental Health"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 64,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "9a8103d3-49e0-4311-8b6e-63c78e15588f",
+      "slug": "mental-health-awareness",
+      "category": "Health & Wellness",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 33,
+          "violations": [
+            "Missing required section: Wellness Overview",
+            "Missing required section: Stress Management",
+            "Missing required section: Self-Care",
+            "Missing required section: Resources",
+            "Missing required section: When to Seek Help",
+            "Contains forbidden section: Architecture",
+            "Contains forbidden section: Deployment",
+            "Entity rule violation: Must include mental health concepts",
+            "Entity rule violation: Must include stress management",
+            "Entity rule violation: Must include self-care strategies"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 386,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Mental Health",
+          "expectedFamily": "Mental Health"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 38
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 53,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "af10a450-5a17-4071-a4c6-a34b9a2453d2",
+      "slug": "mortgage-fundamentals",
+      "category": "Health & Wellness",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 27,
+          "violations": [
+            "Missing required section: Wellness Overview",
+            "Missing required section: Mental Health",
+            "Missing required section: Stress Management",
+            "Missing required section: Self-Care",
+            "Missing required section: Resources",
+            "Missing required section: When to Seek Help",
+            "Contains forbidden section: Architecture",
+            "Contains forbidden section: Deployment",
+            "Entity rule violation: Must include mental health concepts",
+            "Entity rule violation: Must include stress management",
+            "Entity rule violation: Must include self-care strategies"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 112,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Mental Health",
+          "expectedFamily": "Mental Health"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 23
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 51,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "74dc1417-8cec-4a12-b2fd-22df319f5efc",
+      "slug": "cryptocurrency-fundamentals",
+      "category": "Health & Wellness",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 47,
+          "violations": [
+            "Missing required section: Wellness Overview",
+            "Missing required section: Mental Health",
+            "Missing required section: Stress Management",
+            "Missing required section: Self-Care",
+            "Missing required section: When to Seek Help",
+            "Entity rule violation: Must include mental health concepts",
+            "Entity rule violation: Must include stress management",
+            "Entity rule violation: Must include self-care strategies"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Mental Health",
+          "expectedFamily": "Mental Health"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 64,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "d9c2498b-500d-4dbc-b459-3aed6fe19eba",
+      "slug": "kitchen-equipment",
+      "category": "Home & Lifestyle",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 53,
+          "violations": [
+            "Missing required section: Equipment Overview",
+            "Missing required section: Types",
+            "Missing required section: Selection Guide",
+            "Missing required section: Usage",
+            "Entity rule violation: Must include equipment types",
+            "Entity rule violation: Must include selection guide",
+            "Entity rule violation: Must include usage instructions"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 765,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Kitchen Equipment",
+          "expectedFamily": "Kitchen Equipment"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 30
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": true,
+          "score": 25,
+          "referenceCount": 1
+        },
+        "smeScore": {
+          "score": 66,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "14967dc9-a4cb-4c22-980c-dfbce82ac4ce",
+      "slug": "azure-storage",
+      "category": "Home & Lifestyle",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 47,
+          "violations": [
+            "Missing required section: Storage Overview",
+            "Missing required section: Food Storage",
+            "Missing required section: Container Types",
+            "Missing required section: Temperature",
+            "Missing required section: Duration",
+            "Entity rule violation: Must include food storage methods",
+            "Entity rule violation: Must include container types",
+            "Entity rule violation: Must include temperature guidelines"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 263,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Storage",
+          "expectedFamily": "Storage"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 13
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 59,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "c8682f4d-7b2d-4e8d-a246-37133973353b",
+      "slug": "travel-planning",
+      "category": "Home & Lifestyle",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 35,
+          "violations": [
+            "Missing required section: Travel Overview",
+            "Missing required section: Destination",
+            "Missing required section: Budget",
+            "Missing required section: Itinerary",
+            "Missing required section: Accommodation",
+            "Missing required section: Transportation",
+            "Missing required section: Packing",
+            "Missing required section: Safety",
+            "Entity rule violation: Must include destination details",
+            "Entity rule violation: Must include budget breakdown",
+            "Entity rule violation: Must include itinerary"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 282,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Travel Planning",
+          "expectedFamily": "Travel Planning"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 20
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 54,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "9e38f2b6-4236-4d05-943a-93563f871a08",
+      "slug": "gardening-basics",
+      "category": "Home & Lifestyle",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 40,
+          "violations": [
+            "Missing required section: Gardening Overview",
+            "Missing required section: Plants",
+            "Missing required section: Soil",
+            "Missing required section: Watering",
+            "Missing required section: Maintenance",
+            "Missing required section: Seasonal Tips",
+            "Entity rule violation: Must include plant types",
+            "Entity rule violation: Must include soil requirements",
+            "Entity rule violation: Must include watering schedule"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 271,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Gardening",
+          "expectedFamily": "Gardening"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 17
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 56,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    },
+    {
+      "topicId": "a56ad762-8bdc-4d31-b114-ffec1237b20d",
+      "slug": "meal-planning",
+      "category": "Home & Lifestyle",
+      "validations": {
+        "blueprintCompliance": {
+          "passed": false,
+          "score": 37,
+          "violations": [
+            "Missing required section: Goals",
+            "Missing required section: Nutrition Objectives",
+            "Missing required section: Weekly Calendar",
+            "Missing required section: Shopping List",
+            "Missing required section: Meal Prep Schedule",
+            "Missing required section: Storage",
+            "Missing required section: Budget",
+            "Missing required section: Time Saving Tips",
+            "Missing required section: Checklist",
+            "Entity rule violation: Must include goals",
+            "Entity rule violation: Must include weekly calendar",
+            "Entity rule violation: Must include shopping list"
+          ]
+        },
+        "editorialIdentity": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 263,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "keywordFamilyMatch": {
+          "passed": true,
+          "score": 100,
+          "detectedFamily": "Meal Planning",
+          "expectedFamily": "Meal Planning"
+        },
+        "entityCoverage": {
+          "passed": true,
+          "score": 100,
+          "entityCount": 13
+        },
+        "internalLinks": {
+          "passed": false,
+          "score": 0,
+          "linkCount": 0
+        },
+        "referenceQuality": {
+          "passed": false,
+          "score": 0,
+          "referenceCount": 0
+        },
+        "smeScore": {
+          "score": 55,
+          "passed": false
+        }
+      },
+      "allPassed": false,
+      "migrated": false
+    }
+  ]
+}
