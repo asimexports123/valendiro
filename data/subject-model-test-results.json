@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-05T16:19:06.384Z",
+  "timestamp": "2026-07-05T16:25:06.881Z",
   "subjects": {
     "gardening": {
       "subject": "gardening",
@@ -1488,11 +1488,1003 @@
       "averageScore": 100,
       "passedCount": 20,
       "failedCount": 0
+    },
+    "business": {
+      "subject": "business",
+      "articles": [
+        {
+          "slug": "business-model-canvas",
+          "title": "Business Model Canvas",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "market-research-basics",
+          "title": "Market Research Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "competitive-analysis",
+          "title": "Competitive Analysis",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "customer-acquisition-strategy",
+          "title": "Customer Acquisition Strategy",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "pricing-strategy-guide",
+          "title": "Pricing Strategy Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "startup-funding-options",
+          "title": "Startup Funding Options",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "business-plan-template",
+          "title": "Business Plan Template",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "marketing-fundamentals",
+          "title": "Marketing Fundamentals",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "sales-process-steps",
+          "title": "Sales Process Steps",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "customer-retention-strategies",
+          "title": "Customer Retention Strategies",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "kpi-tracking-guide",
+          "title": "KPI Tracking Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "lean-startup-methodology",
+          "title": "Lean Startup Methodology",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "product-market-fit",
+          "title": "Product Market Fit",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "business-scaling-strategies",
+          "title": "Business Scaling Strategies",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "brand-building-guide",
+          "title": "Brand Building Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "operational-efficiency",
+          "title": "Operational Efficiency",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cash-flow-management",
+          "title": "Cash Flow Management",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "team-hiring-strategy",
+          "title": "Team Hiring Strategy",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "digital-marketing-guide",
+          "title": "Digital Marketing Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "business-growth-hacking",
+          "title": "Business Growth Hacking",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "health-wellness": {
+      "subject": "health-wellness",
+      "articles": [
+        {
+          "slug": "strength-training-basics",
+          "title": "Strength Training Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cardio-workout-guide",
+          "title": "Cardio Workout Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "nutrition-basics",
+          "title": "Nutrition Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "sleep-hygiene-tips",
+          "title": "Sleep Hygiene Tips",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "stress-management-techniques",
+          "title": "Stress Management Techniques",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "weight-loss-guide",
+          "title": "Weight Loss Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "muscle-building-program",
+          "title": "Muscle Building Program",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "flexibility-training",
+          "title": "Flexibility Training",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "meditation-for-beginners",
+          "title": "Meditation for Beginners",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "healthy-meal-planning",
+          "title": "Healthy Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "workout-schedule",
+          "title": "Workout Schedule",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "recovery-methods",
+          "title": "Recovery Methods",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "mental-health-awareness",
+          "title": "Mental Health Awareness",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "intermittent-fasting-guide",
+          "title": "Intermittent Fasting Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "yoga-for-beginners",
+          "title": "Yoga for Beginners",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "hydration-importance",
+          "title": "Hydration Importance",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "supplement-guide",
+          "title": "Supplement Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "fitness-tracking",
+          "title": "Fitness Tracking",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "habit-formation",
+          "title": "Habit Formation",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "wellness-routine",
+          "title": "Wellness Routine",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "education": {
+      "subject": "education",
+      "articles": [
+        {
+          "slug": "effective-study-habits",
+          "title": "Effective Study Habits",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "online-learning-guide",
+          "title": "Online Learning Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "note-taking-methods",
+          "title": "Note Taking Methods",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "exam-preparation-tips",
+          "title": "Exam Preparation Tips",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "time-management-students",
+          "title": "Time Management Students",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "memory-improvement-techniques",
+          "title": "Memory Improvement Techniques",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "learning-styles",
+          "title": "Learning Styles",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "critical-thinking-skills",
+          "title": "Critical Thinking Skills",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "research-methods",
+          "title": "Research Methods",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "presentation-skills",
+          "title": "Presentation Skills",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "group-work-strategies",
+          "title": "Group Work Strategies",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "academic-writing-guide",
+          "title": "Academic Writing Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "reading-comprehension",
+          "title": "Reading Comprehension",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "motivation-for-learning",
+          "title": "Motivation for Learning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "curriculum-planning",
+          "title": "Curriculum Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "educational-technology",
+          "title": "Educational Technology",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "adult-learning-principles",
+          "title": "Adult Learning Principles",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "teaching-strategies",
+          "title": "Teaching Strategies",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "assessment-methods",
+          "title": "Assessment Methods",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "lifelong-learning-guide",
+          "title": "Lifelong Learning Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "travel": {
+      "subject": "travel",
+      "articles": [
+        {
+          "slug": "travel-planning-guide",
+          "title": "Travel Planning Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "budget-travel-tips",
+          "title": "Budget Travel Tips",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "packing-list-essentials",
+          "title": "Packing List Essentials",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "flight-booking-tips",
+          "title": "Flight Booking Tips",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "accommodation-guide",
+          "title": "Accommodation Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "solo-travel-safety",
+          "title": "Solo Travel Safety",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "international-travel-documents",
+          "title": "International Travel Documents",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "travel-insurance-guide",
+          "title": "Travel Insurance Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "backpacking-guide",
+          "title": "Backpacking Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cultural-etiquette-travel",
+          "title": "Cultural Etiquette Travel",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "travel-photography-tips",
+          "title": "Travel Photography Tips",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "sustainable-travel",
+          "title": "Sustainable Travel",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "travel-itinerary-planning",
+          "title": "Travel Itinerary Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "travel-hacking-guide",
+          "title": "Travel Hacking Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cruise-travel-guide",
+          "title": "Cruise Travel Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "adventure-travel-tips",
+          "title": "Adventure Travel Tips",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "travel-budget-calculator",
+          "title": "Travel Budget Calculator",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "local-experience-guide",
+          "title": "Local Experience Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "travel-health-preparation",
+          "title": "Travel Health Preparation",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "digital-nomad-guide",
+          "title": "Digital Nomad Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
     }
   },
   "summary": {
-    "totalArticles": 120,
-    "passedArticles": 120,
+    "totalArticles": 200,
+    "passedArticles": 200,
     "failedArticles": 0,
     "averageScore": 100,
     "expertValidationScore": 100

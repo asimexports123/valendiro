@@ -199,7 +199,7 @@
     },
     "meal-planning": {
       "name": "Meal Planning",
-      "category": "Food & Nutrition",
+      "category": "Home & Lifestyle",
       "detectionRules": [
         "slug contains: meal, plan, weekly, menu, prep, grocery, shopping, budget, nutrition, diet, cooking",
         "title contains: meal, plan, weekly, menu, prep, grocery, shopping, budget, nutrition, diet, cooking"
@@ -387,7 +387,7 @@
     },
     "recipes": {
       "name": "Recipes",
-      "category": "Food & Cooking",
+      "category": "Home & Lifestyle",
       "detectionRules": [
         "slug contains: recipe, cook, dish, ingredient, method, technique, cuisine, baking, cooking",
         "title contains: recipe, cook, dish, ingredient, method, technique, cuisine, baking, cooking"
@@ -759,7 +759,7 @@
     },
     "finance": {
       "name": "Finance",
-      "category": "Business",
+      "category": "Personal Finance",
       "detectionRules": [
         "slug contains: finance, money, investment, budget, saving, debt, credit, tax, retirement, insurance, banking",
         "title contains: finance, money, investment, budget, saving, debt, credit, tax, retirement, insurance, banking"
@@ -1130,6 +1130,743 @@
         "Data Engineering",
         "Machine Learning",
         "Architecture"
+      ]
+    },
+    "business": {
+      "name": "Business",
+      "category": "Business",
+      "detectionRules": [
+        "slug contains: business, marketing, sales, strategy, management, entrepreneurship, startup, leadership, operations, growth",
+        "title contains: business, marketing, sales, strategy, management, entrepreneurship, startup, leadership, operations, growth"
+      ],
+      "coreConcepts": [
+        "Value Proposition",
+        "Market Segmentation",
+        "Competitive Advantage",
+        "Business Model",
+        "Revenue Streams",
+        "Customer Acquisition",
+        "Customer Retention",
+        "Operational Efficiency",
+        "Scalability",
+        "Profitability"
+      ],
+      "coreVocabulary": [
+        "ROI",
+        "KPI",
+        "CAC",
+        "LTV",
+        "Churn",
+        "MRR",
+        "ARR",
+        "Burn Rate",
+        "Runway",
+        "Margin",
+        "Conversion Rate",
+        "Funnel",
+        "Pipeline",
+        "Equity"
+      ],
+      "requiredEntities": [
+        "Business Models (Subscription, Freemium, Marketplace, SaaS)",
+        "Customer Segments (B2B, B2C, Enterprise, SMB)",
+        "Marketing Channels (SEO, PPC, Social, Email, Content)",
+        "Sales Processes (Lead Generation, Qualification, Closing, Retention)",
+        "Financial Metrics (Revenue, Expenses, Profit, Cash Flow)",
+        "Organizational Structures (Flat, Hierarchical, Matrix)",
+        "Product Types (Physical, Digital, Service, Platform)",
+        "Growth Strategies (Organic, Paid, Partnership, Acquisition)",
+        "Competitive Analysis (Direct, Indirect, Substitute)",
+        "Legal Entities (LLC, Corporation, Partnership, Sole Proprietorship)"
+      ],
+      "mentalModels": [
+        "The Flywheel Effect - Momentum builds through repeated cycles",
+        "Product-Market Fit - Alignment between product and customer needs",
+        "Network Effects - Value increases as more users join",
+        "Economies of Scale - Costs decrease as production increases",
+        "First-Mover Advantage vs. Fast Follower - Timing market entry",
+        "The Innovator's Dilemma - Balancing existing and new markets",
+        "Blue Ocean Strategy - Creating uncontested market space",
+        "The Pareto Principle - 80% of results from 20% of efforts"
+      ],
+      "typicalWorkflows": [
+        "Market Research - Identify opportunities, analyze competitors, understand customers",
+        "Business Planning - Define strategy, set goals, create roadmap",
+        "Product Development - Build, test, iterate based on feedback",
+        "Marketing Execution - Acquire customers, build brand, generate leads",
+        "Sales Process - Qualify leads, present solutions, close deals",
+        "Operations Management - Optimize processes, manage resources, ensure quality",
+        "Financial Management - Track metrics, manage cash flow, plan growth",
+        "Team Building - Hire, train, retain talent"
+      ],
+      "requiredSkills": [
+        "Strategic Planning",
+        "Financial Analysis",
+        "Marketing Strategy",
+        "Sales Techniques",
+        "Leadership",
+        "Project Management",
+        "Data Analysis",
+        "Communication",
+        "Negotiation",
+        "Problem Solving"
+      ],
+      "requiredDecisions": [
+        "Business Model Selection - How to generate revenue",
+        "Target Market - Which customers to serve",
+        "Pricing Strategy - How much to charge",
+        "Go-to-Market Strategy - How to reach customers",
+        "Product Strategy - What to build and when",
+        "Hiring Strategy - Who to hire and when",
+        "Funding Strategy - Bootstrapping vs. external funding",
+        "Growth Strategy - How to scale the business"
+      ],
+      "commonMistakes": [
+        "Not Validating Market Need Before Building",
+        "Trying to Serve Too Many Customer Segments",
+        "Underpricing Products",
+        "Ignoring Unit Economics",
+        "Over-hiring Before Product-Market Fit",
+        "Not Tracking Key Metrics",
+        "Ignoring Customer Feedback",
+        "Focusing on Features Instead of Benefits",
+        "Not Building a Sustainable Competitive Advantage",
+        "Running Out of Cash"
+      ],
+      "advancedTopics": [
+        "Business Model Innovation",
+        "Mergers and Acquisitions",
+        "International Expansion",
+        "Corporate Strategy",
+        "Organizational Design",
+        "Change Management",
+        "Crisis Management",
+        "Corporate Governance",
+        "Strategic Alliances",
+        "Exit Strategies"
+      ],
+      "tools": [
+        "Analytics Tools (Google Analytics, Mixpanel, Amplitude)",
+        "CRM (Salesforce, HubSpot, Pipedrive)",
+        "Project Management (Asana, Trello, Jira)",
+        "Financial Tools (QuickBooks, Xero, Excel)",
+        "Marketing Tools (Mailchimp, HubSpot, Buffer)",
+        "Communication Tools (Slack, Zoom, Teams)",
+        "Documentation Tools (Notion, Confluence, Google Docs)"
+      ],
+      "measurements": [
+        "Revenue (MRR, ARR, Total Revenue)",
+        "Customer Metrics (CAC, LTV, Churn Rate)",
+        "Growth Metrics (MoM Growth, YoY Growth)",
+        "Efficiency Metrics (Burn Rate, Runway, Cash Flow)",
+        "Marketing Metrics (Conversion Rate, CTR, CPA)",
+        "Sales Metrics (Pipeline Velocity, Win Rate, Deal Size)",
+        "Product Metrics (Active Users, Engagement, Retention)",
+        "Financial Metrics (Gross Margin, Net Margin, EBITDA)"
+      ],
+      "processes": [
+        "Strategic Planning Process",
+        "Product Development Process",
+        "Marketing Campaign Process",
+        "Sales Process",
+        "Hiring Process",
+        "Financial Planning Process",
+        "Performance Review Process",
+        "Budgeting Process"
+      ],
+      "standards": [
+        "GAAP",
+        "Sarbanes-Oxley Act",
+        "GDPR",
+        "CCPA",
+        "Industry-Specific Regulations",
+        "Corporate Governance Standards",
+        "Ethical Business Practices"
+      ],
+      "bestPractices": [
+        "Validate assumptions before investing heavily",
+        "Focus on customer needs, not features",
+        "Track and act on key metrics",
+        "Build a strong company culture",
+        "Hire for cultural fit and potential",
+        "Maintain cash runway",
+        "Listen to customer feedback",
+        "Build sustainable competitive advantages",
+        "Communicate clearly and regularly",
+        "Balance short-term and long-term goals"
+      ],
+      "frequentlyAskedQuestions": [
+        "How do I validate my business idea?",
+        "What's the best business model for my product?",
+        "How do I find my target market?",
+        "How much should I charge for my product?",
+        "How do I acquire my first customers?",
+        "When should I hire my first employee?",
+        "How do I raise funding for my business?",
+        "What metrics should I track?",
+        "How do I scale my business?",
+        "What's the difference between a startup and small business?"
+      ],
+      "relatedSubjects": [
+        "Economics",
+        "Marketing",
+        "Finance",
+        "Management",
+        "Psychology",
+        "Law",
+        "Technology",
+        "Sociology"
+      ]
+    },
+    "health-wellness": {
+      "name": "Health & Wellness",
+      "category": "Health & Wellness",
+      "detectionRules": [
+        "slug contains: health, wellness, fitness, exercise, nutrition, mental, sleep, stress, meditation, yoga, workout",
+        "title contains: health, wellness, fitness, exercise, nutrition, mental, sleep, stress, meditation, yoga, workout"
+      ],
+      "coreConcepts": [
+        "Holistic Health",
+        "Preventive Care",
+        "Lifestyle Medicine",
+        "Mind-Body Connection",
+        "Nutritional Balance",
+        "Physical Activity",
+        "Sleep Hygiene",
+        "Stress Management",
+        "Mental Well-being",
+        "Sustainable Habits"
+      ],
+      "coreVocabulary": [
+        "BMI",
+        "BMR",
+        "Cardio",
+        "Resistance Training",
+        "Macros",
+        "Micronutrients",
+        "Cortisol",
+        "Serotonin",
+        "Circadian Rhythm",
+        "Metabolism",
+        "Inflammation",
+        "Antioxidants",
+        "Mindfulness",
+        "Recovery"
+      ],
+      "requiredEntities": [
+        "Nutrients (Proteins, Carbohydrates, Fats, Vitamins, Minerals)",
+        "Exercise Types (Cardio, Strength, Flexibility, Balance)",
+        "Mental Health Practices (Meditation, Therapy, Journaling)",
+        "Sleep Stages (REM, Deep, Light)",
+        "Body Systems (Cardiovascular, Respiratory, Digestive, Nervous)",
+        "Fitness Metrics (Heart Rate, Blood Pressure, Body Composition)",
+        "Dietary Patterns (Mediterranean, Keto, Vegan, Paleo)",
+        "Wellness Practices (Yoga, Pilates, Tai Chi)",
+        "Health Screenings (Blood tests, Physical exams)",
+        "Recovery Methods (Stretching, Massage, Rest days)"
+      ],
+      "mentalModels": [
+        "The Stress-Disease Connection - Chronic stress impacts physical health",
+        "The 80/20 Rule for Nutrition - Consistency over perfection",
+        "Progressive Overload - Gradually increasing intensity for adaptation",
+        "The Sleep-Recovery Cycle - Quality sleep enables physical and mental recovery",
+        "The Mind-Gut Axis - Digestive health affects mental well-being",
+        "Habit Formation - Small, consistent changes lead to lasting results",
+        "The Inflammation Model - Systemic inflammation underlies many chronic conditions",
+        "Bio-individuality - What works varies from person to person"
+      ],
+      "typicalWorkflows": [
+        "Health Assessment - Evaluate current health status, identify goals",
+        "Goal Setting - Define specific, measurable health objectives",
+        "Planning - Create nutrition, exercise, and wellness plans",
+        "Implementation - Execute plans, track progress, adjust as needed",
+        "Monitoring - Measure progress through metrics and self-assessment",
+        "Recovery - Prioritize sleep, rest, and recovery activities",
+        "Maintenance - Sustain healthy habits long-term",
+        "Optimization - Fine-tune routines based on results"
+      ],
+      "requiredSkills": [
+        "Nutritional Knowledge",
+        "Exercise Technique",
+        "Stress Management",
+        "Sleep Hygiene",
+        "Goal Setting",
+        "Self-Monitoring",
+        "Meal Planning",
+        "Time Management",
+        "Body Awareness",
+        "Motivation and Discipline"
+      ],
+      "requiredDecisions": [
+        "Exercise Selection - What types of exercise to include",
+        "Nutrition Approach - Dietary pattern to follow",
+        "Training Frequency - How often to exercise",
+        "Sleep Schedule - Optimal sleep timing and duration",
+        "Stress Management Techniques - Which practices to adopt",
+        "Supplementation - Whether and what supplements to take",
+        "Healthcare Providers - Which professionals to consult",
+        "Lifestyle Priorities - How to balance health with other commitments"
+      ],
+      "commonMistakes": [
+        "Setting Unrealistic Goals",
+        "Overtraining Without Adequate Recovery",
+        "Following Fad Diets",
+        "Ignoring Sleep Quality",
+        "Neglecting Mental Health",
+        "Comparing Progress to Others",
+        "Not Tracking Progress",
+        "Skipping Warm-ups and Cool-downs",
+        "Relying on Supplements Over Whole Foods",
+        "Not Listening to Body Signals"
+      ],
+      "advancedTopics": [
+        "Hormonal Optimization",
+        "Metabolic Flexibility",
+        "Advanced Nutrition Timing",
+        "Periodization Training",
+        "Biohacking",
+        "Functional Medicine",
+        "Sleep Architecture Optimization",
+        "Mind-Body Medicine",
+        "Longevity Science",
+        "Epigenetics and Lifestyle"
+      ],
+      "tools": [
+        "Fitness Trackers (Fitbit, Garmin, Apple Watch)",
+        "Exercise Apps (MyFitnessPal, Strava, Nike Training Club)",
+        "Meditation Apps (Headspace, Calm, Insight Timer)",
+        "Sleep Trackers",
+        "Kitchen Tools (Scale, Meal Prep Containers)",
+        "Exercise Equipment (Weights, Resistance Bands, Yoga Mat)",
+        "Monitoring Devices (Blood Pressure Monitor, Glucose Monitor)"
+      ],
+      "measurements": [
+        "Body Composition (BMI, Body Fat Percentage, Muscle Mass)",
+        "Cardiovascular Metrics (Resting Heart Rate, Blood Pressure)",
+        "Fitness Metrics (VO2 Max, Strength Levels, Flexibility)",
+        "Nutritional Metrics (Caloric Intake, Macro Ratios, Micronutrient Levels)",
+        "Sleep Metrics (Duration, Quality, Stages)",
+        "Mental Health Metrics (Stress Levels, Mood, Energy)",
+        "Performance Metrics (Exercise Duration, Intensity, Frequency)"
+      ],
+      "processes": [
+        "Exercise Programming Process",
+        "Meal Planning Process",
+        "Sleep Optimization Process",
+        "Stress Management Process",
+        "Goal Achievement Process",
+        "Habit Formation Process",
+        "Recovery Process",
+        "Health Monitoring Process"
+      ],
+      "standards": [
+        "Physical Activity Guidelines (WHO, CDC)",
+        "Dietary Guidelines (USDA, WHO)",
+        "Sleep Recommendations",
+        "Medical Screening Guidelines",
+        "Exercise Safety Standards",
+        "Supplement Regulation Standards"
+      ],
+      "bestPractices": [
+        "Start with realistic, sustainable goals",
+        "Focus on consistency over intensity",
+        "Prioritize sleep and recovery",
+        "Listen to your body",
+        "Build balanced, varied nutrition",
+        "Include both cardio and strength training",
+        "Practice stress management regularly",
+        "Stay hydrated",
+        "Track progress objectively",
+        "Seek professional guidance when needed"
+      ],
+      "frequentlyAskedQuestions": [
+        "How much exercise do I need per week?",
+        "What's the best diet for weight loss?",
+        "How many hours of sleep do I need?",
+        "How do I reduce stress naturally?",
+        "What supplements should I take?",
+        "How do I build muscle effectively?",
+        "What's the best time to exercise?",
+        "How do I stay motivated to exercise?",
+        "How do I improve my sleep quality?",
+        "What is holistic health?"
+      ],
+      "relatedSubjects": [
+        "Nutrition",
+        "Exercise Science",
+        "Psychology",
+        "Medicine",
+        "Biology",
+        "Physiology",
+        "Anatomy",
+        "Biochemistry"
+      ]
+    },
+    "education": {
+      "name": "Education",
+      "category": "Education",
+      "detectionRules": [
+        "slug contains: education, learning, teaching, study, school, college, university, training, course, skill, knowledge",
+        "title contains: education, learning, teaching, study, school, college, university, training, course, skill, knowledge"
+      ],
+      "coreConcepts": [
+        "Learning Theory",
+        "Cognitive Development",
+        "Pedagogy",
+        "Curriculum Design",
+        "Assessment and Evaluation",
+        "Differentiated Instruction",
+        "Active Learning",
+        "Metacognition",
+        "Lifelong Learning",
+        "Educational Technology"
+      ],
+      "coreVocabulary": [
+        "Pedagogy",
+        "Andragogy",
+        "Curriculum",
+        "Syllabus",
+        "Assessment",
+        "Rubric",
+        "Bloom's Taxonomy",
+        " scaffolding",
+        "Differentiation",
+        "Formative Assessment",
+        "Summative Assessment",
+        "Metacognition",
+        "Retention",
+        "Transfer of Learning"
+      ],
+      "requiredEntities": [
+        "Learning Styles (Visual, Auditory, Kinesthetic, Reading/Writing)",
+        "Teaching Methods (Lecture, Discussion, Project-based, Inquiry-based)",
+        "Assessment Types (Quizzes, Exams, Projects, Presentations)",
+        "Educational Levels (Primary, Secondary, Tertiary, Adult)",
+        "Learning Environments (Classroom, Online, Hybrid, Self-paced)",
+        "Educational Resources (Textbooks, Videos, Simulations, Tools)",
+        "Stakeholders (Students, Teachers, Parents, Administrators)",
+        "Learning Objectives (Knowledge, Skills, Attitudes)",
+        "Curriculum Components (Content, Activities, Assessments)",
+        "Educational Technologies (LMS, Apps, Software, Hardware)"
+      ],
+      "mentalModels": [
+        "Bloom's Taxonomy - Hierarchy of learning objectives",
+        "Zone of Proximal Development - Learning just beyond current ability",
+        "Constructivism - Building knowledge through experience",
+        "Connectivism - Learning as network formation",
+        "The Forgetting Curve - Memory decay over time",
+        "Spaced Repetition - Reviewing at increasing intervals",
+        "Active Recall - Testing to strengthen memory",
+        "Growth Mindset - Abilities develop through effort"
+      ],
+      "typicalWorkflows": [
+        "Needs Assessment - Identify learning needs and goals",
+        "Curriculum Design - Structure content and learning activities",
+        "Lesson Planning - Prepare specific learning sessions",
+        "Instruction Delivery - Teach using various methods",
+        "Assessment - Evaluate learning through various measures",
+        "Feedback - Provide constructive feedback to learners",
+        "Reflection - Review and improve teaching effectiveness",
+        "Continuous Improvement - Update methods based on outcomes"
+      ],
+      "requiredSkills": [
+        "Communication",
+        "Presentation",
+        "Facilitation",
+        "Curriculum Development",
+        "Assessment Design",
+        "Classroom Management",
+        "Technology Integration",
+        "Differentiation",
+        "Mentoring",
+        "Adaptability"
+      ],
+      "requiredDecisions": [
+        "Teaching Method - Which approach to use for specific content",
+        "Assessment Strategy - How to measure learning effectively",
+        "Resource Selection - What materials and tools to use",
+        "Pacing - How fast to progress through content",
+        "Differentiation - How to adapt for diverse learners",
+        "Technology Integration - Which technologies enhance learning",
+        "Grouping Strategy - How to organize learners for activities",
+        "Feedback Approach - How to provide effective feedback"
+      ],
+      "commonMistakes": [
+        "Teaching Without Assessing Understanding",
+        "Covering Content Instead of Ensuring Learning",
+        "Not Adapting to Different Learning Styles",
+        "Lecturing Without Engagement",
+        "Not Providing Sufficient Practice",
+        "Ignoring Prior Knowledge",
+        "Not Connecting to Real-World Applications",
+        "Overloading Working Memory",
+        "Not Providing Constructive Feedback",
+        "Focusing on Grades Rather Than Learning"
+      ],
+      "advancedTopics": [
+        "Instructional Design",
+        "Educational Psychology",
+        "Learning Analytics",
+        "Adaptive Learning Systems",
+        "Gamification in Education",
+        "Neuroscience of Learning",
+        "Universal Design for Learning",
+        "Competency-Based Education",
+        "Microlearning",
+        "Artificial Intelligence in Education"
+      ],
+      "tools": [
+        "Learning Management Systems (Canvas, Blackboard, Moodle)",
+        "Presentation Tools (PowerPoint, Google Slides, Prezi)",
+        "Assessment Tools (Kahoot, Quizlet, Google Forms)",
+        "Collaboration Tools (Google Docs, Padlet, Miro)",
+        "Video Platforms (YouTube, Zoom, Teams)",
+        "Content Creation Tools (Canva, Camtasia, Screen Recording)",
+        "Note-Taking Tools (Notion, Evernote, OneNote)"
+      ],
+      "measurements": [
+        "Learning Outcomes (Knowledge gain, Skill acquisition)",
+        "Engagement Metrics (Participation, Time on task)",
+        "Performance Metrics (Test scores, Project quality)",
+        "Retention Metrics (Knowledge retention over time)",
+        "Satisfaction Metrics (Student feedback, Course evaluations)",
+        "Completion Rates",
+        "Skill Application (Real-world use of learned skills)"
+      ],
+      "processes": [
+        "Instructional Design Process",
+        "Lesson Planning Process",
+        "Assessment Development Process",
+        "Feedback Process",
+        "Curriculum Review Process",
+        "Professional Development Process",
+        "Learning Analytics Process",
+        "Accreditation Process"
+      ],
+      "standards": [
+        "Educational Standards (Common Core, NGSS, State Standards)",
+        "Accessibility Standards (WCAG, ADA)",
+        "Data Privacy Standards (FERPA, COPPA)",
+        "Accreditation Standards",
+        "Professional Teaching Standards"
+      ],
+      "bestPractices": [
+        "Start with clear learning objectives",
+        "Assess prior knowledge before teaching",
+        "Use multiple teaching methods",
+        "Provide frequent, constructive feedback",
+        "Connect learning to real-world applications",
+        "Encourage active participation",
+        "Use formative assessments regularly",
+        "Differentiate instruction for diverse learners",
+        "Reflect on and improve teaching practice",
+        "Foster a growth mindset in learners"
+      ],
+      "frequentlyAskedQuestions": [
+        "How do I create an effective lesson plan?",
+        "What's the best way to assess student learning?",
+        "How do I engage disengaged students?",
+        "What's the difference between formative and summative assessment?",
+        "How do I differentiate instruction for diverse learners?",
+        "What's the role of technology in education?",
+        "How do I provide effective feedback?",
+        "What's Bloom's Taxonomy and how do I use it?",
+        "How do I manage classroom behavior?",
+        "How do I promote lifelong learning?"
+      ],
+      "relatedSubjects": [
+        "Psychology",
+        "Sociology",
+        "Neuroscience",
+        "Technology",
+        "Communication",
+        "Philosophy",
+        "Child Development",
+        "Cognitive Science"
+      ]
+    },
+    "travel": {
+      "name": "Travel",
+      "category": "Travel",
+      "detectionRules": [
+        "slug contains: travel, trip, vacation, destination, flight, hotel, booking, itinerary, tourism, adventure, cruise",
+        "title contains: travel, trip, vacation, destination, flight, hotel, booking, itinerary, tourism, adventure, cruise"
+      ],
+      "coreConcepts": [
+        "Destination Research",
+        "Travel Planning",
+        "Budget Management",
+        "Cultural Awareness",
+        "Logistics Coordination",
+        "Travel Documentation",
+        "Safety and Security",
+        "Sustainable Tourism",
+        "Travel Insurance",
+        "Local Experience"
+      ],
+      "coreVocabulary": [
+        "Itinerary",
+        "Layover",
+        "Connecting Flight",
+        "Direct Flight",
+        "Visa",
+        "Passport",
+        "Currency Exchange",
+        "Local Currency",
+        "Accommodation",
+        "Hostel",
+        "Resort",
+        "Backpacking",
+        "Sightseeing",
+        "Off the Beaten Path"
+      ],
+      "requiredEntities": [
+        "Transportation (Flights, Trains, Buses, Rental Cars, Taxis)",
+        "Accommodation Types (Hotels, Hostels, Airbnb, Resorts, Camping)",
+        "Travel Documents (Passport, Visa, ID, Insurance)",
+        "Booking Platforms (Airline websites, OTAs, Direct bookings)",
+        "Travel Gear (Luggage, Clothing, Electronics, Toiletries)",
+        "Destination Types (Cities, Beaches, Mountains, Rural, Adventure)",
+        "Travel Styles (Luxury, Budget, Backpacking, Cruise, Group Tour)",
+        "Travel Activities (Sightseeing, Adventure, Cultural, Relaxation)",
+        "Financial Tools (Credit cards, Cash, Travel apps, Currency exchange)",
+        "Communication Tools (SIM cards, WiFi, Translation apps, Maps)"
+      ],
+      "mentalModels": [
+        "The Travel Planning Pyramid - Prioritize essentials over nice-to-haves",
+        "Cultural Intelligence - Understanding and adapting to cultural differences",
+        "Risk Assessment - Evaluating and mitigating travel risks",
+        "The 80/20 Travel Rule - 20% of activities provide 80% of satisfaction",
+        "Slow Travel - Quality over quantity in destinations",
+        "Local Immersion - Engaging with local culture rather than tourist bubbles",
+        "Flexibility Mindset - Adapting to changes and unexpected situations",
+        "Sustainable Travel - Minimizing environmental and cultural impact"
+      ],
+      "typicalWorkflows": [
+        "Destination Selection - Research and choose based on interests, budget, season",
+        "Budget Planning - Set overall budget, allocate to categories",
+        "Booking Flights - Compare prices, times, routes",
+        "Booking Accommodation - Compare options, locations, amenities",
+        "Itinerary Planning - Schedule activities, allow flexibility",
+        "Documentation Preparation - Obtain passport, visa, insurance",
+        "Packing - Select and organize clothing, gear, documents",
+        "Travel Execution - Navigate transportation, check-in, explore destination",
+        "Post-Travel - Review experience, share feedback, plan next trip"
+      ],
+      "requiredSkills": [
+        "Research and Planning",
+        "Budget Management",
+        "Navigation",
+        "Communication",
+        "Problem Solving",
+        "Adaptability",
+        "Cultural Sensitivity",
+        "Language Basics",
+        "Photography",
+        "Time Management"
+      ],
+      "requiredDecisions": [
+        "Destination Choice - Where to go based on interests, budget, timing",
+        "Travel Dates - When to travel based on season, costs, availability",
+        "Accommodation Type - Where to stay based on budget, preferences",
+        "Transportation Method - How to get there and get around",
+        "Budget Allocation - How much to spend on different categories",
+        "Activity Selection - What to do and see at destination",
+        "Packing Strategy - What to bring for specific destination and activities",
+        "Travel Insurance - Whether and what coverage to purchase"
+      ],
+      "commonMistakes": [
+        "Overpacking - Bringing too much luggage",
+        "Underestimating Travel Time - Not allowing enough time between connections",
+        "Not Checking Visa Requirements",
+        "Not Buying Travel Insurance",
+        "Overbooking Itinerary - Too many activities, no downtime",
+        "Not Informing Bank of Travel Plans",
+        "Not Researching Local Customs",
+        "Not Having Backup Plans",
+        "Not Keeping Copies of Important Documents",
+        "Not Learning Basic Local Phrases"
+      ],
+      "advancedTopics": [
+        "Around the World Travel",
+        "Digital Nomad Lifestyle",
+        "Travel Hacking",
+        "Solo Travel Safety",
+        "Volunteer Tourism",
+        "Adventure Travel Planning",
+        "Luxury Travel Concierge Services",
+        "Travel Photography",
+        "Travel Writing and Blogging",
+        "Sustainable and Ethical Tourism"
+      ],
+      "tools": [
+        "Booking Platforms (Expedia, Booking.com, Airbnb, Skyscanner)",
+        "Navigation Apps (Google Maps, Citymapper, Rome2Rio)",
+        "Translation Apps (Google Translate, DeepL)",
+        "Currency Converters",
+        "Travel Guides (Lonely Planet, TripAdvisor, blogs)",
+        "Packing Lists (Apps, checklists)",
+        "Travel Apps (Flight tracking, Hotel booking, Local recommendations)"
+      ],
+      "measurements": [
+        "Budget Metrics (Total cost, daily spending, category breakdown)",
+        "Time Metrics (Flight duration, layover time, time zone differences)",
+        "Distance Metrics (Miles traveled, distance between destinations)",
+        "Accommodation Metrics (Nights stayed, cost per night, ratings)",
+        "Activity Metrics (Number of activities, cost per activity, satisfaction)",
+        "Travel Metrics (Countries visited, total days traveled, trips per year)"
+      ],
+      "processes": [
+        "Travel Planning Process",
+        "Booking Process",
+        "Packing Process",
+        "Airport/Station Process",
+        "Check-in Process",
+        "Immigration Process",
+        "Sightseeing Process",
+        "Emergency Response Process"
+      ],
+      "standards": [
+        "Travel Documentation Standards",
+        "Airline Safety Standards",
+        "Hotel Safety Standards",
+        "Tourism Industry Standards",
+        "Environmental Protection Standards",
+        "Cultural Preservation Guidelines"
+      ],
+      "bestPractices": [
+        "Research destinations thoroughly before booking",
+        "Book flights and accommodation well in advance",
+        "Purchase travel insurance",
+        "Keep copies of important documents",
+        "Inform bank of travel plans",
+        "Learn basic local phrases",
+        "Respect local customs and culture",
+        "Pack light and smart",
+        "Build flexibility into itinerary",
+        "Stay aware of surroundings and safety"
+      ],
+      "frequentlyAskedQuestions": [
+        "How far in advance should I book flights?",
+        "What's the best way to find cheap flights?",
+        "Do I need travel insurance?",
+        "How do I plan a travel budget?",
+        "What should I pack for international travel?",
+        "How do I stay safe while traveling?",
+        "What's the difference between a hostel and hotel?",
+        "How do I get around in a foreign country?",
+        "What documents do I need for international travel?",
+        "How do I avoid tourist traps?"
+      ],
+      "relatedSubjects": [
+        "Geography",
+        "Cultural Studies",
+        "History",
+        "Languages",
+        "Economics",
+        "Environmental Studies",
+        "International Relations",
+        "Hospitality"
       ]
     }
   }
