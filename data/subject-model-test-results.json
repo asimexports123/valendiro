@@ -1,0 +1,1500 @@
+{
+  "timestamp": "2026-07-05T16:19:06.384Z",
+  "subjects": {
+    "gardening": {
+      "subject": "gardening",
+      "articles": [
+        {
+          "slug": "soil-preparation-for-vegetables",
+          "title": "Soil Preparation for Vegetables",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "composting-basics",
+          "title": "Composting Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "tomato-planting-guide",
+          "title": "Tomato Planting Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "raised-bed-gardening",
+          "title": "Raised Bed Gardening",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "organic-pest-control",
+          "title": "Organic Pest Control",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "seed-starting-indoors",
+          "title": "Seed Starting Indoors",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "watering-techniques",
+          "title": "Watering Techniques",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "pruning-tomatoes",
+          "title": "Pruning Tomatoes",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "companion-planting",
+          "title": "Companion Planting",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "mulching-benefits",
+          "title": "Mulching Benefits",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "soil-ph-testing",
+          "title": "Soil pH Testing",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "fertilizer-schedule",
+          "title": "Fertilizer Schedule",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "fall-gardening-guide",
+          "title": "Fall Gardening Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "container-gardening",
+          "title": "Container Gardening",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "herb-garden-basics",
+          "title": "Herb Garden Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "disease-prevention",
+          "title": "Disease Prevention",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "crop-rotation",
+          "title": "Crop Rotation",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "winter-garden-prep",
+          "title": "Winter Garden Prep",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "garden-bed-design",
+          "title": "Garden Bed Design",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "harvesting-techniques",
+          "title": "Harvesting Techniques",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "meal-planning": {
+      "subject": "meal-planning",
+      "articles": [
+        {
+          "slug": "weekly-meal-planning-guide",
+          "title": "Weekly Meal Planning Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "budget-friendly-meal-planning",
+          "title": "Budget-Friendly Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "meal-prep-for-beginners",
+          "title": "Meal Prep for Beginners",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "healthy-meal-planning",
+          "title": "Healthy Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "family-meal-planning",
+          "title": "Family Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "grocery-shopping-tips",
+          "title": "Grocery Shopping Tips",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "batch-cooking-recipes",
+          "title": "Batch Cooking Recipes",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "meal-prep-containers",
+          "title": "Meal Prep Containers",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "freezer-meal-planning",
+          "title": "Freezer Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "vegetarian-meal-planning",
+          "title": "Vegetarian Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "low-carb-meal-planning",
+          "title": "Low Carb Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "meal-planning-apps",
+          "title": "Meal Planning Apps",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "pantry-staples-list",
+          "title": "Pantry Staples List",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "seasonal-meal-planning",
+          "title": "Seasonal Meal Planning",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "quick-meal-prep",
+          "title": "Quick Meal Prep",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "portion-control-guide",
+          "title": "Portion Control Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "meal-planning-on-budget",
+          "title": "Meal Planning on Budget",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "leftover-recipes",
+          "title": "Leftover Recipes",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "meal-planning-for-one",
+          "title": "Meal Planning for One",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "macro-tracking-meal-plan",
+          "title": "Macro Tracking Meal Plan",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "recipes": {
+      "subject": "recipes",
+      "articles": [
+        {
+          "slug": "basic-pasta-sauce-recipe",
+          "title": "Basic Pasta Sauce Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "chicken-stir-fry-recipe",
+          "title": "Chicken Stir Fry Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "homemade-bread-recipe",
+          "title": "Homemade Bread Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "vegetable-soup-recipe",
+          "title": "Vegetable Soup Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "chocolate-chip-cookies",
+          "title": "Chocolate Chip Cookies",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "grilled-salmon-recipe",
+          "title": "Grilled Salmon Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "caesar-salad-recipe",
+          "title": "Caesar Salad Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "beef-stew-recipe",
+          "title": "Beef Stew Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "pancake-recipe",
+          "title": "Pancake Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "guacamole-recipe",
+          "title": "Guacamole Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "roasted-vegetables-recipe",
+          "title": "Roasted Vegetables Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "fried-rice-recipe",
+          "title": "Fried Rice Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "spaghetti-bolognese",
+          "title": "Spaghetti Bolognese",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "chicken-curry-recipe",
+          "title": "Chicken Curry Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "banana-bread-recipe",
+          "title": "Banana Bread Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "tacos-recipe",
+          "title": "Tacos Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "mashed-potatoes-recipe",
+          "title": "Mashed Potatoes Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "pizza-dough-recipe",
+          "title": "Pizza Dough Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "smoothie-recipe",
+          "title": "Smoothie Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "omelette-recipe",
+          "title": "Omelette Recipe",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "programming": {
+      "subject": "programming",
+      "articles": [
+        {
+          "slug": "data-structures-basics",
+          "title": "Data Structures Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "algorithms-introduction",
+          "title": "Algorithms Introduction",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "object-oriented-programming",
+          "title": "Object Oriented Programming",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "functional-programming",
+          "title": "Functional Programming",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "debugging-techniques",
+          "title": "Debugging Techniques",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "version-control-git",
+          "title": "Version Control Git",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "api-design-principles",
+          "title": "API Design Principles",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "database-design-basics",
+          "title": "Database Design Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "testing-strategies",
+          "title": "Testing Strategies",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "code-review-best-practices",
+          "title": "Code Review Best Practices",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "design-patterns",
+          "title": "Design Patterns",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "asynchronous-programming",
+          "title": "Asynchronous Programming",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "memory-management",
+          "title": "Memory Management",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "security-best-practices",
+          "title": "Security Best Practices",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "performance-optimization",
+          "title": "Performance Optimization",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "clean-code-principles",
+          "title": "Clean Code Principles",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "error-handling-patterns",
+          "title": "Error Handling Patterns",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "concurrency-basics",
+          "title": "Concurrency Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "refactoring-techniques",
+          "title": "Refactoring Techniques",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "software-architecture",
+          "title": "Software Architecture",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "finance": {
+      "subject": "finance",
+      "articles": [
+        {
+          "slug": "personal-budgeting-guide",
+          "title": "Personal Budgeting Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "emergency-fund-basics",
+          "title": "Emergency Fund Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "investment-for-beginners",
+          "title": "Investment for Beginners",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "debt-repayment-strategies",
+          "title": "Debt Repayment Strategies",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "retirement-planning-guide",
+          "title": "Retirement Planning Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "credit-score-improvement",
+          "title": "Credit Score Improvement",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "tax-planning-basics",
+          "title": "Tax Planning Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "savings-account-options",
+          "title": "Savings Account Options",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "stock-market-basics",
+          "title": "Stock Market Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "insurance-coverage-guide",
+          "title": "Insurance Coverage Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "compound-interest-explained",
+          "title": "Compound Interest Explained",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "mutual-funds-guide",
+          "title": "Mutual Funds Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "real-estate-investment",
+          "title": "Real Estate Investment",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "financial-independence",
+          "title": "Financial Independence",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "index-fund-investing",
+          "title": "Index Fund Investing",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "diversification-strategy",
+          "title": "Diversification Strategy",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "roth-ira-guide",
+          "title": "Roth IRA Guide",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "401k-contribution-limits",
+          "title": "401k Contribution Limits",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "high-yield-savings",
+          "title": "High Yield Savings",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "financial-goals-setting",
+          "title": "Financial Goals Setting",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    },
+    "cloud": {
+      "subject": "cloud",
+      "articles": [
+        {
+          "slug": "aws-ec2-basics",
+          "title": "AWS EC2 Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cloud-computing-introduction",
+          "title": "Cloud Computing Introduction",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "docker-containerization",
+          "title": "Docker Containerization",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "kubernetes-basics",
+          "title": "Kubernetes Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "serverless-computing",
+          "title": "Serverless Computing",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cloud-security-best-practices",
+          "title": "Cloud Security Best Practices",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "infrastructure-as-code",
+          "title": "Infrastructure as Code",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "aws-s3-storage",
+          "title": "AWS S3 Storage",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cloud-cost-optimization",
+          "title": "Cloud Cost Optimization",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "microservices-architecture",
+          "title": "Microservices Architecture",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "ci-cd-pipelines",
+          "title": "CI/CD Pipelines",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cloud-monitoring",
+          "title": "Cloud Monitoring",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "load-balancing",
+          "title": "Load Balancing",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cloud-disaster-recovery",
+          "title": "Cloud Disaster Recovery",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "azure-vs-aws",
+          "title": "Azure vs AWS",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "terraform-basics",
+          "title": "Terraform Basics",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cloud-networking",
+          "title": "Cloud Networking",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "serverless-aws-lambda",
+          "title": "Serverless AWS Lambda",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "cloud-database-options",
+          "title": "Cloud Database Options",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        },
+        {
+          "slug": "multi-cloud-strategy",
+          "title": "Multi-Cloud Strategy",
+          "passed": true,
+          "score": 100,
+          "details": {
+            "conceptCoverage": 100,
+            "vocabularyUsage": 100,
+            "bestPracticeInclusion": 100,
+            "mentalModelUsage": 100
+          }
+        }
+      ],
+      "averageScore": 100,
+      "passedCount": 20,
+      "failedCount": 0
+    }
+  },
+  "summary": {
+    "totalArticles": 120,
+    "passedArticles": 120,
+    "failedArticles": 0,
+    "averageScore": 100,
+    "expertValidationScore": 100
+  }
+}
