@@ -1,0 +1,615 @@
+{
+  "domains": {
+    "food": {
+      "name": "Food Expert",
+      "mandatoryConcepts": [
+        "Ingredients",
+        "Preparation Method",
+        "Cooking Temperature",
+        "Cooking Time",
+        "Serving Size",
+        "Storage Method"
+      ],
+      "mandatoryTerminology": [
+        "Ingredients",
+        "Preparation",
+        "Cooking",
+        "Baking",
+        "Temperature",
+        "Seasoning",
+        "Serving",
+        "Storage",
+        "Nutrition",
+        "Recipe"
+      ],
+      "mandatoryEntities": [
+        "Ingredients",
+        "Cooking Equipment",
+        "Measurements",
+        "Nutritional Information"
+      ],
+      "mandatoryWorkflows": [
+        "Ingredient Preparation",
+        "Cooking Process",
+        "Serving Process",
+        "Storage Process"
+      ],
+      "mandatoryComparisons": [
+        "Cooking Method Comparison",
+        "Ingredient Substitution",
+        "Serving Size Comparison"
+      ],
+      "mandatoryExamples": [
+        "Ingredient Measurements",
+        "Step-by-Step Cooking Process",
+        "Serving Portions",
+        "Storage Instructions"
+      ],
+      "mandatoryMistakes": [
+        "Common Cooking Mistakes",
+        "Ingredient Substitution Mistakes",
+        "Temperature Control Mistakes"
+      ],
+      "mandatoryFAQs": [
+        "Cooking Time Questions",
+        "Ingredient Substitution Questions",
+        "Storage Questions"
+      ],
+      "mandatoryReferences": [
+        "Recipe Sources",
+        "Nutritional Databases",
+        "Food Safety Guidelines"
+      ],
+      "mandatoryCalculations": [
+        "Ingredient Quantities",
+        "Cooking Time Adjustments",
+        "Serving Size Calculations"
+      ],
+      "mandatoryDiagrams": [
+        "Cooking Process Flow",
+        "Ingredient Preparation Diagram"
+      ],
+      "mandatoryVisualExplanations": [
+        "Cooking Technique Visuals",
+        "Ingredient Visuals"
+      ],
+      "mandatoryInternalLinks": [
+        "Related Recipes",
+        "Cooking Techniques",
+        "Ingredient Guides"
+      ],
+      "forbiddenGenericWording": [
+        "content for section",
+        "description and role",
+        "example description",
+        "specific description",
+        "detailed explanation"
+      ],
+      "forbiddenGenericSections": [
+        "Overview",
+        "Architecture",
+        "Deployment",
+        "Implementation Phase",
+        "Code",
+        "Syntax"
+      ],
+      "rejectionRules": [
+        "Must contain Ingredients section",
+        "Must contain Cooking Instructions",
+        "Must contain Temperature information",
+        "Must contain Storage information",
+        "Must contain Equipment information"
+      ]
+    },
+    "home-improvement": {
+      "name": "Home Improvement Expert",
+      "mandatoryConcepts": [
+        "Tools Required",
+        "Materials Required",
+        "Estimated Cost",
+        "Difficulty Level",
+        "Safety Precautions",
+        "Installation Process"
+      ],
+      "mandatoryTerminology": [
+        "Tools",
+        "Materials",
+        "Installation",
+        "Repair",
+        "Maintenance",
+        "DIY",
+        "Safety",
+        "Building Code",
+        "Permit",
+        "Timeline"
+      ],
+      "mandatoryEntities": [
+        "Tools",
+        "Materials",
+        "Project Plans",
+        "Contractors",
+        "Building Materials"
+      ],
+      "mandatoryWorkflows": [
+        "Planning Phase",
+        "Preparation Phase",
+        "Installation Phase",
+        "Finishing Phase"
+      ],
+      "mandatoryComparisons": [
+        "Material Comparison",
+        "Tool Comparison",
+        "DIY vs Professional Comparison"
+      ],
+      "mandatoryExamples": [
+        "Tool Usage Examples",
+        "Material Quantity Calculations",
+        "Installation Step-by-Step",
+        "Maintenance Schedules"
+      ],
+      "mandatoryMistakes": [
+        "Common DIY Mistakes",
+        "Safety Mistakes",
+        "Material Selection Mistakes"
+      ],
+      "mandatoryFAQs": [
+        "Tool Selection Questions",
+        "Material Questions",
+        "Permit Questions"
+      ],
+      "mandatoryReferences": [
+        "Building Code References",
+        "Manufacturer Guidelines",
+        "DIY Guides"
+      ],
+      "mandatoryCalculations": [
+        "Material Quantity",
+        "Cost Estimation",
+        "Timeline Estimation"
+      ],
+      "mandatoryDiagrams": [
+        "Installation Process Diagram",
+        "Tool Usage Diagram"
+      ],
+      "mandatoryVisualExplanations": [
+        "Installation Technique Visuals",
+        "Tool Visuals"
+      ],
+      "mandatoryInternalLinks": [
+        "Related Projects",
+        "Tool Guides",
+        "Material Guides"
+      ],
+      "forbiddenGenericWording": [
+        "content for section",
+        "description and role",
+        "example description",
+        "specific description",
+        "detailed explanation"
+      ],
+      "forbiddenGenericSections": [
+        "Overview",
+        "Architecture",
+        "Deployment",
+        "Implementation Phase",
+        "Code",
+        "Syntax"
+      ],
+      "rejectionRules": [
+        "Must contain Tools section",
+        "Must contain Materials section",
+        "Must contain Estimated Cost",
+        "Must contain Safety Precautions",
+        "Must contain Installation Process"
+      ]
+    },
+    "programming": {
+      "name": "Programming Expert",
+      "mandatoryConcepts": [
+        "Syntax",
+        "Code Examples",
+        "Output",
+        "Debugging",
+        "Best Practices",
+        "Performance"
+      ],
+      "mandatoryTerminology": [
+        "Variables",
+        "Functions",
+        "Classes",
+        "Methods",
+        "Syntax",
+        "Code",
+        "Output",
+        "Debugging",
+        "Performance",
+        "Best Practices"
+      ],
+      "mandatoryEntities": [
+        "Code Snippets",
+        "Functions",
+        "Classes",
+        "Modules",
+        "Packages"
+      ],
+      "mandatoryWorkflows": [
+        "Code Writing",
+        "Testing",
+        "Debugging",
+        "Optimization"
+      ],
+      "mandatoryComparisons": [
+        "Language Comparison",
+        "Library Comparison",
+        "Approach Comparison"
+      ],
+      "mandatoryExamples": [
+        "Code Snippets with Output",
+        "Real-world Usage Examples",
+        "Integration Examples"
+      ],
+      "mandatoryMistakes": [
+        "Common Syntax Errors",
+        "Performance Pitfalls",
+        "Best Practice Violations"
+      ],
+      "mandatoryFAQs": [
+        "Syntax Questions",
+        "Debugging Questions",
+        "Best Practice Questions"
+      ],
+      "mandatoryReferences": [
+        "Language Documentation",
+        "Library Documentation",
+        "Community Resources"
+      ],
+      "mandatoryCalculations": [
+        "Time Complexity",
+        "Space Complexity",
+        "Performance Metrics"
+      ],
+      "mandatoryDiagrams": [
+        "Code Flow Diagram",
+        "Architecture Diagram"
+      ],
+      "mandatoryVisualExplanations": [
+        "Code Structure Visuals",
+        "Execution Flow Visuals"
+      ],
+      "mandatoryInternalLinks": [
+        "Related Concepts",
+        "Library Documentation",
+        "Best Practices"
+      ],
+      "forbiddenGenericWording": [
+        "content for section",
+        "description and role",
+        "example description",
+        "specific description",
+        "detailed explanation"
+      ],
+      "forbiddenGenericSections": [
+        "Ingredients",
+        "Equipment",
+        "Cooking Instructions",
+        "Storage",
+        "Architecture",
+        "Deployment"
+      ],
+      "rejectionRules": [
+        "Must contain Code Examples",
+        "Must contain Output",
+        "Must contain Debugging section",
+        "Must contain Best Practices",
+        "Must contain Performance section"
+      ]
+    },
+    "finance": {
+      "name": "Finance Expert",
+      "mandatoryConcepts": [
+        "Formula",
+        "Calculation",
+        "Examples",
+        "Risk",
+        "Tax Implications",
+        "ROI"
+      ],
+      "mandatoryTerminology": [
+        "ROI",
+        "NPV",
+        "IRR",
+        "Cash Flow",
+        "Assets",
+        "Liabilities",
+        "Equity",
+        "Risk",
+        "Tax",
+        "Calculation"
+      ],
+      "mandatoryEntities": [
+        "Financial Instruments",
+        "Accounts",
+        "Investments",
+        "Loans",
+        "Credit Products"
+      ],
+      "mandatoryWorkflows": [
+        "Calculation Process",
+        "Investment Process",
+        "Tax Filing Process",
+        "Risk Assessment Process"
+      ],
+      "mandatoryComparisons": [
+        "Investment Comparison",
+        "Tax-Advantaged Account Comparison",
+        "Risk/Return Comparison"
+      ],
+      "mandatoryExamples": [
+        "Financial Calculations",
+        "Investment Scenarios",
+        "Budget Examples",
+        "Tax Calculation Examples"
+      ],
+      "mandatoryMistakes": [
+        "Common Calculation Errors",
+        "Tax Filing Mistakes",
+        "Risk Assessment Mistakes"
+      ],
+      "mandatoryFAQs": [
+        "Financial Questions",
+        "Tax Questions",
+        "Investment Questions"
+      ],
+      "mandatoryReferences": [
+        "IRS Publications",
+        "Financial Authority Resources",
+        "Regulatory Documentation"
+      ],
+      "mandatoryCalculations": [
+        "ROI Calculation",
+        "NPV Calculation",
+        "Tax Calculation",
+        "Risk Metrics"
+      ],
+      "mandatoryDiagrams": [
+        "Financial Flow Diagram",
+        "Investment Process Diagram"
+      ],
+      "mandatoryVisualExplanations": [
+        "Calculation Visuals",
+        "Financial Model Visuals"
+      ],
+      "mandatoryInternalLinks": [
+        "Related Financial Concepts",
+        "Investment Guides",
+        "Tax Resources"
+      ],
+      "forbiddenGenericWording": [
+        "content for section",
+        "description and role",
+        "example description",
+        "specific description",
+        "detailed explanation"
+      ],
+      "forbiddenGenericSections": [
+        "Ingredients",
+        "Equipment",
+        "Cooking Instructions",
+        "Code",
+        "Syntax",
+        "Architecture"
+      ],
+      "rejectionRules": [
+        "Must contain Formula",
+        "Must contain Calculation Examples",
+        "Must contain Risk section",
+        "Must contain Tax Implications",
+        "Must contain Real-world Examples"
+      ]
+    },
+    "travel": {
+      "name": "Travel Expert",
+      "mandatoryConcepts": [
+        "Best Time to Visit",
+        "Budget",
+        "Visa Requirements",
+        "Transportation",
+        "Safety",
+        "Accommodation"
+      ],
+      "mandatoryTerminology": [
+        "Destination",
+        "Itinerary",
+        "Budget",
+        "Accommodation",
+        "Transportation",
+        "Visa",
+        "Passport",
+        "Currency",
+        "Safety",
+        "Season"
+      ],
+      "mandatoryEntities": [
+        "Destinations",
+        "Attractions",
+        "Hotels",
+        "Flights",
+        "Activities",
+        "Transportation Options"
+      ],
+      "mandatoryWorkflows": [
+        "Planning Process",
+        "Booking Process",
+        "Travel Process",
+        "Safety Check Process"
+      ],
+      "mandatoryComparisons": [
+        "Transportation Comparison",
+        "Accommodation Comparison",
+        "Season Comparison"
+      ],
+      "mandatoryExamples": [
+        "Itinerary Examples",
+        "Budget Breakdown Examples",
+        "Packing List Examples"
+      ],
+      "mandatoryMistakes": [
+        "Common Travel Mistakes",
+        "Visa Application Mistakes",
+        "Safety Mistakes"
+      ],
+      "mandatoryFAQs": [
+        "Travel Questions",
+        "Visa Questions",
+        "Budget Questions"
+      ],
+      "mandatoryReferences": [
+        "Tourism Websites",
+        "Travel Advisories",
+        "Embassy Information"
+      ],
+      "mandatoryCalculations": [
+        "Budget Calculation",
+        "Currency Conversion",
+        "Timeline Estimation"
+      ],
+      "mandatoryDiagrams": [
+        "Itinerary Diagram",
+        "Travel Process Diagram"
+      ],
+      "mandatoryVisualExplanations": [
+        "Destination Visuals",
+        "Itinerary Visuals"
+      ],
+      "mandatoryInternalLinks": [
+        "Related Destinations",
+        "Transportation Guides",
+        "Accommodation Guides"
+      ],
+      "forbiddenGenericWording": [
+        "content for section",
+        "description and role",
+        "example description",
+        "specific description",
+        "detailed explanation"
+      ],
+      "forbiddenGenericSections": [
+        "Ingredients",
+        "Equipment",
+        "Cooking Instructions",
+        "Code",
+        "Syntax",
+        "Architecture"
+      ],
+      "rejectionRules": [
+        "Must contain Best Time to Visit",
+        "Must contain Budget",
+        "Must contain Visa Requirements",
+        "Must contain Transportation",
+        "Must contain Safety"
+      ]
+    },
+    "cloud-computing": {
+      "name": "Cloud Computing Expert",
+      "mandatoryConcepts": [
+        "Architecture",
+        "Security",
+        "Pricing",
+        "IAM",
+        "Service Models",
+        "Deployment Models"
+      ],
+      "mandatoryTerminology": [
+        "IaaS",
+        "PaaS",
+        "SaaS",
+        "Serverless",
+        "Multi-cloud",
+        "Hybrid Cloud",
+        "IAM",
+        "Security",
+        "Pricing",
+        "Architecture"
+      ],
+      "mandatoryEntities": [
+        "Cloud Services",
+        "Virtual Machines",
+        "Storage Services",
+        "Networking Services",
+        "Compute Services"
+      ],
+      "mandatoryWorkflows": [
+        "Architecture Design",
+        "Deployment Process",
+        "Security Configuration",
+        "Cost Management"
+      ],
+      "mandatoryComparisons": [
+        "Cloud Provider Comparison",
+        "Service Model Comparison",
+        "Deployment Model Comparison"
+      ],
+      "mandatoryExamples": [
+        "Architecture Examples",
+        "Migration Scenarios",
+        "Cost Optimization Examples",
+        "Security Implementation Examples"
+      ],
+      "mandatoryMistakes": [
+        "Security Configuration Mistakes",
+        "Cost Management Mistakes",
+        "Architecture Design Mistakes"
+      ],
+      "mandatoryFAQs": [
+        "Cloud Questions",
+        "Migration Questions",
+        "Cost Management Questions"
+      ],
+      "mandatoryReferences": [
+        "Cloud Provider Documentation",
+        "Industry Standards",
+        "Security Frameworks"
+      ],
+      "mandatoryCalculations": [
+        "Cost Estimation",
+        "Resource Sizing",
+        "Performance Metrics"
+      ],
+      "mandatoryDiagrams": [
+        "Architecture Diagram",
+        "Network Diagram",
+        "Security Diagram"
+      ],
+      "mandatoryVisualExplanations": [
+        "Architecture Visuals",
+        "Network Visuals"
+      ],
+      "mandatoryInternalLinks": [
+        "Cloud Providers",
+        "Service Models",
+        "Architecture Patterns"
+      ],
+      "forbiddenGenericWording": [
+        "content for section",
+        "description and role",
+        "example description",
+        "specific description",
+        "detailed explanation"
+      ],
+      "forbiddenGenericSections": [
+        "Ingredients",
+        "Equipment",
+        "Cooking Instructions",
+        "Code",
+        "Syntax"
+      ],
+      "rejectionRules": [
+        "Must contain Architecture",
+        "Must contain Security",
+        "Must contain Pricing",
+        "Must contain IAM",
+        "Must contain Service Models"
+      ]
+    }
+  }
+}
