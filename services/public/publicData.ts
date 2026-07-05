@@ -854,7 +854,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
   // First get the topic
   const { data: topic } = await supabase
     .from("topics")
-    .select("id, slug, category_id, subcategory_id, updated_at, topic_translations(title, subtitle, meta_title, meta_description)")
+    .select("id, slug, category_id, subcategory_id, updated_at, topic_translations(title, subtitle, content, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .eq("status", "published")
@@ -869,36 +869,39 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     .eq("topic_id", topic.id)
     .maybeSingle();
 
-  if (!packageData) {
-    // Fallback: return topic without rendered content
-    const translation = topic.topic_translations?.[0];
-    return {
-      id: topic.id,
-      slug: topic.slug,
-      title: translation?.title || "Untitled",
-      subtitle: translation?.subtitle || null,
-      category_slug: null,
-      content: null,
-      meta_title: translation?.meta_title || null,
-      meta_description: translation?.meta_description || null,
-      category_id: topic.category_id,
-      subcategory_id: topic.subcategory_id,
-      updated_at: topic.updated_at ?? null,
-    };
+  let renderedContent = null;
+  
+  if (packageData) {
+    // Get rendered output for this package
+    const { data: renderedOutput } = await supabase
+      .from("rendered_outputs")
+      .select("document_tree, content")
+      .eq("package_id", packageData.id)
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (renderedOutput?.document_tree) {
+      // Convert document_tree to HTML
+      try {
+        renderedContent = serializeToHTML(renderedOutput.document_tree);
+      } catch (error) {
+        console.error("Failed to serialize document tree to HTML:", error);
+      }
+    } else if (renderedOutput?.content) {
+      // Use content field if document_tree not available
+      renderedContent = renderedOutput.content;
+    }
   }
 
-  // Get rendered output for this package
-  const { data: renderedOutput } = await supabase
-    .from("rendered_outputs")
-    .select("content")
-    .eq("package_id", packageData.id)
-    .eq("status", "published")
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  // Fallback to topic_translations.content if no rendered content
+  if (!renderedContent) {
+    const translation = topic.topic_translations?.[0];
+    renderedContent = topic.content || translation?.content || null;
+  }
 
   const translation = topic.topic_translations?.[0];
-  const renderedContent = renderedOutput?.content || null;
   
   return {
     id: topic.id,
