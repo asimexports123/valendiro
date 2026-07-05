@@ -10,8 +10,7 @@ import { resolve } from "path";
 
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
-import { MDNConnector } from "../services/acquisition/connectors/mdnConnector";
-import { HTMLDocumentationExtractor } from "../services/acquisition/extractors/htmlDocumentationExtractor";
+import { ProductionAcquisitionService } from "../services/acquisition/productionAcquisitionService";
 import { createHash } from "crypto";
 
 interface ValidationResult {
@@ -50,124 +49,23 @@ async function runReadinessValidation() {
   };
 
   try {
-    // Step 1: Knowledge Package Acquisition
+    // Step 1: Knowledge Package Acquisition (using canonical production pipeline)
     console.log("Step 1: Knowledge Package Acquisition");
     console.log("-".repeat(40));
 
-    // Use the same acquisition approach as gap-driven acquisition
-    // which has been proven to work with the updated URLs
-    const { SUBJECT_SOURCE_REGISTRY } = await import("../config/subjectSourceRegistry");
-    const registry = SUBJECT_SOURCE_REGISTRY["javascript-fundamentals"];
+    const acquisitionService = new ProductionAcquisitionService();
+    const acquisitionResult = await acquisitionService.acquireKnowledgePackage("javascript-fundamentals");
+
+    if (!acquisitionResult.success || !acquisitionResult.knowledgePackage) {
+      validationResults.blockers.push(`Acquisition failed: ${acquisitionResult.error}`);
+      return validationResults;
+    }
+
+    const mergedKnowledge = acquisitionResult.knowledgePackage;
     
-    if (!registry) {
-      validationResults.blockers.push("JavaScript Fundamentals registry not found");
-      return validationResults;
-    }
-
-    const extractor = new HTMLDocumentationExtractor();
-    const knowledgeArrays: any[] = [];
-    for (const source of registry.sources) {
-      let connector: any;
-      if (source.connector === "MDNConnector") {
-        connector = new MDNConnector();
-      } else {
-        console.log(`  ⚠️  Unknown connector: ${source.connector}`);
-        continue;
-      }
-
-      const connectorResult = await connector.connect({
-        sourceType: connector.sourceType as any,
-        sourceUrl: source.url,
-      });
-
-      if (!connectorResult.error && connectorResult.data) {
-        const extractionResult = await extractor.extract(connectorResult.data, { sourceUrl: source.url });
-        knowledgeArrays.push(extractionResult.knowledge);
-        console.log(`  ✅ Acquired: ${source.url}`);
-      } else {
-        console.log(`  ❌ Failed: ${source.url} - ${connectorResult.error}`);
-        validationResults.blockers.push(`Source acquisition failed: ${source.url}`);
-      }
-    }
-
-    if (knowledgeArrays.length === 0) {
-      validationResults.blockers.push("No knowledge acquired from sources");
-      return validationResults;
-    }
-
-    // Merge knowledge
-    const mergedKnowledge = {
-      definitions: [],
-      concepts: [],
-      procedures: [],
-      examples: [],
-      warnings: [],
-      bestPractices: [],
-      commonMistakes: [],
-      faqs: [],
-      references: [],
-      metadata: {
-        sourceUrl: "",
-        extractedAt: new Date().toISOString(),
-        confidence: "high",
-      },
-    };
-
-    const seenTerms = new Set<string>();
-    const seenNames = new Set<string>();
-    const seenUrls = new Set<string>();
-
-    knowledgeArrays.forEach((knowledge) => {
-      knowledge.definitions?.forEach((d: any) => {
-        const key = d.term?.toLowerCase() || d.id;
-        if (!seenTerms.has(key)) {
-          seenTerms.add(key);
-          (mergedKnowledge.definitions as any[]).push(d);
-        }
-      });
-
-      knowledge.concepts?.forEach((c: any) => {
-        const key = c.name?.toLowerCase() || c.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (mergedKnowledge.concepts as any[]).push(c);
-        }
-      });
-
-      knowledge.procedures?.forEach((p: any) => {
-        const key = p.name?.toLowerCase() || p.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (mergedKnowledge.procedures as any[]).push(p);
-        }
-      });
-
-      knowledge.examples?.forEach((e: any) => {
-        const key = e.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (mergedKnowledge.examples as any[]).push(e);
-        }
-      });
-
-      knowledge.warnings?.forEach((w: any) => {
-        const key = w.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (mergedKnowledge.warnings as any[]).push(w);
-        }
-      });
-
-      knowledge.references?.forEach((r: any) => {
-        const key = r.url?.toLowerCase() || r.id;
-        if (!seenUrls.has(key)) {
-          seenUrls.add(key);
-          (mergedKnowledge.references as any[]).push(r);
-        }
-      });
-    });
-
-    console.log(`  Knowledge merged from ${knowledgeArrays.length} sources`);
+    console.log(`  Knowledge acquired from ${acquisitionResult.sourcesConsulted.length} sources`);
+    console.log(`  Sources: ${acquisitionResult.sourcesConsulted.join(", ")}`);
+    console.log(`  Collections: ${acquisitionResult.collectionsAcquired.join(", ")}`);
     console.log(`  Definitions: ${mergedKnowledge.definitions.length}`);
     console.log(`  Concepts: ${mergedKnowledge.concepts.length}`);
     console.log(`  Procedures: ${mergedKnowledge.procedures.length}`);
