@@ -53,7 +53,7 @@ async function runPhase33Pilot() {
         .from("topics")
         .select("id, slug, package_id")
         .eq("slug", slug)
-        .single();
+        .maybeSingle();
 
       if (!topic) {
         console.log(`\n❌ Topic not found: ${slug}`);
