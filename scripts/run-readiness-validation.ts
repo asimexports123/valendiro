@@ -12,8 +12,6 @@ dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
 import { MDNConnector } from "../services/acquisition/connectors/mdnConnector";
 import { HTMLDocumentationExtractor } from "../services/acquisition/extractors/htmlDocumentationExtractor";
-import { DataProcessor } from "../services/dataProcessor/dataProcessor";
-import { QualityMetricsCalculator } from "../services/qualityMetrics/qualityMetrics";
 import { createHash } from "crypto";
 
 interface ValidationResult {
@@ -56,29 +54,35 @@ async function runReadinessValidation() {
     console.log("Step 1: Knowledge Package Acquisition");
     console.log("-".repeat(40));
 
-    const connector = new MDNConnector();
+    // Use the same acquisition approach as gap-driven acquisition
+    // which has been proven to work with the updated URLs
+    const { SUBJECT_SOURCE_REGISTRY } = await import("../config/subjectSourceRegistry");
+    const registry = SUBJECT_SOURCE_REGISTRY["javascript-fundamentals"];
+    
+    if (!registry) {
+      validationResults.blockers.push("JavaScript Fundamentals registry not found");
+      return validationResults;
+    }
+
     const extractor = new HTMLDocumentationExtractor();
-    const dataProcessor = new DataProcessor({
-      minConfidence: 0.0,
-      allowPlaceholders: false,
-      requireMetadata: true,
-    });
-
-    const sources = [
-      { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction", connector },
-      { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements", connector },
-    ];
-
     const knowledgeArrays: any[] = [];
-    for (const source of sources) {
-      const connectorResult = await source.connector.connect({
-        sourceType: source.connector.sourceType as any,
+    for (const source of registry.sources) {
+      let connector: any;
+      if (source.connector === "MDNConnector") {
+        connector = new MDNConnector();
+      } else {
+        console.log(`  ⚠️  Unknown connector: ${source.connector}`);
+        continue;
+      }
+
+      const connectorResult = await connector.connect({
+        sourceType: connector.sourceType as any,
         sourceUrl: source.url,
       });
 
       if (!connectorResult.error && connectorResult.data) {
-        const extractionResult = extractor.extract(connectorResult.data, source.url);
-        knowledgeArrays.push(extractionResult);
+        const extractionResult = await extractor.extract(connectorResult.data, { sourceUrl: source.url });
+        knowledgeArrays.push(extractionResult.knowledge);
         console.log(`  ✅ Acquired: ${source.url}`);
       } else {
         console.log(`  ❌ Failed: ${source.url} - ${connectorResult.error}`);
@@ -214,38 +218,93 @@ async function runReadinessValidation() {
     // Check if Knowledge Authoring Orchestrator is available
     try {
       const { KnowledgeAuthoringOrchestrator } = await import("../services/renderer/authoring/knowledgeAuthoringOrchestrator");
+      const { createAuthoringContextFromKnowledgePackage } = await import("../services/renderer/adapters/knowledgePackageAdapter");
       const orchestrator = new KnowledgeAuthoringOrchestrator();
       
-      const authoringContext = {
-        topic: "JavaScript Fundamentals",
-        knowledgePackage: {
-          definitions: mergedKnowledge.definitions.map((d: any) => ({
-            id: d.id,
-            term: d.term,
-            definition: d.definition,
-            confidence: "high",
-          })),
-          concepts: mergedKnowledge.concepts.map((c: any) => ({
-            id: c.id,
-            name: c.name,
-            description: c.description,
-            confidence: "high",
-          })),
-          procedures: mergedKnowledge.procedures.map((p: any) => ({
-            id: p.id,
-            name: p.name,
-            steps: p.steps,
-            confidence: "high",
-          })),
-          examples: mergedKnowledge.examples.map((e: any) => ({
-            id: e.id,
-            title: e.title,
-            description: e.description,
-            code: e.code,
-            confidence: "high",
-          })),
+      // Create proper Knowledge Package structure
+      const knowledgePackage = {
+        id: `pkg_${Date.now()}`,
+        slug: "javascript-fundamentals",
+        knowledgeHash: "test-hash",
+        topicId: null,
+        category: "technology",
+        intent: "educate" as const,
+        definitions: mergedKnowledge.definitions.map((d: any) => ({
+          id: d.id,
+          term: d.term,
+          definition: d.definition,
+          confidence: "high",
+        })),
+        concepts: mergedKnowledge.concepts.map((c: any) => ({
+          id: c.id,
+          name: c.name,
+          description: c.description,
+          confidence: "high",
+        })),
+        procedures: mergedKnowledge.procedures.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          steps: p.steps,
+          confidence: "high",
+        })),
+        examples: mergedKnowledge.examples.map((e: any) => ({
+          id: e.id,
+          title: e.title,
+          description: e.description,
+          code: e.code,
+          relatedDefinitions: e.relatedDefinitions || [],
+          relatedConcepts: e.relatedConcepts || [],
+          relatedProcedures: e.relatedProcedures || [],
+          references: e.references || [],
+          confidence: "high",
+        })),
+        comparisons: [],
+        commands: [],
+        formulae: [],
+        warnings: mergedKnowledge.warnings.map((w: any) => ({
+          id: w.id,
+          title: w.title,
+          description: w.description,
+          severity: w.severity,
+        })),
+        bestPractices: [],
+        commonMistakes: [],
+        faqs: [],
+        references: mergedKnowledge.references.map((r: any) => ({
+          id: r.id,
+          title: r.title,
+          url: r.url,
+        })),
+        facts: [],
+        citations: [],
+        relationships: [],
+        metadata: {
+          sourceCount: 2,
+          factCount: mergedKnowledge.definitions.length + mergedKnowledge.concepts.length + mergedKnowledge.procedures.length + mergedKnowledge.examples.length,
+          relationshipCount: 0,
+          lastUpdated: new Date().toISOString(),
+          lastVerified: null,
+          confidence: "high",
+          sourceMetadata: {
+            adapterName: "MDNConnector",
+            adapterVersion: "1.0.0",
+            sourceType: "official-docs" as const,
+            retrievedAt: new Date().toISOString(),
+            processedAt: new Date().toISOString(),
+            validationStatus: "valid" as const,
+          },
         },
       };
+
+      // Use integration adapter to create proper AuthoringContext
+      const authoringContext = createAuthoringContextFromKnowledgePackage(
+        knowledgePackage,
+        "JavaScript Fundamentals",
+        "programming",
+        "technology",
+        "educate",
+        "beginner"
+      );
 
       const authoringResult = await orchestrator.authorDocument(authoringContext);
       
@@ -258,8 +317,8 @@ async function runReadinessValidation() {
         validationResults.blockers.push("Knowledge Authoring failed to generate article");
       }
     } catch (authoringError: any) {
-      console.log(`  ⚠️  Knowledge Authoring not available: ${authoringError.message}`);
-      validationResults.blockers.push(`Knowledge Authoring unavailable: ${authoringError.message}`);
+      console.log(`  ⚠️  Knowledge Authoring error: ${authoringError.message}`);
+      validationResults.blockers.push(`Knowledge Authoring error: ${authoringError.message}`);
     }
 
     // Step 4: Renderer

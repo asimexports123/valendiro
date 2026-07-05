@@ -15,9 +15,9 @@ import type {
 } from "../types";
 import { KnowledgeAuthoringOrchestrator, type AuthoringContext } from "../authoring/knowledgeAuthoringOrchestrator";
 
-export const knowledgeAuthoringV1Strategy = {
-  version: "1.0.0",
-  name: "knowledge-authoring-v1",
+export class KnowledgeAuthoringV1 {
+  version = "1.0.0";
+  name = "knowledge-authoring-v1";
 
   render(
     facts: PluginFact[],
@@ -55,5 +55,8 @@ export const knowledgeAuthoringV1Strategy = {
         children: ["This content is rendered with the Knowledge Authoring Engine (v1.0.0)."],
       },
     ];
-  },
-};
+  }
+}
+
+// Export the strategy for backward compatibility
+export const knowledgeAuthoringV1Strategy = new KnowledgeAuthoringV1();
