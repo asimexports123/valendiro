@@ -12,13 +12,16 @@ export const APP_ROLES = {
 
 export type AppRole = (typeof APP_ROLES)[keyof typeof APP_ROLES];
 
-// Owner-facing nav — what the platform owner sees by default
+// CMS Navigation — Production Operations
 export const ADMIN_NAV_ITEMS = [
-  { label: "🏠  Dashboard",      href: "/admin/dashboard" },
-  { label: "📝  Articles",       href: "/admin/articles" },
-  { label: "🧬  Entity Types",   href: "/admin/entity-types" },
-  { label: "🧩  Knowledge Hubs", href: "/admin/hubs" },
-  { label: "⚙️  Settings",       href: "/admin/settings" },
+  { label: "Dashboard",      href: "/admin/dashboard" },
+  { label: "Articles",       href: "/admin/articles" },
+  { label: "Publishing",     href: "/admin/publishing" },
+  { label: "Knowledge",      href: "/admin/knowledge" },
+  { label: "Sources",        href: "/admin/sources" },
+  { label: "SEO",            href: "/admin/seo" },
+  { label: "Analytics",      href: "/admin/analytics" },
+  { label: "Settings",       href: "/admin/settings" },
 ];
 
 // Developer-mode nav — hidden by default, shown when ?dev=1 is in URL
