@@ -71,7 +71,7 @@ async function runProductionValidation() {
     },
     {
       connector: "Node.js Documentation",
-      sourceUrl: "https://nodejs.org/en/docs/guides/simple-profiling",
+      sourceUrl: "https://nodejs.org/en/docs/",
       topic: "Event Loop",
     },
     {
