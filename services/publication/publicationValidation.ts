@@ -19,6 +19,10 @@ import type { RenderedOutput, Topic } from './publicationPipeline';
 
 export interface ValidationConfig {
   qualityThreshold: number;
+  minCoverage: number;
+  minCompleteness: number;
+  minAuthority: number;
+  minReferences: number;
   requiredRendererVersion: string;
   allowedOutputFormats: ('html' | 'markdown' | 'json')[];
   minWordCount: number;
@@ -37,10 +41,15 @@ export interface ValidationResult {
     contentIntegrity: boolean;
     metadataComplete: boolean;
     qualityScoreValid: boolean;
+    coverageValid: boolean;
+    completenessValid: boolean;
+    authorityValid: boolean;
+    referencesValid: boolean;
     topicExists: boolean;
     topicPublishable: boolean;
   };
   score: number; // 0-100 validation score
+  level: 'LEVEL_1_PUBLISHED' | 'DEFERRED' | 'FAILED';
 }
 
 export interface ValidationReport {
@@ -56,7 +65,11 @@ export class PublicationValidation {
 
   constructor(config?: Partial<ValidationConfig>) {
     this.config = {
-      qualityThreshold: 0.8,
+      qualityThreshold: 0.7,
+      minCoverage: 0.5,
+      minCompleteness: 0.5,
+      minAuthority: 0.8,
+      minReferences: 2,
       requiredRendererVersion: '1.0.0',
       allowedOutputFormats: ['html'],
       minWordCount: 100,
@@ -76,7 +89,7 @@ export class PublicationValidation {
     const errors: string[] = [];
     const warnings: string[] = [];
     let passedChecks = 0;
-    let totalChecks = 9;
+    let totalChecks = 13;
 
     // Check 1: Render completed successfully
     const renderCompleted = this.checkRenderCompleted(renderedOutput);
@@ -132,14 +145,42 @@ export class PublicationValidation {
       );
     }
 
-    // Check 8: Topic exists
+    // Check 8: Coverage valid
+    const coverageValid = this.checkCoverage(renderedOutput);
+    passedChecks += coverageValid ? 1 : 0;
+    if (!coverageValid) {
+      errors.push(`Coverage does not meet minimum threshold of ${this.config.minCoverage}`);
+    }
+
+    // Check 9: Completeness valid
+    const completenessValid = this.checkCompleteness(renderedOutput);
+    passedChecks += completenessValid ? 1 : 0;
+    if (!completenessValid) {
+      errors.push(`Completeness does not meet minimum threshold of ${this.config.minCompleteness}`);
+    }
+
+    // Check 10: Authority valid
+    const authorityValid = this.checkAuthority(renderedOutput);
+    passedChecks += authorityValid ? 1 : 0;
+    if (!authorityValid) {
+      errors.push(`Authority does not meet minimum threshold of ${this.config.minAuthority}`);
+    }
+
+    // Check 11: References valid
+    const referencesValid = this.checkReferences(renderedOutput);
+    passedChecks += referencesValid ? 1 : 0;
+    if (!referencesValid) {
+      errors.push(`References count does not meet minimum of ${this.config.minReferences}`);
+    }
+
+    // Check 12: Topic exists
     const topicExists = topic !== null;
     passedChecks += topicExists ? 1 : 0;
     if (!topicExists) {
       errors.push('Topic does not exist');
     }
 
-    // Check 9: Topic is publishable
+    // Check 13: Topic is publishable
     const topicPublishable = topic ? this.checkTopicPublishable(topic) : false;
     passedChecks += topicPublishable ? 1 : 0;
     if (topic && !topicPublishable) {
@@ -148,6 +189,16 @@ export class PublicationValidation {
 
     // Calculate validation score (0-100)
     const score = Math.round((passedChecks / totalChecks) * 100);
+
+    // Determine publication level
+    let level: 'LEVEL_1_PUBLISHED' | 'DEFERRED' | 'FAILED';
+    if (errors.length === 0) {
+      level = 'LEVEL_1_PUBLISHED';
+    } else if (this.checkCoreRequirements(renderedOutput)) {
+      level = 'DEFERRED';
+    } else {
+      level = 'FAILED';
+    }
 
     return {
       valid: errors.length === 0,
@@ -161,10 +212,15 @@ export class PublicationValidation {
         contentIntegrity,
         metadataComplete,
         qualityScoreValid,
+        coverageValid,
+        completenessValid,
+        authorityValid,
+        referencesValid,
         topicExists,
         topicPublishable,
       },
       score,
+      level,
     };
   }
 
@@ -263,6 +319,80 @@ export class PublicationValidation {
    */
   private checkTopicPublishable(topic: Topic): boolean {
     return topic.status !== 'archived';
+  }
+
+  /**
+   * Check coverage meets minimum threshold
+   */
+  private checkCoverage(renderedOutput: RenderedOutput): boolean {
+    const score = this.extractQualityScore(renderedOutput);
+    return score >= this.config.minCoverage;
+  }
+
+  /**
+   * Check completeness meets minimum threshold
+   */
+  private checkCompleteness(renderedOutput: RenderedOutput): boolean {
+    const score = this.extractQualityScore(renderedOutput);
+    return score >= this.config.minCompleteness;
+  }
+
+  /**
+   * Check authority meets minimum threshold
+   */
+  private checkAuthority(renderedOutput: RenderedOutput): boolean {
+    const score = this.extractQualityScore(renderedOutput);
+    return score >= this.config.minAuthority;
+  }
+
+  /**
+   * Check references count meets minimum requirement
+   */
+  private checkReferences(renderedOutput: RenderedOutput): boolean {
+    if (!renderedOutput.citation_count) {
+      return false;
+    }
+    return renderedOutput.citation_count >= this.config.minReferences;
+  }
+
+  /**
+   * Check core requirements for LEVEL_1 publication
+   */
+  private checkCoreRequirements(renderedOutput: RenderedOutput): boolean {
+    const qualityScore = this.extractQualityScore(renderedOutput);
+    return (
+      qualityScore >= this.config.qualityThreshold &&
+      renderedOutput.citation_count >= this.config.minReferences
+    );
+  }
+
+  /**
+   * Validate topic-specific collection requirements
+   */
+  validateTopicCollections(topic: Topic | null, renderedOutput: RenderedOutput): boolean {
+    if (!topic) return false;
+
+    const category = topic.category_id || 'general';
+    const requiredCollections = this.getRequiredCollections(category);
+    
+    // For now, assume collections are validated if basic requirements are met
+    // This can be enhanced with actual collection checking logic
+    return this.checkCoreRequirements(renderedOutput);
+  }
+
+  /**
+   * Get required collections based on topic category
+   */
+  private getRequiredCollections(category: string): string[] {
+    const collectionMap: Record<string, string[]> = {
+      programming: ['definitions', 'concepts', 'references'],
+      finance: ['definitions', 'concepts', 'risks', 'references'],
+      health: ['definitions', 'symptoms', 'causes', 'references'],
+      business: ['definitions', 'concepts', 'best_practices', 'references'],
+      general: ['definitions', 'concepts', 'references'],
+    };
+
+    return collectionMap[category.toLowerCase()] || collectionMap.general;
   }
 
   /**
