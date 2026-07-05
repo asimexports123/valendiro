@@ -1,0 +1,509 @@
+{
+  "domains": {
+    "aws": {
+      "name": "AWS",
+      "terminology": [
+        "Region", "Availability Zone", "EC2", "AMI", "EBS", "IAM", "VPC", "Subnet",
+        "Security Group", "NACL", "Route Table", "Internet Gateway", "NAT Gateway",
+        "Elastic Load Balancer", "Auto Scaling Group", "Lambda", "API Gateway",
+        "S3", "DynamoDB", "RDS", "ElastiCache", "CloudFront", "CloudWatch",
+        "CloudFormation", "EKS", "ECS", "Fargate", "Step Functions"
+      ],
+      "entities": [
+        "EC2 Instances", "S3 Buckets", "IAM Roles", "VPC Networks", "Lambda Functions",
+        "API Endpoints", "DynamoDB Tables", "RDS Instances", "CloudFront Distributions",
+        "CloudWatch Metrics", "CloudFormation Stacks", "EKS Clusters", "ECS Tasks"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Architecture",
+        "Configuration",
+        "Pricing",
+        "Security",
+        "Best Practices",
+        "Troubleshooting",
+        "Use Cases",
+        "Comparison",
+        "FAQ"
+      ],
+      "requiredExamples": [
+        "Code examples for configuration",
+        "CLI commands",
+        "Terraform/CloudFormation templates",
+        "Real-world implementation scenarios"
+      ],
+      "requiredComparisons": [
+        "Service alternatives",
+        "Pricing tiers comparison",
+        "Feature comparison tables"
+      ],
+      "requiredTables": [
+        "Pricing comparison table",
+        "Feature comparison table",
+        "Service limits table",
+        "Region availability table"
+      ],
+      "requiredWarnings": [
+        "Security warnings",
+        "Cost optimization warnings",
+        "Best practice warnings"
+      ],
+      "requiredFAQs": [
+        "Common pricing questions",
+        "Security configuration questions",
+        "Troubleshooting FAQs"
+      ],
+      "requiredReferences": [
+        "AWS official documentation",
+        "AWS whitepapers",
+        "AWS blog posts",
+        "Community best practices"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related AWS services",
+        "Link to architectural patterns",
+        "Link to pricing guides",
+        "Link to security best practices"
+      ]
+    },
+    "python": {
+      "name": "Python",
+      "terminology": [
+        "Variables", "Data Types", "Lists", "Tuples", "Sets", "Dictionaries",
+        "Functions", "Classes", "Methods", "Modules", "Packages", "Decorators",
+        "Generators", "Iterators", "Async/Await", "Exceptions", "Context Managers",
+        "List Comprehensions", "Lambda Functions", "Type Hints", "Virtual Environments"
+      ],
+      "entities": [
+        "Python objects", "Functions", "Classes", "Modules", "Packages",
+        "List operations", "Dictionary operations", "File objects", "Network sockets"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Syntax",
+        "Code Examples",
+        "Common Patterns",
+        "Best Practices",
+        "Performance Considerations",
+        "Common Errors",
+        "Troubleshooting",
+        "Advanced Usage",
+        "FAQ"
+      ],
+      "requiredExamples": [
+        "Code snippets with output",
+        "Real-world usage examples",
+        "Integration examples",
+        "Performance benchmarks"
+      ],
+      "requiredComparisons": [
+        "Python vs other languages",
+        "Different approach comparisons",
+        "Library comparisons"
+      ],
+      "requiredTables": [
+        "Time complexity table",
+        "Library comparison table",
+        "Performance comparison table"
+      ],
+      "requiredWarnings": [
+        "Common pitfalls",
+        "Performance warnings",
+        "Security warnings"
+      ],
+      "requiredFAQs": [
+        "Common syntax questions",
+        "Debugging FAQs",
+        "Best practice questions"
+      ],
+      "requiredReferences": [
+        "Python official documentation",
+        "PEP documents",
+        "Popular library documentation",
+        "Community resources"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related Python concepts",
+        "Link to library documentation",
+        "Link to best practices",
+        "Link to troubleshooting guides"
+      ]
+    },
+    "kubernetes": {
+      "name": "Kubernetes",
+      "terminology": [
+        "Pod", "Deployment", "ReplicaSet", "Service", "Ingress", "Namespace",
+        "ConfigMap", "Secret", "Volume", "PersistentVolume", "PersistentVolumeClaim",
+        "StatefulSet", "DaemonSet", "Job", "CronJob", "Helm", "kubectl",
+        "kubelet", "kube-proxy", "kube-apiserver", "etcd", "scheduler", "controller-manager"
+      ],
+      "entities": [
+        "Pods", "Deployments", "Services", "Ingress controllers", "ConfigMaps",
+        "Secrets", "Persistent Volumes", "Namespaces", "Helm charts"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Architecture",
+        "Configuration",
+        "Deployment",
+        "Networking",
+        "Storage",
+        "Security",
+        "Monitoring",
+        "Troubleshooting",
+        "Best Practices"
+      ],
+      "requiredExamples": [
+        "YAML configuration examples",
+        "kubectl commands",
+        "Helm chart examples",
+        "Real-world deployment scenarios"
+      ],
+      "requiredComparisons": [
+        "Deployment strategies comparison",
+        "Storage options comparison",
+        "Ingress controllers comparison"
+      ],
+      "requiredTables": [
+        "Resource limits table",
+        "Storage class comparison table",
+        "Ingress controller comparison table"
+      ],
+      "requiredWarnings": [
+        "Security warnings",
+        "Resource limit warnings",
+        "Networking warnings"
+      ],
+      "requiredFAQs": [
+        "Common deployment questions",
+        "Networking FAQs",
+        "Troubleshooting FAQs"
+      ],
+      "requiredReferences": [
+        "Kubernetes official documentation",
+        "CNCF resources",
+        "Community best practices",
+        "Helm documentation"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related Kubernetes concepts",
+        "Link to deployment strategies",
+        "Link to networking guides",
+        "Link to monitoring solutions"
+      ]
+    },
+    "javascript": {
+      "name": "JavaScript",
+      "terminology": [
+        "Variables", "Functions", "Objects", "Arrays", "Promises", "Async/Await",
+        "DOM", "Events", "Fetch API", "ES6", "Arrow Functions", "Destructuring",
+        "Spread Operator", "Template Literals", "Modules", "Classes", "Closures",
+        "Prototypes", "This keyword", "Call/Apply/Bind", "Event Loop"
+      ],
+      "entities": [
+        "JavaScript objects", "Functions", "DOM elements", "Promises",
+        "Event listeners", "Fetch requests"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Syntax",
+        "Code Examples",
+        "Common Patterns",
+        "Best Practices",
+        "Performance",
+        "Browser Compatibility",
+        "Troubleshooting",
+        "Modern JavaScript",
+        "FAQ"
+      ],
+      "requiredExamples": [
+        "Code snippets with console output",
+        "DOM manipulation examples",
+        "API integration examples",
+        "Performance examples"
+      ],
+      "requiredComparisons": [
+        "ES5 vs ES6+",
+        "Different approach comparisons",
+        "Framework comparisons"
+      ],
+      "requiredTables": [
+        "Browser compatibility table",
+        "Performance comparison table",
+        "Framework comparison table"
+      ],
+      "requiredWarnings": [
+        "Common pitfalls",
+        "Browser compatibility warnings",
+        "Performance warnings"
+      ],
+      "requiredFAQs": [
+        "Common syntax questions",
+        "DOM manipulation FAQs",
+        "Async programming FAQs"
+      ],
+      "requiredReferences": [
+        "MDN documentation",
+        "JavaScript specifications",
+        "Framework documentation",
+        "Community resources"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related JavaScript concepts",
+        "Link to framework guides",
+        "Link to best practices",
+        "Link to troubleshooting guides"
+      ]
+    },
+    "docker": {
+      "name": "Docker",
+      "terminology": [
+        "Container", "Image", "Dockerfile", "Docker Compose", "Registry",
+        "Volume", "Network", "Docker Daemon", "Docker CLI", "Layers",
+        "Multi-stage builds", "Health checks", "Orchestration", "Kubernetes"
+      ],
+      "entities": [
+        "Docker containers", "Docker images", "Docker volumes", "Docker networks",
+        "Docker registries"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Dockerfile",
+        "Building Images",
+        "Running Containers",
+        "Docker Compose",
+        "Volumes",
+        "Networking",
+        "Best Practices",
+        "Optimization",
+        "Troubleshooting"
+      ],
+      "requiredExamples": [
+        "Dockerfile examples",
+        "Docker Compose examples",
+        "CLI command examples",
+        "Multi-stage build examples"
+      ],
+      "requiredComparisons": [
+        "Docker vs VMs",
+        "Different base images comparison",
+        "Orchestration options comparison"
+      ],
+      "requiredTables": [
+        "Base image comparison table",
+        "Docker command reference table",
+        "Optimization techniques table"
+      ],
+      "requiredWarnings": [
+        "Security warnings",
+        "Best practice warnings",
+        "Performance warnings"
+      ],
+      "requiredFAQs": [
+        "Common Docker questions",
+        "Networking FAQs",
+        "Troubleshooting FAQs"
+      ],
+      "requiredReferences": [
+        "Docker official documentation",
+        "Best practice guides",
+        "Community resources",
+        "Image documentation"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related Docker concepts",
+        "Link to best practices",
+        "Link to orchestration guides",
+        "Link to troubleshooting guides"
+      ]
+    },
+    "git": {
+      "name": "Git",
+      "terminology": [
+        "Repository", "Commit", "Branch", "Merge", "Rebase", "Stash",
+        "Remote", "Clone", "Pull", "Push", "Fetch", "HEAD",
+        "Merge Conflict", "Cherry-pick", "Reset", "Revert", "Tag",
+        "Gitignore", "Git Hooks", "Submodules", "LFS"
+      ],
+      "entities": [
+        "Git repositories", "Branches", "Commits", "Remotes", "Stashes"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Basic Commands",
+        "Branching",
+        "Merging",
+        "Rebasing",
+        "Stashing",
+        "Undoing Changes",
+        "Best Practices",
+        "Workflows",
+        "Troubleshooting"
+      ],
+      "requiredExamples": [
+        "Git command examples",
+        "Workflow examples",
+        "Conflict resolution examples",
+        "Team collaboration examples"
+      ],
+      "requiredComparisons": [
+        "Merge vs Rebase",
+        "Different workflow comparisons",
+        "Git hosting platform comparisons"
+      ],
+      "requiredTables": [
+        "Git command reference table",
+        "Workflow comparison table",
+        "Hosting platform comparison table"
+      ],
+      "requiredWarnings": [
+        "Common pitfalls",
+        "Data loss warnings",
+        "Collaboration warnings"
+      ],
+      "requiredFAQs": [
+        "Common Git questions",
+        "Branching FAQs",
+        "Troubleshooting FAQs"
+      ],
+      "requiredReferences": [
+        "Git official documentation",
+        "Pro Git book",
+        "Platform documentation",
+        "Community best practices"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related Git concepts",
+        "Link to workflow guides",
+        "Link to best practices",
+        "Link to troubleshooting guides"
+      ]
+    },
+    "finance": {
+      "name": "Finance",
+      "terminology": [
+        "ROI", "NPV", "IRR", "Cash Flow", "Assets", "Liabilities",
+        "Equity", "Debt", "Credit Score", "Interest Rate", "Inflation",
+        "Diversification", "Risk Tolerance", "Portfolio", "Dividend",
+        "Capital Gains", "Tax", "401k", "IRA", "Mutual Fund", "ETF"
+      ],
+      "entities": [
+        "Financial instruments", "Accounts", "Investments", "Loans",
+        "Credit products", "Retirement accounts"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Definition",
+        "How It Works",
+        "Benefits",
+        "Risks",
+        "Tax Implications",
+        "Best Practices",
+        "Calculation Examples",
+        "Real-World Applications",
+        "FAQ"
+      ],
+      "requiredExamples": [
+        "Financial calculations",
+        "Investment scenarios",
+        "Budget examples",
+        "Tax calculation examples"
+      ],
+      "requiredComparisons": [
+        "Investment option comparisons",
+        "Tax-advantaged account comparisons",
+        "Risk/return comparisons"
+      ],
+      "requiredTables": [
+        "Investment comparison table",
+        "Tax rate table",
+        "Risk assessment table"
+      ],
+      "requiredWarnings": [
+        "Risk warnings",
+        "Tax warnings",
+        "Regulatory warnings"
+      ],
+      "requiredFAQs": [
+        "Common financial questions",
+        "Tax-related FAQs",
+        "Investment FAQs"
+      ],
+      "requiredReferences": [
+        "IRS publications",
+        "Financial authority resources",
+        "Regulatory documentation",
+        "Financial planning resources"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related financial concepts",
+        "Link to investment guides",
+        "Link to tax resources",
+        "Link to retirement planning"
+      ]
+    },
+    "cloud-computing": {
+      "name": "Cloud Computing",
+      "terminology": [
+        "IaaS", "PaaS", "SaaS", "Serverless", "Multi-cloud", "Hybrid Cloud",
+        "Public Cloud", "Private Cloud", "Auto-scaling", "Load Balancing",
+        "CDN", "DNS", "SSL/TLS", "Disaster Recovery", "High Availability",
+        "Cost Management", "Cloud Migration", "DevOps", "CI/CD"
+      ],
+      "entities": [
+        "Cloud services", "Virtual machines", "Storage services", "Networking services",
+        "Compute services"
+      ],
+      "requiredSections": [
+        "Overview",
+        "Service Models",
+        "Deployment Models",
+        "Providers",
+        "Architecture",
+        "Security",
+        "Cost Management",
+        "Migration",
+        "Best Practices",
+        "FAQ"
+      ],
+      "requiredExamples": [
+        "Architecture examples",
+        "Migration scenarios",
+        "Cost optimization examples",
+        "Security implementation examples"
+      ],
+      "requiredComparisons": [
+        "Cloud provider comparisons",
+        "Service model comparisons",
+        "Deployment model comparisons"
+      ],
+      "requiredTables": [
+        "Provider comparison table",
+        "Service model comparison table",
+        "Pricing comparison table"
+      ],
+      "requiredWarnings": [
+        "Security warnings",
+        "Cost warnings",
+        "Migration warnings"
+      ],
+      "requiredFAQs": [
+        "Common cloud questions",
+        "Migration FAQs",
+        "Cost management FAQs"
+      ],
+      "requiredReferences": [
+        "Cloud provider documentation",
+        "Industry standards",
+        "Best practice guides",
+        "Security frameworks"
+      ],
+      "internalLinkingPatterns": [
+        "Link to cloud providers",
+        "Link to service models",
+        "Link to architecture patterns",
+        "Link to migration guides"
+      ]
+    }
+  }
+}

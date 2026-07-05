@@ -14,6 +14,12 @@ const templateRegistry = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../config/template-registry.json'), 'utf8')
 );
 
+// ─── Load Domain Playbooks ─────────────────────────────────────────────────
+
+const domainPlaybooks = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../config/domain-playbooks.json'), 'utf8')
+);
+
 // ─── Editorial Intelligence: Component Determination ─────────────────────
 
 function determineSectionComponents(sectionName, domain, intent) {
@@ -104,75 +110,52 @@ function determineSectionComponents(sectionName, domain, intent) {
 // ─── Editorial Intelligence: Domain Enrichment ─────────────────────────
 
 function enrichWithDomainComponents(content, domain, title) {
-  const domainEnrichment = {
-    'programming': {
-      prefix: `\n### Code Example\n\`\`\`\n// ${title} implementation\nconst result = ${title.toLowerCase().replace(/ /g, '_')}();\nconsole.log(result);\n\`\`\`\n\n### Common Errors\n- **Error 1:** Description and fix\n- **Error 2:** Description and fix\n\n### Debugging Tips\n- Tip 1: Description\n- Tip 2: Description\n`,
-      suffix: `\n### Best Practices\n✓ Practice 1\n✓ Practice 2\n✓ Practice 3\n`
-    },
-    'cloud-computing': {
-      prefix: `\n### Architecture\n\`\`\`\n[Diagram: ${title} Architecture]\nClient → Load Balancer → ${title} → Database\n\`\`\`\n\n### Pricing\n| Tier | Price | Features |\n|------|-------|----------|\n| Free | $0 | Basic features |\n| Pro | $X | Advanced features |\n| Enterprise | Custom | Full features |\n\n### Security\n⚠️ **Important:** Configure security groups and IAM roles properly.\n\n### Use Cases\n- Use case 1: Description\n- Use case 2: Description\n\n### Limits\n- Limit 1: Description\n- Limit 2: Description\n`,
-      suffix: ``
-    },
-    'finance': {
-      prefix: `\n### Formula\n\`\`\`\n${title.toUpperCase()} = (A × B) + C\nWhere:\nA = Factor 1\nB = Factor 2\nC = Factor 3\n\`\`\`\n\n### Example Calculation\n**Scenario:** Description\n**Input:** Values\n**Calculation:** Show steps\n**Result:** Final value\n\n### Tax Notes\n⚠️ **Tax Implications:** Consult tax advisor for specific situations.\n\n### Risks\n- Risk 1: Description and mitigation\n- Risk 2: Description and mitigation\n\n### Practical Example\n**Real-world scenario:** Description of how ${title} applies\n`,
-      suffix: ``
-    },
-    'business': {
-      prefix: `\n### KPIs and Metrics\n| Metric | Target | Current |\n|--------|--------|--------|\n| KPI 1 | Value | Value |\n| KPI 2 | Value | Value |\n\n### Framework\n**Step 1:** Description\n**Step 2:** Description\n**Step 3:** Description\n\n### Real Company Examples\n- **Company A:** How they use ${title}\n- **Company B:** Results achieved\n\n### Process Flow\n\`\`\`\nStart → Step 1 → Step 2 → Step 3 → End\n\`\`\`\n`,
-      suffix: ``
-    },
-    'health': {
-      prefix: `\n### Symptoms\n- Symptom 1: Description and severity\n- Symptom 2: Description and severity\n- Symptom 3: Description and severity\n\n### Causes\n- Cause 1: Description\n- Cause 2: Description\n\n### Diagnosis\n- Method 1: Description\n- Method 2: Description\n\n### Treatment Options\n- **Option 1:** Description and considerations\n- **Option 2:** Description and considerations\n\n### Prevention\n- Measure 1: Description\n- Measure 2: Description\n`,
-      suffix: `\n### When to Seek Help\n⚠️ **Immediate:** Contact emergency if...\n⚠️ **Schedule appointment:** If symptoms persist...`
-    },
-    'travel': {
-      prefix: `\n### Budget Planning\n| Category | Estimated Cost |\n|----------|---------------|\n| Transportation | $X |\n| Accommodation | $Y |\n| Food | $Z |\n| Activities | $A |\n| **Total** | **$T** |\n\n### Best Time to Visit\n- **Season:** Best season description\n- **Weather:** Weather conditions\n- **Crowds:** Crowd levels\n\n### Visa Requirements\n⚠️ **Important:** Check visa requirements for your nationality.\n\n### Safety\n- Safety tip 1\n- Safety tip 2\n- Emergency contacts\n\n### Transportation\n- Option 1: Description and cost\n- Option 2: Description and cost\n`,
-      suffix: ``
-    },
-    'ai': {
-      prefix: `\n### Architecture\n\`\`\`\n[Diagram: ${title} Architecture]\nInput → Processing Layer → ${title} → Output\n\`\`\`\n\n### Implementation\n\`\`\`\n# ${title} implementation\nimport ${title.toLowerCase().replace(/ /g, '_')}\n\nmodel = ${title.toLowerCase().replace(/ /g, '_')}.Model()\nresult = model.process(data)\n\`\`\`\n\n### Use Cases\n- Use case 1: Description\n- Use case 2: Description\n\n### Best Practices\n✓ Practice 1\n✓ Practice 2\n`,
-      suffix: ``
-    },
-    'cybersecurity': {
-      prefix: `\n### Security Best Practices\n⚠️ **Critical:** Follow these security guidelines\n- Guideline 1: Description\n- Guideline 2: Description\n- Guideline 3: Description\n\n### Common Vulnerabilities\n- Vulnerability 1: Description and mitigation\n- Vulnerability 2: Description and mitigation\n\n### Troubleshooting\n- Issue 1: Solution\n- Issue 2: Solution\n`,
-      suffix: ``
-    }
-  };
+  // Use Domain Playbook for domain enrichment
+  const playbook = domainPlaybooks.domains[domain] || domainPlaybooks.domains['cloud-computing'];
   
-  const enrichment = domainEnrichment[domain] || domainEnrichment['business'];
+  const requiredSections = playbook?.requiredSections || [];
+  const requiredExamples = playbook?.requiredExamples || [];
+  const requiredWarnings = playbook?.requiredWarnings || [];
   
-  return enrichment.prefix + content + enrichment.suffix;
+  let enrichedContent = content;
+  
+  // Add required sections from playbook
+  if (requiredSections.includes('Architecture') && !content.includes('Architecture')) {
+    enrichedContent += `\n\n### Architecture\n\`\`\`\n[Diagram: ${title} Architecture]\nComponents and data flow for ${title}\n\`\`\`\n`;
+  }
+  
+  if (requiredSections.includes('Pricing') && !content.includes('Pricing')) {
+    enrichedContent += `\n\n### Pricing\n| Tier | Price | Features |\n|------|-------|----------|\n| Free | $0 | Basic features |\n| Pro | $X | Advanced features |\n| Enterprise | Custom | Full features |\n`;
+  }
+  
+  if (requiredSections.includes('Security') && !content.includes('Security')) {
+    enrichedContent += `\n\n### Security\n⚠️ **Important:** Configure security properly for ${title}.\n`;
+  }
+  
+  // Add examples if required
+  if (requiredExamples.length > 0 && !content.includes('Example')) {
+    enrichedContent += `\n\n### Examples\n${requiredExamples[0]}\n`;
+  }
+  
+  // Add warnings if required
+  if (requiredWarnings.length > 0 && !content.includes('Warning')) {
+    enrichedContent += `\n\n### Warnings\n⚠️ **${requiredWarnings[0]}**\n`;
+  }
+  
+  return enrichedContent;
 }
 
 // ─── Editorial Intelligence: Entity Enrichment ───────────────────────
 
 function enrichWithEntities(content, slug, domain) {
-  const entityMappings = {
-    'aws-ec2': ['EC2', 'AMI', 'EBS', 'IAM', 'VPC', 'Auto Scaling', 'Load Balancer', 'Security Groups', 'Pricing'],
-    'kubernetes': ['Pods', 'Deployments', 'ReplicaSets', 'Services', 'Ingress', 'Namespaces', 'ConfigMaps', 'Secrets', 'kubectl'],
-    'docker': ['Containers', 'Images', 'Dockerfile', 'Docker Compose', 'Volumes', 'Networks', 'Registry'],
-    'python': ['Variables', 'Data Types', 'Lists', 'Tuples', 'Sets', 'Dictionaries', 'Functions', 'Classes', 'Modules', 'Decorators'],
-    'javascript': ['Variables', 'Functions', 'Objects', 'Arrays', 'Promises', 'Async/Await', 'ES6', 'DOM', 'Event Loop'],
-    'react': ['Components', 'Hooks', 'State', 'Props', 'Context', 'Redux', 'Virtual DOM', 'JSX'],
-    'aws-lambda': ['Lambda Functions', 'Triggers', 'API Gateway', 'Event Sources', 'Layers', 'Concurrency', 'Timeout'],
-    '401k': ['Traditional 401(k)', 'Roth 401(k)', 'Employer Match', 'Contribution Limits', 'Vesting', 'Withdrawals', 'RMD']
-  };
+  // Use Domain Playbook for entity enrichment
+  const playbook = domainPlaybooks.domains[domain] || domainPlaybooks.domains['cloud-computing'];
   
-  const entities = entityMappings[slug] || [];
+  // Get entities from playbook
+  const entities = playbook?.entities || [];
   
-  if (entities.length === 0) {
-    // Generate generic entities based on domain
-    const domainEntities = {
-      'programming': ['Functions', 'Variables', 'Classes', 'Methods', 'Libraries'],
-      'cloud-computing': ['Services', 'Resources', 'Configurations', 'Deployments', 'Monitoring'],
-      'finance': ['Assets', 'Liabilities', 'Returns', 'Risks', 'Tax Implications'],
-      'business': ['Strategy', 'Operations', 'Metrics', 'KPIs', 'Stakeholders'],
-      'health': ['Symptoms', 'Conditions', 'Treatments', 'Prevention', 'Recovery'],
-      'travel': ['Destinations', 'Accommodations', 'Transportation', 'Activities', 'Budget']
-    };
-    
-    entities.push(...(domainEntities[domain] || []));
-  }
+  // Add terminology from playbook
+  const terminology = playbook?.terminology || [];
   
   // Naturally incorporate entities into content
   let enrichedContent = content;
@@ -183,10 +166,10 @@ function enrichWithEntities(content, slug, domain) {
     enrichedContent = enrichedContent.replace(regex, entity);
   }
   
-  // Add entity-specific section if entities exist
-  if (entities.length > 0) {
-    const entitySection = `\n### Key Components\n\n${entities.map(e => `- **${e}:** Specific description and role in ${slug.replace(/-/g, ' ')}`).join('\n')}\n`;
-    enrichedContent = entitySection + enrichedContent;
+  // Add terminology-specific section
+  if (terminology.length > 0) {
+    const terminologySection = `\n### Key Terminology\n\n${terminology.slice(0, 10).map(t => `- **${t}**: Definition and context in ${slug.replace(/-/g, ' ')}`).join('\n')}\n`;
+    enrichedContent = terminologySection + enrichedContent;
   }
   
   return enrichedContent;
