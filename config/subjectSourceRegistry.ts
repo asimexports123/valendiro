@@ -89,12 +89,6 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
         connector: "MDNConnector",
         targetCollections: ["definitions", "commands", "references"],
       },
-      {
-        name: "JavaScript Best Practices",
-        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Code_style",
-        connector: "MDNConnector",
-        targetCollections: ["bestPractices", "commonMistakes"],
-      },
     ],
   },
 };
