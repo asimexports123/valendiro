@@ -8,6 +8,23 @@ const sb = createClient(
 
 const BATCH_SIZE = 25;
 
+const PROGRAMMING_CLUSTER = {
+  parent: 'programming-fundamentals',
+  children: [
+    'javascript-es6', 'javascript-async-await', 'javascript-promises', 'javascript-closures',
+    'javascript-prototype', 'javascript-event-loop', 'javascript-dom-manipulation',
+    'python-list-comprehensions', 'python-decorators', 'python-generators',
+    'python-context-managers', 'python-metaclasses', 'python-async-await',
+    'react-hooks', 'react-context', 'react-redux', 'react-performance',
+    'nextjs-app-router', 'nextjs-server-components', 'nextjs-api-routes',
+    'typescript-generics', 'typescript-interfaces', 'typescript-decorators',
+    'nodejs-streams', 'nodejs-event-emitter', 'nodejs-cluster',
+    'rust-lifetimes', 'rust-ownership', 'rust-traits',
+    'go-channels', 'go-goroutines', 'go-interfaces',
+    'java-streams', 'java-lambdas', 'java-concurrency'
+  ]
+};
+
 const CLOUD_CLUSTER = {
   parent: 'cloud-computing-fundamentals',
   children: [
@@ -279,18 +296,18 @@ async function main() {
   let clustersExpanded = 0;
   const failedTopics = [];
 
-  console.log(`Building Cloud Computing Cluster\n`);
-  console.log(`Parent: ${CLOUD_CLUSTER.parent}`);
-  console.log(`Children: ${CLOUD_CLUSTER.children.length} topics\n`);
+  console.log(`Building Programming Cluster\n`);
+  console.log(`Parent: ${PROGRAMMING_CLUSTER.parent}`);
+  console.log(`Children: ${PROGRAMMING_CLUSTER.children.length} topics\n`);
 
-  const firstBatch = CLOUD_CLUSTER.children.slice(0, BATCH_SIZE);
-  console.log(`Processing batch 1/${Math.ceil(CLOUD_CLUSTER.children.length / BATCH_SIZE)} (${firstBatch.length} topics)\n`);
+  const secondBatch = PROGRAMMING_CLUSTER.children.slice(BATCH_SIZE);
+  console.log(`Processing batch 2/${Math.ceil(PROGRAMMING_CLUSTER.children.length / BATCH_SIZE)} (${secondBatch.length} topics)\n`);
 
-  for (const slug of firstBatch) {
+  for (const slug of secondBatch) {
     console.log(`Processing: ${slug}`);
 
     // Step 1: Create Topic with Parent
-    const topicResult = await createTopicWithParent(slug, CLOUD_CLUSTER.parent, categoryId);
+    const topicResult = await createTopicWithParent(slug, PROGRAMMING_CLUSTER.parent, categoryId);
     if (!topicResult.success && !topicResult.topicId) {
       console.log(`  ✗ Topic creation failed: ${topicResult.error}`);
       failedTopics.push({ slug, error: topicResult.error });
@@ -309,8 +326,8 @@ async function main() {
     }
 
     // Step 3: Create Article with Links
-    const childSlugs = CLOUD_CLUSTER.children.filter(s => s !== slug);
-    const articleResult = await createArticleWithLinks(topicId, slug, CLOUD_CLUSTER.parent, childSlugs);
+    const childSlugs = PROGRAMMING_CLUSTER.children.filter(s => s !== slug);
+    const articleResult = await createArticleWithLinks(topicId, slug, PROGRAMMING_CLUSTER.parent, childSlugs);
     if (!articleResult.success) {
       console.log(`  ✗ Article creation failed: ${articleResult.error}`);
       failedTopics.push({ slug, error: articleResult.error });
@@ -330,7 +347,7 @@ async function main() {
   }
 
   clustersExpanded = articlesPublished > 0 ? 1 : 0;
-  const remainingQueue = CLOUD_CLUSTER.children.length - firstBatch.length;
+  const remainingQueue = PROGRAMMING_CLUSTER.children.length - BATCH_SIZE;
   const executionTime = ((Date.now() - startTime) / 1000).toFixed(2);
 
   console.log('\n=== Batch Complete ===');
