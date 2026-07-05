@@ -7,7 +7,7 @@ process.env.NEXT_PUBLIC_SUPABASE_URL = "https://diwwvkbztvhwouttajha.supabase.co
 process.env.SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpd3d2a2J6dHZod291dHRhamhhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjY3NzIwMywiZXhwIjoyMDk4MjUzMjAzfQ.H-H9Ozpnn0M4d65ybDHOMVBQiK-CQFC9OPQPXq2b6yY";
 
 import { createClient } from "@supabase/supabase-js";
-import { serializeToHTML } from "../services/renderer/serializers/html";
+import { serializeToMarkdown } from "../services/renderer/serializers/markdown";
 
 const sb = createClient(
   "https://diwwvkbztvhwouttajha.supabase.co",
@@ -53,19 +53,17 @@ async function main() {
       continue;
     }
 
-    // Convert document_tree to HTML
-    let htmlContent: string;
+    // Convert document_tree to Markdown
+    let markdownContent: string;
     try {
-      htmlContent = serializeToHTML(rendered.document_tree);
-      // Remove <!DOCTYPE html> and <article> wrapper - page already has HTML structure
-      htmlContent = htmlContent.replace(/<!DOCTYPE html>\n?/, '').replace(/<article class="knowledge-article">\n?/, '').replace(/\n?<\/article>$/, '');
+      markdownContent = serializeToMarkdown(rendered.document_tree);
     } catch (error) {
       console.log(`  SKIP (serialization error): ${pkg.slug}`);
       skipped++;
       continue;
     }
 
-    if (!htmlContent || htmlContent.trim().length === 0) {
+    if (!markdownContent || markdownContent.trim().length === 0) {
       console.log(`  SKIP (empty content): ${pkg.slug}`);
       skipped++;
       continue;
@@ -74,7 +72,7 @@ async function main() {
     // Update topic_translations.content
     const { error } = await sb
       .from("topic_translations")
-      .update({ content: htmlContent })
+      .update({ content: markdownContent })
       .eq("topic_id", pkg.topic_id)
       .eq("language_code", "en");
 
