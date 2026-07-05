@@ -1,0 +1,551 @@
+{
+  "version": "1.0.0",
+  "description": "Configuration-driven template registry for automatic editorial template selection",
+  "intents": {
+    "definition": {
+      "keywords": ["fundamentals", "basics", "introduction", "overview", "what-is", "definition"],
+      "priority": 1
+    },
+    "tutorial": {
+      "keywords": ["tutorial", "guide", "how-to", "getting-started", "learn", "beginner"],
+      "priority": 2
+    },
+    "comparison": {
+      "keywords": ["vs", "versus", "comparison", "compare", "difference", "alternative"],
+      "priority": 3
+    },
+    "reference": {
+      "keywords": ["reference", "api", "documentation", "syntax", "commands", "methods"],
+      "priority": 4
+    },
+    "troubleshooting": {
+      "keywords": ["troubleshooting", "fix", "error", "problem", "issue", "debug"],
+      "priority": 5
+    },
+    "best-practices": {
+      "keywords": ["best-practices", "patterns", "optimization", "performance", "security"],
+      "priority": 6
+    },
+    "certification": {
+      "keywords": ["certification", "exam", "certified", "training", "course"],
+      "priority": 7
+    },
+    "interview": {
+      "keywords": ["interview", "questions", "prepare", "job", "career"],
+      "priority": 8
+    },
+    "pricing": {
+      "keywords": ["pricing", "cost", "price", "fees", "budget"],
+      "priority": 9
+    },
+    "buying-guide": {
+      "keywords": ["buying", "purchase", "choose", "select", "review", "recommendation"],
+      "priority": 10
+    }
+  },
+  "domains": {
+    "programming": {
+      "keywords": ["python", "javascript", "typescript", "java", "go", "rust", "react", "angular", "vue", "node", "django", "flask", "spring"],
+      "intents": ["tutorial", "reference", "best-practices", "troubleshooting", "interview"]
+    },
+    "cloud-computing": {
+      "keywords": ["aws", "azure", "gcp", "ec2", "s3", "lambda", "kubernetes", "docker", "container", "serverless"],
+      "intents": ["tutorial", "reference", "best-practices", "pricing", "comparison"]
+    },
+    "cybersecurity": {
+      "keywords": ["security", "authentication", "authorization", "encryption", "firewall", "vpn", "ssl", "tls"],
+      "intents": ["tutorial", "best-practices", "troubleshooting", "reference"]
+    },
+    "ai": {
+      "keywords": ["ai", "machine-learning", "ml", "deep-learning", "neural-network", "nlp", "computer-vision", "tensorflow", "pytorch"],
+      "intents": ["tutorial", "reference", "best-practices", "comparison"]
+    },
+    "business": {
+      "keywords": ["business", "strategy", "management", "marketing", "sales", "operations", "leadership"],
+      "intents": ["tutorial", "best-practices", "case-study", "comparison"]
+    },
+    "finance": {
+      "keywords": ["finance", "investing", "stock", "bond", "etf", "mutual-fund", "401k", "ira", "retirement", "budget", "tax"],
+      "intents": ["definition", "tutorial", "comparison", "pricing", "best-practices"]
+    },
+    "health": {
+      "keywords": ["health", "fitness", "nutrition", "exercise", "diet", "sleep", "mental-health", "wellness"],
+      "intents": ["tutorial", "best-practices", "troubleshooting", "faq"]
+    },
+    "medical": {
+      "keywords": ["medical", "medicine", "condition", "disease", "treatment", "symptoms", "diagnosis"],
+      "intents": ["definition", "tutorial", "reference", "faq"]
+    },
+    "travel": {
+      "keywords": ["travel", "trip", "vacation", "destination", "flight", "hotel", "booking"],
+      "intents": ["tutorial", "buying-guide", "best-practices", "comparison"]
+    },
+    "education": {
+      "keywords": ["education", "learning", "study", "course", "training", "school"],
+      "intents": ["tutorial", "reference", "best-practices", "certification"]
+    }
+  },
+  "templates": {
+    "programming-tutorial": {
+      "intent": "tutorial",
+      "domain": "programming",
+      "sections": [
+        {"name": "Getting Started", "generator": "getting_started"},
+        {"name": "Basic Syntax", "generator": "syntax"},
+        {"name": "Core Concepts", "generator": "concepts"},
+        {"name": "Code Examples", "generator": "code_examples"},
+        {"name": "Common Patterns", "generator": "patterns"},
+        {"name": "Best Practices", "generator": "best_practices"},
+        {"name": "Troubleshooting", "generator": "troubleshooting"},
+        {"name": "Further Learning", "generator": "resources"}
+      ],
+      "components": ["code-block", "examples", "warnings"]
+    },
+    "programming-reference": {
+      "intent": "reference",
+      "domain": "programming",
+      "sections": [
+        {"name": "Syntax Reference", "generator": "syntax_reference"},
+        {"name": "Built-in Functions", "generator": "builtin_functions"},
+        {"name": "Standard Library", "generator": "standard_library"},
+        {"name": "API Documentation", "generator": "api_docs"},
+        {"name": "Code Examples", "generator": "code_examples"},
+        {"name": "Common Use Cases", "generator": "use_cases"}
+      ],
+      "components": ["code-block", "tables", "reference-links"]
+    },
+    "cloud-service-guide": {
+      "intent": "tutorial",
+      "domain": "cloud-computing",
+      "sections": [
+        {"name": "Service Overview", "generator": "overview"},
+        {"name": "Key Features", "generator": "features"},
+        {"name": "Getting Started", "generator": "getting_started"},
+        {"name": "Configuration", "generator": "configuration"},
+        {"name": "Deployment", "generator": "deployment"},
+        {"name": "Pricing", "generator": "pricing"},
+        {"name": "Best Practices", "generator": "best_practices"},
+        {"name": "Security", "generator": "security"},
+        {"name": "Troubleshooting", "generator": "troubleshooting"}
+      ],
+      "components": ["comparison-table", "checklist", "warnings"]
+    },
+    "cloud-pricing": {
+      "intent": "pricing",
+      "domain": "cloud-computing",
+      "sections": [
+        {"name": "Pricing Overview", "generator": "pricing_overview"},
+        {"name": "Cost Factors", "generator": "cost_factors"},
+        {"name": "Pricing Tiers", "generator": "pricing_tiers"},
+        {"name": "Cost Optimization", "generator": "cost_optimization"},
+        {"name": "Calculator", "generator": "calculator"},
+        {"name": "Comparison", "generator": "comparison"}
+      ],
+      "components": ["pricing-table", "calculator", "comparison-table"]
+    },
+    "finance-definition": {
+      "intent": "definition",
+      "domain": "finance",
+      "sections": [
+        {"name": "Definition", "generator": "definition"},
+        {"name": "How It Works", "generator": "how_it_works"},
+        {"name": "Benefits", "generator": "benefits"},
+        {"name": "Risks", "generator": "risks"},
+        {"name": "Tax Implications", "generator": "tax"},
+        {"name": "IRS Rules", "generator": "regulations"},
+        {"name": "FAQs", "generator": "faq"}
+      ],
+      "components": ["formulas", "faq", "warnings"]
+    },
+    "finance-comparison": {
+      "intent": "comparison",
+      "domain": "finance",
+      "sections": [
+        {"name": "Overview", "generator": "overview"},
+        {"name": "Comparison Table", "generator": "comparison_table"},
+        {"name": "Key Differences", "generator": "differences"},
+        {"name": "When to Choose Each", "generator": "decision_tree"},
+        {"name": "Pros and Cons", "generator": "pros_cons"}
+      ],
+      "components": ["comparison-table", "decision-tree", "checklist"]
+    },
+    "business-framework": {
+      "intent": "tutorial",
+      "domain": "business",
+      "sections": [
+        {"name": "Framework Overview", "generator": "overview"},
+        {"name": "Core Principles", "generator": "principles"},
+        {"name": "Implementation Steps", "generator": "implementation"},
+        {"name": "Case Studies", "generator": "case_studies"},
+        {"name": "KPIs and Metrics", "generator": "metrics"},
+        {"name": "Best Practices", "generator": "best_practices"},
+        {"name": "Common Pitfalls", "generator": "pitfalls"}
+      ],
+      "components": ["flowchart", "checklist", "case-study"]
+    },
+    "medical-condition": {
+      "intent": "definition",
+      "domain": "medical",
+      "sections": [
+        {"name": "Overview", "generator": "overview"},
+        {"name": "Symptoms", "generator": "symptoms"},
+        {"name": "Causes", "generator": "causes"},
+        {"name": "Diagnosis", "generator": "diagnosis"},
+        {"name": "Treatment Options", "generator": "treatment"},
+        {"name": "Prevention", "generator": "prevention"},
+        {"name": "When to See a Doctor", "generator": "when_to_see_doctor"},
+        {"name": "FAQs", "generator": "faq"}
+      ],
+      "components": ["warning", "faq", "checklist"]
+    },
+    "health-guide": {
+      "intent": "tutorial",
+      "domain": "health",
+      "sections": [
+        {"name": "Getting Started", "generator": "getting_started"},
+        {"name": "Benefits", "generator": "benefits"},
+        {"name": "Implementation", "generator": "implementation"},
+        {"name": "Safety Considerations", "generator": "safety"},
+        {"name": "Common Mistakes", "generator": "mistakes"},
+        {"name": "Progress Tracking", "generator": "tracking"},
+        {"name": "FAQs", "generator": "faq"}
+      ],
+      "components": ["checklist", "progress-tracker", "warnings"]
+    },
+    "api-documentation": {
+      "intent": "reference",
+      "domain": "programming",
+      "sections": [
+        {"name": "API Overview", "generator": "overview"},
+        {"name": "Authentication", "generator": "authentication"},
+        {"name": "Endpoints", "generator": "endpoints"},
+        {"name": "Request/Response", "generator": "request_response"},
+        {"name": "Error Codes", "generator": "errors"},
+        {"name": "Rate Limits", "generator": "rate_limits"},
+        {"name": "Code Examples", "generator": "code_examples"}
+      ],
+      "components": ["code-block", "tables", "reference-links"]
+    },
+    "certification-guide": {
+      "intent": "certification",
+      "domain": "education",
+      "sections": [
+        {"name": "Certification Overview", "generator": "overview"},
+        {"name": "Exam Details", "generator": "exam_details"},
+        {"name": "Prerequisites", "generator": "prerequisites"},
+        {"name": "Study Guide", "generator": "study_guide"},
+        {"name": "Practice Questions", "generator": "practice_questions"},
+        {"name": "Exam Tips", "generator": "tips"},
+        {"name": "Resources", "generator": "resources"}
+      ],
+      "components": ["checklist", "practice-questions", "resources"]
+    },
+    "interview-guide": {
+      "intent": "interview",
+      "domain": "programming",
+      "sections": [
+        {"name": "Interview Overview", "generator": "overview"},
+        {"name": "Common Questions", "generator": "questions"},
+        {"name": "Technical Topics", "generator": "topics"},
+        {"name": "Problem Solving", "generator": "problem_solving"},
+        {"name": "Behavioral Questions", "generator": "behavioral"},
+        {"name": "Preparation Tips", "generator": "tips"},
+        {"name": "Mock Interview", "generator": "mock_interview"}
+      ],
+      "components": ["questions", "tips", "checklist"]
+    },
+    "travel-guide": {
+      "intent": "tutorial",
+      "domain": "travel",
+      "sections": [
+        {"name": "Destination Overview", "generator": "overview"},
+        {"name": "Best Time to Visit", "generator": "timing"},
+        {"name": "Getting There", "generator": "transportation"},
+        {"name": "Accommodation", "generator": "accommodation"},
+        {"name": "Attractions", "generator": "attractions"},
+        {"name": "Budget Planning", "generator": "budget"},
+        {"name": "Travel Tips", "generator": "tips"},
+        {"name": "Safety", "generator": "safety"}
+      ],
+      "components": ["checklist", "budget-calculator", "tips"]
+    }
+  },
+  "sectionGenerators": {
+    "getting_started": {
+      "description": "Generate getting started section with prerequisites and setup",
+      "components": ["checklist", "code-block"]
+    },
+    "syntax": {
+      "description": "Generate syntax reference section",
+      "components": ["code-block", "tables"]
+    },
+    "concepts": {
+      "description": "Generate core concepts section from knowledge package",
+      "components": ["definitions", "examples"]
+    },
+    "code_examples": {
+      "description": "Generate practical code examples",
+      "components": ["code-block", "explanations"]
+    },
+    "patterns": {
+      "description": "Generate common patterns section",
+      "components": ["code-block", "best-practices"]
+    },
+    "best_practices": {
+      "description": "Generate best practices section",
+      "components": ["checklist", "warnings"]
+    },
+    "troubleshooting": {
+      "description": "Generate troubleshooting section",
+      "components": ["error-codes", "solutions", "warnings"]
+    },
+    "resources": {
+      "description": "Generate further learning resources",
+      "components": ["links", "references"]
+    },
+    "syntax_reference": {
+      "description": "Generate comprehensive syntax reference",
+      "components": ["tables", "code-block", "reference-links"]
+    },
+    "builtin_functions": {
+      "description": "Generate built-in functions reference",
+      "components": ["tables", "code-block"]
+    },
+    "standard_library": {
+      "description": "Generate standard library overview",
+      "components": ["tables", "links"]
+    },
+    "api_docs": {
+      "description": "Generate API documentation",
+      "components": ["code-block", "tables", "reference-links"]
+    },
+    "use_cases": {
+      "description": "Generate common use cases",
+      "components": ["examples", "scenarios"]
+    },
+    "overview": {
+      "description": "Generate service/topic overview",
+      "components": ["description", "key-points"]
+    },
+    "features": {
+      "description": "Generate key features section",
+      "components": ["list", "descriptions"]
+    },
+    "configuration": {
+      "description": "Generate configuration section",
+      "components": ["code-block", "parameters", "tables"]
+    },
+    "deployment": {
+      "description": "Generate deployment section",
+      "components": ["steps", "code-block", "checklist"]
+    },
+    "pricing": {
+      "description": "Generate pricing information",
+      "components": ["pricing-table", "tiers"]
+    },
+    "security": {
+      "description": "Generate security considerations",
+      "components": ["warnings", "best-practices", "checklist"]
+    },
+    "pricing_overview": {
+      "description": "Generate pricing overview",
+      "components": ["description", "key-factors"]
+    },
+    "cost_factors": {
+      "description": "Generate cost factors section",
+      "components": ["list", "explanations"]
+    },
+    "pricing_tiers": {
+      "description": "Generate pricing tiers",
+      "components": ["pricing-table", "comparison"]
+    },
+    "cost_optimization": {
+      "description": "Generate cost optimization tips",
+      "components": ["tips", "strategies", "checklist"]
+    },
+    "calculator": {
+      "description": "Generate cost calculator",
+      "components": ["calculator", "formulas"]
+    },
+    "comparison_table": {
+      "description": "Generate comparison table",
+      "components": ["comparison-table"]
+    },
+    "definition": {
+      "description": "Generate definition section",
+      "components": ["definition", "examples"]
+    },
+    "how_it_works": {
+      "description": "Generate how it works section",
+      "components": ["steps", "diagram", "explanation"]
+    },
+    "benefits": {
+      "description": "Generate benefits section",
+      "components": ["list", "explanations"]
+    },
+    "risks": {
+      "description": "Generate risks section",
+      "components": ["warnings", "mitigation"]
+    },
+    "tax": {
+      "description": "Generate tax implications section",
+      "components": ["rules", "calculations", "warnings"]
+    },
+    "regulations": {
+      "description": "Generate regulations section",
+      "components": ["rules", "references", "warnings"]
+    },
+    "faq": {
+      "description": "Generate FAQ section",
+      "components": ["qa", "common-questions"]
+    },
+    "differences": {
+      "description": "Generate key differences section",
+      "components": ["list", "comparison-points"]
+    },
+    "decision_tree": {
+      "description": "Generate decision tree",
+      "components": ["decision-tree", "criteria"]
+    },
+    "pros_cons": {
+      "description": "Generate pros and cons section",
+      "components": ["list", "comparison"]
+    },
+    "principles": {
+      "description": "Generate core principles section",
+      "components": ["list", "explanations"]
+    },
+    "implementation": {
+      "description": "Generate implementation steps",
+      "components": ["steps", "checklist", "timeline"]
+    },
+    "case_studies": {
+      "description": "Generate case studies section",
+      "components": ["examples", "outcomes", "lessons"]
+    },
+    "metrics": {
+      "description": "Generate KPIs and metrics section",
+      "components": ["tables", "definitions", "tracking"]
+    },
+    "pitfalls": {
+      "description": "Generate common pitfalls section",
+      "components": ["warnings", "solutions", "examples"]
+    },
+    "symptoms": {
+      "description": "Generate symptoms section",
+      "components": ["list", "descriptions", "severity"]
+    },
+    "causes": {
+      "description": "Generate causes section",
+      "components": ["list", "explanations"]
+    },
+    "diagnosis": {
+      "description": "Generate diagnosis section",
+      "components": ["methods", "tests", "criteria"]
+    },
+    "treatment": {
+      "description": "Generate treatment options section",
+      "components": ["options", "procedures", "medications"]
+    },
+    "prevention": {
+      "description": "Generate prevention section",
+      "components": ["tips", "strategies", "checklist"]
+    },
+    "when_to_see_doctor": {
+      "description": "Generate when to see doctor section",
+      "components": ["warning", "criteria", "urgency"]
+    },
+    "safety": {
+      "description": "Generate safety considerations",
+      "components": ["warnings", "guidelines", "emergency"]
+    },
+    "mistakes": {
+      "description": "Generate common mistakes section",
+      "components": ["warnings", "corrections", "examples"]
+    },
+    "tracking": {
+      "description": "Generate progress tracking section",
+      "components": ["checklist", "metrics", "tools"]
+    },
+    "authentication": {
+      "description": "Generate authentication section",
+      "components": ["code-block", "methods", "security"]
+    },
+    "endpoints": {
+      "description": "Generate API endpoints section",
+      "components": ["tables", "code-block", "parameters"]
+    },
+    "request_response": {
+      "description": "Generate request/response section",
+      "components": ["code-block", "examples", "schemas"]
+    },
+    "errors": {
+      "description": "Generate error codes section",
+      "components": ["tables", "solutions", "codes"]
+    },
+    "rate_limits": {
+      "description": "Generate rate limits section",
+      "components": ["tables", "limits", "quotas"]
+    },
+    "exam_details": {
+      "description": "Generate exam details section",
+      "components": ["duration", "format", "topics"]
+    },
+    "prerequisites": {
+      "description": "Generate prerequisites section",
+      "components": ["list", "requirements", "skills"]
+    },
+    "study_guide": {
+      "description": "Generate study guide section",
+      "components": ["topics", "timeline", "resources"]
+    },
+    "practice_questions": {
+      "description": "Generate practice questions section",
+      "components": ["questions", "answers", "explanations"]
+    },
+    "tips": {
+      "description": "Generate tips section",
+      "components": ["list", "strategies"]
+    },
+    "questions": {
+      "description": "Generate interview questions section",
+      "components": ["questions", "categories", "difficulty"]
+    },
+    "topics": {
+      "description": "Generate technical topics section",
+      "components": ["list", "descriptions", "importance"]
+    },
+    "problem_solving": {
+      "description": "Generate problem solving section",
+      "components": ["approaches", "algorithms", "examples"]
+    },
+    "behavioral": {
+      "description": "Generate behavioral questions section",
+      "components": ["questions", "star-method", "examples"]
+    },
+    "mock_interview": {
+      "description": "Generate mock interview section",
+      "components": ["questions", "timing", "feedback"]
+    },
+    "timing": {
+      "description": "Generate best time to visit section",
+      "components": ["seasons", "weather", "crowds"]
+    },
+    "transportation": {
+      "description": "Generate transportation section",
+      "components": ["options", "costs", "duration"]
+    },
+    "accommodation": {
+      "description": "Generate accommodation section",
+      "components": ["options", "prices", "locations"]
+    },
+    "attractions": {
+      "description": "Generate attractions section",
+      "components": ["list", "descriptions", "ratings"]
+    },
+    "budget": {
+      "description": "Generate budget planning section",
+      "components": ["calculator", "categories", "tips"]
+    }
+  }
+}
