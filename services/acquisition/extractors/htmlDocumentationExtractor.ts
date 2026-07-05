@@ -368,18 +368,40 @@ export class HTMLDocumentationExtractor implements IExtractor {
   private extractExamples(html: string, sourceUrl: string): any[] {
     const examples: any[] = [];
     
-    const codeRegex = /<pre[^>]*><code[^>]*>([\s\S]*?)<\/code><\/pre>/gi;
-    let match;
+    // Extract fenced code blocks (```language``` pattern)
+    const fencedRegex = /```(\w+)?\n([\s\S]*?)```/g;
+    let fencedMatch;
     let index = 0;
     
-    while ((match = codeRegex.exec(html)) !== null && index < 5) {
-      const code = this.stripHTML(match[1]);
+    while ((fencedMatch = fencedRegex.exec(html)) !== null && index < 10) {
+      const language = fencedMatch[1] || "unknown";
+      const code = fencedMatch[2].trim();
       if (code.length > 0) {
         examples.push({
           id: `ex_${Date.now()}_${index}`,
-          title: `Example ${index + 1}`,
-          description: code,
+          title: `${language} Example ${index + 1}`,
+          description: `${language} code example`,
           code,
+          language,
+        });
+        index++;
+      }
+    }
+    
+    // Extract from <pre><code> blocks
+    const codeRegex = /<pre[^>]*><code[^>]*class="[^"]*language-(\w+)?[^"]*"[^>]*>([\s\S]*?)<\/code><\/pre>/gi;
+    let codeMatch;
+    
+    while ((codeMatch = codeRegex.exec(html)) !== null && index < 15) {
+      const language = codeMatch[1] || "unknown";
+      const code = this.stripHTML(codeMatch[2]);
+      if (code.length > 0) {
+        examples.push({
+          id: `ex_${Date.now()}_${index}`,
+          title: `${language} Example ${index + 1}`,
+          description: `${language} code example`,
+          code,
+          language,
         });
         index++;
       }
@@ -391,19 +413,19 @@ export class HTMLDocumentationExtractor implements IExtractor {
   private extractWarnings(html: string, sourceUrl: string): any[] {
     const warnings: any[] = [];
     
-    // Extract warnings from warning boxes or emphasized text
-    const warningRegex = /<div[^>]*class="[^"]*warning[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
+    // Extract warnings from warning, note, caution blocks with various class names
+    const warningRegex = /<(div|aside|section)[^>]*class="[^"]*(?:warning|note|caution|alert|important)[^"]*"[^>]*>([\s\S]*?)<\/\1>/gi;
     let match;
     let index = 0;
     
-    while ((match = warningRegex.exec(html)) !== null && index < 3) {
-      const content = this.stripHTML(match[1]);
-      if (content.length > 0) {
+    while ((match = warningRegex.exec(html)) !== null && index < 10) {
+      const content = this.stripHTML(match[2]);
+      if (content.length > 10) {
         warnings.push({
           id: `warn_${Date.now()}_${index}`,
-          title: "Warning",
+          title: this.extractTitle(content) || "Important Note",
           description: content,
-          severity: "medium",
+          severity: this.determineSeverity(content),
         });
         index++;
       }
@@ -415,14 +437,32 @@ export class HTMLDocumentationExtractor implements IExtractor {
   private extractBestPractices(html: string, sourceUrl: string): any[] {
     const bestPractices: any[] = [];
     
-    // Extract best practices from tips or notes
-    const tipRegex = /<div[^>]*class="[^"]*tip[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
-    let match;
+    // Extract from best practice sections (h2/h3 with "best practice" in text)
+    const bpSectionRegex = /<h[23][^>]*>([^<]*(?:best practice|guideline|recommendation)[^<]*)<\/h[23]>([\s\S]*?)(?=<h[23])/gi;
+    let sectionMatch;
     let index = 0;
     
-    while ((match = tipRegex.exec(html)) !== null && index < 3) {
-      const content = this.stripHTML(match[1]);
-      if (content.length > 0) {
+    while ((sectionMatch = bpSectionRegex.exec(html)) !== null && index < 5) {
+      const title = this.stripHTML(sectionMatch[1]);
+      const content = this.stripHTML(sectionMatch[2]);
+      if (content.length > 20) {
+        bestPractices.push({
+          id: `bp_${Date.now()}_${index}`,
+          title: title || "Best Practice",
+          description: content,
+          context: sourceUrl,
+        });
+        index++;
+      }
+    }
+    
+    // Extract from tip, note, callout boxes
+    const tipRegex = /<(div|aside)[^>]*class="[^"]*(?:tip|callout|highlight)[^"]*"[^>]*>([\s\S]*?)<\/\1>/gi;
+    let tipMatch;
+    
+    while ((tipMatch = tipRegex.exec(html)) !== null && index < 10) {
+      const content = this.stripHTML(tipMatch[2]);
+      if (content.length > 20) {
         bestPractices.push({
           id: `bp_${Date.now()}_${index}`,
           title: "Best Practice",
@@ -461,5 +501,23 @@ export class HTMLDocumentationExtractor implements IExtractor {
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'")
       .trim();
+  }
+
+  private extractTitle(content: string): string | null {
+    const firstSentence = content.split('.')[0];
+    if (firstSentence.length > 0 && firstSentence.length < 100) {
+      return firstSentence.trim();
+    }
+    return null;
+  }
+
+  private determineSeverity(content: string): string {
+    const lowerContent = content.toLowerCase();
+    if (lowerContent.includes('danger') || lowerContent.includes('critical') || lowerContent.includes('severe')) {
+      return 'high';
+    } else if (lowerContent.includes('warning') || lowerContent.includes('caution') || lowerContent.includes('important')) {
+      return 'medium';
+    }
+    return 'low';
   }
 }
