@@ -1,0 +1,147 @@
+{
+  "domains": {
+    "cloud-computing": {
+      "keywords": ["aws", "azure", "gcp", "cloud", "serverless", "infrastructure"],
+      "expectedEntities": ["regions", "availability zones", "pricing", "security", "scaling", "monitoring", "deployment"],
+      "sectionTemplates": {
+        "overview": "Service Overview",
+        "architecture": "Architecture and Components",
+        "deployment": "Deployment Strategies",
+        "security": "Security and Compliance",
+        "pricing": "Pricing and Cost Optimization",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "architecture", "security", "best-practices"]
+    },
+    "container-orchestration": {
+      "keywords": ["kubernetes", "k8s", "docker", "containers", "eks", "ecs", "pods", "deployments", "services"],
+      "expectedEntities": ["pods", "deployments", "services", "ingress", "configmaps", "secrets", "namespaces", "clusters"],
+      "sectionTemplates": {
+        "overview": "Cluster Architecture",
+        "control-plane": "Control Plane Components",
+        "workloads": "Workload Management",
+        "networking": "Networking and Services",
+        "storage": "Storage and Volumes",
+        "security": "Security and RBAC",
+        "operations": "Operations and Monitoring",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "workloads", "networking", "best-practices"]
+    },
+    "programming": {
+      "keywords": ["javascript", "python", "typescript", "java", "go", "rust", "react", "nodejs", "programming", "coding"],
+      "expectedEntities": ["syntax", "functions", "classes", "modules", "async", "error-handling", "testing", "performance"],
+      "sectionTemplates": {
+        "overview": "Core Concepts",
+        "syntax": "Syntax and Structure",
+        "patterns": "Common Patterns",
+        "examples": "Code Examples",
+        "performance": "Performance Considerations",
+        "debugging": "Debugging Techniques",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "syntax", "examples", "best-practices"],
+      "requiresCodeExamples": true
+    },
+    "security": {
+      "keywords": ["security", "auth", "authentication", "authorization", "xss", "sql-injection", "csrf", "encryption"],
+      "expectedEntities": ["threats", "vulnerabilities", "authentication", "authorization", "encryption", "headers", "audits"],
+      "sectionTemplates": {
+        "overview": "Threat Landscape",
+        "authentication": "Authentication Mechanisms",
+        "authorization": "Authorization Controls",
+        "vulnerabilities": "Common Vulnerabilities",
+        "mitigation": "Mitigation Strategies",
+        "compliance": "Compliance and Standards",
+        "best-practices": "Security Best Practices"
+      },
+      "requiredSections": ["overview", "authentication", "vulnerabilities", "best-practices"]
+    },
+    "finance": {
+      "keywords": ["401k", "ira", "invest", "stock", "bond", "etf", "fund", "retirement", "tax", "interest", "inflation"],
+      "expectedEntities": ["contribution", "withdrawal", "tax", "interest", "inflation", "diversification", "risk", "returns"],
+      "sectionTemplates": {
+        "overview": "Financial Overview",
+        "features": "Key Features",
+        "contributions": "Contribution Guidelines",
+        "tax": "Tax Implications",
+        "withdrawals": "Withdrawal Rules",
+        "risks": "Risk Considerations",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "contributions", "tax", "best-practices"]
+    },
+    "health": {
+      "keywords": ["health", "nutrition", "exercise", "mental", "wellness", "fitness", "medical", "symptoms", "treatment"],
+      "expectedEntities": ["benefits", "risks", "symptoms", "treatment", "prevention", "guidelines", "research", "safety"],
+      "sectionTemplates": {
+        "overview": "Health Overview",
+        "benefits": "Health Benefits",
+        "mechanism": "How It Works",
+        "guidelines": "Implementation Guidelines",
+        "risks": "Risks and Safety",
+        "misconceptions": "Common Misconceptions",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "benefits", "guidelines", "best-practices"]
+    },
+    "travel": {
+      "keywords": ["travel", "visa", "tourist", "passport", "immigration", "trip", "vacation"],
+      "expectedEntities": ["requirements", "documents", "planning", "booking", "safety", "regulations", "costs", "timing"],
+      "sectionTemplates": {
+        "overview": "Travel Overview",
+        "requirements": "Requirements",
+        "planning": "Planning Tips",
+        "documentation": "Documentation",
+        "challenges": "Common Challenges",
+        "safety": "Safety Considerations",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "requirements", "documentation", "best-practices"]
+    },
+    "business": {
+      "keywords": ["marketing", "business", "sales", "strategy", "management", "operations", "leadership"],
+      "expectedEntities": ["strategy", "metrics", "kpi", "implementation", "framework", "pitfalls", "optimization"],
+      "sectionTemplates": {
+        "overview": "Business Overview",
+        "concepts": "Key Concepts",
+        "strategy": "Strategic Importance",
+        "framework": "Implementation Framework",
+        "metrics": "Metrics and KPIs",
+        "pitfalls": "Common Pitfalls",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "strategy", "framework", "best-practices"]
+    },
+    "ai-ml": {
+      "keywords": ["ai", "machine-learning", "ml", "neural-network", "deep-learning", "transformer", "gpt", "bert", "llm"],
+      "expectedEntities": ["model", "training", "data", "architecture", "parameters", "inference", "evaluation", "deployment"],
+      "sectionTemplates": {
+        "overview": "Model Overview",
+        "architecture": "Architecture Design",
+        "training": "Training Process",
+        "data": "Data Requirements",
+        "evaluation": "Evaluation Metrics",
+        "deployment": "Deployment Strategies",
+        "best-practices": "Best Practices"
+      },
+      "requiredSections": ["overview", "architecture", "training", "best-practices"]
+    }
+  },
+  "defaultSectionTemplates": {
+    "overview": "Overview",
+    "concepts": "Core Concepts",
+    "applications": "Practical Applications",
+    "implementation": "Implementation Guidelines",
+    "challenges": "Common Challenges",
+    "best-practices": "Best Practices"
+  },
+  "validationRules": {
+    "minSectionCount": 3,
+    "maxSectionCount": 15,
+    "minWordCount": 100,
+    "requiredGenericSections": ["overview"],
+    "forbiddenPatterns": ["Concept 1", "Concept 2", "Example 1", "Example 2", "Preparation", "Implementation", "Optimization"],
+    "requiredFields": ["references"]
+  }
+}
