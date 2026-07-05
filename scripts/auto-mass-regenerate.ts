@@ -27,7 +27,8 @@ async function getArticlesByPriority(): Promise<any[]> {
   const { data: packages } = await sb
     .from("knowledge_packages")
     .select("id, topic_id, slug")
-    .eq("status", "ready");
+    .eq("status", "ready")
+    .not("topic_id", "is", null);
 
   return packages || [];
 }
@@ -77,7 +78,20 @@ async function main() {
   console.log("=== Automated Mass Article Regeneration ===\n");
 
   const allArticles = await getArticlesByPriority();
-  console.log(`Total articles to process: ${allArticles.length}\n`);
+  console.log(`Total articles in database: ${allArticles.length}\n`);
+
+  // Get already successfully processed articles by checking if content was recently updated
+  const { data: recentUpdates } = await sb
+    .from("topic_translations")
+    .select("topic_id, updated_at")
+    .eq("language_code", "en")
+    .gte("updated_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()); // Last 24 hours
+
+  const processedTopicIds = new Set(recentUpdates?.map(t => t.topic_id) || []);
+  const remainingArticles = allArticles.filter(a => !processedTopicIds.has(a.topic_id));
+
+  console.log(`Already processed: ${processedTopicIds.size}`);
+  console.log(`Remaining to process: ${remainingArticles.length}\n`);
 
   let totalRegenerated = 0;
   let totalPublished = 0;
@@ -85,16 +99,17 @@ async function main() {
   const retryQueue: string[] = [];
   let processedCount = 0;
 
-  while (processedCount < allArticles.length) {
-    const batch = allArticles.slice(processedCount, processedCount + BATCH_SIZE);
+  while (processedCount < remainingArticles.length) {
+    const batch = remainingArticles.slice(processedCount, processedCount + BATCH_SIZE);
     
-    console.log(`\nProcessing batch ${Math.floor(processedCount / BATCH_SIZE) + 1}/${Math.ceil(allArticles.length / BATCH_SIZE)} (${batch.length} articles)\n`);
+    console.log(`\nProcessing batch ${Math.floor(processedCount / BATCH_SIZE) + 1}/${Math.ceil(remainingArticles.length / BATCH_SIZE)} (${batch.length} articles)\n`);
 
     let batchRegenerated = 0;
     let batchPublished = 0;
     let batchFailed = 0;
 
     for (const pkg of batch) {
+      console.log(`Processing: ${pkg.slug}`);
       const result = await processArticle(pkg.id, pkg.topic_id, pkg.slug);
       
       if (result.success) {
@@ -107,6 +122,7 @@ async function main() {
           retryQueue.push(pkg.slug);
         }
       } else {
+        console.log(`  ✗ Failed: ${result.error}`);
         batchFailed++;
         retryQueue.push(pkg.slug);
       }
@@ -117,9 +133,9 @@ async function main() {
     totalFailed += batchFailed;
     processedCount += batch.length;
 
-    const remaining = allArticles.length - processedCount + retryQueue.length;
+    const remaining = remainingArticles.length - processedCount + retryQueue.length;
     const elapsed = (Date.now() - startTime) / 1000;
-    const avgTimePerArticle = elapsed / processedCount;
+    const avgTimePerArticle = processedCount > 0 ? elapsed / processedCount : 0;
     const estimatedSeconds = remaining * avgTimePerArticle;
     const estimatedMinutes = Math.ceil(estimatedSeconds / 60);
 
@@ -129,11 +145,34 @@ async function main() {
     console.log(`Remaining count: ${remaining}`);
     console.log(`Estimated completion: ${estimatedMinutes} minutes`);
 
-    // Process retry queue if more than 50 items
-    if (retryQueue.length >= BATCH_SIZE) {
+    // Process retry queue if batch completes and there are items
+    if (retryQueue.length > 0 && processedCount >= remainingArticles.length) {
       console.log(`\nProcessing retry queue (${retryQueue.length} items)...`);
       const retryBatch = retryQueue.splice(0, BATCH_SIZE);
-      // Process retry batch...
+      for (const slug of retryBatch) {
+        const pkg = allArticles.find(a => a.slug === slug);
+        if (pkg) {
+          const result = await processArticle(pkg.id, pkg.topic_id, pkg.slug);
+          if (result.success) {
+            const verified = await verifyLivePage(pkg.slug);
+            if (verified) {
+              totalRegenerated++;
+              totalPublished++;
+            } else {
+              retryQueue.push(pkg.slug);
+            }
+          } else {
+            retryQueue.push(pkg.slug);
+          }
+        }
+      }
+      // Update remaining after retry queue processing
+      const finalRemaining = retryQueue.length;
+      console.log(`\nArticles regenerated: ${totalRegenerated}`);
+      console.log(`Articles published: ${totalPublished}`);
+      console.log(`Articles failed: ${totalFailed}`);
+      console.log(`Remaining count: ${finalRemaining}`);
+      console.log(`Estimated completion: 0 minutes`);
     }
   }
 
