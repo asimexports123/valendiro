@@ -35,7 +35,7 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
     sources: [
       {
         name: "Python Tutorial",
-        url: "https://docs.python.org/3/tutorial/index.html",
+        url: "https://docs.python.org/3/tutorial/introduction.html",
         connector: "PythonDocumentationConnector",
         targetCollections: ["procedures", "examples", "concepts"],
         status: "ACTIVE",
@@ -43,7 +43,7 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
       },
       {
         name: "Python Language Reference",
-        url: "https://docs.python.org/3/reference/index.html",
+        url: "https://docs.python.org/3/reference/executionmodel.html",
         connector: "PythonDocumentationConnector",
         targetCollections: ["definitions", "commands", "references"],
         status: "ACTIVE",
@@ -51,7 +51,7 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
       },
       {
         name: "Python FAQ",
-        url: "https://docs.python.org/3/faq/index.html",
+        url: "https://docs.python.org/3/faq/general.html",
         connector: "PythonDocumentationConnector",
         targetCollections: ["faqs", "commonMistakes"],
         status: "ACTIVE",
@@ -75,7 +75,7 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
     sources: [
       {
         name: "Git Book",
-        url: "https://git-scm.com/book/en/v2",
+        url: "https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control",
         connector: "GitDocumentationConnector",
         targetCollections: ["concepts", "procedures", "examples", "warnings"],
         status: "ACTIVE",
@@ -83,7 +83,7 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
       },
       {
         name: "Git Reference",
-        url: "https://git-scm.com/docs",
+        url: "https://git-scm.com/docs/git-init",
         connector: "GitDocumentationConnector",
         targetCollections: ["definitions", "commands", "references"],
         status: "ACTIVE",
@@ -107,7 +107,7 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
     sources: [
       {
         name: "MDN Guide",
-        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction",
         connector: "MDNConnector",
         targetCollections: ["concepts", "procedures", "examples", "warnings"],
         status: "ACTIVE",
@@ -115,7 +115,7 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
       },
       {
         name: "MDN Reference",
-        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference",
+        url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements",
         connector: "MDNConnector",
         targetCollections: ["definitions", "commands", "references"],
         status: "ACTIVE",
