@@ -364,6 +364,10 @@ async function runPhase40CompletenessValidation() {
           title: e.title,
           description: e.description,
           code: e.code,
+          relatedDefinitions: e.relatedDefinitions || [],
+          relatedConcepts: e.relatedConcepts || [],
+          relatedProcedures: e.relatedProcedures || [],
+          references: e.references || [],
           confidence: "high",
         })),
         comparisons: mergedKnowledge.comparisons.map((c: any) => ({
