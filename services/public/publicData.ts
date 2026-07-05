@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
+import { serializeToHTML } from "@/services/renderer/serializers/html";
 
 const slugToTitle = (slug: string): string => {
   return slug
