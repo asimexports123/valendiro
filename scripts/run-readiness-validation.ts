@@ -11,6 +11,7 @@ import { resolve } from "path";
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
 import { ProductionAcquisitionService } from "../services/acquisition/productionAcquisitionService";
+import { ContractValidator } from "../services/renderer/validators/contractValidator";
 import { createHash } from "crypto";
 
 interface ValidationResult {
@@ -207,9 +208,20 @@ async function runReadinessValidation() {
       const authoringResult = await orchestrator.authorDocument(authoringContext);
       
       if (authoringResult && authoringResult.document) {
-        validationResults.articleGenerated = true;
-        validationResults.articleValid = true;
-        console.log(`  ✅ Article generated successfully`);
+        // Validate authoring result before proceeding
+        const contractValidation = ContractValidator.validateAuthoringResult(authoringResult);
+        
+        if (!contractValidation.valid) {
+          console.log(`  ❌ Contract validation failed:`);
+          contractValidation.errors.forEach(error => {
+            console.log(`    - ${error.field}: ${error.message}`);
+          });
+          validationResults.blockers.push(`Contract validation failed: ${contractValidation.errors.map(e => e.message).join(", ")}`);
+        } else {
+          validationResults.articleGenerated = true;
+          validationResults.articleValid = true;
+          console.log(`  ✅ Article generated and validated successfully`);
+        }
       } else {
         console.log(`  ❌ Article generation failed`);
         validationResults.blockers.push("Knowledge Authoring failed to generate article");
@@ -227,10 +239,40 @@ async function runReadinessValidation() {
       const { KnowledgeAuthoringV1 } = await import("../services/renderer/renderers/knowledgeAuthoringV1");
       const renderer = new KnowledgeAuthoringV1();
       
-      const renderResult = renderer.render({
-        topic: "JavaScript Fundamentals",
-        content: "JavaScript Fundamentals content",
-      });
+      const renderResult = renderer.render(
+        [], // facts
+        [], // citations
+        [], // relationships
+        {
+          rendererId: "knowledge-authoring-v1",
+          rendererVersion: "1.0.0",
+          templateVersion: "1.0.0",
+          format: "html",
+          style: ["beginner"],
+          slug: "javascript-fundamentals",
+          intent: "educate" as const,
+          category: "technology",
+        },
+        {
+          eligible: true,
+          reason: null,
+          policy: {
+            id: "knowledge-authoring",
+            name: "Knowledge Authoring Policy",
+            categoryMatch: ["technology"],
+            requiredFactTypes: [],
+            preferredFormat: "article",
+            preferredStyle: ["beginner"],
+            minFactCount: 1,
+            minCitationCount: 0,
+            sectionOverrides: [],
+            commercialPlaceholders: false,
+          },
+          blockOrder: [],
+          missingKnowledge: [],
+          warnings: [],
+        }
+      );
 
       if (renderResult) {
         validationResults.staticPageGenerated = true;

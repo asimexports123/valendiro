@@ -401,7 +401,8 @@ export class NarrativePlanningEngine {
         learningJourney.length
       );
 
-      if (section) {
+      // Only include sections that have facts allocated to them
+      if (section && section.factsToInclude.length > 0) {
         sections.push(section);
       }
     }
