@@ -849,29 +849,68 @@ export interface PublicTopicDetail extends PublicTopic {
 
 export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | null> {
   const supabase = createAdminClient();
-  const { data } = await supabase
+  
+  // First get the topic
+  const { data: topic } = await supabase
     .from("topics")
-    .select("id, slug, category_id, subcategory_id, updated_at, content, topic_translations(title, subtitle, content, meta_title, meta_description)")
+    .select("id, slug, category_id, subcategory_id, updated_at, topic_translations(title, subtitle, meta_title, meta_description)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .eq("status", "published")
     .maybeSingle();
 
-  if (!data) return null;
+  if (!topic) return null;
 
-  const translation = data.topic_translations?.[0];
+  // Get knowledge package for this topic
+  const { data: packageData } = await supabase
+    .from("knowledge_packages")
+    .select("id")
+    .eq("topic_id", topic.id)
+    .maybeSingle();
+
+  if (!packageData) {
+    // Fallback: return topic without rendered content
+    const translation = topic.topic_translations?.[0];
+    return {
+      id: topic.id,
+      slug: topic.slug,
+      title: translation?.title || "Untitled",
+      subtitle: translation?.subtitle || null,
+      category_slug: null,
+      content: null,
+      meta_title: translation?.meta_title || null,
+      meta_description: translation?.meta_description || null,
+      category_id: topic.category_id,
+      subcategory_id: topic.subcategory_id,
+      updated_at: topic.updated_at ?? null,
+    };
+  }
+
+  // Get rendered output for this package
+  const { data: renderedOutput } = await supabase
+    .from("rendered_outputs")
+    .select("content")
+    .eq("package_id", packageData.id)
+    .eq("status", "published")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const translation = topic.topic_translations?.[0];
+  const renderedContent = renderedOutput?.content || null;
+  
   return {
-    id: data.id,
-    slug: data.slug,
+    id: topic.id,
+    slug: topic.slug,
     title: translation?.title || "Untitled",
     subtitle: translation?.subtitle || null,
     category_slug: null,
-    content: data.content || translation?.content || null,
+    content: renderedContent,
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,
-    category_id: data.category_id,
-    subcategory_id: data.subcategory_id,
-    updated_at: data.updated_at ?? null,
+    category_id: topic.category_id,
+    subcategory_id: topic.subcategory_id,
+    updated_at: topic.updated_at ?? null,
   };
 }
 
