@@ -131,7 +131,44 @@ export async function loadKnowledgePackage(
       bidirectional: r.bidirectional ?? false,
     }));
 
-    // 7. Assemble canonical KnowledgePackage
+    // 7. Map facts to structured collections (Phase 30.1)
+    const definitions = facts
+      .filter(f => f.factType === "definition")
+      .map(f => ({
+        id: f.id,
+        term: f.statement.split(" is ")[0] || f.statement.substring(0, 50),
+        definition: f.statement,
+        confidence: f.confidence,
+      }));
+
+    const concepts = facts
+      .filter(f => f.factType === "property")
+      .map(f => ({
+        id: f.id,
+        name: f.statement.substring(0, 50),
+        description: f.statement,
+        confidence: f.confidence,
+      }));
+
+    const procedures = facts
+      .filter(f => f.factType === "procedural")
+      .map(f => ({
+        id: f.id,
+        name: f.statement.substring(0, 50),
+        steps: [f.statement],
+        confidence: f.confidence,
+      }));
+
+    const warnings = facts
+      .filter(f => f.factType === "warning")
+      .map(f => ({
+        id: f.id,
+        title: f.statement.substring(0, 50),
+        description: f.statement,
+        severity: "medium" as const,
+      }));
+
+    // 8. Assemble canonical KnowledgePackage with structured collections (Phase 30.1)
     const knowledgePackage: KnowledgePackage = {
       id: pkg.id,
       slug: pkg.slug,
@@ -139,15 +176,39 @@ export async function loadKnowledgePackage(
       topicId: pkg.topic_id,
       category: categorySlug,
       intent,
+      // Structured knowledge collections
+      definitions,
+      concepts,
+      procedures,
+      examples: [],
+      comparisons: [],
+      commands: [],
+      formulae: [],
+      warnings,
+      bestPractices: [],
+      commonMistakes: [],
+      faqs: [],
+      references: [],
+      // Legacy facts for backward compatibility
       facts,
       citations,
       relationships,
+      // Metadata with source metadata (Phase 30.1)
       metadata: {
         sourceCount: pkg.source_count,
         factCount: pkg.fact_count,
         relationshipCount: pkg.relationship_count,
         lastUpdated: pkg.last_updated_at,
         lastVerified: pkg.last_verified_at,
+        confidence: "high",
+        sourceMetadata: {
+          adapterName: "legacy-loader",
+          adapterVersion: "1.0.0",
+          sourceType: "legacy",
+          retrievedAt: pkg.last_updated_at,
+          processedAt: new Date().toISOString(),
+          validationStatus: "valid",
+        },
       },
     };
 

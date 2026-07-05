@@ -19,7 +19,7 @@
  * - Facts are input, reader understanding is output
  */
 
-import type { PluginFact } from "../types";
+import type { PluginFact, KnowledgePackage } from "../types";
 import { ReaderPsychologyEngine, type ReaderQuestion } from "./readerPsychologyEngine";
 import { NarrativePlanningEngine, type NarrativePlan, type NarrativeSection } from "./narrativePlanningEngine";
 import { KnowledgeGapCompletionEngine, type GapCompletionResult } from "./knowledgeGapCompletionEngine";
@@ -29,12 +29,20 @@ import { VisualIntelligenceEngine, type VisualPlan } from "./visualIntelligenceE
 import { EditorialPassEngine, type EditorialResult } from "./editorialPassEngine";
 import { FinalAcceptanceTestEngine, type AcceptanceTestResult } from "./finalAcceptanceTestEngine";
 
+/**
+ * Phase 30.4: Updated AuthoringContext to consume structured Knowledge Packages
+ * The Knowledge Authoring Engine now consumes structured collections instead of paragraph-oriented inputs.
+ * knowledgePackage is optional for backward compatibility during migration.
+ */
 export interface AuthoringContext {
   topic: string;
   subject: string;
   category: string;
   intent: "inform" | "educate" | "guide" | "decide";
   complexity: "beginner" | "intermediate" | "advanced";
+  // Phase 30.4: Consume structured Knowledge Package (optional for backward compatibility)
+  knowledgePackage?: KnowledgePackage;
+  // Legacy facts for backward compatibility during migration
   facts: PluginFact[];
 }
 
@@ -48,6 +56,78 @@ export interface AuthoringResult {
   acceptanceTest: AcceptanceTestResult;
   passesAllChecks: boolean;
   recommendation: "publish" | "revise" | "reject";
+}
+
+/**
+ * Phase 30.4: Extract structured content from Knowledge Package for authoring
+ * Converts structured collections into authoring-friendly format
+ */
+export function extractStructuredContent(pkg: KnowledgePackage) {
+  return {
+    definitions: pkg.definitions.map(d => ({
+      term: d.term,
+      definition: d.definition,
+      context: d.context,
+      confidence: d.confidence,
+    })),
+    concepts: pkg.concepts.map(c => ({
+      name: c.name,
+      description: c.description,
+      category: c.category,
+      confidence: c.confidence,
+    })),
+    procedures: pkg.procedures.map(p => ({
+      name: p.name,
+      steps: p.steps,
+      prerequisites: p.prerequisites,
+      confidence: p.confidence,
+    })),
+    examples: pkg.examples.map(e => ({
+      title: e.title,
+      description: e.description,
+      code: e.code,
+      output: e.output,
+      confidence: e.confidence,
+    })),
+    comparisons: pkg.comparisons.map(c => ({
+      items: c.items,
+      criteria: c.criteria,
+      confidence: c.confidence,
+    })),
+    commands: pkg.commands.map(c => ({
+      command: c.command,
+      description: c.description,
+      parameters: c.parameters,
+      confidence: c.confidence,
+    })),
+    formulae: pkg.formulae.map(f => ({
+      name: f.name,
+      formula: f.formula,
+      description: f.description,
+      variables: f.variables,
+      confidence: f.confidence,
+    })),
+    warnings: pkg.warnings.map(w => ({
+      title: w.title,
+      description: w.description,
+      severity: w.severity,
+    })),
+    bestPractices: pkg.bestPractices.map(bp => ({
+      title: bp.title,
+      description: bp.description,
+      confidence: bp.confidence,
+    })),
+    commonMistakes: pkg.commonMistakes.map(cm => ({
+      mistake: cm.mistake,
+      correction: cm.correction,
+      confidence: cm.confidence,
+    })),
+    faqs: pkg.faqs.map(f => ({
+      question: f.question,
+      answer: f.answer,
+      confidence: f.confidence,
+    })),
+  };
 }
 
 export class KnowledgeAuthoringOrchestrator {

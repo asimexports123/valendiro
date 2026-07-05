@@ -511,10 +511,132 @@ export interface RelationshipInput {
 /**
  * Canonical Knowledge Package object
  *
+ * Phase 30.1: Structured Knowledge Package Schema
+ * The Knowledge Package is the Single Source of Truth for all content.
+ * Every component must either produce, validate, consume, or render Knowledge Packages.
+ *
  * The renderer and Knowledge Authoring Engine receive this object.
  * The loader is responsible for assembling it from the database.
  * The renderer must never query database tables directly.
  */
+
+export interface StructuredDefinition {
+  id: string;
+  term: string;
+  definition: string;
+  context?: string;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredConcept {
+  id: string;
+  name: string;
+  description: string;
+  category?: string;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredProcedure {
+  id: string;
+  name: string;
+  steps: string[];
+  prerequisites?: string[];
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredExample {
+  id: string;
+  title: string;
+  description: string;
+  code?: string;
+  output?: string;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredComparison {
+  id: string;
+  items: {
+    name: string;
+    attributes: Record<string, string>;
+  }[];
+  criteria: string[];
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredCommand {
+  id: string;
+  command: string;
+  description: string;
+  parameters?: Record<string, string>;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredFormula {
+  id: string;
+  name: string;
+  formula: string;
+  description: string;
+  variables?: Record<string, string>;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredWarning {
+  id: string;
+  title: string;
+  description: string;
+  severity: "low" | "medium" | "high" | "critical";
+  sourceId?: string;
+}
+
+export interface StructuredBestPractice {
+  id: string;
+  title: string;
+  description: string;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredCommonMistake {
+  id: string;
+  mistake: string;
+  correction: string;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredFAQ {
+  id: string;
+  question: string;
+  answer: string;
+  confidence: string;
+  sourceId?: string;
+}
+
+export interface StructuredReference {
+  id: string;
+  title: string;
+  url?: string;
+  author?: string;
+  year?: number;
+}
+
+export interface SourceMetadata {
+  adapterName: string;
+  adapterVersion: string;
+  sourceType: "json" | "csv" | "rss" | "feedly" | "official-docs" | "api" | "legacy";
+  retrievedAt: string;
+  processedAt: string;
+  validationStatus: "valid" | "invalid" | "partial";
+  validationErrors?: string[];
+}
+
 export interface KnowledgePackage {
   id: string;
   slug: string;
@@ -522,14 +644,34 @@ export interface KnowledgePackage {
   topicId: string | null;
   category: string;
   intent: "inform" | "educate" | "guide" | "decide";
+  
+  // Structured knowledge collections (Phase 30.1)
+  definitions: StructuredDefinition[];
+  concepts: StructuredConcept[];
+  procedures: StructuredProcedure[];
+  examples: StructuredExample[];
+  comparisons: StructuredComparison[];
+  commands: StructuredCommand[];
+  formulae: StructuredFormula[];
+  warnings: StructuredWarning[];
+  bestPractices: StructuredBestPractice[];
+  commonMistakes: StructuredCommonMistake[];
+  faqs: StructuredFAQ[];
+  references: StructuredReference[];
+  
+  // Legacy facts for backward compatibility (to be migrated)
   facts: PluginFact[];
   citations: CitationInput[];
   relationships: RelationshipInput[];
+  
+  // Metadata
   metadata: {
     sourceCount: number;
     factCount: number;
     relationshipCount: number;
     lastUpdated: string;
     lastVerified: string | null;
+    confidence: string;
+    sourceMetadata: SourceMetadata;
   };
 }
