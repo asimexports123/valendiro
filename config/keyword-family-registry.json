@@ -1,0 +1,2616 @@
+{
+  "categories": {
+    "technology": {
+      "name": "Technology",
+      "families": {
+        "tutorial": {
+          "name": "Tutorial",
+          "detectionRules": [
+            "slug contains: tutorial, guide, how-to, learn, getting-started",
+            "title contains: tutorial, guide, how to, learn, getting started"
+          ],
+          "intent": "instructional",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Prerequisites",
+              "Installation",
+              "Steps",
+              "Examples",
+              "Expected Output",
+              "Common Errors",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Advanced Topics",
+              "Troubleshooting",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include code blocks",
+              "Must include command examples",
+              "Must include configuration examples"
+            ],
+            "validationRules": [
+              "Must have at least 3 code examples",
+              "Must include installation steps",
+              "Must include troubleshooting section"
+            ]
+          }
+        },
+        "installation-guide": {
+          "name": "Installation Guide",
+          "detectionRules": [
+            "slug contains: install, setup, deployment",
+            "title contains: install, setup, deploy, installation"
+          ],
+          "intent": "instructional",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "System Requirements",
+              "Prerequisites",
+              "Installation Steps",
+              "Configuration",
+              "Verification",
+              "Troubleshooting"
+            ],
+            "optionalSections": [
+              "Upgrading",
+              "Uninstalling",
+              "Advanced Configuration"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage"
+            ],
+            "entityRules": [
+              "Must include system requirements",
+              "Must include version information",
+              "Must include verification steps"
+            ],
+            "validationRules": [
+              "Must include system requirements",
+              "Must include installation verification",
+              "Must include troubleshooting"
+            ]
+          }
+        },
+        "api-reference": {
+          "name": "API Reference",
+          "detectionRules": [
+            "slug contains: api, reference, documentation",
+            "title contains: api, reference, documentation"
+          ],
+          "intent": "reference",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Endpoint Overview",
+              "Authentication",
+              "Endpoints",
+              "Parameters",
+              "Response Format",
+              "Error Codes",
+              "Rate Limiting"
+            ],
+            "optionalSections": [
+              "Examples",
+              "SDKs",
+              "Webhooks"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include endpoint definitions",
+              "Must include parameter descriptions",
+              "Must include response examples"
+            ],
+            "validationRules": [
+              "Must include at least 5 endpoints",
+              "Must include authentication section",
+              "Must include error codes"
+            ]
+          }
+        },
+        "architecture": {
+          "name": "Architecture",
+          "detectionRules": [
+            "slug contains: architecture, design, system",
+            "title contains: architecture, design, system design"
+          ],
+          "intent": "conceptual",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Architecture Overview",
+              "Components",
+              "Data Flow",
+              "Scalability",
+              "Security",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Diagrams",
+              "Implementation Guide",
+              "Case Studies"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include component descriptions",
+              "Must include data flow explanation",
+              "Must include scalability considerations"
+            ],
+            "validationRules": [
+              "Must include architecture diagram reference",
+              "Must include component definitions",
+              "Must include security considerations"
+            ]
+          }
+        },
+        "troubleshooting": {
+          "name": "Troubleshooting",
+          "detectionRules": [
+            "slug contains: troubleshooting, debug, fix, error",
+            "title contains: troubleshooting, debug, fix, error"
+          ],
+          "intent": "problem-solving",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Common Issues",
+              "Symptoms",
+              "Root Causes",
+              "Solutions",
+              "Prevention",
+              "When to Contact Support"
+            ],
+            "optionalSections": [
+              "Debugging Tools",
+              "Log Analysis",
+              "Advanced Troubleshooting"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include issue descriptions",
+              "Must include solution steps",
+              "Must include prevention tips"
+            ],
+            "validationRules": [
+              "Must include at least 5 common issues",
+              "Must include solution steps",
+              "Must include prevention section"
+            ]
+          }
+        },
+        "comparison": {
+          "name": "Comparison",
+          "detectionRules": [
+            "slug contains: comparison, vs, versus, compare",
+            "title contains: comparison, vs, versus, compare"
+          ],
+          "intent": "evaluative",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Overview",
+              "Feature Comparison",
+              "Pros",
+              "Cons",
+              "Pricing",
+              "Use Cases",
+              "Recommendation"
+            ],
+            "optionalSections": [
+              "Performance Comparison",
+              "Learning Curve",
+              "Community Support"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include comparison table",
+              "Must include pros and cons",
+              "Must include pricing information"
+            ],
+            "validationRules": [
+              "Must include comparison table",
+              "Must include pros and cons",
+              "Must include recommendation"
+            ]
+          }
+        },
+        "certification": {
+          "name": "Certification",
+          "detectionRules": [
+            "slug contains: certification, exam, certified",
+            "title contains: certification, exam, certified"
+          ],
+          "intent": "educational",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Certification Overview",
+              "Exam Details",
+              "Exam Objectives",
+              "Study Resources",
+              "Practice Tests",
+              "Exam Tips",
+              "Recertification"
+            ],
+            "optionalSections": [
+              "Training Courses",
+              "Cost",
+              "Validity Period"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include exam details",
+              "Must include study resources",
+              "Must include exam objectives"
+            ],
+            "validationRules": [
+              "Must include exam details",
+              "Must include study resources",
+              "Must include exam tips"
+            ]
+          }
+        },
+        "interview-questions": {
+          "name": "Interview Questions",
+          "detectionRules": [
+            "slug contains: interview, questions",
+            "title contains: interview, questions"
+          ],
+          "intent": "preparatory",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Interview Overview",
+              "Common Questions",
+              "Technical Questions",
+              "Behavioral Questions",
+              "Best Practices",
+              "Preparation Tips"
+            ],
+            "optionalSections": [
+              "Sample Answers",
+              "Follow-up Questions",
+              "Company-Specific Questions"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include question categories",
+              "Must include preparation tips",
+              "Must include best practices"
+            ],
+            "validationRules": [
+              "Must include at least 10 questions",
+              "Must include technical questions",
+              "Must include behavioral questions"
+            ]
+          }
+        },
+        "performance-optimization": {
+          "name": "Performance Optimization",
+          "detectionRules": [
+            "slug contains: performance, optimization, speed",
+            "title contains: performance, optimization, speed"
+          ],
+          "intent": "optimization",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Performance Overview",
+              "Bottlenecks",
+              "Optimization Techniques",
+              "Monitoring",
+              "Best Practices",
+              "Case Studies"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Metrics",
+              "Benchmarking"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include bottleneck analysis",
+              "Must include optimization techniques",
+              "Must include monitoring strategies"
+            ],
+            "validationRules": [
+              "Must include bottleneck identification",
+              "Must include optimization techniques",
+              "Must include monitoring section"
+            ]
+          }
+        },
+        "security-guide": {
+          "name": "Security Guide",
+          "detectionRules": [
+            "slug contains: security, secure",
+            "title contains: security, secure"
+          ],
+          "intent": "security",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Security Overview",
+              "Threats",
+              "Best Practices",
+              "Implementation",
+              "Monitoring",
+              "Incident Response"
+            ],
+            "optionalSections": [
+              "Compliance",
+              "Tools",
+              "Case Studies"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include threat analysis",
+              "Must include security best practices",
+              "Must include incident response"
+            ],
+            "validationRules": [
+              "Must include threat analysis",
+              "Must include security best practices",
+              "Must include incident response plan"
+            ]
+          }
+        },
+        "pricing-guide": {
+          "name": "Pricing Guide",
+          "detectionRules": [
+            "slug contains: pricing, cost, pricing",
+            "title contains: pricing, cost, pricing"
+          ],
+          "intent": "commercial",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Pricing Overview",
+              "Pricing Models",
+              "Cost Breakdown",
+              "Factors Affecting Cost",
+              "Optimization",
+              "Comparison"
+            ],
+            "optionalSections": [
+              "ROI Analysis",
+              "Case Studies",
+              "Budget Planning"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include pricing models",
+              "Must include cost breakdown",
+              "Must include comparison"
+            ],
+            "validationRules": [
+              "Must include pricing models",
+              "Must include cost breakdown",
+              "Must include optimization tips"
+            ]
+          }
+        },
+        "migration-guide": {
+          "name": "Migration Guide",
+          "detectionRules": [
+            "slug contains: migration, migrate",
+            "title contains: migration, migrate"
+          ],
+          "intent": "transition",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Migration Overview",
+              "Pre-Migration",
+              "Migration Steps",
+              "Post-Migration",
+              "Rollback Plan",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Timeline",
+              "Risk Assessment"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include migration steps",
+              "Must include rollback plan",
+              "Must include pre-migration checklist"
+            ],
+            "validationRules": [
+              "Must include migration steps",
+              "Must include rollback plan",
+              "Must include best practices"
+            ]
+          }
+        },
+        "best-practices": {
+          "name": "Best Practices",
+          "detectionRules": [
+            "slug contains: best-practices, best practices",
+            "title contains: best practices, best-practices"
+          ],
+          "intent": "guidance",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Best Practices Overview",
+              "Core Principles",
+              "Implementation",
+              "Common Mistakes",
+              "Tools",
+              "Resources"
+            ],
+            "optionalSections": [
+              "Case Studies",
+              "Examples",
+              "Checklist"
+            ],
+            "forbiddenSections": [
+              "Ingredients",
+              "Equipment",
+              "Cooking Instructions",
+              "Storage",
+              "Nutrition"
+            ],
+            "entityRules": [
+              "Must include core principles",
+              "Must include implementation guidance",
+              "Must include common mistakes"
+            ],
+            "validationRules": [
+              "Must include core principles",
+              "Must include implementation steps",
+              "Must include common mistakes"
+            ]
+          }
+        }
+      }
+    },
+    "personal-finance": {
+      "name": "Personal Finance",
+      "families": {
+        "budgeting": {
+          "name": "Budgeting",
+          "detectionRules": [
+            "slug contains: budget, budgeting",
+            "title contains: budget, budgeting"
+          ],
+          "intent": "planning",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Budget Overview",
+              "Income Tracking",
+              "Expense Categories",
+              "Budget Creation",
+              "Monitoring",
+              "Adjustments"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Templates",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include expense categories",
+              "Must include budget creation steps",
+              "Must include monitoring strategies"
+            ],
+            "validationRules": [
+              "Must include expense categories",
+              "Must include budget creation steps",
+              "Must include monitoring section"
+            ]
+          }
+        },
+        "investing": {
+          "name": "Investing",
+          "detectionRules": [
+            "slug contains: invest, investing, investment",
+            "title contains: invest, investing, investment"
+          ],
+          "intent": "growth",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Investment Overview",
+              "Investment Types",
+              "Risk Assessment",
+              "Portfolio Strategy",
+              "Monitoring",
+              "Tax Implications"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Strategies",
+              "Case Studies"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include investment types",
+              "Must include risk assessment",
+              "Must include portfolio strategy"
+            ],
+            "validationRules": [
+              "Must include investment types",
+              "Must include risk assessment",
+              "Must include tax implications"
+            ]
+          }
+        },
+        "retirement": {
+          "name": "Retirement",
+          "detectionRules": [
+            "slug contains: retirement",
+            "title contains: retirement"
+          ],
+          "intent": "long-term",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Retirement Overview",
+              "Retirement Accounts",
+              "Savings Goals",
+              "Investment Strategy",
+              "Social Security",
+              "Planning Timeline"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Calculators",
+              "Case Studies"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include retirement accounts",
+              "Must include savings goals",
+              "Must include planning timeline"
+            ],
+            "validationRules": [
+              "Must include retirement accounts",
+              "Must include savings goals",
+              "Must include planning timeline"
+            ]
+          }
+        },
+        "insurance": {
+          "name": "Insurance",
+          "detectionRules": [
+            "slug contains: insurance",
+            "title contains: insurance"
+          ],
+          "intent": "protection",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Insurance Overview",
+              "Coverage Types",
+              "Policy Details",
+              "Cost Factors",
+              "Claims Process",
+              "Comparison"
+            ],
+            "optionalSections": [
+              "Providers",
+              "Tips",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include coverage types",
+              "Must include policy details",
+              "Must include claims process"
+            ],
+            "validationRules": [
+              "Must include coverage types",
+              "Must include policy details",
+              "Must include comparison"
+            ]
+          }
+        },
+        "tax": {
+          "name": "Tax",
+          "detectionRules": [
+            "slug contains: tax, taxation",
+            "title contains: tax, taxation"
+          ],
+          "intent": "compliance",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Tax Overview",
+              "Tax Types",
+              "Deductions",
+              "Credits",
+              "Filing Process",
+              "Deadlines"
+            ],
+            "optionalSections": [
+              "Forms",
+              "Tools",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include tax types",
+              "Must include deductions",
+              "Must include filing process"
+            ],
+            "validationRules": [
+              "Must include tax types",
+              "Must include deductions",
+              "Must include filing process"
+            ]
+          }
+        },
+        "credit": {
+          "name": "Credit",
+          "detectionRules": [
+            "slug contains: credit",
+            "title contains: credit"
+          ],
+          "intent": "financial-health",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Credit Overview",
+              "Credit Score",
+              "Credit Report",
+              "Building Credit",
+              "Managing Debt",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Tips",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include credit score explanation",
+              "Must include credit report details",
+              "Must include building credit tips"
+            ],
+            "validationRules": [
+              "Must include credit score explanation",
+              "Must include credit report details",
+              "Must include best practices"
+            ]
+          }
+        },
+        "loan": {
+          "name": "Loan",
+          "detectionRules": [
+            "slug contains: loan",
+            "title contains: loan"
+          ],
+          "intent": "borrowing",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Loan Overview",
+              "Loan Types",
+              "Interest Rates",
+              "Terms",
+              "Application Process",
+              "Repayment"
+            ],
+            "optionalSections": [
+              "Calculators",
+              "Comparison",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include loan types",
+              "Must include interest rate explanation",
+              "Must include application process"
+            ],
+            "validationRules": [
+              "Must include loan types",
+              "Must include interest rate explanation",
+              "Must include repayment details"
+            ]
+          }
+        },
+        "debt": {
+          "name": "Debt",
+          "detectionRules": [
+            "slug contains: debt",
+            "title contains: debt"
+          ],
+          "intent": "management",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Debt Overview",
+              "Debt Types",
+              "Debt Management",
+              "Repayment Strategies",
+              "Consolidation",
+              "Prevention"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Tips",
+              "Case Studies"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include debt types",
+              "Must include management strategies",
+              "Must include repayment options"
+            ],
+            "validationRules": [
+              "Must include debt types",
+              "Must include management strategies",
+              "Must include repayment strategies"
+            ]
+          }
+        },
+        "calculator": {
+          "name": "Calculator",
+          "detectionRules": [
+            "slug contains: calculator",
+            "title contains: calculator"
+          ],
+          "intent": "tool",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Calculator Overview",
+              "Formula",
+              "Inputs",
+              "Outputs",
+              "Examples",
+              "Limitations"
+            ],
+            "optionalSections": [
+              "Advanced Features",
+              "Tips",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include formula",
+              "Must include input descriptions",
+              "Must include examples"
+            ],
+            "validationRules": [
+              "Must include formula",
+              "Must include input descriptions",
+              "Must include examples"
+            ]
+          }
+        },
+        "comparison": {
+          "name": "Comparison",
+          "detectionRules": [
+            "slug contains: comparison, vs, versus",
+            "title contains: comparison, vs, versus"
+          ],
+          "intent": "evaluative",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Comparison Overview",
+              "Features",
+              "Pros",
+              "Cons",
+              "Pricing",
+              "Recommendation"
+            ],
+            "optionalSections": [
+              "Case Studies",
+              "Tools",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include feature comparison",
+              "Must include pros and cons",
+              "Must include recommendation"
+            ],
+            "validationRules": [
+              "Must include feature comparison",
+              "Must include pros and cons",
+              "Must include recommendation"
+            ]
+          }
+        }
+      }
+    },
+    "business": {
+      "name": "Business",
+      "families": {
+        "marketing-strategy": {
+          "name": "Marketing Strategy",
+          "detectionRules": [
+            "slug contains: marketing, strategy",
+            "title contains: marketing, strategy"
+          ],
+          "intent": "strategic",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Strategy Overview",
+              "Target Audience",
+              "Channels",
+              "Content Strategy",
+              "Metrics",
+              "Implementation"
+            ],
+            "optionalSections": [
+              "Case Studies",
+              "Tools",
+              "Budget"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include target audience",
+              "Must include channel strategy",
+              "Must include metrics"
+            ],
+            "validationRules": [
+              "Must include target audience",
+              "Must include channel strategy",
+              "Must include metrics"
+            ]
+          }
+        },
+        "sales": {
+          "name": "Sales",
+          "detectionRules": [
+            "slug contains: sales",
+            "title contains: sales"
+          ],
+          "intent": "revenue",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Sales Overview",
+              "Sales Process",
+              "Techniques",
+              "Tools",
+              "Metrics",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Training",
+              "Case Studies",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include sales process",
+              "Must include techniques",
+              "Must include metrics"
+            ],
+            "validationRules": [
+              "Must include sales process",
+              "Must include techniques",
+              "Must include best practices"
+            ]
+          }
+        },
+        "leadership": {
+          "name": "Leadership",
+          "detectionRules": [
+            "slug contains: leadership",
+            "title contains: leadership"
+          ],
+          "intent": "management",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Leadership Overview",
+              "Leadership Styles",
+              "Skills",
+              "Development",
+              "Best Practices",
+              "Case Studies"
+            ],
+            "optionalSections": [
+              "Training",
+              "Tools",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include leadership styles",
+              "Must include skills",
+              "Must include development plan"
+            ],
+            "validationRules": [
+              "Must include leadership styles",
+              "Must include skills",
+              "Must include best practices"
+            ]
+          }
+        },
+        "operations": {
+          "name": "Operations",
+          "detectionRules": [
+            "slug contains: operations",
+            "title contains: operations"
+          ],
+          "intent": "process",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Operations Overview",
+              "Processes",
+              "Efficiency",
+              "Tools",
+              "Metrics",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Case Studies",
+              "Automation",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include process descriptions",
+              "Must include efficiency strategies",
+              "Must include metrics"
+            ],
+            "validationRules": [
+              "Must include process descriptions",
+              "Must include efficiency strategies",
+              "Must include best practices"
+            ]
+          }
+        },
+        "hr": {
+          "name": "HR",
+          "detectionRules": [
+            "slug contains: hr, human-resources",
+            "title contains: hr, human resources"
+          ],
+          "intent": "people",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "HR Overview",
+              "Recruitment",
+              "Onboarding",
+              "Training",
+              "Performance",
+              "Compliance"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Policies",
+              "Best Practices"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include recruitment process",
+              "Must include onboarding steps",
+              "Must include training program"
+            ],
+            "validationRules": [
+              "Must include recruitment process",
+              "Must include onboarding steps",
+              "Must include compliance section"
+            ]
+          }
+        },
+        "project-management": {
+          "name": "Project Management",
+          "detectionRules": [
+            "slug contains: project-management",
+            "title contains: project management"
+          ],
+          "intent": "coordination",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Project Overview",
+              "Planning",
+              "Execution",
+              "Monitoring",
+              "Closure",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Methodologies",
+              "Case Studies"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include planning steps",
+              "Must include execution process",
+              "Must include monitoring strategies"
+            ],
+            "validationRules": [
+              "Must include planning steps",
+              "Must include execution process",
+              "Must include best practices"
+            ]
+          }
+        },
+        "startup-guide": {
+          "name": "Startup Guide",
+          "detectionRules": [
+            "slug contains: startup",
+            "title contains: startup"
+          ],
+          "intent": "entrepreneurship",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Startup Overview",
+              "Idea Validation",
+              "Business Plan",
+              "Funding",
+              "Team Building",
+              "Launch"
+            ],
+            "optionalSections": [
+              "Case Studies",
+              "Tools",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include idea validation",
+              "Must include business plan",
+              "Must include funding options"
+            ],
+            "validationRules": [
+              "Must include idea validation",
+              "Must include business plan",
+              "Must include launch strategy"
+            ]
+          }
+        },
+        "business-framework": {
+          "name": "Business Framework",
+          "detectionRules": [
+            "slug contains: framework",
+            "title contains: framework"
+          ],
+          "intent": "methodology",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Framework Overview",
+              "Components",
+              "Implementation",
+              "Use Cases",
+              "Benefits",
+              "Limitations"
+            ],
+            "optionalSections": [
+              "Case Studies",
+              "Tools",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include framework components",
+              "Must include implementation steps",
+              "Must include use cases"
+            ],
+            "validationRules": [
+              "Must include framework components",
+              "Must include implementation steps",
+              "Must include benefits"
+            ]
+          }
+        },
+        "case-study": {
+          "name": "Case Study",
+          "detectionRules": [
+            "slug contains: case-study",
+            "title contains: case study"
+          ],
+          "intent": "analysis",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Case Overview",
+              "Challenge",
+              "Solution",
+              "Implementation",
+              "Results",
+              "Key Takeaways"
+            ],
+            "optionalSections": [
+              "Timeline",
+              "Metrics",
+              "Lessons Learned"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include challenge description",
+              "Must include solution details",
+              "Must include results"
+            ],
+            "validationRules": [
+              "Must include challenge description",
+              "Must include solution details",
+              "Must include key takeaways"
+            ]
+          }
+        }
+      }
+    },
+    "education": {
+      "name": "Education",
+      "families": {
+        "learning-guide": {
+          "name": "Learning Guide",
+          "detectionRules": [
+            "slug contains: learn, learning",
+            "title contains: learn, learning"
+          ],
+          "intent": "instructional",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Learning Overview",
+              "Learning Objectives",
+              "Resources",
+              "Study Plan",
+              "Practice",
+              "Assessment"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Tips",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include learning objectives",
+              "Must include resources",
+              "Must include study plan"
+            ],
+            "validationRules": [
+              "Must include learning objectives",
+              "Must include resources",
+              "Must include practice section"
+            ]
+          }
+        },
+        "study-plan": {
+          "name": "Study Plan",
+          "detectionRules": [
+            "slug contains: study-plan",
+            "title contains: study plan"
+          ],
+          "intent": "planning",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Study Overview",
+              "Goals",
+              "Schedule",
+              "Resources",
+              "Tracking",
+              "Adjustments"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Tips",
+              "Templates"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include study goals",
+              "Must include schedule",
+              "Must include tracking method"
+            ],
+            "validationRules": [
+              "Must include study goals",
+              "Must include schedule",
+              "Must include tracking section"
+            ]
+          }
+        },
+        "exam-preparation": {
+          "name": "Exam Preparation",
+          "detectionRules": [
+            "slug contains: exam, test",
+            "title contains: exam, test"
+          ],
+          "intent": "preparatory",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Exam Overview",
+              "Exam Format",
+              "Study Materials",
+              "Practice Tests",
+              "Test-Taking Strategies",
+              "Day of Exam"
+            ],
+            "optionalSections": [
+              "Resources",
+              "Tips",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include exam format",
+              "Must include study materials",
+              "Must include practice tests"
+            ],
+            "validationRules": [
+              "Must include exam format",
+              "Must include study materials",
+              "Must include test-taking strategies"
+            ]
+          }
+        },
+        "career-guide": {
+          "name": "Career Guide",
+          "detectionRules": [
+            "slug contains: career",
+            "title contains: career"
+          ],
+          "intent": "guidance",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Career Overview",
+              "Skills Required",
+              "Education",
+              "Career Path",
+              "Job Market",
+              "Tips"
+            ],
+            "optionalSections": [
+              "Resources",
+              "Case Studies",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include skills required",
+              "Must include education requirements",
+              "Must include career path"
+            ],
+            "validationRules": [
+              "Must include skills required",
+              "Must include education requirements",
+              "Must include career path"
+            ]
+          }
+        },
+        "certification": {
+          "name": "Certification",
+          "detectionRules": [
+            "slug contains: certification",
+            "title contains: certification"
+          ],
+          "intent": "credential",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Certification Overview",
+              "Requirements",
+              "Exam Details",
+              "Study Resources",
+              "Preparation",
+              "Maintenance"
+            ],
+            "optionalSections": [
+              "Value",
+              "Career Impact",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include requirements",
+              "Must include exam details",
+              "Must include study resources"
+            ],
+            "validationRules": [
+              "Must include requirements",
+              "Must include exam details",
+              "Must include preparation guide"
+            ]
+          }
+        },
+        "skill-roadmap": {
+          "name": "Skill Roadmap",
+          "detectionRules": [
+            "slug contains: roadmap",
+            "title contains: roadmap"
+          ],
+          "intent": "path",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Roadmap Overview",
+              "Skill Levels",
+              "Learning Path",
+              "Resources",
+              "Timeline",
+              "Milestones"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Tips",
+              "Community"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include skill levels",
+              "Must include learning path",
+              "Must include timeline"
+            ],
+            "validationRules": [
+              "Must include skill levels",
+              "Must include learning path",
+              "Must include milestones"
+            ]
+          }
+        }
+      }
+    },
+    "health-wellness": {
+      "name": "Health & Wellness",
+      "families": {
+        "disease-guide": {
+          "name": "Disease Guide",
+          "detectionRules": [
+            "slug contains: disease, condition",
+            "title contains: disease, condition"
+          ],
+          "intent": "medical",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Disease Overview",
+              "Symptoms",
+              "Causes",
+              "Diagnosis",
+              "Treatment",
+              "Prevention"
+            ],
+            "optionalSections": [
+              "Risk Factors",
+              "Complications",
+              "When to See a Doctor"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Ingredients",
+              "Cooking Instructions"
+            ],
+            "entityRules": [
+              "Must include symptoms",
+              "Must include causes",
+              "Must include treatment options"
+            ],
+            "validationRules": [
+              "Must include symptoms",
+              "Must include causes",
+              "Must include treatment options"
+            ]
+          }
+        },
+        "symptoms": {
+          "name": "Symptoms",
+          "detectionRules": [
+            "slug contains: symptoms",
+            "title contains: symptoms"
+          ],
+          "intent": "diagnostic",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Symptoms Overview",
+              "Common Symptoms",
+              "Severity",
+              "When to Seek Help",
+              "Self-Care"
+            ],
+            "optionalSections": [
+              "Related Conditions",
+              "Tips",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Ingredients",
+              "Cooking Instructions"
+            ],
+            "entityRules": [
+              "Must include common symptoms",
+              "Must include severity indicators",
+              "Must include when to seek help"
+            ],
+            "validationRules": [
+              "Must include common symptoms",
+              "Must include severity indicators",
+              "Must include self-care tips"
+            ]
+          }
+        },
+        "treatment": {
+          "name": "Treatment",
+          "detectionRules": [
+            "slug contains: treatment",
+            "title contains: treatment"
+          ],
+          "intent": "therapeutic",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Treatment Overview",
+              "Treatment Options",
+              "Medications",
+              "Therapies",
+              "Lifestyle Changes",
+              "Side Effects"
+            ],
+            "optionalSections": [
+              "Recovery",
+              "Support",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Ingredients",
+              "Cooking Instructions"
+            ],
+            "entityRules": [
+              "Must include treatment options",
+              "Must include medications",
+              "Must include side effects"
+            ],
+            "validationRules": [
+              "Must include treatment options",
+              "Must include medications",
+              "Must include side effects"
+            ]
+          }
+        },
+        "nutrition": {
+          "name": "Nutrition",
+          "detectionRules": [
+            "slug contains: nutrition",
+            "title contains: nutrition"
+          ],
+          "intent": "dietary",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Nutrition Overview",
+              "Nutrients",
+              "Dietary Guidelines",
+              "Meal Planning",
+              "Supplements",
+              "Common Myths"
+            ],
+            "optionalSections": [
+              "Recipes",
+              "Tips",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment"
+            ],
+            "entityRules": [
+              "Must include nutrients",
+              "Must include dietary guidelines",
+              "Must include meal planning"
+            ],
+            "validationRules": [
+              "Must include nutrients",
+              "Must include dietary guidelines",
+              "Must include meal planning"
+            ]
+          }
+        },
+        "exercise": {
+          "name": "Exercise",
+          "detectionRules": [
+            "slug contains: exercise, workout",
+            "title contains: exercise, workout"
+          ],
+          "intent": "fitness",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Exercise Overview",
+              "Benefits",
+              "Types",
+              "Routine",
+              "Form",
+              "Safety"
+            ],
+            "optionalSections": [
+              "Equipment",
+              "Progression",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Ingredients",
+              "Cooking Instructions"
+            ],
+            "entityRules": [
+              "Must include exercise types",
+              "Must include routine structure",
+              "Must include safety guidelines"
+            ],
+            "validationRules": [
+              "Must include exercise types",
+              "Must include routine structure",
+              "Must include safety guidelines"
+            ]
+          }
+        },
+        "mental-wellness": {
+          "name": "Mental Wellness",
+          "detectionRules": [
+            "slug contains: mental, wellness",
+            "title contains: mental, wellness"
+          ],
+          "intent": "psychological",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Wellness Overview",
+              "Mental Health",
+              "Stress Management",
+              "Self-Care",
+              "Resources",
+              "When to Seek Help"
+            ],
+            "optionalSections": [
+              "Techniques",
+              "Tips",
+              "Support"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Ingredients",
+              "Cooking Instructions"
+            ],
+            "entityRules": [
+              "Must include mental health concepts",
+              "Must include stress management",
+              "Must include self-care strategies"
+            ],
+            "validationRules": [
+              "Must include mental health concepts",
+              "Must include stress management",
+              "Must include when to seek help"
+            ]
+          }
+        },
+        "supplement-guide": {
+          "name": "Supplement Guide",
+          "detectionRules": [
+            "slug contains: supplement",
+            "title contains: supplement"
+          ],
+          "intent": "supplementary",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Supplement Overview",
+              "Types",
+              "Benefits",
+              "Dosage",
+              "Side Effects",
+              "Interactions"
+            ],
+            "optionalSections": [
+              "Quality",
+              "Selection Tips",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Ingredients",
+              "Cooking Instructions"
+            ],
+            "entityRules": [
+              "Must include supplement types",
+              "Must include dosage information",
+              "Must include side effects"
+            ],
+            "validationRules": [
+              "Must include supplement types",
+              "Must include dosage information",
+              "Must include side effects"
+            ]
+          }
+        },
+        "medical-test": {
+          "name": "Medical Test",
+          "detectionRules": [
+            "slug contains: test, medical-test",
+            "title contains: test, medical test"
+          ],
+          "intent": "diagnostic",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Test Overview",
+              "Purpose",
+              "Preparation",
+              "Procedure",
+              "Results",
+              "Risks"
+            ],
+            "optionalSections": [
+              "Alternatives",
+              "FAQ",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Ingredients",
+              "Cooking Instructions"
+            ],
+            "entityRules": [
+              "Must include test purpose",
+              "Must include preparation steps",
+              "Must include procedure details"
+            ],
+            "validationRules": [
+              "Must include test purpose",
+              "Must include preparation steps",
+              "Must include results interpretation"
+            ]
+          }
+        }
+      }
+    },
+    "home-lifestyle": {
+      "name": "Home & Lifestyle",
+      "families": {
+        "recipe": {
+          "name": "Recipe",
+          "detectionRules": [
+            "slug contains: recipe",
+            "title contains: recipe"
+          ],
+          "intent": "cooking",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Ingredients",
+              "Equipment",
+              "Prep Time",
+              "Cook Time",
+              "Instructions",
+              "Nutrition",
+              "Serving",
+              "Storage",
+              "Recipe Variations"
+            ],
+            "optionalSections": [
+              "Tips",
+              "Substitutions",
+              "History"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include ingredients with quantities",
+              "Must include cooking instructions",
+              "Must include serving size"
+            ],
+            "validationRules": [
+              "Must include ingredients",
+              "Must include equipment",
+              "Must include cooking instructions"
+            ]
+          }
+        },
+        "meal-planning": {
+          "name": "Meal Planning",
+          "detectionRules": [
+            "slug contains: meal-planning",
+            "title contains: meal planning"
+          ],
+          "intent": "planning",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Goals",
+              "Nutrition Objectives",
+              "Weekly Calendar",
+              "Shopping List",
+              "Meal Prep Schedule",
+              "Storage",
+              "Budget",
+              "Time Saving Tips",
+              "Common Mistakes",
+              "Checklist"
+            ],
+            "optionalSections": [
+              "Templates",
+              "Tips",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include goals",
+              "Must include weekly calendar",
+              "Must include shopping list"
+            ],
+            "validationRules": [
+              "Must include goals",
+              "Must include weekly calendar",
+              "Must include shopping list"
+            ]
+          }
+        },
+        "meal-prep": {
+          "name": "Meal Prep",
+          "detectionRules": [
+            "slug contains: meal-prep",
+            "title contains: meal prep"
+          ],
+          "intent": "preparation",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Prep Overview",
+              "Batch Cooking",
+              "Storage",
+              "Reheating",
+              "Menu",
+              "Equipment",
+              "Tips"
+            ],
+            "optionalSections": [
+              "Recipes",
+              "Schedule",
+              "Budget"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include batch cooking steps",
+              "Must include storage instructions",
+              "Must include reheating guidelines"
+            ],
+            "validationRules": [
+              "Must include batch cooking steps",
+              "Must include storage instructions",
+              "Must include reheating guidelines"
+            ]
+          }
+        },
+        "cooking-technique": {
+          "name": "Cooking Technique",
+          "detectionRules": [
+            "slug contains: cooking, technique",
+            "title contains: cooking, technique"
+          ],
+          "intent": "instructional",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Technique Overview",
+              "Equipment",
+              "Process",
+              "Tips",
+              "Common Mistakes",
+              "Applications"
+            ],
+            "optionalSections": [
+              "Variations",
+              "Examples",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include equipment",
+              "Must include process steps",
+              "Must include tips"
+            ],
+            "validationRules": [
+              "Must include equipment",
+              "Must include process steps",
+              "Must include common mistakes"
+            ]
+          }
+        },
+        "baking": {
+          "name": "Baking",
+          "detectionRules": [
+            "slug contains: baking",
+            "title contains: baking"
+          ],
+          "intent": "cooking",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Ingredients",
+              "Equipment",
+              "Preparation",
+              "Baking Process",
+              "Temperature",
+              "Timing",
+              "Troubleshooting",
+              "Storage"
+            ],
+            "optionalSections": [
+              "Tips",
+              "Variations",
+              "Science"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include ingredients",
+              "Must include equipment",
+              "Must include temperature guidelines"
+            ],
+            "validationRules": [
+              "Must include ingredients",
+              "Must include equipment",
+              "Must include baking process"
+            ]
+          }
+        },
+        "kitchen-equipment": {
+          "name": "Kitchen Equipment",
+          "detectionRules": [
+            "slug contains: kitchen, equipment",
+            "title contains: kitchen, equipment"
+          ],
+          "intent": "reference",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Equipment Overview",
+              "Types",
+              "Selection Guide",
+              "Usage",
+              "Maintenance",
+              "Comparison"
+            ],
+            "optionalSections": [
+              "Reviews",
+              "Tips",
+              "Buying Guide"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include equipment types",
+              "Must include selection guide",
+              "Must include usage instructions"
+            ],
+            "validationRules": [
+              "Must include equipment types",
+              "Must include selection guide",
+              "Must include maintenance tips"
+            ]
+          }
+        },
+        "food-safety": {
+          "name": "Food Safety",
+          "detectionRules": [
+            "slug contains: food-safety",
+            "title contains: food safety"
+          ],
+          "intent": "safety",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Safety Overview",
+              "Bacteria",
+              "Storage",
+              "Preparation",
+              "Cooking",
+              "Cross-Contamination",
+              "Best Practices"
+            ],
+            "optionalSections": [
+              "Guidelines",
+              "Resources",
+              "FAQ"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include storage guidelines",
+              "Must include preparation safety",
+              "Must include cooking temperatures"
+            ],
+            "validationRules": [
+              "Must include storage guidelines",
+              "Must include preparation safety",
+              "Must include cross-contamination prevention"
+            ]
+          }
+        },
+        "ingredient-guide": {
+          "name": "Ingredient Guide",
+          "detectionRules": [
+            "slug contains: ingredient",
+            "title contains: ingredient"
+          ],
+          "intent": "reference",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Ingredient Overview",
+              "Types",
+              "Selection",
+              "Storage",
+              "Uses",
+              "Substitutions"
+            ],
+            "optionalSections": [
+              "Nutrition",
+              "Tips",
+              "Recipes"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include ingredient types",
+              "Must include selection guide",
+              "Must include storage instructions"
+            ],
+            "validationRules": [
+              "Must include ingredient types",
+              "Must include selection guide",
+              "Must include uses"
+            ]
+          }
+        },
+        "cleaning": {
+          "name": "Cleaning",
+          "detectionRules": [
+            "slug contains: cleaning",
+            "title contains: cleaning"
+          ],
+          "intent": "maintenance",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Cleaning Overview",
+              "Supplies",
+              "Methods",
+              "Schedule",
+              "Tips",
+              "Safety"
+            ],
+            "optionalSections": [
+              "DIY Solutions",
+              "Tools",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include supplies",
+              "Must include cleaning methods",
+              "Must include schedule"
+            ],
+            "validationRules": [
+              "Must include supplies",
+              "Must include cleaning methods",
+              "Must include safety precautions"
+            ]
+          }
+        },
+        "home-organization": {
+          "name": "Home Organization",
+          "detectionRules": [
+            "slug contains: organization",
+            "title contains: organization"
+          ],
+          "intent": "organization",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Organization Overview",
+              "Areas",
+              "Systems",
+              "Storage",
+              "Maintenance",
+              "Tips"
+            ],
+            "optionalSections": [
+              "Products",
+              "DIY",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include area breakdown",
+              "Must include organization systems",
+              "Must include storage solutions"
+            ],
+            "validationRules": [
+              "Must include area breakdown",
+              "Must include organization systems",
+              "Must include maintenance tips"
+            ]
+          }
+        },
+        "diy": {
+          "name": "DIY",
+          "detectionRules": [
+            "slug contains: diy",
+            "title contains: diy"
+          ],
+          "intent": "crafting",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Project Overview",
+              "Materials",
+              "Tools",
+              "Steps",
+              "Time",
+              "Difficulty",
+              "Safety",
+              "Tips"
+            ],
+            "optionalSections": [
+              "Variations",
+              "Cost",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include materials",
+              "Must include tools",
+              "Must include step-by-step instructions"
+            ],
+            "validationRules": [
+              "Must include materials",
+              "Must include tools",
+              "Must include step-by-step instructions"
+            ]
+          }
+        },
+        "gardening": {
+          "name": "Gardening",
+          "detectionRules": [
+            "slug contains: gardening",
+            "title contains: gardening"
+          ],
+          "intent": "cultivation",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Gardening Overview",
+              "Plants",
+              "Soil",
+              "Watering",
+              "Maintenance",
+              "Seasonal Tips"
+            ],
+            "optionalSections": [
+              "Tools",
+              "Pest Control",
+              "Harvesting"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include plant types",
+              "Must include soil requirements",
+              "Must include watering schedule"
+            ],
+            "validationRules": [
+              "Must include plant types",
+              "Must include soil requirements",
+              "Must include maintenance tips"
+            ]
+          }
+        },
+        "interior-design": {
+          "name": "Interior Design",
+          "detectionRules": [
+            "slug contains: interior-design",
+            "title contains: interior design"
+          ],
+          "intent": "design",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Design Overview",
+              "Style",
+              "Color",
+              "Furniture",
+              "Layout",
+              "Lighting",
+              "Budget"
+            ],
+            "optionalSections": [
+              "Trends",
+              "Tips",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include style guide",
+              "Must include color scheme",
+              "Must include layout suggestions"
+            ],
+            "validationRules": [
+              "Must include style guide",
+              "Must include color scheme",
+              "Must include furniture recommendations"
+            ]
+          }
+        },
+        "home-maintenance": {
+          "name": "Home Maintenance",
+          "detectionRules": [
+            "slug contains: maintenance",
+            "title contains: maintenance"
+          ],
+          "intent": "upkeep",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Maintenance Overview",
+              "Schedule",
+              "Tasks",
+              "Seasonal",
+              "Tools",
+              "Safety"
+            ],
+            "optionalSections": [
+              "DIY vs Professional",
+              "Budget",
+              "Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include maintenance schedule",
+              "Must include task breakdown",
+              "Must include seasonal considerations"
+            ],
+            "validationRules": [
+              "Must include maintenance schedule",
+              "Must include task breakdown",
+              "Must include safety precautions"
+            ]
+          }
+        },
+        "travel-planning": {
+          "name": "Travel Planning",
+          "detectionRules": [
+            "slug contains: travel-planning",
+            "title contains: travel planning"
+          ],
+          "intent": "planning",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Travel Overview",
+              "Destination",
+              "Budget",
+              "Itinerary",
+              "Accommodation",
+              "Transportation",
+              "Packing",
+              "Safety"
+            ],
+            "optionalSections": [
+              "Tips",
+              "Resources",
+              "Documents"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include destination details",
+              "Must include budget breakdown",
+              "Must include itinerary"
+            ],
+            "validationRules": [
+              "Must include destination details",
+              "Must include budget breakdown",
+              "Must include itinerary"
+            ]
+          }
+        },
+        "destination-guide": {
+          "name": "Destination Guide",
+          "detectionRules": [
+            "slug contains: destination",
+            "title contains: destination"
+          ],
+          "intent": "travel",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Destination Overview",
+              "Best Time",
+              "Attractions",
+              "Accommodation",
+              "Transportation",
+              "Food",
+              "Budget",
+              "Tips"
+            ],
+            "optionalSections": [
+              "Culture",
+              "Safety",
+              "Resources"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include attractions",
+              "Must include accommodation options",
+              "Must include transportation details"
+            ],
+            "validationRules": [
+              "Must include attractions",
+              "Must include accommodation options",
+              "Must include budget information"
+            ]
+          }
+        },
+        "packing-guide": {
+          "name": "Packing Guide",
+          "detectionRules": [
+            "slug contains: packing",
+            "title contains: packing"
+          ],
+          "intent": "preparation",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Packing Overview",
+              "Essentials",
+              "Clothing",
+              "Toiletries",
+              "Electronics",
+              "Documents",
+              "Tips"
+            ],
+            "optionalSections": [
+              "Checklist",
+              "Luggage",
+              "Restrictions"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include essentials list",
+              "Must include clothing suggestions",
+              "Must include documents checklist"
+            ],
+            "validationRules": [
+              "Must include essentials list",
+              "Must include clothing suggestions",
+              "Must include tips"
+            ]
+          }
+        },
+        "budget-travel": {
+          "name": "Budget Travel",
+          "detectionRules": [
+            "slug contains: budget-travel",
+            "title contains: budget travel"
+          ],
+          "intent": "travel",
+          "editorialBlueprint": {
+            "requiredSections": [
+              "Budget Travel Overview",
+              "Budget Planning",
+              "Destinations",
+              "Accommodation",
+              "Transportation",
+              "Food",
+              "Activities",
+              "Tips"
+            ],
+            "optionalSections": [
+              "Saving Strategies",
+              "Resources",
+              "Seasonal Tips"
+            ],
+            "forbiddenSections": [
+              "Code",
+              "Syntax",
+              "Architecture",
+              "Deployment",
+              "Prerequisites",
+              "Installation"
+            ],
+            "entityRules": [
+              "Must include budget planning",
+              "Must include destination suggestions",
+              "Must include saving strategies"
+            ],
+            "validationRules": [
+              "Must include budget planning",
+              "Must include destination suggestions",
+              "Must include saving tips"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
