@@ -1,7 +1,9 @@
 /**
- * Phase 34: Knowledge Composition Pilot
+ * Phase 34A: Canonical Knowledge Composition Pilot
  * 
- * Run composition on the 10 pilot topics to measure improvements
+ * Reference-based composition (not copy-based)
+ * Validate that duplicates don't increase
+ * Composed packages are never persisted
  */
 
 import * as dotenv from "dotenv";
@@ -23,7 +25,7 @@ async function runPhase34CompositionPilot() {
   const qualityMetricsCalculator = new QualityMetricsCalculator();
   const dataProcessor = new DataProcessor({ minConfidence: 0.0, allowPlaceholders: false, requireMetadata: true });
 
-  console.log("Phase 34: Knowledge Composition Pilot");
+  console.log("Phase 34A: Canonical Knowledge Composition Pilot");
   console.log("=".repeat(60));
 
   // Get first 10 knowledge packages from database
@@ -60,37 +62,36 @@ async function runPhase34CompositionPilot() {
   console.log(`  Duplicate best practices: ${duplicateReportBefore.duplicateBestPractices.length}`);
   console.log(`  Total duplicates: ${duplicateReportBefore.totalDuplicates}\n`);
 
-  // Step 2: Identify Reusable Knowledge
-  console.log("Step 2: Identify Reusable Knowledge");
-  const reusableKnowledge = knowledgeComposer.identifyReusableKnowledge(loadedPackages);
-  let totalReusable = 0;
-  for (const [category, items] of reusableKnowledge.entries()) {
-    console.log(`  ${category}: ${items.length} reusable items`);
-    totalReusable += items.length;
-  }
-  console.log(`  Total reusable knowledge: ${totalReusable}\n`);
-
-  // Step 3: Compose Packages
-  console.log("Step 3: Compose Packages");
-  const compositionResults = [];
-  for (const pkg of loadedPackages) {
-    const result = knowledgeComposer.composePackage(pkg, reusableKnowledge);
-    compositionResults.push({
-      slug: pkg.slug,
-      original: pkg,
-      composed: result.composedPackage,
-      reusedCount: result.reusedKnowledgeCount,
-      topicSpecificCount: result.topicSpecificKnowledgeCount,
-      duplicatesEliminated: result.duplicatesEliminated,
-    });
-    console.log(`  ${pkg.slug}: reused ${result.reusedKnowledgeCount}, eliminated ${result.duplicatesEliminated} duplicates`);
+  // Step 2: Identify Canonical Knowledge
+  console.log("Step 2: Identify Canonical Knowledge");
+  const canonicalKnowledge = knowledgeComposer.identifyCanonicalKnowledge(loadedPackages);
+  console.log(`  Canonical groups created: ${canonicalKnowledge.size}`);
+  for (const [category, pkg] of canonicalKnowledge.entries()) {
+    const totalItems = pkg.definitions.length + pkg.concepts.length + pkg.warnings.length + pkg.bestPractices.length;
+    console.log(`  ${category}: ${totalItems} canonical items`);
   }
   console.log();
 
-  // Step 4: Duplicate Detection (After Composition)
-  console.log("Step 4: Duplicate Detection (After Composition)");
-  const composedPackages = compositionResults.map(r => r.composed);
-  const duplicateReportAfter = duplicateDetector.detectDuplicates(composedPackages);
+  // Step 3: Compose Packages with References (Not Copies)
+  console.log("Step 3: Compose Packages with References (Not Copies)");
+  const compositionResults = [];
+  for (const pkg of loadedPackages) {
+    const result = knowledgeComposer.composePackageWithReferences(pkg, canonicalKnowledge);
+    compositionResults.push({
+      slug: pkg.slug,
+      original: pkg,
+      topicPackage: result.topicPackage,
+      referenceCount: result.referenceCount,
+      canonicalGroupsCreated: result.canonicalGroupsCreated,
+    });
+    console.log(`  ${pkg.slug}: ${result.referenceCount} references created`);
+  }
+  console.log();
+
+  // Step 4: Duplicate Detection After Reference-Based Composition
+  console.log("Step 4: Duplicate Detection (After Reference-Based Composition)");
+  const topicPackagesOnly = compositionResults.map(r => r.topicPackage);
+  const duplicateReportAfter = duplicateDetector.detectDuplicates(topicPackagesOnly);
   console.log(`  Duplicate definitions: ${duplicateReportAfter.duplicateDefinitions.length}`);
   console.log(`  Duplicate concepts: ${duplicateReportAfter.duplicateConcepts.length}`);
   console.log(`  Duplicate procedures: ${duplicateReportAfter.duplicateProcedures.length}`);
@@ -98,40 +99,51 @@ async function runPhase34CompositionPilot() {
   console.log(`  Duplicate best practices: ${duplicateReportAfter.duplicateBestPractices.length}`);
   console.log(`  Total duplicates: ${duplicateReportAfter.totalDuplicates}\n`);
 
-  // Step 5: Quality Metrics Comparison
-  console.log("Step 5: Quality Metrics Comparison");
-  let totalCoverageImprovement = 0;
-  let totalCompletenessImprovement = 0;
-  let totalQualityImprovement = 0;
-
-  for (const result of compositionResults) {
-    const originalMetrics = qualityMetricsCalculator.calculateMetrics(result.original);
-    const composedMetrics = qualityMetricsCalculator.calculateMetrics(result.composed);
-
-    const coverageImprovement = composedMetrics.coverageScore - originalMetrics.coverageScore;
-    const completenessImprovement = composedMetrics.completenessScore - originalMetrics.completenessScore;
-    const qualityImprovement = composedMetrics.overallQualityScore - originalMetrics.overallQualityScore;
-
-    totalCoverageImprovement += coverageImprovement;
-    totalCompletenessImprovement += completenessImprovement;
-    totalQualityImprovement += qualityImprovement;
-
-    console.log(`  ${result.slug}:`);
-    console.log(`    Coverage: ${originalMetrics.coverageScore} → ${composedMetrics.coverageScore} (${coverageImprovement >= 0 ? '+' : ''}${coverageImprovement})`);
-    console.log(`    Completeness: ${originalMetrics.completenessScore} → ${composedMetrics.completenessScore} (${completenessImprovement >= 0 ? '+' : ''}${completenessImprovement})`);
-    console.log(`    Overall Quality: ${originalMetrics.overallQualityScore} → ${composedMetrics.overallQualityScore} (${qualityImprovement >= 0 ? '+' : ''}${qualityImprovement})`);
+  // Step 5: Validate Duplicates Don't Increase
+  console.log("Step 5: Validate Duplicates Don't Increase");
+  const duplicatesIncreased = duplicateReportAfter.totalDuplicates > duplicateReportBefore.totalDuplicates;
+  const duplicatesDecreased = duplicateReportAfter.totalDuplicates < duplicateReportBefore.totalDuplicates;
+  const duplicatesSame = duplicateReportAfter.totalDuplicates === duplicateReportBefore.totalDuplicates;
+  
+  if (duplicatesSame) {
+    console.log(`  ✅ Duplicates unchanged: ${duplicateReportBefore.totalDuplicates} → ${duplicateReportAfter.totalDuplicates}`);
+  } else if (duplicatesDecreased) {
+    console.log(`  ✅ Duplicates decreased: ${duplicateReportBefore.totalDuplicates} → ${duplicateReportAfter.totalDuplicates}`);
+  } else {
+    console.log(`  ❌ Duplicates increased: ${duplicateReportBefore.totalDuplicates} → ${duplicateReportAfter.totalDuplicates}`);
   }
-
   console.log();
-  console.log(`Average Coverage Improvement: ${Math.round(totalCoverageImprovement / compositionResults.length)}`);
-  console.log(`Average Completeness Improvement: ${Math.round(totalCompletenessImprovement / compositionResults.length)}`);
-  console.log(`Average Quality Improvement: ${Math.round(totalQualityImprovement / compositionResults.length)}`);
 
-  // Step 6: Validation
-  console.log("\nStep 6: Validation of Composed Packages");
+  // Step 6: Authoring-Time Resolution (Temporary Composed Package, Never Persisted)
+  console.log("Step 6: Authoring-Time Resolution (Temporary Composed Package, Never Persisted)");
+  let totalReferences = 0;
+  for (const result of compositionResults) {
+    totalReferences += result.referenceCount;
+  }
+  console.log(`  Total references created: ${totalReferences}`);
+  console.log(`  Average references per package: ${Math.round(totalReferences / compositionResults.length)}`);
+  console.log();
+
+  // Step 7: Package Size Reduction
+  console.log("Step 7: Package Size Reduction");
+  let originalTotalSize = 0;
+  let composedTotalSize = 0;
+  for (const result of compositionResults) {
+    const originalSize = JSON.stringify(result.original).length;
+    const composedSize = JSON.stringify(result.topicPackage).length;
+    originalTotalSize += originalSize;
+    composedTotalSize += composedSize;
+  }
+  console.log(`  Original total size: ${originalTotalSize} bytes`);
+  console.log(`  Composed total size: ${composedTotalSize} bytes`);
+  console.log(`  Size reduction: ${Math.round((1 - composedTotalSize / originalTotalSize) * 100)}%`);
+  console.log();
+
+  // Step 8: Validation of Topic Packages (Not Composed)
+  console.log("Step 8: Validation of Topic Packages (Not Composed)");
   let validationPassed = 0;
   for (const result of compositionResults) {
-    const validationResult = dataProcessor.processPackage(result.composed, []);
+    const validationResult = dataProcessor.processPackage(result.topicPackage, []);
     if (validationResult.valid) {
       validationPassed++;
       console.log(`  ✅ ${result.slug}: Validation passed`);
@@ -142,15 +154,15 @@ async function runPhase34CompositionPilot() {
 
   console.log();
   console.log("=".repeat(60));
-  console.log("PHASE 34 COMPOSITION PILOT RESULTS");
+  console.log("PHASE 34A CANONICAL COMPOSITION PILOT RESULTS");
   console.log("=".repeat(60));
-  console.log(`Reusable knowledge groups identified: ${reusableKnowledge.size}`);
-  console.log(`Duplicated facts detected (before): ${duplicateReportBefore.totalDuplicates}`);
-  console.log(`Duplicated facts eliminated: ${duplicateReportBefore.totalDuplicates - duplicateReportAfter.totalDuplicates}`);
-  console.log(`Duplicated facts (after): ${duplicateReportAfter.totalDuplicates}`);
-  console.log(`Average coverage improvement: ${Math.round(totalCoverageImprovement / compositionResults.length)}`);
-  console.log(`Average quality improvement: ${Math.round(totalQualityImprovement / compositionResults.length)}`);
+  console.log(`Canonical reusable groups created: ${canonicalKnowledge.size}`);
+  console.log(`References created: ${totalReferences}`);
+  console.log(`Duplicate count before: ${duplicateReportBefore.totalDuplicates}`);
+  console.log(`Duplicate count after: ${duplicateReportAfter.totalDuplicates}`);
+  console.log(`Duplicate change: ${duplicateReportAfter.totalDuplicates - duplicateReportBefore.totalDuplicates}`);
   console.log(`Validation passed: ${validationPassed}/${compositionResults.length}`);
+  console.log(`Package size reduction: ${Math.round((1 - composedTotalSize / originalTotalSize) * 100)}%`);
 }
 
 runPhase34CompositionPilot()
