@@ -1,0 +1,832 @@
+{
+  "timestamp": "2026-07-05T15:50:43.524Z",
+  "articlesSelected": 22,
+  "articlesRewritten": 22,
+  "articlesReplaced": 22,
+  "articlesFailed": 0,
+  "averageBlueprintCompliance": 99.2,
+  "averageSMEScore": 89.7,
+  "productionSafe": true,
+  "results": [
+    {
+      "topicId": "195590f6-8b17-42fd-8f80-53522355e8b5",
+      "slug": "aws-common-errors",
+      "category": "Technology",
+      "oldContentLength": 2538,
+      "newContentLength": 2193,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 295,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "9f5f1727-4207-4ce6-886d-849eae236f75",
+      "slug": "lean-manufacturing",
+      "category": "Technology",
+      "oldContentLength": 3431,
+      "newContentLength": 2097,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 94,
+          "violations": [
+            "Validation rule violation: Must have at least 3 code examples"
+          ]
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 88,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "83f5d380-2cb8-468e-922e-0dc8ab436bed",
+      "slug": "python",
+      "category": "Technology",
+      "oldContentLength": 732,
+      "newContentLength": 1965,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 94,
+          "violations": [
+            "Validation rule violation: Must have at least 3 code examples"
+          ]
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 263,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 88,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "e937f4cf-a218-41fc-88fb-f062e94eda3d",
+      "slug": "aws-iam",
+      "category": "Technology",
+      "oldContentLength": 796,
+      "newContentLength": 2083,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 94,
+          "violations": [
+            "Validation rule violation: Must have at least 3 code examples"
+          ]
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 284,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 88,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "9a0b5e65-fa98-441e-8062-f62fa73a784b",
+      "slug": "conversion-rate-optimization",
+      "category": "Technology",
+      "oldContentLength": 2202,
+      "newContentLength": 2207,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 285,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "bcaa4896-eb54-461a-9c8e-c9dafe113ea0",
+      "slug": "real-estate-investing",
+      "category": "Personal Finance",
+      "oldContentLength": 865,
+      "newContentLength": 2174,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 304,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "66264e4e-a55d-421b-b28c-1bbe6dedb74f",
+      "slug": "tax-planning",
+      "category": "Personal Finance",
+      "oldContentLength": 802,
+      "newContentLength": 2075,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 293,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "3af36a81-7a1c-4df6-b670-76960e0c62b5",
+      "slug": "etf-investing",
+      "category": "Personal Finance",
+      "oldContentLength": 809,
+      "newContentLength": 2086,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 293,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "5b4915ba-d91f-4d4e-891d-b9b45e87044d",
+      "slug": "bond-investing",
+      "category": "Personal Finance",
+      "oldContentLength": 816,
+      "newContentLength": 2097,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 293,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "a6744acd-233b-4530-9d09-e2611b92abd4",
+      "slug": "retirement-planning",
+      "category": "Personal Finance",
+      "oldContentLength": 808,
+      "newContentLength": 2108,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "bd4c9176-a6d7-47b1-b0af-94054b6974f3",
+      "slug": "email-marketing",
+      "category": "Business",
+      "oldContentLength": 1769,
+      "newContentLength": 2065,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 272,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "e23d57df-f362-4c24-9999-7da1115d3dc1",
+      "slug": "outsourcing-strategy",
+      "category": "Business",
+      "oldContentLength": 2734,
+      "newContentLength": 2125,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 272,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "d7375ce3-343b-4fd3-af0d-51acea72334b",
+      "slug": "social-media-strategy",
+      "category": "Business",
+      "oldContentLength": 2263,
+      "newContentLength": 2137,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 284,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "23821da0-485b-4840-8df7-5a127e02c124",
+      "slug": "content-marketing",
+      "category": "Business",
+      "oldContentLength": 806,
+      "newContentLength": 2089,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 272,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "3c49f789-b22b-438f-88b7-8f10c32fbca1",
+      "slug": "analytics-for-marketing",
+      "category": "Business",
+      "oldContentLength": 2289,
+      "newContentLength": 2161,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 284,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "36e08553-141a-4cfa-8f58-9aa21f239cb8",
+      "slug": "exercise-routines",
+      "category": "Health & Wellness",
+      "oldContentLength": 806,
+      "newContentLength": 2086,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "9a8103d3-49e0-4311-8b6e-63c78e15588f",
+      "slug": "mental-health-awareness",
+      "category": "Health & Wellness",
+      "oldContentLength": 2791,
+      "newContentLength": 2171,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 293,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "c8682f4d-7b2d-4e8d-a246-37133973353b",
+      "slug": "travel-planning",
+      "category": "Home & Lifestyle",
+      "oldContentLength": 2078,
+      "newContentLength": 2064,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "8f631c23-ee44-4299-aea4-11e9503eb244",
+      "slug": "home-maintenance",
+      "category": "Home & Lifestyle",
+      "oldContentLength": 2070,
+      "newContentLength": 2075,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "14967dc9-a4cb-4c22-980c-dfbce82ac4ce",
+      "slug": "azure-storage",
+      "category": "Home & Lifestyle",
+      "oldContentLength": 1794,
+      "newContentLength": 2042,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "9e38f2b6-4236-4d05-943a-93563f871a08",
+      "slug": "gardening-basics",
+      "category": "Home & Lifestyle",
+      "oldContentLength": 2070,
+      "newContentLength": 2075,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    },
+    {
+      "topicId": "1efa0f31-b8de-48cd-836d-e2d5a4f09f51",
+      "slug": "nutrition-basics",
+      "category": "Home & Lifestyle",
+      "oldContentLength": 915,
+      "newContentLength": 2075,
+      "validations": {
+        "blueprintCompliance": {
+          "passed": true,
+          "score": 100,
+          "violations": []
+        },
+        "editorialQuality": {
+          "passed": true,
+          "score": 100,
+          "wordCount": 274,
+          "hasEditorialStructure": true,
+          "hasParagraphs": true
+        },
+        "references": {
+          "passed": true,
+          "score": 100,
+          "referenceCount": 3
+        },
+        "internalLinks": {
+          "passed": true,
+          "score": 50,
+          "linkCount": 0
+        },
+        "smeScore": {
+          "score": 90,
+          "passed": true
+        }
+      },
+      "allPassed": true,
+      "replaced": true
+    }
+  ]
+}
