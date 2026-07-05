@@ -23,7 +23,7 @@ interface RecipeSource {
   url: string;
   connector: any;
   extractor: any;
-  collections: string[]; // Which collections this source should contribute
+  priority: number; // Lower number = higher priority
 }
 
 interface SubjectRecipe {
@@ -50,7 +50,7 @@ function generateKnowledgeHash(data: any): string {
   return createHash("sha256").update(JSON.stringify(data)).digest("hex").substring(0, 16);
 }
 
-function mergeKnowledge(knowledgeArrays: any[], collections: string[][]): any {
+function mergeKnowledge(knowledgeArrays: any[], priorities: number[]): any {
   const merged = {
     definitions: [],
     concepts: [],
@@ -77,98 +77,88 @@ function mergeKnowledge(knowledgeArrays: any[], collections: string[][]): any {
   const seenUrls = new Set<string>();
 
   knowledgeArrays.forEach((knowledge, idx) => {
-    const targetCollections = collections[idx];
+    const priority = priorities[idx];
 
-    // Only merge collections that this source is supposed to contribute
-    if (targetCollections.includes("definitions")) {
-      knowledge.definitions?.forEach((d: any) => {
-        const key = d.term?.toLowerCase() || d.id;
-        if (!seenTerms.has(key)) {
-          seenTerms.add(key);
-          (merged.definitions as any[]).push({ ...d, sourcePriority: idx });
-        }
-      });
-    }
+    // Extract ALL semantic knowledge - no filtering
+    knowledge.definitions?.forEach((d: any) => {
+      const key = d.term?.toLowerCase() || d.id;
+      if (!seenTerms.has(key)) {
+        seenTerms.add(key);
+        (merged.definitions as any[]).push({ ...d, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("concepts")) {
-      knowledge.concepts?.forEach((c: any) => {
-        const key = c.name?.toLowerCase() || c.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (merged.concepts as any[]).push({ ...c, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.concepts?.forEach((c: any) => {
+      const key = c.name?.toLowerCase() || c.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.concepts as any[]).push({ ...c, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("procedures")) {
-      knowledge.procedures?.forEach((p: any) => {
-        const key = p.name?.toLowerCase() || p.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (merged.procedures as any[]).push({ ...p, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.procedures?.forEach((p: any) => {
+      const key = p.name?.toLowerCase() || p.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.procedures as any[]).push({ ...p, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("examples")) {
-      knowledge.examples?.forEach((e: any) => {
-        const key = e.title?.toLowerCase() || e.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (merged.examples as any[]).push({ ...e, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.examples?.forEach((e: any) => {
+      const key = e.title?.toLowerCase() || e.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.examples as any[]).push({ ...e, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("commands")) {
-      knowledge.commands?.forEach((cmd: any) => {
-        const key = cmd.command?.toLowerCase() || cmd.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (merged.commands as any[]).push({ ...cmd, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.comparisons?.forEach((c: any) => {
+      const key = c.subject1?.toLowerCase() || c.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.comparisons as any[]).push({ ...c, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("warnings")) {
-      knowledge.warnings?.forEach((w: any) => {
-        const key = w.title?.toLowerCase() || w.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (merged.warnings as any[]).push({ ...w, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.commands?.forEach((cmd: any) => {
+      const key = cmd.command?.toLowerCase() || cmd.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.commands as any[]).push({ ...cmd, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("bestPractices")) {
-      knowledge.bestPractices?.forEach((bp: any) => {
-        const key = bp.title?.toLowerCase() || bp.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (merged.bestPractices as any[]).push({ ...bp, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.warnings?.forEach((w: any) => {
+      const key = w.title?.toLowerCase() || w.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.warnings as any[]).push({ ...w, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("faqs")) {
-      knowledge.faqs?.forEach((faq: any) => {
-        const key = faq.question?.toLowerCase() || faq.id;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          (merged.faqs as any[]).push({ ...faq, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.bestPractices?.forEach((bp: any) => {
+      const key = bp.title?.toLowerCase() || bp.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.bestPractices as any[]).push({ ...bp, sourcePriority: priority });
+      }
+    });
 
-    if (targetCollections.includes("references")) {
-      knowledge.references?.forEach((r: any) => {
-        const key = r.url?.toLowerCase() || r.id;
-        if (!seenUrls.has(key)) {
-          seenUrls.add(key);
-          (merged.references as any[]).push({ ...r, sourcePriority: idx });
-        }
-      });
-    }
+    knowledge.faqs?.forEach((faq: any) => {
+      const key = faq.question?.toLowerCase() || faq.id;
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        (merged.faqs as any[]).push({ ...faq, sourcePriority: priority });
+      }
+    });
+
+    knowledge.references?.forEach((r: any) => {
+      const key = r.url?.toLowerCase() || r.id;
+      if (!seenUrls.has(key)) {
+        seenUrls.add(key);
+        (merged.references as any[]).push({ ...r, sourcePriority: priority });
+      }
+    });
   });
 
   return merged;
@@ -198,14 +188,14 @@ async function runPhase38RecipeAcquisition() {
           url: "https://docs.python.org/3/tutorial/introduction.html",
           connector: new PythonDocumentationConnector(),
           extractor,
-          collections: ["procedures", "examples", "concepts"],
+          priority: 1,
         },
         {
           name: "Python Language Reference",
           url: "https://docs.python.org/3/reference/index.html",
           connector: new PythonDocumentationConnector(),
           extractor,
-          collections: ["definitions", "commands", "references"],
+          priority: 2,
         },
       ],
     },
@@ -217,14 +207,14 @@ async function runPhase38RecipeAcquisition() {
           url: "https://git-scm.com/book/en/v2/Git-Branching-Branching-Workflows",
           connector: new GitDocumentationConnector(),
           extractor,
-          collections: ["concepts", "procedures"],
+          priority: 1,
         },
         {
           name: "Git Reference",
           url: "https://git-scm.com/docs",
           connector: new GitDocumentationConnector(),
           extractor,
-          collections: ["commands", "definitions"],
+          priority: 2,
         },
       ],
     },
@@ -236,14 +226,14 @@ async function runPhase38RecipeAcquisition() {
           url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
           connector: new MDNConnector(),
           extractor,
-          collections: ["concepts", "procedures", "examples"],
+          priority: 1,
         },
         {
           name: "MDN Reference",
           url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference",
           connector: new MDNConnector(),
           extractor,
-          collections: ["definitions", "commands"],
+          priority: 2,
         },
       ],
     },
@@ -273,13 +263,12 @@ async function runPhase38RecipeAcquisition() {
 
     try {
       const knowledgeArrays: any[] = [];
-      const collections: string[][] = [];
+      const priorities: number[] = [];
       let successCount = 0;
 
       // Execute recipe sources
       for (const source of recipe.sources) {
-        console.log(`  Acquiring from: ${source.name}`);
-        console.log(`    Target collections: ${source.collections.join(", ")}`);
+        console.log(`  Acquiring from: ${source.name} (priority: ${source.priority})`);
 
         const connectorResult = await source.connector.connect({
           sourceType: source.connector.sourceType as any,
@@ -293,7 +282,7 @@ async function runPhase38RecipeAcquisition() {
 
           if (extractorResult.success && extractorResult.knowledge) {
             knowledgeArrays.push(extractorResult.knowledge);
-            collections.push(source.collections);
+            priorities.push(source.priority);
             successCount++;
             console.log(`    ✅ Success`);
           } else {
@@ -318,8 +307,8 @@ async function runPhase38RecipeAcquisition() {
         continue;
       }
 
-      // Merge knowledge according to recipe
-      const mergedKnowledge = mergeKnowledge(knowledgeArrays, collections);
+      // Merge knowledge according to recipe (prioritized, no filtering)
+      const mergedKnowledge = mergeKnowledge(knowledgeArrays, priorities);
       console.log(`  Knowledge merged from ${knowledgeArrays.length} sources`);
 
       // Create Knowledge Package
