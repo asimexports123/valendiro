@@ -128,10 +128,14 @@ async function createTopic(slug, category) {
   
   const categoryId = categoryData?.id || null;
   
+  // Generate canonical_path from slug
+  const canonicalPath = `/${slug}`;
+  
   const { error } = await sb
     .from('topics')
     .insert({
       slug: slug,
+      canonical_path: canonicalPath,
       category_id: categoryId,
       status: 'published',
       created_at: new Date().toISOString(),
@@ -226,20 +230,16 @@ async function main() {
   const discoveredTopics = await discoverNewTopics(existingTopics);
   console.log(`Discovered ${discoveredTopics.length} new topics\n`);
   
-  // Step 3: Check queue size
-  const currentQueueSize = await getQueueSize();
-  console.log(`Current queue size: ${currentQueueSize}`);
-  
-  const minQueueSize = 100;
-  const topicsToAdd = Math.max(0, minQueueSize - currentQueueSize);
-  console.log(`Topics to add to reach minimum queue: ${topicsToAdd}\n`);
+  // Step 3: Process ALL discovered topics (no queue minimum check)
+  console.log(`Processing all ${discoveredTopics.length} discovered topics...\n`);
   
   // Step 4: Add topics to queue
-  let topicsAdded = 0;
+  let topicsInserted = 0;
+  let topicsQueued = 0;
   let knowledgePackagesCreated = 0;
   let articlesPublished = 0;
   
-  const topicsToProcess = discoveredTopics.slice(0, topicsToAdd);
+  const topicsToProcess = discoveredTopics;
   
   for (const topic of topicsToProcess) {
     console.log(`\n--- Processing: ${topic.slug} (${topic.reason}) ---`);
@@ -263,8 +263,9 @@ async function main() {
       continue;
     }
     
-    topicsAdded++;
+    topicsInserted++;
     console.log(`  ✓ Topic created`);
+    topicsQueued++;
     
     // Create knowledge package
     const kpResult = await createKnowledgePackage(newTopic.id, topic.slug);
@@ -286,20 +287,22 @@ async function main() {
   
   const executionTime = ((Date.now() - startTime) / 1000).toFixed(2);
   
-  console.log('\n=== Continuous Discovery Results ===');
-  console.log(`New Topics Discovered: ${discoveredTopics.length}`);
-  console.log(`Topics Added To Queue: ${topicsAdded}`);
+  console.log('\n=== Discovery-to-Execution Results ===');
+  console.log(`Topics Discovered: ${discoveredTopics.length}`);
+  console.log(`Topics Inserted: ${topicsInserted}`);
+  console.log(`Topics Queued: ${topicsQueued}`);
   console.log(`Knowledge Packages Created: ${knowledgePackagesCreated}`);
   console.log(`Articles Published: ${articlesPublished}`);
-  console.log(`Queue Size: ${finalQueueSize}`);
+  console.log(`Remaining Queue: ${finalQueueSize}`);
   console.log(`Execution Time: ${executionTime}s`);
   
   return {
-    newTopicsDiscovered: discoveredTopics.length,
-    topicsAddedToQueue: topicsAdded,
+    topicsDiscovered: discoveredTopics.length,
+    topicsInserted,
+    topicsQueued,
     knowledgePackagesCreated,
     articlesPublished,
-    queueSize: finalQueueSize
+    remainingQueue: finalQueueSize
   };
 }
 
