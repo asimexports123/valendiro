@@ -15,16 +15,16 @@
         "CloudWatch Metrics", "CloudFormation Stacks", "EKS Clusters", "ECS Tasks"
       ],
       "requiredSections": [
-        "Overview",
-        "Architecture",
-        "Configuration",
-        "Pricing",
-        "Security",
-        "Best Practices",
-        "Troubleshooting",
-        "Use Cases",
-        "Comparison",
-        "FAQ"
+        "Service Overview",
+        "AWS Architecture",
+        "Service Configuration",
+        "Service Pricing",
+        "IAM Security",
+        "AWS Best Practices",
+        "Service Troubleshooting",
+        "Service Use Cases",
+        "Service Comparison",
+        "AWS FAQ"
       ],
       "requiredExamples": [
         "Code examples for configuration",
@@ -97,16 +97,16 @@
         "List operations", "Dictionary operations", "File objects", "Network sockets"
       ],
       "requiredSections": [
-        "Overview",
-        "Syntax",
-        "Code Examples",
-        "Common Patterns",
-        "Best Practices",
-        "Performance Considerations",
-        "Common Errors",
-        "Troubleshooting",
-        "Advanced Usage",
-        "FAQ"
+        "Python Overview",
+        "Python Syntax",
+        "Python Code Examples",
+        "Python Patterns",
+        "Python Best Practices",
+        "Python Performance",
+        "Python Errors",
+        "Python Debugging",
+        "Python Advanced",
+        "Python FAQ"
       ],
       "requiredExamples": [
         "Code snippets with output",
@@ -178,16 +178,16 @@
         "Secrets", "Persistent Volumes", "Namespaces", "Helm charts"
       ],
       "requiredSections": [
-        "Overview",
-        "Architecture",
-        "Configuration",
-        "Deployment",
-        "Networking",
-        "Storage",
-        "Security",
-        "Monitoring",
-        "Troubleshooting",
-        "Best Practices"
+        "K8s Overview",
+        "K8s Architecture",
+        "K8s Configuration",
+        "K8s Deployment",
+        "K8s Networking",
+        "K8s Storage",
+        "K8s Security",
+        "K8s Monitoring",
+        "K8s Troubleshooting",
+        "K8s Best Practices"
       ],
       "requiredExamples": [
         "YAML configuration examples",
@@ -257,16 +257,16 @@
         "Event listeners", "Fetch requests"
       ],
       "requiredSections": [
-        "Overview",
-        "Syntax",
-        "Code Examples",
-        "Common Patterns",
-        "Best Practices",
-        "Performance",
-        "Browser Compatibility",
-        "Troubleshooting",
-        "Modern JavaScript",
-        "FAQ"
+        "JS Overview",
+        "JS Syntax",
+        "JS Code Examples",
+        "JS Patterns",
+        "JS Best Practices",
+        "JS Performance",
+        "JS Browser Compatibility",
+        "JS Troubleshooting",
+        "JS Modern Features",
+        "JS FAQ"
       ],
       "requiredExamples": [
         "Code snippets with console output",
@@ -335,16 +335,16 @@
         "Docker registries"
       ],
       "requiredSections": [
-        "Overview",
-        "Dockerfile",
-        "Building Images",
-        "Running Containers",
+        "Docker Overview",
+        "Dockerfile Setup",
+        "Docker Image Build",
+        "Docker Container Run",
         "Docker Compose",
-        "Volumes",
-        "Networking",
-        "Best Practices",
-        "Optimization",
-        "Troubleshooting"
+        "Docker Volumes",
+        "Docker Networks",
+        "Docker Best Practices",
+        "Docker Optimization",
+        "Docker Troubleshooting"
       ],
       "requiredExamples": [
         "Dockerfile examples",
@@ -413,16 +413,16 @@
         "Git repositories", "Branches", "Commits", "Remotes", "Stashes"
       ],
       "requiredSections": [
-        "Overview",
-        "Basic Commands",
-        "Branching",
-        "Merging",
-        "Rebasing",
-        "Stashing",
-        "Undoing Changes",
-        "Best Practices",
-        "Workflows",
-        "Troubleshooting"
+        "Git Overview",
+        "Git Basic Commands",
+        "Git Branching",
+        "Git Merging",
+        "Git Rebasing",
+        "Git Stashing",
+        "Git Undo Changes",
+        "Git Best Practices",
+        "Git Workflows",
+        "Git Troubleshooting"
       ],
       "requiredExamples": [
         "Git command examples",
@@ -492,16 +492,16 @@
         "Credit products", "Retirement accounts"
       ],
       "requiredSections": [
-        "Overview",
-        "Definition",
-        "How It Works",
-        "Benefits",
-        "Risks",
-        "Tax Implications",
-        "Best Practices",
-        "Calculation Examples",
-        "Real-World Applications",
-        "FAQ"
+        "Financial Definition",
+        "Financial Formula",
+        "Financial Examples",
+        "Financial Tax",
+        "Financial Risk",
+        "Financial Calculations",
+        "Financial FAQ",
+        "Financial References",
+        "Financial Warnings",
+        "Financial Best Practices"
       ],
       "requiredExamples": [
         "Financial calculations",
@@ -569,16 +569,16 @@
         "Compute services"
       ],
       "requiredSections": [
-        "Overview",
-        "Service Models",
-        "Deployment Models",
-        "Providers",
-        "Architecture",
-        "Security",
-        "Cost Management",
-        "Migration",
-        "Best Practices",
-        "FAQ"
+        "Cloud Service Models",
+        "Cloud Deployment Models",
+        "Cloud Providers",
+        "Cloud Architecture",
+        "Cloud Security",
+        "Cloud Cost Management",
+        "Cloud Migration",
+        "Cloud Best Practices",
+        "Cloud FAQ",
+        "Cloud References"
       ],
       "requiredExamples": [
         "Architecture examples",
@@ -633,6 +633,333 @@
         "Strategic alignment",
         "Business value",
         "Stakeholder engagement"
+      ]
+    },
+    "food": {
+      "name": "Food",
+      "terminology": [
+        "Ingredients", "Preparation", "Cooking", "Baking", "Grilling", "Roasting",
+        "Sautéing", "Boiling", "Steaming", "Seasoning", "Flavor", "Texture",
+        "Temperature", "Serving", "Storage", "Nutrition", "Recipe", "Dish"
+      ],
+      "entities": [
+        "Ingredients", "Cooking equipment", "Recipes", "Dishes", "Meals",
+        "Nutritional information", "Cooking techniques"
+      ],
+      "requiredSections": [
+        "Ingredients",
+        "Equipment",
+        "Preparation",
+        "Cooking Instructions",
+        "Serving Suggestions",
+        "Storage",
+        "Nutrition",
+        "Recipe Variations",
+        "Cooking Tips",
+        "Food FAQ"
+      ],
+      "requiredExamples": [
+        "Ingredient measurements",
+        "Step-by-step cooking process",
+        "Serving portion sizes",
+        "Storage instructions"
+      ],
+      "requiredComparisons": [
+        "Cooking method comparisons",
+        "Ingredient substitutions",
+        "Serving size comparisons"
+      ],
+      "requiredTables": [
+        "Ingredient quantities table",
+        "Cooking time table",
+        "Nutritional information table"
+      ],
+      "requiredWarnings": [
+        "Food safety warnings",
+        "Allergy warnings",
+        "Cooking temperature warnings"
+      ],
+      "requiredFAQs": [
+        "Common cooking questions",
+        "Ingredient substitution FAQs",
+        "Storage FAQs"
+      ],
+      "requiredReferences": [
+        "Recipe sources",
+        "Nutritional databases",
+        "Cooking guides",
+        "Food safety resources"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related recipes",
+        "Link to cooking techniques",
+        "Link to ingredient guides",
+        "Link to nutritional information"
+      ],
+      "forbiddenSections": [
+        "Architecture",
+        "Deployment",
+        "Implementation Phase",
+        "Optimization Phase",
+        "Code",
+        "Syntax"
+      ],
+      "forbiddenTerminology": [
+        "Container",
+        "Pod",
+        "Deployment",
+        "Service",
+        "Endpoint",
+        "API",
+        "Function",
+        "Variable"
+      ]
+    },
+    "home-improvement": {
+      "name": "Home Improvement",
+      "terminology": [
+        "Tools", "Materials", "Installation", "Repair", "Maintenance",
+        "DIY", "Contractor", "Permit", "Building Code", "Safety",
+        "Cost", "Budget", "Timeline", "Measurement", "Cutting",
+        "Assembly", "Finishing", "Painting", "Plumbing", "Electrical"
+      ],
+      "entities": [
+        "Tools", "Materials", "Project plans", "Contractors",
+        "Building materials", "Safety equipment"
+      ],
+      "requiredSections": [
+        "Tools",
+        "Materials",
+        "Estimated Cost",
+        "Difficulty",
+        "Safety",
+        "Planning",
+        "Installation",
+        "Maintenance",
+        "Troubleshooting",
+        "Home Improvement FAQ"
+      ],
+      "requiredExamples": [
+        "Tool usage examples",
+        "Material quantity calculations",
+        "Installation step-by-step",
+        "Maintenance schedules"
+      ],
+      "requiredComparisons": [
+        "Material comparisons",
+        "Tool comparisons",
+        "DIY vs professional comparisons"
+      ],
+      "requiredTables": [
+        "Material cost table",
+        "Tool requirement table",
+        "Timeline estimate table"
+      ],
+      "requiredWarnings": [
+        "Safety warnings",
+        "Building code warnings",
+        "Permit requirement warnings"
+      ],
+      "requiredFAQs": [
+        "Common DIY questions",
+        "Tool selection FAQs",
+        "Material FAQs"
+      ],
+      "requiredReferences": [
+        "Building code references",
+        "Manufacturer guidelines",
+        "DIY guides",
+        "Safety resources"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related projects",
+        "Link to tool guides",
+        "Link to material guides",
+        "Link to safety resources"
+      ],
+      "forbiddenSections": [
+        "Architecture",
+        "Deployment",
+        "Implementation Phase",
+        "Optimization Phase",
+        "Code",
+        "Syntax"
+      ],
+      "forbiddenTerminology": [
+        "Container",
+        "Pod",
+        "Deployment",
+        "Service",
+        "Endpoint",
+        "API",
+        "Function",
+        "Variable"
+      ]
+    },
+    "travel": {
+      "name": "Travel",
+      "terminology": [
+        "Destination", "Itinerary", "Budget", "Accommodation", "Transportation",
+        "Visa", "Passport", "Currency", "Language", "Culture",
+        "Safety", "Weather", "Season", "Attraction", "Activity",
+        "Booking", "Reservation", "Flight", "Hotel", "Tour"
+      ],
+      "entities": [
+        "Destinations", "Attractions", "Hotels", "Flights", "Activities",
+        "Transportation options", "Tour packages"
+      ],
+      "requiredSections": [
+        "Travel Overview",
+        "Best Time",
+        "Budget",
+        "Visa",
+        "Transport",
+        "Safety",
+        "Local Tips",
+        "Itinerary",
+        "Accommodation",
+        "Travel FAQ"
+      ],
+      "requiredExamples": [
+        "Itinerary examples",
+        "Budget breakdown examples",
+        "Packing list examples",
+        "Transportation options examples"
+      ],
+      "requiredComparisons": [
+        "Transportation method comparisons",
+        "Accommodation type comparisons",
+        "Season comparisons"
+      ],
+      "requiredTables": [
+        "Budget breakdown table",
+        "Transportation cost table",
+        "Season comparison table"
+      ],
+      "requiredWarnings": [
+        "Safety warnings",
+        "Health warnings",
+        "Travel advisory warnings"
+      ],
+      "requiredFAQs": [
+        "Common travel questions",
+        "Visa requirement FAQs",
+        "Budget FAQs"
+      ],
+      "requiredReferences": [
+        "Official tourism websites",
+        "Travel advisories",
+        "Embassy information",
+        "Travel guides"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related destinations",
+        "Link to transportation guides",
+        "Link to accommodation guides",
+        "Link to travel tips"
+      ],
+      "forbiddenSections": [
+        "Architecture",
+        "Deployment",
+        "Implementation Phase",
+        "Optimization Phase",
+        "Code",
+        "Syntax"
+      ],
+      "forbiddenTerminology": [
+        "Container",
+        "Pod",
+        "Deployment",
+        "Service",
+        "Endpoint",
+        "API",
+        "Function",
+        "Variable"
+      ]
+    },
+    "medical": {
+      "name": "Medical",
+      "terminology": [
+        "Symptoms", "Diagnosis", "Treatment", "Medication", "Therapy",
+        "Condition", "Disease", "Prevention", "Screening", "Prognosis",
+        "Complications", "Emergency", "Specialist", "Procedure", "Recovery",
+        "Side Effects", "Dosage", "Contraindications", "Healthcare", "Clinic"
+      ],
+      "entities": [
+        "Medical conditions", "Treatments", "Medications", "Procedures",
+        "Healthcare providers", "Medical facilities"
+      ],
+      "requiredSections": [
+        "Symptoms",
+        "Causes",
+        "Diagnosis",
+        "Treatment",
+        "Complications",
+        "Emergency Care",
+        "Prevention",
+        "Medical FAQ",
+        "Medical References",
+        "Medical Warnings"
+      ],
+      "requiredExamples": [
+        "Symptom descriptions",
+        "Treatment protocols",
+        "Dosage examples",
+        "Recovery timelines"
+      ],
+      "requiredComparisons": [
+        "Treatment option comparisons",
+        "Medication comparisons",
+        "Specialist comparisons"
+      ],
+      "requiredTables": [
+        "Symptom severity table",
+        "Treatment comparison table",
+        "Medication dosage table"
+      ],
+      "requiredWarnings": [
+        "Emergency warnings",
+        "Side effect warnings",
+        "Contraindication warnings"
+      ],
+      "requiredFAQs": [
+        "Common medical questions",
+        "Treatment FAQs",
+        "Medication FAQs"
+      ],
+      "requiredReferences": [
+        "Medical guidelines",
+        "Clinical studies",
+        "Health authority resources",
+        "Medical databases"
+      ],
+      "internalLinkingPatterns": [
+        "Link to related conditions",
+        "Link to treatment guides",
+        "Link to medication information",
+        "Link to healthcare resources"
+      ],
+      "forbiddenSections": [
+        "Architecture",
+        "Deployment",
+        "Implementation Phase",
+        "Optimization Phase",
+        "Code",
+        "Syntax",
+        "Ingredients",
+        "Cooking"
+      ],
+      "forbiddenTerminology": [
+        "Container",
+        "Pod",
+        "Deployment",
+        "Service",
+        "Endpoint",
+        "API",
+        "Function",
+        "Variable",
+        "Ingredients",
+        "Recipe"
       ]
     }
   }
