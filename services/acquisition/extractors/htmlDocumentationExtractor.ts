@@ -383,12 +383,16 @@ export class HTMLDocumentationExtractor implements IExtractor {
           description: `${language} code example`,
           code,
           language,
+          relatedDefinitions: [],
+          relatedConcepts: [],
+          relatedProcedures: [],
+          references: [sourceUrl],
         });
         index++;
       }
     }
     
-    // Extract from <pre><code> blocks
+    // Extract from <pre><code> blocks with various class patterns
     const codeRegex = /<pre[^>]*><code[^>]*class="[^"]*language-(\w+)?[^"]*"[^>]*>([\s\S]*?)<\/code><\/pre>/gi;
     let codeMatch;
     
@@ -402,8 +406,63 @@ export class HTMLDocumentationExtractor implements IExtractor {
           description: `${language} code example`,
           code,
           language,
+          relatedDefinitions: [],
+          relatedConcepts: [],
+          relatedProcedures: [],
+          references: [sourceUrl],
         });
         index++;
+      }
+    }
+
+    // Extract from <pre><code> blocks without language class
+    const genericPreCodeRegex = /<pre[^>]*><code[^>]*>([\s\S]*?)<\/code><\/pre>/gi;
+    let genericMatch;
+    
+    while ((genericMatch = genericPreCodeRegex.exec(html)) !== null && index < 20) {
+      const code = this.stripHTML(genericMatch[1]);
+      if (code.length > 0) {
+        examples.push({
+          id: `ex_${Date.now()}_${index}`,
+          title: `Code Example ${index + 1}`,
+          description: `code example`,
+          code,
+          language: "unknown",
+          relatedDefinitions: [],
+          relatedConcepts: [],
+          relatedProcedures: [],
+          references: [sourceUrl],
+        });
+        index++;
+      }
+    }
+
+    // Extract from example sections
+    const exampleSectionRegex = /<(div|section)[^>]*class="[^"]*(?:example|demo|sample)[^"]*"[^>]*>([\s\S]*?)<\/\1>/gi;
+    let exampleMatch;
+    
+    while ((exampleMatch = exampleSectionRegex.exec(html)) !== null && index < 25) {
+      const sectionContent = exampleMatch[2];
+      // Look for code blocks within example sections
+      const sectionCodeRegex = /<code[^>]*>([\s\S]*?)<\/code>/gi;
+      let sectionCodeMatch;
+      
+      while ((sectionCodeMatch = sectionCodeRegex.exec(sectionContent)) !== null && index < 25) {
+        const code = this.stripHTML(sectionCodeMatch[1]);
+        if (code.length > 5) { // Only capture substantial code
+          examples.push({
+            id: `ex_${Date.now()}_${index}`,
+            title: `Example ${index + 1}`,
+            description: `example from documentation`,
+            code,
+            language: "unknown",
+            relatedDefinitions: [],
+            relatedConcepts: [],
+            relatedProcedures: [],
+            references: [sourceUrl],
+          });
+          index++;
+        }
       }
     }
 
