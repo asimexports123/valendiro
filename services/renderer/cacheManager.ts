@@ -64,6 +64,12 @@ export interface StoreInput {
 export async function storeRenderedOutput(input: StoreInput): Promise<string | null> {
   const sb = createAdminClient();
 
+  // Verify HTML exists and has content before persisting
+  if (!input.content || input.content.length === 0) {
+    console.error("Cannot store rendered output: content is empty");
+    return null;
+  }
+
   // Determine status based on quality score
   let status: "draft" | "published" | "failed" = "draft";
   if (input.qualityScore.overall >= 60) {
@@ -102,6 +108,18 @@ export async function storeRenderedOutput(input: StoreInput): Promise<string | n
 
   if (error) {
     console.error("Failed to store rendered output:", error.message);
+    return null;
+  }
+
+  // Verify database content length > 0 after persistence
+  const { data: verifyData } = await sb
+    .from("rendered_outputs")
+    .select("content")
+    .eq("cache_key", input.cacheKey)
+    .single();
+
+  if (!verifyData || !verifyData.content || verifyData.content.length === 0) {
+    console.error("Content verification failed after persistence");
     return null;
   }
 
