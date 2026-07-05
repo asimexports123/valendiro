@@ -23,55 +23,40 @@ import { createAdminClient } from "../lib/supabase/admin";
 import { KnowledgeFactory } from "../services/factory/knowledgeFactory";
 import { loadKnowledgePackage } from "../services/renderer/knowledgePackageLoader";
 
-const PILOT_TOPICS = [
-  "python-programming-fundamentals",
-  "git-version-control",
-  "data-structures",
-  "investing-basics",
-  "cybersecurity-fundamentals",
-  "nutrition-fundamentals",
-  "diabetes",
-  "travel-planning-fundamentals",
-  "home-maintenance-basics",
-  "leadership-fundamentals",
-];
-
 async function runPhase33Pilot() {
   const sb = createAdminClient();
   const factory = new KnowledgeFactory();
 
   console.log("Phase 33: Knowledge Factory Pilot");
   console.log("=".repeat(60));
-  console.log(`Processing ${PILOT_TOPICS.length} highest-priority packages\n`);
+
+  // Get first 10 knowledge packages from database
+  const { data: packages } = await sb
+    .from("knowledge_packages")
+    .select("id, slug")
+    .limit(10);
+
+  if (!packages || packages.length === 0) {
+    console.log("No knowledge packages found in database");
+    return;
+  }
+
+  console.log(`Processing ${packages.length} knowledge packages from database\n`);
 
   const results: any[] = [];
 
-  for (const slug of PILOT_TOPICS) {
+  for (const pkg of packages) {
     try {
-      // Get topic by slug
-      const { data: topic } = await sb
-        .from("topics")
-        .select("id, slug, package_id")
-        .eq("slug", slug)
-        .maybeSingle();
+      console.log(`\n✅ Knowledge Package found: ${pkg.slug}`);
+      console.log(`   Package ID: ${pkg.id}`);
 
-      if (!topic) {
-        console.log(`\n❌ Topic not found: ${slug}`);
-        results.push({
-          slug,
-          processed: false,
-          error: "Topic not found",
-        });
-        continue;
-      }
-
-      // Load knowledge package
-      const pkgResult = await loadKnowledgePackage({ packageId: topic.package_id });
+      // Load knowledge package using the package loader
+      const pkgResult = await loadKnowledgePackage({ packageId: pkg.id });
       
       if (!pkgResult || !pkgResult.package) {
-        console.log(`\n❌ Knowledge Package not found: ${slug}`);
+        console.log(`\n❌ Knowledge Package not found: ${pkg.slug}`);
         results.push({
-          slug,
+          slug: pkg.slug,
           processed: false,
           error: "Knowledge Package not found",
         });
@@ -87,7 +72,7 @@ async function runPhase33Pilot() {
       });
 
       results.push({
-        slug,
+        slug: pkg.slug,
         processed: true,
         state: factoryResult.state,
         validationPassed: factoryResult.validationPassed,
@@ -97,9 +82,9 @@ async function runPhase33Pilot() {
       });
 
     } catch (error: any) {
-      console.log(`\n❌ Error processing ${slug}: ${error.message}`);
+      console.log(`\n❌ Error processing ${pkg.slug}: ${error.message}`);
       results.push({
-        slug,
+        slug: pkg.slug,
         processed: false,
         error: error.message,
       });
