@@ -2,21 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/Button";
 import { 
   FileText, 
-  Clock, 
-  AlertCircle, 
   CheckCircle, 
   Database, 
-  Layers,
   Activity,
   Play,
   RefreshCw,
-  TrendingUp,
-  Users,
-  BarChart3
+  AlertCircle
 } from "lucide-react";
 
 interface DashboardStats {
@@ -109,7 +103,7 @@ export default function DashboardPage() {
       <div className="p-8">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading dashboard...</p>
+          <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -118,31 +112,31 @@ export default function DashboardPage() {
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
-        <p className="text-gray-400 mt-1">Platform Overview</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+          <p className="text-gray-400 mt-1">Platform Overview</p>
+        </div>
+        <div className="flex gap-2">
+          <Button 
+            variant={autonomousEnabled ? "danger" : "primary"} 
+            onClick={toggleAutonomousPublishing}
+            size="sm"
+          >
+            {autonomousEnabled ? "Disable Auto-Publish" : "Enable Auto-Publish"}
+          </Button>
+          <Button variant="secondary" onClick={runOneCycle} size="sm">
+            <Play className="w-4 h-4 mr-2" />
+            Run Pipeline
+          </Button>
+          <Button variant="secondary" onClick={fetchDashboardData} size="sm">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Refresh
+          </Button>
+        </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="flex gap-3">
-        <Button 
-          variant={autonomousEnabled ? "danger" : "primary"} 
-          onClick={toggleAutonomousPublishing}
-          size="sm"
-        >
-          {autonomousEnabled ? "Disable Auto-Publish" : "Enable Auto-Publish"}
-        </Button>
-        <Button variant="secondary" onClick={runOneCycle} size="sm">
-          <Play className="w-4 h-4 mr-2" />
-          Run Pipeline
-        </Button>
-        <Button variant="secondary" onClick={fetchDashboardData} size="sm">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
-        </Button>
-      </div>
-
-      {/* Key Metrics */}
+      {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-gray-800 border-gray-700">
           <CardContent className="p-4">
@@ -163,7 +157,6 @@ export default function DashboardPage() {
               <div>
                 <p className="text-sm text-gray-400">Ready to Publish</p>
                 <p className="text-2xl font-bold text-white">{stats.readyToPublish}</p>
-                <p className="text-xs text-gray-400 mt-1">Awaiting approval</p>
               </div>
               <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
@@ -176,7 +169,6 @@ export default function DashboardPage() {
               <div>
                 <p className="text-sm text-gray-400">Quality Score</p>
                 <p className="text-2xl font-bold text-white">{stats.averageEditorialScore}/100</p>
-                <p className="text-xs text-gray-400 mt-1">Average</p>
               </div>
               <Activity className="w-8 h-8 text-purple-500" />
             </div>
@@ -187,11 +179,10 @@ export default function DashboardPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-400">Active Sources</p>
-                <p className="text-2xl font-bold text-white">{stats.activeSources}</p>
-                <p className="text-xs text-gray-400 mt-1">Discovery</p>
+                <p className="text-sm text-gray-400">Failed</p>
+                <p className="text-2xl font-bold text-white text-red-400">{stats.failed}</p>
               </div>
-              <Database className="w-8 h-8 text-orange-500" />
+              <AlertCircle className="w-8 h-8 text-red-500" />
             </div>
           </CardContent>
         </Card>
@@ -221,61 +212,6 @@ export default function DashboardPage() {
           </div>
         </CardContent>
       </Card>
-
-      {/* Content Overview */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader>
-            <CardTitle className="text-white">Content Status</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Drafts</span>
-                <span className="text-white font-medium">{stats.drafts}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Needs Review</span>
-                <span className="text-white font-medium">{stats.needsReview}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Failed</span>
-                <span className="text-white font-medium text-red-400">{stats.failed}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Total Topics</span>
-                <span className="text-white font-medium">{stats.totalTopics}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gray-800 border-gray-700">
-          <CardHeader>
-            <CardTitle className="text-white">Queue Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Discovery Queue</span>
-                <span className="text-white font-medium">{stats.discoveryQueue}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Rendering Queue</span>
-                <span className="text-white font-medium">{stats.renderingQueue}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Publishing Queue</span>
-                <span className="text-white font-medium">{stats.publishingQueue}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Weekly Growth</span>
-                <span className="text-white font-medium text-green-400">+{stats.weeklyGrowth}%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 }
