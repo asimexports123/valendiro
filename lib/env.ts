@@ -13,27 +13,49 @@ import * as dotenv from "dotenv";
 import { resolve } from "path";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
-// Load environment variables exactly once
-dotenv.config({ path: resolve(process.cwd(), ".env.local") });
+let envLoaded = false;
 
 /**
- * Environment variables
+ * Load environment variables exactly once (lazy loading)
+ */
+function loadEnv(): void {
+  if (!envLoaded) {
+    dotenv.config({ path: resolve(process.cwd(), ".env.local") });
+    envLoaded = true;
+  }
+}
+
+/**
+ * Environment variables (lazy loaded)
  */
 export const env = {
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
-  ALLOW_RENDER: process.env.ALLOW_RENDER,
-  RENDER_SECRET: process.env.RENDER_SECRET,
+  get NEXT_PUBLIC_SUPABASE_URL() {
+    loadEnv();
+    return process.env.NEXT_PUBLIC_SUPABASE_URL;
+  },
+  get SUPABASE_SERVICE_ROLE_KEY() {
+    loadEnv();
+    return process.env.SUPABASE_SERVICE_ROLE_KEY;
+  },
+  get ALLOW_RENDER() {
+    loadEnv();
+    return process.env.ALLOW_RENDER;
+  },
+  get RENDER_SECRET() {
+    loadEnv();
+    return process.env.RENDER_SECRET;
+  },
 } as const;
 
 /**
  * Validate required environment variables
  */
 function validateEnv(): void {
-  if (!env.NEXT_PUBLIC_SUPABASE_URL) {
+  loadEnv();
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
     throw new Error("NEXT_PUBLIC_SUPABASE_URL is not set in .env.local");
   }
-  if (!env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error("SUPABASE_SERVICE_ROLE_KEY is not set in .env.local");
   }
 }
