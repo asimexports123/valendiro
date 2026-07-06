@@ -50,7 +50,7 @@ export default function AutomationPage() {
 
   const fetchAutomationStatus = async () => {
     try {
-      const res = await fetch("/api/mission-control/automation/status");
+      const res = await fetch("/api/admin/dashboard/automation/status");
       const data = await res.json();
       setStatus(data);
     } catch (error) {
@@ -62,7 +62,7 @@ export default function AutomationPage() {
 
   const toggleAutonomousPublishing = async () => {
     try {
-      const res = await fetch("/api/mission-control/automation/toggle", {
+      const res = await fetch("/api/admin/dashboard/automation/toggle", {
         method: "POST",
       });
       const data = await res.json();
@@ -74,7 +74,7 @@ export default function AutomationPage() {
 
   const runOneCycle = async () => {
     try {
-      await fetch("/api/mission-control/pipeline/run", {
+      await fetch("/api/admin/dashboard/pipeline/run", {
         method: "POST",
       });
       fetchAutomationStatus();
@@ -87,7 +87,7 @@ export default function AutomationPage() {
     if (!confirm("Are you sure you want to emergency stop the pipeline? This will immediately halt all workers.")) return;
     
     try {
-      await fetch("/api/mission-control/automation/emergency-stop", {
+      await fetch("/api/admin/dashboard/automation/emergency-stop", {
         method: "POST",
       });
       setEmergencyStop(true);
@@ -99,7 +99,7 @@ export default function AutomationPage() {
 
   const updateScheduler = async (interval: string) => {
     try {
-      await fetch("/api/mission-control/automation/scheduler", {
+      await fetch("/api/admin/dashboard/automation/scheduler", {
         method: "PATCH",
         body: JSON.stringify({ interval }),
       });
@@ -111,7 +111,7 @@ export default function AutomationPage() {
 
   const restartWorker = async (worker: string) => {
     try {
-      await fetch(`/api/mission-control/automation/workers/${worker}/restart`, {
+      await fetch(`/api/admin/dashboard/automation/workers/${worker}/restart`, {
         method: "POST",
       });
       fetchAutomationStatus();

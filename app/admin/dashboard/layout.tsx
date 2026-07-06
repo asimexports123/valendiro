@@ -21,22 +21,22 @@ import {
 import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: "Dashboard", href: "/mission-control", icon: LayoutDashboard },
-  { name: "Discovery", href: "/mission-control/discovery", icon: Search },
-  { name: "Sources", href: "/mission-control/sources", icon: Globe },
-  { name: "Knowledge", href: "/mission-control/knowledge", icon: Database },
-  { name: "Rendering", href: "/mission-control/rendering", icon: Layers },
-  { name: "Publishing", href: "/mission-control/publishing", icon: FileText },
-  { name: "Articles", href: "/mission-control/articles", icon: FileTextIcon },
-  { name: "Categories", href: "/mission-control/categories", icon: Activity },
-  { name: "SEO", href: "/mission-control/seo", icon: Globe },
-  { name: "Internal Links", href: "/mission-control/internal-links", icon: Link2 },
-  { name: "Quality", href: "/mission-control/quality", icon: CheckCircle },
-  { name: "Automation", href: "/mission-control/automation", icon: Zap },
-  { name: "Analytics", href: "/mission-control/analytics", icon: BarChart3 },
-  { name: "System Health", href: "/mission-control/system-health", icon: ActivityIcon },
-  { name: "Logs", href: "/mission-control/logs", icon: FileText },
-  { name: "Settings", href: "/mission-control/settings", icon: Settings },
+  { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { name: "Discovery", href: "/admin/dashboard/discovery", icon: Search },
+  { name: "Sources", href: "/admin/dashboard/sources", icon: Globe },
+  { name: "Knowledge", href: "/admin/dashboard/knowledge", icon: Database },
+  { name: "Rendering", href: "/admin/dashboard/rendering", icon: Layers },
+  { name: "Publishing", href: "/admin/dashboard/publishing", icon: FileText },
+  { name: "Articles", href: "/admin/dashboard/articles", icon: FileTextIcon },
+  { name: "Categories", href: "/admin/dashboard/categories", icon: Activity },
+  { name: "SEO", href: "/admin/dashboard/seo", icon: Globe },
+  { name: "Internal Links", href: "/admin/dashboard/internal-links", icon: Link2 },
+  { name: "Quality", href: "/admin/dashboard/quality", icon: CheckCircle },
+  { name: "Automation", href: "/admin/dashboard/automation", icon: Zap },
+  { name: "Analytics", href: "/admin/dashboard/analytics", icon: BarChart3 },
+  { name: "System Health", href: "/admin/dashboard/system-health", icon: ActivityIcon },
+  { name: "Logs", href: "/admin/dashboard/logs", icon: FileText },
+  { name: "Settings", href: "/admin/dashboard/settings", icon: Settings },
 ];
 
 export default async function MissionControlLayout({
@@ -48,7 +48,7 @@ export default async function MissionControlLayout({
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/auth/login?redirect=/mission-control");
+    redirect("/auth/login?redirect=/admin/dashboard");
   }
 
   // Check if user has admin or editor role

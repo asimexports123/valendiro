@@ -64,7 +64,7 @@ export default function SystemHealthPage() {
 
   const fetchSystemHealth = async () => {
     try {
-      const res = await fetch("/api/mission-control/system-health");
+      const res = await fetch("/api/admin/dashboard/system-health");
       const data = await res.json();
       setHealth(data);
     } catch (error) {

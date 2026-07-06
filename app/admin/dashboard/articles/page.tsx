@@ -66,7 +66,7 @@ export default function ArticlesPage() {
       if (statusFilter) params.append("status", statusFilter);
       if (searchQuery) params.append("search", searchQuery);
 
-      const res = await fetch(`/api/mission-control/articles?${params}`);
+      const res = await fetch(`/api/admin/dashboard/articles?${params}`);
       const data = await res.json();
       setArticles(data.data);
       setTotal(data.total);
@@ -99,7 +99,7 @@ export default function ArticlesPage() {
     try {
       await Promise.all(
         Array.from(selectedArticles).map(id =>
-          fetch(`/api/mission-control/articles/${id}/republish`, { method: "POST" })
+          fetch(`/api/admin/dashboard/articles/${id}/republish`, { method: "POST" })
         )
       );
       setSelectedArticles(new Set());
@@ -113,7 +113,7 @@ export default function ArticlesPage() {
     try {
       await Promise.all(
         Array.from(selectedArticles).map(id =>
-          fetch(`/api/mission-control/articles/${id}`, { method: "DELETE" })
+          fetch(`/api/admin/dashboard/articles/${id}`, { method: "DELETE" })
         )
       );
       setSelectedArticles(new Set());
@@ -125,7 +125,7 @@ export default function ArticlesPage() {
 
   const regenerateArticle = async (articleId: string) => {
     try {
-      await fetch(`/api/mission-control/articles/${articleId}/regenerate`, { method: "POST" });
+      await fetch(`/api/admin/dashboard/articles/${articleId}/regenerate`, { method: "POST" });
       fetchArticles();
     } catch (error) {
       console.error("Failed to regenerate article:", error);
@@ -136,7 +136,7 @@ export default function ArticlesPage() {
     if (!confirm("Are you sure you want to delete this article?")) return;
     
     try {
-      await fetch(`/api/mission-control/articles/${articleId}`, { method: "DELETE" });
+      await fetch(`/api/admin/dashboard/articles/${articleId}`, { method: "DELETE" });
       fetchArticles();
     } catch (error) {
       console.error("Failed to delete article:", error);
