@@ -651,15 +651,13 @@ export async function runFullPublishingCycle(): Promise<PublishingEngineResult> 
   }
 
   // Step 4: Publish queued articles
-  if (ARTICLE_PUBLISHING_ENABLED) {
-    try {
-      const articleResult = await publishApprovedArticles(ARTICLE_PUBLISH_LIMIT);
-      combined.articlesPublished += articleResult.articlesPublished;
-      combined.errors.push(...articleResult.errors);
-      console.log(`[PublishingCycle] Articles published: ${articleResult.articlesPublished}`);
-    } catch (err) {
-      combined.errors.push(`Article publishing failed: ${err instanceof Error ? err.message : String(err)}`);
-    }
+  try {
+    const articleResult = await publishApprovedArticles(ARTICLE_PUBLISH_LIMIT);
+    combined.articlesPublished += articleResult.articlesPublished;
+    combined.errors.push(...articleResult.errors);
+    console.log(`[PublishingCycle] Articles published: ${articleResult.articlesPublished}`);
+  } catch (err) {
+    combined.errors.push(`Article publishing failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 
   return combined;

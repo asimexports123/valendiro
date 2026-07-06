@@ -210,22 +210,62 @@ export async function getTrendingTopics(limit = 16): Promise<PublicTopic[]> {
   const categoryIds = await getV1CategoryIds();
   if (categoryIds.length === 0) return [];
 
-  const { data } = await supabase
+  // Get topics directly linked to categories
+  const { data: directTopics } = await supabase
     .from("topics")
     .select("id, slug, category_id, topic_translations(title, subtitle), categories(slug)")
     .eq("status", "published")
     .in("category_id", categoryIds)
-    .eq("topic_translations.language_code", "en")
-    .order("created_at", { ascending: false })
-    .limit(limit);
+    .eq("topic_translations.language_code", "en");
 
-  return (data || []).map((topic: any) => ({
-    id: topic.id,
-    slug: topic.slug,
-    title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
-    subtitle: topic.topic_translations?.[0]?.subtitle || null,
-    category_slug: (topic.categories as any)?.slug ?? null,
-  }));
+  // Get subcategories for V1 categories
+  const { data: subcategories } = await supabase.from("subcategories").select("id").in("category_id", categoryIds);
+  const subcategoryIds = (subcategories || []).map((s: any) => s.id);
+
+  // Get topics linked via subcategories
+  const { data: indirectTopics } = subcategoryIds.length > 0
+    ? await supabase
+        .from("topics")
+        .select("id, slug, subcategory_id, topic_translations(title, subtitle), subcategories(categories(slug))")
+        .eq("status", "published")
+        .in("subcategory_id", subcategoryIds)
+        .eq("topic_translations.language_code", "en")
+    : { data: [] };
+
+  // Merge and deduplicate topics
+  const topicSet = new Set<string>();
+  const topicMap = new Map<string, any>();
+
+  for (const t of directTopics || []) {
+    topicSet.add(t.id);
+    topicMap.set(t.id, { ...t, category_slug: (t.categories as any)?.slug ?? null });
+  }
+
+  for (const t of indirectTopics || []) {
+    if (!topicSet.has(t.id)) {
+      const subcategory = t.subcategories as any;
+      const categorySlug = subcategory?.categories?.slug ?? null;
+      topicMap.set(t.id, {
+        id: t.id,
+        slug: t.slug,
+        category_id: subcategory?.category_id,
+        topic_translations: t.topic_translations,
+        category_slug: categorySlug,
+      });
+      topicSet.add(t.id);
+    }
+  }
+
+  return Array.from(topicMap.values())
+    .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+    .slice(0, limit)
+    .map((topic: any) => ({
+      id: topic.id,
+      slug: topic.slug,
+      title: topic.topic_translations?.[0]?.title || slugToTitle(topic.slug),
+      subtitle: topic.topic_translations?.[0]?.subtitle || null,
+      category_slug: topic.category_slug,
+    }));
 }
 
 export async function getCategoriesWithCounts(limit = 12): Promise<PublicCategory[]> {
@@ -289,28 +329,44 @@ export async function getHomepageStats(): Promise<HomepageStats> {
   const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
 
-  const [colRes, topicRes] = await Promise.all([
+  const [colRes] = await Promise.all([
     categoryIds.length > 0
       ? supabase.from("subcategories").select("id", { count: "exact", head: true }).in("category_id", categoryIds)
-      : Promise.resolve({ count: 0 }),
-    categoryIds.length > 0
-      ? supabase.from("topics").select("id", { count: "exact", head: true }).in("category_id", categoryIds).eq("status", "published")
       : Promise.resolve({ count: 0 }),
   ]);
 
   const subcategoriesCount = (colRes as any).count ?? 0;
-  const topics = (topicRes as any).count ?? 0;
+
+  // Get topics directly linked to categories
+  const { data: directTopics } = categoryIds.length > 0
+    ? await supabase.from("topics").select("id").in("category_id", categoryIds).eq("status", "published")
+    : { data: [] };
+
+  // Get subcategories for V1 categories
+  const { data: subcategories } = categoryIds.length > 0
+    ? await supabase.from("subcategories").select("id").in("category_id", categoryIds)
+    : { data: [] };
+  const subcategoryIds = (subcategories || []).map((s: any) => s.id);
+
+  // Get topics linked via subcategories
+  const { data: indirectTopics } = subcategoryIds.length > 0
+    ? await supabase.from("topics").select("id").in("subcategory_id", subcategoryIds).eq("status", "published")
+    : { data: [] };
+
+  // Merge and deduplicate topics
+  const topicSet = new Set<string>();
+  for (const t of directTopics || []) topicSet.add(t.id);
+  for (const t of indirectTopics || []) topicSet.add(t.id);
+
+  const topicIds = Array.from(topicSet);
+  const topics = topicIds.length;
+
   let articles = 0;
-  if (categoryIds.length > 0) {
-    const { data: topicIds } = await supabase
-      .from("topics").select("id").in("category_id", categoryIds).eq("status", "published");
-    const ids = (topicIds || []).map((t: any) => t.id);
-    if (ids.length > 0) {
-      const { count } = await supabase
-        .from("articles").select("id", { count: "exact", head: true })
-        .eq("status", "published").in("topic_id", ids);
-      articles = count ?? 0;
-    }
+  if (topicIds.length > 0) {
+    const { count } = await supabase
+      .from("articles").select("id", { count: "exact", head: true })
+      .eq("status", "published").in("topic_id", topicIds);
+    articles = count ?? 0;
   }
 
   return { subcategories: subcategoriesCount, topics, articles };
@@ -320,15 +376,39 @@ export async function getLatestArticles(limit = 6): Promise<PublicArticle[]> {
   const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
 
-  const { data: v1Topics } = categoryIds.length > 0
+  // Get topics directly linked to categories
+  const { data: directTopics } = categoryIds.length > 0
     ? await supabase.from("topics").select("id, category_id").in("category_id", categoryIds).eq("status", "published")
     : { data: [] };
-  const v1TopicIds = (v1Topics || []).map((t: any) => t.id);
-  if (v1TopicIds.length === 0) return [];
 
-  // Build topic→categoryId map
+  // Get subcategories for V1 categories
+  const { data: subcategories } = categoryIds.length > 0
+    ? await supabase.from("subcategories").select("id").in("category_id", categoryIds)
+    : { data: [] };
+  const subcategoryIds = (subcategories || []).map((s: any) => s.id);
+
+  // Get topics linked via subcategories
+  const { data: indirectTopics } = subcategoryIds.length > 0
+    ? await supabase.from("topics").select("id, subcategory_id, subcategories(category_id)").in("subcategory_id", subcategoryIds).eq("status", "published")
+    : { data: [] };
+
+  // Merge and deduplicate topics
+  const topicSet = new Set<string>();
   const topicCategoryMap: Record<string, string> = {};
-  for (const t of v1Topics || []) topicCategoryMap[t.id] = t.category_id;
+
+  for (const t of directTopics || []) {
+    topicSet.add(t.id);
+    topicCategoryMap[t.id] = t.category_id;
+  }
+
+  for (const t of indirectTopics || []) {
+    topicSet.add(t.id);
+    const categoryId = t.subcategories?.category_id || t.category_id;
+    topicCategoryMap[t.id] = categoryId;
+  }
+
+  const v1TopicIds = Array.from(topicSet);
+  if (v1TopicIds.length === 0) return [];
 
   const { data } = await supabase
     .from("articles")
