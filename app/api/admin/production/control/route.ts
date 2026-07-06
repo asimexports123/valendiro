@@ -3,10 +3,13 @@ import { createClient } from '@supabase/supabase-js';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const sb = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Lazy Supabase client creation to avoid build-time evaluation
+function getSupabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 // Pipeline state stored in file (no database changes required)
 interface PipelineState {
@@ -59,6 +62,7 @@ async function updatePipelineState(status: string, operator: string) {
 
 // Get queue metrics
 async function getQueueMetrics() {
+  const sb = getSupabaseClient();
   const { data: topics } = await sb
     .from('topics')
     .select('id')
@@ -82,6 +86,7 @@ async function getQueueMetrics() {
 
 // Get today's job statistics
 async function getTodayStats() {
+  const sb = getSupabaseClient();
   const today = new Date().toISOString().split('T')[0];
   
   const { data: completed } = await sb
@@ -104,6 +109,7 @@ async function getTodayStats() {
 
 // Run safety checks
 async function runSafetyChecks() {
+  const sb = getSupabaseClient();
   const checks = {
     environment: true,
     database: true,
