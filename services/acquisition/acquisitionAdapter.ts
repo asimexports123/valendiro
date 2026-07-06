@@ -102,6 +102,7 @@ export class OfficialDocsAdapter extends AcquisitionAdapter {
         error: null,
       };
     } catch (error: any) {
+      console.warn(`OfficialDocsAdapter.acquire failed for ${options.topicSlug}, falling back to Tier 2: ${error.message}`);
       return this.createTier2Fallback(options);
     }
   }

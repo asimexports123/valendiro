@@ -31,9 +31,13 @@ export async function POST(request: Request) {
 
   const pathsToRevalidate: string[] = paths && Array.isArray(paths) ? paths : defaultPaths;
 
-  for (const path of pathsToRevalidate) {
-    revalidatePath(path);
+  try {
+    for (const path of pathsToRevalidate) {
+      revalidatePath(path);
+    }
+    return NextResponse.json({ success: true, revalidated: pathsToRevalidate.length });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Cache purge failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  return NextResponse.json({ success: true, revalidated: pathsToRevalidate.length });
 }

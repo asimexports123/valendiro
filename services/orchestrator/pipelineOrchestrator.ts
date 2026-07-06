@@ -456,7 +456,12 @@ export class PipelineOrchestrator {
           }
         }
       } catch (error) {
-        console.error(`Failed to author content for topic ${gap.topicId}:`, error);
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`Failed to author content for topic ${gap.topicId}: ${message}`);
+        authoredContent.push({
+          topicId: gap.topicId,
+          error: message,
+        });
       }
     }
 
@@ -520,7 +525,12 @@ export class PipelineOrchestrator {
           });
         }
       } catch (error) {
-        console.error(`Failed to render ${topic.slug}:`, error);
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`Failed to render ${topic.slug}: ${message}`);
+        renderResults.push({
+          topicSlug: topic.slug,
+          error: message,
+        });
       }
     }
 

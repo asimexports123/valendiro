@@ -21,8 +21,13 @@ export async function GET() {
   const session = await requireAdmin();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const config = await getCategoryConfig();
-  return NextResponse.json({ success: true, config });
+  try {
+    const config = await getCategoryConfig();
+    return NextResponse.json({ success: true, config });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to load category config";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
@@ -31,23 +36,28 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => ({}));
 
-  // Toggle single category
-  if (typeof body.slug === "string" && typeof body.enabled === "boolean") {
-    await setCategoryEnabled(body.slug, body.enabled);
-    return NextResponse.json({ success: true, message: `Category '${body.slug}' ${body.enabled ? "enabled" : "disabled"}` });
-  }
+  try {
+    // Toggle single category
+    if (typeof body.slug === "string" && typeof body.enabled === "boolean") {
+      await setCategoryEnabled(body.slug, body.enabled);
+      return NextResponse.json({ success: true, message: `Category '${body.slug}' ${body.enabled ? "enabled" : "disabled"}` });
+    }
 
-  // Full config update
-  if (body.config) {
-    await updateCategoryConfig(body.config as CategoryConfig);
-    return NextResponse.json({ success: true, message: "Category config updated" });
-  }
+    // Full config update
+    if (body.config) {
+      await updateCategoryConfig(body.config as CategoryConfig);
+      return NextResponse.json({ success: true, message: "Category config updated" });
+    }
 
-  // Seed defaults
-  if (body.action === "seed") {
-    await seedDefaultCategoryConfig();
-    return NextResponse.json({ success: true, message: "Default V1 category config seeded" });
-  }
+    // Seed defaults
+    if (body.action === "seed") {
+      await seedDefaultCategoryConfig();
+      return NextResponse.json({ success: true, message: "Default V1 category config seeded" });
+    }
 
-  return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Category operation failed";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

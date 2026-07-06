@@ -15,48 +15,47 @@ const supabase = getAdminClient();
 export async function buildInternalLinks(topicSlug: string): Promise<void> {
   console.log(`Building internal links for: ${topicSlug}`);
 
-  try {
-    // Get topic ID
-    const { data: topic } = await supabase
-      .from("topics")
-      .select("id")
-      .eq("slug", topicSlug)
-      .single();
+  // Get topic ID
+  const { data: topic, error: topicError } = await supabase
+    .from("topics")
+    .select("id")
+    .eq("slug", topicSlug)
+    .single();
 
-    if (!topic) {
-      console.log(`Topic not found: ${topicSlug}`);
-      return;
-    }
-
-    // Find related topics using knowledge relationships
-    const { data: relationships } = await supabase
-      .from("knowledge_relationships")
-      .select("*")
-      .or(`source_id.eq.${topic.id},target_id.eq.${topic.id}`)
-      .limit(20);
-
-    if (!relationships || relationships.length === 0) {
-      console.log(`No relationships found for ${topicSlug}`);
-      return;
-    }
-
-    // Extract related topic IDs
-    const relatedTopicIds = new Set<string>();
-    relationships.forEach(rel => {
-      if (rel.source_id !== topic.id) relatedTopicIds.add(rel.source_id);
-      if (rel.target_id !== topic.id) relatedTopicIds.add(rel.target_id);
-    });
-
-    // Create internal links
-    for (const relatedId of relatedTopicIds) {
-      await createInternalLink(topic.id, relatedId);
-    }
-
-    console.log(`Internal links built for ${topicSlug}: ${relatedTopicIds.size} links`);
-
-  } catch (error) {
-    console.error(`Error building internal links for ${topicSlug}:`, error);
+  if (topicError || !topic) {
+    console.warn(`Topic not found or query failed for ${topicSlug}:`, topicError?.message);
+    return;
   }
+
+  // Find related topics using knowledge relationships
+  const { data: relationships, error: relError } = await supabase
+    .from("knowledge_relationships")
+    .select("*")
+    .or(`source_id.eq.${topic.id},target_id.eq.${topic.id}`)
+    .limit(20);
+
+  if (relError) {
+    throw new Error(`Failed to fetch relationships for ${topicSlug}: ${relError.message}`);
+  }
+
+  if (!relationships || relationships.length === 0) {
+    console.log(`No relationships found for ${topicSlug}`);
+    return;
+  }
+
+  // Extract related topic IDs
+  const relatedTopicIds = new Set<string>();
+  relationships.forEach(rel => {
+    if (rel.source_id !== topic.id) relatedTopicIds.add(rel.source_id);
+    if (rel.target_id !== topic.id) relatedTopicIds.add(rel.target_id);
+  });
+
+  // Create internal links
+  for (const relatedId of relatedTopicIds) {
+    await createInternalLink(topic.id, relatedId);
+  }
+
+  console.log(`Internal links built for ${topicSlug}: ${relatedTopicIds.size} links`);
 }
 
 /**
@@ -66,17 +65,17 @@ async function createInternalLink(sourceId: string, targetId: string): Promise<v
   // Check if link already exists
   const { data: existing } = await supabase
     .from("internal_links")
-    .select("*")
+    .select("id")
     .eq("source_id", sourceId)
     .eq("target_id", targetId)
-    .single();
+    .maybeSingle();
 
   if (existing) {
     return; // Link already exists
   }
 
   // Create new internal link
-  await supabase
+  const { error: insertError } = await supabase
     .from("internal_links")
     .insert({
       source_id: sourceId,
@@ -84,17 +83,25 @@ async function createInternalLink(sourceId: string, targetId: string): Promise<v
       link_type: "related",
       created_at: new Date().toISOString()
     });
+
+  if (insertError) {
+    throw new Error(`Failed to create internal link ${sourceId} → ${targetId}: ${insertError.message}`);
+  }
 }
 
 /**
  * Build internal links for all published topics
  */
 export async function buildAllInternalLinks(): Promise<void> {
-  const { data: topics } = await supabase
+  const { data: topics, error } = await supabase
     .from("topics")
     .select("id, slug")
     .eq("status", "published")
     .limit(100);
+
+  if (error) {
+    throw new Error(`Failed to fetch published topics: ${error.message}`);
+  }
 
   if (!topics || topics.length === 0) {
     console.log("No published topics to build links for");
@@ -102,9 +109,20 @@ export async function buildAllInternalLinks(): Promise<void> {
   }
 
   console.log(`Building internal links for ${topics.length} topics`);
+  const errors: string[] = [];
 
   for (const topic of topics) {
-    await buildInternalLinks(topic.slug);
+    try {
+      await buildInternalLinks(topic.slug);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`Failed to build links for ${topic.slug}: ${message}`);
+      errors.push(`${topic.slug}: ${message}`);
+    }
+  }
+
+  if (errors.length > 0) {
+    console.error(`Internal linking completed with ${errors.length} error(s)`);
   }
 }
 

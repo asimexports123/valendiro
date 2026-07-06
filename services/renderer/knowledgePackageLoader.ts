@@ -272,8 +272,8 @@ async function resolveCategory(
         }
       }
     }
-  } catch (_) {
-    // Non-fatal — fall back to default policy
+  } catch (err) {
+    console.warn(`Non-fatal: failed to resolve category for slug "${slug}":`, err instanceof Error ? err.message : err);
   }
 
   return categorySlug;

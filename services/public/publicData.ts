@@ -887,9 +887,11 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
       try {
         renderedContent = serializeToHTML(renderedOutput.document_tree);
       } catch (error) {
-        console.error("Failed to serialize document tree to HTML:", error);
+        console.error("Failed to serialize document tree to HTML:", error instanceof Error ? error.message : error);
+        // Fall through to content field or topic_translations fallback
       }
-    } else if (renderedOutput?.content) {
+    }
+    if (!renderedContent && renderedOutput?.content) {
       // Use content field if document_tree not available
       renderedContent = renderedOutput.content;
     }
@@ -898,7 +900,7 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
   // Fallback to topic_translations.content if no rendered content
   if (!renderedContent) {
     const translation = topic.topic_translations?.[0];
-    renderedContent = topic.content || translation?.content || null;
+    renderedContent = translation?.content || null;
   }
 
   const translation = topic.topic_translations?.[0];

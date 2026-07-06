@@ -144,7 +144,7 @@ export class KnowledgeFactory {
       };
 
     } catch (error: any) {
-      console.log(`❌ Error: ${error.message}`);
+      console.error(`Knowledge factory error for ${pkg.slug}: ${error.message}`);
 
       return {
         packageId: pkg.id,

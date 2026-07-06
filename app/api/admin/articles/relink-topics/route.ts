@@ -21,9 +21,11 @@ export async function POST() {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   // Fetch all topics with translations (name is in topic_translations, not topics)
-  const { data: topicsRaw } = await admin
+  const { data: topicsRaw, error: topicsError } = await admin
     .from("topics")
     .select("id, slug, topic_translations(title, language_code)");
+
+  if (topicsError) return NextResponse.json({ error: topicsError.message }, { status: 500 });
 
   const topics = (topicsRaw ?? []).map((t) => {
     const trans = (t.topic_translations as { title: string; language_code: string }[]) ?? [];

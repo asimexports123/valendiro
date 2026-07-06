@@ -134,14 +134,28 @@ export async function POST(request: Request) {
           .eq("status", "published")
           .limit(limit);
 
-        for (const topic of topics ?? []) await buildHierarchicalLinksForTopic(topic.id);
-        for (const article of articles ?? []) await buildHierarchicalLinksForArticle(article.id);
+        const linkErrors: string[] = [];
+        for (const topic of topics ?? []) {
+          try {
+            await buildHierarchicalLinksForTopic(topic.id);
+          } catch (e) {
+            linkErrors.push(`topic ${topic.id}: ${e instanceof Error ? e.message : String(e)}`);
+          }
+        }
+        for (const article of articles ?? []) {
+          try {
+            await buildHierarchicalLinksForArticle(article.id);
+          } catch (e) {
+            linkErrors.push(`article ${article.id}: ${e instanceof Error ? e.message : String(e)}`);
+          }
+        }
 
         result = {
           stage,
           topicsLinked: topics?.length ?? 0,
           articlesLinked: articles?.length ?? 0,
-          errors: [],
+          errors: linkErrors,
+          errorCount: linkErrors.length,
         };
         break;
       }
