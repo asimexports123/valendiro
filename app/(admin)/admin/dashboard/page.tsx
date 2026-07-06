@@ -12,9 +12,11 @@ import {
   Database, 
   Layers,
   Activity,
-  Pause,
   Play,
-  RotateCcw
+  RefreshCw,
+  TrendingUp,
+  Users,
+  BarChart3
 } from "lucide-react";
 
 interface DashboardStats {
@@ -29,16 +31,10 @@ interface DashboardStats {
   renderingQueue: number;
   publishingQueue: number;
   averageEditorialScore: number;
-  averageWordCount: number;
-  averageReferences: number;
-  averageInternalLinks: number;
-  averageReadingTime: number;
-  rssSources: number;
-  feedlySources: number;
-  officialSources: number;
-  governmentSources: number;
-  universitySources: number;
-  trustedSources: number;
+  totalTopics: number;
+  activeSources: number;
+  todayArticles: number;
+  weeklyGrowth: number;
 }
 
 interface PipelineStatus {
@@ -59,7 +55,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchDashboardData();
-    const interval = setInterval(fetchDashboardData, 30000); // Refresh every 30 seconds
+    const interval = setInterval(fetchDashboardData, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -120,205 +116,166 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Mission Control Center</h1>
-        <p className="text-gray-600 mt-2">Autonomous Knowledge Platform Operations</p>
+    <div className="p-6 space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+        <p className="text-gray-400 mt-1">Platform Overview</p>
       </div>
 
-      {/* Autonomous Publishing Controls */}
-      <div className="mb-8 bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">Autonomous Publishing</h2>
-            <p className="text-sm text-gray-600">Control the autonomous publishing pipeline</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <Badge variant={autonomousEnabled ? "default" : "secondary"}>
-              {autonomousEnabled ? "Enabled" : "Disabled"}
-            </Badge>
-            <Button variant={autonomousEnabled ? "danger" : "primary"} onClick={toggleAutonomousPublishing}>
-              {autonomousEnabled ? "Disable" : "Enable"}
-            </Button>
-            <Button variant="secondary" onClick={runOneCycle}>
-              <Play className="w-4 h-4 mr-2" />
-              Run One Cycle
-            </Button>
-          </div>
-        </div>
+      {/* Quick Actions */}
+      <div className="flex gap-3">
+        <Button 
+          variant={autonomousEnabled ? "danger" : "primary"} 
+          onClick={toggleAutonomousPublishing}
+          size="sm"
+        >
+          {autonomousEnabled ? "Disable Auto-Publish" : "Enable Auto-Publish"}
+        </Button>
+        <Button variant="secondary" onClick={runOneCycle} size="sm">
+          <Play className="w-4 h-4 mr-2" />
+          Run Pipeline
+        </Button>
+        <Button variant="secondary" onClick={fetchDashboardData} size="sm">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Refresh
+        </Button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardContent className="p-6">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Articles Published</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.articlesPublished}</p>
+                <p className="text-sm text-gray-400">Total Articles</p>
+                <p className="text-2xl font-bold text-white">{stats.articlesPublished}</p>
+                <p className="text-xs text-green-400 mt-1">+{stats.todayArticles} today</p>
               </div>
-              <FileText className="w-8 h-8 text-blue-600" />
+              <FileText className="w-8 h-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Drafts</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.drafts}</p>
+                <p className="text-sm text-gray-400">Ready to Publish</p>
+                <p className="text-2xl font-bold text-white">{stats.readyToPublish}</p>
+                <p className="text-xs text-gray-400 mt-1">Awaiting approval</p>
               </div>
-              <Clock className="w-8 h-8 text-yellow-600" />
+              <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Ready to Publish</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.readyToPublish}</p>
+                <p className="text-sm text-gray-400">Quality Score</p>
+                <p className="text-2xl font-bold text-white">{stats.averageEditorialScore}/100</p>
+                <p className="text-xs text-gray-400 mt-1">Average</p>
               </div>
-              <CheckCircle className="w-8 h-8 text-green-600" />
+              <Activity className="w-8 h-8 text-purple-500" />
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Failed</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.failed}</p>
+                <p className="text-sm text-gray-400">Active Sources</p>
+                <p className="text-2xl font-bold text-white">{stats.activeSources}</p>
+                <p className="text-xs text-gray-400 mt-1">Discovery</p>
               </div>
-              <AlertCircle className="w-8 h-8 text-red-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Knowledge Packages</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.knowledgePackages}</p>
-              </div>
-              <Database className="w-8 h-8 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Rendered Outputs</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.renderedOutputs}</p>
-              </div>
-              <Layers className="w-8 h-8 text-indigo-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Avg Editorial Score</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.averageEditorialScore}/100</p>
-              </div>
-              <Activity className="w-8 h-8 text-teal-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Discovery Queue</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.discoveryQueue}</p>
-              </div>
-              <FileText className="w-8 h-8 text-orange-600" />
+              <Database className="w-8 h-8 text-orange-500" />
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Pipeline Visualization */}
-      <Card className="mb-8">
+      {/* Pipeline Status */}
+      <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
-          <CardTitle>Pipeline Status</CardTitle>
+          <CardTitle className="text-white">Pipeline Status</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-between gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
             {Object.entries(pipelineStatus).map(([stage, status]) => (
-              <div key={stage} className="flex-1 text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <div className={`w-3 h-3 rounded-full mr-2 ${
-                    status.status === "running" ? "bg-green-500 animate-pulse" :
-                    status.status === "waiting" ? "bg-yellow-500" :
-                    status.status === "failed" ? "bg-red-500" :
-                    "bg-blue-500"
-                  }`}></div>
-                  <Badge variant={
-                    status.status === "running" ? "default" :
-                    status.status === "waiting" ? "secondary" :
-                    status.status === "failed" ? "destructive" :
-                    "outline"
-                  }>
-                    {status.status}
-                  </Badge>
-                </div>
-                <div className="text-sm font-medium text-gray-900 capitalize">
+              <div key={stage} className="text-center p-3 bg-gray-700/50 rounded-lg">
+                <div className={`w-3 h-3 rounded-full mx-auto mb-2 ${
+                  status.status === "running" ? "bg-green-500 animate-pulse" :
+                  status.status === "waiting" ? "bg-yellow-500" :
+                  status.status === "failed" ? "bg-red-500" :
+                  "bg-blue-500"
+                }`}></div>
+                <div className="text-xs font-medium text-white capitalize mb-1">
                   {stage.replace(/([A-Z])/g, " $1").trim()}
                 </div>
-                <div className="text-xs text-gray-600">Queue: {status.queueSize}</div>
-                <div className="text-xs text-gray-600">
-                  Last: {new Date(status.lastExecution).toLocaleTimeString()}
-                </div>
+                <div className="text-xs text-gray-400">Queue: {status.queueSize}</div>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Source Stats */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Discovery Sources</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900">{stats.rssSources}</p>
-              <p className="text-sm text-gray-600">RSS Sources</p>
+      {/* Content Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-white">Content Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Drafts</span>
+                <span className="text-white font-medium">{stats.drafts}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Needs Review</span>
+                <span className="text-white font-medium">{stats.needsReview}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Failed</span>
+                <span className="text-white font-medium text-red-400">{stats.failed}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Total Topics</span>
+                <span className="text-white font-medium">{stats.totalTopics}</span>
+              </div>
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900">{stats.feedlySources}</p>
-              <p className="text-sm text-gray-600">Feedly Sources</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-white">Queue Overview</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Discovery Queue</span>
+                <span className="text-white font-medium">{stats.discoveryQueue}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Rendering Queue</span>
+                <span className="text-white font-medium">{stats.renderingQueue}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Publishing Queue</span>
+                <span className="text-white font-medium">{stats.publishingQueue}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Weekly Growth</span>
+                <span className="text-white font-medium text-green-400">+{stats.weeklyGrowth}%</span>
+              </div>
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900">{stats.officialSources}</p>
-              <p className="text-sm text-gray-600">Official Sources</p>
-            </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900">{stats.governmentSources}</p>
-              <p className="text-sm text-gray-600">Government Sources</p>
-            </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900">{stats.universitySources}</p>
-              <p className="text-sm text-gray-600">University Sources</p>
-            </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900">{stats.trustedSources}</p>
-              <p className="text-sm text-gray-600">Trusted Sources</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
