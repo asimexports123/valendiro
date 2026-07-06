@@ -166,7 +166,7 @@ export default function DashboardPage() {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="border-2 hover:border-blue-300 transition-colors">
+        <Card className="border-2 hover:border-blue-500 transition-colors">
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
               <div>
@@ -177,14 +177,14 @@ export default function DashboardPage() {
                   +{stats.todayArticles} today
                 </p>
               </div>
-              <div className="p-3 bg-blue-100 rounded-lg">
+              <div className="p-3 bg-blue-50 rounded-lg">
                 <FileText className="w-6 h-6 text-blue-600" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-2 hover:border-green-300 transition-colors">
+        <Card className="border-2 hover:border-green-500 transition-colors">
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
               <div>
@@ -192,14 +192,14 @@ export default function DashboardPage() {
                 <p className="text-3xl font-bold text-gray-900 mt-2">{stats.readyToPublish}</p>
                 <p className="text-sm text-gray-500 mt-2">Awaiting approval</p>
               </div>
-              <div className="p-3 bg-green-100 rounded-lg">
+              <div className="p-3 bg-green-50 rounded-lg">
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-2 hover:border-purple-300 transition-colors">
+        <Card className="border-2 hover:border-purple-500 transition-colors">
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
               <div>
@@ -207,14 +207,14 @@ export default function DashboardPage() {
                 <p className="text-3xl font-bold text-gray-900 mt-2">{stats.averageEditorialScore}/100</p>
                 <p className="text-sm text-gray-500 mt-2">Average rating</p>
               </div>
-              <div className="p-3 bg-purple-100 rounded-lg">
+              <div className="p-3 bg-purple-50 rounded-lg">
                 <Activity className="w-6 h-6 text-purple-600" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-2 hover:border-red-300 transition-colors">
+        <Card className="border-2 hover:border-red-500 transition-colors">
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
               <div>
@@ -222,7 +222,7 @@ export default function DashboardPage() {
                 <p className="text-3xl font-bold text-gray-900 mt-2">{stats.failed}</p>
                 <p className="text-sm text-red-600 mt-2">Needs attention</p>
               </div>
-              <div className="p-3 bg-red-100 rounded-lg">
+              <div className="p-3 bg-red-50 rounded-lg">
                 <AlertCircle className="w-6 h-6 text-red-600" />
               </div>
             </div>
@@ -237,7 +237,7 @@ export default function DashboardPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link href="/admin/articles">
+            <Link href="/admin/dashboard/articles">
               <Button variant="secondary" className="w-full justify-start h-auto py-4">
                 <FileText className="w-5 h-5 mr-3" />
                 <div className="text-left">
@@ -248,7 +248,7 @@ export default function DashboardPage() {
               </Button>
             </Link>
             
-            <Link href="/admin/discovery">
+            <Link href="/admin/dashboard/discovery">
               <Button variant="secondary" className="w-full justify-start h-auto py-4">
                 <Database className="w-5 h-5 mr-3" />
                 <div className="text-left">
@@ -259,7 +259,7 @@ export default function DashboardPage() {
               </Button>
             </Link>
             
-            <Link href="/admin/automation">
+            <Link href="/admin/dashboard/automation">
               <Button variant="secondary" className="w-full justify-start h-auto py-4">
                 <Zap className="w-5 h-5 mr-3" />
                 <div className="text-left">
@@ -270,12 +270,12 @@ export default function DashboardPage() {
               </Button>
             </Link>
             
-            <Link href="/admin/analytics">
+            <Link href="/admin/dashboard/system-health">
               <Button variant="secondary" className="w-full justify-start h-auto py-4">
                 <BarChart3 className="w-5 h-5 mr-3" />
                 <div className="text-left">
-                  <div className="font-medium">Analytics</div>
-                  <div className="text-sm text-gray-500">Performance data</div>
+                  <div className="font-medium">System Health</div>
+                  <div className="text-sm text-gray-500">Monitor status</div>
                 </div>
                 <ArrowRight className="w-4 h-4 ml-auto" />
               </Button>
