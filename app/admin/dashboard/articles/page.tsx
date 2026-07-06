@@ -65,7 +65,7 @@ export default function ArticlesPage() {
       if (statusFilter) params.append("status", statusFilter);
       if (searchQuery) params.append("search", searchQuery);
 
-      const res = await fetch(`/api/admin/dashboard/articles?${params}`);
+      const res = await fetch(`/api/admin/dashboard/dashboard/articles?${params}`);
       if (!res.ok) {
         console.error("Failed to fetch articles:", res.statusText);
         setArticles([]);
@@ -103,26 +103,35 @@ export default function ArticlesPage() {
   };
 
   const bulkRepublish = async () => {
+    if (selectedArticles.size === 0) return;
+    if (!confirm(`Republish ${selectedArticles.size} articles?`)) return;
+    
     try {
       await Promise.all(
         Array.from(selectedArticles).map(id =>
-          fetch(`/api/admin/dashboard/articles/${id}/republish`, { method: "POST" })
+          fetch(`/api/admin/dashboard/dashboard/articles/${id}/republish`, { method: "POST" })
         )
       );
       setSelectedArticles(new Set());
       fetchArticles();
     } catch (error) {
       console.error("Failed to bulk republish:", error);
+      alert("Failed to republish articles. Please try again.");
     }
   };
 
   const bulkDelete = async () => {
+    if (selectedArticles.size === 0) return;
     if (!confirm(`Delete ${selectedArticles.size} articles? This action cannot be undone.`)) return;
     
     try {
       await Promise.all(
         Array.from(selectedArticles).map(id =>
-          fetch(`/api/admin/dashboard/articles/${id}`, { method: "DELETE" })
+          fetch(`/api/admin/delete`, { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "article", id })
+          })
         )
       );
       setSelectedArticles(new Set());
@@ -135,7 +144,7 @@ export default function ArticlesPage() {
 
   const regenerateArticle = async (articleId: string) => {
     try {
-      await fetch(`/api/admin/dashboard/articles/${articleId}/regenerate`, { method: "POST" });
+      await fetch(`/api/admin/dashboard/dashboard/articles/${articleId}/regenerate`, { method: "POST" });
       fetchArticles();
     } catch (error) {
       console.error("Failed to regenerate article:", error);
@@ -146,7 +155,11 @@ export default function ArticlesPage() {
     if (!confirm("Are you sure you want to delete this article? This action cannot be undone.")) return;
     
     try {
-      await fetch(`/api/admin/dashboard/articles/${articleId}`, { method: "DELETE" });
+      await fetch(`/api/admin/delete`, { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "article", id: articleId })
+      });
       fetchArticles();
     } catch (error) {
       console.error("Failed to delete article:", error);
