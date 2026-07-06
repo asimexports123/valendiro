@@ -66,11 +66,19 @@ export default function ArticlesPage() {
       if (searchQuery) params.append("search", searchQuery);
 
       const res = await fetch(`/api/admin/dashboard/articles?${params}`);
+      if (!res.ok) {
+        console.error("Failed to fetch articles:", res.statusText);
+        setArticles([]);
+        setTotal(0);
+        return;
+      }
       const data = await res.json();
-      setArticles(data.data);
-      setTotal(data.total);
+      setArticles(data.data || []);
+      setTotal(data.total || 0);
     } catch (error) {
       console.error("Failed to fetch articles:", error);
+      setArticles([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
