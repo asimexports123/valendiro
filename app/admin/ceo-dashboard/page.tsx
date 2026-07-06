@@ -1,194 +1,384 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/Button";
+import { 
+  FileText, 
+  Clock, 
+  AlertCircle, 
+  CheckCircle, 
+  Database, 
+  Layers,
+  Activity,
+  Pause,
+  Play,
+  RotateCcw
+} from "lucide-react";
 
-interface CEODashboardData {
-  timestamp: string;
-  knowledgeCoverage: any;
-  categoryHealth: any;
-  revenue: any;
-  traffic: any;
-  quality: any;
-  production: any;
-  aiWorkforce: any;
-  queue: any;
-  growth: any;
-  monetization: any;
-  distribution: any;
-  analytics: any;
-  experiments: any;
-  policies: any;
-  businessGoals: any;
-  blueprint?: {
-    complianceRate: number;
-    migrationQueueSize: number;
-    migrationProgress: number;
-  };
+interface DashboardStats {
+  articlesPublished: number;
+  drafts: number;
+  readyToPublish: number;
+  failed: number;
+  needsReview: number;
+  knowledgePackages: number;
+  renderedOutputs: number;
+  discoveryQueue: number;
+  renderingQueue: number;
+  publishingQueue: number;
+  averageEditorialScore: number;
+  averageWordCount: number;
+  averageReferences: number;
+  averageInternalLinks: number;
+  averageReadingTime: number;
+  rssSources: number;
+  feedlySources: number;
+  officialSources: number;
+  governmentSources: number;
+  universitySources: number;
+  trustedSources: number;
 }
 
-export default function CEODashboard() {
-  const [data, setData] = useState<CEODashboardData | null>(null);
+interface PipelineStatus {
+  discovery: { status: string; queueSize: number; lastExecution: string };
+  knowledgeExtraction: { status: string; queueSize: number; lastExecution: string };
+  knowledgePackage: { status: string; queueSize: number; lastExecution: string };
+  knowledgeValidation: { status: string; queueSize: number; lastExecution: string };
+  rendering: { status: string; queueSize: number; lastExecution: string };
+  editorialQA: { status: string; queueSize: number; lastExecution: string };
+  publishing: { status: string; queueSize: number; lastExecution: string };
+  indexing: { status: string; queueSize: number; lastExecution: string };
+  monitoring: { status: string; queueSize: number; lastExecution: string };
+}
+
+export default function DashboardPage() {
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [pipelineStatus, setPipelineStatus] = useState<PipelineStatus | null>(null);
   const [loading, setLoading] = useState(true);
+  const [autonomousEnabled, setAutonomousEnabled] = useState(false);
 
   useEffect(() => {
     fetchDashboardData();
-    const interval = setInterval(fetchDashboardData, 10000);
+    const interval = setInterval(fetchDashboardData, 30000); // Refresh every 30 seconds
     return () => clearInterval(interval);
   }, []);
 
-  async function fetchDashboardData() {
+  const fetchDashboardData = async () => {
     try {
-      const response = await fetch("/api/admin/ceo-dashboard");
-      if (!response.ok) throw new Error("Failed to fetch dashboard data");
-      const dashboardData = await response.json();
-      setData(dashboardData);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
+      const [statsRes, pipelineRes, automationRes] = await Promise.all([
+        fetch("/api/admin/ceo-dashboard/stats"),
+        fetch("/api/admin/ceo-dashboard/pipeline-status"),
+        fetch("/api/admin/ceo-dashboard/automation/status"),
+      ]);
+
+      const statsData = await statsRes.json();
+      const pipelineData = await pipelineRes.json();
+      const automationData = await automationRes.json();
+
+      setStats(statsData);
+      setPipelineStatus(pipelineData);
+      setAutonomousEnabled(automationData.enabled);
+    } catch (error) {
+      console.error("Failed to fetch dashboard data:", error);
+    } finally {
       setLoading(false);
     }
-  }
+  };
 
-  if (loading) return <div className="p-8">Loading CEO Dashboard...</div>;
-  if (!data) return <div className="p-8">No data available</div>;
+  const toggleAutonomousPublishing = async () => {
+    try {
+      const res = await fetch("/api/admin/ceo-dashboard/automation/toggle", {
+        method: "POST",
+      });
+      const data = await res.json();
+      setAutonomousEnabled(data.enabled);
+    } catch (error) {
+      console.error("Failed to toggle autonomous publishing:", error);
+    }
+  };
 
-  return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Valendiro CEO Dashboard</h1>
+  const runOneCycle = async () => {
+    try {
+      await fetch("/api/admin/ceo-dashboard/pipeline/run", {
+        method: "POST",
+      });
+      fetchDashboardData();
+    } catch (error) {
+      console.error("Failed to run pipeline cycle:", error);
+    }
+  };
 
-      <div className="grid grid-cols-4 gap-6 mb-6">
-        <div className="p-4 bg-blue-50 rounded-lg">
-          <div className="text-sm text-gray-600">Total Revenue</div>
-          <div className="text-2xl font-bold">${data.revenue.totalRevenue}</div>
-          <div className="text-xs text-gray-500">Trend: {data.revenue.revenueTrend}</div>
-        </div>
-        <div className="p-4 bg-green-50 rounded-lg">
-          <div className="text-sm text-gray-600">Page Views</div>
-          <div className="text-2xl font-bold">{data.traffic.pageViews}</div>
-          <div className="text-xs text-gray-500">Unique: {data.traffic.uniqueVisitors}</div>
-        </div>
-        <div className="p-4 bg-purple-50 rounded-lg">
-          <div className="text-sm text-gray-600">Quality Score</div>
-          <div className="text-2xl font-bold">{data.quality.averageQualityScore}/100</div>
-          <div className="text-xs text-gray-500">Status: {data.quality.overallQuality}</div>
-        </div>
-        <div className="p-4 bg-orange-50 rounded-lg">
-          <div className="text-sm text-gray-600">AI Agents</div>
-          <div className="text-2xl font-bold">{data.aiWorkforce.totalAgents}</div>
-          <div className="text-xs text-gray-500">Healthy: {data.aiWorkforce.healthyAgents}</div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-6 mb-6">
-        <div className="p-4 bg-indigo-50 rounded-lg">
-          <div className="text-sm text-gray-600">Blueprint Compliance</div>
-          <div className="text-2xl font-bold">{data.blueprint?.complianceRate ?? 0}%</div>
-          <div className="text-xs text-gray-500">Target: 95%+</div>
-        </div>
-        <div className="p-4 bg-rose-50 rounded-lg">
-          <div className="text-sm text-gray-600">Migration Queue</div>
-          <div className="text-2xl font-bold">{data.blueprint?.migrationQueueSize ?? 0}</div>
-          <div className="text-xs text-gray-500">Articles needing migration</div>
-        </div>
-        <div className="p-4 bg-teal-50 rounded-lg">
-          <div className="text-sm text-gray-600">Migration Progress</div>
-          <div className="text-2xl font-bold">{(data.blueprint?.migrationProgress ?? 0).toFixed(1)}%</div>
-          <div className="text-xs text-gray-500">Compliant articles migrated</div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-6">
-        <div className="p-4 border rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">AI Workforce</h2>
-          <div className="space-y-2">
-            {data.aiWorkforce.agents.map((agent: any) => (
-              <div key={agent.id} className="p-2 bg-gray-50 rounded flex justify-between">
-                <span>{agent.name}</span>
-                <span className={`text-sm ${
-                  agent.status === "running" ? "text-green-600" :
-                  agent.status === "failed" ? "text-red-600" :
-                  "text-gray-600"
-                }`}>{agent.status}</span>
-              </div>
+  if (loading || !stats || !pipelineStatus) {
+    return (
+      <div className="p-8">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-gray-700 rounded w-1/4"></div>
+          <div className="grid grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="h-32 bg-gray-700 rounded"></div>
             ))}
           </div>
         </div>
+      </div>
+    );
+  }
 
-        <div className="p-4 border rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Task Queue</h2>
-          <div className="grid grid-cols-3 gap-2 text-sm">
-            <div className="p-2 bg-yellow-50 rounded">
-              <div className="text-gray-600">Pending</div>
-              <div className="font-bold">{data.queue.pendingTasks}</div>
-            </div>
-            <div className="p-2 bg-blue-50 rounded">
-              <div className="text-gray-600">In Progress</div>
-              <div className="font-bold">{data.queue.inProgressTasks}</div>
-            </div>
-            <div className="p-2 bg-green-50 rounded">
-              <div className="text-gray-600">Completed</div>
-              <div className="font-bold">{data.queue.completedTasks}</div>
-            </div>
-          </div>
-          <div className="mt-4 text-sm text-gray-600">
-            Completion Rate: {(data.queue.completionRate * 100).toFixed(1)}%
-          </div>
+  return (
+    <div className="p-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white">Mission Control Center</h1>
+          <p className="text-gray-400 mt-1">Valendiro Autonomous Knowledge Platform</p>
         </div>
-
-        <div className="p-4 border rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Revenue by Source</h2>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <span>Affiliate</span>
-              <span>${data.revenue.revenueBySource.affiliate}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Ads</span>
-              <span>${data.revenue.revenueBySource.ads}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Products</span>
-              <span>${data.revenue.revenueBySource.products}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-4 border rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">Business Goals</h2>
-          <div className="space-y-2">
-            <div>
-              <div className="flex justify-between text-sm">
-                <span>Monthly Revenue</span>
-                <span>${data.businessGoals.monthlyRevenue.current} / ${data.businessGoals.monthlyRevenue.target}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${data.businessGoals.monthlyRevenue.progress}%` }}></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-sm">
-                <span>Monthly Traffic</span>
-                <span>{data.businessGoals.monthlyTraffic.current} / {data.businessGoals.monthlyTraffic.target}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                <div className="bg-green-600 h-2 rounded-full" style={{ width: `${data.businessGoals.monthlyTraffic.progress}%` }}></div>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between text-sm">
-                <span>Quality Score</span>
-                <span>{data.businessGoals.qualityScore.current} / {data.businessGoals.qualityScore.target}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                <div className="bg-purple-600 h-2 rounded-full" style={{ width: `${data.businessGoals.qualityScore.progress}%` }}></div>
-              </div>
-            </div>
-          </div>
+        <div className="flex gap-3">
+          <Button
+            onClick={toggleAutonomousPublishing}
+            variant={autonomousEnabled ? "primary" : "secondary"}
+            className={autonomousEnabled ? "bg-green-600 hover:bg-green-700" : ""}
+          >
+            {autonomousEnabled ? (
+              <>
+                <Pause className="w-4 h-4 mr-2" />
+                Pause Autonomous
+              </>
+            ) : (
+              <>
+                <Play className="w-4 h-4 mr-2" />
+                Start Autonomous
+              </>
+            )}
+          </Button>
+          <Button onClick={runOneCycle} variant="secondary">
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Run One Cycle
+          </Button>
         </div>
       </div>
 
-      <div className="mt-6 text-sm text-gray-500">
-        Last updated: {new Date(data.timestamp).toLocaleString()}
+      {/* Live Cards */}
+      <div className="grid grid-cols-4 gap-4 mb-8">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Articles Published</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.articlesPublished}</div>
+              <FileText className="w-8 h-8 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Drafts</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.drafts}</div>
+              <Clock className="w-8 h-8 text-yellow-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Ready to Publish</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.readyToPublish}</div>
+              <CheckCircle className="w-8 h-8 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Failed</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.failed}</div>
+              <AlertCircle className="w-8 h-8 text-red-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Needs Review</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.needsReview}</div>
+              <Activity className="w-8 h-8 text-orange-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Knowledge Packages</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.knowledgePackages}</div>
+              <Database className="w-8 h-8 text-purple-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Rendered Outputs</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.renderedOutputs}</div>
+              <Layers className="w-8 h-8 text-indigo-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Avg Editorial Score</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.averageEditorialScore.toFixed(1)}</div>
+              <CheckCircle className="w-8 h-8 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Queue Status */}
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Discovery Queue</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.discoveryQueue}</div>
+              <Badge variant={stats.discoveryQueue > 0 ? "default" : "secondary"}>
+                {stats.discoveryQueue > 0 ? "Processing" : "Empty"}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Rendering Queue</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.renderingQueue}</div>
+              <Badge variant={stats.renderingQueue > 0 ? "default" : "secondary"}>
+                {stats.renderingQueue > 0 ? "Processing" : "Empty"}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Publishing Queue</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold text-white">{stats.publishingQueue}</div>
+              <Badge variant={stats.publishingQueue > 0 ? "default" : "secondary"}>
+                {stats.publishingQueue > 0 ? "Processing" : "Empty"}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Pipeline Visualization */}
+      <Card className="bg-gray-800 border-gray-700 mb-8">
+        <CardHeader>
+          <CardTitle className="text-white">Pipeline Status</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            {Object.entries(pipelineStatus).map(([stage, status]) => (
+              <div key={stage} className="flex-1 text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <div className={`w-3 h-3 rounded-full mr-2 ${
+                    status.status === "running" ? "bg-green-500 animate-pulse" :
+                    status.status === "waiting" ? "bg-yellow-500" :
+                    status.status === "failed" ? "bg-red-500" :
+                    "bg-blue-500"
+                  }`}></div>
+                  <Badge variant={
+                    status.status === "running" ? "default" :
+                    status.status === "waiting" ? "secondary" :
+                    status.status === "failed" ? "destructive" :
+                    "outline"
+                  }>
+                    {status.status}
+                  </Badge>
+                </div>
+                <div className="text-sm font-medium text-white capitalize">
+                  {stage.replace(/([A-Z])/g, " $1").trim()}
+                </div>
+                <div className="text-xs text-gray-400">Queue: {status.queueSize}</div>
+                <div className="text-xs text-gray-400">
+                  Last: {new Date(status.lastExecution).toLocaleTimeString()}
+                </div>
+                {stage !== Object.keys(pipelineStatus)[Object.keys(pipelineStatus).length - 1] && (
+                  <div className="text-gray-600 text-lg">→</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Quality Metrics */}
+      <div className="grid grid-cols-4 gap-4">
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Avg Word Count</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-white">{stats.averageWordCount}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Avg References</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-white">{stats.averageReferences}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Avg Internal Links</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-white">{stats.averageInternalLinks}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Avg Reading Time</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-white">{stats.averageReadingTime}m</div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

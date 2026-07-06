@@ -52,7 +52,7 @@ export default function DiscoveryPage() {
 
   const fetchDiscoveryData = async () => {
     try {
-      const res = await fetch("/api/admin/dashboard/discovery/sources");
+      const res = await fetch("/api/admin/ceo-dashboard/discovery/sources");
       const data = await res.json();
       setData(data);
     } catch (error) {
@@ -64,7 +64,7 @@ export default function DiscoveryPage() {
 
   const runSourceNow = async (sourceId: string, sourceType: string) => {
     try {
-      await fetch(`/api/admin/dashboard/discovery/sources/${sourceId}/run`, {
+      await fetch(`/api/admin/ceo-dashboard/discovery/sources/${sourceId}/run`, {
         method: "POST",
       });
       fetchDiscoveryData();
@@ -76,7 +76,7 @@ export default function DiscoveryPage() {
   const toggleSource = async (sourceId: string, currentStatus: string) => {
     try {
       const newStatus = currentStatus === "active" ? "paused" : "active";
-      await fetch(`/api/admin/dashboard/discovery/sources/${sourceId}`, {
+      await fetch(`/api/admin/ceo-dashboard/discovery/sources/${sourceId}`, {
         method: "PATCH",
         body: JSON.stringify({ status: newStatus }),
       });
@@ -88,7 +88,7 @@ export default function DiscoveryPage() {
 
   const deleteSource = async (sourceId: string) => {
     try {
-      await fetch(`/api/admin/dashboard/discovery/sources/${sourceId}`, {
+      await fetch(`/api/admin/ceo-dashboard/discovery/sources/${sourceId}`, {
         method: "DELETE",
       });
       fetchDiscoveryData();
