@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { requireAdmin, isSecretAuthorized } from "@/lib/api/admin-auth";
 
 const ALLOWED_TABLES = ["topics", "articles", "questions", "subcategories", "entities"] as const;
 type AllowedTable = typeof ALLOWED_TABLES[number];
@@ -9,20 +10,13 @@ export async function DELETE(request: Request) {
   const body = await request.json().catch(() => ({}));
   const { table, id, secret } = body;
 
-  // Local dev bypass
   const isLocalDev = process.env.NODE_ENV === "development" &&
-    secret === (process.env.PIPELINE_TEST_SECRET ?? "local-test");
+    isSecretAuthorized(secret);
 
   if (!isLocalDev) {
     const supabase = await createClient();
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    const { data: profile } = await supabase.from("profiles").select("role").eq("id", session.user.id).maybeSingle();
-    if (!profile || (profile.role !== "admin" && profile.role !== "editor")) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    const auth = await requireAdmin(supabase);
+    if (!auth.allowed) return auth.response;
   }
 
   if (!table || !ALLOWED_TABLES.includes(table as AllowedTable)) {
