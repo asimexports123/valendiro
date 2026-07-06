@@ -3,14 +3,14 @@ import { render } from '../renderer/orchestrator';
 import { KnowledgeAuthorAgent, type KnowledgeAuthorInput } from '../agents/agents/knowledgeAuthorAgent';
 import { PublicationPipeline } from '../publication/publicationPipeline';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables");
+function getSupabaseClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables");
+  }
+  return createClient(url, key);
 }
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Business objective types
 export type BusinessObjective = 
@@ -170,7 +170,7 @@ class ObjectiveTranslator {
 // Topic selector
 class TopicSelector {
   async selectTopics(category: string | null, complexity: string | null, limit: number = 10): Promise<any[]> {
-    let query = supabase.from('topics').select('id, slug, category').limit(limit);
+    let query = getSupabaseClient().from('topics').select('id, slug, category').limit(limit);
 
     if (category) {
       query = query.eq('category', category);
@@ -194,7 +194,7 @@ class TopicSelector {
 class KnowledgeGapAnalyzer {
   async analyzeGaps(topicId: string): Promise<any> {
     // Get current knowledge package
-    const { data: packageData } = await supabase
+    const { data: packageData } = await getSupabaseClient()
       .from('knowledge_packages')
       .select('id')
       .eq('topic_id', topicId)
@@ -205,7 +205,7 @@ class KnowledgeGapAnalyzer {
     }
 
     // Get current facts
-    const { data: facts } = await supabase
+    const { data: facts } = await getSupabaseClient()
       .from('knowledge_facts')
       .select('id, factType, confidence')
       .eq('package_id', packageData.id);
@@ -411,21 +411,21 @@ export class PipelineOrchestrator {
     for (const gap of previousResult.gaps || []) {
       try {
         // Get facts for this topic
-        const { data: packageData } = await supabase
+        const { data: packageData } = await getSupabaseClient()
           .from('knowledge_packages')
           .select('id')
           .eq('topic_id', gap.topicId)
           .single();
 
         if (packageData) {
-          const { data: facts } = await supabase
+          const { data: facts } = await getSupabaseClient()
             .from('knowledge_facts')
             .select('*')
             .eq('package_id', packageData.id);
 
           if (facts && facts.length > 0) {
             // Get topic info
-            const { data: topic } = await supabase
+            const { data: topic } = await getSupabaseClient()
               .from('topics')
               .select('slug')
               .eq('id', gap.topicId)
@@ -489,12 +489,12 @@ export class PipelineOrchestrator {
     const renderResults: any[] = [];
     
     // Get topics to render
-    const { data: topics } = await supabase.from('topics').select('id, slug').limit(5);
+    const { data: topics } = await getSupabaseClient().from('topics').select('id, slug').limit(5);
     
     for (const topic of topics || []) {
       try {
         // Get knowledge package
-        const { data: packageData } = await supabase
+        const { data: packageData } = await getSupabaseClient()
           .from('knowledge_packages')
           .select('id')
           .eq('topic_id', topic.id)
