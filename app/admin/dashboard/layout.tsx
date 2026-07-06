@@ -21,22 +21,22 @@ import {
 import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: "Dashboard", href: "/admin/ceo-dashboard", icon: LayoutDashboard },
-  { name: "Discovery", href: "/admin/ceo-dashboard/discovery", icon: Search },
-  { name: "Sources", href: "/admin/ceo-dashboard/sources", icon: Globe },
-  { name: "Knowledge", href: "/admin/ceo-dashboard/knowledge", icon: Database },
-  { name: "Rendering", href: "/admin/ceo-dashboard/rendering", icon: Layers },
-  { name: "Publishing", href: "/admin/ceo-dashboard/publishing", icon: FileText },
-  { name: "Articles", href: "/admin/ceo-dashboard/articles", icon: FileTextIcon },
-  { name: "Categories", href: "/admin/ceo-dashboard/categories", icon: Activity },
-  { name: "SEO", href: "/admin/ceo-dashboard/seo", icon: Globe },
-  { name: "Internal Links", href: "/admin/ceo-dashboard/internal-links", icon: Link2 },
-  { name: "Quality", href: "/admin/ceo-dashboard/quality", icon: CheckCircle },
-  { name: "Automation", href: "/admin/ceo-dashboard/automation", icon: Zap },
-  { name: "Analytics", href: "/admin/ceo-dashboard/analytics", icon: BarChart3 },
-  { name: "System Health", href: "/admin/ceo-dashboard/system-health", icon: ActivityIcon },
-  { name: "Logs", href: "/admin/ceo-dashboard/logs", icon: FileText },
-  { name: "Settings", href: "/admin/ceo-dashboard/settings", icon: Settings },
+  { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { name: "Discovery", href: "/admin/dashboard/discovery", icon: Search },
+  { name: "Sources", href: "/admin/dashboard/sources", icon: Globe },
+  { name: "Knowledge", href: "/admin/dashboard/knowledge", icon: Database },
+  { name: "Rendering", href: "/admin/dashboard/rendering", icon: Layers },
+  { name: "Publishing", href: "/admin/dashboard/publishing", icon: FileText },
+  { name: "Articles", href: "/admin/dashboard/articles", icon: FileTextIcon },
+  { name: "Categories", href: "/admin/dashboard/categories", icon: Activity },
+  { name: "SEO", href: "/admin/dashboard/seo", icon: Globe },
+  { name: "Internal Links", href: "/admin/dashboard/internal-links", icon: Link2 },
+  { name: "Quality", href: "/admin/dashboard/quality", icon: CheckCircle },
+  { name: "Automation", href: "/admin/dashboard/automation", icon: Zap },
+  { name: "Analytics", href: "/admin/dashboard/analytics", icon: BarChart3 },
+  { name: "System Health", href: "/admin/dashboard/system-health", icon: ActivityIcon },
+  { name: "Logs", href: "/admin/dashboard/logs", icon: FileText },
+  { name: "Settings", href: "/admin/dashboard/settings", icon: Settings },
 ];
 
 export default function CEODashboardLayout({

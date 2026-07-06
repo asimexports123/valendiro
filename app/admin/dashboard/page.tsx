@@ -68,9 +68,9 @@ export default function DashboardPage() {
   const fetchDashboardData = async () => {
     try {
       const [statsRes, pipelineRes, automationRes] = await Promise.all([
-        fetch("/api/admin/ceo-dashboard/stats"),
-        fetch("/api/admin/ceo-dashboard/pipeline-status"),
-        fetch("/api/admin/ceo-dashboard/automation/status"),
+        fetch("/api/admin/dashboard/stats"),
+        fetch("/api/admin/dashboard/pipeline-status"),
+        fetch("/api/admin/dashboard/automation/status"),
       ]);
 
       const statsData = await statsRes.json();
@@ -89,7 +89,7 @@ export default function DashboardPage() {
 
   const toggleAutonomousPublishing = async () => {
     try {
-      const res = await fetch("/api/admin/ceo-dashboard/automation/toggle", {
+      const res = await fetch("/api/admin/dashboard/automation/toggle", {
         method: "POST",
       });
       const data = await res.json();
@@ -101,7 +101,7 @@ export default function DashboardPage() {
 
   const runOneCycle = async () => {
     try {
-      await fetch("/api/admin/ceo-dashboard/pipeline/run", {
+      await fetch("/api/admin/dashboard/pipeline/run", {
         method: "POST",
       });
       fetchDashboardData();
