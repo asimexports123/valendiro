@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
-import { getLatestArticles } from "@/services/public/publicData";
 import { LatestArticles } from "@/components/public/LatestArticles";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -24,6 +23,7 @@ export default async function ArticlesPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
+  const { getLatestArticles } = await import("@/services/public/publicData");
   const articles = await getLatestArticles(24);
 
   return (
