@@ -7,7 +7,8 @@ export const maxDuration = 300;
 
 export async function POST(request: Request) {
   const secret = request.headers.get("x-validate-secret");
-  if (secret !== (process.env.VALIDATE_SECRET || "validate-local-2026")) {
+  const expectedSecret = process.env.VALIDATE_SECRET;
+  if (!expectedSecret || secret !== expectedSecret) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

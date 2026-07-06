@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  const jobSecret = process.env.CRON_SECRET || process.env.JOB_SECRET || process.env.NEXT_PUBLIC_JOB_SECRET;
+  const jobSecret = process.env.CRON_SECRET || process.env.JOB_SECRET;
   const authHeader = request.headers.get("authorization");
   const url = new URL(request.url);
   const providedSecret = authHeader?.replace("Bearer ", "") || request.headers.get("x-job-secret") || url.searchParams.get("secret");
