@@ -1,9 +1,14 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { SearchBar } from "@/components/admin/SearchBar";
 import { Pagination } from "@/components/admin/Pagination";
 import { ArticleDeleteButton } from "@/components/admin/ArticleDeleteButton";
 import { ArticleApproveButton } from "@/components/admin/ArticleApproveButton";
+import { Button } from "@/components/ui/Button";
+import { Trash2, Archive, CheckSquare, Square } from "lucide-react";
 
 const STATUS_TABS = [
   { label: "All",       value: ""          },
@@ -26,107 +31,112 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function QualityBadge({ score }: { score: number | null }) {
-  if (score === null) return <span className="text-xs text-muted-foreground">�</span>;
+  if (score === null) return <span className="text-xs text-muted-foreground">-</span>;
   const color = score >= 70 ? "text-emerald-600" : score >= 50 ? "text-amber-600" : "text-rose-600";
   return <span className={`text-sm font-semibold tabular-nums ${color}`}>{score}/100</span>;
 }
 
-export default async function ArticlesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string; q?: string; status?: string }>;
-}) {
-  const { page = "1", q = "", status = "" } = await searchParams;
-  const currentPage = parseInt(page, 10) || 1;
-  const pageSize = 25;
-  const offset = (currentPage - 1) * pageSize;
+export default function ArticlesPage() {
+  const [selectedArticles, setSelectedArticles] = useState<Set<string>>(new Set());
+  const [selectAll, setSelectAll] = useState(false);
+  const [articles, setArticles] = useState<any[]>([]);
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [status, setStatus] = useState("");
+  const [q, setQ] = useState("");
 
-  const supabase = createAdminClient();
+  useEffect(() => {
+    fetchArticles();
+  }, [currentPage, status, q]);
 
-  // -- Fetch articles with optional status + search filter ------------------
-  let query = supabase
-    .from("articles")
-    .select("id, slug, status, published_at, created_at, topic_id", { count: "exact" })
-    .order("created_at", { ascending: false })
-    .range(offset, offset + pageSize - 1);
+  const fetchArticles = async () => {
+    setLoading(true);
+    try {
+      const pageSize = 25;
+      const offset = (currentPage - 1) * pageSize;
 
-  if (status) query = query.eq("status", status);
-
-  const { data: articles, count } = await query;
-
-  // -- Fetch translations (title) --------------------------------------------
-  const ids = (articles ?? []).map((a) => a.id);
-  const { data: translations } = ids.length
-    ? await supabase
-        .from("article_translations")
-        .select("article_id, title, meta_description")
-        .in("article_id", ids)
-        .eq("language_code", "en")
-    : { data: [] };
-
-  const titleMap: Record<string, { title: string; meta: string }> = {};
-  for (const t of translations ?? []) {
-    titleMap[t.article_id] = { title: t.title ?? "", meta: t.meta_description ?? "" };
-  }
-
-  // -- Fetch categories via topic ? subcategory ? category -------------------
-  const topicIds = [...new Set((articles ?? []).map((a) => a.topic_id).filter(Boolean))];
-  let categoryMap: Record<string, string> = {};
-  if (topicIds.length > 0) {
-    const { data: topics } = await supabase
-      .from("topics")
-      .select("id, subcategory_id")
-      .in("id", topicIds);
-    const subcategoryIds = [...new Set((topics ?? []).map((t) => t.subcategory_id).filter(Boolean))];
-    if (subcategoryIds.length > 0) {
-      const { data: subcategories } = await supabase
-        .from("subcategories")
-        .select("id, category_id")
-        .in("id", subcategoryIds);
-      const catIds = [...new Set((subcategories ?? []).map((c) => c.category_id).filter(Boolean))];
-      const { data: categoryTranslations } = catIds.length
-        ? await supabase
-            .from("category_translations")
-            .select("category_id, name")
-            .in("category_id", catIds)
-            .eq("language_code", "en")
-        : { data: [] };
-      const catNameMap: Record<string, string> = {};
-      for (const ct of categoryTranslations ?? []) catNameMap[ct.category_id] = ct.name;
-      const colCatMap: Record<string, string> = {};
-      for (const col of subcategories ?? []) colCatMap[col.id] = catNameMap[col.category_id] ?? "";
-      for (const topic of topics ?? []) categoryMap[topic.id] = colCatMap[topic.subcategory_id] ?? "";
+      const res = await fetch(`/api/admin/articles?page=${currentPage}&status=${status}&q=${q}&pageSize=${pageSize}`);
+      const data = await res.json();
+      setArticles(data.data || []);
+      setCount(data.total || 0);
+    } catch (error) {
+      console.error("Failed to fetch articles:", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedArticles(new Set());
+    } else {
+      setSelectedArticles(new Set(articles.map(a => a.id)));
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleSelectArticle = (id: string) => {
+    const newSelected = new Set(selectedArticles);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedArticles(newSelected);
+    setSelectAll(newSelected.size === articles.length);
+  };
+
+  const bulkDelete = async () => {
+    if (selectedArticles.size === 0) return;
+    if (!confirm(`Delete ${selectedArticles.size} articles? This action cannot be undone.`)) return;
+    
+    try {
+      await Promise.all(
+        Array.from(selectedArticles).map(id =>
+          fetch(`/api/admin/articles/${id}`, { method: "DELETE" })
+        )
+      );
+      setSelectedArticles(new Set());
+      setSelectAll(false);
+      fetchArticles();
+    } catch (error) {
+      console.error("Failed to bulk delete:", error);
+      alert("Failed to delete articles. Please try again.");
+    }
+  };
+
+  const bulkArchive = async () => {
+    if (selectedArticles.size === 0) return;
+    if (!confirm(`Archive ${selectedArticles.size} articles?`)) return;
+    
+    try {
+      await Promise.all(
+        Array.from(selectedArticles).map(id =>
+          fetch(`/api/admin/articles/${id}/archive`, { method: "POST" })
+        )
+      );
+      setSelectedArticles(new Set());
+      setSelectAll(false);
+      fetchArticles();
+    } catch (error) {
+      console.error("Failed to bulk archive:", error);
+      alert("Failed to archive articles. Please try again.");
+    }
+  };
+
+  const pageSize = 25;
+
+  if (loading) {
+    return (
+      <div className="p-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading articles...</p>
+        </div>
+      </div>
+    );
   }
-
-  // -- Fetch quality scores from queue metadata ------------------------------
-  const slugList = (articles ?? []).map((a) => a.slug);
-  const { data: queueItems } = slugList.length
-    ? await supabase
-        .from("content_generation_queue")
-        .select("metadata")
-        .in("metadata->>slug", slugList)
-        .eq("status", "completed")
-    : { data: [] };
-
-  const qualityMap: Record<string, number> = {};
-  for (const qi of queueItems ?? []) {
-    const m = qi.metadata as Record<string, unknown>;
-    const slug = m?.slug as string;
-    const review = m?.editorial_review as Record<string, number> | undefined;
-    if (slug && review?.overall) qualityMap[slug] = review.overall;
-  }
-
-  const rows = (articles ?? []).map((a) => ({
-    id: a.id,
-    slug: a.slug,
-    status: a.status as string,
-    title: titleMap[a.id]?.title || a.slug,
-    category: a.topic_id ? (categoryMap[a.topic_id] ?? "�") : "�",
-    publishedAt: a.published_at ? new Date(a.published_at).toLocaleDateString() : null,
-    createdAt: new Date(a.created_at).toLocaleDateString(),
-    quality: qualityMap[a.slug] ?? null,
-  }));
 
   return (
     <div className="space-y-6">
@@ -135,7 +145,7 @@ export default async function ArticlesPage({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Articles</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">{count ?? 0} total articles</p>
+          <p className="text-sm text-muted-foreground mt-0.5">{count} total articles</p>
         </div>
       </div>
 
@@ -162,17 +172,53 @@ export default async function ArticlesPage({
       {/* Search */}
       <SearchBar />
 
+      {/* Bulk Actions Toolbar */}
+      {selectedArticles.size > 0 && (
+        <div className="flex items-center justify-between bg-gray-800 border border-gray-700 rounded-lg p-4">
+          <span className="text-white">{selectedArticles.size} articles selected</span>
+          <div className="flex gap-2">
+            <Button variant="danger" onClick={bulkDelete} size="sm">
+              <Trash2 className="w-4 h-4 mr-2" />
+              Delete Selected
+            </Button>
+            <Button variant="secondary" onClick={bulkArchive} size="sm">
+              <Archive className="w-4 h-4 mr-2" />
+              Archive Selected
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Article list */}
-      {rows.length === 0 ? (
+      {articles.length === 0 ? (
         <div className="rounded-2xl border border-border/60 bg-card px-6 py-16 text-center">
-          <p className="text-4xl mb-3">??</p>
+          <p className="text-4xl mb-3">📝</p>
           <p className="font-semibold text-foreground">No articles yet</p>
           <p className="text-sm text-muted-foreground mt-1">Press Start Pipeline on the dashboard to generate your first articles.</p>
         </div>
       ) : (
         <div className="rounded-2xl border border-border/60 overflow-hidden divide-y divide-border/50">
-          {rows.map((row) => (
+          {/* Header row with select all */}
+          <div className="flex items-center gap-4 px-5 py-3 bg-muted/30 border-b border-border/50">
+            <button
+              onClick={handleSelectAll}
+              className="text-foreground hover:text-primary transition-colors"
+            >
+              {selectAll ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5" />}
+            </button>
+            <span className="text-sm font-medium text-muted-foreground">Select All</span>
+          </div>
+          
+          {articles.map((row) => (
             <div key={row.id} className="flex items-center gap-4 px-5 py-4 bg-card hover:bg-muted/30 transition-colors">
+
+              {/* Checkbox */}
+              <button
+                onClick={() => handleSelectArticle(row.id)}
+                className="text-foreground hover:text-primary transition-colors"
+              >
+                {selectedArticles.has(row.id) ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5" />}
+              </button>
 
               {/* Title + meta */}
               <div className="min-w-0 flex-1">
@@ -181,7 +227,7 @@ export default async function ArticlesPage({
                   <StatusBadge status={row.status} />
                 </div>
                 <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground flex-wrap">
-                  {row.category !== "�" && <span>{row.category}</span>}
+                  {row.category && row.category !== "-" && <span>{row.category}</span>}
                   <span>{row.publishedAt ?? row.createdAt}</span>
                   <QualityBadge score={row.quality} />
                 </div>
@@ -210,7 +256,7 @@ export default async function ArticlesPage({
       <Pagination
         page={currentPage}
         pageSize={pageSize}
-        total={count ?? 0}
+        total={count}
         basePath="/admin/articles"
         searchParams={{ q, status }}
       />
