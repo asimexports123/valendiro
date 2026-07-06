@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/input";
 import { 
   Search,
   Filter,
@@ -182,11 +181,12 @@ export default function ArticlesPage() {
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
+                <input
+                  type="text"
                   placeholder="Search articles..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  className="pl-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400 rounded-md px-4 py-2 w-full"
                 />
               </div>
             </div>
