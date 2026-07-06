@@ -1,4 +1,4 @@
-﻿import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder";
+import { AdminPlaceholder } from "@/components/admin/AdminPlaceholder";
 
 export default function EntitiesPage() {
   return (

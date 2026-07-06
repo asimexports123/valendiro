@@ -7,6 +7,7 @@ export const JOB_TYPES = {
   AFFILIATE_OPTIMIZATION: "affiliate_optimization",
   FACT_CHECK: "fact_check",
   PERFORMANCE_AGGREGATION: "performance_aggregation",
+  KNOWLEDGE_ACQUISITION: "knowledge_acquisition",
 } as const;
 
 export type JobType = (typeof JOB_TYPES)[keyof typeof JOB_TYPES];
@@ -82,6 +83,13 @@ export const JOB_DEFINITIONS: Record<JobType, JobDefinition> = {
     description: "Aggregate daily performance metrics",
     priority: JOB_PRIORITIES.BACKGROUND,
     maxRetries: 1,
+    timeoutSeconds: 600,
+  },
+  [JOB_TYPES.KNOWLEDGE_ACQUISITION]: {
+    type: JOB_TYPES.KNOWLEDGE_ACQUISITION,
+    description: "Populate knowledge package with facts, citations, and relationships",
+    priority: JOB_PRIORITIES.HIGH,
+    maxRetries: 3,
     timeoutSeconds: 600,
   },
 };

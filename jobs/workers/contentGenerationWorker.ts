@@ -32,10 +32,11 @@ export async function processContentGenerationItem(item: ContentGenerationQueueI
   });
 
   try {
-    await supabase
-      .from("content_generation_queue")
-      .update({ status: "in_progress", processing_started_at: new Date().toISOString() })
-      .eq("id", item.id);
+    // Skip status update since it's already marked in_progress by the worker
+    // await supabase
+    //   .from("content_generation_queue")
+    //   .update({ status: "in_progress", processing_started_at: new Date().toISOString() })
+    //   .eq("id", item.id);
 
     // AI is optional: only use it for top 1% priority items if available
     const useAI = item.priority_score >= 98 && (item.metadata as Record<string, unknown> | undefined)?.enable_ai === true;
@@ -169,10 +170,11 @@ export async function processContentGenerationItem(item: ContentGenerationQueueI
       .update({ status: "published", lifecycle_status: "published", published_at: new Date().toISOString() })
       .eq("id", article.id);
 
-    await supabase
-      .from("content_generation_queue")
-      .update({ status: "completed", completed_at: new Date().toISOString() })
-      .eq("id", item.id);
+    // Skip queue update since it's handled by the worker
+    // await supabase
+    //   .from("content_generation_queue")
+    //   .update({ status: "completed", completed_at: new Date().toISOString() })
+    //   .eq("id", item.id);
 
     await logExecution({
       queueType: "generation",
@@ -188,14 +190,15 @@ export async function processContentGenerationItem(item: ContentGenerationQueueI
     return { queueItemId: item.id, articleId: article.id, status: "success", message: "Draft created" };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    await supabase
-      .from("content_generation_queue")
-      .update({
-        status: "pending",
-        retry_count: item.retry_count + 1,
-        failed_reason: message,
-      })
-      .eq("id", item.id);
+    // Skip queue update since it's handled by the worker
+    // await supabase
+    //   .from("content_generation_queue")
+    //   .update({
+    //     status: "pending",
+    //     retry_count: item.retry_count + 1,
+    //     failed_reason: message,
+    //   })
+    //   .eq("id", item.id);
 
     await logExecution({
       queueType: "generation",
@@ -213,11 +216,13 @@ export async function processContentGenerationItem(item: ContentGenerationQueueI
 export async function runContentGenerationWorker(limit = 10) {
   const supabase = await createClient();
   const { data: items, error } = await supabase
-    .from("content_generation_queue")
-    .select("id")
+    .from("update_queue")
+    .select("*")
     .eq("status", "pending")
-    .lt("retry_count", 3)
-    .order("priority_score", { ascending: false })
+    .eq("job_type", "content_refresh")
+    .lte("scheduled_at", new Date().toISOString())
+    .order("priority", { ascending: false })
+    .order("scheduled_at", { ascending: true })
     .limit(limit);
 
   if (error || !items) {
@@ -225,17 +230,50 @@ export async function runContentGenerationWorker(limit = 10) {
   }
 
   const results: GenerationResult[] = [];
-  for (const row of items) {
-    // Atomic claim to prevent duplicate processing across concurrent cron runs
-    const { data: claimed, error: claimError } = await supabase
-      .rpc("claim_queue_item", { queue_type: "generation", item_id: row.id })
-      .maybeSingle();
+  for (const item of items) {
+    // Mark in_progress
+    const { error: updateError } = await supabase
+      .from("update_queue")
+      .update({ status: "in_progress", started_at: new Date().toISOString() })
+      .eq("id", item.id);
 
-    if (claimError || !claimed) {
+    if (updateError) {
       continue;
     }
 
-    const result = await processContentGenerationItem(claimed as ContentGenerationQueueItem);
+    // Convert update_queue item to ContentGenerationQueueItem format
+    const queueItem: ContentGenerationQueueItem = {
+      id: item.id,
+      object_type: item.object_type as any,
+      topic_id: item.object_id,
+      title: (item.payload as any)?.title || "Untitled",
+      description: (item.payload as any)?.description || "",
+      reason: (item.payload as any)?.reason || "Content generation",
+      priority_score: item.priority,
+      status: "in_progress",
+      scheduled_at: item.scheduled_at,
+      started_at: new Date().toISOString(),
+      completed_at: null,
+      retry_count: 0,
+      failed_reason: null,
+      processing_started_at: new Date().toISOString(),
+      metadata: (item.payload as any)?.metadata || {},
+      created_at: item.created_at,
+      updated_at: new Date().toISOString(),
+    };
+
+    const result = await processContentGenerationItem(queueItem);
+
+    // Mark completed or failed
+    await supabase
+      .from("update_queue")
+      .update({
+        status: result.status === "success" ? "completed" : "failed",
+        completed_at: new Date().toISOString(),
+        error_message: result.status === "failed" ? result.message : null,
+      })
+      .eq("id", item.id);
+
     results.push(result);
   }
 

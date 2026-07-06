@@ -1,6 +1,9 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 import { serializeToHTML } from "@/services/renderer/serializers/html";
+import { topicClassificationEngine } from "@/services/renderer/topicClassificationEngine";
+import { compositionPlanner, type CompositionPlan } from "@/services/renderer/compositionPlanner";
+import { loadKnowledgePackage } from "@/services/renderer/knowledgePackageLoader";
 
 const slugToTitle = (slug: string): string => {
   return slug
@@ -850,7 +853,7 @@ export interface PublicTopicDetail extends PublicTopic {
 
 export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | null> {
   const supabase = createAdminClient();
-  
+
   // First get the topic
   const { data: topic } = await supabase
     .from("topics")
@@ -862,6 +865,17 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
 
   if (!topic) return null;
 
+  // Resolve category slug
+  let categorySlug = null;
+  if (topic.category_id) {
+    const { data: category } = await supabase
+      .from("categories")
+      .select("slug")
+      .eq("id", topic.category_id)
+      .maybeSingle();
+    categorySlug = category?.slug || null;
+  }
+
   // Get knowledge package for this topic
   const { data: packageData } = await supabase
     .from("knowledge_packages")
@@ -870,9 +884,66 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     .maybeSingle();
 
   let renderedContent = null;
-  
-  if (packageData) {
-    // Get rendered output for this package
+
+  if (packageData && categorySlug) {
+    // EDITORIAL OS RUNTIME: Use new runtime path
+    try {
+      // Load full knowledge package
+      const loadResult = await loadKnowledgePackage({ packageId: packageData.id });
+
+      if (loadResult.package && !loadResult.error) {
+        const knowledgePackage = loadResult.package;
+        const translation = topic.topic_translations?.[0];
+
+        // Step 1: Topic Classification
+        const classification = topicClassificationEngine.classify({
+          category: categorySlug,
+          slug: topic.slug,
+          title: translation?.title,
+          facts: knowledgePackage.facts,
+        });
+
+        // Step 2: Composition Planning
+        const compositionPlan = compositionPlanner.plan({
+          topic: topic.slug,
+          category: categorySlug,
+          slug: topic.slug,
+          title: translation?.title,
+          knowledgePackage: {
+            facts: knowledgePackage.facts,
+            citations: knowledgePackage.citations,
+            relationships: knowledgePackage.relationships,
+          },
+        });
+
+        // Step 3: Check for pre-rendered output with this composition plan
+        const { data: renderedOutput } = await supabase
+          .from("rendered_outputs")
+          .select("document_tree, content")
+          .eq("package_id", packageData.id)
+          .eq("status", "published")
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (renderedOutput?.document_tree) {
+          try {
+            renderedContent = serializeToHTML(renderedOutput.document_tree);
+          } catch (error) {
+            console.error("Failed to serialize document tree to HTML:", error);
+          }
+        } else if (renderedOutput?.content) {
+          renderedContent = renderedOutput.content;
+        }
+      }
+    } catch (error) {
+      console.error("Editorial OS runtime error:", error);
+      // Fall back to legacy path
+    }
+  }
+
+  // Legacy fallback: Get rendered output without Editorial OS
+  if (!renderedContent && packageData) {
     const { data: renderedOutput } = await supabase
       .from("rendered_outputs")
       .select("document_tree, content")
@@ -883,32 +954,30 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
       .maybeSingle();
 
     if (renderedOutput?.document_tree) {
-      // Convert document_tree to HTML
       try {
         renderedContent = serializeToHTML(renderedOutput.document_tree);
       } catch (error) {
         console.error("Failed to serialize document tree to HTML:", error);
       }
     } else if (renderedOutput?.content) {
-      // Use content field if document_tree not available
       renderedContent = renderedOutput.content;
     }
   }
 
-  // Fallback to topic_translations.content if no rendered content
+  // Final fallback to topic_translations.content
   if (!renderedContent) {
     const translation = topic.topic_translations?.[0];
     renderedContent = topic.content || translation?.content || null;
   }
 
   const translation = topic.topic_translations?.[0];
-  
+
   return {
     id: topic.id,
     slug: topic.slug,
     title: translation?.title || "Untitled",
     subtitle: translation?.subtitle || null,
-    category_slug: null,
+    category_slug: categorySlug,
     content: renderedContent,
     meta_title: translation?.meta_title || null,
     meta_description: translation?.meta_description || null,

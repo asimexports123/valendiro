@@ -83,18 +83,21 @@ export async function loadKnowledgePackage(
     const factIds = (factsData ?? []).map((f: any) => f.id);
     let relData: any[] = [];
     if (factIds.length > 0) {
+      // Limit to first 100 fact IDs to avoid query length issues
+      const limitedFactIds = factIds.slice(0, 100);
       const { data, error: relError } = await sb
         .from("knowledge_relationships")
         .select("*")
-        .or(`source_id.in.(${factIds.join(",")}),target_id.in.(${factIds.join(",")})`);
+        .or(`source_id.in.(${limitedFactIds.join(",")}),target_id.in.(${limitedFactIds.join(",")})`)
+        .limit(1000);
 
       if (relError) {
-        return {
-          package: null,
-          error: `Failed to load relationships: ${relError.message}`,
-        };
+        // Log error but continue without relationships rather than fail
+        console.warn(`Failed to load relationships: ${relError.message}. Continuing without relationships.`);
+        relData = [];
+      } else {
+        relData = data ?? [];
       }
-      relData = data ?? [];
     }
 
     // 5. Resolve category and intent for composition policy
@@ -226,7 +229,7 @@ export async function loadKnowledgePackage(
 
 /**
  * Resolve category slug for a package
- * Chain: knowledge_packages.topic_id → topics → topic_subcategories → subcategories → categories
+ * Priority: topic.category_id → topic_subcategories → general
  */
 async function resolveCategory(
   sb: any,
@@ -240,12 +243,27 @@ async function resolveCategory(
   }
 
   try {
+    // Priority 1: Use topic.category_id directly
     const { data: topic } = await sb
       .from("topics")
-      .select("id")
+      .select("id, category_id")
       .eq("slug", slug)
       .maybeSingle();
 
+    if (topic?.category_id) {
+      const { data: cat } = await sb
+        .from("categories")
+        .select("slug")
+        .eq("id", topic.category_id)
+        .maybeSingle();
+
+      if (cat?.slug) {
+        categorySlug = cat.slug;
+        return categorySlug;
+      }
+    }
+
+    // Priority 2: Fall back to topic_subcategories chain
     if (topic?.id) {
       const { data: tsub } = await sb
         .from("topic_subcategories")

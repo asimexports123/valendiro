@@ -23,6 +23,7 @@ import { resolveConflicts } from "./conflictResolver";
 import { calculateConfidence } from "./confidenceCalculator";
 import { buildRelationships } from "./relationshipBuilder";
 import { computeKnowledgeHash, decideVersion } from "./packageVersioner";
+import { enqueueJob } from "@/jobs/queues/jobQueue";
 
 // ─── Main Assemble Function ──────────────────────────────────────────────────
 
@@ -151,6 +152,24 @@ async function persistNewPackage(
   }
 
   const packageId = pkg.id;
+
+  // Enqueue job for knowledge acquisition (facts, citations, relationships)
+  // This ensures the package is populated with content before being used for rendering
+  // Note: Using "content_refresh" as it's a valid job type in the database constraint
+  if (input.topicId) {
+    try {
+      await enqueueJob({
+        objectId: input.topicId,
+        objectType: "topic",
+        jobType: "content_refresh" as any, // Type assertion: database constraint differs from JobType definition
+        priority: 10,
+        payload: { packageId, slug: input.slug }
+      });
+    } catch (error) {
+      console.error(`Failed to enqueue knowledge-acquisition job for package ${packageId}:`, error);
+      // Don't throw - package is created, job enqueue is best-effort
+    }
+  }
 
   // 2. Create citations
   const citationIdMap = new Map<string, string>(); // candidateId → citation UUID

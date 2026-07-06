@@ -1,4 +1,4 @@
-﻿import { getAutomationConfig } from "@/services/system/settings";
+import { getAutomationConfig } from "@/services/system/settings";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 
 export default async function SettingsPage() {

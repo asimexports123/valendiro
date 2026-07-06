@@ -44,6 +44,7 @@ export async function POST(request: Request) {
       generated: result.generation.processed,
       updated: result.update.processed,
       priority: result.priority.processed,
+      knowledgeAcquisition: result.knowledgeAcquisition.processed,
     });
     return NextResponse.json({ success: true, result }, { status: 200 });
   } catch (err) {

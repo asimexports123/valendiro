@@ -3,6 +3,9 @@ import { AgentRegistry } from "@/services/agents/agentRegistry";
 import { TaskQueue } from "@/services/agents/taskQueue";
 import { SharedMemory } from "@/services/agents/sharedMemory";
 import { AgentCommunication } from "@/services/agents/agentCommunication";
+import { getDashboardMetrics } from "@/services/admin/dashboardData";
+import fs from "fs";
+import path from "path";
 
 export async function GET(request: Request) {
   try {
@@ -15,6 +18,26 @@ export async function GET(request: Request) {
     const queueStats = queue.getStatistics();
     const memoryStats = memory.getStatistics();
     const commStats = communication.getStatistics();
+
+    // Read migration queue data
+    let migrationQueueData = null;
+    try {
+      const queuePath = path.join(process.cwd(), 'data/migration-queue.json');
+      if (fs.existsSync(queuePath)) {
+        const data = fs.readFileSync(queuePath, 'utf8');
+        migrationQueueData = JSON.parse(data);
+      }
+    } catch (e) {
+      console.error('Error reading migration queue:', e);
+    }
+
+    const blueprintMetrics = {
+      complianceRate: migrationQueueData?.statistics?.complianceRate ?? 0,
+      migrationQueueSize: migrationQueueData?.statistics?.articlesNeedingMigration ?? 0,
+      migrationProgress: migrationQueueData?.statistics?.totalPublishedTopics > 0
+        ? ((migrationQueueData?.statistics?.compliantArticles ?? 0) / migrationQueueData.statistics.totalPublishedTopics) * 100
+        : 100
+    };
 
     const dashboardData = {
       timestamp: new Date().toISOString(),
@@ -167,6 +190,9 @@ export async function GET(request: Request) {
         contentProduction: { target: 0, current: 0, progress: 0 },
         qualityScore: { target: 85, current: 0, progress: 0 },
       },
+
+      // Blueprint Compliance & Migration
+      blueprint: blueprintMetrics,
     };
 
     return NextResponse.json(dashboardData);

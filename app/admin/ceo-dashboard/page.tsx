@@ -19,6 +19,11 @@ interface CEODashboardData {
   experiments: any;
   policies: any;
   businessGoals: any;
+  blueprint?: {
+    complianceRate: number;
+    migrationQueueSize: number;
+    migrationProgress: number;
+  };
 }
 
 export default function CEODashboard() {
@@ -71,6 +76,24 @@ export default function CEODashboard() {
           <div className="text-sm text-gray-600">AI Agents</div>
           <div className="text-2xl font-bold">{data.aiWorkforce.totalAgents}</div>
           <div className="text-xs text-gray-500">Healthy: {data.aiWorkforce.healthyAgents}</div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-6 mb-6">
+        <div className="p-4 bg-indigo-50 rounded-lg">
+          <div className="text-sm text-gray-600">Blueprint Compliance</div>
+          <div className="text-2xl font-bold">{data.blueprint?.complianceRate ?? 0}%</div>
+          <div className="text-xs text-gray-500">Target: 95%+</div>
+        </div>
+        <div className="p-4 bg-rose-50 rounded-lg">
+          <div className="text-sm text-gray-600">Migration Queue</div>
+          <div className="text-2xl font-bold">{data.blueprint?.migrationQueueSize ?? 0}</div>
+          <div className="text-xs text-gray-500">Articles needing migration</div>
+        </div>
+        <div className="p-4 bg-teal-50 rounded-lg">
+          <div className="text-sm text-gray-600">Migration Progress</div>
+          <div className="text-2xl font-bold">{(data.blueprint?.migrationProgress ?? 0).toFixed(1)}%</div>
+          <div className="text-xs text-gray-500">Compliant articles migrated</div>
         </div>
       </div>
 

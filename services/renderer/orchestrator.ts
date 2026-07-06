@@ -14,7 +14,7 @@
  * ────────────────────────────────────────────────────────────────────────────
  */
 
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createAdminClient, assertOfflineContext } from "@/lib/supabase/admin";
 import type {
   DocumentNode,
   RendererConfig,
@@ -43,32 +43,6 @@ import { computeCacheKey, checkCache, storeRenderedOutput } from "./cacheManager
 import { loadKnowledgePackage } from "./knowledgePackageLoader";
 
 const TEMPLATE_VERSION = "1.0.0";
-
-// ─── Offline Context Guard ────────────────────────────────────────────────────
-// Rendering is an offline process. render() must never run during a live page
-// request. Permitted callers:
-//   1. CLI scripts (tsx scripts/...) — process.env.ALLOW_RENDER = "true"
-//   2. Admin API routes — must present X-Render-Secret which sets RENDER_SECRET
-//
-// In practice: scripts set ALLOW_RENDER=true before importing this module.
-// The two protected API routes (POST /api/render and /preview) load this via
-// dynamic import() only after verifying the secret header — not at module load.
-//
-// If neither signal is present the call is rejected immediately.
-
-function assertOfflineContext(): void {
-  if (
-    process.env.ALLOW_RENDER === "true" ||
-    process.env.RENDER_SECRET !== undefined
-  ) {
-    return;
-  }
-  throw new Error(
-    "[Renderer] render() was called outside of an offline pipeline. " +
-    "Rendering is an offline process — set ALLOW_RENDER=true in scripts " +
-    "or call via the authorized API endpoint with X-Render-Secret."
-  );
-}
 
 // ─── Strategy Registry ───────────────────────────────────────────────────────
 

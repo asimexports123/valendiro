@@ -1,0 +1,65 @@
+[
+  {
+    "topic": "nodejs-cluster",
+    "category": "",
+    "classification": {
+      "subcategory": "",
+      "keywordFamily": "",
+      "subjectModel": "",
+      "confidence": 0,
+      "reasoning": []
+    },
+    "compositionPlan": {
+      "subjectModel": "",
+      "editorialBlueprint": "",
+      "intent": "",
+      "sections": [],
+      "renderingStrategy": ""
+    },
+    "renderedSections": [],
+    "success": false,
+    "error": "Missing Supabase admin credentials"
+  },
+  {
+    "topic": "family-vacations",
+    "category": "",
+    "classification": {
+      "subcategory": "",
+      "keywordFamily": "",
+      "subjectModel": "",
+      "confidence": 0,
+      "reasoning": []
+    },
+    "compositionPlan": {
+      "subjectModel": "",
+      "editorialBlueprint": "",
+      "intent": "",
+      "sections": [],
+      "renderingStrategy": ""
+    },
+    "renderedSections": [],
+    "success": false,
+    "error": "Missing Supabase admin credentials"
+  },
+  {
+    "topic": "vendor-management",
+    "category": "",
+    "classification": {
+      "subcategory": "",
+      "keywordFamily": "",
+      "subjectModel": "",
+      "confidence": 0,
+      "reasoning": []
+    },
+    "compositionPlan": {
+      "subjectModel": "",
+      "editorialBlueprint": "",
+      "intent": "",
+      "sections": [],
+      "renderingStrategy": ""
+    },
+    "renderedSections": [],
+    "success": false,
+    "error": "Missing Supabase admin credentials"
+  }
+]

@@ -25,7 +25,7 @@ import type {
 import { extractSubject, hashCode } from "../templates";
 import { getCompositionPolicy, type CompositionPolicy } from "../compositionPolicy";
 
-export const LONG_ARTICLE_VERSION = "4.0.0";
+export const LONG_ARTICLE_VERSION = "5.0.0";
 
 export const longArticleStrategy: RenderStrategy = {
   name: "long-article",
@@ -59,37 +59,6 @@ function sanitizeFacts(facts: PluginFact[]): PluginFact[] {
     return true;
   });
 }
-
-// ─── Why-it-matters openers (intent-aware) ───────────────────────────────────
-// Each intent has its own "why this matters" framing.
-
-const WHY_MATTERS: Record<string, string[]> = {
-  inform: [
-    "Having an accurate understanding of this is important before exploring the details.",
-    "This distinction matters for anyone working with or learning about this topic.",
-    "Getting this definition right prevents misunderstandings that compound later.",
-    "This is the reference point for everything else covered on this page.",
-  ],
-  educate: [
-    "Understanding this distinction is essential before exploring more advanced aspects of the topic.",
-    "This foundational idea underpins nearly every practical application you will encounter.",
-    "Grasping this early prevents the most common mistakes practitioners make.",
-    "This is the conceptual anchor for everything else in this subject.",
-    "Without this grounding, the practical techniques that follow are harder to apply correctly.",
-  ],
-  guide: [
-    "Knowing this clearly up front makes the practical steps much easier to follow.",
-    "This is the foundation for the approach covered in this guide.",
-    "Getting this right at the start prevents the most common problems later.",
-    "Understanding this is the prerequisite for applying the guidance that follows.",
-  ],
-  decide: [
-    "This distinction is central to making an informed choice on this topic.",
-    "Understanding this clearly is what separates good decisions from poor ones here.",
-    "This framing helps cut through the noise when comparing your options.",
-    "This is the core concept that the decision framework on this page is built around.",
-  ],
-};
 
 // ─── Section Renderers ───────────────────────────────────────────────────────
 // All prose templates come from the policy — renderers are format-only.
@@ -127,21 +96,13 @@ function renderDefinitions(
     firstSentence = `${opener} ${rawFirst.charAt(0).toLowerCase() + rawFirst.slice(1)}.`;
   }
 
-  const whyPool = WHY_MATTERS[intent] ?? WHY_MATTERS.educate;
-  const why = pick(whyPool, `${slug}:why-0`);
-  nodes.push({ type: "paragraph", children: [`${firstSentence} ${why}`] });
+  nodes.push({ type: "paragraph", children: [firstSentence] });
 
-  // Remaining definitions: 2 per paragraph, woven with connectors
+  // Remaining definitions: each fact becomes its own paragraph
   const rest = facts.slice(1);
-  for (let i = 0; i < rest.length; i += 2) {
-    const group = rest.slice(i, i + 2);
-    const sentences = group.map((f, j) => {
-      const s = f.statement.replace(/\.$/, "");
-      if (j === 0) return `${s}.`;
-      const conn = pick(policy.factConnectors, `${slug}:def-conn:${i + j}`);
-      return `${conn} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
-    });
-    nodes.push({ type: "paragraph", children: [sentences.join(" ")] });
+  for (const fact of rest) {
+    const s = fact.statement.replace(/\.$/, "");
+    nodes.push({ type: "paragraph", children: [`${s}.`] });
   }
 
   return nodes;
@@ -160,20 +121,10 @@ function renderProperties(
     anchor: "characteristics",
   });
 
-  if (facts.length >= 2) {
-    const lead = pick(policy.propertyLeads, `${slug}:prop-lead`);
-    nodes.push({ type: "paragraph", children: [lead] });
-  }
-
-  for (let i = 0; i < facts.length; i += 3) {
-    const group = facts.slice(i, i + 3);
-    const parts = group.map((f, j) => {
-      const s = f.statement.replace(/\.$/, "");
-      if (j === 0) return `${s}.`;
-      const conn = pick(policy.factConnectors, `${slug}:prop-conn:${i + j}`);
-      return `${conn} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
-    });
-    nodes.push({ type: "paragraph", children: [parts.join(" ")] });
+  // Each property becomes its own paragraph
+  for (const fact of facts) {
+    const s = fact.statement.replace(/\.$/, "");
+    nodes.push({ type: "paragraph", children: [`${s}.`] });
   }
 
   return nodes;
@@ -192,15 +143,10 @@ function renderHistory(
     anchor: "history",
   });
 
-  for (let i = 0; i < facts.length; i += 3) {
-    const group = facts.slice(i, i + 3);
-    const parts = group.map((f, j) => {
-      const s = f.statement.replace(/\.$/, "");
-      if (j === 0) return `${s}.`;
-      const bridge = pick(policy.historyBridges, `${slug}:hist-br:${i + j}`);
-      return `${bridge} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
-    });
-    nodes.push({ type: "paragraph", children: [parts.join(" ")] });
+  // Each history fact becomes its own paragraph
+  for (const fact of facts) {
+    const s = fact.statement.replace(/\.$/, "");
+    nodes.push({ type: "paragraph", children: [`${s}.`] });
   }
 
   return nodes;
@@ -219,24 +165,10 @@ function renderProcedures(
     anchor: "how-to",
   });
 
-  // Guide/decide intent: numbered steps. Educate/inform: prose list.
-  if (policy.intent === "guide" || policy.intent === "decide") {
-    nodes.push({
-      type: "list",
-      ordered: true,
-      items: facts.map((f) => ({
-        type: "list-item" as const,
-        children: [f.statement.replace(/\.$/, "") + "."],
-      })),
-    });
-  } else {
-    const parts = facts.map((f, j) => {
-      const s = f.statement.replace(/\.$/, "");
-      if (j === 0) return `${s}.`;
-      const conn = pick(policy.factConnectors, `${slug}:proc-conn:${j}`);
-      return `${conn} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
-    });
-    nodes.push({ type: "paragraph", children: [parts.join(" ")] });
+  // Each procedure step becomes its own paragraph
+  for (const fact of facts) {
+    const s = fact.statement.replace(/\.$/, "");
+    nodes.push({ type: "paragraph", children: [`${s}.`] });
   }
 
   return nodes;
@@ -255,17 +187,11 @@ function renderComparisons(
     anchor: "comparisons",
   });
 
-  const contrastConnectors = [
-    "In contrast,", "Similarly,", "On the other hand,",
-    "Unlike alternatives,", "By comparison,", "Where this differs is that",
-  ];
-  const parts = facts.map((f, j) => {
-    const s = f.statement.replace(/\.$/, "");
-    if (j === 0) return `${s}.`;
-    const conn = pick(contrastConnectors, `${slug}:comp:${j}`);
-    return `${conn} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
-  });
-  nodes.push({ type: "paragraph", children: [parts.join(" ")] });
+  // Each comparison becomes its own paragraph
+  for (const fact of facts) {
+    const s = fact.statement.replace(/\.$/, "");
+    nodes.push({ type: "paragraph", children: [`${s}.`] });
+  }
 
   return nodes;
 }
@@ -335,13 +261,11 @@ function renderMeasurements(
   });
 
   const numConnectors = ["Additionally,", "The data also shows that", "Furthermore,", "Worth noting,"];
-  const parts = facts.map((f, j) => {
-    const s = f.statement.replace(/\.$/, "");
-    if (j === 0) return `${s}.`;
-    const conn = pick(numConnectors, `${slug}:meas:${j}`);
-    return `${conn} ${s.charAt(0).toLowerCase() + s.slice(1)}.`;
-  });
-  nodes.push({ type: "paragraph", children: [parts.join(" ")] });
+  // Each measurement becomes its own paragraph
+  for (const fact of facts) {
+    const s = fact.statement.replace(/\.$/, "");
+    nodes.push({ type: "paragraph", children: [`${s}.`] });
+  }
 
   return nodes;
 }
@@ -381,11 +305,7 @@ export function renderLongArticle(
     const typeFacts = byType[type];
     if (!typeFacts || typeFacts.length === 0) continue;
 
-    // Policy-defined transition sentence between sections
-    if (prevType) {
-      const trans = policy.sectionTransitions[prevType]?.[type] ?? "";
-      if (trans) nodes.push({ type: "paragraph", children: [trans] });
-    }
+    // Removed section transitions - now sections begin directly with questions
 
     let sectionNodes: DocumentNode[] = [];
     if (type === "definition")  sectionNodes = renderDefinitions(typeFacts, config.slug, policy);
@@ -421,7 +341,7 @@ export function renderLongArticle(
     const summary: SummaryNode = {
       type: "summary",
       keyPoints,
-      closingSentence: policy.summaryCloser(subject),
+      closingSentence: "",
     };
     nodes.push(summary);
   }

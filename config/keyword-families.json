@@ -1,0 +1,191 @@
+{
+  "version": "1.0.0",
+  "description": "Keyword Family Configuration - Groups topics by semantic patterns for routing to appropriate Subject Models",
+  "lastUpdated": "2026-07-06T00:00:00Z",
+  "keywordFamilies": {
+    "technology": {
+      "nodejs": {
+        "name": "Node.js",
+        "detectionRules": [
+          "slug contains: nodejs, node-js, node.js",
+          "title contains: nodejs, node-js, node.js"
+        ],
+        "subjectModel": "programming",
+        "subcategory": "backend-development",
+        "confidence": 0.95
+      },
+      "backend-dev": {
+        "name": "Backend Development",
+        "detectionRules": [
+          "slug contains: api, server, backend, database, authentication",
+          "title contains: api, server, backend, database, authentication"
+        ],
+        "subjectModel": "programming",
+        "subcategory": "backend-development",
+        "confidence": 0.90
+      },
+      "frontend-dev": {
+        "name": "Frontend Development",
+        "detectionRules": [
+          "slug contains: react, vue, angular, frontend, ui, component",
+          "title contains: react, vue, angular, frontend, ui, component"
+        ],
+        "subjectModel": "programming",
+        "subcategory": "frontend-development",
+        "confidence": 0.90
+      },
+      "devops": {
+        "name": "DevOps",
+        "detectionRules": [
+          "slug contains: docker, kubernetes, ci-cd, deployment, infrastructure",
+          "title contains: docker, kubernetes, ci-cd, deployment, infrastructure"
+        ],
+        "subjectModel": "programming",
+        "subcategory": "devops",
+        "confidence": 0.90
+      }
+    },
+    "business": {
+      "vendor-management": {
+        "name": "Vendor Management",
+        "detectionRules": [
+          "slug contains: vendor, supplier, procurement, outsourcing",
+          "title contains: vendor, supplier, procurement, outsourcing"
+        ],
+        "subjectModel": "business",
+        "subcategory": "procurement",
+        "confidence": 0.95
+      },
+      "operations": {
+        "name": "Operations",
+        "detectionRules": [
+          "slug contains: operations, workflow, process, efficiency",
+          "title contains: operations, workflow, process, efficiency"
+        ],
+        "subjectModel": "business",
+        "subcategory": "operations",
+        "confidence": 0.85
+      },
+      "strategy": {
+        "name": "Strategy",
+        "detectionRules": [
+          "slug contains: strategy, planning, roadmap, vision",
+          "title contains: strategy, planning, roadmap, vision"
+        ],
+        "subjectModel": "business",
+        "subcategory": "strategy",
+        "confidence": 0.85
+      }
+    },
+    "home-lifestyle": {
+      "travel": {
+        "name": "Travel",
+        "detectionRules": [
+          "slug contains: vacation, trip, travel, destination, itinerary",
+          "title contains: vacation, trip, travel, destination, itinerary"
+        ],
+        "subjectModel": "travel",
+        "subcategory": "travel",
+        "confidence": 0.95
+      },
+      "family": {
+        "name": "Family",
+        "detectionRules": [
+          "slug contains: family, kids, children, parenting",
+          "title contains: family, kids, children, parenting"
+        ],
+        "subjectModel": "recipes",
+        "subcategory": "family",
+        "confidence": 0.90
+      },
+      "home-improvement": {
+        "name": "Home Improvement",
+        "detectionRules": [
+          "slug contains: renovation, diy, repair, home, garden",
+          "title contains: renovation, diy, repair, home, garden"
+        ],
+        "subjectModel": "gardening",
+        "subcategory": "home-improvement",
+        "confidence": 0.85
+      }
+    },
+    "personal-finance": {
+      "budgeting": {
+        "name": "Budgeting",
+        "detectionRules": [
+          "slug contains: budget, saving, expense, spending",
+          "title contains: budget, saving, expense, spending"
+        ],
+        "subjectModel": "finance",
+        "subcategory": "budgeting",
+        "confidence": 0.90
+      },
+      "investing": {
+        "name": "Investing",
+        "detectionRules": [
+          "slug contains: invest, stock, portfolio, return",
+          "title contains: invest, stock, portfolio, return"
+        ],
+        "subjectModel": "finance",
+        "subcategory": "investing",
+        "confidence": 0.90
+      }
+    },
+    "education": {
+      "learning": {
+        "name": "Learning",
+        "detectionRules": [
+          "slug contains: learn, study, education, course",
+          "title contains: learn, study, education, course"
+        ],
+        "subjectModel": "education",
+        "subcategory": "learning",
+        "confidence": 0.85
+      }
+    },
+    "health-wellness": {
+      "nutrition": {
+        "name": "Nutrition",
+        "detectionRules": [
+          "slug contains: nutrition, diet, food, healthy",
+          "title contains: nutrition, diet, food, healthy"
+        ],
+        "subjectModel": "meal-planning",
+        "subcategory": "nutrition",
+        "confidence": 0.90
+      },
+      "fitness": {
+        "name": "Fitness",
+        "detectionRules": [
+          "slug contains: fitness, exercise, workout, training",
+          "title contains: fitness, exercise, workout, training"
+        ],
+        "subjectModel": "education",
+        "subcategory": "fitness",
+        "confidence": 0.85
+      }
+    },
+    "travel": {
+      "destinations": {
+        "name": "Destinations",
+        "detectionRules": [
+          "slug contains: destination, place, location, visit",
+          "title contains: destination, place, location, visit"
+        ],
+        "subjectModel": "recipes",
+        "subcategory": "destinations",
+        "confidence": 0.90
+      },
+      "planning": {
+        "name": "Planning",
+        "detectionRules": [
+          "slug contains: plan, itinerary, schedule",
+          "title contains: plan, itinerary, schedule"
+        ],
+        "subjectModel": "recipes",
+        "subcategory": "planning",
+        "confidence": 0.85
+      }
+    }
+  }
+}

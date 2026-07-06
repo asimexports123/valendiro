@@ -33,6 +33,9 @@ export interface DashboardMetrics {
   estimatedRevenue: number;
   lowHealthCount: number;
   pendingSeoSuggestions: number;
+  blueprintComplianceRate: number;
+  migrationQueueSize: number;
+  migrationProgress: number;
 }
 
 export interface SystemStatus {
@@ -57,7 +60,7 @@ export interface PublishingMetrics {
 export async function getDashboardMetrics(): Promise<{ metrics: DashboardMetrics }> {
   const supabase = createAdminClient();
 
-  const [totalArticles, totalTopics, totalQuestions, activeQueueItems, healthScores, revenue, lowHealthCount, pendingSeoSuggestions] = await Promise.all([
+  const [totalArticles, totalTopics, totalQuestions, activeQueueItems, healthScores, revenue, lowHealthCount, pendingSeoSuggestions, migrationQueueData] = await Promise.all([
     safeCount(async () => supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "published")),
     safeCount(async () => supabase.from("topics").select("*", { count: "exact", head: true }).eq("status", "published")),
     safeCount(async () => supabase.from("questions").select("*", { count: "exact", head: true }).eq("status", "published")),
@@ -66,12 +69,19 @@ export async function getDashboardMetrics(): Promise<{ metrics: DashboardMetrics
     safeData(async () => supabase.from("affiliate_conversions").select("estimated_revenue").gte("recorded_at", new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()), [] as { estimated_revenue: number }[]),
     safeCount(async () => supabase.from("content_health_scores").select("*", { count: "exact", head: true }).lt("overall_health_score", 50)),
     safeCount(async () => supabase.from("internal_link_suggestions").select("*", { count: "exact", head: true }).eq("status", "pending")),
+    getMigrationQueueData(),
   ]);
 
   const totalRevenue = revenue.reduce((sum, row) => sum + (row.estimated_revenue ?? 0), 0);
   const avgHealth = healthScores.length > 0
     ? healthScores.reduce((sum, row) => sum + (row.overall_health_score ?? 0), 0) / healthScores.length
     : 0;
+
+  const blueprintComplianceRate = migrationQueueData?.statistics?.complianceRate ?? 0;
+  const migrationQueueSize = migrationQueueData?.statistics?.articlesNeedingMigration ?? 0;
+  const migrationProgress = migrationQueueSize > 0 
+    ? ((migrationQueueData?.statistics?.compliantArticles ?? 0) / (migrationQueueData?.statistics?.totalPublishedTopics ?? 1)) * 100 
+    : 100;
 
   return {
     metrics: {
@@ -83,8 +93,48 @@ export async function getDashboardMetrics(): Promise<{ metrics: DashboardMetrics
       estimatedRevenue: totalRevenue,
       lowHealthCount,
       pendingSeoSuggestions,
+      blueprintComplianceRate,
+      migrationQueueSize,
+      migrationProgress,
     },
   };
+}
+
+export interface MigrationQueueData {
+  generatedAt: string;
+  statistics: {
+    totalPublishedTopics: number;
+    compliantArticles: number;
+    articlesNeedingMigration: number;
+    complianceRate: number;
+    averageScore: number;
+  };
+  familyStats: Record<string, {
+    categoryName: string;
+    subcategoryName: string;
+    familyName: string;
+    total: number;
+    passed: number;
+    failed: number;
+  }>;
+  migrationQueue: any[];
+}
+
+async function getMigrationQueueData(): Promise<MigrationQueueData | null> {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const queuePath = path.join(process.cwd(), 'data/migration-queue.json');
+    
+    if (fs.existsSync(queuePath)) {
+      const data = fs.readFileSync(queuePath, 'utf8');
+      return JSON.parse(data);
+    }
+    return null;
+  } catch (e) {
+    console.error('Error reading migration queue:', e);
+    return null;
+  }
 }
 
 export async function getContentPerformance(limit = 20): Promise<{ data: ContentHealthScore[]; error: string | null }> {

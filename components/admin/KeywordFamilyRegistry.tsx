@@ -6,6 +6,11 @@ import path from 'path';
 
 interface Category {
   name: string;
+  subcategories: Record<string, Subcategory>;
+}
+
+interface Subcategory {
+  name: string;
   families: Record<string, Family>;
 }
 
@@ -29,6 +34,7 @@ interface Registry {
 export default function KeywordFamilyRegistry() {
   const [registry, setRegistry] = useState<Registry | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('');
   const [selectedFamily, setSelectedFamily] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
@@ -42,8 +48,11 @@ export default function KeywordFamilyRegistry() {
       const data = await response.json();
       setRegistry(data);
       if (Object.keys(data.categories).length > 0) {
-        setSelectedCategory(Object.keys(data.categories)[0]);
-        const firstFamily = Object.keys(data.categories[Object.keys(data.categories)[0]].families)[0];
+        const firstCategory = Object.keys(data.categories)[0];
+        setSelectedCategory(firstCategory);
+        const firstSubcategory = Object.keys(data.categories[firstCategory].subcategories)[0];
+        setSelectedSubcategory(firstSubcategory);
+        const firstFamily = Object.keys(data.categories[firstCategory].subcategories[firstSubcategory].families)[0];
         setSelectedFamily(firstFamily);
       }
     } catch (error) {
@@ -62,7 +71,8 @@ export default function KeywordFamilyRegistry() {
   }
 
   const currentCategory = selectedCategory ? registry.categories[selectedCategory] : null;
-  const currentFamily = currentCategory && selectedFamily ? currentCategory.families[selectedFamily] : null;
+  const currentSubcategory = currentCategory && selectedSubcategory ? currentCategory.subcategories[selectedSubcategory] : null;
+  const currentFamily = currentSubcategory && selectedFamily ? currentSubcategory.families[selectedFamily] : null;
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
@@ -76,7 +86,13 @@ export default function KeywordFamilyRegistry() {
             {Object.entries(registry.categories).map(([key, category]) => (
               <button
                 key={key}
-                onClick={() => setSelectedCategory(key)}
+                onClick={() => {
+                  setSelectedCategory(key);
+                  const firstSubcategory = Object.keys(category.subcategories)[0];
+                  setSelectedSubcategory(firstSubcategory);
+                  const firstFamily = Object.keys(category.subcategories[firstSubcategory].families)[0];
+                  setSelectedFamily(firstFamily);
+                }}
                 className={`w-full text-left px-4 py-2 rounded ${
                   selectedCategory === key ? 'bg-blue-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
                 }`}
@@ -87,11 +103,33 @@ export default function KeywordFamilyRegistry() {
           </div>
         </div>
 
+        {/* Subcategory Selection */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-xl font-semibold mb-4">Subcategories</h2>
+          <div className="space-y-2">
+            {currentCategory && Object.entries(currentCategory.subcategories).map(([key, subcategory]) => (
+              <button
+                key={key}
+                onClick={() => {
+                  setSelectedSubcategory(key);
+                  const firstFamily = Object.keys(subcategory.families)[0];
+                  setSelectedFamily(firstFamily);
+                }}
+                className={`w-full text-left px-4 py-2 rounded ${
+                  selectedSubcategory === key ? 'bg-blue-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                }`}
+              >
+                {subcategory.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Family Selection */}
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Families</h2>
           <div className="space-y-2">
-            {currentCategory && Object.entries(currentCategory.families).map(([key, family]) => (
+            {currentSubcategory && Object.entries(currentSubcategory.families).map(([key, family]) => (
               <button
                 key={key}
                 onClick={() => setSelectedFamily(key)}
@@ -169,9 +207,23 @@ export default function KeywordFamilyRegistry() {
             <div className="text-sm text-gray-600">Categories</div>
           </div>
           <div>
+            <div className="text-3xl font-bold text-indigo-600">
+              {Object.values(registry.categories).reduce(
+                (sum, cat) => sum + Object.keys(cat.subcategories).length,
+                0
+              )}
+            </div>
+            <div className="text-sm text-gray-600">Subcategories</div>
+          </div>
+          <div>
             <div className="text-3xl font-bold text-green-600">
               {Object.values(registry.categories).reduce(
-                (sum, cat) => sum + Object.keys(cat.families).length,
+                (sum, cat) =>
+                  sum +
+                  Object.values(cat.subcategories).reduce(
+                    (subSum, subcat) => subSum + Object.keys(subcat.families).length,
+                    0
+                  ),
                 0
               )}
             </div>
@@ -182,8 +234,13 @@ export default function KeywordFamilyRegistry() {
               {Object.values(registry.categories).reduce(
                 (sum, cat) =>
                   sum +
-                  Object.values(cat.families).reduce(
-                    (famSum, fam) => famSum + fam.editorialBlueprint.requiredSections.length,
+                  Object.values(cat.subcategories).reduce(
+                    (subSum, subcat) =>
+                      subSum +
+                      Object.values(subcat.families).reduce(
+                        (famSum, fam) => famSum + fam.editorialBlueprint.requiredSections.length,
+                        0
+                      ),
                     0
                   ),
                 0
@@ -196,8 +253,13 @@ export default function KeywordFamilyRegistry() {
               {Object.values(registry.categories).reduce(
                 (sum, cat) =>
                   sum +
-                  Object.values(cat.families).reduce(
-                    (famSum, fam) => famSum + fam.editorialBlueprint.validationRules.length,
+                  Object.values(cat.subcategories).reduce(
+                    (subSum, subcat) =>
+                      subSum +
+                      Object.values(subcat.families).reduce(
+                        (famSum, fam) => famSum + fam.editorialBlueprint.validationRules.length,
+                        0
+                      ),
                     0
                   ),
                 0

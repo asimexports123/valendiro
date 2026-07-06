@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { ExecutionLog, KnowledgeObjectType } from "@/lib/types";
 
 export type QueueType = "generation" | "update" | "priority";
@@ -17,7 +17,7 @@ export interface LogEntryInput {
 }
 
 export async function logExecution(input: LogEntryInput) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase.from("execution_logs").insert({
     queue_type: input.queueType,
     queue_item_id: input.queueItemId,
@@ -34,7 +34,7 @@ export async function logExecution(input: LogEntryInput) {
 }
 
 export async function getExecutionLogsForQueueItem(queueType: QueueType, queueItemId: string) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("execution_logs")
     .select("*")
@@ -46,7 +46,7 @@ export async function getExecutionLogsForQueueItem(queueType: QueueType, queueIt
 }
 
 export async function getRecentExecutionLogs(limit = 50, status?: LogStatus) {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   let query = supabase.from("execution_logs").select("*").order("created_at", { ascending: false }).limit(limit);
   if (status) query = query.eq("status", status);
 

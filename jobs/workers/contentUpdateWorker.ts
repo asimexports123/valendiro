@@ -28,10 +28,11 @@ export async function processContentUpdateItem(item: ContentUpdateQueueItem): Pr
   });
 
   try {
-    await supabase
-      .from("content_update_queue")
-      .update({ status: "in_progress", processing_started_at: new Date().toISOString() })
-      .eq("id", item.id);
+    // Skip status update since it's already marked in_progress by the worker
+    // await supabase
+    //   .from("content_update_queue")
+    //   .update({ status: "in_progress", processing_started_at: new Date().toISOString() })
+    //   .eq("id", item.id);
 
     if (item.object_type !== "article") {
       throw new Error(`Update worker currently supports only articles, received: ${item.object_type}`);
@@ -75,10 +76,11 @@ export async function processContentUpdateItem(item: ContentUpdateQueueItem): Pr
       throw new Error(updateError.message);
     }
 
-    await supabase
-      .from("content_update_queue")
-      .update({ status: "completed", completed_at: new Date().toISOString() })
-      .eq("id", item.id);
+    // Skip queue update since it's handled by the worker
+    // await supabase
+    //   .from("content_update_queue")
+    //   .update({ status: "completed", completed_at: new Date().toISOString() })
+    //   .eq("id", item.id);
 
     await logExecution({
       queueType: "update",
@@ -94,14 +96,15 @@ export async function processContentUpdateItem(item: ContentUpdateQueueItem): Pr
     return { queueItemId: item.id, objectId: item.object_id, status: "success", message: "Content refreshed" };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    await supabase
-      .from("content_update_queue")
-      .update({
-        status: "pending",
-        retry_count: item.retry_count + 1,
-        failed_reason: message,
-      })
-      .eq("id", item.id);
+    // Skip queue update since it's handled by the worker
+    // await supabase
+    //   .from("content_update_queue")
+    //   .update({
+    //     status: "pending",
+    //     retry_count: item.retry_count + 1,
+    //     failed_reason: message,
+    //   })
+    //   .eq("id", item.id);
 
     await logExecution({
       queueType: "update",
@@ -121,11 +124,13 @@ export async function processContentUpdateItem(item: ContentUpdateQueueItem): Pr
 export async function runContentUpdateWorker(limit = 10) {
   const supabase = await createClient();
   const { data: items, error } = await supabase
-    .from("content_update_queue")
-    .select("id")
+    .from("update_queue")
+    .select("*")
     .eq("status", "pending")
-    .lt("retry_count", 3)
-    .order("priority_score", { ascending: false })
+    .eq("job_type", "fact_check")
+    .lte("scheduled_at", new Date().toISOString())
+    .order("priority", { ascending: false })
+    .order("scheduled_at", { ascending: true })
     .limit(limit);
 
   if (error || !items) {
@@ -133,16 +138,48 @@ export async function runContentUpdateWorker(limit = 10) {
   }
 
   const results: UpdateResult[] = [];
-  for (const row of items) {
-    const { data: claimed, error: claimError } = await supabase
-      .rpc("claim_queue_item", { queue_type: "update", item_id: row.id })
-      .maybeSingle();
+  for (const item of items) {
+    // Mark in_progress
+    const { error: updateError } = await supabase
+      .from("update_queue")
+      .update({ status: "in_progress", started_at: new Date().toISOString() })
+      .eq("id", item.id);
 
-    if (claimError || !claimed) {
+    if (updateError) {
       continue;
     }
 
-    const result = await processContentUpdateItem(claimed as ContentUpdateQueueItem);
+    // Convert update_queue item to ContentUpdateQueueItem format
+    const queueItem: ContentUpdateQueueItem = {
+      id: item.id,
+      object_id: item.object_id,
+      object_type: item.object_type,
+      reason: (item.payload as any)?.reason || "Content update",
+      priority_score: item.priority,
+      status: "in_progress",
+      scheduled_at: item.scheduled_at,
+      started_at: new Date().toISOString(),
+      completed_at: null,
+      retry_count: 0,
+      failed_reason: null,
+      processing_started_at: new Date().toISOString(),
+      metadata: (item.payload as any)?.metadata || {},
+      created_at: item.created_at,
+      updated_at: new Date().toISOString(),
+    };
+
+    const result = await processContentUpdateItem(queueItem);
+
+    // Mark completed or failed
+    await supabase
+      .from("update_queue")
+      .update({
+        status: result.status === "success" ? "completed" : "failed",
+        completed_at: new Date().toISOString(),
+        error_message: result.status === "failed" ? result.message : null,
+      })
+      .eq("id", item.id);
+
     results.push(result);
   }
 

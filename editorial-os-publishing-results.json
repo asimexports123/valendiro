@@ -1,0 +1,251 @@
+[
+  {
+    "topic": "nodejs-cluster",
+    "category": "technology",
+    "classification": {
+      "subcategory": "backend-development",
+      "keywordFamily": "nodejs",
+      "subjectModel": "programming",
+      "confidence": 0.95,
+      "reasoning": [
+        "Keyword family detected: nodejs via slug match",
+        "Subject model from keyword family: programming",
+        "Subcategory derived: backend-development"
+      ]
+    },
+    "compositionPlan": {
+      "subjectModel": "programming",
+      "editorialBlueprint": "Programming Technical Guide",
+      "intent": "educate",
+      "sections": [
+        {
+          "type": "definition",
+          "heading": "What Is Nodejs Cluster",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "architecture",
+          "heading": "Architecture & Design",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "implementation",
+          "heading": "Implementation",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "usage",
+          "heading": "Usage Examples",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "performance",
+          "heading": "Performance Considerations",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "best-practices",
+          "heading": "Best Practices",
+          "required": true,
+          "order": 6
+        },
+        {
+          "type": "common-mistakes",
+          "heading": "Common Mistakes",
+          "required": true,
+          "order": 7
+        },
+        {
+          "type": "debugging",
+          "heading": "Debugging & Troubleshooting",
+          "required": false,
+          "order": 8
+        }
+      ],
+      "renderingStrategy": "knowledge-authoring-v1"
+    },
+    "renderResult": {
+      "outputId": null,
+      "qualityScore": 0,
+      "status": "failed",
+      "wordCount": 0
+    },
+    "validation": {
+      "passed": false,
+      "issues": []
+    },
+    "success": false,
+    "error": "Rendering failed for topic: nodejs-cluster"
+  },
+  {
+    "topic": "family-vacations",
+    "category": "home-lifestyle",
+    "classification": {
+      "subcategory": "travel",
+      "keywordFamily": "travel",
+      "subjectModel": "travel",
+      "confidence": 0.95,
+      "reasoning": [
+        "Keyword family detected: travel via slug match",
+        "Subject model from keyword family: travel",
+        "Subcategory derived: travel"
+      ]
+    },
+    "compositionPlan": {
+      "subjectModel": "travel",
+      "editorialBlueprint": "Travel Guide",
+      "intent": "guide",
+      "sections": [
+        {
+          "type": "definition",
+          "heading": "What Is Family Vacations",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "selection",
+          "heading": "Destination Selection",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "planning",
+          "heading": "Planning & Budgeting",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "implementation",
+          "heading": "Booking & Preparation",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "implementation",
+          "heading": "Travel & Transportation",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "considerations",
+          "heading": "Safety & Documentation",
+          "required": true,
+          "order": 6
+        },
+        {
+          "type": "tips",
+          "heading": "Travel Tips",
+          "required": true,
+          "order": 7
+        },
+        {
+          "type": "common-mistakes",
+          "heading": "Common Travel Mistakes",
+          "required": true,
+          "order": 8
+        }
+      ],
+      "renderingStrategy": "long-article"
+    },
+    "renderResult": {
+      "outputId": null,
+      "qualityScore": 0,
+      "status": "failed",
+      "wordCount": 0
+    },
+    "validation": {
+      "passed": false,
+      "issues": []
+    },
+    "success": false,
+    "error": "Rendering failed for topic: family-vacations"
+  },
+  {
+    "topic": "vendor-management",
+    "category": "business",
+    "classification": {
+      "subcategory": "procurement",
+      "keywordFamily": "vendor-management",
+      "subjectModel": "business",
+      "confidence": 0.95,
+      "reasoning": [
+        "Keyword family detected: vendor-management via slug match",
+        "Subject model from keyword family: business",
+        "Subcategory derived: procurement"
+      ]
+    },
+    "compositionPlan": {
+      "subjectModel": "business",
+      "editorialBlueprint": "Business Operations Guide",
+      "intent": "guide",
+      "sections": [
+        {
+          "type": "definition",
+          "heading": "What Is Vendor Management",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "selection",
+          "heading": "Selection Criteria",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "evaluation",
+          "heading": "Evaluation Framework",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "implementation",
+          "heading": "Implementation Process",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "governance",
+          "heading": "Governance & Oversight",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "performance",
+          "heading": "Performance Management",
+          "required": true,
+          "order": 6
+        },
+        {
+          "type": "risk",
+          "heading": "Risk Management",
+          "required": true,
+          "order": 7
+        },
+        {
+          "type": "best-practices",
+          "heading": "Best Practices",
+          "required": true,
+          "order": 8
+        }
+      ],
+      "renderingStrategy": "knowledge-authoring-v1"
+    },
+    "renderResult": {
+      "outputId": null,
+      "qualityScore": 0,
+      "status": "failed",
+      "wordCount": 0
+    },
+    "validation": {
+      "passed": false,
+      "issues": []
+    },
+    "success": false,
+    "error": "Rendering failed for topic: vendor-management"
+  }
+]

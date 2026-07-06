@@ -1,5 +1,6 @@
 import { runContentGenerationWorker } from "@/jobs/workers/contentGenerationWorker";
 import { runContentUpdateWorker } from "@/jobs/workers/contentUpdateWorker";
+import { runKnowledgeAcquisitionWorker } from "@/jobs/workers/knowledgeAcquisitionWorker";
 import { executePriorityDecisions, autoApproveHighPriorityDecisions } from "./priorityExecutionEngine";
 import { getAutomationConfig } from "@/services/system/settings";
 
@@ -14,6 +15,7 @@ export interface SchedulerRunResult {
   priority: Awaited<ReturnType<typeof executePriorityDecisions>>;
   generation: Awaited<ReturnType<typeof runContentGenerationWorker>>;
   update: Awaited<ReturnType<typeof runContentUpdateWorker>>;
+  knowledgeAcquisition: Awaited<ReturnType<typeof runKnowledgeAcquisitionWorker>>;
   errors: string[];
 }
 
@@ -39,10 +41,15 @@ export async function runSchedulerCycle(options: SchedulerRunOptions = {}): Prom
   const update = await runContentUpdateWorker(updateLimit);
   if (update.error) errors.push(update.error);
 
+  // Step 5: Run knowledge acquisition worker
+  const knowledgeAcquisition = await runKnowledgeAcquisitionWorker(updateLimit);
+  if (knowledgeAcquisition.error) errors.push(knowledgeAcquisition.error);
+
   return {
     priority,
     generation,
     update,
+    knowledgeAcquisition,
     errors,
   };
 }

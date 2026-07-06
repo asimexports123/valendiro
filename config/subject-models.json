@@ -389,8 +389,8 @@
       "name": "Recipes",
       "category": "Home & Lifestyle",
       "detectionRules": [
-        "slug contains: recipe, cook, dish, ingredient, method, technique, cuisine, baking, cooking",
-        "title contains: recipe, cook, dish, ingredient, method, technique, cuisine, baking, cooking"
+        "slug contains: recipe, cook, dish, ingredient, method, technique, cuisine, baking",
+        "title contains: recipe, cook, dish, ingredient, method, technique, cuisine, baking"
       ],
       "coreConcepts": [
         "Flavor Balance",
@@ -755,6 +755,191 @@
         "Database Management",
         "Network Engineering",
         "Cybersecurity"
+      ]
+    },
+    "travel": {
+      "name": "Travel",
+      "category": "Travel",
+      "detectionRules": [
+        "slug contains: vacation, trip, travel, destination, itinerary, holiday, journey",
+        "title contains: vacation, trip, travel, destination, itinerary, holiday, journey"
+      ],
+      "coreConcepts": [
+        "Destination Selection",
+        "Budget Planning",
+        "Itinerary Planning",
+        "Accommodation Types",
+        "Transportation Options",
+        "Travel Insurance",
+        "Safety Considerations",
+        "Cultural Awareness",
+        "Travel Documentation",
+        "Packing Strategy"
+      ],
+      "coreVocabulary": [
+        "Itinerary",
+        "Accommodation",
+        "Transportation",
+        "Destination",
+        "Reservation",
+        "Booking",
+        "Itinerary",
+        "Budget",
+        "Currency",
+        "Visa",
+        "Passport",
+        "Insurance",
+        "Layover",
+        "Check-in",
+        "Boarding Pass"
+      ],
+      "requiredEntities": [
+        "Destinations (Cities, Countries, Regions)",
+        "Accommodation Types (Hotels, Hostels, Vacation Rentals, Resorts)",
+        "Transportation (Flights, Trains, Buses, Car Rentals)",
+        "Travel Documents (Passport, Visa, Insurance)",
+        "Booking Platforms (Airbnb, Booking.com, Expedia)",
+        "Travel Insurance Providers",
+        "Currency Exchange Services",
+        "Travel Guides and Resources"
+      ],
+      "mentalModels": [
+        "Trip Planning Framework - Research, Book, Prepare, Travel",
+        "Budget Allocation - Fixed vs Variable Costs",
+        "Time Management - Travel Time vs Experience Time",
+        "Risk Assessment - Health, Safety, Financial Risks",
+        "Cultural Adaptation - Understanding Local Customs",
+        "Logistics Optimization - Route Planning and Timing"
+      ],
+      "typicalWorkflows": [
+        "Destination Research - Compare options, read reviews, check seasonality",
+        "Budget Planning - Estimate costs, allocate funds, track expenses",
+        "Booking Process - Reserve flights, accommodation, activities",
+        "Preparation - Obtain documents, pack essentials, plan itinerary",
+        "Travel Execution - Navigate transportation, check-in, explore destination",
+        "Post-Trip - Review expenses, share experiences, plan next trip"
+      ],
+      "requiredSkills": [
+        "Research and Planning",
+        "Budget Management",
+        "Booking and Reservation Management",
+        "Navigation and Orientation",
+        "Cultural Awareness",
+        "Problem Solving",
+        "Language Basics",
+        "Packing Efficiency",
+        "Time Management",
+        "Emergency Preparedness"
+      ],
+      "requiredDecisions": [
+        "Destination Selection - Where to go based on interests, budget, time",
+        "Travel Dates - When to travel considering weather, prices, availability",
+        "Accommodation Choice - Type, location, amenities, price point",
+        "Transportation Mode - Flight, train, bus, rental car based on distance and cost",
+        "Itinerary Balance - Activities vs rest time, must-see vs flexible time",
+        "Budget Allocation - How much to spend on accommodation, food, activities, transportation",
+        "Insurance Coverage - What type and level of travel insurance needed"
+      ],
+      "commonMistakes": [
+        "Overpacking - Bringing too much luggage",
+        "Overbooking - Scheduling too many activities",
+        "Underbudgeting - Not accounting for all expenses",
+        "Ignoring Visa Requirements - Not checking entry requirements in advance",
+        "Not Buying Travel Insurance - Risking financial loss from cancellations or emergencies",
+        "Booking Without Research - Not reading reviews or checking locations",
+        "Ignoring Jet Lag - Not planning for time zone adjustments",
+        "Not Backing Up Documents - Losing passport or tickets",
+        "Not Informing Bank - Card getting blocked for suspicious activity",
+        "Not Learning Basic Local Phrases - Communication difficulties"
+      ],
+      "advancedTopics": [
+        "Round-the-World Travel",
+        "Digital Nomad Lifestyle",
+        "Sustainable Travel Practices",
+        "Travel Hacking and Rewards",
+        "Solo Travel Safety",
+        "Family Travel Planning",
+        "Adventure Travel",
+        "Cultural Immersion Techniques",
+        "Travel Photography",
+        "Travel Blogging and Content Creation"
+      ],
+      "tools": [
+        "Booking Platforms (Expedia, Booking.com, Airbnb)",
+        "Travel Guides (Lonely Planet, TripAdvisor, Rick Steves)",
+        "Navigation Apps (Google Maps, Citymapper, Maps.me)",
+        "Translation Apps (Google Translate, Duolingo)",
+        "Currency Converters (XE, Revolut)",
+        "Travel Insurance Providers",
+        "Packing Lists and Apps",
+        "Expense Tracking Apps",
+        "Document Storage (Digital copies of passport, tickets)",
+        "Weather Apps"
+      ],
+      "measurements": [
+        "Distance (Miles, Kilometers)",
+        "Time Zones (Hours difference)",
+        "Currency Exchange Rates",
+        "Temperature (Celsius, Fahrenheit)",
+        "Duration (Days, Hours)",
+        "Budget Amounts (Local currency, converted)",
+        "Flight Duration (Hours)",
+        "Layover Time (Hours)",
+        "Baggage Weight (Kg, Lbs)",
+        "Hotel Ratings (Stars)"
+      ],
+      "processes": [
+        "Destination Selection Process - Research, compare, decide",
+        "Booking Process - Search, compare, reserve, confirm",
+        "Itinerary Planning Process - Prioritize, schedule, balance",
+        "Packing Process - List, select, organize, verify",
+        "Check-in Process - Document verification, baggage drop, security",
+        "Navigation Process - Route planning, transportation, orientation"
+      ],
+      "standards": [
+        "IATA Standards for Air Travel",
+        "Visa and Passport Requirements",
+        "Travel Insurance Standards",
+        "Hotel Rating Systems",
+        "Airline Baggage Policies",
+        "Customs and Import Regulations",
+        "Health and Safety Guidelines"
+      ],
+      "bestPractices": [
+        "Research destinations thoroughly before booking",
+        "Book accommodation with free cancellation when possible",
+        "Purchase travel insurance for international trips",
+        "Check visa requirements well in advance",
+        "Pack light and versatile clothing",
+        "Inform bank of travel plans to avoid card blocks",
+        "Keep digital and physical copies of important documents",
+        "Learn basic phrases in the local language",
+        "Balance planned activities with free time",
+        "Stay flexible and adaptable to changes"
+      ],
+      "frequentlyAskedQuestions": [
+        "How far in advance should I book flights?",
+        "What's the best way to find cheap accommodation?",
+        "Do I need travel insurance?",
+        "How do I handle currency exchange?",
+        "What should I pack for a trip?",
+        "How do I stay safe while traveling?",
+        "How do I plan a travel itinerary?",
+        "What documents do I need for international travel?",
+        "How do I avoid jet lag?",
+        "How do I manage my travel budget?"
+      ],
+      "relatedSubjects": [
+        "Geography",
+        "Cultural Studies",
+        "Languages",
+        "History",
+        "Economics",
+        "Logistics",
+        "Hospitality",
+        "Photography",
+        "Safety",
+        "Finance"
       ]
     },
     "finance": {

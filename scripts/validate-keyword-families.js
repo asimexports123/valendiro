@@ -23,30 +23,33 @@ function detectKeywordFamily(slug, title) {
   const familyScores = {};
   
   for (const [categoryKey, category] of Object.entries(registry.categories)) {
-    for (const [familyKey, family] of Object.entries(category.families)) {
-      let score = 0;
-      
-      for (const rule of family.detectionRules) {
-        const keywords = rule
-          .replace('slug contains:', '')
-          .replace('title contains:', '')
-          .split(',')
-          .map(k => k.trim().toLowerCase())
-          .filter(k => k.length > 0);
+    for (const [subcategoryKey, subcategory] of Object.entries(category.subcategories)) {
+      for (const [familyKey, family] of Object.entries(subcategory.families)) {
+        let score = 0;
         
-        for (const keyword of keywords) {
-          if (combinedText.includes(keyword)) {
-            score += 2;
+        for (const rule of family.detectionRules) {
+          const keywords = rule
+            .replace('slug contains:', '')
+            .replace('title contains:', '')
+            .split(',')
+            .map(k => k.trim().toLowerCase())
+            .filter(k => k.length > 0);
+          
+          for (const keyword of keywords) {
+            if (combinedText.includes(keyword)) {
+              score += 2;
+            }
           }
         }
+        
+        familyScores[familyKey] = {
+          score,
+          category: categoryKey,
+          subcategory: subcategoryKey,
+          family: family,
+          familyKey
+        };
       }
-      
-      familyScores[familyKey] = {
-        score,
-        category: categoryKey,
-        family: family,
-        familyKey
-      };
     }
   }
   
@@ -60,8 +63,13 @@ function detectKeywordFamily(slug, title) {
     }
   }
   
-  // Default to tutorial if no match
-  return bestFamily || { familyKey: 'tutorial', category: 'technology', family: registry.categories.technology.families.tutorial };
+  // Default to framework-tutorial if no match
+  return bestFamily || {
+    familyKey: 'framework-tutorial',
+    category: 'technology',
+    subcategory: 'programming',
+    family: registry.categories.technology.subcategories.programming.families['framework-tutorial']
+  };
 }
 
 // ─── Validate Article Against Blueprint ─────────────────────────────────
@@ -108,7 +116,8 @@ function validateArticleBlueprint(content, family) {
     violations,
     missingSections,
     familyName: family.family.name,
-    categoryName: registry.categories[family.category].name
+    categoryName: registry.categories[family.category].name,
+    subcategoryName: registry.categories[family.category].subcategories[family.subcategory].name
   };
 }
 
@@ -120,7 +129,8 @@ async function validateArticlesPerFamily(count) {
   // Get published topics
   const { data: allTopics } = await sb
     .from('topics')
-    .select('id, slug, title')
+    .select('id, slug')
+    .eq('status', 'published')
     .limit(500);
   
   console.log(`Found ${allTopics?.length || 0} published topics\n`);
@@ -128,15 +138,17 @@ async function validateArticlesPerFamily(count) {
   // Group topics by detected family
   const familyGroups = {};
   for (const topic of allTopics || []) {
-    const family = detectKeywordFamily(topic.slug, topic.title || topic.slug);
-    const key = `${family.category}-${family.familyKey}`;
+    const family = detectKeywordFamily(topic.slug, topic.slug);
+    const key = `${family.category}-${family.subcategory}-${family.familyKey}`;
     
     if (!familyGroups[key]) {
       familyGroups[key] = {
         category: family.category,
+        subcategory: family.subcategory,
         familyKey: family.familyKey,
         familyName: family.family.name,
         categoryName: registry.categories[family.category].name,
+        subcategoryName: registry.categories[family.category].subcategories[family.subcategory].name,
         topics: []
       };
     }
@@ -157,7 +169,7 @@ async function validateArticlesPerFamily(count) {
     
     if (selectedTopics.length === 0) continue;
     
-    console.log(`=== ${group.categoryName} - ${group.familyName} ===`);
+    console.log(`=== ${group.categoryName} > ${group.subcategoryName} > ${group.familyName} ===`);
     console.log(`Validating ${selectedTopics.length} articles...\n`);
     
     let passed = 0;
@@ -176,7 +188,8 @@ async function validateArticlesPerFamily(count) {
         const result = validateArticleBlueprint(translation.content, {
           familyKey: group.familyKey,
           category: group.category,
-          family: registry.categories[group.category].families[group.familyKey]
+          subcategory: group.subcategory,
+          family: registry.categories[group.category].subcategories[group.subcategory].families[group.familyKey]
         });
         
         results.push({
@@ -184,6 +197,7 @@ async function validateArticlesPerFamily(count) {
           ...result,
           familyKey: group.familyKey,
           categoryName: group.categoryName,
+          subcategoryName: group.subcategoryName,
           familyName: group.familyName
         });
         
@@ -204,6 +218,7 @@ async function validateArticlesPerFamily(count) {
     
     familyStats[key] = {
       categoryName: group.categoryName,
+      subcategoryName: group.subcategoryName,
       familyName: group.familyName,
       passed,
       failed,
@@ -253,7 +268,7 @@ async function validateArticlesPerFamily(count) {
 // ─── Main Validation ─────────────────────────────────────────────────────
 
 async function main() {
-  const result = await validateArticlesPerFamily(10);
+  const result = await validateArticlesPerFamily(20);
   
   console.log(`\n=== Validation Summary ===`);
   console.log(`Families Validated: ${result.familiesValidated}`);
@@ -262,7 +277,7 @@ async function main() {
   console.log(`Articles Failed: ${result.articlesFailed}`);
   console.log(`Validation Score: ${result.validationScore}`);
   
-  const productionReady = parseFloat(result.validationScore) >= 80 && result.articlesFailed === 0;
+  const productionReady = parseFloat(result.validationScore) >= 95 && result.articlesFailed === 0;
   console.log(`Production Ready: ${productionReady ? 'YES' : 'NO'}`);
   
   if (productionReady) {

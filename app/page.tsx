@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { DEFAULT_LANGUAGE, SITE_NAME } from "@/lib/constants";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
-      <main className="relative w-full max-w-4xl px-6 py-20 text-center">
+      
+      <main className="relative w-full max-w-4xl mx-auto px-6 py-20 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-accent px-4 py-1.5 text-sm font-medium text-muted-foreground mb-8">
           <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
           Autonomous Publishing Engine
@@ -24,14 +26,14 @@ export default function Home() {
             Browse Public Site
           </Link>
           <Link
-            href="/admin/dashboard"
+            href="/admin/discovery-admin"
             className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground hover:bg-accent transition"
           >
-            Admin Dashboard
+            Discovery Dashboard
           </Link>
         </div>
       </main>
-      <footer className="relative py-6 text-sm text-muted-foreground">
+      <footer className="relative py-6 text-sm text-muted-foreground text-center">
         © {new Date().getFullYear()} {SITE_NAME}
       </footer>
     </div>

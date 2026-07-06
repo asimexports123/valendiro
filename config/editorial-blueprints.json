@@ -1,0 +1,389 @@
+{
+  "version": "1.0.0",
+  "description": "Editorial Blueprints - Define article structure and section requirements per Subject Model",
+  "lastUpdated": "2026-07-06T00:00:00Z",
+  "blueprints": {
+    "programming": {
+      "name": "Programming Technical Guide",
+      "subjectModel": "programming",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "architecture",
+          "heading": "Architecture & Design",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "implementation",
+          "heading": "Implementation",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "usage",
+          "heading": "Usage Examples",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "performance",
+          "heading": "Performance Considerations",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "best-practices",
+          "heading": "Best Practices",
+          "required": true,
+          "order": 6
+        },
+        {
+          "type": "common-mistakes",
+          "heading": "Common Mistakes",
+          "required": true,
+          "order": 7
+        },
+        {
+          "type": "debugging",
+          "heading": "Debugging & Troubleshooting",
+          "required": false,
+          "order": 8
+        }
+      ],
+      "proseStyle": "technical-educational",
+      "audience": "developers"
+    },
+    "business": {
+      "name": "Business Operations Guide",
+      "subjectModel": "business",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "selection",
+          "heading": "Selection Criteria",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "evaluation",
+          "heading": "Evaluation Framework",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "implementation",
+          "heading": "Implementation Process",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "governance",
+          "heading": "Governance & Oversight",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "performance",
+          "heading": "Performance Management",
+          "required": true,
+          "order": 6
+        },
+        {
+          "type": "risk",
+          "heading": "Risk Management",
+          "required": true,
+          "order": 7
+        },
+        {
+          "type": "best-practices",
+          "heading": "Best Practices",
+          "required": true,
+          "order": 8
+        }
+      ],
+      "proseStyle": "business-guide",
+      "audience": "business-professionals"
+    },
+    "gardening": {
+      "name": "Gardening Guide",
+      "subjectModel": "gardening",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "preparation",
+          "heading": "Preparation & Planning",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "implementation",
+          "heading": "Step-by-Step Guide",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "maintenance",
+          "heading": "Ongoing Maintenance",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "seasonal",
+          "heading": "Seasonal Considerations",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "common-mistakes",
+          "heading": "Common Mistakes",
+          "required": true,
+          "order": 6
+        },
+        {
+          "type": "tips",
+          "heading": "Expert Tips",
+          "required": false,
+          "order": 7
+        }
+      ],
+      "proseStyle": "practical-guide",
+      "audience": "home-gardeners"
+    },
+    "meal-planning": {
+      "name": "Meal Planning Guide",
+      "subjectModel": "meal-planning",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "benefits",
+          "heading": "Benefits",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "getting-started",
+          "heading": "Getting Started",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "process",
+          "heading": "The Process",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "tools",
+          "heading": "Tools & Resources",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "tips",
+          "heading": "Tips for Success",
+          "required": true,
+          "order": 6
+        }
+      ],
+      "proseStyle": "practical-guide",
+      "audience": "home-cooks"
+    },
+    "travel": {
+      "name": "Travel Guide",
+      "subjectModel": "travel",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "selection",
+          "heading": "Destination Selection",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "planning",
+          "heading": "Planning & Budgeting",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "implementation",
+          "heading": "Booking & Preparation",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "implementation",
+          "heading": "Travel & Transportation",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "considerations",
+          "heading": "Safety & Documentation",
+          "required": true,
+          "order": 6
+        },
+        {
+          "type": "tips",
+          "heading": "Travel Tips",
+          "required": true,
+          "order": 7
+        },
+        {
+          "type": "common-mistakes",
+          "heading": "Common Travel Mistakes",
+          "required": true,
+          "order": 8
+        }
+      ],
+      "proseStyle": "practical-guide",
+      "audience": "travelers"
+    },
+    "recipes": {
+      "name": "Cooking Guide",
+      "subjectModel": "recipes",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "planning",
+          "heading": "Preparation",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "implementation",
+          "heading": "Cooking Instructions",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "tips",
+          "heading": "Tips & Variations",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "common-mistakes",
+          "heading": "Common Cooking Mistakes",
+          "required": true,
+          "order": 5
+        }
+      ],
+      "proseStyle": "practical-guide",
+      "audience": "home-cooks"
+    },
+    "finance": {
+      "name": "Personal Finance Guide",
+      "subjectModel": "finance",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "benefits",
+          "heading": "Why It Matters",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "implementation",
+          "heading": "How to Apply This",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "considerations",
+          "heading": "Important Considerations",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "best-practices",
+          "heading": "Best Practices",
+          "required": true,
+          "order": 5
+        },
+        {
+          "type": "common-mistakes",
+          "heading": "Common Mistakes",
+          "required": true,
+          "order": 6
+        }
+      ],
+      "proseStyle": "educational-guide",
+      "audience": "general-consumers"
+    },
+    "education": {
+      "name": "Educational Guide",
+      "subjectModel": "education",
+      "requiredSections": [
+        {
+          "type": "definition",
+          "heading": "What Is {subject}",
+          "required": true,
+          "order": 1
+        },
+        {
+          "type": "benefits",
+          "heading": "Why It Matters",
+          "required": true,
+          "order": 2
+        },
+        {
+          "type": "implementation",
+          "heading": "How to Apply This",
+          "required": true,
+          "order": 3
+        },
+        {
+          "type": "evidence",
+          "heading": "What the Research Shows",
+          "required": true,
+          "order": 4
+        },
+        {
+          "type": "best-practices",
+          "heading": "Evidence-Based Guidelines",
+          "required": true,
+          "order": 5
+        }
+      ],
+      "proseStyle": "educational",
+      "audience": "learners"
+    }
+  }
+}

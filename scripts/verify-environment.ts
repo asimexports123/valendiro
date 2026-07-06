@@ -1,15 +1,10 @@
 /**
  * Phase 33A: Environment Verification
- * 
+ *
  * Verify execution environment, database connection, and data consistency
  */
 
-import * as dotenv from "dotenv";
-import { resolve } from "path";
-
-dotenv.config({ path: resolve(process.cwd(), ".env.local") });
-
-import { createAdminClient } from "../lib/supabase/admin";
+import { createAdminClient, env } from "../lib/env";
 
 async function verifyEnvironment() {
   console.log("Phase 33A: Environment Verification");
@@ -17,11 +12,11 @@ async function verifyEnvironment() {
 
   // Environment Variables
   console.log("\n1. Environment Variables:");
-  console.log(`   NEXT_PUBLIC_SUPABASE_URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL ? "SET" : "NOT SET"}`);
-  console.log(`   SUPABASE_SERVICE_ROLE_KEY: ${process.env.SUPABASE_SERVICE_ROLE_KEY ? "SET (length: " + process.env.SUPABASE_SERVICE_ROLE_KEY.length + ")" : "NOT SET"}`);
-  
+  console.log(`   NEXT_PUBLIC_SUPABASE_URL: ${env.NEXT_PUBLIC_SUPABASE_URL ? "SET" : "NOT SET"}`);
+  console.log(`   SUPABASE_SERVICE_ROLE_KEY: ${env.SUPABASE_SERVICE_ROLE_KEY ? "SET (length: " + env.SUPABASE_SERVICE_ROLE_KEY.length + ")" : "NOT SET"}`);
+
   // Extract project ID from URL
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const supabaseUrl = env.NEXT_PUBLIC_SUPABASE_URL || "";
   const projectIdMatch = supabaseUrl.match(/https:\/\/([a-z0-9]+)\.supabase\.co/);
   const projectId = projectIdMatch ? projectIdMatch[1] : "UNKNOWN";
   console.log(`   Project ID: ${projectId}`);

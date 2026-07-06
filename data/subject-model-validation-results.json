@@ -1,0 +1,218 @@
+[
+  {
+    "subjectKey": "gardening",
+    "subjectModel": "Gardening",
+    "topicId": "245046dc-993b-4380-8ae9-0f6abda2080e",
+    "slug": "home-renovation",
+    "url": "https://knowledge-os.com/topics/home-renovation",
+    "title": "Home Renovation",
+    "currentContentLength": 852,
+    "newContentLength": 2885,
+    "currentAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 0,
+      "mentionsVocabulary": 0,
+      "mentionsBestPractices": false,
+      "mentionsCommonMistakes": false,
+      "mentionsMentalModels": false,
+      "sectionCount": 11,
+      "estimatedExpertLevel": "beginner"
+    },
+    "newAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 5,
+      "mentionsVocabulary": 5,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": true,
+      "mentionsMentalModels": true,
+      "sectionCount": 8,
+      "estimatedExpertLevel": "expert"
+    },
+    "improvement": {
+      "coreConceptsIncrease": 5,
+      "vocabularyIncrease": 5,
+      "gainedDomainSpecificSections": false,
+      "sectionCountIncrease": -3
+    }
+  },
+  {
+    "subjectKey": "meal-planning",
+    "subjectModel": "Meal Planning",
+    "topicId": "4801b2ee-0842-45d6-a99d-2df58752dd29",
+    "slug": "diy-home-repairs",
+    "url": "https://knowledge-os.com/topics/diy-home-repairs",
+    "title": "DIY Home Repairs",
+    "currentContentLength": 856,
+    "newContentLength": 2983,
+    "currentAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 0,
+      "mentionsVocabulary": 0,
+      "mentionsBestPractices": false,
+      "mentionsCommonMistakes": false,
+      "mentionsMentalModels": false,
+      "sectionCount": 11,
+      "estimatedExpertLevel": "beginner"
+    },
+    "newAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 5,
+      "mentionsVocabulary": 5,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": true,
+      "mentionsMentalModels": true,
+      "sectionCount": 8,
+      "estimatedExpertLevel": "expert"
+    },
+    "improvement": {
+      "coreConceptsIncrease": 5,
+      "vocabularyIncrease": 5,
+      "gainedDomainSpecificSections": false,
+      "sectionCountIncrease": -3
+    }
+  },
+  {
+    "subjectKey": "recipes",
+    "subjectModel": "Recipes",
+    "topicId": "621efa6b-168e-4459-b8fc-0d76e681b9fb",
+    "slug": "baking-basics",
+    "url": "https://knowledge-os.com/topics/baking-basics",
+    "title": "Baking Basics",
+    "currentContentLength": 5602,
+    "newContentLength": 2599,
+    "currentAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 0,
+      "mentionsVocabulary": 2,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": true,
+      "mentionsMentalModels": false,
+      "sectionCount": 13,
+      "estimatedExpertLevel": "beginner"
+    },
+    "newAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 5,
+      "mentionsVocabulary": 5,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": true,
+      "mentionsMentalModels": true,
+      "sectionCount": 8,
+      "estimatedExpertLevel": "expert"
+    },
+    "improvement": {
+      "coreConceptsIncrease": 5,
+      "vocabularyIncrease": 3,
+      "gainedDomainSpecificSections": false,
+      "sectionCountIncrease": -5
+    }
+  },
+  {
+    "subjectKey": "programming",
+    "subjectModel": "Programming",
+    "topicId": "8f68092d-4b48-4f55-acbe-08371944b374",
+    "slug": "go-programming-language",
+    "url": "https://knowledge-os.com/topics/go-programming-language",
+    "title": "Go Programming Language",
+    "currentContentLength": 896,
+    "newContentLength": 2789,
+    "currentAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 0,
+      "mentionsVocabulary": 0,
+      "mentionsBestPractices": false,
+      "mentionsCommonMistakes": false,
+      "mentionsMentalModels": false,
+      "sectionCount": 11,
+      "estimatedExpertLevel": "beginner"
+    },
+    "newAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 5,
+      "mentionsVocabulary": 5,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": true,
+      "mentionsMentalModels": true,
+      "sectionCount": 8,
+      "estimatedExpertLevel": "expert"
+    },
+    "improvement": {
+      "coreConceptsIncrease": 5,
+      "vocabularyIncrease": 5,
+      "gainedDomainSpecificSections": false,
+      "sectionCountIncrease": -3
+    }
+  },
+  {
+    "subjectKey": "finance",
+    "subjectModel": "Finance",
+    "topicId": "6b2cbb94-0815-485c-a769-1eed7dab49a5",
+    "slug": "credit-scores",
+    "url": "https://knowledge-os.com/topics/credit-scores",
+    "title": "Credit Scores",
+    "currentContentLength": 3316,
+    "newContentLength": 2656,
+    "currentAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 0,
+      "mentionsVocabulary": 1,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": false,
+      "mentionsMentalModels": false,
+      "sectionCount": 16,
+      "estimatedExpertLevel": "beginner"
+    },
+    "newAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 5,
+      "mentionsVocabulary": 8,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": true,
+      "mentionsMentalModels": true,
+      "sectionCount": 8,
+      "estimatedExpertLevel": "expert"
+    },
+    "improvement": {
+      "coreConceptsIncrease": 5,
+      "vocabularyIncrease": 7,
+      "gainedDomainSpecificSections": false,
+      "sectionCountIncrease": -8
+    }
+  },
+  {
+    "subjectKey": "cloud",
+    "subjectModel": "Cloud Computing",
+    "topicId": "9cf0a01a-a309-4998-88f1-ba3c76680682",
+    "slug": "aws-ec2",
+    "url": "https://knowledge-os.com/topics/aws-ec2",
+    "title": "Aws Ec2",
+    "currentContentLength": 3516,
+    "newContentLength": 2613,
+    "currentAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 0,
+      "mentionsVocabulary": 6,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": false,
+      "mentionsMentalModels": false,
+      "sectionCount": 16,
+      "estimatedExpertLevel": "beginner"
+    },
+    "newAnalysis": {
+      "hasDomainSpecificSections": true,
+      "mentionsCoreConcepts": 5,
+      "mentionsVocabulary": 9,
+      "mentionsBestPractices": true,
+      "mentionsCommonMistakes": true,
+      "mentionsMentalModels": true,
+      "sectionCount": 8,
+      "estimatedExpertLevel": "expert"
+    },
+    "improvement": {
+      "coreConceptsIncrease": 5,
+      "vocabularyIncrease": 3,
+      "gainedDomainSpecificSections": false,
+      "sectionCountIncrease": -8
+    }
+  }
+]

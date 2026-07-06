@@ -1,0 +1,29 @@
+[
+  {
+    "topicId": "38bb0237-53fd-4760-9a0c-78e6de20eb83",
+    "topicSlug": "nodejs-cluster",
+    "knowledgePackages": [],
+    "selectedPackage": null,
+    "selectionReason": "No published packages found",
+    "hasMultiplePackages": false,
+    "hasPackagesWithFacts": false
+  },
+  {
+    "topicId": "c62564b3-03e9-4ab3-908d-7a81a9574c55",
+    "topicSlug": "family-vacations",
+    "knowledgePackages": [],
+    "selectedPackage": null,
+    "selectionReason": "No published packages found",
+    "hasMultiplePackages": false,
+    "hasPackagesWithFacts": false
+  },
+  {
+    "topicId": "6faaae47-c860-4966-a993-f61dfa908dd9",
+    "topicSlug": "vendor-management",
+    "knowledgePackages": [],
+    "selectedPackage": null,
+    "selectionReason": "No published packages found",
+    "hasMultiplePackages": false,
+    "hasPackagesWithFacts": false
+  }
+]
