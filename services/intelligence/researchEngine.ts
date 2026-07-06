@@ -412,8 +412,8 @@ async function resolveInternalLinkSignals(
         });
       }
     }
-  } catch {
-    // Non-fatal — internal links are enriched later by the linking engine
+  } catch (err) {
+    console.warn("Non-fatal: failed to build internal link signals:", err instanceof Error ? err.message : err);
   }
 
   return signals;

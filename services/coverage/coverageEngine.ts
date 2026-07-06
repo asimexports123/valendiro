@@ -100,13 +100,21 @@ export async function analyzeAllDomainsCoverage(): Promise<CoverageAnalysis[]> {
 
   const analyses: CoverageAnalysis[] = [];
 
+  const errors: string[] = [];
+
   for (const template of templates) {
     try {
       const analysis = await analyzeCoverage(template.domainId);
       analyses.push(analysis);
     } catch (error) {
-      console.error(`Error analyzing coverage for ${template.domainId}:`, error);
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`Error analyzing coverage for ${template.domainId}: ${message}`);
+      errors.push(`${template.domainId}: ${message}`);
     }
+  }
+
+  if (errors.length > 0) {
+    console.error(`Coverage analysis completed with ${errors.length} error(s) out of ${templates.length} domains`);
   }
 
   return analyses;

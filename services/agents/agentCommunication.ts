@@ -159,7 +159,9 @@ export class AgentCommunication {
         try {
           await handler.handler(message);
         } catch (error) {
-          console.error(`[Agent Communication] Error handling message in agent ${agentId}:`, error);
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          console.error(`[Agent Communication] Error handling message in agent ${agentId}: ${errorMessage}`);
+          throw new Error(`Agent ${agentId} failed to handle ${message.messageType} message: ${errorMessage}`);
         }
       }
     }

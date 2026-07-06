@@ -26,38 +26,33 @@ export interface DiscoveredTopic {
 export async function autoDiscoverTopic(topicSlug: string, topicTitle: string): Promise<DiscoveredTopic | null> {
   console.log(`Auto-discovering topic: ${topicSlug}`);
 
-  try {
-    // Try Wikipedia first
-    const wikiAdapter = new WikipediaAdapter();
-    
-    // Create empty slot for discovery
-    const emptySlots: SlotInfo[] = [{
-      id: "discovery-slot",
+  // Try Wikipedia first
+  const wikiAdapter = new WikipediaAdapter();
+  
+  // Create empty slot for discovery
+  const emptySlots: SlotInfo[] = [{
+    id: "discovery-slot",
+    slug: topicSlug,
+    title: topicTitle,
+    description: "Auto-discovery slot",
+    sectionSlug: "discovery",
+    sectionName: "Discovery"
+  }];
+
+  const wikiCandidates = await wikiAdapter.extract(topicSlug, topicTitle, emptySlots);
+
+  if (wikiCandidates.length > 0) {
+    const candidate = wikiCandidates[0];
+    return {
       slug: topicSlug,
-      title: topicTitle,
-      description: "Auto-discovery slot",
-      sectionSlug: "discovery",
-      sectionName: "Discovery"
-    }];
-
-    const wikiCandidates = await wikiAdapter.extract(topicSlug, topicTitle, emptySlots);
-
-    if (wikiCandidates.length > 0) {
-      const candidate = wikiCandidates[0];
-      return {
-        slug: topicSlug,
-        title: candidate.title,
-        description: candidate.description,
-        sourceUrl: candidate.sourceUrl,
-        adapterName: "WikipediaAdapter"
-      };
-    }
-
-    return null;
-  } catch (error) {
-    console.error(`Error discovering topic ${topicSlug}:`, error);
-    return null;
+      title: candidate.title,
+      description: candidate.description,
+      sourceUrl: candidate.sourceUrl,
+      adapterName: "WikipediaAdapter"
+    };
   }
+
+  return null;
 }
 
 /**
@@ -85,11 +80,15 @@ export async function autoDiscoverTopics(topicSlugs: string[], topicTitles: stri
  * Get topics from generation queue and discover them
  */
 export async function processDiscoveryQueue(): Promise<void> {
-  const { data: queueItems } = await supabase
+  const { data: queueItems, error: fetchError } = await supabase
     .from("content_generation_queue")
     .select("*")
     .eq("status", "pending")
     .limit(10);
+
+  if (fetchError) {
+    throw new Error(`Failed to fetch discovery queue: ${fetchError.message}`);
+  }
 
   if (!queueItems || queueItems.length === 0) {
     console.log("No topics in discovery queue");
@@ -99,32 +98,50 @@ export async function processDiscoveryQueue(): Promise<void> {
   console.log(`Processing ${queueItems.length} topics from queue`);
 
   for (const item of queueItems) {
-    const discovered = await autoDiscoverTopic(item.topic_slug, item.topic_slug);
+    try {
+      const discovered = await autoDiscoverTopic(item.topic_slug, item.topic_slug);
 
-    if (discovered) {
-      // Update queue item with discovered data
-      await supabase
-        .from("content_generation_queue")
-        .update({
-          status: "discovered",
-          discovered_data: discovered,
-          updated_at: new Date().toISOString()
-        })
-        .eq("id", item.id);
+      if (discovered) {
+        const { error: updateError } = await supabase
+          .from("content_generation_queue")
+          .update({
+            status: "discovered",
+            discovered_data: discovered,
+            updated_at: new Date().toISOString()
+          })
+          .eq("id", item.id);
 
-      console.log(`Discovered: ${item.topic_slug}`);
-    } else {
-      // Mark as failed
+        if (updateError) {
+          console.error(`Failed to update queue item ${item.topic_slug}: ${updateError.message}`);
+        } else {
+          console.log(`Discovered: ${item.topic_slug}`);
+        }
+      } else {
+        const { error: failError } = await supabase
+          .from("content_generation_queue")
+          .update({
+            status: "failed",
+            error_message: "Could not discover topic from any source",
+            updated_at: new Date().toISOString()
+          })
+          .eq("id", item.id);
+
+        if (failError) {
+          console.error(`Failed to mark item as failed ${item.topic_slug}: ${failError.message}`);
+        }
+        console.log(`Failed to discover: ${item.topic_slug}`);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`Error discovering topic ${item.topic_slug}: ${message}`);
       await supabase
         .from("content_generation_queue")
         .update({
           status: "failed",
-          error_message: "Could not discover topic from any source",
+          error_message: message,
           updated_at: new Date().toISOString()
         })
         .eq("id", item.id);
-
-      console.log(`Failed to discover: ${item.topic_slug}`);
     }
   }
 }

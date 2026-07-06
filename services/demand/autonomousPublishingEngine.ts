@@ -429,17 +429,23 @@ export async function publishApprovedArticles(limit = 10): Promise<PublishingEng
         // Quota exhausted: pause this item, skip remaining items — resume tomorrow
         if (isQuotaExhaustedError(agentErr)) {
           console.warn(`[Pipeline] Gemini quota exhausted. Pausing pipeline. Item "${item.title}" set to pending_llm.`);
-          await supabase
+          const { error: pauseErr } = await supabase
             .from("content_generation_queue")
             .update({ status: "pending_llm", failed_reason: "Gemini quota exhausted — will resume automatically" })
             .eq("id", item.id);
+          if (pauseErr) {
+            console.error(`[Pipeline] Failed to pause queue item "${item.title}": ${pauseErr.message}`);
+          }
           // Set ALL remaining pending items to pending_llm in one update
           const remaining = queueItems.slice(queueItems.indexOf(item) + 1).map(i => i.id);
           if (remaining.length > 0) {
-            await supabase
+            const { error: batchPauseErr } = await supabase
               .from("content_generation_queue")
               .update({ status: "pending_llm", failed_reason: "Gemini quota exhausted — will resume automatically" })
               .in("id", remaining);
+            if (batchPauseErr) {
+              console.error(`[Pipeline] Failed to batch-pause ${remaining.length} remaining items: ${batchPauseErr.message}`);
+            }
           }
           result.errors.push(`Gemini quota exhausted after "${item.title}" — ${remaining.length + 1} items paused as pending_llm`);
           break;

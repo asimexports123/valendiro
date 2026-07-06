@@ -20,7 +20,9 @@ async function checkUrl(url: string): Promise<{ status: number; ok: boolean; bod
     const res = await fetch(url, { headers: { "User-Agent": "Valendiro-Audit/1.0" } });
     const text = await res.text();
     return { status: res.status, ok: res.status < 400, bodyLen: text.length };
-  } catch (e: any) {
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
+    console.error(`  Fetch error for ${url}: ${message}`);
     return { status: 0, ok: false, bodyLen: 0 };
   }
 }

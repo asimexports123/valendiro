@@ -588,7 +588,7 @@ export class PublicationPipeline {
       // For now, we'll log it
       return true;
     } catch (error) {
-      console.error(`[Publication Pipeline] Cache revalidation failed:`, error);
+      console.error(`[Publication Pipeline] Cache revalidation failed for ${topicSlug} (${languageCode}):`, error instanceof Error ? error.message : error);
       return false;
     }
   }
