@@ -11,11 +11,22 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { assemble } from "@/services/knowledge/assembler";
 import { clearGlossaryCache } from "@/services/knowledge/normalizer";
 import type { AssemblyInput, CandidateInput } from "@/services/knowledge/types";
 
 export async function POST(req: NextRequest) {
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", session.user.id).single();
+  if (!profile || (profile.role !== "admin" && profile.role !== "editor")) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   try {
     const body = await req.json();
     const { slug, candidateIds, slotId, topicId } = body as {

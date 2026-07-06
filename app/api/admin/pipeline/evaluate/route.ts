@@ -30,8 +30,9 @@ export async function POST(request: Request) {
     count?: number;
   };
 
+  const expectedSecret = process.env.PIPELINE_TEST_SECRET;
   const isLocalDev = process.env.NODE_ENV === "development" &&
-    body.secret === (process.env.PIPELINE_TEST_SECRET ?? "local-test");
+    !!expectedSecret && body.secret === expectedSecret;
   if (!isLocalDev) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

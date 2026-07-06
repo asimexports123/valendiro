@@ -3,8 +3,13 @@ import { render } from '../renderer/orchestrator';
 import { KnowledgeAuthorAgent, type KnowledgeAuthorInput } from '../agents/agents/knowledgeAuthorAgent';
 import { PublicationPipeline } from '../publication/publicationPipeline';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://diwwvkbztvhwouttajha.supabase.co';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpd3d2a2J6dHZod291dHRhamhhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjY3NzIwMywiZXhwIjoyMDk4MjUzMjAzfQ.H-H9Ozpnn0M4d65ybDHOMVBQiK-CQFC9OPQPXq2b6yY';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables");
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Business objective types
@@ -268,14 +273,6 @@ export class PipelineOrchestrator {
     this.topicSelector = new TopicSelector();
     this.gapAnalyzer = new KnowledgeGapAnalyzer();
     this.knowledgeAuthorAgent = new KnowledgeAuthorAgent();
-    
-    // Set environment variables if not already set
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      process.env.NEXT_PUBLIC_SUPABASE_URL = supabaseUrl;
-    }
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      process.env.SUPABASE_SERVICE_ROLE_KEY = supabaseKey;
-    }
     
     this.publicationPipeline = new PublicationPipeline();
   }

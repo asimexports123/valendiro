@@ -5,6 +5,7 @@ import {
   batchAutoGenerate,
   expandSubcategory,
 } from "@/services/demand/topicAutoGenerator";
+import { createClient } from "@/lib/supabase/server";
 
 /**
  * POST /api/admin/topic-auto-generate
@@ -16,6 +17,16 @@ import {
  *   { mode: "dry-run", subcategorySlug: "programming" }
  */
 export async function POST(req: NextRequest) {
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", session.user.id).single();
+  if (!profile || profile.role !== "admin") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   try {
     const body = await req.json();
     const mode = body.mode || "single";

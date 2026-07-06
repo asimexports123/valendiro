@@ -27,8 +27,8 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => ({})) as { secret?: string; stage?: string; limit?: number };
 
-  const secret = process.env.PIPELINE_TEST_SECRET ?? "local-test";
-  if (body.secret !== secret) {
+  const secret = process.env.PIPELINE_TEST_SECRET;
+  if (!secret || body.secret !== secret) {
     return NextResponse.json({ error: "Invalid secret" }, { status: 401 });
   }
 

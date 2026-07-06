@@ -9,8 +9,8 @@ export async function POST(request: Request) {
     const { secret, topic_slug } = body;
 
     // Verify secret
-    const expectedSecret = process.env.RENDER_SECRET || process.env.PIPELINE_TEST_SECRET || "local-test";
-    if (secret !== expectedSecret) {
+    const expectedSecret = process.env.RENDER_SECRET || process.env.PIPELINE_TEST_SECRET;
+    if (!expectedSecret || secret !== expectedSecret) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -126,9 +126,6 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error("Knowledge Authoring Engine error:", error);
-    return NextResponse.json({ 
-      error: "Internal server error",
-      details: error instanceof Error ? error.message : String(error)
-    }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
