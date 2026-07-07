@@ -16,6 +16,7 @@ interface EntityPageProps {
 
 interface EntityHubData {
   entity: any;
+  entityKnowledge: any;
   relatedEntities: any[];
   latestArticles: any[];
   knowledgePackages: any[];
@@ -23,7 +24,11 @@ interface EntityHubData {
     articleCount: number;
     relationshipCount: number;
     knowledgePackageCount: number;
+    factCount: number;
+    sourceCount: number;
+    knowledgeVersion: number;
     lastUpdated: string;
+    lastKnowledgeUpdate?: string;
   };
 }
 
@@ -43,6 +48,9 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
     console.log("[Entity Hub] Entity not found:", entityError);
     return null;
   }
+
+  // Get entity knowledge from metadata
+  const entityKnowledge = entity.metadata?.entity_knowledge || {};
 
   // Get related entities (fix query to avoid embedding error)
   const { data: edges, error: edgesError } = await supabase
@@ -89,6 +97,7 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
 
   return {
     entity,
+    entityKnowledge,
     relatedEntities,
     latestArticles: topics || [],
     knowledgePackages: packages || [],
@@ -96,7 +105,11 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
       articleCount: entity.article_count || 0,
       relationshipCount: relatedEntities.length,
       knowledgePackageCount: packages?.length || 0,
+      factCount: entityKnowledge.entity_fact_count || 0,
+      sourceCount: entityKnowledge.entity_source_count || 0,
+      knowledgeVersion: entityKnowledge.knowledge_version || 1,
       lastUpdated: entity.last_updated_at || entity.updated_at,
+      lastKnowledgeUpdate: entityKnowledge.last_knowledge_update,
     },
   };
 }
@@ -108,7 +121,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
     notFound();
   }
 
-  const { entity, relatedEntities, latestArticles, knowledgePackages, statistics } = data;
+  const { entity, entityKnowledge, relatedEntities, latestArticles, knowledgePackages, statistics } = data;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -135,6 +148,18 @@ export default async function EntityPage({ params }: EntityPageProps) {
                 <span className="font-medium">Last updated:</span>{" "}
                 {new Date(entity.last_updated_at || entity.updated_at).toLocaleDateString()}
               </div>
+              {statistics.lastKnowledgeUpdate && (
+                <div>
+                  <span className="font-medium">Knowledge update:</span>{" "}
+                  {new Date(statistics.lastKnowledgeUpdate).toLocaleDateString()}
+                </div>
+              )}
+              {statistics.knowledgeVersion > 1 && (
+                <div>
+                  <span className="font-medium">Knowledge version:</span>{" "}
+                  {statistics.knowledgeVersion}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -153,27 +178,51 @@ export default async function EntityPage({ params }: EntityPageProps) {
               <div className="text-sm text-gray-500 mt-1">Relationships</div>
             </div>
             <div className="bg-white p-6 rounded-lg border">
-              <div className="text-3xl font-bold text-purple-600">{statistics.knowledgePackageCount}</div>
-              <div className="text-sm text-gray-500 mt-1">Knowledge Packages</div>
+              <div className="text-3xl font-bold text-purple-600">{statistics.factCount}</div>
+              <div className="text-sm text-gray-500 mt-1">Facts</div>
             </div>
             <div className="bg-white p-6 rounded-lg border">
-              <div className="text-3xl font-bold text-orange-600">
-                {Math.round((entity.confidence_score || 0) * 100)}%
-              </div>
-              <div className="text-sm text-gray-500 mt-1">Confidence</div>
+              <div className="text-3xl font-bold text-orange-600">{statistics.sourceCount}</div>
+              <div className="text-sm text-gray-500 mt-1">Sources</div>
             </div>
           </div>
 
           {/* Overview */}
           <div className="bg-white p-8 rounded-lg border mb-8">
             <h2 className="text-2xl font-bold mb-4">Overview</h2>
-            <p className="text-gray-700 leading-relaxed">
-              {entity.description} This entity has been mentioned in {statistics.articleCount} articles 
-              and is connected to {statistics.relationshipCount} other entities in the knowledge graph.
-              The knowledge confidence score of {Math.round((entity.confidence_score || 0) * 100)}% 
-              indicates the reliability of the information about {entity.name}.
-            </p>
+            {entityKnowledge.overview ? (
+              <p className="text-gray-700 leading-relaxed">{entityKnowledge.overview}</p>
+            ) : (
+              <p className="text-gray-700 leading-relaxed">
+                {entity.description} This entity has been mentioned in {statistics.articleCount} articles 
+                and is connected to {statistics.relationshipCount} other entities in the knowledge graph.
+                The knowledge confidence score of {Math.round((entity.confidence_score || 0) * 100)}% 
+                indicates the reliability of the information about {entity.name}.
+              </p>
+            )}
           </div>
+
+          {/* Latest News Summary */}
+          {entityKnowledge.latest_news_summary && (
+            <div className="bg-white p-8 rounded-lg border mb-8">
+              <h2 className="text-2xl font-bold mb-4">Latest Developments</h2>
+              <p className="text-gray-700 leading-relaxed">{entityKnowledge.latest_news_summary}</p>
+            </div>
+          )}
+
+          {/* Entity Facts */}
+          {entityKnowledge.facts && entityKnowledge.facts.length > 0 && (
+            <div className="bg-white p-8 rounded-lg border mb-8">
+              <h2 className="text-2xl font-bold mb-4">Key Facts</h2>
+              <div className="space-y-3">
+                {entityKnowledge.facts.map((fact: string, index: number) => (
+                  <div key={index} className="p-4 bg-gray-50 rounded-lg">
+                    <p className="text-gray-700">{fact}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Latest Articles */}
           {latestArticles.length > 0 && (
