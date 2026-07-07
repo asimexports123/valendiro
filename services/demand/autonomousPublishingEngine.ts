@@ -14,6 +14,7 @@ import {
 import { runPublishingChecklist, runPostPublishAudit } from "../publishing/publishingChecklist";
 import { generateFullArticleSchema } from "../seo/schemaGenerator";
 import { assignFeaturedImages } from "../publishing/featuredImageService";
+import { getAIContentGenerator } from "../ai/aiContentGenerator";
 
 function normalizeTitleForTopic(raw: string): string {
   return raw
@@ -27,79 +28,23 @@ function normalizeTitleForTopic(raw: string): string {
     .replace(/^./, (c) => c.toUpperCase());
 }
 
-function buildTopicContent(rawTitle: string, keyword: string, category: string): string {
+async function buildTopicContent(rawTitle: string, keyword: string, category: string): Promise<string> {
   const title = normalizeTitleForTopic(rawTitle);
-  const lc = title.toLowerCase();
   const cat = category && category !== "General" ? category : "knowledge";
-  const kw = keyword || lc;
+  const kw = keyword || title.toLowerCase();
 
-  return [
-    `## What Is ${title}?`,
-    ``,
-    `${title} is a core area within ${cat}. It covers the principles, practices, and applications that practitioners rely on to make informed decisions and achieve consistent results.`,
-    ``,
-    `Understanding ${lc} means grasping not just the surface-level definition but the underlying reasoning — why it works, when to apply it, and what to watch out for.`,
-    ``,
-    `## Why ${title} Matters`,
-    ``,
-    `${title} is relevant because it addresses problems that arise repeatedly across different contexts. Professionals who invest in understanding ${lc} build a durable advantage: they solve problems faster, communicate more clearly, and avoid common pitfalls that trip up those without this foundation.`,
-    ``,
-    `In ${cat}, ${lc} connects directly to outcomes that matter — whether that is better performance, lower risk, or higher quality output.`,
-    ``,
-    `## Core Principles`,
-    ``,
-    `The following principles underpin ${title}:`,
-    ``,
-    `- **Clarity of purpose**: Every application of ${lc} should begin with a clear goal.`,
-    `- **Systematic thinking**: ${title} is built on structured approaches, not guesswork.`,
-    `- **Evidence-based decisions**: Good practice in ${lc} relies on verifiable information, not assumptions.`,
-    `- **Continuous improvement**: The field evolves; practitioners must evolve with it.`,
-    ``,
-    `## How ${title} Works in Practice`,
-    ``,
-    `Applying ${lc} follows a repeatable process:`,
-    ``,
-    `1. **Define the objective** — establish what success looks like before taking action.`,
-    `2. **Gather relevant information** — collect the data and context needed to make good decisions.`,
-    `3. **Choose the right method** — select from proven approaches within ${lc} based on the situation.`,
-    `4. **Execute with care** — implement the chosen approach deliberately, tracking progress.`,
-    `5. **Review and refine** — evaluate outcomes and adjust based on what you learn.`,
-    ``,
-    `## Key Terms and Definitions`,
-    ``,
-    `Familiarity with the language of ${title} helps learners engage with resources more effectively:`,
-    ``,
-    `- **${title}**: The primary subject of this topic — a structured area of study and practice within ${cat}.`,
-    `- **Foundation**: The baseline knowledge required before exploring advanced aspects of ${lc}.`,
-    `- **Framework**: A structured model for applying ${lc} concepts consistently.`,
-    `- **Outcome**: The measurable result of applying ${lc} in a given context.`,
-    ``,
-    `## Common Challenges`,
-    ``,
-    `Learners and practitioners regularly encounter these obstacles with ${lc}:`,
-    ``,
-    `- **Overwhelm from breadth**: ${title} is a large field. Breaking it into smaller topics helps manage complexity.`,
-    `- **Ambiguity in application**: Not every situation is textbook. Developing judgment takes time and real-world practice.`,
-    `- **Keeping current**: Like all fields in ${cat}, ${lc} develops over time. Staying updated requires deliberate effort.`,
-    ``,
-    `## Getting Started with ${title}`,
-    ``,
-    `The most effective way to begin is to:`,
-    ``,
-    `1. Read the foundational articles in this topic to build a clear mental model.`,
-    `2. Apply one concept at a time in a low-stakes context before scaling up.`,
-    `3. Review your results honestly and seek feedback from practitioners further along the learning path.`,
-    ``,
-    `The articles and guides below are organized to support exactly this progression.`,
-    ``,
-    `## Learning Path`,
-    ``,
-    `This topic is part of a structured knowledge hierarchy within ${cat}. Work through the articles in sequence for the most coherent learning experience. Each article addresses a specific question or skill within ${lc}, building on the previous.`,
-    ``,
-    `## Further Reading`,
-    ``,
-    `Explore the articles, guides, and related topics linked from this page. Each one deepens your understanding of a specific aspect of ${lc} and connects to the broader landscape of ${cat}.`,
-  ].join("\n");
+  // Use the improved AI content generator with world-class template
+  const generator = getAIContentGenerator();
+  const generated = await generator.generate({
+    title,
+    description: `a core area within ${cat}. It covers the principles, practices, and applications that practitioners rely on to make informed decisions and achieve consistent results.`,
+    format: "explainer",
+    languageCode: "en",
+    keywords: [kw],
+    tone: "professional",
+  });
+
+  return generated.content;
 }
 
 export interface PublishingEngineResult {
@@ -247,7 +192,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
       const topicKeyword = (metadata.keyword as string) || item.title;
       const topicCategory = (metadata.category as string) || "General";
       const cleanTitle = normalizeTitleForTopic(item.title);
-      const topicContent = buildTopicContent(item.title, topicKeyword, topicCategory);
+      const topicContent = await buildTopicContent(item.title, topicKeyword, topicCategory);
       const topicMetaDesc = `Learn everything about ${cleanTitle} — definitions, guides, tips, and expert resources.`.slice(0, 160);
 
       const placeholderCheck = runPlaceholderCheck(topicContent);
