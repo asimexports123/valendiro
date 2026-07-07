@@ -30,6 +30,13 @@ CREATE INDEX IF NOT EXISTS idx_regeneration_queue_queued_at ON content_regenerat
 ALTER TABLE content_regeneration_queue ENABLE ROW LEVEL SECURITY;
 
 -- Policies (admin only access)
+-- Drop policies if they exist first
+DROP POLICY IF EXISTS "Admins can view all regeneration jobs" ON content_regeneration_queue;
+DROP POLICY IF EXISTS "Admins can insert regeneration jobs" ON content_regeneration_queue;
+DROP POLICY IF EXISTS "Admins can update regeneration jobs" ON content_regeneration_queue;
+DROP POLICY IF EXISTS "Admins can delete regeneration jobs" ON content_regeneration_queue;
+
+-- Create policies
 CREATE POLICY "Admins can view all regeneration jobs" ON content_regeneration_queue
   FOR SELECT USING (auth.role() = 'authenticated');
 
