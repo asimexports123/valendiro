@@ -205,15 +205,20 @@ async function fetchJob(jobId: string): Promise<RegenerationJob | null> {
  * Fetch knowledge package for topic
  */
 async function fetchKnowledgePackage(topicSlug: string): Promise<any> {
+  console.log(`[RegenerationQueue] Fetching knowledge package for: ${topicSlug}`);
+  
   const { data, error: fetchError } = await supabase
     .from("knowledge_packages")
     .select("*")
     .eq("slug", topicSlug);
 
+  console.log(`[RegenerationQueue] Knowledge package query result:`, { error: fetchError, dataCount: data?.length });
+
   if (fetchError || !data || data.length === 0) {
     throw new Error(`Knowledge package not found: ${fetchError?.message}`);
   }
 
+  console.log(`[RegenerationQueue] Knowledge package found:`, data[0].id);
   return data[0];
 }
 
