@@ -65,31 +65,31 @@ export function cleanContent(content: string): string {
 }
 
 /**
- * Synthesize knowledge article from extracted content
+ * Synthesize knowledge article from structured knowledge package
+ * Generates content entirely from facts, entities, and relationships - not from source content
  */
-export async function synthesizeArticle(
+export async function synthesizeArticleFromKnowledge(
   title: string,
-  content: string,
   facts: string[],
-  entities: string[]
+  entities: string[],
+  relationships: any[],
+  sourceUrl?: string
 ): Promise<SynthesizedArticle> {
-  const cleanedContent = cleanContent(content);
-  
-  // Extract key information for each section
-  const whatHappened = extractWhatHappened(cleanedContent, title);
-  const whyItMatters = extractWhyItMatters(cleanedContent);
-  const background = extractBackground(cleanedContent);
-  const timeline = extractTimeline(cleanedContent);
-  const keyFacts = extractKeyFacts(facts);
-  const importantEntities = extractImportantEntities(entities);
-  const expertAnalysis = extractExpertAnalysis(cleanedContent);
-  const pros = extractPros(cleanedContent);
-  const cons = extractCons(cleanedContent);
-  const differentViewpoints = extractDifferentViewpoints(cleanedContent);
-  const realWorldImpact = extractRealWorldImpact(cleanedContent);
-  const faqs = generateFAQs(cleanedContent, title);
-  const references = extractReferences(cleanedContent);
-  const furtherReading = generateFurtherReading(cleanedContent);
+  // Generate all sections from structured knowledge only
+  const whatHappened = generateWhatHappenedFromFacts(facts, title);
+  const whyItMatters = generateWhyItMattersFromFacts(facts);
+  const background = generateBackgroundFromEntities(entities);
+  const timeline = generateTimelineFromFacts(facts);
+  const keyFacts = facts;
+  const importantEntities = entities;
+  const expertAnalysis = generateExpertAnalysisFromRelationships(relationships);
+  const pros = generateProsFromFacts(facts);
+  const cons = generateConsFromFacts(facts);
+  const differentViewpoints = generateViewpointsFromRelationships(relationships);
+  const realWorldImpact = generateImpactFromFacts(facts);
+  const faqs = generateFAQsFromFacts(facts, title);
+  const references = sourceUrl ? [sourceUrl] : [];
+  const furtherReading = generateFurtherReadingFromEntities(entities);
   
   return {
     whatHappened,
@@ -110,59 +110,46 @@ export async function synthesizeArticle(
 }
 
 /**
- * Extract what happened section
+ * Generate what happened section from facts
  */
-function extractWhatHappened(content: string, title: string): string {
-  const firstParagraph = content.split('\n\n')[0] || content.substring(0, 300);
-  return `${firstParagraph}`;
+function generateWhatHappenedFromFacts(facts: string[], title: string): string {
+  if (facts.length > 0) {
+    const primaryFact = facts[0];
+    return `This development involves ${primaryFact}. The event has garnered attention due to its implications for the stakeholders involved.`;
+  }
+  return `This development represents a significant event that has implications for the relevant stakeholders and industry context.`;
 }
 
 /**
- * Extract why it matters section
+ * Generate why it matters section from facts
  */
-function extractWhyItMatters(content: string): string {
-  const keywords = ['important', 'critical', 'significant', 'impact', 'consequences', 'implications'];
-  const sentences = content.split('. ');
-  const relevantSentences = sentences.filter(s => 
-    keywords.some(k => s.toLowerCase().includes(k))
-  );
-  
-  if (relevantSentences.length > 0) {
-    return relevantSentences.slice(0, 3).join('. ');
+function generateWhyItMattersFromFacts(facts: string[]): string {
+  if (facts.length > 1) {
+    const relevantFacts = facts.slice(0, 3).join(' ');
+    return `This development is important because ${relevantFacts}. These factors contribute to its significance in the broader context.`;
   }
-  
-  return "This development has significant implications for the industry and stakeholders involved.";
+  return "This development is significant due to its potential impact on stakeholders and the broader industry landscape.";
 }
 
 /**
- * Extract background section
+ * Generate background section from entities
  */
-function extractBackground(content: string): string {
-  const sentences = content.split('. ');
-  const contextKeywords = ['background', 'history', 'context', 'previously', 'traditionally', 'historically'];
-  const contextSentences = sentences.filter(s =>
-    contextKeywords.some(k => s.toLowerCase().includes(k))
-  );
-  
-  if (contextSentences.length > 0) {
-    return contextSentences.join('. ');
+function generateBackgroundFromEntities(entities: string[]): string {
+  if (entities.length > 0) {
+    const keyEntities = entities.slice(0, 5).join(', ');
+    return `The context involves key entities including ${keyEntities}. Understanding these entities provides important background for comprehending the development.`;
   }
-  
-  return sentences.slice(0, 5).join('. ');
+  return "The development occurs within a complex context involving multiple stakeholders and factors.";
 }
 
 /**
- * Extract timeline section
+ * Generate timeline section from facts
  */
-function extractTimeline(content: string): string {
-  const datePattern = /\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2},? \d{4}\b/g;
-  const dates = content.match(datePattern) || [];
-  
-  if (dates.length > 0) {
-    return `Key dates mentioned: ${dates.join(', ')}`;
+function generateTimelineFromFacts(facts: string[]): string {
+  if (facts.length > 2) {
+    return `Key events include: ${facts.slice(0, 3).join('; ')}. These events occurred in sequence leading to the current situation.`;
   }
-  
-  return "Timeline information not explicitly stated in the source material.";
+  return "The development has evolved through a series of events, with key milestones shaping the current state.";
 }
 
 /**
@@ -180,94 +167,105 @@ function extractImportantEntities(entities: string[]): string[] {
 }
 
 /**
- * Extract expert analysis
+ * Generate expert analysis from relationships
  */
-function extractExpertAnalysis(content: string): string {
-  const analysisKeywords = ['analysis', 'according to', 'experts say', 'industry analysts', 'observers note'];
-  const sentences = content.split('. ');
-  const analysisSentences = sentences.filter(s =>
-    analysisKeywords.some(k => s.toLowerCase().includes(k))
+function generateExpertAnalysisFromRelationships(relationships: any[]): string {
+  if (relationships.length > 0) {
+    const relationshipTypes = [...new Set(relationships.map(r => r.type))].slice(0, 3);
+    return `Analysis indicates key relationships: ${relationshipTypes.join(', ')}. These connections highlight the interconnected nature of the development and suggest broader implications.`;
+  }
+  return "Expert analysis suggests this development is part of a larger pattern, with connections to related areas and potential cascading effects.";
+}
+
+/**
+ * Generate pros from facts
+ */
+function generateProsFromFacts(facts: string[]): string[] {
+  const positiveKeywords = ['benefit', 'improve', 'enable', 'support', 'enhance', 'advance'];
+  const positiveFacts = facts.filter(f => 
+    positiveKeywords.some(k => f.toLowerCase().includes(k))
   );
   
-  if (analysisSentences.length > 0) {
-    return analysisSentences.join('. ');
+  if (positiveFacts.length > 0) {
+    return positiveFacts.slice(0, 5);
   }
   
-  return "This development represents a significant shift in the landscape, with experts closely watching the implications.";
+  return [
+    "Potential for improved outcomes based on the development",
+    "Opportunity for stakeholders to benefit from the changes",
+    "Framework for future improvements and enhancements",
+  ];
 }
 
 /**
- * Extract pros
+ * Generate cons from facts
  */
-function extractPros(content: string): string[] {
-  const proKeywords = ['benefit', 'advantage', 'positive', 'improvement', 'gain', 'success'];
-  const sentences = content.split('. ');
-  const proSentences = sentences.filter(s =>
-    proKeywords.some(k => s.toLowerCase().includes(k))
+function generateConsFromFacts(facts: string[]): string[] {
+  const negativeKeywords = ['challenge', 'concern', 'risk', 'issue', 'problem', 'limitation'];
+  const negativeFacts = facts.filter(f => 
+    negativeKeywords.some(k => f.toLowerCase().includes(k))
   );
   
-  return proSentences.slice(0, 5);
-}
-
-/**
- * Extract cons
- */
-function extractCons(content: string): string[] {
-  const conKeywords = ['challenge', 'concern', 'risk', 'drawback', 'limitation', 'issue'];
-  const sentences = content.split('. ');
-  const conSentences = sentences.filter(s =>
-    conKeywords.some(k => s.toLowerCase().includes(k))
-  );
-  
-  return conSentences.slice(0, 5);
-}
-
-/**
- * Extract different viewpoints
- */
-function extractDifferentViewpoints(content: string): string[] {
-  const viewKeywords = ['however', 'on the other hand', 'alternatively', 'some argue', 'critics say', 'proponents'];
-  const sentences = content.split('. ');
-  const viewSentences = sentences.filter(s =>
-    viewKeywords.some(k => s.toLowerCase().includes(k))
-  );
-  
-  return viewSentences.slice(0, 4);
-}
-
-/**
- * Extract real world impact
- */
-function extractRealWorldImpact(content: string): string {
-  const impactKeywords = ['impact', 'affect', 'change', 'transform', 'influence', 'result'];
-  const sentences = content.split('. ');
-  const impactSentences = sentences.filter(s =>
-    impactKeywords.some(k => s.toLowerCase().includes(k))
-  );
-  
-  if (impactSentences.length > 0) {
-    return impactSentences.slice(0, 3).join('. ');
+  if (negativeFacts.length > 0) {
+    return negativeFacts.slice(0, 5);
   }
   
-  return "This development will have lasting effects on the industry and its stakeholders.";
+  return [
+    "Potential challenges in implementation may arise",
+    "Uncertainty about long-term effects requires monitoring",
+    "Stakeholders may need to adapt to new requirements",
+  ];
 }
 
 /**
- * Generate FAQs
+ * Generate viewpoints from relationships
  */
-function generateFAQs(content: string, title: string): { question: string; answer: string }[] {
+function generateViewpointsFromRelationships(relationships: any[]): string[] {
+  if (relationships.length > 0) {
+    return relationships.slice(0, 4).map(r => 
+      `Relationship between ${r.source} and ${r.target} suggests ${r.type} dynamics that may be viewed differently by various stakeholders.`
+    );
+  }
+  
+  return [
+    "Some stakeholders view the development as positive progress",
+    "Others express concerns about potential implications",
+    "Industry experts offer mixed perspectives on the long-term impact",
+    "Regulatory bodies are monitoring the situation closely",
+  ];
+}
+
+/**
+ * Generate impact from facts
+ */
+function generateImpactFromFacts(facts: string[]): string {
+  if (facts.length > 0) {
+    const impactFacts = facts.slice(0, 3).join(' ');
+    return `The real-world impact includes ${impactFacts}. These effects will influence stakeholders, processes, and outcomes in the relevant domains.`;
+  }
+  return "This development will have tangible effects on stakeholders, processes, and outcomes in the relevant domains, with implications extending beyond immediate participants.";
+}
+
+/**
+ * Generate FAQs from facts
+ */
+function generateFAQsFromFacts(facts: string[], title: string): { question: string; answer: string }[] {
   return [
     {
       question: `What is ${title}?`,
-      answer: content.substring(0, 200),
+      answer: facts.length > 0 ? facts[0] : "This development represents a significant event with implications for stakeholders.",
     },
     {
       question: "Why is this important?",
-      answer: "This development has significant implications for stakeholders and the broader industry.",
+      answer: facts.length > 1 ? facts[1] : "This development has significant implications for stakeholders and the broader industry.",
+    },
+    {
+      question: "What are the key facts?",
+      answer: facts.slice(0, 3).join(' '),
     },
     {
       question: "What happens next?",
-      answer: "Stakeholders are monitoring the situation closely, with further developments expected.",
+      answer: "Stakeholders are monitoring the situation closely, with further developments expected as the situation evolves.",
     },
   ];
 }
@@ -283,11 +281,10 @@ function extractReferences(content: string): string[] {
 }
 
 /**
- * Generate further reading
+ * Generate further reading from entities
  */
-function generateFurtherReading(content: string): string[] {
-  const topics = extractTopics(content);
-  return topics.map(t => `${t} - Comprehensive guide and analysis`);
+function generateFurtherReadingFromEntities(entities: string[]): string[] {
+  return entities.slice(0, 5).map(e => `${e} - Comprehensive guide and analysis`);
 }
 
 /**
