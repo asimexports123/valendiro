@@ -143,12 +143,12 @@ async function processRegenerationJob(jobId: string): Promise<void> {
 
     // Stage 1: Fetch knowledge package
     await updateJobStatus(jobId, "running", "fetching_knowledge_package", 10, null);
-    const knowledgePackage = await fetchKnowledgePackage(job.topicSlug);
+    const knowledgePackage = await fetchKnowledgePackage((job as any).topic_slug);
     await addLog(jobId, `[${new Date().toISOString()}] Fetched knowledge package`);
 
     // Stage 2: Generate content
     await updateJobStatus(jobId, "running", "generating_content", 30, null);
-    const newContent = await generateContent(job.topicTitle, knowledgePackage);
+    const newContent = await generateContent((job as any).topic_title, knowledgePackage);
     await addLog(jobId, `[${new Date().toISOString()}] Generated content (${newContent.length} chars)`);
 
     // Stage 3: QA check
@@ -161,7 +161,7 @@ async function processRegenerationJob(jobId: string): Promise<void> {
 
     // Stage 4: Publish content (transaction with rollback)
     await updateJobStatus(jobId, "running", "publishing", 70, null);
-    await publishContent(job.topicId, newContent, job.previousContent);
+    await publishContent((job as any).topic_id, newContent, (job as any).previous_content);
     await addLog(jobId, `[${new Date().toISOString()}] Content published`);
 
     // Stage 5: Update homepage counts
@@ -171,7 +171,7 @@ async function processRegenerationJob(jobId: string): Promise<void> {
 
     // Stage 6: Invalidate cache
     await updateJobStatus(jobId, "running", "invalidating_cache", 90, null);
-    await invalidateCache(job.topicSlug);
+    await invalidateCache((job as any).topic_slug);
     await addLog(jobId, `[${new Date().toISOString()}] Cache invalidated`);
 
     // Mark as published
@@ -193,11 +193,17 @@ async function processRegenerationJob(jobId: string): Promise<void> {
  * Fetch job details
  */
 async function fetchJob(jobId: string): Promise<RegenerationJob | null> {
+  console.log(`[RegenerationQueue] Fetching job: ${jobId}`);
+  
   const { data } = await supabase
     .from("content_regeneration_queue")
     .select("*")
     .eq("id", jobId)
     .single();
+
+  console.log(`[RegenerationQueue] Job data:`, data);
+  console.log(`[RegenerationQueue] Job topic_slug:`, data?.topic_slug);
+  
   return data as RegenerationJob | null;
 }
 
