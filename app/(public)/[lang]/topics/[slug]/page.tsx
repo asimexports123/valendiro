@@ -11,7 +11,7 @@ import { KnowledgeGraph } from "@/components/public/KnowledgeGraph";
 import { SITE_URL } from "@/lib/constants";
 import Link from "next/link";
 
-export const revalidate = 0;
+export const revalidate = 60;
 export const dynamicParams = true;
 export const dynamic = 'force-dynamic';
 

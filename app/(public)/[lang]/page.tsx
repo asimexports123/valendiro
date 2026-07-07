@@ -19,7 +19,7 @@ import { RecentlyUpdated } from "@/components/public/RecentlyUpdated";
 import { WhyValendiro } from "@/components/public/WhyValendiro";
 import { TrendingTopics } from "@/components/public/TrendingTopics";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
