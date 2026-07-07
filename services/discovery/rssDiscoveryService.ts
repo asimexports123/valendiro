@@ -119,29 +119,46 @@ export async function discoverFromRSSFeed(sourceId: string): Promise<number> {
 function parseRSSFeed(xml: string, sourceUrl: string): DiscoveredArticle[] {
   const articles: DiscoveredArticle[] = [];
   
+  // Remove CDATA sections and decode HTML entities
+  const cleanXml = xml.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+                      .replace(/&lt;/g, '<')
+                      .replace(/&gt;/g, '>')
+                      .replace(/&amp;/g, '&')
+                      .replace(/&quot;/g, '"')
+                      .replace(/&#39;/g, "'");
+  
   // Simple regex-based parsing (in production use proper RSS parser like rss-parser)
   const itemRegex = /<item>([\s\S]*?)<\/item>/g;
-  const titleRegex = /<title>(.*?)<\/title>/;
-  const linkRegex = /<link>(.*?)<\/link>/;
-  const descriptionRegex = /<description>(.*?)<\/description>/;
-  const pubDateRegex = /<pubDate>(.*?)<\/pubDate>/;
+  const titleRegex = /<title[^>]*>(.*?)<\/title>/i;
+  const linkRegex = /<link[^>]*>(.*?)<\/link>/i;
+  const descriptionRegex = /<description[^>]*>(.*?)<\/description>/i;
+  const contentRegex = /<content:encoded[^>]*>(.*?)<\/content:encoded>/i;
+  const pubDateRegex = /<pubDate[^>]*>(.*?)<\/pubDate>/i;
 
   let match;
-  while ((match = itemRegex.exec(xml)) !== null) {
+  while ((match = itemRegex.exec(cleanXml)) !== null) {
     const item = match[1];
     const titleMatch = item.match(titleRegex);
     const linkMatch = item.match(linkRegex);
     const descriptionMatch = item.match(descriptionRegex);
+    const contentMatch = item.match(contentRegex);
     const pubDateMatch = item.match(pubDateRegex);
 
     if (titleMatch && linkMatch) {
-      articles.push({
-        title: titleMatch[1].replace(/<[^>]*>/g, ''),
-        url: linkMatch[1],
-        content: descriptionMatch?.[1] || '',
-        publishedAt: pubDateMatch ? new Date(pubDateMatch[1]) : new Date(),
-        summary: descriptionMatch?.[1]?.replace(/<[^>]*>/g, '').substring(0, 200),
-      });
+      const title = titleMatch[1].replace(/<[^>]*>/g, '').trim();
+      const url = linkMatch[1].trim();
+      const description = descriptionMatch?.[1] || contentMatch?.[1] || '';
+      const content = descriptionMatch?.[1] || contentMatch?.[1] || '';
+      
+      if (title && url) {
+        articles.push({
+          title: title,
+          url: url,
+          content: content,
+          publishedAt: pubDateMatch ? new Date(pubDateMatch[1]) : new Date(),
+          summary: description.replace(/<[^>]*>/g, '').substring(0, 200),
+        });
+      }
     }
   }
 

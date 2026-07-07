@@ -76,14 +76,37 @@ export async function extractKnowledge(contentId: string): Promise<void> {
  */
 async function extractKnowledgeFromContent(content: any): Promise<ExtractedKnowledge> {
   const text = (content.content_full || content.content_summary || content.title).toLowerCase();
+  const title = content.title.toLowerCase();
   
-  // Extract topics (simplified - in production use proper NLP)
-  const topics = extractKeywords(text, ['javascript', 'python', 'react', 'nodejs', 'database', 'api', 'web', 'frontend', 'backend']);
-  const concepts = extractKeywords(text, ['function', 'variable', 'class', 'object', 'array', 'string', 'number', 'boolean', 'async', 'await', 'promise']);
-  const entities = extractKeywords(text, ['google', 'microsoft', 'amazon', 'facebook', 'twitter', 'github', 'stackoverflow']);
-  const skills = extractKeywords(text, ['programming', 'coding', 'debugging', 'testing', 'deployment', 'optimization']);
-  const tools = extractKeywords(text, ['vscode', 'git', 'docker', 'kubernetes', 'webpack', 'babel', 'eslint']);
-  const practices = extractKeywords(text, ['tdd', 'cicd', 'agile', 'scrum', 'kanban', 'code review', 'documentation']);
+  // Extract topics from title and content
+  const techKeywords = [
+    'javascript', 'python', 'react', 'nodejs', 'node', 'database', 'api', 'web', 'frontend', 'backend',
+    'typescript', 'angular', 'vue', 'svelte', 'nextjs', 'nuxt', 'express', 'django', 'flask', 'rails',
+    'java', 'csharp', 'c++', 'rust', 'go', 'swift', 'kotlin', 'php', 'ruby', 'scala', 'clojure',
+    'html', 'css', 'sass', 'tailwind', 'bootstrap', 'jquery', 'dom', 'browser', 'server', 'client',
+    'docker', 'kubernetes', 'aws', 'azure', 'gcp', 'vercel', 'netlify', 'heroku', 'firebase',
+    'git', 'github', 'gitlab', 'bitbucket', 'ci/cd', 'devops', 'testing', 'jest', 'cypress', 'playwright',
+    'graphql', 'rest', 'soap', 'grpc', 'websocket', 'http', 'https', 'tcp', 'udp', 'dns',
+    'sql', 'nosql', 'mongodb', 'postgresql', 'mysql', 'sqlite', 'redis', 'elasticsearch',
+    'authentication', 'authorization', 'jwt', 'oauth', 'session', 'cookie', 'security',
+    'performance', 'optimization', 'caching', 'cdn', 'load balancer', 'scaling'
+  ];
+  
+  const topics = extractKeywords(text, techKeywords);
+  
+  // If no topics found in content, use title
+  if (topics.length === 0) {
+    const titleTopics = extractKeywords(title, techKeywords);
+    topics.push(...titleTopics);
+  }
+  
+  // Extract concepts
+  const concepts = extractKeywords(text, ['function', 'variable', 'class', 'object', 'array', 'string', 'number', 'boolean', 'async', 'await', 'promise', 'callback', 'closure', 'scope', 'hoisting', 'prototype', 'inheritance', 'polymorphism', 'encapsulation', 'abstraction']);
+  
+  const entities = extractKeywords(text, ['google', 'microsoft', 'amazon', 'facebook', 'twitter', 'github', 'stackoverflow', 'mozilla', 'w3c', 'ecma', 'node foundation']);
+  const skills = extractKeywords(text, ['programming', 'coding', 'debugging', 'testing', 'deployment', 'optimization', 'development', 'engineering', 'architecture', 'design']);
+  const tools = extractKeywords(text, ['vscode', 'git', 'docker', 'kubernetes', 'webpack', 'babel', 'eslint', 'prettier', 'jest', 'cypress', 'playwright', 'npm', 'yarn', 'pnpm']);
+  const practices = extractKeywords(text, ['tdd', 'cicd', 'agile', 'scrum', 'kanban', 'code review', 'documentation', 'testing', 'refactoring', 'clean code']);
 
   // Extract relationships (simplified)
   const relationships = extractRelationships(text, topics);
