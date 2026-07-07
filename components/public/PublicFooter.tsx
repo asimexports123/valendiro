@@ -67,9 +67,14 @@ export function PublicFooter({ lang }: { lang: string }) {
             </span>
             <span className="text-sm font-bold text-foreground">{SITE_NAME}</span>
           </Link>
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {SITE_NAME}. Trusted answers for everything that matters.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} {SITE_NAME}. Trusted answers for everything that matters.
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Build: {new Date().toISOString()}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
