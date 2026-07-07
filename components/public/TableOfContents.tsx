@@ -34,10 +34,12 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        On this page
-      </p>
+    <nav className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
+      <div className="mb-4 pb-3 border-b border-border/40">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+          Contents
+        </p>
+      </div>
       <ol className="space-y-1">
         {headings.map((h) => (
           <li key={h.id}>
@@ -48,11 +50,11 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
                 document.getElementById(h.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
                 setActive(h.id);
               }}
-              className={`block rounded-lg py-1.5 text-sm transition-colors leading-snug
-                ${h.level === 3 ? "pl-4" : "pl-0"}
+              className={`block rounded-lg py-2 px-3 text-sm transition-all duration-200 leading-snug border border-transparent
+                ${h.level === 3 ? "pl-6" : "pl-3"}
                 ${active === h.id
-                  ? "text-primary font-medium"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-primary/5 border-primary/20 text-primary font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
             >
               {h.text}
