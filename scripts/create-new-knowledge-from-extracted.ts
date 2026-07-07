@@ -137,8 +137,45 @@ async function createNewKnowledgeFromExtracted() {
   console.log(`✓ Knowledge Package Topic ID: ${knowledgePackage.topic_id}`);
   console.log();
 
-  // Step 7: Create Knowledge Graph Nodes
-  console.log("STEP 7: CREATE KNOWLEDGE GRAPH NODES");
+  // Step 7: Create Topic Translation
+  console.log("STEP 7: CREATE TOPIC TRANSLATION");
+  console.log("-".repeat(80));
+  const translationId = uuidv4();
+  const subtitle = content.substring(0, 200);
+  const metaTitle = title;
+  const metaDescription = content.substring(0, 160);
+  const { data: translation, error: transError } = await supabase
+    .from("topic_translations")
+    .insert({
+      id: translationId,
+      topic_id: topicId,
+      language_code: "en",
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      meta_title: metaTitle,
+      meta_description: metaDescription,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    })
+    .select()
+    .single();
+
+  if (transError) {
+    console.error(`✗ Error creating topic translation: ${transError.message}`);
+    return;
+  }
+
+  console.log(`✓ Translation ID: ${translationId}`);
+  console.log(`✓ Translation Title: ${translation.title}`);
+  console.log(`✓ Translation Subtitle: ${translation.subtitle}`);
+  console.log(`✓ Translation Meta Title: ${translation.meta_title}`);
+  console.log(`✓ Translation Meta Description: ${translation.meta_description}`);
+  console.log(`✓ Translation Language: ${translation.language_code}`);
+  console.log();
+
+  // Step 8: Create Knowledge Graph Nodes
+  console.log("STEP 8: CREATE KNOWLEDGE GRAPH NODES");
   console.log("-".repeat(80));
   let nodesCreated = 0;
   const nodeIds: Record<string, string> = {};
@@ -167,8 +204,8 @@ async function createNewKnowledgeFromExtracted() {
   console.log(`✓ Knowledge graph nodes created: ${nodesCreated}`);
   console.log();
 
-  // Step 8: Create Knowledge Graph Edges
-  console.log("STEP 8: CREATE KNOWLEDGE GRAPH EDGES");
+  // Step 9: Create Knowledge Graph Edges
+  console.log("STEP 9: CREATE KNOWLEDGE GRAPH EDGES");
   console.log("-".repeat(80));
   let edgesCreated = 0;
   
