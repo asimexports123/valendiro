@@ -9,6 +9,7 @@ import { notFound } from "next/navigation";
 
 interface EntityPageProps {
   params: {
+    lang: string;
     slug: string;
   };
 }
@@ -16,13 +17,18 @@ interface EntityPageProps {
 async function getEntityData(slug: string) {
   const supabase = createAdminClient();
 
+  console.log(`[Entity Page] Looking up entity with slug: ${slug}`);
+
   const { data: entity, error } = await supabase
     .from("knowledge_graph_nodes")
     .select("*")
     .eq("slug", slug)
     .single();
 
+  console.log(`[Entity Page] Entity query result:`, { error, entity });
+
   if (error || !entity) {
+    console.log(`[Entity Page] Entity not found or error:`, error);
     return null;
   }
 
