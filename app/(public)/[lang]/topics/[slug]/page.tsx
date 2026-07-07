@@ -163,90 +163,69 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
       </div>
 
       {/* Content area */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-        <div className="flex gap-8 lg:gap-12 xl:gap-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+        <div className="flex gap-12 lg:gap-16">
 
-          {/* Main column - reduced width for readability */}
-          <div className="flex-1 min-w-0 max-w-2xl xl:max-w-3xl">
+          {/* Main column */}
+          <div className="flex-1 min-w-0 max-w-3xl">
 
-            {/* Key Takeaways - Premium colored checklist cards */}
+            {/* What you'll learn */}
             {keyTakeaways.length > 0 && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary">✨</span>
-                    Key Takeaways
-                  </h2>
-                </div>
-                <div className="grid gap-4">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">What you'll learn</h2>
+                <div className="space-y-4">
                   {keyTakeaways.map((t, i) => (
-                    <div key={i} className="flex items-start gap-4 p-5 rounded-xl bg-gradient-to-br from-primary/5 via-primary/[0.02] to-transparent border border-primary/10 hover:border-primary/20 transition-all">
-                      <div className="flex-shrink-0 mt-0.5">
-                        <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-                          <svg className="w-3.5 h-3.5 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="w-5 h-5 rounded-full bg-foreground flex items-center justify-center">
+                          <svg className="w-3 h-3 text-background" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
                       </div>
-                      <p className="text-sm text-foreground/90 leading-relaxed flex-1">{t}</p>
+                      <p className="text-base text-foreground/80 leading-relaxed">{t}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
             {/* Article content */}
             {topic.content && (
-              <MarkdownContent content={topic.content} />
+              <div className="mb-20">
+                <MarkdownContent content={topic.content} />
+              </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Prerequisites - Premium insight cards */}
+            {/* Prerequisites */}
             {semanticRecommendations.prerequisites.length > 0 && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                      </svg>
-                    </span>
-                    Prerequisites
-                  </h2>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">Before you begin</h2>
+                <div className="grid gap-3">
                   {semanticRecommendations.prerequisites.map((rec) => (
                     <Link key={rec.topicId} href={`/${lang}/topics/${rec.topicSlug}`}
-                      className="group p-5 rounded-xl bg-gradient-to-br from-blue-50/50 via-blue-50/20 to-transparent dark:from-blue-950/20 dark:via-blue-950/10 dark:to-transparent border border-blue-200/50 dark:border-blue-800/30 hover:border-blue-400/50 dark:hover:border-blue-600/50 hover:shadow-md transition-all">
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 mt-0.5">
-                          <div className="w-6 h-6 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                            <svg className="w-3.5 h-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-sm">{rec.topicTitle}</h4>
-                          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">{rec.relationshipReason}</p>
-                        </div>
+                      className="group flex items-center gap-4 p-4 rounded-lg border border-border/40 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
+                    >
+                      <div className="flex-shrink-0">
+                        <svg className="w-5 h-5 text-foreground/40 group-hover:text-foreground transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
                       </div>
+                      <div className="flex-1">
+                        <h4 className="font-medium text-foreground group-hover:text-foreground transition-colors text-base">{rec.topicTitle}</h4>
+                        <p className="mt-0.5 text-sm text-foreground/50">{rec.relationshipReason}</p>
+                      </div>
+                      <svg className="w-4 h-4 text-foreground/30 group-hover:text-foreground transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
                     </Link>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Knowledge Graph Visualization - Always show */}
-            <div className="mb-16">
+            {/* Knowledge Graph */}
+            <div className="mb-20">
               <KnowledgeGraph
                 prerequisites={semanticRecommendations.prerequisites.map(r => ({
                   id: r.topicId,
@@ -271,40 +250,23 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
               />
             </div>
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Continue Learning (from Learning Journey) - Premium learning path cards */}
+            {/* Continue Learning - Learning Roadmap */}
             {(learningJourney.continueWith.length > 0 || learningJourney.completed.length > 0) && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-violet-500/10 text-violet-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                      </svg>
-                    </span>
-                    Continue Learning
-                  </h2>
-                </div>
-                <div className="space-y-3">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">Learning roadmap</h2>
+                <div className="space-y-2">
                   {learningJourney.continueWith.map((slug, index) => (
                     <Link
                       key={slug}
                       href={`/${lang}/topics/${slug}`}
-                      className="group flex items-center gap-4 p-5 rounded-xl bg-gradient-to-br from-violet-50/50 via-violet-50/20 to-transparent dark:from-violet-950/20 dark:via-violet-950/10 dark:to-transparent border border-violet-200/50 dark:border-violet-800/30 hover:border-violet-400/50 dark:hover:border-violet-600/50 hover:shadow-md transition-all"
+                      className="group flex items-center gap-4 p-5 rounded-lg border border-border/40 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
                     >
-                      <div className={`flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl text-sm font-bold ${index === 0 ? 'bg-violet-500 text-white shadow-lg shadow-violet-500/25' : 'bg-violet-500/10 text-violet-500'}`}>
+                      <div className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg text-sm font-medium ${index === 0 ? 'bg-foreground text-background' : 'bg-foreground/5 text-foreground/60'}`}>
                         {index + 1}
                       </div>
                       <div className="flex-1">
-                        <div className="font-semibold text-foreground group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">{slug}</div>
-                        <div className="mt-1 text-xs text-muted-foreground">Recommended next topic</div>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <svg className="w-5 h-5 text-muted-foreground group-hover:text-violet-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
+                        <div className="font-medium text-foreground group-hover:text-foreground transition-colors text-base">{slug}</div>
+                        <div className="mt-0.5 text-sm text-foreground/50">Recommended next</div>
                       </div>
                     </Link>
                   ))}
@@ -312,83 +274,38 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Applications - Premium topic cards */}
+            {/* Applications */}
             {semanticRecommendations.applications.length > 0 && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                      </svg>
-                    </span>
-                    Applications
-                  </h2>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">Where to apply</h2>
+                <div className="grid gap-3 sm:grid-cols-2">
                   {semanticRecommendations.applications.map((rec) => (
                     <Link key={rec.topicId} href={`/${lang}/topics/${rec.topicSlug}`}
-                      className="group p-5 rounded-xl bg-gradient-to-br from-amber-50/50 via-amber-50/20 to-transparent dark:from-amber-950/20 dark:via-amber-950/10 dark:to-transparent border border-amber-200/50 dark:border-amber-800/30 hover:border-amber-400/50 dark:hover:border-amber-600/50 hover:shadow-md transition-all">
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 mt-0.5">
-                          <div className="w-6 h-6 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                            <svg className="w-3.5 h-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-foreground group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors text-sm">{rec.topicTitle}</h4>
-                          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">{rec.relationshipReason}</p>
-                        </div>
-                      </div>
+                      className="group p-4 rounded-lg border border-border/40 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
+                    >
+                      <h4 className="font-medium text-foreground group-hover:text-foreground transition-colors text-base mb-1">{rec.topicTitle}</h4>
+                      <p className="text-sm text-foreground/50">{rec.relationshipReason}</p>
                     </Link>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Related Articles - Premium topic cards */}
+            {/* Related Guides */}
             {relatedArticles.length > 0 && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </span>
-                    Related Guides
-                  </h2>
-                </div>
-                <div className="space-y-3">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">Related guides</h2>
+                <div className="space-y-2">
                   {relatedArticles.map((article) => (
                     <Link key={article.id} href={`/${lang}/articles/${article.slug}`}
-                      className="group flex items-start gap-4 p-5 rounded-xl bg-gradient-to-br from-emerald-50/50 via-emerald-50/20 to-transparent dark:from-emerald-950/20 dark:via-emerald-950/10 dark:to-transparent border border-emerald-200/50 dark:border-emerald-800/30 hover:border-emerald-400/50 dark:hover:border-emerald-600/50 hover:shadow-md transition-all">
+                      className="group flex items-start gap-4 p-5 rounded-lg border border-border/40 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
+                    >
                       <div className="flex-1">
-                        <h4 className="font-semibold text-foreground group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors text-sm">{article.title}</h4>
+                        <h4 className="font-medium text-foreground group-hover:text-foreground transition-colors text-base mb-1">{article.title}</h4>
                         {article.description && (
-                          <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2 leading-relaxed">{article.description}</p>
+                          <p className="text-sm text-foreground/50 line-clamp-2">{article.description}</p>
                         )}
-                        <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            {article.reading_time} min read
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <svg className="w-5 h-5 text-muted-foreground group-hover:text-emerald-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
+                        <div className="mt-2 text-sm text-foreground/40">{article.reading_time} min read</div>
                       </div>
                     </Link>
                   ))}
@@ -396,85 +313,55 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Sequential Navigation (Previous/Next) - Premium navigation cards */}
+            {/* Sequential Navigation */}
             {sequentialNav && (sequentialNav.previous || sequentialNav.next) && (
-              <div className="mb-16 flex items-center justify-between gap-4 sm:gap-6">
+              <div className="mb-20 flex items-center justify-between gap-6 pt-8 border-t border-border/40">
                 {sequentialNav.previous && (
                   <Link
                     href={`/${lang}/topics/${sequentialNav.previous.slug}`}
-                    className="flex-1 group p-5 rounded-xl bg-gradient-to-br from-slate-50/50 via-slate-50/20 to-transparent dark:from-slate-950/20 dark:via-slate-950/10 dark:to-transparent border border-slate-200/50 dark:border-slate-800/30 hover:border-slate-400/50 dark:hover:border-slate-600/50 hover:shadow-md transition-all text-left"
+                    className="flex-1 group text-left"
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <svg className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                      </svg>
-                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Previous</span>
-                    </div>
-                    <div className="font-bold text-foreground group-hover:text-primary transition-colors text-sm leading-snug">{sequentialNav.previous.title}</div>
+                    <div className="text-xs font-medium text-foreground/40 uppercase tracking-wider mb-2">Previous</div>
+                    <div className="font-medium text-foreground group-hover:text-foreground transition-colors text-base">{sequentialNav.previous.title}</div>
                   </Link>
                 )}
-                <div className="flex-1" /> {/* Spacer */}
+                <div className="flex-1" />
                 {sequentialNav.next && (
                   <Link
                     href={`/${lang}/topics/${sequentialNav.next.slug}`}
-                    className="flex-1 group p-5 rounded-xl bg-gradient-to-br from-slate-50/50 via-slate-50/20 to-transparent dark:from-slate-950/20 dark:via-slate-950/10 dark:to-transparent border border-slate-200/50 dark:border-slate-800/30 hover:border-slate-400/50 dark:hover:border-slate-600/50 hover:shadow-md transition-all text-right"
+                    className="flex-1 group text-right"
                   >
-                    <div className="flex items-center gap-2 mb-2 justify-end">
-                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Next</span>
-                      <svg className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                    <div className="font-bold text-foreground group-hover:text-primary transition-colors text-sm leading-snug">{sequentialNav.next.title}</div>
+                    <div className="text-xs font-medium text-foreground/40 uppercase tracking-wider mb-2">Next</div>
+                    <div className="font-medium text-foreground group-hover:text-foreground transition-colors text-base">{sequentialNav.next.title}</div>
                   </Link>
                 )}
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Articles in this topic — Premium numbered cards */}
+            {/* Articles in this topic */}
             {topicArticles.length > 0 && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-rose-500/10 text-rose-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                      </svg>
-                    </span>
-                    Articles in this topic
-                  </h2>
-                  <p className="mt-2 text-sm text-muted-foreground">{topicArticles.length} article{topicArticles.length !== 1 ? "s" : ""} — read in any order</p>
-                </div>
-                <ol className="space-y-3">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">Articles in this topic</h2>
+                <p className="text-sm text-foreground/50 mb-6">{topicArticles.length} article{topicArticles.length !== 1 ? "s" : ""}</p>
+                <ol className="space-y-2">
                   {topicArticles.map((a, i) => (
                     <li key={a.id}>
                       <Link
                         href={`/${lang}/articles/${a.slug}`}
-                        className="group flex items-start gap-4 p-5 rounded-xl bg-gradient-to-br from-rose-50/30 via-rose-50/10 to-transparent dark:from-rose-950/20 dark:via-rose-950/10 dark:to-transparent border border-rose-200/40 dark:border-rose-800/30 hover:border-rose-400/50 dark:hover:border-rose-600/50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+                        className="group flex items-start gap-4 p-4 rounded-lg border border-border/40 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
                       >
-                        <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-sm font-bold bg-rose-500 text-white shadow-lg shadow-rose-500/25 mt-0.5`}>
+                        <span className="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded text-xs font-medium bg-foreground/5 text-foreground/60 mt-0.5">
                           {i + 1}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-foreground group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors text-sm leading-snug">
+                          <h3 className="font-medium text-foreground group-hover:text-foreground transition-colors text-base mb-0.5">
                             {a.title}
                           </h3>
                           {a.description && (
-                            <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2 leading-relaxed">{a.description}</p>
+                            <p className="text-sm text-foreground/50 line-clamp-1">{a.description}</p>
                           )}
                         </div>
-                        <span className="text-xs text-muted-foreground shrink-0 pt-0.5 flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          {a.reading_time} min
-                        </span>
+                        <span className="text-sm text-foreground/40 shrink-0 pt-0.5">{a.reading_time} min</span>
                       </Link>
                     </li>
                   ))}
@@ -482,76 +369,42 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* FAQ - Premium accordion */}
+            {/* FAQ */}
             {faqs.length > 0 && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </span>
-                    Frequently Asked Questions
-                  </h2>
-                </div>
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">Questions</h2>
                 <FaqSection questions={faqs} />
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Same Category Topics - Premium topic cards */}
+            {/* Same Category Topics */}
             {categoryTopics.length > 0 && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                      </svg>
-                    </span>
-                    More in {category?.name || "This Category"}
-                  </h2>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">More in {category?.name || "This Category"}</h2>
+                <div className="grid gap-2 sm:grid-cols-2">
                   {categoryTopics.map((t) => (
                     <Link key={t.id} href={`/${lang}/topics/${t.slug}`}
-                      className="group p-5 rounded-xl bg-gradient-to-br from-indigo-50/50 via-indigo-50/20 to-transparent dark:from-indigo-950/20 dark:via-indigo-950/10 dark:to-transparent border border-indigo-200/50 dark:border-indigo-800/30 hover:border-indigo-400/50 dark:hover:border-indigo-600/50 hover:shadow-md transition-all">
-                      <h4 className="font-semibold text-foreground group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors text-sm">{t.title}</h4>
-                      {t.subtitle && <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2 leading-relaxed">{t.subtitle}</p>}
+                      className="group p-4 rounded-lg border border-border/40 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
+                    >
+                      <h4 className="font-medium text-foreground group-hover:text-foreground transition-colors text-base mb-1">{t.title}</h4>
+                      {t.subtitle && <p className="text-sm text-foreground/50 line-clamp-2">{t.subtitle}</p>}
                     </Link>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Section separator */}
-            <div className="my-16 border-t border-border/20" />
-
-            {/* Same Subcategory Topics - Premium topic cards */}
+            {/* Same Subcategory Topics */}
             {subcategoryTopics.length > 0 && subcategory && (
-              <div className="mb-16">
-                <div className="mb-6">
-                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500">
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                      </svg>
-                    </span>
-                    More in {subcategory.name}
-                  </h2>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+              <div className="mb-20">
+                <h2 className="text-2xl font-bold text-foreground mb-8 tracking-tight">More in {subcategory.name}</h2>
+                <div className="grid gap-2 sm:grid-cols-2">
                   {subcategoryTopics.map((t) => (
                     <Link key={t.id} href={`/${lang}/topics/${t.slug}`}
-                      className="group p-5 rounded-xl bg-gradient-to-br from-pink-50/50 via-pink-50/20 to-transparent dark:from-pink-950/20 dark:via-pink-950/10 dark:to-transparent border border-pink-200/50 dark:border-pink-800/30 hover:border-pink-400/50 dark:hover:border-pink-600/50 hover:shadow-md transition-all">
-                      <h4 className="font-semibold text-foreground group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors text-sm">{t.title}</h4>
-                      {t.subtitle && <p className="mt-1.5 text-xs text-muted-foreground line-clamp-2 leading-relaxed">{t.subtitle}</p>}
+                      className="group p-4 rounded-lg border border-border/40 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
+                    >
+                      <h4 className="font-medium text-foreground group-hover:text-foreground transition-colors text-base mb-1">{t.title}</h4>
+                      {t.subtitle && <p className="text-sm text-foreground/50 line-clamp-2">{t.subtitle}</p>}
                     </Link>
                   ))}
                 </div>
