@@ -2,43 +2,34 @@
  * Check topics table schema
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from "../lib/supabase/admin";
 
-async function main() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createAdminClient();
 
-  if (!supabaseUrl || !supabaseKey) {
-    console.error('Error: Missing required environment variables');
-    process.exit(1);
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  console.log('========================================');
-  console.log('Topics Table Schema');
-  console.log('========================================\n');
-
-  const { data: topics, error } = await supabase
-    .from('topics')
-    .select('*')
-    .limit(5);
+async function checkSchema() {
+  console.log("Checking topics table structure...");
+  
+  const { data, error } = await supabase
+    .from("topics")
+    .select("*")
+    .limit(1);
 
   if (error) {
-    console.error('Error fetching topics:', error);
+    console.error("Error:", error);
     return;
   }
 
-  if (!topics || topics.length === 0) {
-    console.log('No topics found');
-    return;
+  if (data && data.length > 0) {
+    console.log("Sample row:", data[0]);
+    console.log("Columns:", Object.keys(data[0]));
+  } else {
+    console.log("No data in topics table");
   }
-
-  console.log('Sample topic structure:');
-  console.log(JSON.stringify(topics[0], null, 2));
 }
 
-main().catch(error => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});
+checkSchema()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error("Error:", error);
+    process.exit(1);
+  });
