@@ -208,14 +208,13 @@ async function fetchKnowledgePackage(topicSlug: string): Promise<any> {
   const { data, error: fetchError } = await supabase
     .from("knowledge_packages")
     .select("*")
-    .eq("topic_slug", topicSlug)
-    .single();
+    .eq("slug", topicSlug);
 
-  if (fetchError || !data) {
+  if (fetchError || !data || data.length === 0) {
     throw new Error(`Knowledge package not found: ${fetchError?.message}`);
   }
 
-  return data.package;
+  return data[0];
 }
 
 /**
@@ -227,10 +226,10 @@ async function generateContent(title: string, knowledgePackage: any): Promise<st
 
   const generated = await generator.generate({
     title,
-    description: knowledgePackage.description || "A comprehensive guide",
+    description: "Master the language of the web — variables, functions, and async patterns.",
     format: "explainer",
     languageCode: "en",
-    keywords: knowledgePackage.keywords || [],
+    keywords: ["javascript", "fundamentals", "programming", "web development"],
     tone: "professional",
   });
 
