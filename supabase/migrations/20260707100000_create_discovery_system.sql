@@ -296,13 +296,28 @@ ALTER TABLE system_health ENABLE ROW LEVEL SECURITY;
 ALTER TABLE discovery_queue ENABLE ROW LEVEL SECURITY;
 
 -- Policies (admin only)
+DROP POLICY IF EXISTS "Admins can manage discovery_sources" ON discovery_sources;
 CREATE POLICY "Admins can manage discovery_sources" ON discovery_sources FOR ALL USING (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Admins can manage discovered_content" ON discovered_content;
 CREATE POLICY "Admins can manage discovered_content" ON discovered_content FOR ALL USING (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Admins can manage knowledge_graph_nodes" ON knowledge_graph_nodes;
 CREATE POLICY "Admins can manage knowledge_graph_nodes" ON knowledge_graph_nodes FOR ALL USING (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Admins can manage knowledge_graph_edges" ON knowledge_graph_edges;
 CREATE POLICY "Admins can manage knowledge_graph_edges" ON knowledge_graph_edges FOR ALL USING (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Admins can manage gap_analysis_results" ON gap_analysis_results;
 CREATE POLICY "Admins can manage gap_analysis_results" ON gap_analysis_results FOR ALL USING (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Admins can manage internal_links" ON internal_links;
 CREATE POLICY "Admins can manage internal_links" ON internal_links FOR ALL USING (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Admins can manage system_health" ON system_health;
 CREATE POLICY "Admins can manage system_health" ON system_health FOR ALL USING (auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Admins can manage discovery_queue" ON discovery_queue;
 CREATE POLICY "Admins can manage discovery_queue" ON discovery_queue FOR ALL USING (auth.role() = 'authenticated');
 
 -- Updated_at trigger function (already exists, reuse it)

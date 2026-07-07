@@ -16,9 +16,10 @@ create table if not exists content_generation_queue (
 );
 
 -- Indexes for efficient queue processing
+-- Note: Production table uses priority_score instead of priority, and topic_id instead of topic_slug
 create index if not exists idx_content_generation_queue_status on content_generation_queue(status);
-create index if not exists idx_content_generation_queue_priority on content_generation_queue(priority desc);
-create index if not exists idx_content_generation_queue_topic_slug on content_generation_queue(topic_slug);
+create index if not exists idx_content_generation_queue_priority on content_generation_queue(priority_score desc);
+create index if not exists idx_content_generation_queue_topic_slug on content_generation_queue(topic_id);
 create index if not exists idx_content_generation_queue_created_at on content_generation_queue(created_at);
 
 -- Content Health Issues Table
