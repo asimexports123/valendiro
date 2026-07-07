@@ -5,7 +5,12 @@
  * Part of the autonomous discovery pipeline
  */
 
+import Parser from 'rss-parser';
+import { Readability } from '@mozilla/readability';
+import { JSDOM } from 'jsdom';
 import { createAdminClient } from "@/lib/supabase/admin";
+
+const parser = new Parser();
 
 const supabase = createAdminClient();
 
@@ -85,8 +90,8 @@ export async function discoverFromRSSFeed(sourceId: string): Promise<number> {
     const response = await fetch(source.url);
     const feedXML = await response.text();
     
-    // Parse RSS feed (simplified - in production use proper RSS parser)
-    const articles = parseRSSFeed(feedXML, source.url);
+    // Parse RSS feed using rss-parser
+    const articles = await parseRSSFeed(feedXML, source.url);
     
     console.log(`[RSSDiscovery] Found ${articles.length} articles in feed`);
 
@@ -114,55 +119,80 @@ export async function discoverFromRSSFeed(sourceId: string): Promise<number> {
 }
 
 /**
- * Parse RSS feed XML (simplified implementation)
+ * Parse RSS feed using rss-parser library and extract full article content
  */
-function parseRSSFeed(xml: string, sourceUrl: string): DiscoveredArticle[] {
+async function parseRSSFeed(xml: string, sourceUrl: string): Promise<DiscoveredArticle[]> {
   const articles: DiscoveredArticle[] = [];
   
-  // Remove CDATA sections and decode HTML entities
-  const cleanXml = xml.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-                      .replace(/&lt;/g, '<')
-                      .replace(/&gt;/g, '>')
-                      .replace(/&amp;/g, '&')
-                      .replace(/&quot;/g, '"')
-                      .replace(/&#39;/g, "'");
-  
-  // Simple regex-based parsing (in production use proper RSS parser like rss-parser)
-  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
-  const titleRegex = /<title[^>]*>(.*?)<\/title>/i;
-  const linkRegex = /<link[^>]*>(.*?)<\/link>/i;
-  const descriptionRegex = /<description[^>]*>(.*?)<\/description>/i;
-  const contentRegex = /<content:encoded[^>]*>(.*?)<\/content:encoded>/i;
-  const pubDateRegex = /<pubDate[^>]*>(.*?)<\/pubDate>/i;
+  try {
+    const feed = await parser.parseString(xml);
+    
+    for (const item of feed.items) {
+      if (item.title && item.link) {
+        // First try to use content from RSS feed
+        let content = '';
+        if ((item as any)['content:encoded']) {
+          content = (item as any)['content:encoded'];
+        } else if (item.content) {
+          content = item.content;
+        } else if (item.contentSnippet) {
+          content = item.contentSnippet;
+        } else if (item.description) {
+          content = item.description;
+        }
 
-  let match;
-  while ((match = itemRegex.exec(cleanXml)) !== null) {
-    const item = match[1];
-    const titleMatch = item.match(titleRegex);
-    const linkMatch = item.match(linkRegex);
-    const descriptionMatch = item.match(descriptionRegex);
-    const contentMatch = item.match(contentRegex);
-    const pubDateMatch = item.match(pubDateRegex);
+        // If RSS content is too short, download the full article
+        const plainText = content.replace(/<[^>]*>/g, '').trim();
+        if (plainText.length < 500 && item.link) {
+          console.log(`[RSSDiscovery] Downloading full article: ${item.link}`);
+          content = await extractFullArticleContent(item.link);
+        }
 
-    if (titleMatch && linkMatch) {
-      const title = titleMatch[1].replace(/<[^>]*>/g, '').trim();
-      const url = linkMatch[1].trim();
-      const description = descriptionMatch?.[1] || contentMatch?.[1] || '';
-      const content = descriptionMatch?.[1] || contentMatch?.[1] || '';
-      
-      if (title && url) {
+        // Remove HTML tags for summary
+        const summaryText = content.replace(/<[^>]*>/g, '').trim();
+        
         articles.push({
-          title: title,
-          url: url,
+          title: item.title,
+          url: item.link,
           content: content,
-          publishedAt: pubDateMatch ? new Date(pubDateMatch[1]) : new Date(),
-          summary: description.replace(/<[^>]*>/g, '').substring(0, 200),
+          publishedAt: item.pubDate ? new Date(item.pubDate) : new Date(),
+          summary: summaryText.substring(0, 200),
         });
       }
     }
+  } catch (error: any) {
+    console.error(`[RSSDiscovery] Error parsing RSS feed: ${error.message}`);
   }
 
   return articles;
+}
+
+/**
+ * Extract full article content from article URL using Readability
+ */
+async function extractFullArticleContent(url: string): Promise<string> {
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    
+    const dom = new JSDOM(html, { url });
+    const document = dom.window.document;
+    const reader = new Readability(document);
+    const article = reader.parse();
+
+    if (article && article.textContent) {
+      console.log(`[RSSDiscovery] Extracted ${article.textContent.length} characters from ${url}`);
+      return article.textContent;
+    }
+
+    // Fallback to body content if Readability fails
+    const bodyText = document.body?.textContent || '';
+    console.log(`[RSSDiscovery] Fallback: extracted ${bodyText.length} characters from body`);
+    return bodyText;
+  } catch (error: any) {
+    console.error(`[RSSDiscovery] Error extracting content from ${url}: ${error.message}`);
+    return '';
+  }
 }
 
 /**
