@@ -148,21 +148,56 @@ export async function resolveOrCreateTopic(
       throw updateError;
     }
     
-    // Step 3: Update topic translation
-    console.log("  Updating topic translation...");
-    const { error: transUpdateError } = await supabase
+    // Step 3: Check if translation exists
+    console.log("  Checking for existing translation...");
+    const { data: existingTranslation } = await supabase
       .from("topic_translations")
-      .update({
-        title,
-        content,
-        updated_at: new Date().toISOString(),
-      })
+      .select("*")
       .eq("topic_id", existingTopic.id)
-      .eq("language_code", "en");
+      .eq("language_code", "en")
+      .single();
     
-    if (transUpdateError) {
-      console.error(`  ✗ Error updating translation: ${transUpdateError.message}`);
-      throw transUpdateError;
+    if (existingTranslation) {
+      console.log("  Updating existing translation...");
+      const { error: transUpdateError } = await supabase
+        .from("topic_translations")
+        .update({
+          title,
+          content,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existingTranslation.id);
+      
+      if (transUpdateError) {
+        console.error(`  ✗ Error updating translation: ${transUpdateError.message}`);
+        throw transUpdateError;
+      }
+    } else {
+      console.log("  No translation found, creating new translation...");
+      const translationId = uuidv4();
+      const subtitle = content.substring(0, 200);
+      const metaTitle = title;
+      const metaDescription = content.substring(0, 160);
+      
+      const { error: transCreateError } = await supabase
+        .from("topic_translations")
+        .insert({
+          id: translationId,
+          topic_id: existingTopic.id,
+          language_code: "en",
+          title,
+          subtitle,
+          content,
+          meta_title: metaTitle,
+          meta_description: metaDescription,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+      
+      if (transCreateError) {
+        console.error(`  ✗ Error creating translation: ${transCreateError.message}`);
+        throw transCreateError;
+      }
     }
     
     console.log("  ✓ Topic updated successfully");
