@@ -972,3 +972,30 @@ a {
     linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
 }
+
+/* ─── Premium Article Reader ─────────────────────────────────────────────── */
+.article-reader {
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+.article-prose .comparison-table {
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.article-prose .comparison-table th:first-child {
+  border-top-left-radius: 0.75rem;
+}
+
+.article-prose .comparison-table th:last-child {
+  border-top-right-radius: 0.75rem;
+}
+
+.article-prose .comparison-table tr:last-child td:first-child {
+  border-bottom-left-radius: 0.75rem;
+}
+
+.article-prose .comparison-table tr:last-child td:last-child {
+  border-bottom-right-radius: 0.75rem;
+}
