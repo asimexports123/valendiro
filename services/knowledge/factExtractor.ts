@@ -26,6 +26,9 @@ import {
 // ─── Fact Type Classification ────────────────────────────────────────────────
 
 const TYPE_PATTERNS: { pattern: RegExp; type: FactType }[] = [
+  { pattern: /^(example|for example):/i, type: "property" },
+  { pattern: /^(never|do not|don't|avoid)\s+/i, type: "warning" },
+  { pattern: /^to\s+\w+/i, type: "procedural" },
   { pattern: /^.+\s+(is|are|refers to|means|defined as)\s+/i, type: "definition" },
   { pattern: /^.+\s+(was|were|founded|created|invented|discovered|established|introduced|released|launched)\s+/i, type: "historical" },
   { pattern: /^.+\s+(causes?|leads?\s+to|results?\s+in|triggers?)\s+/i, type: "causal" },
@@ -241,6 +244,16 @@ export async function extractFacts(candidates: CandidateInput[]): Promise<Extrac
     }
     for (const item of extractListItems(rawText)) {
       claimSeeds.add(item);
+    }
+
+    // Structured / long sources: sentence-level claims
+    if (rawText.length > 800 && (candidate.sourceAuthority === "encyclopedic" || candidate.sourceAuthority === "official" || candidate.adapterName === "structured-docs")) {
+      for (const part of rawText.split(/(?<=[.!?])\s+/)) {
+        const p = part.trim().replace(/\s+/g, " ");
+        if (p.length >= 30 && p.length <= 500) {
+          claimSeeds.add(p);
+        }
+      }
     }
 
     // Long authoritative sources: paragraph-level claims for fuller articles

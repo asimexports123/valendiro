@@ -27,7 +27,7 @@ import type {
   RenderedOutputRow,
   KnowledgePackage,
 } from "./types";
-import { evaluate } from "./rulesEngine";
+import { evaluate, INGEST_RENDER_POLICY } from "./rulesEngine";
 import { inferIntent } from "./compositionPolicy";
 import { longArticleStrategy } from "./renderers/longArticle";
 import { faqStrategy } from "./renderers/faq";
@@ -39,8 +39,15 @@ import { decorateWithLinks } from "./linkRenderer";
 import { scoreIntentAwareQuality } from "./intentAwareQualityScorer";
 import { serializeToHTML } from "./serializers/html";
 import { serializeToMarkdown } from "./serializers/markdown";
-import { computeCacheKey, checkCache, storeRenderedOutput } from "./cacheManager";
+import {
+  CANONICAL_OUTPUT_FORMAT,
+  serializeCanonicalProjection,
+  validateCanonicalContent,
+} from "./serializers/canonical";
+import { computeCacheKey, checkCache } from "./cacheManager";
+import { storeRenderedOutput } from "@/services/render/writers";
 import { loadKnowledgePackage } from "./knowledgePackageLoader";
+import { validateProjectionPage } from "./productionQAEnforcement";
 
 const TEMPLATE_VERSION = "1.0.0";
 
@@ -61,6 +68,8 @@ export interface RenderRequest {
   rendererId?: string;
   style?: string[];
   forceRerender?: boolean;
+  /** Use relaxed rules for automated internet ingest */
+  policyMode?: "strict" | "ingest";
 }
 
 export interface RenderResult {
@@ -106,17 +115,14 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
   // ─── 2. Determine Renderer Config ───────────────────────────────────────
   // Check feature flag for Knowledge Authoring Engine
   const featureFlagService = FeatureFlagService.getInstance();
-  const shouldUseNewEngine = featureFlagService.shouldUseKnowledgeAuthoringEngine(pkg.slug);
-
+  // Default: long-article renders ALL facts. v2/authoring engines compress and lose content.
   let rendererId = request.rendererId ?? "long-article";
-  
-  // Override with Knowledge Authoring Engine if feature flag is enabled and no explicit renderer specified
-  if (shouldUseNewEngine && !request.rendererId) {
+  if (!request.rendererId && featureFlagService.shouldUseKnowledgeAuthoringEngine(pkg.slug)) {
     rendererId = "knowledge-authoring-v1";
   }
 
   const strategy = STRATEGIES[rendererId] ?? longArticleStrategy;
-  const format: OutputFormat = request.format ?? "html";
+  const format: OutputFormat = request.format ?? CANONICAL_OUTPUT_FORMAT;
   const style = request.style ?? ["intermediate"];
 
   const config: RendererConfig = {
@@ -150,7 +156,8 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
 
   // ─── 5. Rules Evaluation ────────────────────────────────────────────────
   const rulesStart = Date.now();
-  const decision = evaluate(facts, citations);
+  const renderPolicy = request.policyMode === "ingest" ? INGEST_RENDER_POLICY : undefined;
+  const decision = evaluate(facts, citations, renderPolicy);
   const rulesMs = Date.now() - rulesStart;
 
   if (!decision.eligible) {
@@ -203,18 +210,19 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
   tree = decorateWithLinks(tree, relationships, facts, pkg.slug, format);
 
   // ─── 9. Quality Scoring ─────────────────────────────────────────────────
-  const qualityScore = scoreIntentAwareQuality(tree, facts, citations, decision, pkg.slug, pkg.subcategorySlug);
+  let qualityScore = scoreIntentAwareQuality(tree, facts, citations, decision, pkg.slug, pkg.subcategorySlug);
 
   // ─── 10. Serialization ──────────────────────────────────────────────────
   const serializeStart = Date.now();
   let content: string;
-  if (format === "html") {
+  if (format === "markdown") {
+    content = serializeCanonicalProjection(tree);
+  } else if (format === "html") {
     content = serializeToHTML(tree);
-  } else if (format === "markdown") {
-    content = serializeToMarkdown(tree);
   } else {
     content = JSON.stringify(tree, null, 2);
   }
+  const contentCheck = validateCanonicalContent(content);
   const serializeMs = Date.now() - serializeStart;
 
   // ─── 11. Diagnostics ────────────────────────────────────────────────────
@@ -224,6 +232,29 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
     decision, rulesMs, renderMs, citationMs, serializeMs,
     factsUsed: facts.length, totalDuration,
   });
+
+  if (format === "markdown" && !contentCheck.valid) {
+    diagnostics.warnings = [
+      ...diagnostics.warnings,
+      ...contentCheck.issues.map((i) => `[canonical] ${i}`),
+    ];
+  }
+
+  const projectionMetrics = validateProjectionPage(tree, facts);
+  if (!projectionMetrics.passed) {
+    diagnostics.warnings = [
+      ...diagnostics.warnings,
+      ...projectionMetrics.issues.map((i) => `[projection] ${i}`),
+    ];
+    // Penalize overall score when projection QA fails (without changing writers)
+    const penalty = Math.min(15, projectionMetrics.issues.length * 3);
+    qualityScore = {
+      ...qualityScore,
+      overall: Math.max(0, qualityScore.overall - penalty),
+    };
+  }
+  diagnostics.projectionMetrics = projectionMetrics;
+  diagnostics.qualityScore = qualityScore;
 
   // ─── 12. Persist ────────────────────────────────────────────────────────
   const outputId = await storeRenderedOutput({
@@ -247,8 +278,8 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
 
   // Determine status
   let status: "published" | "draft" | "failed" = "draft";
-  if (qualityScore.overall >= 60) status = "published"; // Temporarily lowered from 90 to 60 for Phase 15 deployment
-  else if (qualityScore.overall < 40) status = "failed";
+  if (qualityScore.overall >= 60 && qualityScore.wordCount >= 350) status = "published";
+  else if (qualityScore.overall < 40 || qualityScore.wordCount < 200) status = "failed";
 
   return {
     outputId,

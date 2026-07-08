@@ -274,7 +274,90 @@ export class StructuredDocsAdapter implements DiscoveryAdapter {
         "Implementing data structures from scratch when standard library implementations exist.",
       ],
     },
+    "business-process-automation": {
+      source: "Business Process Management References",
+      url: "https://en.wikipedia.org/wiki/Business_process_automation",
+      definitions: [
+        "Business process automation (BPA) uses technology to execute recurring business processes with minimal human intervention.",
+        "A business process is a series of steps performed to achieve a specific organizational outcome.",
+        "Workflow automation applies rules and triggers to route tasks, data, and approvals between people and systems.",
+        "Robotic process automation (RPA) uses software bots to mimic repetitive human actions in digital systems.",
+        "Process orchestration coordinates multiple automated steps across different applications and departments.",
+      ],
+      concepts: [
+        "Automation reduces manual errors and speeds up routine operations like invoice processing and employee onboarding.",
+        "Process mapping identifies bottlenecks, handoffs, and approval steps before automation is applied.",
+        "Integration connects CRM, ERP, email, and document systems so data flows without re-keying.",
+        "Exception handling defines what happens when a process step fails validation or requires human review.",
+        "ROI from BPA comes from time saved, error reduction, and faster cycle times on high-volume workflows.",
+      ],
+      procedures: [
+        "To automate a process, map the current workflow, identify repetitive steps, and define success criteria.",
+        "To choose BPA vs RPA, use BPA for end-to-end workflows and RPA for screen-level repetitive tasks.",
+        "To implement workflow automation, define triggers, assignees, SLAs, and escalation paths for each step.",
+        "To measure automation success, track cycle time, error rate, cost per transaction, and employee hours saved.",
+        "To roll out safely, pilot one high-volume low-risk process before expanding across departments.",
+      ],
+      commands: [],
+      examples: [
+        "Example: Expense approval automation routes submissions under $500 automatically and escalates larger amounts to managers.",
+        "Example: Customer onboarding automation sends welcome emails, creates CRM records, and provisions accounts in sequence.",
+        "Example: Invoice processing extracts data from PDFs, matches purchase orders, and posts entries to accounting software.",
+      ],
+      warnings: [
+        "Do not automate broken processes — fix the workflow first or you will scale inefficiency.",
+        "Avoid automating processes that change frequently without clear ownership.",
+        "Never skip security and access controls when bots handle sensitive financial or personal data.",
+      ],
+      bestPractices: [
+        "Start with processes that are high-volume, rules-based, and well documented.",
+        "Involve process owners and end users when designing automated workflows.",
+        "Build monitoring and audit logs for every automated decision point.",
+        "Document fallback procedures for when automation fails or needs human override.",
+      ],
+      commonMistakes: [
+        "Automating before understanding the current manual process end to end.",
+        "Choosing RPA when a proper API integration would be more reliable.",
+        "Ignoring change management — staff resistance kills automation adoption.",
+        "Failing to maintain bots and workflows when underlying systems change.",
+      ],
+    },
   };
+
+  /** Full structured doc as one acquisition candidate for assembly. */
+  getFullDocCandidate(topicSlug: string, topicTitle: string): RawCandidate | null {
+    const doc = this.topicMappings[topicSlug];
+    if (!doc) return null;
+
+    const parts = [
+      ...doc.definitions,
+      ...doc.concepts,
+      ...doc.procedures,
+      ...doc.examples,
+      ...doc.warnings,
+      ...doc.bestPractices,
+      ...doc.commonMistakes,
+    ].filter((p) => p.length > 15);
+
+    if (parts.length === 0) return null;
+
+    return {
+      slotId: "",
+      title: `${topicTitle} — ${doc.source}`,
+      description: parts.join(". "),
+      sourceUrl: doc.url,
+      relevanceScore: 95,
+      confidenceScore: 95,
+      attribution: {
+        sourceName: doc.source,
+        sourceUrl: doc.url,
+        adapterName: this.adapterType,
+        extractionMethod: "structured_full_doc",
+        discoveredAt: new Date().toISOString(),
+      },
+      metadata: { source: "structured_docs", field_type: "full" },
+    };
+  }
 
   async extract(topicSlug: string, topicTitle: string, emptySlots: SlotInfo[]): Promise<RawCandidate[]> {
     const candidates: RawCandidate[] = [];

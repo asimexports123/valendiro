@@ -12,6 +12,7 @@ import type { CandidateInput } from "@/services/knowledge/types";
 import { getSubjectRegistry } from "@/config/subjectSourceRegistry";
 import { ProductionAcquisitionService } from "@/services/acquisition/productionAcquisitionService";
 import type { PackageGapReport } from "./packageGapAnalyzer";
+import { getStructuredDocCandidate } from "@/services/knowledge/structuredDocCandidates";
 
 /** Known high-authority URLs keyed by topic slug — purpose-built acquisition. */
 const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: CandidateInput["sourceAuthority"] }[]> = {
@@ -71,6 +72,22 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
     { url: "https://www.investopedia.com/terms/i/indexfund.asp", name: "Investopedia Index Funds", authority: "encyclopedic" },
     { url: "https://en.wikipedia.org/wiki/Index_fund", name: "Wikipedia Index Fund", authority: "encyclopedic" },
   ],
+  "mutual-fund-fundamentals": [
+    { url: "https://www.investopedia.com/terms/m/mutualfund.asp", name: "Investopedia Mutual Fund", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Mutual_fund", name: "Wikipedia Mutual Fund", authority: "encyclopedic" },
+    { url: "https://www.investopedia.com/terms/n/nav.asp", name: "Investopedia NAV", authority: "encyclopedic" },
+  ],
+  "retirement-planning": [
+    { url: "https://www.investopedia.com/terms/r/retirement-planning.asp", name: "Investopedia Retirement Planning", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Retirement_planning", name: "Wikipedia Retirement Planning", authority: "encyclopedic" },
+  ],
+  "emergency-fund": [
+    { url: "https://www.investopedia.com/terms/e/emergency_fund.asp", name: "Investopedia Emergency Fund", authority: "encyclopedic" },
+  ],
+  "credit-score": [
+    { url: "https://www.investopedia.com/terms/c/credit_score.asp", name: "Investopedia Credit Score", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Credit_score", name: "Wikipedia Credit Score", authority: "encyclopedic" },
+  ],
   budgeting: [
     { url: "https://www.investopedia.com/terms/b/budget.asp", name: "Investopedia Budget", authority: "encyclopedic" },
     { url: "https://en.wikipedia.org/wiki/Budget", name: "Wikipedia Budget", authority: "encyclopedic" },
@@ -83,6 +100,44 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
   ],
   "project-management": [
     { url: "https://en.wikipedia.org/wiki/Project_management", name: "Wikipedia Project Management", authority: "encyclopedic" },
+  ],
+  "data-structures": [
+    { url: "https://en.wikipedia.org/wiki/Data_structure", name: "Wikipedia Data Structures", authority: "encyclopedic" },
+  ],
+  "algorithms-fundamentals": [
+    { url: "https://en.wikipedia.org/wiki/Algorithm", name: "Wikipedia Algorithm", authority: "encyclopedic" },
+  ],
+  "machine-learning-fundamentals": [
+    { url: "https://en.wikipedia.org/wiki/Machine_learning", name: "Wikipedia Machine Learning", authority: "encyclopedic" },
+  ],
+  "business-process-automation": [
+    { url: "https://en.wikipedia.org/wiki/Business_process_automation", name: "Wikipedia BPA", authority: "encyclopedic" },
+  ],
+  "docker-containers": [
+    { url: "https://docs.docker.com/get-started/overview/", name: "Docker Overview", authority: "official" },
+    { url: "https://en.wikipedia.org/wiki/Docker_(software)", name: "Wikipedia Docker", authority: "encyclopedic" },
+  ],
+  "nextjs-framework": [
+    { url: "https://nextjs.org/docs", name: "Next.js Docs", authority: "official" },
+  ],
+  "typescript-language": [
+    { url: "https://www.typescriptlang.org/docs/handbook/intro.html", name: "TypeScript Handbook", authority: "official" },
+  ],
+  "react-library": [
+    { url: "https://react.dev/learn", name: "React Learn", authority: "official" },
+  ],
+  "sql-fundamentals": [
+    { url: "https://developer.mozilla.org/en-US/docs/Glossary/SQL", name: "MDN SQL", authority: "official" },
+    { url: "https://en.wikipedia.org/wiki/SQL", name: "Wikipedia SQL", authority: "encyclopedic" },
+  ],
+  "software-testing": [
+    { url: "https://en.wikipedia.org/wiki/Software_testing", name: "Wikipedia Software Testing", authority: "encyclopedic" },
+  ],
+  nutrition: [
+    { url: "https://en.wikipedia.org/wiki/Nutrition", name: "Wikipedia Nutrition", authority: "encyclopedic" },
+  ],
+  "mental-health": [
+    { url: "https://en.wikipedia.org/wiki/Mental_health", name: "Wikipedia Mental Health", authority: "encyclopedic" },
   ],
 };
 
@@ -260,6 +315,12 @@ export async function seekKnowledgeForGaps(gapReport: PackageGapReport): Promise
     seenUrls.add(c.sourceUrl);
     candidates.push(c);
   };
+
+  // 0. Curated structured docs (highest quality, no scrape noise)
+  const structured = getStructuredDocCandidate(gapReport.slug, gapReport.title);
+  if (structured) {
+    push(structured);
+  }
 
   // 1. Known authority URLs for this exact slug (highest leverage)
   for (const src of AUTHORITY_URLS[gapReport.slug] ?? []) {

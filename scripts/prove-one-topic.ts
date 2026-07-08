@@ -79,6 +79,7 @@ async function main() {
     format: "markdown",
     forceRerender: true,
     policyMode: "strict",
+    rendererId: "long-article",
   });
 
   if (!rendered.outputId) {

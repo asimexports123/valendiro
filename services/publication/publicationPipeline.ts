@@ -21,6 +21,13 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { upsertTopicTranslation, markTopicPublished } from '@/services/publish/writers';
+import {
+  evaluatePublishEligibility,
+  MIN_PUBLISH_QUALITY_SCORE,
+  MIN_PUBLISH_WORD_COUNT,
+  normalizeQualityScore,
+} from '@/services/knowledge/contentQualityGate';
 
 export interface PublicationConfig {
   qualityThreshold: number;
@@ -131,9 +138,9 @@ export class PublicationPipeline {
     );
 
     this.config = {
-      qualityThreshold: 0.8,
+      qualityThreshold: MIN_PUBLISH_QUALITY_SCORE / 100,
       requiredRendererVersion: '1.0.0',
-      allowedOutputFormats: ['html'],
+      allowedOutputFormats: ['markdown'],
       enableCacheRevalidation: true,
       dryRun: false,
       ...config,
@@ -395,9 +402,29 @@ export class PublicationPipeline {
       warnings.push('Metadata is incomplete');
     }
 
-    // Validate quality score
+    // Validate quality score (0–100 scale)
     if (!checks.qualityScoreValid) {
-      errors.push(`Quality score does not meet threshold of ${this.config.qualityThreshold}`);
+      errors.push(`Quality score does not meet threshold of ${MIN_PUBLISH_QUALITY_SCORE}/100`);
+    }
+
+    const eligibility = evaluatePublishEligibility({
+      content: renderedOutput.content,
+      qualityScoreRaw: renderedOutput.quality_score?.overall,
+    });
+    if (!eligibility.allowed) {
+      for (const reason of eligibility.reasons) {
+        if (reason.includes("Dummy") || reason.includes("Too short")) {
+          errors.push(reason);
+        } else {
+          warnings.push(reason);
+        }
+      }
+    }
+    if (renderedOutput.word_count < MIN_PUBLISH_WORD_COUNT) {
+      const contentWords = renderedOutput.content.trim().split(/\s+/).filter(Boolean).length;
+      if (contentWords < MIN_PUBLISH_WORD_COUNT) {
+        errors.push(`Word count ${contentWords} below minimum ${MIN_PUBLISH_WORD_COUNT}`);
+      }
     }
 
     // Validate topic exists
@@ -434,6 +461,18 @@ export class PublicationPipeline {
       return false;
     }
 
+    if (renderedOutput.output_format !== 'markdown') {
+      return false;
+    }
+
+    if (/<!--[\s\S]*?-->/.test(renderedOutput.content)) {
+      return false;
+    }
+
+    if (/<!DOCTYPE|<article[\s>]/i.test(renderedOutput.content)) {
+      return false;
+    }
+
     return true;
   }
 
@@ -456,9 +495,8 @@ export class PublicationPipeline {
    * Validate quality score
    */
   private validateQualityScore(renderedOutput: RenderedOutput): boolean {
-    // Extract overall quality score from quality_score JSONB
-    const qualityScore = renderedOutput.quality_score?.overall || 0;
-    return qualityScore >= this.config.qualityThreshold;
+    const qualityScore = normalizeQualityScore(renderedOutput.quality_score?.overall);
+    return qualityScore >= MIN_PUBLISH_QUALITY_SCORE;
   }
 
   /**
@@ -477,6 +515,13 @@ export class PublicationPipeline {
     return true;
   }
 
+  private humanizeSlug(slug: string): string {
+    return slug
+      .split("-")
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+  }
+
   /**
    * Publish to topic_translations table
    */
@@ -486,90 +531,42 @@ export class PublicationPipeline {
     languageCode: string
   ): Promise<string | null> {
     const now = new Date().toISOString();
-
-    // Extract title and metadata from document_tree
     const documentTree = renderedOutput.document_tree || {};
-    const title = documentTree.title || topic.slug;
-    const subtitle = documentTree.subtitle || null;
-    const metaTitle = documentTree.meta_title || null;
-    const metaDescription = documentTree.meta_description || null;
-    const structured_data = documentTree.structured_data || null;
+    const treeMeta =
+      Array.isArray(documentTree) || typeof documentTree !== "object"
+        ? ({} as Record<string, string | null>)
+        : (documentTree as Record<string, string | null>);
 
-    // Check if translation exists
-    const { data: existingTranslation, error: fetchError } = await this.supabase
-      .from('topic_translations')
-      .select('*')
-      .eq('topic_id', topic.id)
-      .eq('language_code', languageCode)
-      .single();
+    const { data: existingTranslation } = await this.supabase
+      .from("topic_translations")
+      .select("title, subtitle, meta_title, meta_description")
+      .eq("topic_id", topic.id)
+      .eq("language_code", languageCode)
+      .maybeSingle();
 
-    if (fetchError && fetchError.code !== 'PGRST116') {
-      console.error(`[Publication Pipeline] Error fetching translation:`, fetchError);
+    try {
+      await upsertTopicTranslation({
+        topic_id: topic.id,
+        language_code: languageCode,
+        title:
+          treeMeta.title ||
+          (existingTranslation?.title && existingTranslation.title !== topic.slug
+            ? existingTranslation.title
+            : this.humanizeSlug(topic.slug)),
+        subtitle: treeMeta.subtitle ?? existingTranslation?.subtitle ?? null,
+        content: renderedOutput.content,
+        meta_title: treeMeta.meta_title ?? existingTranslation?.meta_title ?? null,
+        meta_description:
+          treeMeta.meta_description ?? existingTranslation?.meta_description ?? null,
+        structured_data: treeMeta.structured_data || null,
+      });
+      await markTopicPublished(topic.id);
+      console.log(`[Publication Pipeline] Published translation for topic: ${topic.slug}`);
+      return now;
+    } catch (error) {
+      console.error(`[Publication Pipeline] Publish failed:`, error);
       return null;
     }
-
-    if (existingTranslation) {
-      // Update existing translation
-      const { error: updateError } = await this.supabase
-        .from('topic_translations')
-        .update({
-          title,
-          subtitle,
-          content: renderedOutput.content,
-          meta_title: metaTitle,
-          meta_description: metaDescription,
-          structured_data,
-          updated_at: now,
-        })
-        .eq('id', existingTranslation.id);
-
-      if (updateError) {
-        console.error(`[Publication Pipeline] Error updating translation:`, updateError);
-        return null;
-      }
-
-      console.log(`[Publication Pipeline] Updated translation for topic: ${topic.slug}`);
-    } else {
-      // Insert new translation
-      const { error: insertError } = await this.supabase
-        .from('topic_translations')
-        .insert({
-          topic_id: topic.id,
-          language_code: languageCode,
-          title,
-          subtitle,
-          content: renderedOutput.content,
-          meta_title: metaTitle,
-          meta_description: metaDescription,
-          structured_data,
-          created_at: now,
-          updated_at: now,
-        });
-
-      if (insertError) {
-        console.error(`[Publication Pipeline] Error inserting translation:`, insertError);
-        return null;
-      }
-
-      console.log(`[Publication Pipeline] Inserted translation for topic: ${topic.slug}`);
-    }
-
-    // Update topic status to published
-    const { error: topicUpdateError } = await this.supabase
-      .from('topics')
-      .update({
-        status: 'published',
-        published_at: now,
-        updated_at: now,
-      })
-      .eq('id', topic.id);
-
-    if (topicUpdateError) {
-      console.error(`[Publication Pipeline] Error updating topic status:`, topicUpdateError);
-      return null;
-    }
-
-    return now;
   }
 
   /**
