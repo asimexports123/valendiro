@@ -28,6 +28,34 @@ const PROS_SECTION = /^(#{1,3})\s+.*(pros?|advantages?|benefits?)/i;
 const CONS_SECTION = /^(#{1,3})\s+.*(cons?|disadvantages?|drawbacks?|limitations?)/i;
 const TAKEAWAY_SECTION = /^(#{1,3})\s+.*(key takeaway|what you.ll learn|summary|in brief|quick recap|at a glance)/i;
 const CHECKPOINT_SECTION = /^(#{1,3})\s+.*(checkpoint|check your|self.?check|review question)/i;
+const WHAT_IT_IS_SECTION = /^#{1,3}\s+what .+\b(is|are)\b/i;
+
+/** Split markdown after the first "What … is/are" section (for Quick Facts placement). */
+export function splitAfterWhatItIsSection(content: string): {
+  beforeQuickFacts: string;
+  afterQuickFacts: string;
+  hasWhatItIs: boolean;
+} {
+  const lines = content.split("\n");
+  const startIdx = lines.findIndex((l) => WHAT_IT_IS_SECTION.test(l));
+  if (startIdx < 0) {
+    return { beforeQuickFacts: content, afterQuickFacts: "", hasWhatItIs: false };
+  }
+
+  let endIdx = lines.length;
+  for (let i = startIdx + 1; i < lines.length; i++) {
+    if (/^#{1,3}\s/.test(lines[i])) {
+      endIdx = i;
+      break;
+    }
+  }
+
+  return {
+    beforeQuickFacts: lines.slice(0, endIdx).join("\n"),
+    afterQuickFacts: lines.slice(endIdx).join("\n"),
+    hasWhatItIs: true,
+  };
+}
 
 function cleanListItem(line: string): string {
   return line.replace(/^[-*]\s+/, "").replace(/^\d+\.\s+/, "").replace(/\*\*/g, "").trim();
