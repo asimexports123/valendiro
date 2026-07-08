@@ -11,6 +11,7 @@ import { renderPackage, markOutputPublished } from "@/services/render/engine";
 import { publishRenderedOutput } from "@/services/publish/service";
 import { projectPackageToGraph } from "@/services/knowledge/graphService";
 import { resolvePrimaryTopic, resolveArticleToCatalogTopics } from "@/services/discovery/topicResolver";
+import { evaluateAdmission } from "@/services/admission/knowledgeAdmissionEngine";
 import {
   KNOWLEDGE_ASSET_TABLE,
   rowToDiscoveredArticleLogical,
@@ -29,6 +30,8 @@ export interface ArticlePipelineResult {
   failed: number;
   catalogMatches: number;
   deferred: number;
+  rejected: number;
+  archived: number;
   newTopics: number;
   errors: string[];
 }
@@ -83,6 +86,8 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
   error?: string;
   catalogMatch?: boolean;
   deferred?: boolean;
+  rejected?: boolean;
+  archived?: boolean;
 }> {
   const sb = createAdminClient();
 
@@ -117,11 +122,38 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
   try {
     const candidate = buildCandidate(article as DiscoveredArticle, sourceName);
 
+    // ── Knowledge Admission Engine ──────────────────────────────────────────
+    const admission = evaluateAdmission({
+      title: article.title,
+      content: article.content,
+      summary: article.summary,
+      url: article.url,
+    });
+
+    if (admission.action === "reject") {
+      await sb
+        .from(KNOWLEDGE_ASSET_TABLE)
+        .update({
+          status: "error",
+          rejection_reason: `admission_reject: ${admission.reason}`,
+          processing_completed_at: new Date().toISOString(),
+          metadata: {
+            ...(article.metadata ?? {}),
+            admission_action: "reject",
+            admission_reason: admission.reason,
+            content_class: admission.contentClass,
+          },
+        })
+        .eq("id", articleId);
+      return { success: false, error: admission.reason, rejected: true };
+    }
+
     // Resolve to existing catalog topic instead of always creating orphan drafts
     const primaryMatch = await resolvePrimaryTopic({
       title: article.title,
       content: article.content,
       summary: article.summary,
+      admissionNewsScore: admission.newsScore,
     });
 
     const allMatches = await resolveArticleToCatalogTopics({
@@ -129,13 +161,50 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
       content: article.content,
       summary: article.summary,
       url: article.url,
+      admissionNewsScore: admission.newsScore,
+      enrichmentHints: admission.enrichmentTopicHints,
     });
+
+    // Transient news — archive, optionally link as internal fuel only (no publish)
+    if (admission.action === "archive_news" || (admission.enrichOnly && !admission.allowPublish)) {
+      await linkAssetToTopics(
+        articleId,
+        allMatches.length > 0
+          ? allMatches.slice(0, 2).map((m) => ({
+              topicId: m.topic.id,
+              confidence: m.confidence * 0.5,
+              method: `admission_${m.method}`,
+            }))
+          : []
+      );
+
+      await sb
+        .from(KNOWLEDGE_ASSET_TABLE)
+        .update({
+          status: "accepted",
+          processing_completed_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          metadata: {
+            ...(article.metadata ?? {}),
+            archived_news: true,
+            admission_action: admission.action,
+            admission_reason: admission.reason,
+            content_class: admission.contentClass,
+            evergreen_score: admission.evergreenScore,
+            news_score: admission.newsScore,
+            title: article.title,
+          },
+        })
+        .eq("id", articleId);
+
+      return { success: true, catalogMatch: false, deferred: true, archived: true };
+    }
 
     let topicId: string;
     let slug: string;
     let catalogMatch = false;
 
-    if (primaryMatch && primaryMatch.confidence >= CATALOG_PUBLISH_THRESHOLD) {
+    if (primaryMatch && primaryMatch.confidence >= CATALOG_PUBLISH_THRESHOLD && admission.allowPublish) {
       topicId = primaryMatch.topic.id;
       slug = primaryMatch.topic.slug;
       catalogMatch = true;
@@ -162,6 +231,8 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
             ...(article.metadata ?? {}),
             deferred: true,
             reason: "no_catalog_match",
+            admission_action: admission.action,
+            admission_reason: admission.reason,
             title: article.title,
           },
         })
@@ -219,13 +290,15 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
       throw new Error(pubResult.error ?? "Publication failed");
     }
 
-    await projectPackageToGraph(
-      report.packageId,
-      topicId,
-      article.content || article.summary || article.title
-    ).catch((graphErr) => {
-      console.warn(`[ArticlePipeline] Graph projection non-fatal:`, graphErr);
-    });
+    if (admission.allowGraphProjection) {
+      await projectPackageToGraph(
+        report.packageId,
+        topicId,
+        article.content || article.summary || article.title
+      ).catch((graphErr) => {
+        console.warn(`[ArticlePipeline] Graph projection non-fatal:`, graphErr);
+      });
+    }
 
     await sb
       .from(KNOWLEDGE_ASSET_TABLE)
@@ -233,6 +306,12 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
         status: "accepted",
         processing_completed_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
+        metadata: {
+          ...(article.metadata ?? {}),
+          admission_action: admission.action,
+          admission_reason: admission.reason,
+          content_class: admission.contentClass,
+        },
       })
       .eq("id", articleId);
 
@@ -274,6 +353,8 @@ export async function processArticlePipelineBatch(
     failed: 0,
     catalogMatches: 0,
     deferred: 0,
+    rejected: 0,
+    archived: 0,
     newTopics: 0,
     errors: [],
   };
@@ -301,11 +382,13 @@ export async function processArticlePipelineBatch(
     result.processed++;
     const outcome = await processDiscoveredArticle(articleId);
     if (outcome.success) {
-      if (outcome.deferred) result.deferred++;
+      if (outcome.archived) result.archived++;
+      else if (outcome.deferred) result.deferred++;
       else result.published++;
       if (outcome.catalogMatch) result.catalogMatches++;
     } else {
       result.failed++;
+      if (outcome.rejected) result.rejected++;
       if (outcome.error) {
         result.errors.push(`${articleId}: ${outcome.error}`);
       }
