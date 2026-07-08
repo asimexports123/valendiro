@@ -69,9 +69,9 @@ export class PublicationValidation {
       minCoverage: 0.5,
       minCompleteness: 0.5,
       minAuthority: 0.8,
-      minReferences: 2,
+      minReferences: 1,
       requiredRendererVersion: '1.0.0',
-      allowedOutputFormats: ['html'],
+      allowedOutputFormats: ['markdown'],
       minWordCount: 100,
       minSectionCount: 3,
       ...config,
@@ -252,6 +252,18 @@ export class PublicationValidation {
    */
   private checkContentIntegrity(renderedOutput: RenderedOutput): boolean {
     if (!renderedOutput.content || renderedOutput.content.length === 0) {
+      return false;
+    }
+
+    if (renderedOutput.output_format !== 'markdown') {
+      return false;
+    }
+
+    if (/<!--[\s\S]*?-->/.test(renderedOutput.content)) {
+      return false;
+    }
+
+    if (/<!DOCTYPE|<article[\s>]/i.test(renderedOutput.content)) {
       return false;
     }
 

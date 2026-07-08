@@ -26,6 +26,33 @@ interface TopicTrustPanelProps {
   compact?: boolean;
 }
 
+function resolveCitationHref(citation: TopicCitation): string | null {
+  const url = citation.sourceUrl?.trim();
+  if (url) return url;
+
+  const name = citation.sourceName?.trim();
+  if (name && /^https?:\/\//i.test(name)) return name;
+
+  return null;
+}
+
+function citationDisplayLabel(citation: TopicCitation, href: string | null): string {
+  const name = citation.sourceName?.trim() || "Source";
+  if (!href) return name;
+
+  if (name === href || /^https?:\/\//i.test(name)) {
+    try {
+      const parsed = new URL(href);
+      const path = parsed.pathname === "/" ? "" : parsed.pathname;
+      return `${parsed.hostname.replace(/^www\./, "")}${path}`;
+    } catch {
+      return name;
+    }
+  }
+
+  return name;
+}
+
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "long",
@@ -75,25 +102,32 @@ export function TopicTrustPanel({ citations, trust, lang, compact }: TopicTrustP
         <div>
           <h3 className="text-sm font-semibold text-foreground mb-3">Referenced sources</h3>
           <ul className="space-y-2">
-            {citations.map((cit) => (
-              <li key={cit.id} className="text-sm">
-                {cit.sourceUrl ? (
-                  <a
-                    href={cit.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline font-medium"
-                  >
-                    {cit.sourceName}
-                  </a>
-                ) : (
-                  <span className="font-medium text-foreground">{cit.sourceName}</span>
-                )}
-                {cit.sourceAuthority && cit.sourceAuthority !== "community" && (
-                  <span className="ml-2 text-xs text-muted-foreground capitalize">({cit.sourceAuthority})</span>
-                )}
-              </li>
-            ))}
+            {citations.map((cit) => {
+              const href = resolveCitationHref(cit);
+              const label = citationDisplayLabel(cit, href);
+
+              return (
+                <li key={cit.id} className="text-sm">
+                  {href ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline font-medium break-words"
+                    >
+                      {label}
+                    </a>
+                  ) : (
+                    <span className="font-medium text-foreground">{label}</span>
+                  )}
+                  {cit.sourceAuthority && cit.sourceAuthority !== "community" && (
+                    <span className="ml-2 text-xs text-muted-foreground capitalize">
+                      ({cit.sourceAuthority})
+                    </span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       ) : (

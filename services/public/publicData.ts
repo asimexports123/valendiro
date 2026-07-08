@@ -1,9 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 import { serializeToHTML } from "@/services/renderer/serializers/html";
-import { topicClassificationEngine } from "@/services/renderer/topicClassificationEngine";
-import { compositionPlanner, type CompositionPlan } from "@/services/renderer/compositionPlanner";
-import { loadKnowledgePackage } from "@/services/renderer/knowledgePackageLoader";
 
 const slugToTitle = (slug: string): string => {
   return slug
@@ -922,6 +919,29 @@ export async function getRelatedCategories(categoryId: string, limit = 5): Promi
   return getCategoriesWithCounts(limit);
 }
 
+export interface PublicTopicCitation {
+  id: string;
+  sourceName: string;
+  sourceUrl: string | null;
+  adapterName: string | null;
+  sourceAuthority: string | null;
+}
+
+export interface PublicTopicTrust {
+  lastReviewed: string | null;
+  confidenceScore: number | null;
+  completenessScore: number | null;
+  citationCount: number;
+  factCount: number;
+  coverageLabel: string;
+  confidenceLabel: string;
+}
+
+export interface PublicTopicEntity {
+  slug: string;
+  name: string;
+}
+
 export interface PublicTopicDetail extends PublicTopic {
   content: string | null;
   meta_title: string | null;
@@ -929,6 +949,36 @@ export interface PublicTopicDetail extends PublicTopic {
   category_id: string | null;
   subcategory_id: string | null;
   updated_at: string | null;
+  citations: PublicTopicCitation[];
+  trust: PublicTopicTrust;
+  entities: PublicTopicEntity[];
+  wordCount: number;
+}
+
+function countWords(content: string | null): number {
+  if (!content) return 0;
+  return content.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function coverageLabelFromMetrics(wordCount: number, factCount: number, completeness: number | null): string {
+  if (wordCount >= 2500 || factCount >= 35) return "Comprehensive guide";
+  if (wordCount >= 1200 || factCount >= 20) return "Solid overview";
+  if (wordCount >= 600 || factCount >= 12) return "Introductory guide";
+  if (wordCount >= 300 || factCount >= 6) return "Quick primer";
+  if (completeness != null && completeness >= 70) return "Core concepts covered";
+  return "Foundational — expanding";
+}
+
+function confidenceLabelFromScore(score: number | null, citationCount: number): string {
+  if (score != null) {
+    if (score >= 80) return "High";
+    if (score >= 60) return "Moderate";
+    if (score >= 40) return "Developing";
+    return "Limited";
+  }
+  if (citationCount >= 3) return "Moderate";
+  if (citationCount >= 1) return "Developing";
+  return "Unverified";
 }
 
 export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | null> {
@@ -956,74 +1006,72 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     categorySlug = category?.slug || null;
   }
 
-  // Get knowledge package for this topic
+  const translation = topic.topic_translations?.[0];
+  const translationContent = translation?.content || null;
+
+  // Get latest active knowledge package for this topic
   const { data: packageData } = await supabase
     .from("knowledge_packages")
-    .select("id")
+    .select("id, fact_count, last_verified_at, version")
     .eq("topic_id", topic.id)
+    .eq("status", "ready")
+    .order("version", { ascending: false })
+    .limit(1)
     .maybeSingle();
 
-  let renderedContent = null;
+  let renderedContent: string | null = null;
+  let citations: PublicTopicCitation[] = [];
+  let entities: PublicTopicEntity[] = [];
+  const factCount = packageData?.fact_count ?? 0;
+  let lastReviewed = packageData?.last_verified_at ?? topic.updated_at ?? null;
 
-  if (packageData && categorySlug) {
-    // EDITORIAL OS RUNTIME: Use new runtime path
-    try {
-      // Load full knowledge package
-      const loadResult = await loadKnowledgePackage({ packageId: packageData.id });
+  if (packageData) {
+    const { data: citationRows } = await supabase
+      .from("knowledge_citations")
+      .select("id, source_name, source_url, adapter_name, source_authority")
+      .eq("package_id", packageData.id)
+      .order("created_at", { ascending: true });
 
-      if (loadResult.package && !loadResult.error) {
-        const knowledgePackage = loadResult.package;
-        const translation = topic.topic_translations?.[0];
+    citations = (citationRows ?? []).map((c) => {
+      const sourceName = c.source_name || "Unknown source";
+      const sourceUrl =
+        c.source_url?.trim() ||
+        (/^https?:\/\//i.test(sourceName) ? sourceName : null);
 
-        // Step 1: Topic Classification
-        const classification = topicClassificationEngine.classify({
-          category: categorySlug,
-          slug: topic.slug,
-          title: translation?.title,
-          facts: knowledgePackage.facts,
-        });
+      return {
+        id: c.id,
+        sourceName,
+        sourceUrl,
+        adapterName: c.adapter_name,
+        sourceAuthority: c.source_authority,
+      };
+    });
 
-        // Step 2: Composition Planning
-        const compositionPlan = compositionPlanner.plan({
-          topic: topic.slug,
-          category: categorySlug,
-          slug: topic.slug,
-          title: translation?.title,
-          knowledgePackage: {
-            facts: knowledgePackage.facts,
-            citations: knowledgePackage.citations,
-            relationships: knowledgePackage.relationships,
-          },
-        });
+    const { data: factRows } = await supabase
+      .from("knowledge_facts")
+      .select("tags")
+      .eq("package_id", packageData.id);
 
-        // Step 3: Check for pre-rendered output with this composition plan
-        const { data: renderedOutput } = await supabase
-          .from("rendered_outputs")
-          .select("document_tree, content")
-          .eq("package_id", packageData.id)
-          .eq("status", "published")
-          .order("created_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-
-        if (renderedOutput?.document_tree) {
-          try {
-            renderedContent = serializeToHTML(renderedOutput.document_tree);
-          } catch (error) {
-            console.error("Failed to serialize document tree to HTML:", error);
-          }
-        } else if (renderedOutput?.content) {
-          renderedContent = renderedOutput.content;
-        }
+    const tagSlugs = new Set<string>();
+    for (const row of factRows ?? []) {
+      for (const tag of row.tags ?? []) {
+        if (typeof tag === "string" && tag.length > 1) tagSlugs.add(tag);
       }
-    } catch (error) {
-      console.error("Editorial OS runtime error:", error);
-      // Fall back to legacy path
     }
-  }
 
-  // Legacy fallback: Get rendered output without Editorial OS
-  if (!renderedContent && packageData) {
+    if (tagSlugs.size > 0) {
+      const { data: nodes } = await supabase
+        .from("knowledge_graph_nodes")
+        .select("slug, name")
+        .in("slug", Array.from(tagSlugs))
+        .limit(12);
+
+      entities = (nodes ?? []).map((n) => ({
+        slug: n.slug,
+        name: n.name || slugToTitle(n.slug),
+      }));
+    }
+
     const { data: renderedOutput } = await supabase
       .from("rendered_outputs")
       .select("document_tree, content")
@@ -1033,24 +1081,37 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
       .limit(1)
       .maybeSingle();
 
-    if (renderedOutput?.document_tree) {
+    // Prefer canonical published markdown, then rendered markdown, then HTML fallback
+    if (translationContent) {
+      renderedContent = translationContent;
+    } else if (renderedOutput?.content) {
+      renderedContent = renderedOutput.content;
+    } else if (renderedOutput?.document_tree) {
       try {
         renderedContent = serializeToHTML(renderedOutput.document_tree);
       } catch (error) {
         console.error("Failed to serialize document tree to HTML:", error);
       }
-    } else if (renderedOutput?.content) {
-      renderedContent = renderedOutput.content;
     }
+  } else if (translationContent) {
+    renderedContent = translationContent;
   }
 
-  // Final fallback to topic_translations.content
-  if (!renderedContent) {
-    const translation = topic.topic_translations?.[0];
-    renderedContent = topic.content || translation?.content || null;
-  }
+  const wordCount = countWords(renderedContent);
+  const completenessScore =
+    factCount >= 30 ? 85 : factCount >= 20 ? 70 : factCount >= 10 ? 55 : factCount >= 5 ? 40 : 25;
+  const confidenceScore =
+    citations.length >= 3 ? 75 : citations.length >= 2 ? 65 : citations.length >= 1 ? 50 : factCount >= 20 ? 45 : 30;
 
-  const translation = topic.topic_translations?.[0];
+  const trust: PublicTopicTrust = {
+    lastReviewed,
+    confidenceScore,
+    completenessScore,
+    citationCount: citations.length,
+    factCount,
+    coverageLabel: coverageLabelFromMetrics(wordCount, factCount, completenessScore),
+    confidenceLabel: confidenceLabelFromScore(confidenceScore, citations.length),
+  };
 
   return {
     id: topic.id,
@@ -1064,6 +1125,10 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
     category_id: topic.category_id,
     subcategory_id: topic.subcategory_id,
     updated_at: topic.updated_at ?? null,
+    citations,
+    trust,
+    entities,
+    wordCount,
   };
 }
 

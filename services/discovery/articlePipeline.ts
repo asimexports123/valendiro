@@ -15,6 +15,7 @@ import { evaluateAdmission } from "@/services/admission/knowledgeAdmissionEngine
 import {
   KNOWLEDGE_ASSET_TABLE,
   rowToDiscoveredArticleLogical,
+  validateKnowledgeAssetBeforeSave,
   type KnowledgeAssetRow,
 } from "@/services/discovery/ingest/knowledgeAssetCompat";
 import { v4 as uuidv4 } from "uuid";
@@ -99,6 +100,19 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
 
   if (fetchError || !row) {
     return { success: false, error: fetchError?.message ?? "Article not found" };
+  }
+
+  const assetValidation = validateKnowledgeAssetBeforeSave(row as KnowledgeAssetRow);
+  if (!assetValidation.valid) {
+    await sb
+      .from(KNOWLEDGE_ASSET_TABLE)
+      .update({
+        status: "failed",
+        rejection_reason: assetValidation.reason,
+        processing_completed_at: new Date().toISOString(),
+      })
+      .eq("id", articleId);
+    return { success: false, error: assetValidation.reason ?? "Invalid knowledge asset", rejected: true };
   }
 
   const article = rowToDiscoveredArticleLogical(row as KnowledgeAssetRow);
