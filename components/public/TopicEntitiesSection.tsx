@@ -24,8 +24,8 @@ export function TopicEntitiesSection({ entities, lang, inline }: TopicEntitiesSe
         {entities.map((entity) => (
           <Link
             key={entity.slug}
-            href={`/${lang}/entity/${entity.slug}`}
-            className="inline-flex items-center rounded-full border border-border/60 bg-background px-4 py-2 text-sm font-medium text-foreground hover:border-foreground/30 hover:bg-muted/40 transition-colors"
+            href={`/${lang}/topics/${entity.slug}`}
+            className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-slate-200 dark:bg-slate-800/50 dark:hover:bg-slate-700/50"
           >
             {entity.name}
           </Link>
