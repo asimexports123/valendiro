@@ -36,6 +36,8 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
   const supabase = createAdminClient();
 
   console.log(`[Entity Hub] Fetching data for slug: ${slug}`);
+  console.log(`[Entity Hub] Environment: ${process.env.NODE_ENV}`);
+  console.log(`[Entity Hub] Supabase URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL}`);
 
   // Get entity
   const { data: entity, error: entityError } = await supabase
@@ -44,8 +46,11 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
     .eq("slug", slug)
     .single();
 
+  console.log(`[Entity Hub] Entity query result:`, { data: entity, error: entityError });
+
   if (entityError || !entity) {
     console.log("[Entity Hub] Entity not found:", entityError);
+    console.log("[Entity Hub] This will trigger notFound() and cause 404");
     return null;
   }
 
