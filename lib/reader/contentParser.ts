@@ -29,6 +29,7 @@ const CONS_SECTION = /^(#{1,3})\s+.*(cons?|disadvantages?|drawbacks?|limitations
 const TAKEAWAY_SECTION = /^(#{1,3})\s+.*(key takeaway|what you.ll learn|summary|in brief|quick recap|at a glance)/i;
 const CHECKPOINT_SECTION = /^(#{1,3})\s+.*(checkpoint|check your|self.?check|review question)/i;
 const WHAT_IT_IS_SECTION = /^#{1,3}\s+what .+\b(is|are)\b/i;
+const WHY_IT_MATTERS_SECTION = /^#{1,3}\s+why .+\b(matter|matters)\b/i;
 
 /** Split markdown after the first "What … is/are" section (for Quick Facts placement). */
 export function splitAfterWhatItIsSection(content: string): {
@@ -54,6 +55,37 @@ export function splitAfterWhatItIsSection(content: string): {
     beforeQuickFacts: lines.slice(0, endIdx).join("\n"),
     afterQuickFacts: lines.slice(endIdx).join("\n"),
     hasWhatItIs: true,
+  };
+}
+
+/** Extract the "Why … matter(s)" section for Key Insight callout styling. */
+export function splitWhyItMattersSection(content: string): {
+  before: string;
+  heading: string;
+  body: string;
+  after: string;
+  hasWhyItMatters: boolean;
+} {
+  const lines = content.split("\n");
+  const startIdx = lines.findIndex((l) => WHY_IT_MATTERS_SECTION.test(l));
+  if (startIdx < 0) {
+    return { before: content, heading: "", body: "", after: "", hasWhyItMatters: false };
+  }
+
+  let endIdx = lines.length;
+  for (let i = startIdx + 1; i < lines.length; i++) {
+    if (/^#{1,3}\s/.test(lines[i])) {
+      endIdx = i;
+      break;
+    }
+  }
+
+  return {
+    before: lines.slice(0, startIdx).join("\n"),
+    heading: lines[startIdx],
+    body: lines.slice(startIdx + 1, endIdx).join("\n").trim(),
+    after: lines.slice(endIdx).join("\n"),
+    hasWhyItMatters: true,
   };
 }
 
