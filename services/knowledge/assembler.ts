@@ -23,7 +23,15 @@ import { resolveConflicts } from "./conflictResolver";
 import { calculateConfidence } from "./confidenceCalculator";
 import { buildRelationships } from "./relationshipBuilder";
 import { computeKnowledgeHash, decideVersion } from "./packageVersioner";
+import { computeKnowledgePackageMetrics } from "./knowledgePackageMetrics";
 import { enqueueJob } from "@/jobs/queues/jobQueue";
+import {
+  archivePackage,
+  findLatestPackageBySlug,
+  insertPackage,
+  touchPackageVerified,
+} from "./packageService";
+import { filterRelevantCandidates } from "./relevanceGate";
 
 // ─── Main Assemble Function ──────────────────────────────────────────────────
 
@@ -31,9 +39,21 @@ export async function assemble(input: AssemblyInput): Promise<AssemblyReport> {
   const startTime = Date.now();
   const sb = createAdminClient();
 
+  // Relevance gate — any source OK, wrong-topic fuel rejected
+  const { kept: candidates } = filterRelevantCandidates(input.candidates, input.slug);
+
+  if (candidates.length === 0) {
+    throw new Error(`No relevant candidates for topic ${input.slug} after relevance gate`);
+  }
+
   // ─── Step 1 + 2: Extract (normalization happens inside extractFacts) ───────
 
-  const { facts: extractedFacts, citations, normalizations } = await extractFacts(input.candidates);
+  const {
+    facts: extractedFacts,
+    citations,
+    normalizations,
+    sourceWordCount,
+  } = await extractFacts(candidates);
 
   // ─── Step 3: Deduplicate ───────────────────────────────────────────────────
 
@@ -51,18 +71,20 @@ export async function assemble(input: AssemblyInput): Promise<AssemblyReport> {
 
   const relationships = buildRelationships(finalFacts);
 
+  const qualityMetrics = computeKnowledgePackageMetrics({
+    facts: finalFacts,
+    relationships,
+    citations,
+    conflicts,
+    sourceWordCount,
+  });
+
   // ─── Step 7: Version ───────────────────────────────────────────────────────
 
   const newHash = computeKnowledgeHash(finalFacts, relationships);
 
   // Check for existing package
-  const { data: existingPkg } = await sb
-    .from("knowledge_packages")
-    .select("id, version, knowledge_hash")
-    .eq("slug", input.slug)
-    .order("version", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  const { data: existingPkg } = await findLatestPackageBySlug(input.slug);
 
   const versionDecision = decideVersion(
     newHash,
@@ -76,16 +98,9 @@ export async function assemble(input: AssemblyInput): Promise<AssemblyReport> {
   if (versionDecision.action === "unchanged" && existingPkg) {
     // Only update verification timestamp
     packageId = existingPkg.id;
-    await sb
-      .from("knowledge_packages")
-      .update({ last_verified_at: new Date().toISOString() })
-      .eq("id", existingPkg.id);
+    await touchPackageVerified(existingPkg.id);
   } else if (versionDecision.action === "update" && existingPkg) {
-    // Mark old version as archived
-    await sb
-      .from("knowledge_packages")
-      .update({ status: "archived" })
-      .eq("id", existingPkg.id);
+    await archivePackage(existingPkg.id);
 
     // Create new version
     packageId = await persistNewPackage(sb, input, versionDecision, finalFacts, citations, relationships);
@@ -110,6 +125,7 @@ export async function assemble(input: AssemblyInput): Promise<AssemblyReport> {
     relationshipsGenerated: relationships.length,
     glossaryNormalizations: normalizations.length,
     citationsCreated: citations.length,
+    qualityMetrics,
     conflicts,
     normalizations,
     durationMs,
@@ -129,29 +145,18 @@ async function persistNewPackage(
   citations: CitationRecord[],
   relationships: ReturnType<typeof buildRelationships>
 ): Promise<string> {
-  // 1. Create package
-  const { data: pkg, error: pkgErr } = await sb
-    .from("knowledge_packages")
-    .insert({
-      hub_slot_id: input.slotId,
-      topic_id: input.topicId,
-      slug: input.slug,
-      version: versionDecision.version,
-      knowledge_hash: versionDecision.knowledgeHash,
-      source_count: citations.length,
-      fact_count: facts.length,
-      relationship_count: relationships.length,
-      discovery_run_ids: [...new Set(input.candidates.map(c => c.discoveryRunId))],
-      status: "ready",
-    })
-    .select("id")
-    .single();
-
-  if (pkgErr || !pkg) {
-    throw new Error(`Failed to create package: ${pkgErr?.message}`);
-  }
-
-  const packageId = pkg.id;
+  const packageId = await insertPackage({
+    hub_slot_id: input.slotId,
+    topic_id: input.topicId,
+    slug: input.slug,
+    version: versionDecision.version,
+    knowledge_hash: versionDecision.knowledgeHash,
+    source_count: citations.length,
+    fact_count: facts.length,
+    relationship_count: relationships.length,
+    discovery_run_ids: [...new Set(input.candidates.map((c) => c.discoveryRunId))],
+    status: "ready",
+  });
 
   // Enqueue job for knowledge acquisition (facts, citations, relationships)
   // This ensures the package is populated with content before being used for rendering

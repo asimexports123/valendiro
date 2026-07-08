@@ -60,6 +60,10 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
   "nodejs-cluster": [
     { url: "https://nodejs.org/api/cluster.html", name: "Node.js Cluster Docs", authority: "official" },
   ],
+  "design-patterns": [
+    { url: "https://en.wikipedia.org/wiki/Software_design_pattern", name: "Wikipedia Design Patterns", authority: "encyclopedic" },
+    { url: "https://refactoring.guru/design-patterns/what-is-pattern", name: "Refactoring Guru", authority: "official" },
+  ],
   "git-version-control": [
     { url: "https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control", name: "Pro Git Book", authority: "official" },
   ],
