@@ -1,379 +1,602 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { 
-  FileText, 
-  Clock, 
-  AlertCircle, 
-  CheckCircle, 
-  Database, 
-  Layers,
-  Activity,
-  Play,
-  RefreshCw,
-  TrendingUp,
-  Users,
-  Zap,
-  ArrowRight,
-  BarChart3
-} from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import {
+  RefreshCw,
+  Play,
+  AlertTriangle,
+  CheckCircle2,
+  Database,
+  Layers,
+  FileText,
+  Network,
+  Rocket,
+  Brain,
+  Clock,
+  XCircle,
+  Download,
+  ChevronDown,
+} from "lucide-react";
+import { downloadMissionControlReport } from "./_components/mission-control-report";
+import {
+  AutonomousLearningPanel,
+  CEOBriefing,
+  IntegrationsFooter,
+  KnowledgeGrowthPanel,
+  ProductionMonitoringPanel,
+  QualityCommandCenter,
+  RevenueCommandCenter,
+  SearchConsolePanel,
+} from "./_components/mission-control-sections";
+import {
+  DonutChart,
+  fmt,
+  GraphPreview,
+  HealthRow,
+  IntegrationSlot,
+  ListRow,
+  MetricTile,
+  Panel,
+  PanelHeader,
+  PipelineFlow,
+  QualityGauge,
+  SectionEyebrow,
+  severityStyles,
+} from "./_components/dashboard-ui";
 
-interface DashboardStats {
-  articlesPublished: number;
-  drafts: number;
-  readyToPublish: number;
-  failed: number;
-  needsReview: number;
-  knowledgePackages: number;
-  renderedOutputs: number;
-  discoveryQueue: number;
-  renderingQueue: number;
-  publishingQueue: number;
-  averageEditorialScore: number;
-  todayArticles: number;
-  weeklyGrowth: number;
+type MissionControl = Record<string, unknown> & {
+  generatedAt: string;
+  live: boolean;
+  metrics: {
+    topicsPublished: number;
+    topicsDraft: number;
+    topicsToday: number;
+    packagesReady: number;
+    packagesToday: number;
+    entities: number;
+    facts: number;
+    citations: number;
+    relationships: number;
+    assetsPending: number;
+    assetsAccepted: number;
+    assetsError: number;
+    assetsToday: number;
+    renderedPublished: number;
+    renderedToday: number;
+    sourcesActive: number;
+    sourcesPaused: number;
+    queuePending: number;
+    queueFailed: number;
+    queueInProgress: number;
+    qualityScore: number;
+    qualityDistribution: {
+      excellent: number;
+      good: number;
+      average: number;
+      poor: number;
+      worldClass?: number;
+      weak?: number;
+      broken?: number;
+      total: number;
+    };
+  };
+  pipeline: { id: string; label: string; count: number; status: string; href: string }[];
+  categories: { slug: string; name: string; topicCount: number; pct: number }[];
+  sources: { id: string; name: string; url: string; status: string; type: string; lastFetched: string | null }[];
+  thinTopics: { slug: string; title: string; words: number; factCount?: number; href?: string }[];
+  strongTopics?: { slug: string; title: string; factCount: number; href: string }[];
+  failedAssets: { id: string; title: string | null; reason: string | null; at: string }[];
+  recentPublished: { id: string; slug: string; title: string; updatedAt: string }[];
+  health: Record<string, string>;
+  bottlenecks: { severity: string; title: string; why: string; action: string; href: string }[];
+  activity: { id: string; type: string; message: string; at: string; href: string }[];
+  ceoSummary: {
+    headline: string;
+    growthToday: { topics: number; packages: number; assets: number; publishedRenders: number };
+    trustSignal: string;
+    recommendedActions: { label: string; href: string; severity: string }[];
+    improvedToday?: string[];
+    failedToday?: string[];
+    blocked?: string[];
+    earning?: string;
+    needsAttention?: string[];
+  };
+  workers: {
+    updateQueuePending: number;
+    updateQueueRunning: number;
+    updateQueueFailed: number;
+    crons: { path: string; schedule: string; purpose: string }[];
+  };
+  trust: { citationCount: number; lastVerifiedPackages: number };
+  seo: { note: string; topicsIndexedEstimate: number; available: boolean };
+  revenue: Record<string, unknown>;
+  knowledgeGrowth?: Record<string, unknown>;
+  searchConsole?: Record<string, unknown>;
+  autonomousLearning?: Record<string, unknown>;
+  productionMonitoring?: Record<string, unknown>;
+  integrationsMissing?: string[];
+  error?: string;
+};
+
+function timeAgo(iso: string, nowMs?: number) {
+  const ms = (nowMs ?? Date.now()) - new Date(iso).getTime();
+  if (ms < 60_000) return `${Math.max(1, Math.round(ms / 1000))}s ago`;
+  if (ms < 3600_000) return `${Math.round(ms / 60_000)}m ago`;
+  if (ms < 86400_000) return `${Math.round(ms / 3600_000)}h ago`;
+  return `${Math.round(ms / 86400_000)}d ago`;
 }
 
-interface PipelineStatus {
-  discovery: { status: string; queueSize: number; lastExecution: string };
-  knowledgeExtraction: { status: string; queueSize: number; lastExecution: string };
-  knowledgePackage: { status: string; queueSize: number; lastExecution: string };
-  knowledgeValidation: { status: string; queueSize: number; lastExecution: string };
-  rendering: { status: string; queueSize: number; lastExecution: string };
-  editorialQA: { status: string; queueSize: number; lastExecution: string };
-  publishing: { status: string; queueSize: number; lastExecution: string };
-}
-
-interface RecentActivity {
-  id: string;
-  type: string;
-  message: string;
-  timestamp: string;
-}
+const HEALTH_LABELS: Record<string, string> = {
+  sources: "Discovery Sources",
+  assets: "Asset Pipeline",
+  queue: "Update Queue",
+  packages: "Knowledge Packages",
+  graph: "Knowledge Graph",
+  publishing: "Publishing",
+};
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [pipelineStatus, setPipelineStatus] = useState<PipelineStatus | null>(null);
-  const [autonomousEnabled, setAutonomousEnabled] = useState(false);
+  const [data, setData] = useState<MissionControl | null>(null);
   const [loading, setLoading] = useState(true);
-  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [running, setRunning] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
+  const [nowMs, setNowMs] = useState<number | null>(null);
 
   useEffect(() => {
-    fetchDashboardData();
-    const interval = setInterval(fetchDashboardData, 30000);
-    return () => clearInterval(interval);
+    setNowMs(Date.now());
+    const tick = setInterval(() => setNowMs(Date.now()), 15_000);
+    return () => clearInterval(tick);
   }, []);
 
-  const fetchDashboardData = async () => {
+  const ago = (iso: string) => (nowMs == null ? "—" : timeAgo(iso, nowMs));
+
+  const load = useCallback(async () => {
     try {
-      const [statsRes, pipelineRes, automationRes] = await Promise.all([
-        fetch("/api/admin/dashboard/dashboard/stats"),
-        fetch("/api/admin/dashboard/dashboard/pipeline-status"),
-        fetch("/api/admin/dashboard/dashboard/automation/status"),
-      ]);
-
-      const statsData = await statsRes.json();
-      const pipelineData = await pipelineRes.json();
-      const automationData = await automationRes.json();
-
-      setStats(statsData);
-      setPipelineStatus(pipelineData);
-      setAutonomousEnabled(automationData.enabled);
-      
-      // Generate mock recent activity
-      setRecentActivity([
-        { id: "1", type: "article", message: "New article published: 'Understanding AI'", timestamp: "2 min ago" },
-        { id: "2", type: "pipeline", message: "Pipeline cycle completed successfully", timestamp: "15 min ago" },
-        { id: "3", type: "source", message: "New RSS source added: TechCrunch", timestamp: "1 hour ago" },
-        { id: "4", type: "article", message: "Article approved: 'Machine Learning Basics'", timestamp: "2 hours ago" },
-        { id: "5", type: "system", message: "System health check passed", timestamp: "3 hours ago" },
-      ]);
-    } catch (error) {
-      console.error("Failed to fetch dashboard data:", error);
+      const res = await fetch("/api/admin/dashboard/dashboard/mission-control", { cache: "no-store" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed to load");
+      setData(json);
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Load failed");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const toggleAutonomousPublishing = async () => {
+  useEffect(() => {
+    load();
+    const t = setInterval(load, 30_000);
+    return () => clearInterval(t);
+  }, [load]);
+
+  const runLearner = async () => {
+    setRunning(true);
     try {
-      const res = await fetch("/api/admin/dashboard/dashboard/automation/toggle", {
-        method: "POST",
-      });
-      const data = await res.json();
-      setAutonomousEnabled(data.enabled);
-    } catch (error) {
-      console.error("Failed to toggle autonomous publishing:", error);
+      await fetch("/api/cron/autonomous-learner", { method: "POST" });
+      await load();
+    } finally {
+      setRunning(false);
     }
   };
 
-  const runOneCycle = async () => {
-    try {
-      await fetch("/api/admin/dashboard/dashboard/pipeline/run", {
-        method: "POST",
-      });
-      fetchDashboardData();
-    } catch (error) {
-      console.error("Failed to run pipeline cycle:", error);
-    }
+  const downloadReport = async (format: "text" | "pdf" | "markdown" | "json") => {
+    if (!data) return;
+    setExportOpen(false);
+    await downloadMissionControlReport(data, format);
   };
 
-  if (loading || !stats || !pipelineStatus) {
+  if (loading && !data) {
     return (
-      <div className="p-8">
+      <div className="admin-dashboard-bg flex h-full items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="mx-auto h-9 w-9 animate-spin rounded-full border-2 border-violet-500/30 border-t-violet-400" />
+          <p className="mt-4 text-sm text-slate-500">Loading mission telemetry…</p>
         </div>
       </div>
     );
   }
 
+  if (error && !data) {
+    return (
+      <div className="admin-dashboard-bg flex h-full items-center justify-center p-8">
+        <Panel className="max-w-md p-6 text-center" accent="rose">
+          <XCircle className="mx-auto h-8 w-8 text-rose-400" />
+          <p className="mt-3 font-medium text-white">Mission Control unavailable</p>
+          <p className="mt-2 text-sm text-slate-400">{error}</p>
+          <button onClick={load} className="mt-4 rounded-lg bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/15">
+            Retry sync
+          </button>
+        </Panel>
+      </div>
+    );
+  }
+
+  const m = data!.metrics;
+  const dist = m.qualityDistribution;
+  const catColors = ["#8b5cf6", "#38bdf8", "#34d399", "#f472b6", "#fbbf24", "#a78bfa"];
+  const topCats = data!.categories.slice(0, 6);
+  const healthEntries = Object.entries(data!.health).filter(([k]) => !k.endsWith("Detail"));
+
   return (
-    <div className="p-8 space-y-8">
-      {/* Header */}
-      <div className="flex justify-between items-start">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600 mt-1">Overview of your knowledge platform</p>
-        </div>
-        <div className="flex gap-3">
-          <Button 
-            variant={autonomousEnabled ? "danger" : "primary"} 
-            onClick={toggleAutonomousPublishing}
-          >
-            {autonomousEnabled ? (
-              <>
-                <Zap className="w-4 h-4 mr-2" />
-                Disable Auto-Publish
-              </>
-            ) : (
-              <>
-                <Play className="w-4 h-4 mr-2" />
-                Enable Auto-Publish
-              </>
-            )}
-          </Button>
-          <Button variant="secondary" onClick={runOneCycle}>
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Run Pipeline
-          </Button>
-        </div>
-      </div>
-
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="border-2 hover:border-blue-500 transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Articles</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.articlesPublished}</p>
-                <p className="text-sm text-green-600 mt-2 flex items-center">
-                  <TrendingUp className="w-4 h-4 mr-1" />
-                  +{stats.todayArticles} today
-                </p>
-              </div>
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <FileText className="w-6 h-6 text-blue-600" />
-              </div>
+    <div className="admin-dashboard-bg min-h-full text-slate-100">
+      <header className="sticky top-0 z-20 border-b border-white/[0.06] bg-[#060a12]/90 backdrop-blur-xl">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 lg:px-6">
+          <div>
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-[17px] font-semibold tracking-tight text-white">Mission Control</h1>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-emerald-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                Live
+              </span>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 hover:border-green-500 transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Ready to Publish</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.readyToPublish}</p>
-                <p className="text-sm text-gray-500 mt-2">Awaiting approval</p>
-              </div>
-              <div className="p-3 bg-green-50 rounded-lg">
-                <CheckCircle className="w-6 h-6 text-green-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 hover:border-purple-500 transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Quality Score</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.averageEditorialScore}/100</p>
-                <p className="text-sm text-gray-500 mt-2">Average rating</p>
-              </div>
-              <div className="p-3 bg-purple-50 rounded-lg">
-                <Activity className="w-6 h-6 text-purple-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-2 hover:border-red-500 transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Failed</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.failed}</p>
-                <p className="text-sm text-red-600 mt-2">Needs attention</p>
-              </div>
-              <div className="p-3 bg-red-50 rounded-lg">
-                <AlertCircle className="w-6 h-6 text-red-600" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link href="/admin/dashboard/articles">
-              <Button variant="secondary" className="w-full justify-start h-auto py-4">
-                <FileText className="w-5 h-5 mr-3" />
-                <div className="text-left">
-                  <div className="font-medium">Manage Articles</div>
-                  <div className="text-sm text-gray-500">View, edit, delete</div>
-                </div>
-                <ArrowRight className="w-4 h-4 ml-auto" />
-              </Button>
-            </Link>
-            
-            <Link href="/admin/dashboard/discovery">
-              <Button variant="secondary" className="w-full justify-start h-auto py-4">
-                <Database className="w-5 h-5 mr-3" />
-                <div className="text-left">
-                  <div className="font-medium">Discovery</div>
-                  <div className="text-sm text-gray-500">Sources & topics</div>
-                </div>
-                <ArrowRight className="w-4 h-4 ml-auto" />
-              </Button>
-            </Link>
-            
-            <Link href="/admin/dashboard/automation">
-              <Button variant="secondary" className="w-full justify-start h-auto py-4">
-                <Zap className="w-5 h-5 mr-3" />
-                <div className="text-left">
-                  <div className="font-medium">Automation</div>
-                  <div className="text-sm text-gray-500">Pipeline settings</div>
-                </div>
-                <ArrowRight className="w-4 h-4 ml-auto" />
-              </Button>
-            </Link>
-            
-            <Link href="/admin/dashboard/system-health">
-              <Button variant="secondary" className="w-full justify-start h-auto py-4">
-                <BarChart3 className="w-5 h-5 mr-3" />
-                <div className="text-left">
-                  <div className="font-medium">System Health</div>
-                  <div className="text-sm text-gray-500">Monitor status</div>
-                </div>
-                <ArrowRight className="w-4 h-4 ml-auto" />
-              </Button>
-            </Link>
+            <p className="mt-1 text-[11px] text-slate-500">
+              Valendiro Knowledge OS · synced {data?.generatedAt ? ago(data.generatedAt) : "—"}
+            </p>
           </div>
-        </CardContent>
-      </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Pipeline Status */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Pipeline Status</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {Object.entries(pipelineStatus).map(([stage, status]) => (
-                <div key={stage} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-2 h-2 rounded-full ${
-                      status.status === "running" ? "bg-green-500 animate-pulse" :
-                      status.status === "waiting" ? "bg-yellow-500" :
-                      status.status === "failed" ? "bg-red-500" :
-                      "bg-blue-500"
-                    }`}></div>
-                    <div>
-                      <div className="text-sm font-medium text-gray-900 capitalize">
-                        {stage.replace(/([A-Z])/g, " $1").trim()}
-                      </div>
-                      <div className="text-xs text-gray-500">Queue: {status.queueSize}</div>
-                    </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={load}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] text-slate-300 transition hover:bg-white/[0.06]"
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+              Refresh
+            </button>
+
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setExportOpen((v) => !v)}
+                disabled={!data}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-[11px] text-slate-300 transition hover:bg-white/[0.06] disabled:opacity-50"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Export
+                <ChevronDown className="h-3 w-3 opacity-60" />
+              </button>
+              {exportOpen && (
+                <div className="absolute right-0 top-[calc(100%+6px)] z-30 min-w-[140px] overflow-hidden rounded-xl border border-white/10 bg-[#0c1428] py-1 shadow-2xl">
+                  {(["text", "pdf", "markdown", "json"] as const).map((f) => (
+                    <button
+                      key={f}
+                      type="button"
+                      onClick={() => downloadReport(f)}
+                      className="block w-full px-3 py-2 text-left text-[11px] uppercase tracking-wide text-slate-300 hover:bg-white/5"
+                    >
+                      {f === "markdown" ? "Markdown" : f.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button
+              onClick={runLearner}
+              disabled={running}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 px-3.5 py-2 text-[11px] font-medium text-white shadow-lg shadow-violet-900/30 transition hover:brightness-110 disabled:opacity-60"
+            >
+              {running ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
+              Run Learner
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-[1600px] space-y-5 p-5 lg:p-6">
+        <Panel accent="violet" className="p-5">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-3xl">
+              <SectionEyebrow>Executive Summary</SectionEyebrow>
+              <h2 className="text-[18px] font-semibold leading-snug tracking-tight text-white">{data!.ceoSummary.headline}</h2>
+              <p className="mt-2 text-[13px] leading-relaxed text-slate-400">{data!.ceoSummary.trustSignal}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {[
+                  { label: "Topics", value: data!.ceoSummary.growthToday.topics },
+                  { label: "Packages", value: data!.ceoSummary.growthToday.packages },
+                  { label: "Assets", value: data!.ceoSummary.growthToday.assets },
+                  { label: "Publishes", value: data!.ceoSummary.growthToday.publishedRenders },
+                ].map((chip) => (
+                  <div
+                    key={chip.label}
+                    className="rounded-lg border border-white/[0.07] bg-black/25 px-3 py-1.5 text-[11px]"
+                  >
+                    <span className="text-slate-500">{chip.label}</span>{" "}
+                    <span className="font-mono font-semibold text-emerald-300">+{chip.value}</span>
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    status.status === "running" ? "bg-green-100 text-green-700" :
-                    status.status === "waiting" ? "bg-yellow-100 text-yellow-700" :
-                    status.status === "failed" ? "bg-red-100 text-red-700" :
-                    "bg-blue-100 text-blue-700"
-                  }`}>
-                    {status.status}
+                ))}
+              </div>
+            </div>
+            {data!.ceoSummary.recommendedActions.length > 0 && (
+              <div className="w-full lg:w-[280px]">
+                <SectionEyebrow>Priority Actions</SectionEyebrow>
+                <div className="space-y-2">
+                  {data!.ceoSummary.recommendedActions.map((a) => (
+                    <Link
+                      key={a.label}
+                      href={a.href}
+                      className={`flex items-center justify-between rounded-xl border px-3 py-2.5 text-[11px] transition hover:brightness-110 ${severityStyles(a.severity)}`}
+                    >
+                      <span className="leading-snug">{a.label}</span>
+                      <span className="text-[9px] uppercase tracking-wider opacity-60">{a.severity}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </Panel>
+
+        {data!.ceoSummary.improvedToday && <CEOBriefing data={data as never} />}
+
+        <RevenueCommandCenter data={data as never} />
+
+        <section className="grid gap-4 xl:grid-cols-2">
+          <SearchConsolePanel data={data as never} />
+          <KnowledgeGrowthPanel data={data as never} />
+        </section>
+
+        <section className="grid gap-4 xl:grid-cols-2">
+          <AutonomousLearningPanel data={data as never} />
+          <ProductionMonitoringPanel data={data as never} />
+        </section>
+
+        <QualityCommandCenter data={data as never} />
+
+        <section className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+          <MetricTile
+            href="/admin/dashboard/articles"
+            label="Published Topics"
+            value={fmt(m.topicsPublished)}
+            hint={{ text: `+${m.topicsToday} today`, positive: true }}
+            icon={FileText}
+            tone="blue"
+          />
+          <MetricTile
+            href="/admin/dashboard/knowledge"
+            label="Knowledge Packages"
+            value={fmt(m.packagesReady)}
+            hint={{ text: `+${m.packagesToday} today`, positive: true }}
+            icon={Brain}
+            tone="violet"
+          />
+          <MetricTile
+            href="/admin/dashboard/knowledge"
+            label="Entities"
+            value={fmt(m.entities)}
+            hint={{ text: `${fmt(m.relationships)} links` }}
+            icon={Network}
+            tone="fuchsia"
+          />
+          <MetricTile
+            href="/admin/dashboard/knowledge"
+            label="Facts"
+            value={fmt(m.facts)}
+            hint={{ text: `${fmt(m.citations)} citations` }}
+            icon={Database}
+            tone="emerald"
+          />
+          <MetricTile
+            href="/admin/dashboard/publishing"
+            label="Published Renders"
+            value={fmt(m.renderedPublished)}
+            hint={{ text: `+${m.renderedToday} today`, positive: true }}
+            icon={Rocket}
+            tone="sky"
+          />
+          <MetricTile
+            href="/admin/dashboard/discovery"
+            label="Assets Pending"
+            value={fmt(m.assetsPending)}
+            hint={
+              m.assetsError > 0
+                ? { text: `${m.assetsError} errors`, warn: true }
+                : { text: `${m.assetsToday} new today`, positive: true }
+            }
+            icon={Layers}
+            tone="amber"
+          />
+        </section>
+
+        <section className="grid gap-4 xl:grid-cols-12">
+          <Panel className="p-5 xl:col-span-6">
+            <PanelHeader title="Publishing Pipeline" subtitle="Live stage counts from production" href="/admin/dashboard/automation" action="Configure" />
+            <PipelineFlow stages={data!.pipeline} />
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {[
+                { label: "Pending", value: m.queuePending },
+                { label: "Running", value: m.queueInProgress },
+                { label: "Failed", value: m.queueFailed, warn: m.queueFailed > 0 },
+                { label: "Asset Errors", value: m.assetsError, warn: m.assetsError > 0 },
+              ].map((q) => (
+                <div key={q.label} className="rounded-lg border border-white/[0.05] bg-black/20 px-3 py-2">
+                  <div className="text-[10px] uppercase tracking-wide text-slate-500">{q.label}</div>
+                  <div className={`mt-0.5 font-mono text-base font-semibold tabular-nums ${q.warn ? "text-amber-300" : "text-white"}`}>
+                    {fmt(q.value)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel className="p-5 xl:col-span-3">
+            <PanelHeader title="Category Mix" subtitle="Share of published catalog" href="/admin/dashboard/categories" />
+            <div className="flex items-center gap-4">
+              <DonutChart segments={topCats.map((c, i) => ({ pct: c.pct, color: catColors[i % catColors.length], label: c.name }))} />
+              <div className="min-w-0 flex-1 space-y-2">
+                {topCats.map((c, i) => (
+                  <div key={c.slug} className="flex items-center gap-2 text-[11px]">
+                    <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: catColors[i % catColors.length] }} />
+                    <span className="min-w-0 flex-1 truncate text-slate-300">{c.name}</span>
+                    <span className="font-mono text-slate-500 tabular-nums">{c.pct}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Panel>
+
+          <Panel className="p-5 xl:col-span-3">
+            <PanelHeader title="Content Quality" subtitle="Package depth distribution" href="/admin/dashboard/quality" />
+            <QualityGauge score={m.qualityScore} />
+            <div className="mt-1 space-y-2">
+              {[
+                { label: "Excellent", n: dist.excellent, color: "bg-emerald-400" },
+                { label: "Good", n: dist.good, color: "bg-violet-400" },
+                { label: "Average", n: dist.average, color: "bg-sky-400" },
+                { label: "Poor", n: dist.poor, color: "bg-rose-400" },
+              ].map((row) => (
+                <div key={row.label} className="flex items-center gap-2 text-[11px]">
+                  <span className="w-14 text-slate-500">{row.label}</span>
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-800/80">
+                    <div className={`h-full ${row.color}`} style={{ width: `${Math.round((row.n / (dist.total || 1)) * 100)}%` }} />
+                  </div>
+                  <span className="w-7 text-right font-mono text-slate-500 tabular-nums">{row.n}</span>
+                </div>
+              ))}
+            </div>
+          </Panel>
+        </section>
+
+        <section className="grid gap-4 xl:grid-cols-12">
+          <Panel className="p-5 xl:col-span-4">
+            <PanelHeader title="Recent Publications" subtitle="Latest topic updates" href="/admin/dashboard/articles" />
+            <div className="divide-y divide-white/[0.04]">
+              {data!.recentPublished.slice(0, 6).map((t, i) => (
+                <ListRow key={t.id} href={`/en/topics/${t.slug}`} primary={t.title} secondary={ago(t.updatedAt)} index={i} />
+              ))}
+            </div>
+          </Panel>
+
+          <Panel className="p-5 xl:col-span-4">
+            <PanelHeader title="Discovery & Trust" subtitle="Internal signals until analytics is wired" />
+            <div className="space-y-3">
+              <IntegrationSlot
+                title="Search & Traffic"
+                status={data!.seo.available ? "connected" : "pending"}
+                metrics={[
+                  { label: "Indexed Topics", value: fmt(data!.seo.available ? data!.seo.topicsIndexedEstimate : m.topicsPublished) },
+                  { label: "Citations", value: fmt(m.citations) },
+                ]}
+                href="/admin/dashboard/seo"
+              />
+              <IntegrationSlot
+                title="Revenue"
+                status={(data!.revenue as { affiliate?: { available?: boolean } }).affiliate?.available ? "connected" : "pending"}
+                metrics={[
+                  { label: "Today", value: `$${(data!.revenue as { totalToday?: number }).totalToday ?? 0}` },
+                  { label: "Month", value: `$${(data!.revenue as { totalMonth?: number }).totalMonth ?? 0}` },
+                ]}
+                href="/admin/dashboard/analytics"
+              />
+            </div>
+          </Panel>
+
+          <Panel className="p-5 xl:col-span-4">
+            <PanelHeader title="Operational Activity" subtitle="Latest system events" href="/admin/dashboard/logs" />
+            <div className="divide-y divide-white/[0.04]">
+              {data!.activity.slice(0, 6).map((a, i) => (
+                <ListRow key={a.id} href={a.href} primary={a.message} secondary={ago(a.at)} index={i} />
+              ))}
+            </div>
+          </Panel>
+        </section>
+
+        <section className="grid gap-4 xl:grid-cols-12">
+          <Panel className="p-5 xl:col-span-4">
+            <PanelHeader title="Knowledge Graph" href="/admin/dashboard/knowledge" />
+            <GraphPreview entities={m.entities} relationships={m.relationships} />
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <div className="rounded-lg border border-white/[0.05] bg-black/20 px-3 py-2">
+                <div className="text-[10px] text-slate-500">Entities</div>
+                <div className="font-mono text-lg font-semibold text-white tabular-nums">{fmt(m.entities)}</div>
+              </div>
+              <div className="rounded-lg border border-white/[0.05] bg-black/20 px-3 py-2">
+                <div className="text-[10px] text-slate-500">Verified Packages</div>
+                <div className="font-mono text-lg font-semibold text-white tabular-nums">{fmt(data!.trust.lastVerifiedPackages)}</div>
+              </div>
+            </div>
+          </Panel>
+
+          <Panel className="p-5 xl:col-span-4">
+            <PanelHeader title="Source Feeds" subtitle={`${m.sourcesActive} active · ${m.sourcesPaused} paused`} href="/admin/dashboard/sources" />
+            <div className="space-y-1.5">
+              {data!.sources.slice(0, 6).map((s) => (
+                <div key={s.id} className="flex items-center justify-between rounded-lg border border-white/[0.04] bg-black/15 px-3 py-2">
+                  <span className="min-w-0 truncate text-[11px] text-slate-300">{s.name}</span>
+                  <span className={`shrink-0 text-[10px] font-medium capitalize ${s.status === "active" ? "text-emerald-300" : "text-slate-500"}`}>
+                    {s.status}
                   </span>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </Panel>
 
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentActivity.map((activity) => (
-                <div key={activity.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                  <div className={`w-2 h-2 rounded-full mt-2 ${
-                    activity.type === "article" ? "bg-blue-500" :
-                    activity.type === "pipeline" ? "bg-green-500" :
-                    activity.type === "source" ? "bg-purple-500" :
-                    "bg-gray-500"
-                  }`}></div>
-                  <div className="flex-1">
-                    <div className="text-sm text-gray-900">{activity.message}</div>
-                    <div className="text-xs text-gray-500 mt-1">{activity.timestamp}</div>
-                  </div>
+          <Panel className="p-5 xl:col-span-4">
+            <PanelHeader title="System Health" href="/admin/dashboard/system-health" />
+            <div className="space-y-2">
+              {healthEntries.map(([key, status]) => (
+                <HealthRow
+                  key={key}
+                  label={HEALTH_LABELS[key] ?? key}
+                  status={status}
+                  detail={data!.health[`${key}Detail`]}
+                />
+              ))}
+            </div>
+          </Panel>
+        </section>
+
+        {data!.bottlenecks.length > 0 && (
+          <Panel accent="amber" className="p-5">
+            <div className="mb-4 flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-amber-400" />
+              <h3 className="text-[13px] font-semibold text-white">Active Bottlenecks</h3>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {data!.bottlenecks.slice(0, 3).map((b) => (
+                <Link key={b.title} href={b.href} className={`block rounded-xl border p-4 transition hover:brightness-110 ${severityStyles(b.severity)}`}>
+                  <div className="text-[9px] font-semibold uppercase tracking-[0.16em] opacity-70">{b.severity}</div>
+                  <div className="mt-1.5 text-sm font-medium">{b.title}</div>
+                  <p className="mt-1.5 text-[11px] leading-relaxed opacity-80">{b.why}</p>
+                </Link>
+              ))}
+            </div>
+          </Panel>
+        )}
+
+        {data!.failedAssets.length > 0 && (
+          <Panel accent="rose" className="p-5">
+            <div className="mb-4 flex items-center gap-2">
+              <XCircle className="h-4 w-4 text-rose-400" />
+              <h3 className="text-[13px] font-semibold text-white">Recent Asset Failures</h3>
+            </div>
+            <div className="space-y-2">
+              {data!.failedAssets.map((f) => (
+                <div key={f.id} className="rounded-xl border border-rose-500/15 bg-black/20 px-4 py-3">
+                  <div className="text-[12px] font-medium text-rose-100">{f.title ?? f.id}</div>
+                  <div className="mt-1 text-[11px] text-rose-200/70">{f.reason || "No rejection reason stored"}</div>
+                  <div className="mt-1 text-[10px] text-slate-500">{ago(f.at)}</div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </Panel>
+        )}
 
-      {/* Status Overview */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Status Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-gray-900">{stats.drafts}</div>
-              <div className="text-sm text-gray-600 mt-1">Drafts</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-gray-900">{stats.needsReview}</div>
-              <div className="text-sm text-gray-600 mt-1">Needs Review</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-gray-900">{stats.knowledgePackages}</div>
-              <div className="text-sm text-gray-600 mt-1">Knowledge Packages</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-bold text-gray-900">{stats.renderedOutputs}</div>
-              <div className="text-sm text-gray-600 mt-1">Rendered Outputs</div>
-            </div>
+        <IntegrationsFooter missing={data!.integrationsMissing ?? []} />
+
+        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.05] pt-4 text-[10px] text-slate-600">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500/60" />
+            All metrics sourced from production database
           </div>
-        </CardContent>
-      </Card>
+          <div className="flex items-center gap-1.5">
+            <Clock className="h-3.5 w-3.5" />
+            Auto-refresh 30s
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }

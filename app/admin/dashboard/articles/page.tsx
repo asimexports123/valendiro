@@ -128,9 +128,9 @@ export default function ArticlesPage() {
       await Promise.all(
         Array.from(selectedArticles).map(id =>
           fetch(`/api/admin/delete`, { 
-            method: "POST",
+            method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ type: "article", id })
+            body: JSON.stringify({ table: "articles", id })
           })
         )
       );
@@ -156,9 +156,9 @@ export default function ArticlesPage() {
     
     try {
       await fetch(`/api/admin/delete`, { 
-        method: "POST",
+        method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "article", id: articleId })
+        body: JSON.stringify({ table: "articles", id: articleId })
       });
       fetchArticles();
     } catch (error) {
