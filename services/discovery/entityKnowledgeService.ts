@@ -90,7 +90,71 @@ export class EntityKnowledgeService {
       return {};
     }
 
-    return data.metadata?.entity_knowledge || {};
+    const knowledge = data.metadata?.entity_knowledge || {};
+    
+    // Clean internal data from overview
+    if (knowledge.overview) {
+      knowledge.overview = this.cleanInternalData(knowledge.overview);
+    }
+    
+    // Deduplicate facts
+    if (knowledge.facts) {
+      knowledge.facts = this.deduplicateFacts(knowledge.facts);
+    }
+    
+    return knowledge;
+  }
+  
+  /**
+   * Remove internal graph data from text
+   */
+  cleanInternalData(text: string): string {
+    let cleaned = text;
+    
+    // Remove internal relationship markers
+    cleaned = cleaned.replace(/RELATED_TO/gi, '');
+    cleaned = cleaned.replace(/RELATED_ARTICLE/gi, '');
+    cleaned = cleaned.replace(/RELATIONSHIP_TYPE/gi, '');
+    
+    // Remove graph syntax
+    cleaned = cleaned.replace(/→/g, '');
+    cleaned = cleaned.replace(/-->/g, '');
+    cleaned = cleaned.replace(/\[.*?\]/g, '');
+    
+    // Remove database field references
+    cleaned = cleaned.replace(/node_id/gi, '');
+    cleaned = cleaned.replace(/edge_id/gi, '');
+    cleaned = cleaned.replace(/metadata/gi, '');
+    
+    // Remove debugging markers
+    cleaned = cleaned.replace(/DEBUG:/gi, '');
+    cleaned = cleaned.replace(/INTERNAL:/gi, '');
+    
+    // Clean up extra whitespace
+    cleaned = cleaned.replace(/\s+/g, ' ').trim();
+    
+    return cleaned;
+  }
+  
+  /**
+   * Deduplicate facts by canonical content
+   */
+  deduplicateFacts(facts: string[]): string[] {
+    const seen = new Set<string>();
+    const uniqueFacts: string[] = [];
+    
+    for (const fact of facts) {
+      // Normalize fact for comparison
+      const normalized = fact.toLowerCase().trim().replace(/\s+/g, ' ');
+      const key = normalized.substring(0, 50); // Use first 50 chars as key
+      
+      if (!seen.has(key)) {
+        seen.add(key);
+        uniqueFacts.push(fact);
+      }
+    }
+    
+    return uniqueFacts;
   }
 
   /**
@@ -173,16 +237,30 @@ export class EntityKnowledgeService {
       merged.latest_news_summary = this.generateLatestNewsSummary(newFacts);
     }
     
+    // Generate timeline
+    merged.timeline = this.generateTimeline(merged.facts || [], merged.sources || []);
+    
     return merged;
   }
 
   /**
-   * Generate overview from facts
+   * Generate overview from facts - entity-centric, not article-centric
    */
   generateOverview(existingFact: string, newFacts: string[]): string {
     const allFacts = [existingFact, ...newFacts].filter(f => f);
-    const topFacts = allFacts.slice(0, 3);
-    return topFacts.join(" ");
+    
+    if (allFacts.length === 0) {
+      return "";
+    }
+    
+    // Create a cohesive overview by merging facts
+    const overview = allFacts
+      .slice(0, 5)
+      .map(fact => fact.trim())
+      .filter(fact => fact.length > 10)
+      .join(". ");
+    
+    return overview + (overview.endsWith(".") ? "" : ".");
   }
 
   /**
@@ -192,7 +270,39 @@ export class EntityKnowledgeService {
     if (newFacts.length === 0) {
       return "";
     }
-    return `Latest developments: ${newFacts.slice(0, 2).join(" ")}`;
+    return `Recent developments indicate ${newFacts.slice(0, 3).join(". ")}.`;
+  }
+  
+  /**
+   * Generate timeline from knowledge
+   */
+  generateTimeline(facts: string[], sources: any[]): any[] {
+    const timeline: any[] = [];
+    
+    // Add events from sources (chronological)
+    sources.forEach(source => {
+      if (source.publication_date) {
+        timeline.push({
+          date: source.publication_date,
+          event: `Information referenced from ${source.source_name}`,
+          type: 'source',
+        });
+      }
+    });
+    
+    // Add key events from facts (use current date for fact discovery)
+    facts.slice(0, 5).forEach((fact, index) => {
+      timeline.push({
+        date: new Date().toISOString(),
+        event: `Knowledge extracted: ${fact.substring(0, 100)}...`,
+        type: 'knowledge',
+      });
+    });
+    
+    // Sort by date
+    timeline.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    
+    return timeline.slice(0, 10); // Limit to 10 events
   }
 
   /**

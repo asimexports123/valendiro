@@ -32,6 +32,24 @@ interface EntityHubData {
   };
 }
 
+function deduplicateArticles(articles: any[]): any[] {
+  const seen = new Set<string>();
+  const uniqueArticles: any[] = [];
+  
+  for (const article of articles) {
+    // Use canonical id or slug as deduplication key
+    const key = article.canonical_id || article.slug || article.id;
+    
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueArticles.push(article);
+    }
+  }
+  
+  // Limit to 10 after deduplication
+  return uniqueArticles.slice(0, 10);
+}
+
 async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
   const supabase = createAdminClient();
 
@@ -92,7 +110,7 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
     .select("*")
     .ilike("content", `%${entity.name}%`)
     .order("created_at", { ascending: false })
-    .limit(10);
+    .limit(50); // Get more to deduplicate
 
   // Get knowledge packages
   const { data: packages, error: packagesError } = await supabase
@@ -100,11 +118,14 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
     .select("*")
     .limit(10);
 
+  // Deduplicate articles by canonical id/topic
+  const deduplicatedArticles = deduplicateArticles(topics || []);
+
   return {
     entity,
     entityKnowledge,
     relatedEntities,
-    latestArticles: topics || [],
+    latestArticles: deduplicatedArticles,
     knowledgePackages: packages || [],
     statistics: {
       articleCount: entity.article_count || 0,
@@ -258,6 +279,27 @@ export default async function EntityPage({ params }: EntityPageProps) {
             </div>
           )}
 
+          {/* Timeline */}
+          {entityKnowledge.timeline && entityKnowledge.timeline.length > 0 && (
+            <div className="bg-white p-8 rounded-lg border mb-8">
+              <h2 className="text-2xl font-bold mb-4">Timeline</h2>
+              <div className="space-y-4">
+                {entityKnowledge.timeline.map((event: any, index: number) => (
+                  <div key={index} className="flex gap-4">
+                    <div className="flex-shrink-0 w-24 text-sm text-gray-500">
+                      {new Date(event.date).toLocaleDateString()}
+                    </div>
+                    <div className="flex-grow">
+                      <div className="p-3 bg-gray-50 rounded-lg">
+                        <p className="text-gray-700">{event.event}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Related Entities */}
           {relatedEntities.length > 0 && (
             <div className="bg-white p-8 rounded-lg border mb-8">
@@ -278,19 +320,33 @@ export default async function EntityPage({ params }: EntityPageProps) {
           )}
 
           {/* Knowledge Graph */}
-          <div className="bg-white p-8 rounded-lg border mb-8">
-            <h2 className="text-2xl font-bold mb-4">Knowledge Graph</h2>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <pre className="text-sm overflow-x-auto">
-{entity.name}
-{relatedEntities.slice(0, 10).map((rel, index) => (
-  <div key={index}>
-    ├── {rel.relationship} → {rel.name} ({rel.type})
-  </div>
-))}
-              </pre>
+          {relatedEntities.length > 0 && (
+            <div className="bg-white p-8 rounded-lg border mb-8">
+              <h2 className="text-2xl font-bold mb-4">Knowledge Graph</h2>
+              <div className="p-6 bg-gray-50 rounded-lg">
+                <div className="text-center mb-4">
+                  <div className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-semibold">
+                    {entity.name}
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  {relatedEntities.slice(0, 6).map((rel, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                      <div className="text-sm">
+                        <span className="text-gray-600">{rel.relationship}</span>
+                        <span className="mx-1">→</span>
+                        <a href={`/${lang}/entity/${rel.slug}`} className="text-blue-600 hover:underline">
+                          {rel.name}
+                        </a>
+                        <span className="text-gray-400 ml-1">({rel.type})</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Knowledge Packages */}
           {knowledgePackages.length > 0 && (
