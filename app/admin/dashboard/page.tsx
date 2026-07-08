@@ -3,9 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  RefreshCw,
-  Play,
-  AlertTriangle,
   CheckCircle2,
   Database,
   Layers,
@@ -17,22 +14,27 @@ import {
   XCircle,
   Download,
   ChevronDown,
+  Play,
+  RefreshCw,
 } from "lucide-react";
 import { downloadMissionControlReport } from "./_components/mission-control-report";
 import {
+  AIRecommendationsPanel,
   AutonomousLearningPanel,
+  BottlenecksHero,
   CEOBriefing,
-  IntegrationsFooter,
-  KnowledgeGrowthPanel,
+  IntegrationStatusPanel,
+  KnowledgeFactoryHero,
+  KnowledgeGraphPanel,
+  OperationsBar,
   ProductionMonitoringPanel,
   QualityCommandCenter,
   RevenueCommandCenter,
-  SearchConsolePanel,
+  TrafficCommandCenter,
 } from "./_components/mission-control-sections";
 import {
   DonutChart,
   fmt,
-  GraphPreview,
   HealthRow,
   IntegrationSlot,
   ListRow,
@@ -140,7 +142,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<MissionControl | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState<string | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
   const [nowMs, setNowMs] = useState<number | null>(null);
 
@@ -172,15 +174,25 @@ export default function DashboardPage() {
     return () => clearInterval(t);
   }, [load]);
 
-  const runLearner = async () => {
-    setRunning(true);
+  const runOperation = async (action: string) => {
+    setRunning(action);
     try {
-      await fetch("/api/cron/autonomous-learner", { method: "POST" });
+      const res = await fetch("/api/admin/dashboard/operations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Operation failed");
       await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Operation failed");
     } finally {
-      setRunning(false);
+      setRunning(null);
     }
   };
+
+  const runLearner = () => runOperation("run_learner");
 
   const downloadReport = async (format: "text" | "pdf" | "markdown" | "json") => {
     if (!data) return;
@@ -275,10 +287,10 @@ export default function DashboardPage() {
 
             <button
               onClick={runLearner}
-              disabled={running}
+              disabled={!!running}
               className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 px-3.5 py-2 text-[11px] font-medium text-white shadow-lg shadow-violet-900/30 transition hover:brightness-110 disabled:opacity-60"
             >
-              {running ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
+              {running === "run_learner" ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
               Run Learner
             </button>
           </div>
@@ -286,6 +298,16 @@ export default function DashboardPage() {
       </header>
 
       <div className="mx-auto max-w-[1600px] space-y-5 p-5 lg:p-6">
+        <BottlenecksHero bottlenecks={data!.bottlenecks as never} />
+
+        <OperationsBar
+          automationEnabled={(data as { operations?: { automationEnabled: boolean } }).operations?.automationEnabled ?? true}
+          onAction={runOperation}
+          running={running}
+          failedAsset={data!.failedAssets[0] ? { id: data!.failedAssets[0].id, title: data!.failedAssets[0].title, href: "/admin/dashboard/discovery" } : undefined}
+          failedQueue={(data as { failedQueueItems?: { id: string; label: string; href: string }[] }).failedQueueItems?.[0]}
+        />
+
         <Panel accent="violet" className="p-5">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
@@ -331,12 +353,15 @@ export default function DashboardPage() {
 
         {data!.ceoSummary.improvedToday && <CEOBriefing data={data as never} />}
 
+        <KnowledgeFactoryHero data={data as never} />
+
         <RevenueCommandCenter data={data as never} />
 
-        <section className="grid gap-4 xl:grid-cols-2">
-          <SearchConsolePanel data={data as never} />
-          <KnowledgeGrowthPanel data={data as never} />
-        </section>
+        <TrafficCommandCenter data={data as never} />
+
+        {(data as { aiRecommendations?: unknown[] }).aiRecommendations && (
+          <AIRecommendationsPanel recommendations={(data as { aiRecommendations: never }).aiRecommendations} />
+        )}
 
         <section className="grid gap-4 xl:grid-cols-2">
           <AutonomousLearningPanel data={data as never} />
@@ -504,22 +529,12 @@ export default function DashboardPage() {
         </section>
 
         <section className="grid gap-4 xl:grid-cols-12">
-          <Panel className="p-5 xl:col-span-4">
-            <PanelHeader title="Knowledge Graph" href="/admin/dashboard/knowledge" />
-            <GraphPreview entities={m.entities} relationships={m.relationships} />
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              <div className="rounded-lg border border-white/[0.05] bg-black/20 px-3 py-2">
-                <div className="text-[10px] text-slate-500">Entities</div>
-                <div className="font-mono text-lg font-semibold text-white tabular-nums">{fmt(m.entities)}</div>
-              </div>
-              <div className="rounded-lg border border-white/[0.05] bg-black/20 px-3 py-2">
-                <div className="text-[10px] text-slate-500">Verified Packages</div>
-                <div className="font-mono text-lg font-semibold text-white tabular-nums">{fmt(data!.trust.lastVerifiedPackages)}</div>
-              </div>
+          {(data as { knowledgeGraph?: unknown }).knowledgeGraph && (
+            <div className="xl:col-span-8">
+              <KnowledgeGraphPanel graph={(data as { knowledgeGraph: never }).knowledgeGraph} />
             </div>
-          </Panel>
-
-          <Panel className="p-5 xl:col-span-4">
+          )}
+          <Panel className={`p-5 ${(data as { knowledgeGraph?: unknown }).knowledgeGraph ? "xl:col-span-2" : "xl:col-span-6"}`}>
             <PanelHeader title="Source Feeds" subtitle={`${m.sourcesActive} active · ${m.sourcesPaused} paused`} href="/admin/dashboard/sources" />
             <div className="space-y-1.5">
               {data!.sources.slice(0, 6).map((s) => (
@@ -533,7 +548,7 @@ export default function DashboardPage() {
             </div>
           </Panel>
 
-          <Panel className="p-5 xl:col-span-4">
+          <Panel className={`p-5 ${(data as { knowledgeGraph?: unknown }).knowledgeGraph ? "xl:col-span-2" : "xl:col-span-6"}`}>
             <PanelHeader title="System Health" href="/admin/dashboard/system-health" />
             <div className="space-y-2">
               {healthEntries.map(([key, status]) => (
@@ -548,24 +563,6 @@ export default function DashboardPage() {
           </Panel>
         </section>
 
-        {data!.bottlenecks.length > 0 && (
-          <Panel accent="amber" className="p-5">
-            <div className="mb-4 flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-amber-400" />
-              <h3 className="text-[13px] font-semibold text-white">Active Bottlenecks</h3>
-            </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              {data!.bottlenecks.slice(0, 3).map((b) => (
-                <Link key={b.title} href={b.href} className={`block rounded-xl border p-4 transition hover:brightness-110 ${severityStyles(b.severity)}`}>
-                  <div className="text-[9px] font-semibold uppercase tracking-[0.16em] opacity-70">{b.severity}</div>
-                  <div className="mt-1.5 text-sm font-medium">{b.title}</div>
-                  <p className="mt-1.5 text-[11px] leading-relaxed opacity-80">{b.why}</p>
-                </Link>
-              ))}
-            </div>
-          </Panel>
-        )}
-
         {data!.failedAssets.length > 0 && (
           <Panel accent="rose" className="p-5">
             <div className="mb-4 flex items-center gap-2">
@@ -574,17 +571,19 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-2">
               {data!.failedAssets.map((f) => (
-                <div key={f.id} className="rounded-xl border border-rose-500/15 bg-black/20 px-4 py-3">
+                <Link key={f.id} href="/admin/dashboard/discovery" className="block rounded-xl border border-rose-500/15 bg-black/20 px-4 py-3 transition hover:bg-black/30">
                   <div className="text-[12px] font-medium text-rose-100">{f.title ?? f.id}</div>
                   <div className="mt-1 text-[11px] text-rose-200/70">{f.reason || "No rejection reason stored"}</div>
                   <div className="mt-1 text-[10px] text-slate-500">{ago(f.at)}</div>
-                </div>
+                </Link>
               ))}
             </div>
           </Panel>
         )}
 
-        <IntegrationsFooter missing={data!.integrationsMissing ?? []} />
+        {(data as { integrationsStatus?: unknown[] }).integrationsStatus && (
+          <IntegrationStatusPanel integrations={(data as { integrationsStatus: never }).integrationsStatus} />
+        )}
 
         <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.05] pt-4 text-[10px] text-slate-600">
           <div className="flex items-center gap-2">
