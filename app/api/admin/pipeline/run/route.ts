@@ -32,36 +32,21 @@ import {
   buildHierarchicalLinksForTopic,
   buildHierarchicalLinksForArticle,
 } from "@/services/intelligence/hierarchicalLinkingEngine";
+import { requireAdmin, isSecretAuthorized } from "@/lib/api/admin-auth";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
-
-async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    return { allowed: false, response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
-  }
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", session.user.id)
-    .maybeSingle();
-  if (!profile || (profile.role !== "admin" && profile.role !== "editor")) {
-    return { allowed: false, response: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
-  }
-  return { allowed: true, userId: session.user.id };
-}
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({})) as { stage?: string; limit?: number; secret?: string };
 
   const isLocalDev = process.env.NODE_ENV === "development" &&
-    body.secret === (process.env.PIPELINE_TEST_SECRET ?? "local-test");
+    isSecretAuthorized(body.secret);
 
   if (!isLocalDev) {
     const supabase = await createClient();
     const auth = await requireAdmin(supabase);
-    if (!auth.allowed) return auth.response!;
+    if (!auth.allowed) return auth.response;
   }
   const stage = body.stage ?? "full";
   const limit = typeof body.limit === "number" ? Math.min(body.limit, 50) : 10;

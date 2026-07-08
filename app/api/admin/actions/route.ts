@@ -11,18 +11,6 @@ import { setSystemSetting } from "@/services/system/settings";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    return { allowed: false, response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
-  }
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", session.user.id).maybeSingle();
-  if (!profile || (profile.role !== "admin" && profile.role !== "editor")) {
-    return { allowed: false, response: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
-  }
-  return { allowed: true };
-}
-
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
   const { action } = body;
