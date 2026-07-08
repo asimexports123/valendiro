@@ -8,10 +8,10 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 
 interface EntityPageProps {
-  params: {
+  params: Promise<{
     lang: string;
     slug: string;
-  };
+  }>;
 }
 
 interface EntityHubData {
@@ -120,9 +120,10 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
 }
 
 export default async function EntityPage({ params }: EntityPageProps) {
-  console.log("[Entity Page] Rendering with params:", params);
+  const awaitedParams = await params;
+  console.log("[Entity Page] Rendering with params:", awaitedParams);
   
-  const data = await getEntityHubData(params.slug);
+  const data = await getEntityHubData(awaitedParams.slug);
 
   console.log("[Entity Page] Data result:", data ? "EXISTS" : "NULL");
 
@@ -132,6 +133,8 @@ export default async function EntityPage({ params }: EntityPageProps) {
   }
 
   const { entity, entityKnowledge, relatedEntities, latestArticles, knowledgePackages, statistics } = data;
+
+  const lang = awaitedParams.lang;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -242,7 +245,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                 {latestArticles.map((article: any) => (
                   <a
                     key={article.id}
-                    href={`/${params.lang}/topics/${article.slug}`}
+                    href={`/${lang}/topics/${article.slug}`}
                     className="block p-4 border rounded-lg hover:border-blue-500 transition-colors"
                   >
                     <div className="font-semibold text-lg">{article.slug}</div>
@@ -263,7 +266,7 @@ export default async function EntityPage({ params }: EntityPageProps) {
                 {relatedEntities.map((rel, index) => (
                   <a
                     key={index}
-                    href={`/${params.lang}/entity/${rel.slug}`}
+                    href={`/${lang}/entity/${rel.slug}`}
                     className="p-4 border rounded-lg hover:border-blue-500 transition-colors"
                   >
                     <div className="font-semibold">{rel.name}</div>
@@ -368,7 +371,8 @@ export default async function EntityPage({ params }: EntityPageProps) {
 }
 
 export async function generateMetadata({ params }: EntityPageProps) {
-  const data = await getEntityHubData(params.slug);
+  const awaitedParams = await params;
+  const data = await getEntityHubData(awaitedParams.slug);
 
   if (!data) {
     return {
