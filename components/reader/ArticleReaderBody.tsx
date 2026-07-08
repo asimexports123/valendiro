@@ -6,29 +6,19 @@ import {
 import { MarkdownContent } from "@/components/public/MarkdownContent";
 import { LearningPreview } from "./LearningPreview";
 import { TopicDiagram } from "./TopicDiagram";
-import { QuickFactsTable } from "./QuickFactsTable";
+import { QuickFactsTable, hasQuickFactsForCategory } from "./QuickFactsTable";
 import { KeyInsightCallout } from "./KeyInsightCallout";
 
 interface ArticleReaderBodyProps {
   slug: string;
   content: string;
   parsed: ParsedArticleContent;
+  category: string | null;
 }
 
-/** Hardcoded preview facts — mutual-fund-fundamentals only for now. */
-const MUTUAL_FUND_QUICK_FACTS = [
-  { label: "Category", value: "Finance" },
-  { label: "Asset Type", value: "Pooled investment fund" },
-  { label: "Risk Level", value: "Medium" },
-  { label: "Liquidity", value: "High (daily NAV redemption)" },
-  { label: "Typical Hold Period", value: "Long-term (3+ years)" },
-  { label: "Regulation", value: "SEBI (India) / SEC (US)" },
-];
-
-function renderWithQuickFacts(content: string, slug: string) {
-  const showQuickFacts = slug === "mutual-fund-fundamentals";
+function renderWithQuickFacts(content: string, category: string | null) {
   const { beforeQuickFacts, afterQuickFacts, hasWhatItIs } = splitAfterWhatItIsSection(content);
-  const useSplit = showQuickFacts && hasWhatItIs;
+  const useSplit = hasWhatItIs && hasQuickFactsForCategory(category);
 
   if (!useSplit) {
     return content.trim() ? <MarkdownContent content={content} /> : null;
@@ -37,22 +27,22 @@ function renderWithQuickFacts(content: string, slug: string) {
   return (
     <>
       <MarkdownContent content={beforeQuickFacts} />
-      <QuickFactsTable facts={MUTUAL_FUND_QUICK_FACTS} />
+      <QuickFactsTable category={category} />
       {afterQuickFacts.trim() ? <MarkdownContent content={afterQuickFacts} /> : null}
     </>
   );
 }
 
-function renderArticleContent(content: string, slug: string) {
+function renderArticleContent(content: string, category: string | null) {
   const whySplit = splitWhyItMattersSection(content);
 
   if (!whySplit.hasWhyItMatters) {
-    return renderWithQuickFacts(content, slug);
+    return renderWithQuickFacts(content, category);
   }
 
   return (
     <>
-      {renderWithQuickFacts(whySplit.before, slug)}
+      {renderWithQuickFacts(whySplit.before, category)}
       <MarkdownContent content={whySplit.heading} />
       {whySplit.body ? (
         <KeyInsightCallout>
@@ -69,7 +59,7 @@ function renderArticleContent(content: string, slug: string) {
  * Quick Facts table sits directly below the "What it is" section when enabled.
  * "Why it matters" section body renders inside a Key Insight callout.
  */
-export function ArticleReaderBody({ slug, content, parsed }: ArticleReaderBodyProps) {
+export function ArticleReaderBody({ slug, content, parsed, category }: ArticleReaderBodyProps) {
   return (
     <article className="article-reader">
       {parsed.keyTakeaways.length >= 2 && (
@@ -78,7 +68,7 @@ export function ArticleReaderBody({ slug, content, parsed }: ArticleReaderBodyPr
 
       <TopicDiagram slug={slug} content={content} />
 
-      {renderArticleContent(content, slug)}
+      {renderArticleContent(content, category)}
     </article>
   );
 }

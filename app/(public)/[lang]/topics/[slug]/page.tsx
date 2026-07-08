@@ -136,7 +136,12 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
         <div className="flex gap-10 xl:gap-14">
           <main className="flex-1 min-w-0 max-w-[42rem]">
             {topic.content && parsed ? (
-              <ArticleReaderBody slug={slug} content={topic.content} parsed={parsed} />
+              <ArticleReaderBody
+                slug={slug}
+                content={topic.content}
+                parsed={parsed}
+                category={category?.slug ?? topic.category_slug ?? null}
+              />
             ) : (
               <p className="text-muted-foreground">Content is being prepared for this topic.</p>
             )}

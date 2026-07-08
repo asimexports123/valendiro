@@ -4,11 +4,48 @@ export interface QuickFact {
 }
 
 interface QuickFactsTableProps {
-  facts: QuickFact[];
+  category: string | null;
   title?: string;
 }
 
-export function QuickFactsTable({ facts, title = "Quick facts" }: QuickFactsTableProps) {
+const FINANCE_QUICK_FACTS: QuickFact[] = [
+  { label: "Category", value: "Finance" },
+  { label: "Asset Type", value: "Pooled investment fund" },
+  { label: "Risk Level", value: "Medium" },
+  { label: "Liquidity", value: "High (daily NAV redemption)" },
+  { label: "Typical Hold Period", value: "Long-term (3+ years)" },
+  { label: "Regulation", value: "SEBI (India) / SEC (US)" },
+];
+
+const SOFTWARE_ENGINEERING_QUICK_FACTS: QuickFact[] = [
+  { label: "Category", value: "Software Engineering" },
+  { label: "Complexity", value: "Intermediate" },
+  { label: "Primary Language", value: "Varies by stack" },
+  { label: "Learning Curve", value: "Moderate" },
+  { label: "Typical Use Case", value: "Building scalable applications" },
+  { label: "Prerequisites", value: "Basic programming fundamentals" },
+];
+
+function getQuickFactsForCategory(category: string | null): QuickFact[] {
+  if (!category) return [];
+
+  if (category === "finance" || category === "personal-finance") {
+    return FINANCE_QUICK_FACTS;
+  }
+
+  if (category === "software_engineering" || category === "technology") {
+    return SOFTWARE_ENGINEERING_QUICK_FACTS;
+  }
+
+  return [];
+}
+
+export function hasQuickFactsForCategory(category: string | null): boolean {
+  return getQuickFactsForCategory(category).length > 0;
+}
+
+export function QuickFactsTable({ category, title = "Quick facts" }: QuickFactsTableProps) {
+  const facts = getQuickFactsForCategory(category);
   if (facts.length === 0) return null;
 
   return (
