@@ -9,6 +9,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { updateGraphNodeMetadata } from "@/services/knowledge/graphService";
 
 interface EntityKnowledge {
   overview?: string;
@@ -180,24 +181,45 @@ export class EntityKnowledgeService {
    * Extract sources from article
    */
   async extractSourcesFromArticle(articleId: string): Promise<any[]> {
-    // Get article data from topics table (since we're using published articles)
     const { data: article } = await this.supabase
       .from("topics")
       .select("id, slug, created_at")
       .eq("id", articleId)
-      .single();
+      .maybeSingle();
 
-    if (!article) {
-      return [];
+    if (article) {
+      return [{
+        source_type: "article",
+        source_name: article.slug,
+        source_id: article.id,
+        publication_date: article.created_at,
+        trust_score: 0.5,
+      }];
     }
 
-    return [{
-      source_type: "article",
-      source_name: article.slug,
-      source_id: article.id,
-      publication_date: article.created_at,
-      trust_score: 0.5,
-    }];
+    // Fallback: citations from packages linked to this topic
+    const { data: pkg } = await this.supabase
+      .from("knowledge_packages")
+      .select("id, slug")
+      .eq("topic_id", articleId)
+      .maybeSingle();
+
+    if (!pkg) return [];
+
+    const { data: citations } = await this.supabase
+      .from("knowledge_citations")
+      .select("id, source_name, source_url")
+      .eq("package_id", pkg.id)
+      .limit(5);
+
+    return (citations ?? []).map((c) => ({
+      source_type: "citation",
+      source_name: c.source_name || pkg.slug,
+      source_id: c.id,
+      source_url: c.source_url,
+      publication_date: new Date().toISOString(),
+      trust_score: 0.6,
+    }));
   }
 
   /**
@@ -335,12 +357,6 @@ export class EntityKnowledgeService {
       },
     };
 
-    await this.supabase
-      .from("knowledge_graph_nodes")
-      .update({
-        metadata: updatedMetadata,
-        last_updated_at: new Date().toISOString(),
-      })
-      .eq("id", entityId);
+    await updateGraphNodeMetadata(entityId, updatedMetadata);
   }
 }

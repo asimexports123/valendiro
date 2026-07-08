@@ -1,197 +1,62 @@
 /**
- * Entity Hub Page - Production-quality Knowledge Hub
- * 
- * All data fetched from database - no hardcoded content
+ * Entity Hub Page — production-quality Knowledge Hub
+ * All data from canonical entityHubData service (no placeholder queries).
  */
 
-import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { getEntityHubData } from "@/services/public/entityHubData";
 
 interface EntityPageProps {
-  params: Promise<{
-    lang: string;
-    slug: string;
-  }>;
-}
-
-interface EntityHubData {
-  entity: any;
-  entityKnowledge: any;
-  relatedEntities: any[];
-  latestArticles: any[];
-  knowledgePackages: any[];
-  statistics: {
-    articleCount: number;
-    relationshipCount: number;
-    knowledgePackageCount: number;
-    factCount: number;
-    sourceCount: number;
-    knowledgeVersion: number;
-    lastUpdated: string;
-    lastKnowledgeUpdate?: string;
-  };
-}
-
-function deduplicateArticles(articles: any[]): any[] {
-  const seen = new Set<string>();
-  const uniqueArticles: any[] = [];
-  
-  for (const article of articles) {
-    // Use canonical id or slug as deduplication key
-    const key = article.canonical_id || article.slug || article.id;
-    
-    if (!seen.has(key)) {
-      seen.add(key);
-      uniqueArticles.push(article);
-    }
-  }
-  
-  // Limit to 10 after deduplication
-  return uniqueArticles.slice(0, 10);
-}
-
-async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
-  const supabase = createAdminClient();
-
-  console.log(`[Entity Hub] Fetching data for slug: ${slug}`);
-  console.log(`[Entity Hub] Environment: ${process.env.NODE_ENV}`);
-  console.log(`[Entity Hub] Supabase URL: ${process.env.NEXT_PUBLIC_SUPABASE_URL}`);
-
-  // Get entity
-  const { data: entity, error: entityError } = await supabase
-    .from("knowledge_graph_nodes")
-    .select("*")
-    .eq("slug", slug)
-    .single();
-
-  console.log(`[Entity Hub] Entity query result:`, { data: entity, error: entityError });
-
-  if (entityError || !entity) {
-    console.log("[Entity Hub] Entity not found:", entityError);
-    console.log("[Entity Hub] This will trigger notFound() and cause 404");
-    return null;
-  }
-
-  // Get entity knowledge from metadata
-  const entityKnowledge = entity.metadata?.entity_knowledge || {};
-
-  // Get related entities (fix query to avoid embedding error)
-  const { data: edges, error: edgesError } = await supabase
-    .from("knowledge_graph_edges")
-    .select("*")
-    .eq("source_id", entity.id)
-    .limit(20);
-
-  let relatedEntities: any[] = [];
-  if (!edgesError && edges) {
-    // Fetch target nodes separately
-    const targetIds = edges.map(e => e.target_id).filter(Boolean);
-    if (targetIds.length > 0) {
-      const { data: targetNodes } = await supabase
-        .from("knowledge_graph_nodes")
-        .select("*")
-        .in("id", targetIds);
-      
-      relatedEntities = edges.map(edge => {
-        const targetNode = targetNodes?.find(n => n.id === edge.target_id);
-        return {
-          name: targetNode?.name || "Unknown",
-          type: targetNode?.node_type || "Unknown",
-          relationship: edge.edge_type || "related",
-          slug: targetNode?.slug || "",
-        };
-      }).filter(rel => rel.slug);
-    }
-  }
-
-  // Get latest articles mentioning this entity
-  const { data: topics, error: topicsError } = await supabase
-    .from("topics")
-    .select("*")
-    .ilike("content", `%${entity.name}%`)
-    .order("created_at", { ascending: false })
-    .limit(50); // Get more to deduplicate
-
-  // Get knowledge packages
-  const { data: packages, error: packagesError } = await supabase
-    .from("knowledge_packages")
-    .select("*")
-    .limit(10);
-
-  // Deduplicate articles by canonical id/topic
-  const deduplicatedArticles = deduplicateArticles(topics || []);
-
-  return {
-    entity,
-    entityKnowledge,
-    relatedEntities,
-    latestArticles: deduplicatedArticles,
-    knowledgePackages: packages || [],
-    statistics: {
-      articleCount: entity.article_count || 0,
-      relationshipCount: relatedEntities.length,
-      knowledgePackageCount: packages?.length || 0,
-      factCount: entityKnowledge.entity_fact_count || 0,
-      sourceCount: entityKnowledge.entity_source_count || 0,
-      knowledgeVersion: entityKnowledge.knowledge_version || 1,
-      lastUpdated: entity.last_updated_at || entity.updated_at,
-      lastKnowledgeUpdate: entityKnowledge.last_knowledge_update,
-    },
-  };
+  params: Promise<{ lang: string; slug: string }>;
 }
 
 export default async function EntityPage({ params }: EntityPageProps) {
-  const awaitedParams = await params;
-  console.log("[Entity Page] Rendering with params:", awaitedParams);
-  
-  const data = await getEntityHubData(awaitedParams.slug);
+  const { lang, slug } = await params;
+  const data = await getEntityHubData(slug);
 
-  console.log("[Entity Page] Data result:", data ? "EXISTS" : "NULL");
+  if (!data) notFound();
 
-  if (!data) {
-    console.log("[Entity Page] Calling notFound()");
-    notFound();
-  }
-
-  const { entity, entityKnowledge, relatedEntities, latestArticles, knowledgePackages, statistics } = data;
-
-  const lang = awaitedParams.lang;
+  const { entity, facts, sources, relatedEntities, relatedTopics, latestArticles, knowledgePackages, statistics, overview, latestNewsSummary } = data;
+  const allRelated = [...relatedTopics, ...relatedEntities];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <div className="bg-white border-b">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-2 mb-3">
-              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                {entity.node_type}
+              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium capitalize">
+                {entity.nodeType}
               </span>
-              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                {Math.round((entity.confidence_score || 0) * 100)}% confidence
-              </span>
+              {statistics.confidenceScore > 0 && (
+                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                  {statistics.confidenceScore}% confidence
+                </span>
+              )}
+              {statistics.confidenceScore === 0 && (
+                <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">
+                  Awaiting enrichment
+                </span>
+              )}
             </div>
             <h1 className="text-5xl font-bold mb-4">{entity.name}</h1>
-            <p className="text-xl text-gray-600 mb-6">{entity.description}</p>
-            <div className="flex gap-6 text-sm text-gray-500">
+            {entity.description && <p className="text-xl text-gray-600 mb-6">{entity.description}</p>}
+            <div className="flex flex-wrap gap-6 text-sm text-gray-500">
               <div>
                 <span className="font-medium">First discovered:</span>{" "}
-                {new Date(entity.created_at).toLocaleDateString()}
+                {new Date(entity.createdAt).toLocaleDateString()}
               </div>
-              <div>
-                <span className="font-medium">Last updated:</span>{" "}
-                {new Date(entity.last_updated_at || entity.updated_at).toLocaleDateString()}
-              </div>
+              {entity.lastUpdatedAt && (
+                <div>
+                  <span className="font-medium">Last updated:</span>{" "}
+                  {new Date(entity.lastUpdatedAt).toLocaleDateString()}
+                </div>
+              )}
               {statistics.lastKnowledgeUpdate && (
                 <div>
                   <span className="font-medium">Knowledge update:</span>{" "}
                   {new Date(statistics.lastKnowledgeUpdate).toLocaleDateString()}
-                </div>
-              )}
-              {statistics.knowledgeVersion > 1 && (
-                <div>
-                  <span className="font-medium">Knowledge version:</span>{" "}
-                  {statistics.knowledgeVersion}
                 </div>
               )}
             </div>
@@ -201,243 +66,189 @@ export default async function EntityPage({ params }: EntityPageProps) {
 
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          {/* Statistics */}
-          <div className="grid grid-cols-4 gap-4 mb-12">
-            <div className="bg-white p-6 rounded-lg border">
-              <div className="text-3xl font-bold text-blue-600">{statistics.articleCount}</div>
-              <div className="text-sm text-gray-500 mt-1">Articles</div>
-            </div>
-            <div className="bg-white p-6 rounded-lg border">
-              <div className="text-3xl font-bold text-green-600">{statistics.relationshipCount}</div>
-              <div className="text-sm text-gray-500 mt-1">Relationships</div>
-            </div>
-            <div className="bg-white p-6 rounded-lg border">
-              <div className="text-3xl font-bold text-purple-600">{statistics.factCount}</div>
-              <div className="text-sm text-gray-500 mt-1">Facts</div>
-            </div>
-            <div className="bg-white p-6 rounded-lg border">
-              <div className="text-3xl font-bold text-orange-600">{statistics.sourceCount}</div>
-              <div className="text-sm text-gray-500 mt-1">Sources</div>
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+            <StatCard value={statistics.articleCount} label="Articles" color="blue" />
+            <StatCard value={statistics.relationshipCount} label="Relationships" color="green" />
+            <StatCard value={statistics.factCount} label="Facts" color="purple" />
+            <StatCard value={statistics.sourceCount} label="Sources" color="orange" />
           </div>
 
-          {/* Overview */}
-          <div className="bg-white p-8 rounded-lg border mb-8">
-            <h2 className="text-2xl font-bold mb-4">Overview</h2>
-            {entityKnowledge.overview ? (
-              <p className="text-gray-700 leading-relaxed">{entityKnowledge.overview}</p>
-            ) : (
-              <p className="text-gray-700 leading-relaxed">
-                {entity.description} This entity has been mentioned in {statistics.articleCount} articles 
-                and is connected to {statistics.relationshipCount} other entities in the knowledge graph.
-                The knowledge confidence score of {Math.round((entity.confidence_score || 0) * 100)}% 
-                indicates the reliability of the information about {entity.name}.
-              </p>
-            )}
-          </div>
-
-          {/* Latest News Summary */}
-          {entityKnowledge.latest_news_summary && (
-            <div className="bg-white p-8 rounded-lg border mb-8">
-              <h2 className="text-2xl font-bold mb-4">Latest Developments</h2>
-              <p className="text-gray-700 leading-relaxed">{entityKnowledge.latest_news_summary}</p>
-            </div>
+          {overview && (
+            <Section title="Overview">
+              <p className="text-gray-700 leading-relaxed">{overview}</p>
+            </Section>
           )}
 
-          {/* Entity Facts */}
-          {entityKnowledge.facts && entityKnowledge.facts.length > 0 && (
-            <div className="bg-white p-8 rounded-lg border mb-8">
-              <h2 className="text-2xl font-bold mb-4">Key Facts</h2>
+          {!overview && statistics.factCount === 0 && (
+            <Section title="Overview">
+              <p className="text-gray-600 leading-relaxed">
+                {entity.name} is in the knowledge graph but has not yet accumulated verified facts from published packages.
+                Related topics and packages will appear here as the autonomous learner enriches this entity.
+              </p>
+            </Section>
+          )}
+
+          {latestNewsSummary && (
+            <Section title="Latest Developments">
+              <p className="text-gray-700 leading-relaxed">{latestNewsSummary}</p>
+            </Section>
+          )}
+
+          {facts.length > 0 && (
+            <Section title="Key Facts">
               <div className="space-y-3">
-                {entityKnowledge.facts.map((fact: string, index: number) => (
+                {facts.map((fact, index) => (
                   <div key={index} className="p-4 bg-gray-50 rounded-lg">
                     <p className="text-gray-700">{fact}</p>
                   </div>
                 ))}
               </div>
-            </div>
+            </Section>
           )}
 
-          {/* Latest Articles */}
           {latestArticles.length > 0 && (
-            <div className="bg-white p-8 rounded-lg border mb-8">
-              <h2 className="text-2xl font-bold mb-4">Latest Articles</h2>
+            <Section title="Related Topics">
               <div className="space-y-3">
-                {latestArticles.map((article: any) => (
-                  <a
+                {latestArticles.map((article) => (
+                  <Link
                     key={article.id}
                     href={`/${lang}/topics/${article.slug}`}
                     className="block p-4 border rounded-lg hover:border-blue-500 transition-colors"
                   >
-                    <div className="font-semibold text-lg">{article.slug}</div>
+                    <div className="font-semibold text-lg">{article.title}</div>
                     <div className="text-sm text-gray-500">
-                      Published: {new Date(article.created_at).toLocaleDateString()}
+                      Updated: {new Date(article.updatedAt).toLocaleDateString()}
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
-            </div>
+            </Section>
           )}
 
-          {/* Timeline */}
-          {entityKnowledge.timeline && entityKnowledge.timeline.length > 0 && (
-            <div className="bg-white p-8 rounded-lg border mb-8">
-              <h2 className="text-2xl font-bold mb-4">Timeline</h2>
-              <div className="space-y-4">
-                {entityKnowledge.timeline.map((event: any, index: number) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0 w-24 text-sm text-gray-500">
-                      {new Date(event.date).toLocaleDateString()}
-                    </div>
-                    <div className="flex-grow">
-                      <div className="p-3 bg-gray-50 rounded-lg">
-                        <p className="text-gray-700">{event.event}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Related Entities */}
-          {relatedEntities.length > 0 && (
-            <div className="bg-white p-8 rounded-lg border mb-8">
-              <h2 className="text-2xl font-bold mb-4">Related Entities</h2>
-              <div className="grid grid-cols-2 gap-4">
-                {relatedEntities.map((rel, index) => (
-                  <a
-                    key={index}
-                    href={`/${lang}/entity/${rel.slug}`}
-                    className="p-4 border rounded-lg hover:border-blue-500 transition-colors"
-                  >
-                    <div className="font-semibold">{rel.name}</div>
-                    <div className="text-sm text-gray-500">{rel.type} • {rel.relationship}</div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Knowledge Graph */}
-          {relatedEntities.length > 0 && (
-            <div className="bg-white p-8 rounded-lg border mb-8">
-              <h2 className="text-2xl font-bold mb-4">Knowledge Graph</h2>
+          {allRelated.length > 0 && (
+            <Section title="Knowledge Graph">
               <div className="p-6 bg-gray-50 rounded-lg">
                 <div className="text-center mb-4">
                   <div className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-lg font-semibold">
                     {entity.name}
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {relatedEntities.slice(0, 6).map((rel, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                      <div className="text-sm">
-                        <span className="text-gray-600">{rel.relationship}</span>
-                        <span className="mx-1">→</span>
-                        <a href={`/${lang}/entity/${rel.slug}`} className="text-blue-600 hover:underline">
-                          {rel.name}
-                        </a>
-                        <span className="text-gray-400 ml-1">({rel.type})</span>
-                      </div>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {allRelated.slice(0, 8).map((rel) => (
+                    <div key={`${rel.slug}-${rel.direction}`} className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full shrink-0" />
+                      <span className="text-gray-600 capitalize">{rel.relationship.replace(/_/g, " ")}</span>
+                      <span className="text-gray-400">→</span>
+                      <Link href={`/${lang}/${rel.type === "topic" ? "topics" : "entity"}/${rel.slug}`} className="text-blue-600 hover:underline truncate">
+                        {rel.name}
+                      </Link>
+                      <span className="text-gray-400 shrink-0">({rel.type})</span>
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
+            </Section>
           )}
 
-          {/* Knowledge Packages */}
+          {relatedEntities.length > 0 && (
+            <Section title="Related Entities">
+              <div className="grid sm:grid-cols-2 gap-4">
+                {relatedEntities.map((rel) => (
+                  <Link
+                    key={rel.slug}
+                    href={`/${lang}/entity/${rel.slug}`}
+                    className="p-4 border rounded-lg hover:border-blue-500 transition-colors"
+                  >
+                    <div className="font-semibold">{rel.name}</div>
+                    <div className="text-sm text-gray-500 capitalize">{rel.type} · {rel.relationship.replace(/_/g, " ")}</div>
+                  </Link>
+                ))}
+              </div>
+            </Section>
+          )}
+
           {knowledgePackages.length > 0 && (
-            <div className="bg-white p-8 rounded-lg border mb-8">
-              <h2 className="text-2xl font-bold mb-4">Knowledge Packages</h2>
-              <div className="grid grid-cols-2 gap-4">
-                {knowledgePackages.map((pkg: any) => (
-                  <div key={pkg.id} className="p-4 border rounded-lg">
-                    <div className="font-semibold">{pkg.slug}</div>
+            <Section title="Knowledge Packages">
+              <div className="grid sm:grid-cols-2 gap-4">
+                {knowledgePackages.map((pkg) => (
+                  <Link
+                    key={pkg.id}
+                    href={`/${lang}/topics/${pkg.slug}`}
+                    className="p-4 border rounded-lg hover:border-blue-500 transition-colors"
+                  >
+                    <div className="font-semibold">{pkg.slug.replace(/-/g, " ")}</div>
                     <div className="text-sm text-gray-500">
-                      Status: {pkg.status} • {pkg.fact_count || 0} facts
+                      {pkg.status} · {pkg.factCount} facts
                     </div>
+                  </Link>
+                ))}
+              </div>
+            </Section>
+          )}
+
+          {sources.length > 0 && (
+            <Section title="Sources">
+              <div className="space-y-2">
+                {sources.map((src) => (
+                  <div key={src.id} className="flex items-center justify-between py-2 border-b border-gray-100 text-sm">
+                    <span className="text-gray-700">{src.sourceName}</span>
+                    {src.sourceUrl ? (
+                      <a href={src.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate ml-4 max-w-[50%]">
+                        {src.sourceUrl.replace(/^https?:\/\//, "").slice(0, 60)}
+                      </a>
+                    ) : (
+                      <span className="text-gray-400">{src.packageSlug}</span>
+                    )}
                   </div>
                 ))}
               </div>
-            </div>
+            </Section>
           )}
 
-          {/* Timeline */}
-          <div className="bg-white p-8 rounded-lg border mb-8">
-            <h2 className="text-2xl font-bold mb-4">Timeline</h2>
-            <div className="space-y-4">
-              <div className="flex gap-4">
-                <div className="w-24 text-sm text-gray-500">
-                  {new Date(entity.created_at).toLocaleDateString()}
-                </div>
-                <div className="flex-1">
-                  <div className="font-medium">Entity first discovered</div>
-                  <div className="text-sm text-gray-600">
-                    {entity.name} was added to the knowledge graph
-                  </div>
-                </div>
-              </div>
-              {entity.last_updated_at && entity.last_updated_at !== entity.created_at && (
-                <div className="flex gap-4">
-                  <div className="w-24 text-sm text-gray-500">
-                    {new Date(entity.last_updated_at).toLocaleDateString()}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium">Last knowledge update</div>
-                    <div className="text-sm text-gray-600">
-                      Entity information was last updated
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Categories */}
-          <div className="bg-white p-8 rounded-lg border mb-8">
-            <h2 className="text-2xl font-bold mb-4">Categories</h2>
-            <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
-                {entity.node_type}
-              </span>
-              <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
-                Knowledge Graph
-              </span>
-              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
-                Entities
-              </span>
-            </div>
-          </div>
-
-          {/* References */}
-          <div className="bg-white p-8 rounded-lg border">
-            <h2 className="text-2xl font-bold mb-4">References</h2>
-            <div className="text-sm text-gray-500">
-              This entity hub is generated from {statistics.articleCount} articles in the knowledge base.
-              Data is sourced from the knowledge graph and updated automatically as new information is discovered.
-            </div>
-          </div>
+          {statistics.factCount === 0 && statistics.relationshipCount === 0 && knowledgePackages.length === 0 && (
+            <Section title="Enrichment Status">
+              <p className="text-gray-600 text-sm">
+                No verified facts, packages, or graph relationships are linked to this entity yet.
+                Confidence is derived from live knowledge — not placeholder defaults.
+              </p>
+            </Section>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
+function StatCard({ value, label, color }: { value: number; label: string; color: "blue" | "green" | "purple" | "orange" }) {
+  const colors = {
+    blue: "text-blue-600",
+    green: "text-green-600",
+    purple: "text-purple-600",
+    orange: "text-orange-600",
+  };
+  return (
+    <div className="bg-white p-6 rounded-lg border">
+      <div className={`text-3xl font-bold ${colors[color]}`}>{value}</div>
+      <div className="text-sm text-gray-500 mt-1">{label}</div>
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-white p-8 rounded-lg border mb-8">
+      <h2 className="text-2xl font-bold mb-4">{title}</h2>
+      {children}
+    </div>
+  );
+}
+
 export async function generateMetadata({ params }: EntityPageProps) {
-  const awaitedParams = await params;
-  const data = await getEntityHubData(awaitedParams.slug);
-
-  if (!data) {
-    return {
-      title: "Entity Not Found",
-    };
-  }
-
+  const { slug } = await params;
+  const data = await getEntityHubData(slug);
+  if (!data) return { title: "Entity Not Found" };
   return {
     title: `${data.entity.name} - Knowledge Hub`,
-    description: data.entity.description,
+    description: data.entity.description ?? `Knowledge hub for ${data.entity.name}`,
   };
 }
