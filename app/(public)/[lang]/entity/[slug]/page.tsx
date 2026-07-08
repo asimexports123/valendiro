@@ -120,9 +120,14 @@ async function getEntityHubData(slug: string): Promise<EntityHubData | null> {
 }
 
 export default async function EntityPage({ params }: EntityPageProps) {
+  console.log("[Entity Page] Rendering with params:", params);
+  
   const data = await getEntityHubData(params.slug);
 
+  console.log("[Entity Page] Data result:", data ? "EXISTS" : "NULL");
+
   if (!data) {
+    console.log("[Entity Page] Calling notFound()");
     notFound();
   }
 
