@@ -65,9 +65,8 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const parsed = topic.content ? parseArticleContent(topic.content) : null;
 
   const breadcrumbs = [
-    { name: "Home", href: `/${lang}`, isCurrent: false },
+    { name: "Home", href: "/", isCurrent: false },
     ...(category ? [{ name: category.name, href: `/${lang}/categories/${category.slug}`, isCurrent: false }] : []),
-    ...(subcategory ? [{ name: subcategory.name, href: `/${lang}/subcategories/${subcategory.slug}`, isCurrent: false }] : []),
     { name: topic.title, href: `/${lang}/topics/${slug}`, isCurrent: true },
   ];
 
@@ -98,8 +97,9 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
       {/* Hero */}
       <header className={`border-b border-border/40 ${accent.bg}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <Breadcrumbs items={breadcrumbs} />
-          <div className="mt-4 max-w-3xl">
+          <div className="max-w-3xl">
+            <Breadcrumbs items={breadcrumbs} size="sm" separator="chevron" />
+            <div className="mt-3">
             {category && (
               <Link
                 href={`/${lang}/categories/${category.slug}`}
@@ -126,6 +126,7 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
                   <span>Updated {new Date(topic.updated_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })}</span>
                 </>
               )}
+            </div>
             </div>
           </div>
         </div>
