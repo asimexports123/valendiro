@@ -19,12 +19,12 @@ interface TopicLink {
   subtitle?: string | null;
 }
 
-interface ArticleLink {
+interface ConnectedTopicLink {
   id: string;
   slug: string;
   title: string;
-  description?: string | null;
-  reading_time?: number;
+  subtitle?: string | null;
+  connection?: string;
 }
 
 interface ArticleFooterProps {
@@ -36,8 +36,7 @@ interface ArticleFooterProps {
   prerequisites: SemanticRec[];
   nextTopics: SemanticRec[];
   applications: SemanticRec[];
-  relatedTopics: TopicLink[];
-  relatedArticles: ArticleLink[];
+  connectedTopics: ConnectedTopicLink[];
   learningPath: { slug: string; title: string }[];
   sequentialNav: { previous?: TopicLink; next?: TopicLink } | null;
   recapPoints: string[];
@@ -74,8 +73,7 @@ export function ArticleFooter({
   prerequisites,
   nextTopics,
   applications,
-  relatedTopics,
-  relatedArticles,
+  connectedTopics,
   learningPath,
   sequentialNav,
   recapPoints,
@@ -160,32 +158,20 @@ export function ArticleFooter({
         </FooterSection>
       )}
 
-      {/* Related topics */}
-      {relatedTopics.length > 0 && (
+      {/* Related topics — graph-connected only */}
+      {connectedTopics.length > 0 && (
         <FooterSection title="Related topics">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedTopics.map((t) => (
-              <TopicCard key={t.id} href={`/${lang}/topics/${t.slug}`} title={t.title} subtitle={t.subtitle} />
-            ))}
-          </div>
-        </FooterSection>
-      )}
-
-      {/* Further reading */}
-      {relatedArticles.length > 0 && (
-        <FooterSection title="Further reading">
-          <div className="space-y-2">
-            {relatedArticles.map((a) => (
+          <div className="grid gap-3 sm:grid-cols-2">
+            {connectedTopics.map((t) => (
               <Link
-                key={a.id}
-                href={`/${lang}/topics/${a.slug}`}
-                className="group flex items-center justify-between rounded-xl border border-border/40 p-4 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
+                key={t.id}
+                href={`/${lang}/topics/${t.slug}`}
+                className="group flex flex-col rounded-xl border border-border/40 p-4 hover:border-foreground/20 hover:bg-foreground/[0.02] transition-all"
               >
-                <div>
-                  <span className="font-medium text-sm text-foreground group-hover:text-primary transition-colors">{a.title}</span>
-                  {a.description && <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">{a.description}</p>}
-                </div>
-                {a.reading_time && <span className="text-xs text-muted-foreground shrink-0 ml-4">{a.reading_time} min</span>}
+                <span className="font-medium text-foreground group-hover:text-primary transition-colors text-sm">{t.title}</span>
+                {t.connection && (
+                  <span className="mt-1 text-xs text-muted-foreground">{t.connection}</span>
+                )}
               </Link>
             ))}
           </div>

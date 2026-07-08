@@ -78,7 +78,7 @@ async function main() {
     packageId: report.packageId,
     format: "markdown",
     forceRerender: true,
-    policyMode: "ingest",
+    policyMode: "strict",
   });
 
   if (!rendered.outputId) {
@@ -113,9 +113,9 @@ async function main() {
   console.log("\n=== PROOF CHECK ===");
   console.log("Contains design pattern content:", hasDesign ? "✓" : "✗");
   console.log("RSS junk removed:", !hasJunk ? "✓" : "✗ STILL PRESENT");
-  console.log("Word count improved:", afterWords > beforeWords ? "✓" : "—");
+  console.log("Word count improved:", afterWords >= 800 ? "✓" : afterWords > beforeWords ? "~" : "✗");
 
-  if (hasDesign && !hasJunk && afterWords >= 400) {
+  if (hasDesign && !hasJunk && afterWords >= 800) {
     console.log("\n✓ PROOF PASSED for", SLUG);
   } else {
     console.log("\n✗ PROOF INCOMPLETE — engine needs more work on this topic");

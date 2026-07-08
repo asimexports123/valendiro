@@ -3,14 +3,11 @@ import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo/metadata";
 import {
   getTopicBySlug,
-  getRelatedTopics,
-  getArticlesByTopic,
   getQuestionsByTopic,
-  getTopicsByCategory,
-  getTopicsBySubcategorySimple,
   getSequentialNavigation,
 } from "@/services/public/publicData";
 import { getSemanticRecommendations, getLearningJourney } from "@/services/knowledge/knowledgeGraph";
+import { getConnectedTopics } from "@/services/knowledge/connectedTopics";
 import { FaqSection } from "@/components/public/FaqSection";
 import { TableOfContents } from "@/components/public/TableOfContents";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
@@ -51,15 +48,14 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const topic = await getTopicBySlug(slug);
   if (!topic) notFound();
 
-  const [semanticRecommendations, learningJourney, topicArticles, faqs, subcategory, sequentialNav, relatedTopics] =
+  const [semanticRecommendations, learningJourney, faqs, subcategory, sequentialNav, connectedTopics] =
     await Promise.all([
       getSemanticRecommendations(topic.id, topic.category_id, 9),
       getLearningJourney(topic.id, 5),
-      getArticlesByTopic(topic.id, 12),
       getQuestionsByTopic(topic.id, 5),
       topic.subcategory_id ? getCollectionBySlugFromId(topic.subcategory_id) : null,
       topic.category_id ? getSequentialNavigation(topic.id, topic.category_id) : null,
-      getRelatedTopics(topic.id, topic.category_id, 6),
+      getConnectedTopics(topic.id, slug, topic.subcategory_id, 6),
     ]);
 
   const category = topic.category_id ? await getCategoryBySlugFromId(topic.category_id) : null;
@@ -67,8 +63,6 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   const readingTime = estimateReadingTime(topic.content);
   const headings = topic.content ? extractHeadings(topic.content) : [];
   const parsed = topic.content ? parseArticleContent(topic.content) : null;
-  const filteredRelatedTopics = relatedTopics.filter((t) => t.slug !== slug).slice(0, 6);
-  const relatedArticles = topicArticles.slice(0, 4);
 
   const breadcrumbs = [
     { name: "Home", href: `/${lang}`, isCurrent: false },
@@ -142,12 +136,7 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
         <div className="flex gap-10 xl:gap-14">
           <main className="flex-1 min-w-0 max-w-[42rem]">
             {topic.content && parsed ? (
-              <ArticleReaderBody
-                content={topic.content}
-                parsed={parsed}
-                topicTitle={topic.title}
-                entities={topic.entities}
-              />
+              <ArticleReaderBody slug={slug} content={topic.content} parsed={parsed} />
             ) : (
               <p className="text-muted-foreground">Content is being prepared for this topic.</p>
             )}
@@ -168,8 +157,7 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
               prerequisites={semanticRecommendations.prerequisites}
               nextTopics={semanticRecommendations.nextTopics}
               applications={semanticRecommendations.applications}
-              relatedTopics={filteredRelatedTopics}
-              relatedArticles={relatedArticles}
+              connectedTopics={connectedTopics}
               learningPath={learningJourney.continueWith}
               sequentialNav={sequentialNav}
               recapPoints={parsed?.recapPoints ?? []}
