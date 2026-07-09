@@ -12,6 +12,7 @@ import {
 import { LatestArticles } from "@/components/public/LatestArticles";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { EmptyState } from "@/components/public/EmptyState";
+import { SubcategoryToolsSection } from "@/components/tools/SubcategoryToolsSection";
 import { SITE_URL } from "@/lib/constants";
 
 export const revalidate = 3600;
@@ -197,6 +198,8 @@ export default async function SubcategoryPage({
 
           {/* ── Main column ─────────────────────────────────────────────────── */}
           <div className="space-y-14 min-w-0">
+
+            <SubcategoryToolsSection lang={lang} subcategorySlug={slug} />
 
             {/* What you'll learn */}
             {objectives.length > 0 && (
