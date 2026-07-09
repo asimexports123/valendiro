@@ -13,6 +13,8 @@ import { LatestArticles } from "@/components/public/LatestArticles";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { EmptyState } from "@/components/public/EmptyState";
 import { SubcategoryToolsSection } from "@/components/tools/SubcategoryToolsSection";
+import { getToolsForSubcategory } from "@/config/toolsRegistry";
+import { isActiveSubcategorySlug } from "@/config/activeTaxonomy";
 import { SITE_URL } from "@/lib/constants";
 
 export const revalidate = 3600;
@@ -87,8 +89,14 @@ export default async function SubcategoryPage({
     subcategory.category_id ? getCategoryById(subcategory.category_id) : null,
   ]);
 
-  // Hide subcategories with no published topics — never show a "coming soon" dead end
-  if (topics.length === 0) notFound();
+  const tools = getToolsForSubcategory(slug);
+
+  // 404 only when empty and not a Phase-1 active branch (tools or topics may still be loading)
+  if (topics.length === 0 && tools.length === 0 && !isActiveSubcategorySlug(slug)) {
+    notFound();
+  }
+
+  const hasToolsOnly = topics.length === 0 && tools.length > 0;
 
   const siblings = relatedSubcategories.filter((c) => c.slug !== slug).slice(0, 4);
   const diff = DIFFICULTY_CONFIG[subcategory.difficulty];
@@ -272,9 +280,13 @@ export default async function SubcategoryPage({
                 </div>
               ) : (
                 <EmptyState
-                  emoji="📖"
-                  title="Topics coming soon"
-                  description="Topics for this subcategory are being prepared. Check back soon."
+                  emoji={hasToolsOnly ? "🧮" : "📖"}
+                  title={hasToolsOnly ? "Guides coming soon" : "Topics coming soon"}
+                  description={
+                    hasToolsOnly
+                      ? "In-depth topic guides are being prepared. Use the interactive tools above while we build the learning path."
+                      : "Topics for this subcategory are being prepared. Check back soon."
+                  }
                 />
               )}
             </section>
@@ -302,6 +314,12 @@ export default async function SubcategoryPage({
                     </span>
                   </dd>
                 </div>
+                {tools.length > 0 && (
+                  <div className="flex items-center justify-between text-sm">
+                    <dt className="text-muted-foreground">Interactive tools</dt>
+                    <dd className="font-semibold text-foreground">{tools.length}</dd>
+                  </div>
+                )}
                 {topics.length > 0 && (
                   <div className="flex items-center justify-between text-sm">
                     <dt className="text-muted-foreground">Topics</dt>
