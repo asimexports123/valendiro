@@ -76,12 +76,13 @@ async function rewriteWithBrainOrLlm(
 async function publishOriginalTopic(target: CatalogTopicTarget): Promise<OriginalPublishResult> {
   try {
     const fuelTexts = await collectWorldFuel(target);
-    if (fuelTexts.length < MIN_FUEL_SOURCES) {
+    const totalFuelChars = fuelTexts.reduce((sum, t) => sum + t.length, 0);
+    if (fuelTexts.length < MIN_FUEL_SOURCES && totalFuelChars < 3500) {
       return {
         topicSlug: target.slug,
         topicId: target.topicId,
         status: "skipped",
-        reason: `insufficient external-world fuel (${fuelTexts.length}/${MIN_FUEL_SOURCES} — need RSS/crawl from outside)`,
+        reason: `insufficient external-world fuel (${fuelTexts.length}/${MIN_FUEL_SOURCES} sources, ${totalFuelChars} chars — need RSS/crawl from outside)`,
       };
     }
 

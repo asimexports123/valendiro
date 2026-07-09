@@ -25,18 +25,49 @@ async function loadHierarchyTopics(): Promise<
 > {
   const sb = createAdminClient();
 
-  const { data: rows } = await sb
+  const { data: rows, error } = await sb
     .from("topics")
-    .select(`
-      id, slug,
-      topic_translations(title, content),
-      categories(slug, category_translations(name)),
-      subcategories(slug, subcategory_translations(name))
-    `)
+    .select("id, slug, category_id, subcategory_id, topic_translations(title, content)")
     .eq("status", "published")
-    .eq("topic_translations.language_code", "en")
-    .eq("categories.category_translations.language_code", "en")
-    .eq("subcategories.subcategory_translations.language_code", "en");
+    .eq("topic_translations.language_code", "en");
+
+  if (error) {
+    console.error("[catalogHierarchy] loadHierarchyTopics:", error.message);
+    return [];
+  }
+
+  const categoryIds = [...new Set((rows ?? []).map((r) => r.category_id).filter(Boolean))] as string[];
+  const subcategoryIds = [...new Set((rows ?? []).map((r) => r.subcategory_id).filter(Boolean))] as string[];
+
+  const catById = new Map<string, { slug: string; name: string }>();
+  if (categoryIds.length > 0) {
+    const { data: cats } = await sb
+      .from("categories")
+      .select("id, slug, category_translations(name)")
+      .in("id", categoryIds)
+      .eq("category_translations.language_code", "en");
+    for (const c of cats ?? []) {
+      catById.set(c.id, {
+        slug: c.slug,
+        name: c.category_translations?.[0]?.name ?? c.slug,
+      });
+    }
+  }
+
+  const subById = new Map<string, { slug: string; name: string }>();
+  if (subcategoryIds.length > 0) {
+    const { data: subs } = await sb
+      .from("subcategories")
+      .select("id, slug, subcategory_translations(name)")
+      .in("id", subcategoryIds)
+      .eq("subcategory_translations.language_code", "en");
+    for (const s of subs ?? []) {
+      subById.set(s.id, {
+        slug: s.slug,
+        name: s.subcategory_translations?.[0]?.name ?? s.slug,
+      });
+    }
+  }
 
   const { data: packages } = await sb
     .from("knowledge_packages")
@@ -53,14 +84,8 @@ async function loadHierarchyTopics(): Promise<
   return (rows ?? []).map((row) => {
     const trans = row.topic_translations?.[0];
     const content = trans?.content ?? "";
-    const cat = row.categories as {
-      slug?: string;
-      category_translations?: { name?: string }[];
-    } | null;
-    const sub = row.subcategories as {
-      slug?: string;
-      subcategory_translations?: { name?: string }[];
-    } | null;
+    const cat = row.category_id ? catById.get(row.category_id) : undefined;
+    const sub = row.subcategory_id ? subById.get(row.subcategory_id) : undefined;
 
     return {
       topicId: row.id,
@@ -69,9 +94,9 @@ async function loadHierarchyTopics(): Promise<
       wordCount: content.trim().split(/\s+/).filter(Boolean).length,
       factCount: factByTopic.get(row.id) ?? 0,
       categorySlug: cat?.slug ?? null,
-      categoryTitle: cat?.category_translations?.[0]?.name ?? cat?.slug ?? null,
+      categoryTitle: cat?.name ?? cat?.slug ?? null,
       subcategorySlug: sub?.slug ?? null,
-      subcategoryTitle: sub?.subcategory_translations?.[0]?.name ?? sub?.slug ?? null,
+      subcategoryTitle: sub?.name ?? sub?.slug ?? null,
     };
   });
 }

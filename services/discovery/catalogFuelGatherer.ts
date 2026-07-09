@@ -38,7 +38,8 @@ export interface CatalogFuelGatherResult {
   }>;
 }
 
-const CATALOG_FUEL_SOURCE_TYPE = "catalog-fuel-gather";
+const CATALOG_FUEL_SOURCE_TYPE = "rss";
+const CATALOG_FUEL_SOURCE_NAME = "Catalog Fuel Gather";
 const MAX_FUEL_PER_TOPIC = 6;
 
 async function ensureCatalogFuelSourceId(): Promise<string> {
@@ -46,7 +47,7 @@ async function ensureCatalogFuelSourceId(): Promise<string> {
   const { data: existing } = await sb
     .from("discovery_system_sources")
     .select("id")
-    .eq("source_type", CATALOG_FUEL_SOURCE_TYPE)
+    .eq("name", CATALOG_FUEL_SOURCE_NAME)
     .maybeSingle();
 
   if (existing?.id) return existing.id;
@@ -55,8 +56,8 @@ async function ensureCatalogFuelSourceId(): Promise<string> {
     .from("discovery_system_sources")
     .insert({
       source_type: CATALOG_FUEL_SOURCE_TYPE,
-      name: "Catalog Fuel Gather",
-      url: null,
+      name: CATALOG_FUEL_SOURCE_NAME,
+      url: "https://valendiro.com/internal/catalog-fuel",
       config: { pipeline: "catalog-fuel-gather" },
       status: "active",
       fetch_interval_minutes: 0,

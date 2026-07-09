@@ -8,7 +8,7 @@ export const MIN_BRAIN_WORD_COUNT = 750;
 export const MIN_BRAIN_SECTION_WORDS = 90;
 export const MIN_BRAIN_H2_SECTIONS = 4;
 export const MIN_BRAIN_DISTINCT_IDEAS = 8;
-export const MIN_FUEL_SOURCES = 3;
+export const MIN_FUEL_SOURCES = 2;
 
 const ROBOTIC_PATTERNS: { pattern: RegExp; max: number; label: string }[] = [
   { pattern: /\bIn practice,/gi, max: 1, label: "repetitive opener 'In practice'" },

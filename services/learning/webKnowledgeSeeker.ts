@@ -140,8 +140,43 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
   nutrition: [
     { url: "https://en.wikipedia.org/wiki/Nutrition", name: "Wikipedia Nutrition", authority: "encyclopedic" },
   ],
+  "nutrition-fundamentals": [
+    { url: "https://en.wikipedia.org/wiki/Nutrition", name: "Wikipedia Nutrition", authority: "encyclopedic" },
+    { url: "https://www.nutrition.gov/topics/basic-nutrition", name: "Nutrition.gov Basics", authority: "official" },
+  ],
+  "calorie-counting-basics": [
+    { url: "https://www.investopedia.com/terms/c/calorie.asp", name: "Investopedia Calorie", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Calorie", name: "Wikipedia Calorie", authority: "encyclopedic" },
+  ],
+  "strength-training-basics": [
+    { url: "https://en.wikipedia.org/wiki/Strength_training", name: "Wikipedia Strength Training", authority: "encyclopedic" },
+  ],
+  "cardio-fitness-guide": [
+    { url: "https://en.wikipedia.org/wiki/Cardiovascular_fitness", name: "Wikipedia Cardiovascular Fitness", authority: "encyclopedic" },
+  ],
+  "stress-management-basics": [
+    { url: "https://en.wikipedia.org/wiki/Stress_management", name: "Wikipedia Stress Management", authority: "encyclopedic" },
+  ],
+  "mental-wellness-fundamentals": [
+    { url: "https://en.wikipedia.org/wiki/Mental_health", name: "Wikipedia Mental Health", authority: "encyclopedic" },
+  ],
   "mental-health": [
     { url: "https://en.wikipedia.org/wiki/Mental_health", name: "Wikipedia Mental Health", authority: "encyclopedic" },
+  ],
+  "compound-interest-explained": [
+    { url: "https://www.investopedia.com/terms/c/compoundinterest.asp", name: "Investopedia Compound Interest", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Compound_interest", name: "Wikipedia Compound Interest", authority: "encyclopedic" },
+  ],
+  "what-is-artificial-intelligence": [
+    { url: "https://en.wikipedia.org/wiki/Artificial_intelligence", name: "Wikipedia AI", authority: "encyclopedic" },
+  ],
+  "portfolio-diversification": [
+    { url: "https://www.investopedia.com/terms/d/diversification.asp", name: "Investopedia Diversification", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Diversification_(finance)", name: "Wikipedia Diversification", authority: "encyclopedic" },
+  ],
+  "stock-market-basics": [
+    { url: "https://www.investopedia.com/terms/s/stockmarket.asp", name: "Investopedia Stock Market", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Stock_market", name: "Wikipedia Stock Market", authority: "encyclopedic" },
   ],
 };
 
@@ -467,8 +502,12 @@ export async function crawlCatalogTopicSources(
     }
   }
 
-  const wikiQueries = [input.title, input.slug.replace(/-/g, " ")];
-  for (const q of [...new Set(wikiQueries.filter(Boolean))]) {
+  const wikiQueries = [
+    input.title,
+    input.slug.replace(/-/g, " "),
+    input.slug.replace(/-basics|-fundamentals|-explained|-guide/g, "").replace(/-/g, " "),
+  ];
+  for (const q of [...new Set(wikiQueries.filter((s) => s.length > 3))]) {
     const wiki = await fetchWikipediaFull(q);
     if (wiki?.sourceUrl && wiki.description) {
       push({
