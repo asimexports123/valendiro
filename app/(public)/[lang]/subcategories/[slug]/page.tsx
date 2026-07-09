@@ -6,7 +6,7 @@ import {
   getSubcategoryBySlug,
   getTopicsBySubcategorySimple,
   getArticlesBySubcategory,
-  getSubcategoriesByCategory,
+  getActiveRelatedSubcategories,
   SubcategoryDifficulty,
 } from "@/services/public/publicData";
 import { LatestArticles } from "@/components/public/LatestArticles";
@@ -82,11 +82,16 @@ export default async function SubcategoryPage({
   const subcategory = await getSubcategoryBySlug(slug);
   if (!subcategory) notFound();
 
-  const [topics, articles, relatedSubcategories, parentCategory] = await Promise.all([
+  const parentCategory = subcategory.category_id
+    ? await getCategoryById(subcategory.category_id)
+    : null;
+
+  const [topics, articles, relatedSubcategories] = await Promise.all([
     getTopicsBySubcategorySimple(subcategory.id, 24),
     getArticlesBySubcategory(subcategory.id, 6),
-    getSubcategoriesByCategory(subcategory.category_id, 8),
-    subcategory.category_id ? getCategoryById(subcategory.category_id) : null,
+    parentCategory?.slug
+      ? getActiveRelatedSubcategories(parentCategory.slug, slug, 4)
+      : Promise.resolve([]),
   ]);
 
   const tools = getToolsForSubcategory(slug);
@@ -98,7 +103,7 @@ export default async function SubcategoryPage({
 
   const hasToolsOnly = topics.length === 0 && tools.length > 0;
 
-  const siblings = relatedSubcategories.filter((c) => c.slug !== slug).slice(0, 4);
+  const siblings = relatedSubcategories.slice(0, 4);
   const diff = DIFFICULTY_CONFIG[subcategory.difficulty];
   const catMeta = CATEGORY_META[parentCategory?.slug ?? ""] ?? { emoji: "📖", color: "text-primary", bg: "bg-muted" };
   const objectives = buildLearningObjectives(topics.map((t) => t.title));

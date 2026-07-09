@@ -8,11 +8,7 @@ import { HomepageStats } from "@/services/public/publicData";
 const CATEGORIES = [
   { label: "Technology",       slug: "technology",       color: "bg-blue-500",    text: "text-blue-700 dark:text-blue-300",    ring: "hover:ring-blue-200 dark:hover:ring-blue-900" },
   { label: "Personal Finance", slug: "personal-finance", color: "bg-emerald-500", text: "text-emerald-700 dark:text-emerald-300", ring: "hover:ring-emerald-200 dark:hover:ring-emerald-900" },
-  { label: "Business",         slug: "business",         color: "bg-violet-500",  text: "text-violet-700 dark:text-violet-300",  ring: "hover:ring-violet-200 dark:hover:ring-violet-900" },
   { label: "Health & Wellness",slug: "health-wellness",  color: "bg-rose-500",    text: "text-rose-700 dark:text-rose-300",    ring: "hover:ring-rose-200 dark:hover:ring-rose-900" },
-  { label: "Education",        slug: "education",        color: "bg-amber-500",   text: "text-amber-700 dark:text-amber-300",   ring: "hover:ring-amber-200 dark:hover:ring-amber-900" },
-  { label: "Home & Lifestyle", slug: "home-lifestyle",   color: "bg-orange-500",  text: "text-orange-700 dark:text-orange-300",  ring: "hover:ring-orange-200 dark:hover:ring-orange-900" },
-  { label: "Travel",           slug: "travel",           color: "bg-sky-500",     text: "text-sky-700 dark:text-sky-300",     ring: "hover:ring-sky-200 dark:hover:ring-sky-900" },
 ];
 
 const TRUST = [
