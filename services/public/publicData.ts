@@ -1,7 +1,13 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 import { serializeToHTML } from "@/services/renderer/serializers/html";
-import { filterNavCategories } from "@/config/activeTaxonomy";
+import {
+  filterNavCategories,
+  getActiveSubcategorySlugsForCategory,
+  getCategorySlugForActiveSubcategory,
+  isActiveSubcategorySlug,
+} from "@/config/activeTaxonomy";
+import { getToolsForSubcategory, SUBCATEGORY_LABELS } from "@/config/toolsRegistry";
 
 const slugToTitle = (slug: string): string => {
   return slug
@@ -452,6 +458,41 @@ function inferEstimatedHours(articleCount: number): number {
   return Math.max(1, Math.round((articleCount * 8) / 60));
 }
 
+/** Show in nav/lists when published topics exist, or Phase-1 branch has interactive tools. */
+function isSubcategoryVisible(slug: string, topicCount: number): boolean {
+  if (topicCount > 0) return true;
+  if (isActiveSubcategorySlug(slug)) return true;
+  return getToolsForSubcategory(slug).length > 0;
+}
+
+async function getCategoryIdBySlug(slug: string): Promise<string | null> {
+  const supabase = createAdminClient();
+  const { data } = await supabase.from("categories").select("id").eq("slug", slug).maybeSingle();
+  return data?.id ?? null;
+}
+
+/** Fallback when subcategory row is missing but slug is in Phase-1 taxonomy with tools. */
+async function buildFallbackSubcategory(slug: string): Promise<PublicSubcategory | null> {
+  const categorySlug = getCategorySlugForActiveSubcategory(slug);
+  if (!categorySlug) return null;
+
+  const categoryId = await getCategoryIdBySlug(categorySlug);
+  if (!categoryId) return null;
+
+  return {
+    id: "",
+    slug,
+    category_id: categoryId,
+    category_slug: categorySlug,
+    name: SUBCATEGORY_LABELS[slug] ?? normalizeSubcategoryName(slug),
+    description: "",
+    topic_count: 0,
+    article_count: 0,
+    difficulty: "Beginner",
+    estimated_hours: 0,
+  };
+}
+
 export async function getFeaturedSubcategories(limit = 6): Promise<PublicSubcategory[]> {
   const supabase = createAdminClient();
   const categoryIds = await getV1CategoryIds();
@@ -508,9 +549,8 @@ export async function getFeaturedSubcategories(limit = 6): Promise<PublicSubcate
     };
   }));
 
-  // Only surface subcategories that have at least one published topic.
-  // A subcategory with no topics must never appear in navigation.
-  return all.filter((s) => s.topic_count > 0).slice(0, limit);
+  // Surface subcategories with published topics or Phase-1 branches (tools-only hubs).
+  return all.filter((s) => isSubcategoryVisible(s.slug, s.topic_count)).slice(0, limit);
 }
 
 export async function getSubcategoriesByCategory(categoryId: string, limit = 12): Promise<PublicSubcategory[]> {
@@ -567,8 +607,7 @@ export async function getSubcategoriesByCategory(categoryId: string, limit = 12)
     };
   }));
 
-  // Only return subcategories that have at least one published topic
-  return all.filter((s) => s.topic_count > 0);
+  return all.filter((s) => isSubcategoryVisible(s.slug, s.topic_count));
 }
 
 export async function getSubcategoryBySlug(slug: string): Promise<PublicSubcategory | null> {
@@ -580,7 +619,12 @@ export async function getSubcategoryBySlug(slug: string): Promise<PublicSubcateg
     .eq("subcategory_translations.language_code", "en")
     .maybeSingle();
 
-  if (!data) return null;
+  if (!data) {
+    if (isActiveSubcategorySlug(slug) || getToolsForSubcategory(slug).length > 0) {
+      return buildFallbackSubcategory(slug);
+    }
+    return null;
+  }
 
   const collId = data.id as string;
   const { count: topicCount } = await supabase
@@ -647,6 +691,7 @@ export async function getArticlesByTopic(topicId: string, limit = 12): Promise<P
 }
 
 export async function getTopicsBySubcategorySimple(subcategoryId: string, limit = 6): Promise<PublicTopic[]> {
+  if (!subcategoryId) return [];
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("topics")
@@ -704,6 +749,7 @@ export async function getSequentialNavigation(currentTopicId: string, categoryId
 }
 
 export async function getArticlesBySubcategory(subcategoryId: string, limit = 12): Promise<PublicArticle[]> {
+  if (!subcategoryId) return [];
   const supabase = createAdminClient();
   const { data: topicIds } = await supabase
     .from("topics")
@@ -1378,8 +1424,8 @@ export async function getCategoryPageData(slug: string): Promise<CategoryPageDat
     ? subcategoriesWithCounts.reduce((s, c) => s + c.article_count, 0)
     : 0;
 
-  // Only show subcategories that have at least one published topic
-  const populated = subcategoriesWithCounts.filter((s) => s.topic_count > 0);
+  // Show subcategories with published topics or Phase-1 branches (calculators/quizzes).
+  const populated = subcategoriesWithCounts.filter((s) => isSubcategoryVisible(s.slug, s.topic_count));
 
   // Group subcategories by difficulty for learning path
   const beginner = populated.filter(s => s.difficulty === "Beginner").slice(0, 4);
@@ -1467,10 +1513,23 @@ export async function getNavData(): Promise<NavCategory[]> {
         .order("sort_order", { ascending: true })
         .limit(30);
 
+      const activeSlugs = getActiveSubcategorySlugsForCategory(cat.slug);
+      const mergedSubs = [...(subs ?? [])];
+      const seenSlugs = new Set(mergedSubs.map((s: { slug: string }) => s.slug));
+
+      for (const activeSlug of activeSlugs) {
+        if (seenSlugs.has(activeSlug)) continue;
+        mergedSubs.push({
+          slug: activeSlug,
+          subcategory_translations: [{ name: SUBCATEGORY_LABELS[activeSlug] ?? activeSlug }],
+        });
+        seenSlugs.add(activeSlug);
+      }
+
       return {
         label: V1_DISPLAY_NAMES[cat.slug] ?? cat.category_translations?.[0]?.name ?? cat.slug,
         slug: cat.slug,
-        subcategories: (subs ?? []).map((s: any) => ({
+        subcategories: mergedSubs.map((s: any) => ({
           name: normalizeSubcategoryName(s.subcategory_translations?.[0]?.name || s.slug),
           slug: s.slug,
         })),

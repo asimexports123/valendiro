@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { calculateCompoundInterest } from "../../lib/tools/compoundInterestMath";
 import { calculateBmi } from "../../lib/tools/bmiMath";
 import { calculatePositionSize } from "../../lib/tools/positionSizeMath";
-import { CATALOG_TOOLS } from "../../config/toolsRegistry";
+import { CATALOG_TOOLS, getToolsForTopic } from "../../config/toolsRegistry";
 
 describe("tools-math-and-registry", () => {
   it("compound interest grows principal", () => {
@@ -33,6 +33,15 @@ describe("tools-math-and-registry", () => {
     assert.equal(r.riskAmount, 1000);
     assert.equal(r.shares, 200);
     assert.equal(r.positionValue, 10000);
+  });
+
+  it("getToolsForTopic links subcategory tools and topic pins", () => {
+    const indexTools = getToolsForTopic("index-funds", "investing");
+    assert.ok(indexTools.some((t) => t.slug === "compound-interest-calculator"));
+    const nutritionTools = getToolsForTopic("some-nutrition-topic", "nutrition");
+    assert.ok(nutritionTools.some((t) => t.slug === "bmi-calculator"));
+    const unrelated = getToolsForTopic("travel-planning", "travel");
+    assert.equal(unrelated.length, 0);
   });
 
   it("every active subcategory has at least one tool", () => {

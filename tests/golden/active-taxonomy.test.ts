@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import {
   PHASE_1_ACTIVE_SUBCATEGORY_SLUGS,
   filterNavCategories,
+  getActiveSubcategorySlugsForCategory,
+  getCategorySlugForActiveSubcategory,
   isActiveSubcategorySlug,
   isTopicInActiveTaxonomy,
 } from "../../config/activeTaxonomy";
@@ -51,5 +53,18 @@ describe("active-taxonomy-phase1", () => {
     assert.ok(!isTopicInActiveTaxonomy("technology", "cybersecurity"));
     assert.ok(!isTopicInActiveTaxonomy("travel", "destinations"));
     assert.ok(!isTopicInActiveTaxonomy("business", "marketing"));
+  });
+
+  it("maps active subcategories to parent category slugs", () => {
+    assert.equal(getCategorySlugForActiveSubcategory("investing"), "personal-finance");
+    assert.equal(getCategorySlugForActiveSubcategory("programming"), "technology");
+    assert.equal(getCategorySlugForActiveSubcategory("nutrition"), "health-wellness");
+    assert.equal(getCategorySlugForActiveSubcategory("unknown-sub"), null);
+  });
+
+  it("lists active subs per Phase-1 category", () => {
+    assert.equal(getActiveSubcategorySlugsForCategory("personal-finance").length, 3);
+    assert.ok(getActiveSubcategorySlugsForCategory("personal-finance").includes("investing"));
+    assert.equal(getActiveSubcategorySlugsForCategory("travel").length, 0);
   });
 });

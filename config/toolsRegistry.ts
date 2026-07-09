@@ -251,6 +251,31 @@ export function getToolsForSubcategory(subcategorySlug: string): CatalogTool[] {
   return CATALOG_TOOLS.filter((t) => t.subcategorySlug === subcategorySlug);
 }
 
+/**
+ * Tools relevant to a topic/article page:
+ * - any tool pinned to this topic slug (`relatedTopicSlug`)
+ * - all tools in the same subcategory (when the article belongs to that sub)
+ */
+export function getToolsForTopic(
+  topicSlug: string,
+  subcategorySlug?: string | null
+): CatalogTool[] {
+  const seen = new Set<string>();
+  const result: CatalogTool[] = [];
+
+  for (const tool of CATALOG_TOOLS) {
+    const matchesTopic = tool.relatedTopicSlug === topicSlug;
+    const matchesSub =
+      Boolean(subcategorySlug) && tool.subcategorySlug === subcategorySlug;
+    if (!matchesTopic && !matchesSub) continue;
+    if (seen.has(tool.id)) continue;
+    seen.add(tool.id);
+    result.push(tool);
+  }
+
+  return result;
+}
+
 export function getToolBySlug(slug: string): CatalogTool | undefined {
   return CATALOG_TOOLS.find((t) => t.slug === slug);
 }

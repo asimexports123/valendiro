@@ -75,3 +75,34 @@ export function filterNavCategories<T extends { slug: string; subcategories: { s
     }))
     .filter((c) => c.subcategories.length > 0);
 }
+
+const ACTIVE_SUBCATEGORY_TO_CATEGORY: Record<string, string> = {
+  programming: "technology",
+  "web-development": "technology",
+  "artificial-intelligence": "technology",
+  investing: "personal-finance",
+  "mutual-funds": "personal-finance",
+  "stock-market": "personal-finance",
+  nutrition: "health-wellness",
+  fitness: "health-wellness",
+  "mental-health": "health-wellness",
+};
+
+/** Parent category slug for a Phase-1 subcategory (null if not active). */
+export function getCategorySlugForActiveSubcategory(slug: string): string | null {
+  return ACTIVE_SUBCATEGORY_TO_CATEGORY[slug] ?? null;
+}
+
+/** Active subcategory slugs under a Phase-1 category. */
+export function getActiveSubcategorySlugsForCategory(categorySlug: string): readonly string[] {
+  switch (categorySlug) {
+    case "technology":
+      return PHASE_1_TECHNOLOGY_SUBCATEGORY_SLUGS;
+    case "personal-finance":
+      return PHASE_1_PERSONAL_FINANCE_SUBCATEGORY_SLUGS;
+    case "health-wellness":
+      return PHASE_1_HEALTH_WELLNESS_SUBCATEGORY_SLUGS;
+    default:
+      return [];
+  }
+}

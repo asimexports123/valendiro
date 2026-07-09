@@ -14,6 +14,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ReadingProgress } from "@/components/public/ReadingProgress";
 import { ArticleReaderBody } from "@/components/reader/ArticleReaderBody";
 import { ArticleFooter } from "@/components/reader/ArticleFooter";
+import { RelatedToolsSection } from "@/components/tools/RelatedToolsSection";
 import { parseArticleContent, extractHeadings, estimateReadingTime } from "@/lib/reader/contentParser";
 import { SITE_URL } from "@/lib/constants";
 import Link from "next/link";
@@ -146,6 +147,12 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
             ) : (
               <p className="text-muted-foreground">Content is being prepared for this topic.</p>
             )}
+
+            <RelatedToolsSection
+              lang={lang}
+              topicSlug={slug}
+              subcategorySlug={subcategory?.slug ?? null}
+            />
 
             {faqs.length > 0 && (
               <section className="mt-16 pt-10 border-t border-border/40">
