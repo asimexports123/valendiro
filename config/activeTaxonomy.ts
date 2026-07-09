@@ -8,6 +8,7 @@
 export const PHASE_1_ACTIVE_CATEGORY_SLUGS = [
   "technology",
   "personal-finance",
+  "health-wellness",
 ] as const;
 
 /** Technology: Programming, Web Development, AI */
@@ -24,9 +25,17 @@ export const PHASE_1_PERSONAL_FINANCE_SUBCATEGORY_SLUGS = [
   "stock-market",
 ] as const;
 
+/** Health & Wellness: Nutrition, Fitness, Mental Health */
+export const PHASE_1_HEALTH_WELLNESS_SUBCATEGORY_SLUGS = [
+  "nutrition",
+  "fitness",
+  "mental-health",
+] as const;
+
 export const PHASE_1_ACTIVE_SUBCATEGORY_SLUGS: readonly string[] = [
   ...PHASE_1_TECHNOLOGY_SUBCATEGORY_SLUGS,
   ...PHASE_1_PERSONAL_FINANCE_SUBCATEGORY_SLUGS,
+  ...PHASE_1_HEALTH_WELLNESS_SUBCATEGORY_SLUGS,
 ];
 
 const ACTIVE_SUB_SET = new Set(PHASE_1_ACTIVE_SUBCATEGORY_SLUGS);

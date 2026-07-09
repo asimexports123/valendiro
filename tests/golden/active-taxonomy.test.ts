@@ -8,16 +8,19 @@ import {
 } from "../../config/activeTaxonomy";
 
 describe("active-taxonomy-phase1", () => {
-  it("locks phase 1 to six subcategories across tech and finance", () => {
-    assert.equal(PHASE_1_ACTIVE_SUBCATEGORY_SLUGS.length, 6);
+  it("locks phase 1 to nine subcategories across tech, finance, and health", () => {
+    assert.equal(PHASE_1_ACTIVE_SUBCATEGORY_SLUGS.length, 9);
     assert.ok(isActiveSubcategorySlug("programming"));
     assert.ok(isActiveSubcategorySlug("web-development"));
     assert.ok(isActiveSubcategorySlug("artificial-intelligence"));
     assert.ok(isActiveSubcategorySlug("investing"));
     assert.ok(isActiveSubcategorySlug("mutual-funds"));
     assert.ok(isActiveSubcategorySlug("stock-market"));
+    assert.ok(isActiveSubcategorySlug("nutrition"));
+    assert.ok(isActiveSubcategorySlug("fitness"));
+    assert.ok(isActiveSubcategorySlug("mental-health"));
     assert.ok(!isActiveSubcategorySlug("travel-planning"));
-    assert.ok(!isActiveSubcategorySlug("budget-travel"));
+    assert.ok(!isActiveSubcategorySlug("diseases-conditions"));
   });
 
   it("filters nav to active categories and subs only", () => {
@@ -44,6 +47,7 @@ describe("active-taxonomy-phase1", () => {
   it("scopes brain publish to active taxonomy branches", () => {
     assert.ok(isTopicInActiveTaxonomy("technology", "web-development"));
     assert.ok(isTopicInActiveTaxonomy("personal-finance", "mutual-funds"));
+    assert.ok(isTopicInActiveTaxonomy("health-wellness", "nutrition"));
     assert.ok(!isTopicInActiveTaxonomy("technology", "cybersecurity"));
     assert.ok(!isTopicInActiveTaxonomy("travel", "destinations"));
     assert.ok(!isTopicInActiveTaxonomy("business", "marketing"));
