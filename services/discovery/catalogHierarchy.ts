@@ -4,6 +4,7 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { analyzePackageGaps } from "@/services/learning/packageGapAnalyzer";
+import { isTopicInActiveTaxonomy } from "@/config/activeTaxonomy";
 
 export interface CatalogTopicTarget {
   topicId: string;
@@ -103,6 +104,8 @@ export async function selectCatalogPublishTargets(limit = 10): Promise<CatalogTo
   const scored: CatalogTopicTarget[] = [];
 
   for (const topic of topics) {
+    if (!isTopicInActiveTaxonomy(topic.categorySlug, topic.subcategorySlug)) continue;
+
     const report = await analyzePackageGaps(topic.topicId);
     const { score, reason } = computePriority(
       topic,

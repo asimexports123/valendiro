@@ -3,6 +3,7 @@
  */
 
 import { analyzePackageGaps, type PackageGapReport } from "./packageGapAnalyzer";
+import { isTopicInActiveTaxonomy } from "@/config/activeTaxonomy";
 
 export interface PrioritizedTopic {
   topicId: string;
@@ -31,6 +32,7 @@ export async function prioritizeWeakestTopics(limit = 20): Promise<PrioritizedTo
     try {
       const gapReport = await analyzePackageGaps(topic.id);
       if (gapReport.isExcellent) continue;
+      if (!isTopicInActiveTaxonomy(gapReport.categorySlug, gapReport.subcategorySlug)) continue;
 
       reports.push({
         topicId: topic.id,

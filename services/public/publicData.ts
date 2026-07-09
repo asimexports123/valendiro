@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 import { serializeToHTML } from "@/services/renderer/serializers/html";
+import { filterNavCategories } from "@/config/activeTaxonomy";
 
 const slugToTitle = (slug: string): string => {
   return slug
@@ -1477,11 +1478,13 @@ export async function getNavData(): Promise<NavCategory[]> {
     })
   );
 
-  return results.sort((a, b) => {
-    const ai = V1_CATEGORY_SLUGS.indexOf(a.slug);
-    const bi = V1_CATEGORY_SLUGS.indexOf(b.slug);
-    return ai - bi;
-  });
+  return filterNavCategories(
+    results.sort((a, b) => {
+      const ai = V1_CATEGORY_SLUGS.indexOf(a.slug);
+      const bi = V1_CATEGORY_SLUGS.indexOf(b.slug);
+      return ai - bi;
+    })
+  );
 }
 
 export interface FeaturedTopicWithMeta {
