@@ -24,9 +24,9 @@ export async function generateMetadata({
   if (!tool) return {};
 
   return buildMetadata({
-    title: `${tool.title} — Estimate Mutual Fund SIP Returns`,
+    title: `${tool.title} — Valendiro`,
     description:
-      "Free SIP calculator with guide: see how monthly mutual fund investments can grow with compounding. Adjust amount, duration, and expected return.",
+      "Free dollar-cost averaging calculator: see how monthly 401(k), IRA, or brokerage contributions can grow with compounding. Adjust amount, duration, and expected return.",
     canonical: `/${lang}/tools/sip-calculator`,
   });
 }
@@ -66,11 +66,12 @@ export default async function SipCalculatorPage({
             Mutual Funds · Calculator
           </p>
           <h1 className="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            SIP Calculator
+            Monthly Investment (DCA) Calculator
           </h1>
           <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-            See how a systematic investment plan (SIP) in mutual funds could grow when you invest
-            the same amount every month. Use the sliders below, then read how SIP math works.
+            See how dollar-cost averaging (DCA) into a 401(k), IRA, or brokerage account could grow
+            when you invest the same amount every month. Type your numbers below, then read how DCA
+            math works.
           </p>
         </div>
       </div>
@@ -79,12 +80,17 @@ export default async function SipCalculatorPage({
         <SipCalculatorWidget />
 
         <article className="prose prose-neutral dark:prose-invert max-w-none">
-          <h2>What is a SIP?</h2>
+          <h2>What is dollar-cost averaging?</h2>
           <p>
-            A <strong>Systematic Investment Plan (SIP)</strong> lets you invest a fixed sum in a
-            mutual fund at regular intervals — usually monthly. Instead of trying to time the market
-            with one large lump sum, SIPs spread purchases across months so you buy more units when
-            prices are lower and fewer when prices are higher (rupee-cost averaging).
+            <strong>Dollar-cost averaging (DCA)</strong> means investing a fixed dollar amount on a
+            regular schedule — usually monthly — regardless of market prices. Instead of trying to
+            time the market with one large lump sum, DCA spreads purchases across months so you buy
+            more shares when prices are lower and fewer when prices are higher.
+          </p>
+          <p>
+            In the US, DCA is the default pattern for most retirement savers: automatic payroll
+            deferrals into a <strong>401(k)</strong>, monthly transfers into a Roth or traditional{" "}
+            <strong>IRA</strong>, or recurring buys in a taxable brokerage account.
           </p>
 
           <h2>How this calculator works</h2>
@@ -115,25 +121,25 @@ export default async function SipCalculatorPage({
 
           <h2>Example</h2>
           <p>
-            Investing ₹10,000 per month for 10 years at an assumed 12% annual return would mean
-            ₹12,00,000 invested. Compounding could bring the estimated maturity value to roughly
-            ₹23,00,000 — with about ₹11,00,000 from growth. Try those numbers in the calculator
-            above.
+            Investing $500 per month for 30 years at an assumed 7% annual return would mean
+            $180,000 contributed. Compounding could bring the estimated balance to roughly
+            $610,000 — with about $430,000 from growth. Try those numbers in the calculator above.
           </p>
 
-          <h2>When SIPs make sense</h2>
+          <h2>When DCA makes sense</h2>
           <ul>
-            <li>You want disciplined, automated investing from salary each month</li>
-            <li>You are building long-term wealth in diversified equity or hybrid mutual funds</li>
+            <li>You want disciplined, automated investing from each paycheck</li>
+            <li>You are building long-term wealth in diversified index funds or target-date funds</li>
             <li>You prefer gradual entry rather than one large market-timing bet</li>
+            <li>You are maxing out 401(k) match and IRA contributions over time</li>
           </ul>
 
           <h2>Limitations</h2>
           <p>
             Returns are not guaranteed. Past performance does not predict future results. Equity
             funds can lose value over short periods. Consult a qualified financial adviser for
-            personal advice. This calculator does not account for exit loads, capital gains tax, or
-            step-up SIPs.
+            personal advice. This calculator does not account for capital gains tax, early withdrawal
+            penalties, or IRS contribution limits.
           </p>
         </article>
 

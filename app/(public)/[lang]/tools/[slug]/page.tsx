@@ -6,6 +6,15 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { CompoundInterestWidget } from "@/components/tools/CompoundInterestWidget";
 import { BmiCalculatorWidget } from "@/components/tools/BmiCalculatorWidget";
 import { PositionSizeWidget } from "@/components/tools/PositionSizeWidget";
+import { Retirement401kWidget } from "@/components/tools/Retirement401kWidget";
+import { InflationAdjustedReturnsWidget } from "@/components/tools/InflationAdjustedReturnsWidget";
+import { ExpenseRatioWidget } from "@/components/tools/ExpenseRatioWidget";
+import { CagrWidget } from "@/components/tools/CagrWidget";
+import { PortfolioAllocationWidget } from "@/components/tools/PortfolioAllocationWidget";
+import { CalorieTdeeWidget } from "@/components/tools/CalorieTdeeWidget";
+import { MacroWidget } from "@/components/tools/MacroWidget";
+import { CaloriesBurnedWidget } from "@/components/tools/CaloriesBurnedWidget";
+import { OneRepMaxWidget } from "@/components/tools/OneRepMaxWidget";
 import { QuizWidget } from "@/components/tools/QuizWidget";
 import { getQuiz } from "@/config/quizData";
 import { getToolGuide } from "@/config/toolGuides";
@@ -22,8 +31,17 @@ export const dynamicParams = true;
 
 const DYNAMIC_SLUGS = [
   "compound-interest-calculator",
+  "retirement-401k-calculator",
+  "inflation-adjusted-returns-calculator",
+  "expense-ratio-calculator",
+  "cagr-calculator",
+  "portfolio-allocation-calculator",
   "stock-position-calculator",
   "bmi-calculator",
+  "calorie-tdee-calculator",
+  "macro-calculator",
+  "calories-burned-calculator",
+  "one-rep-max-calculator",
   "programming-quiz",
   "web-development-quiz",
   "ai-basics-quiz",
@@ -60,10 +78,28 @@ function ToolWidget({ slug, lang }: { slug: string; lang: string }) {
   switch (slug) {
     case "compound-interest-calculator":
       return <CompoundInterestWidget />;
+    case "retirement-401k-calculator":
+      return <Retirement401kWidget />;
+    case "inflation-adjusted-returns-calculator":
+      return <InflationAdjustedReturnsWidget />;
+    case "expense-ratio-calculator":
+      return <ExpenseRatioWidget />;
+    case "cagr-calculator":
+      return <CagrWidget />;
+    case "portfolio-allocation-calculator":
+      return <PortfolioAllocationWidget />;
     case "stock-position-calculator":
       return <PositionSizeWidget />;
     case "bmi-calculator":
       return <BmiCalculatorWidget />;
+    case "calorie-tdee-calculator":
+      return <CalorieTdeeWidget />;
+    case "macro-calculator":
+      return <MacroWidget />;
+    case "calories-burned-calculator":
+      return <CaloriesBurnedWidget />;
+    case "one-rep-max-calculator":
+      return <OneRepMaxWidget />;
     case "programming-quiz":
     case "web-development-quiz":
     case "ai-basics-quiz":
