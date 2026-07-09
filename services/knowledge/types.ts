@@ -98,6 +98,23 @@ export interface AssembledRelationship {
 
 // ─── Assembly Report ─────────────────────────────────────────────────────────
 
+export interface KnowledgeQualitySnapshot {
+  factCount: number;
+  entityCount: number;
+  relationshipCount: number;
+  citationCount: number;
+  sourceCount: number;
+  factDensity: number;
+  entityDensity: number;
+  relationshipDensity: number;
+  citationCoverage: number;
+  multiSourceCoverage: number;
+  contradictionCoverage: number;
+  completenessScore: number;
+  confidenceScore: number;
+  knowledgeRichness: number;
+}
+
 export interface AssemblyReport {
   packageId: string;
   slug: string;
@@ -112,6 +129,9 @@ export interface AssemblyReport {
   relationshipsGenerated: number;
   glossaryNormalizations: number;
   citationsCreated: number;
+
+  // Phase 5 quality metrics
+  qualityMetrics?: KnowledgeQualitySnapshot;
 
   // Details
   conflicts: ConflictRecord[];

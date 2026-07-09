@@ -1,29 +1,25 @@
 /**
- * Canonical knowledge asset pipeline.
- * Internet → resolve to catalog topic → assemble → render → publish → graph
+ * Knowledge asset intake pipeline (fuel layer).
+ * Internet → admission → catalog topic link → store as fuel (no direct publish).
+ * Publish happens only via catalogEnrichment after multi-source refinement.
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { assemble } from "@/services/knowledge/assembler";
-import type { AssemblyInput, CandidateInput } from "@/services/knowledge/types";
-import { gatherCandidatesForTopic, mergeCandidateSets } from "@/services/knowledge/multiSourceGatherer";
-import { renderPackage, markOutputPublished } from "@/services/render/engine";
-import { publishRenderedOutput } from "@/services/publish/service";
-import { projectPackageToGraph } from "@/services/knowledge/graphService";
-import { resolvePrimaryTopic, resolveArticleToCatalogTopics } from "@/services/discovery/topicResolver";
+import { resolveArticleToCatalogTopics } from "@/services/discovery/topicResolver";
 import { evaluateAdmission } from "@/services/admission/knowledgeAdmissionEngine";
+import {
+  expandArticleTopicChain,
+  linkArticleToTopicChain,
+} from "@/services/discovery/topicArticleChain";
 import {
   KNOWLEDGE_ASSET_TABLE,
   rowToDiscoveredArticleLogical,
   validateKnowledgeAssetBeforeSave,
   type KnowledgeAssetRow,
 } from "@/services/discovery/ingest/knowledgeAssetCompat";
-import { v4 as uuidv4 } from "uuid";
 
 const STUCK_PROCESSING_MS = 30 * 60 * 1000;
 const BATCH_LIMIT = 25;
-/** Minimum confidence to publish — below this, store mapping only (fuel the catalog, don't spawn junk pages). */
-const CATALOG_PUBLISH_THRESHOLD = 0.5;
 
 export interface ArticlePipelineResult {
   processed: number;
@@ -35,33 +31,6 @@ export interface ArticlePipelineResult {
   archived: number;
   newTopics: number;
   errors: string[];
-}
-
-interface DiscoveredArticle {
-  id: string;
-  source_id: string;
-  title: string;
-  content: string | null;
-  summary: string | null;
-  url: string;
-  status: string;
-  processing_started_at: string | null;
-  metadata: Record<string, unknown> | null;
-}
-
-function buildCandidate(article: DiscoveredArticle, sourceName: string): CandidateInput {
-  const text = article.content || article.summary || article.title;
-  return {
-    id: uuidv4(),
-    title: article.title,
-    description: text,
-    sourceUrl: article.url,
-    discoveryRunId: article.id,
-    adapterName: "rss-connector",
-    sourceSlug: sourceName,
-    sourceAuthority: "community",
-    metadata: article.metadata,
-  };
 }
 
 async function linkAssetToTopics(
@@ -117,14 +86,6 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
 
   const article = rowToDiscoveredArticleLogical(row as KnowledgeAssetRow);
 
-  const { data: source } = await sb
-    .from("discovery_system_sources")
-    .select("name")
-    .eq("id", article.source_id)
-    .maybeSingle();
-
-  const sourceName = source?.name ?? "rss";
-
   await sb
     .from(KNOWLEDGE_ASSET_TABLE)
     .update({
@@ -134,8 +95,6 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
     .eq("id", articleId);
 
   try {
-    const candidate = buildCandidate(article as DiscoveredArticle, sourceName);
-
     // ── Knowledge Admission Engine ──────────────────────────────────────────
     const admission = evaluateAdmission({
       title: article.title,
@@ -162,14 +121,6 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
       return { success: false, error: admission.reason, rejected: true };
     }
 
-    // Resolve to existing catalog topic instead of always creating orphan drafts
-    const primaryMatch = await resolvePrimaryTopic({
-      title: article.title,
-      content: article.content,
-      summary: article.summary,
-      admissionNewsScore: admission.newsScore,
-    });
-
     const allMatches = await resolveArticleToCatalogTopics({
       title: article.title,
       content: article.content,
@@ -178,6 +129,15 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
       admissionNewsScore: admission.newsScore,
       enrichmentHints: admission.enrichmentTopicHints,
     });
+
+    const resolverCandidates = allMatches
+      .filter((m) => m.confidence >= 0.3)
+      .map((m) => ({
+        topicId: m.topic.id,
+        slug: m.topic.slug,
+        title: m.topic.title,
+        resolverConfidence: m.confidence,
+      }));
 
     // Transient news — archive, optionally link as internal fuel only (no publish)
     if (admission.action === "archive_news" || (admission.enrichOnly && !admission.allowPublish)) {
@@ -214,105 +174,42 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
       return { success: true, catalogMatch: false, deferred: true, archived: true };
     }
 
-    let topicId: string;
-    let slug: string;
-    let catalogMatch = false;
+    const chain = await expandArticleTopicChain(
+      {
+        title: article.title,
+        content: article.content,
+        summary: article.summary,
+      },
+      resolverCandidates,
+      2
+    );
 
-    if (primaryMatch && primaryMatch.confidence >= CATALOG_PUBLISH_THRESHOLD && admission.allowPublish) {
-      topicId = primaryMatch.topic.id;
-      slug = primaryMatch.topic.slug;
-      catalogMatch = true;
-    } else {
-      // No catalog match — store fuel for future enrichment, do NOT spawn orphan news pages
-      await linkAssetToTopics(
-        articleId,
-        allMatches.length > 0
-          ? allMatches.map((m) => ({
-              topicId: m.topic.id,
-              confidence: m.confidence,
-              method: m.method,
-            }))
-          : []
-      );
+    const allTopicLinks = [...chain.primaryLinks, ...chain.relatedLinks];
 
+    if (allTopicLinks.length === 0) {
       await sb
         .from(KNOWLEDGE_ASSET_TABLE)
         .update({
-          status: "accepted",
+          status: "error",
+          rejection_reason: "no_relevant_catalog_topic",
           processing_completed_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
           metadata: {
             ...(article.metadata ?? {}),
-            deferred: true,
-            reason: "no_catalog_match",
-            admission_action: admission.action,
-            admission_reason: admission.reason,
-            title: article.title,
+            rejected_reason: "Article does not match any catalog topic",
+            resolver_candidates: resolverCandidates.length,
           },
         })
         .eq("id", articleId);
-
-      return { success: true, catalogMatch: false, deferred: true };
+      return {
+        success: false,
+        error: "No relevant catalog topic for this article",
+        rejected: true,
+      };
     }
 
-    // Link asset to all matched catalog topics for multi-source enrichment
-    await linkAssetToTopics(
-      articleId,
-      allMatches.length > 0
-        ? allMatches.map((m) => ({
-            topicId: m.topic.id,
-            confidence: m.confidence,
-            method: m.method,
-          }))
-        : [{ topicId, confidence: 1.0, method: "canonical_pipeline" }]
-    );
+    await linkArticleToTopicChain(articleId, allTopicLinks);
 
-    const { candidates: topicCandidates } = await gatherCandidatesForTopic(topicId);
-    const allCandidates = mergeCandidateSets(topicCandidates, [candidate]);
-
-    const assemblyInput: AssemblyInput = {
-      slotId: null,
-      topicId,
-      slug,
-      candidates: allCandidates,
-    };
-
-    const report = await assemble(assemblyInput);
-
-    if (!report.packageId) {
-      throw new Error("Assembly did not produce a package");
-    }
-
-    process.env.ALLOW_RENDER = "true";
-    const renderResult = await renderPackage({
-      packageId: report.packageId,
-      format: "markdown",
-      forceRerender: true,
-      policyMode: "ingest",
-    });
-
-    if (!renderResult.outputId) {
-      throw new Error("Render did not produce an output");
-    }
-
-    if (renderResult.status === "published") {
-      await markOutputPublished(renderResult.outputId);
-    }
-
-    const pubResult = await publishRenderedOutput(renderResult.outputId, "en");
-    if (!pubResult.success) {
-      throw new Error(pubResult.error ?? "Publication failed");
-    }
-
-    if (admission.allowGraphProjection) {
-      await projectPackageToGraph(
-        report.packageId,
-        topicId,
-        article.content || article.summary || article.title
-      ).catch((graphErr) => {
-        console.warn(`[ArticlePipeline] Graph projection non-fatal:`, graphErr);
-      });
-    }
+    const catalogMatch = chain.primaryLinks.length > 0;
 
     await sb
       .from(KNOWLEDGE_ASSET_TABLE)
@@ -322,24 +219,24 @@ export async function processDiscoveredArticle(articleId: string): Promise<{
         updated_at: new Date().toISOString(),
         metadata: {
           ...(article.metadata ?? {}),
+          fuel_only: true,
+          awaits_enrichment: true,
+          catalog_match: catalogMatch,
           admission_action: admission.action,
           admission_reason: admission.reason,
           content_class: admission.contentClass,
+          evergreen_score: admission.evergreenScore,
+          news_score: admission.newsScore,
+          title: article.title,
+          linked_topic_count: allTopicLinks.length,
+          primary_topic_id: chain.primaryTopicId,
+          related_topic_count: chain.relatedLinks.length,
+          chain_depth: chain.depthReached,
         },
       })
       .eq("id", articleId);
 
-    await sb
-      .from("knowledge_extraction_queue")
-      .update({
-        status: "completed",
-        completed_at: new Date().toISOString(),
-        topic_id: topicId,
-      })
-      .eq("discovered_article_id", articleId)
-      .eq("status", "pending");
-
-    return { success: true, catalogMatch };
+    return { success: true, catalogMatch, deferred: true };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error(`[ArticlePipeline] Failed for ${articleId}:`, message);
@@ -398,7 +295,6 @@ export async function processArticlePipelineBatch(
     if (outcome.success) {
       if (outcome.archived) result.archived++;
       else if (outcome.deferred) result.deferred++;
-      else result.published++;
       if (outcome.catalogMatch) result.catalogMatches++;
     } else {
       result.failed++;

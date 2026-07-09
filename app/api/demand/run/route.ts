@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { runFullPublishingCycle } from "@/services/demand/autonomousPublishingEngine";
+import {
+  demandPipelineDisabledResponse,
+  DEMAND_PIPELINE_FROZEN,
+} from "@/lib/architecture/frozen";
 import { getAutomationConfig, logSystemEvent } from "@/services/system/settings";
 import { createClient } from "@/lib/supabase/server";
 
@@ -41,7 +44,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: "Demand discovery is disabled" }, { status: 503 });
   }
 
+  if (DEMAND_PIPELINE_FROZEN) {
+    return NextResponse.json(demandPipelineDisabledResponse(), { status: 410 });
+  }
+
   try {
+    const { runFullPublishingCycle } = await import("@/services/demand/autonomousPublishingEngine");
     const result = await runFullPublishingCycle();
     await logSystemEvent("cron", "demand_run", "success", undefined, result as unknown as Record<string, unknown>);
     return NextResponse.json({ success: true, result }, { status: 200 });

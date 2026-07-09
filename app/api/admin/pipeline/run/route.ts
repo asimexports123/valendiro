@@ -22,11 +22,10 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import {
-  runFullPublishingCycle,
-  publishApprovedTopics,
-  publishApprovedArticles,
-  type PublishingEngineResult,
-} from "@/services/demand/autonomousPublishingEngine";
+  demandPipelineDisabledResponse,
+  DEMAND_PIPELINE_FROZEN,
+} from "@/lib/architecture/frozen";
+import type { PublishingEngineResult } from "@/services/demand/autonomousPublishingEngine";
 import { assignMissingFeaturedImages } from "@/services/publishing/featuredImageService";
 import {
   buildHierarchicalLinksForTopic,
@@ -66,6 +65,11 @@ export async function POST(request: Request) {
   const stage = body.stage ?? "full";
   const limit = typeof body.limit === "number" ? Math.min(body.limit, 50) : 10;
 
+  const demandStages = new Set(["full", "discover", "topics", "articles"]);
+  if (DEMAND_PIPELINE_FROZEN && demandStages.has(stage)) {
+    return NextResponse.json(demandPipelineDisabledResponse(), { status: 410 });
+  }
+
   const startedAt = new Date().toISOString();
 
   try {
@@ -74,6 +78,7 @@ export async function POST(request: Request) {
     switch (stage) {
       // ── Full pipeline ─────────────────────────────────────────────────────
       case "full": {
+        const { runFullPublishingCycle } = await import("@/services/demand/autonomousPublishingEngine");
         const r = await runFullPublishingCycle();
         result = buildPipelineResponse(r, stage);
         break;
@@ -95,6 +100,7 @@ export async function POST(request: Request) {
 
       // ── Stage 5-8: Topic publish (includes article planning) ──────────────
       case "topics": {
+        const { publishApprovedTopics } = await import("@/services/demand/autonomousPublishingEngine");
         const r = await publishApprovedTopics(limit);
         result = buildPipelineResponse(r, stage);
         break;
@@ -102,6 +108,7 @@ export async function POST(request: Request) {
 
       // ── Stage 9-13: Article generation → Quality → SEO → Linking ─────────
       case "articles": {
+        const { publishApprovedArticles } = await import("@/services/demand/autonomousPublishingEngine");
         const r = await publishApprovedArticles(limit);
         result = buildPipelineResponse(r, stage);
         break;

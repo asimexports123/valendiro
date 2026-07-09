@@ -1,4 +1,5 @@
 import { createClient as createServerClient } from "@/lib/supabase/server";
+import { updateTopicFields } from "@/services/publish/writers";
 import type { HubSection, HubSlot, HubSlotStatus } from "@/lib/types";
 
 /**
@@ -169,7 +170,7 @@ export async function deleteHub(topicId: string) {
   if (error) throw new Error(`Failed to delete hub: ${error.message}`);
 
   // Reset entity_type_id on the topic
-  await supabase.from("topics").update({ entity_type_id: null }).eq("id", topicId);
+  await updateTopicFields(topicId, { entity_type_id: null });
 
   return { success: true };
 }

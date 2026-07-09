@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { publishDemandTopic, publishDemandTopicTranslation } from "@/services/publish/service";
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
 import { runAgentPipeline } from "../intelligence/agentPipeline";
@@ -172,21 +173,18 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
         .slice(0, 100);
       const canonicalPath = `/en/topics/${slug}`;
 
-      const { data: topic, error: topicError } = await supabase
-        .from("topics")
-        .insert({
-          slug,
-          canonical_path: canonicalPath,
-          category_id: categoryId,
-          subcategory_id: subcategoryId,
-          status: "published",
-          published_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
+      const topicId = await publishDemandTopic({
+        slug,
+        canonical_path: canonicalPath,
+        category_id: categoryId,
+        subcategory_id: subcategoryId,
+        status: "published",
+        published_at: new Date().toISOString(),
+      });
 
-      if (topicError || !topic) {
-        throw new Error(topicError?.message || "Topic insert failed");
+      const { data: topic } = await supabase.from("topics").select("id").eq("id", topicId).single();
+      if (!topic) {
+        throw new Error("Topic insert failed");
       }
 
       const topicKeyword = (metadata.keyword as string) || item.title;
@@ -217,7 +215,7 @@ export async function publishApprovedTopics(limit = 10): Promise<PublishingEngin
         throw new Error(`Stage 12 checklist failed: ${checklist.blockers.join("; ")}`);
       }
 
-      await supabase.from("topic_translations").insert({
+      await publishDemandTopicTranslation({
         topic_id: topic.id,
         language_code: "en",
         title: cleanTitle,

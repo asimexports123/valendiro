@@ -6,6 +6,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { upsertGraphNodeWithId, upsertGraphEdge } from "@/services/knowledge/graphService";
 import { v4 as uuidv4 } from "uuid";
 
 const supabase = createAdminClient();
@@ -39,74 +40,27 @@ export async function storeEntities(entities: any[]): Promise<StoredEntity[]> {
   
   for (const entity of entities) {
     const slug = generateSlug(entity.canonicalName);
-    
-    // Check if entity already exists
-    const { data: existing } = await supabase
-      .from("knowledge_graph_nodes")
-      .select("*")
-      .eq("slug", slug)
-      .single();
-    
-    if (existing) {
-      // Update existing entity
-      const { data: updated } = await supabase
-        .from("knowledge_graph_nodes")
-        .update({
-          article_count: existing.article_count + 1,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", existing.id)
-        .select()
-        .single();
-      
-      if (updated) {
-        storedEntities.push({
-          id: updated.id,
-          canonical_name: updated.name,
-          slug: updated.slug,
-          type: updated.node_type,
-          aliases: [],
-          confidence_score: updated.confidence_score,
-          description: updated.description,
-          category: updated.node_type,
-          article_count: updated.article_count,
-          relationship_count: 0,
-        });
-      }
-    } else {
-      // Create new entity
-      const entityId = uuidv4();
-      const { data: created } = await supabase
-        .from("knowledge_graph_nodes")
-        .insert({
-          id: entityId,
-          node_type: entity.type,
-          name: entity.canonicalName,
-          slug: slug,
-          description: entity.description,
-          confidence_score: entity.confidenceScore,
-          article_count: 1,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
-      
-      if (created) {
-        storedEntities.push({
-          id: created.id,
-          canonical_name: created.name,
-          slug: created.slug,
-          type: created.node_type,
-          aliases: [],
-          confidence_score: created.confidence_score,
-          description: created.description,
-          category: created.node_type,
-          article_count: created.article_count,
-          relationship_count: 0,
-        });
-      }
-    }
+    const node = await upsertGraphNodeWithId({
+      id: uuidv4(),
+      name: entity.canonicalName,
+      slug,
+      node_type: entity.type,
+      description: entity.description,
+      confidence_score: entity.confidenceScore,
+    });
+
+    storedEntities.push({
+      id: node.id,
+      canonical_name: node.name,
+      slug: node.slug,
+      type: entity.type,
+      aliases: [],
+      confidence_score: entity.confidenceScore,
+      description: entity.description,
+      category: entity.type,
+      article_count: 1,
+      relationship_count: 0,
+    });
   }
   
   return storedEntities;
@@ -126,30 +80,7 @@ export async function storeRelationships(
     const targetId = entityMap.get(rel.target);
     
     if (sourceId && targetId) {
-      // Check if relationship already exists
-      const { data: existing } = await supabase
-        .from("knowledge_graph_edges")
-        .select("*")
-        .eq("source_id", sourceId)
-        .eq("target_id", targetId)
-        .eq("edge_type", rel.type)
-        .single();
-      
-      if (!existing) {
-        // Create new relationship
-        await supabase
-          .from("knowledge_graph_edges")
-          .insert({
-            id: uuidv4(),
-            source_id: sourceId,
-            target_id: targetId,
-            edge_type: rel.type,
-            weight: rel.confidenceScore,
-            confidence: rel.confidenceScore,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          });
-      }
+      await upsertGraphEdge(sourceId, targetId, rel.type, "entity-storage", rel.confidenceScore ?? 0.8);
     }
   }
 }

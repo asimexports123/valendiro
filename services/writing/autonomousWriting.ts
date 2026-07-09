@@ -6,6 +6,7 @@
  */
 
 import { getAdminClient } from "@/lib/supabase/clientFactory";
+import { updateTopicFields } from "@/services/publish/writers";
 
 const supabase = getAdminClient();
 
@@ -134,17 +135,13 @@ export async function writeArticleToTopic(topicSlug: string, articleContent: Art
   const articleHtml = buildArticleHtml(articleContent);
 
   // Update topic with content
-  const { error } = await supabase
-    .from("topics")
-    .update({
-      content: articleHtml,
-      html_content: articleHtml
-    })
-    .eq("slug", topicSlug);
+  const { data: topic } = await supabase.from("topics").select("id").eq("slug", topicSlug).single();
+  if (!topic) throw new Error(`Topic not found: ${topicSlug}`);
 
-  if (error) {
-    throw new Error(`Failed to write article: ${error.message}`);
-  }
+  await updateTopicFields(topic.id, {
+    content: articleHtml,
+    html_content: articleHtml,
+  });
 
   console.log(`Article written for ${topicSlug}`);
 }

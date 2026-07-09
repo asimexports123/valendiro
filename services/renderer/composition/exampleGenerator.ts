@@ -36,7 +36,14 @@ export class ExampleGenerator {
     context: CompositionContext
   ): PluginFact[] {
     // Not all sections need examples
-    const sectionsWithExamples = ["example", "applications", "benefits", "how-it-works"];
+    const sectionsWithExamples = [
+      "example",
+      "applications",
+      "benefits",
+      "how-it-works",
+      "core-concept",
+      "use-cases",
+    ];
     if (!sectionsWithExamples.includes(sectionType)) {
       return facts;
     }
@@ -252,31 +259,17 @@ export class ExampleGenerator {
 
     if (domainExamples) {
       const examples = domainExamples[1];
-      const selectedExample = examples[Math.floor(Math.random() * examples.length)];
-      const templates = [
-        `For example, ${selectedExample}.`,
-        `Consider: ${selectedExample}.`,
-        `In practice, this looks like ${selectedExample}.`,
-      ];
+      const index = this.hashString(fact.id + context.subject) % examples.length;
+      const selectedExample = examples[Math.abs(index)];
       return {
-        text: templates[Math.floor(Math.random() * templates.length)],
+        text: selectedExample.endsWith(".") ? selectedExample : `${selectedExample}.`,
         type: "real-world",
         context: fact.statement,
       };
     }
 
-    // Fallback to generic real-world example
-    const templates = [
-      `For example, in everyday life, ${this.applyToRealWorld(fact.statement)}.`,
-      `Consider a real scenario: ${this.applyToRealWorld(fact.statement)}.`,
-      `In practice, this looks like: ${this.applyToRealWorld(fact.statement)}.`,
-    ];
-
-    return {
-      text: templates[Math.floor(Math.random() * templates.length)],
-      type: "real-world",
-      context: fact.statement,
-    };
+    // No domain match — skip generic fallback examples
+    return null;
   }
 
   /**
@@ -286,15 +279,11 @@ export class ExampleGenerator {
     fact: PluginFact,
     context: CompositionContext
   ): GeneratedExample | null {
-    const subject = context.subject;
-    const templates = [
-      `Think of it like ${this.createAnalogy(fact.statement, subject)}.`,
-      `It's similar to ${this.createAnalogy(fact.statement, subject)}.`,
-      `You can compare this to ${this.createAnalogy(fact.statement, subject)}.`,
-    ];
+    const analogy = this.createAnalogy(fact.statement, context.subject);
+    if (!analogy || this.isGenericExample(analogy)) return null;
 
     return {
-      text: templates[Math.floor(Math.random() * templates.length)],
+      text: analogy.endsWith(".") ? analogy : `${analogy}.`,
       type: "analogy",
       context: fact.statement,
     };
@@ -307,14 +296,11 @@ export class ExampleGenerator {
     fact: PluginFact,
     context: CompositionContext
   ): GeneratedExample | null {
-    const templates = [
-      `Imagine a situation where ${this.createHypothetical(fact.statement)}.`,
-      `Picture this: ${this.createHypothetical(fact.statement)}.`,
-      `Consider what happens if ${this.createHypothetical(fact.statement)}.`,
-    ];
+    const scenario = this.createHypothetical(fact.statement);
+    if (this.isGenericExample(scenario)) return null;
 
     return {
-      text: templates[Math.floor(Math.random() * templates.length)],
+      text: scenario.endsWith(".") ? scenario : `${scenario}.`,
       type: "hypothetical",
       context: fact.statement,
     };
@@ -325,16 +311,13 @@ export class ExampleGenerator {
    */
   private generateConcreteExample(
     fact: PluginFact,
-    context: CompositionContext
+    _context: CompositionContext
   ): GeneratedExample | null {
-    const templates = [
-      `Specifically, this means ${this.makeConcrete(fact.statement)}.`,
-      `To make this concrete: ${this.makeConcrete(fact.statement)}.`,
-      `For instance: ${this.makeConcrete(fact.statement)}.`,
-    ];
+    const concrete = this.makeConcrete(fact.statement);
+    if (concrete === fact.statement.toLowerCase()) return null;
 
     return {
-      text: templates[Math.floor(Math.random() * templates.length)],
+      text: concrete.endsWith(".") ? concrete : `${concrete}.`,
       type: "concrete",
       context: fact.statement,
     };
@@ -365,49 +348,37 @@ export class ExampleGenerator {
   /**
    * Create an analogy for a statement
    */
-  private createAnalogy(statement: string, subject: string): string {
+  private createAnalogy(statement: string, _subject: string): string | null {
     const lower = statement.toLowerCase();
 
-    // Domain-specific analogies
     if (lower.includes("build") || lower.includes("construct")) {
-      return `building a house, where the foundation must be solid before adding walls`;
-    }
-    
-    if (lower.includes("learn") || lower.includes("study")) {
-      return `learning to ride a bike, where practice makes the skill automatic`;
-    }
-    
-    if (lower.includes("invest") || lower.includes("save")) {
-      return `planting a tree that grows over time, requiring patience and care`;
-    }
-    
-    if (lower.includes("organize") || lower.includes("structure")) {
-      return `organizing a closet, where everything has its designated place`;
+      return "a house foundation must be solid before walls go up";
     }
 
-    // Generic analogy
-    return `following a recipe, where each step builds on the previous one`;
+    if (lower.includes("learn") || lower.includes("study")) {
+      return "riding a bike — repetition makes the skill automatic";
+    }
+
+    if (lower.includes("invest") || lower.includes("save")) {
+      return "planting a tree that compounds growth over years";
+    }
+
+    if (lower.includes("organize") || lower.includes("structure")) {
+      return "labeling shelves so every item has a fixed place";
+    }
+
+    return null;
   }
 
   /**
    * Create a hypothetical scenario
    */
   private createHypothetical(statement: string): string {
-    const lower = statement.toLowerCase();
-    
-    if (lower.includes("should") || lower.includes("must")) {
-      return `you don't follow this guideline and encounter the expected consequences`;
+    const trimmed = statement.trim();
+    if (trimmed.length > 20) {
+      return trimmed.endsWith(".") ? trimmed : `${trimmed}.`;
     }
-    
-    if (lower.includes("improves") || lower.includes("better")) {
-      return `you apply this principle and notice measurable improvement`;
-    }
-    
-    if (lower.includes("prevents") || lower.includes("avoids")) {
-      return `you follow this advice and successfully sidestep a common pitfall`;
-    }
-
-    return `you put this into practice in a real situation`;
+    return "";
   }
 
   /**
@@ -440,5 +411,26 @@ export class ExampleGenerator {
     ];
 
     return abstractIndicators.some(indicator => lower.includes(indicator));
+  }
+
+  private hashString(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return hash;
+  }
+
+  private isGenericExample(text: string): boolean {
+    const generic = [
+      /in everyday life/i,
+      /real scenario/i,
+      /put this into practice/i,
+      /following a recipe/i,
+      /you apply this principle/i,
+      /measurable improvement/i,
+    ];
+    return !text.trim() || generic.some((p) => p.test(text));
   }
 }

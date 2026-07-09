@@ -2,7 +2,7 @@
  * Publication quality gate — block dummy, thin, and regressed content.
  */
 
-export const MIN_PUBLISH_WORD_COUNT = 350;
+export const MIN_PUBLISH_WORD_COUNT = 500;
 export const MIN_PUBLISH_QUALITY_SCORE = 60; // 0–100 scale
 
 /** Old editorial-upgrade.js template filler — not real knowledge. */
@@ -54,6 +54,7 @@ export function evaluatePublishEligibility(input: {
   wordsBefore?: number;
   minWords?: number;
   minQuality?: number;
+  ignoreRegression?: boolean;
 }): PublishEligibility {
   const minWords = input.minWords ?? MIN_PUBLISH_WORD_COUNT;
   const minQuality = input.minQuality ?? MIN_PUBLISH_QUALITY_SCORE;
@@ -71,7 +72,7 @@ export function evaluatePublishEligibility(input: {
   if (dummy) {
     reasons.push(`Dummy/template content detected (${dummy})`);
   }
-  if (input.wordsBefore != null && input.wordsBefore >= minWords) {
+  if (input.wordsBefore != null && input.wordsBefore >= minWords && !input.ignoreRegression) {
     if (wordCount < input.wordsBefore * 0.85) {
       reasons.push(`Regression: ${input.wordsBefore} → ${wordCount} words`);
     }

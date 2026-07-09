@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { render } from '../renderer/orchestrator';
+import { renderPackage } from '@/services/render/engine';
 import { KnowledgeAuthorAgent, type KnowledgeAuthorInput } from '../agents/agents/knowledgeAuthorAgent';
 import { PublicationPipeline } from '../publication/publicationPipeline';
 
@@ -505,7 +505,7 @@ export class PipelineOrchestrator {
 
         if (packageData) {
           // Render content
-          const result = await render({
+          const result = await renderPackage({
             packageId: packageData.id,
             format: 'markdown',
             rendererId: 'long-article-v2',

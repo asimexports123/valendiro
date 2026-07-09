@@ -4,6 +4,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { KNOWLEDGE_ASSET_TABLE } from "@/services/discovery/ingest/knowledgeAssetCompat";
 
 export interface DiscoveryHealth {
   status: "healthy" | "degraded" | "unhealthy";
@@ -55,7 +56,7 @@ export class DiscoveryMonitoringService {
 
     // Get article processing status
     const { data: articles } = await supabase
-      .from("discovered_articles")
+      .from(KNOWLEDGE_ASSET_TABLE)
       .select("status");
 
     const pending = (articles || []).filter(a => a.status === "pending").length;
@@ -245,7 +246,7 @@ export class DiscoveryMonitoringService {
     const cutoff = new Date(Date.now() - olderThanHours * 60 * 60 * 1000).toISOString();
 
     const { data: staleArticles } = await supabase
-      .from("discovered_articles")
+      .from(KNOWLEDGE_ASSET_TABLE)
       .select("id")
       .eq("status", "pending")
       .lt("created_at", cutoff)
@@ -257,7 +258,7 @@ export class DiscoveryMonitoringService {
 
     // Mark stale articles as rejected
     const { error } = await supabase
-      .from("discovered_articles")
+      .from(KNOWLEDGE_ASSET_TABLE)
       .update({
         status: "rejected",
         rejection_reason: "stale_pending_too_long",

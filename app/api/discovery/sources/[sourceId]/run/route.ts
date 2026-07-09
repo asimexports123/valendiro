@@ -8,10 +8,10 @@ import { createDiscoveryScheduler } from "@/jobs/schedulers/discoveryScheduler";
 
 export async function POST(
   request: Request,
-  { params }: { params: { sourceId: string } }
+  { params }: { params: Promise<{ sourceId: string }> }
 ) {
   try {
-    const { sourceId } = params;
+    const { sourceId } = await params;
     const supabase = await import("@/lib/supabase/admin").then(m => m.createAdminClient());
 
     // Fetch source details
@@ -31,6 +31,9 @@ export async function POST(
     // Run discovery
     const scheduler = await createDiscoveryScheduler();
     const result = await scheduler.runDiscoveryForSource(source);
+
+    // Continue automatically through canonical pipeline
+    await scheduler.processDiscoveredArticles(5);
 
     return NextResponse.json(result);
   } catch (error) {

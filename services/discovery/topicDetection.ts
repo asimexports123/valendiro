@@ -4,6 +4,11 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  KNOWLEDGE_ASSET_TABLE,
+  rowToDiscoveredArticleLogical,
+  type KnowledgeAssetRow,
+} from "@/services/discovery/ingest/knowledgeAssetCompat";
 
 export interface TopicMatch {
   topicId: string;
@@ -67,16 +72,17 @@ export class TopicDetectionService {
     const supabase = createAdminClient();
     const results = new Map<string, TopicMatch | null>();
 
-    const { data: articles } = await supabase
-      .from("discovered_articles")
+    const { data: rows } = await supabase
+      .from(KNOWLEDGE_ASSET_TABLE)
       .select("*")
       .in("id", articleIds);
 
-    if (!articles) {
+    if (!rows) {
       return results;
     }
 
-    for (const article of articles) {
+    for (const row of rows) {
+      const article = rowToDiscoveredArticleLogical(row as KnowledgeAssetRow);
       const match = await this.detectTopicForArticle(article);
       results.set(article.id, match);
     }
@@ -147,20 +153,21 @@ export class TopicDetectionService {
     const supabase = createAdminClient();
 
     // Fetch pending articles without topic mapping
-    const { data: articles } = await supabase
-      .from("discovered_articles")
+    const { data: rows } = await supabase
+      .from(KNOWLEDGE_ASSET_TABLE)
       .select("id, title, content")
       .eq("status", "pending")
       .limit(limit);
 
-    if (!articles || articles.length === 0) {
+    if (!rows || rows.length === 0) {
       return { mapped: 0, unmapped: 0 };
     }
 
     let mapped = 0;
     let unmapped = 0;
 
-    for (const article of articles) {
+    for (const row of rows) {
+      const article = rowToDiscoveredArticleLogical(row as KnowledgeAssetRow);
       try {
         const match = await this.detectTopicForArticle(article);
 
@@ -190,21 +197,22 @@ export class TopicDetectionService {
     const supabase = createAdminClient();
 
     // Find articles that couldn't be mapped to existing topics
-    const { data: unmappedArticles } = await supabase
-      .from("discovered_articles")
+    const { data: unmappedRows } = await supabase
+      .from(KNOWLEDGE_ASSET_TABLE)
       .select("title, content")
       .not("id", "in", `(SELECT discovered_article_id FROM discovered_article_topics)`)
       .eq("status", "pending")
       .limit(100);
 
-    if (!unmappedArticles || unmappedArticles.length === 0) {
+    if (!unmappedRows || unmappedRows.length === 0) {
       return [];
     }
 
     // Extract and aggregate keywords from unmapped articles
     const keywordFrequency = new Map<string, number>();
 
-    for (const article of unmappedArticles) {
+    for (const row of unmappedRows) {
+      const article = rowToDiscoveredArticleLogical(row as KnowledgeAssetRow);
       const keywords = this.extractKeywords(article.title, article.content);
       
       for (const keyword of keywords) {

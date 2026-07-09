@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { persistAuthoringOutput } from "@/services/render/engine";
 import { KnowledgeAuthoringOrchestrator, type AuthoringContext } from "@/services/renderer/authoring/knowledgeAuthoringOrchestrator";
 import { FeatureFlagService } from "@/services/featureFlags/featureFlagService";
 
@@ -91,31 +92,22 @@ export async function POST(request: Request) {
     const orchestrator = new KnowledgeAuthoringOrchestrator();
     const result = await orchestrator.authorDocument(context);
 
-    // Store rendered content
-    const { data: renderedOutput } = await sb
-      .from("rendered_outputs")
-      .insert({
-        package_id: pkg.id,
-        content: JSON.stringify(result),
-        output_format: "json",
-        renderer_id: "knowledge-authoring-v1",
-        renderer_version: "1.0.0",
-        template_version: "1.0.0",
-        quality_score: result.editorialResult.qualityScore,
-        diagnostics: {
-          readerReadiness: result.gapCompletion.readerReadinessScore,
-          acceptanceTest: result.acceptanceTest,
-          passesAllChecks: result.passesAllChecks,
-        },
-        status: result.passesAllChecks ? "published" : "draft",
-        knowledge_hash: pkg.knowledge_hash,
-      })
-      .select()
-      .single();
+    const outputId = await persistAuthoringOutput({
+      package_id: pkg.id,
+      content: JSON.stringify(result),
+      output_format: "json",
+      renderer_id: "knowledge-authoring-v1",
+      status: result.passesAllChecks ? "published" : "draft",
+      knowledge_hash: pkg.knowledge_hash,
+    });
+
+    if (!outputId) {
+      return NextResponse.json({ error: "Failed to store rendered output" }, { status: 500 });
+    }
 
     return NextResponse.json({
       success: true,
-      outputId: renderedOutput.id,
+      outputId,
       qualityScore: result.editorialResult.qualityScore,
       passesAllChecks: result.passesAllChecks,
       recommendation: result.acceptanceTest.recommendation,

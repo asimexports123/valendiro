@@ -215,11 +215,12 @@ export async function processContentGenerationItem(item: ContentGenerationQueueI
 
 export async function runContentGenerationWorker(limit = 10) {
   const supabase = await createClient();
-  const { data: items, error } = await supabase
+    const { data: items, error } = await supabase
     .from("update_queue")
     .select("*")
     .eq("status", "pending")
     .eq("job_type", "content_refresh")
+    .neq("object_type", "topic")
     .lte("scheduled_at", new Date().toISOString())
     .order("priority", { ascending: false })
     .order("scheduled_at", { ascending: true })

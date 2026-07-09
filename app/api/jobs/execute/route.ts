@@ -2,16 +2,30 @@ import { NextResponse } from "next/server";
 import { runSchedulerCycle } from "@/services/execution/jobScheduler";
 import { getAutomationConfig, logSystemEvent } from "@/services/system/settings";
 import { createClient } from "@/lib/supabase/server";
+import { parallelCronDisabledResponse } from "@/lib/architecture/frozen";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  return handleJobsExecute(request);
+}
+
+export async function GET(request: Request) {
+  return handleJobsExecute(request);
+}
+
+async function handleJobsExecute(request: Request) {
   const jobSecret = process.env.CRON_SECRET || process.env.JOB_SECRET || process.env.NEXT_PUBLIC_JOB_SECRET;
   const authHeader = request.headers.get("authorization");
   const url = new URL(request.url);
   const providedSecret = authHeader?.replace("Bearer ", "") || request.headers.get("x-job-secret") || url.searchParams.get("secret");
+  const isVercelCron = request.headers.get("x-vercel-cron") === "true";
 
-  // If a secret is configured, require it; otherwise fall back to admin session check
+  if (isVercelCron) {
+    console.warn("[JobsExecute] RETIRED for Vercel cron — parallel scheduler disabled");
+    return NextResponse.json(parallelCronDisabledResponse("jobs-execute"), { status: 410 });
+  }
+
   if (jobSecret) {
     if (providedSecret !== jobSecret) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -1,4 +1,5 @@
 import { createClient as createServerClient } from "@/lib/supabase/server";
+import { updateTopicFields } from "@/services/publish/writers";
 
 /**
  * materializeBlueprint
@@ -98,7 +99,7 @@ export async function materializeBlueprint(topicId: string, entityTypeId: string
   }
 
   // 5. Update topic with entity_type_id
-  await supabase.from("topics").update({ entity_type_id: entityTypeId }).eq("id", topicId);
+  await updateTopicFields(topicId, { entity_type_id: entityTypeId });
 
   return { sections: totalSections, slots: totalSlots };
 }

@@ -1047,6 +1047,11 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
       };
     });
 
+    const { filterCitationsForPublicDisplay } = await import(
+      "@/services/discovery/contentOriginPolicy"
+    );
+    citations = filterCitationsForPublicDisplay(citations);
+
     const { data: factRows } = await supabase
       .from("knowledge_facts")
       .select("tags")
@@ -1439,6 +1444,8 @@ export interface NavCategory {
 }
 
 export async function getNavData(): Promise<NavCategory[]> {
+  await ensureV1Categories();
+
   const supabase = createAdminClient();
   const { data: cats } = await supabase
     .from("categories")
@@ -1459,28 +1466,13 @@ export async function getNavData(): Promise<NavCategory[]> {
         .order("sort_order", { ascending: true })
         .limit(30);
 
-      // Filter to only subcategories that have at least one published topic
-      const subsWithTopics = await Promise.all(
-        (subs || []).map(async (s: any) => {
-          const { count } = await supabase
-            .from("topics")
-            .select("id", { count: "exact", head: true })
-            .eq("subcategory_id", s.id)
-            .eq("status", "published");
-          return count && count > 0 ? s : null;
-        })
-      );
-
       return {
         label: V1_DISPLAY_NAMES[cat.slug] ?? cat.category_translations?.[0]?.name ?? cat.slug,
         slug: cat.slug,
-        subcategories: subsWithTopics
-          .filter(Boolean)
-          .slice(0, 10)
-          .map((s: any) => ({
-            name: normalizeSubcategoryName(s.subcategory_translations?.[0]?.name || s.slug),
-            slug: s.slug,
-          })),
+        subcategories: (subs ?? []).map((s: any) => ({
+          name: normalizeSubcategoryName(s.subcategory_translations?.[0]?.name || s.slug),
+          slug: s.slug,
+        })),
       };
     })
   );

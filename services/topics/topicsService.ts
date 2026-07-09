@@ -1,4 +1,5 @@
 ﻿import { createClient as createServerClient } from "@/lib/supabase/server";
+import { insertTopic, updateTopicFields } from "@/services/publish/writers";
 import { ListOptions, PaginatedResult, ServiceResult } from "@/services/shared/types";
 
 export interface TopicsServiceConfig {
@@ -35,15 +36,21 @@ export async function getTopicsById(id: string): Promise<ServiceResult<any>> {
 }
 
 export async function createTopics(payload: Record<string, unknown>): Promise<ServiceResult<any>> {
-  const supabase = await createServerClient();
-  const { data, error } = await supabase.from("topics").insert(payload).select().single();
-  return { data, error: error ? new Error(error.message) : null };
+  try {
+    const id = await insertTopic(payload as Parameters<typeof insertTopic>[0]);
+    return getTopicsById(id);
+  } catch (error) {
+    return { data: null, error: error instanceof Error ? error : new Error(String(error)) };
+  }
 }
 
 export async function updateTopics(id: string, payload: Record<string, unknown>): Promise<ServiceResult<any>> {
-  const supabase = await createServerClient();
-  const { data, error } = await supabase.from("topics").update(payload).eq("id", id).select().single();
-  return { data, error: error ? new Error(error.message) : null };
+  try {
+    await updateTopicFields(id, payload);
+    return getTopicsById(id);
+  } catch (error) {
+    return { data: null, error: error instanceof Error ? error : new Error(String(error)) };
+  }
 }
 
 export async function deleteTopics(id: string): Promise<ServiceResult<null>> {

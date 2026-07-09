@@ -16,7 +16,7 @@
 
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { render } from "@/services/renderer/orchestrator";
+import { renderPackage } from "@/services/render/engine";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -141,7 +141,7 @@ async function rerenderArticle(article: any, supabase: Awaited<ReturnType<typeof
 
     let renderResult;
     try {
-      renderResult = await render({
+      renderResult = await renderPackage({
         packageId: pkg.id,
         rendererId: "long-article-v2",
         format: "html",
@@ -153,39 +153,6 @@ async function rerenderArticle(article: any, supabase: Awaited<ReturnType<typeof
 
     if (renderResult.status === "failed") {
       return { success: false, error: "Render failed", diagnostics: renderResult.diagnostics };
-    }
-
-    const { error: updateError } = await supabase
-      .from("rendered_outputs")
-      .update({
-        content: renderResult.content,
-        format: renderResult.format,
-        quality_score: renderResult.qualityScore.overall,
-        diagnostics: renderResult.diagnostics,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("package_id", pkg.id)
-      .eq("renderer_id", "long-article-v2");
-
-    if (updateError) {
-      return { success: false, error: `Database update failed: ${updateError.message}` };
-    }
-
-    // Only update topics.content when rendering succeeds and quality is acceptable
-    if (renderResult.status === "published" && renderResult.qualityScore.overall >= 50) {
-      const { error: topicUpdateError } = await supabase
-        .from("topics")
-        .update({
-          content: renderResult.content,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", article.id);
-
-      if (topicUpdateError) {
-        return { success: false, error: `Topic content update failed: ${topicUpdateError.message}` };
-      }
-    } else {
-      console.log(`Skipping topic.content update for ${article.slug}: render status=${renderResult.status}, quality=${renderResult.qualityScore.overall}`);
     }
 
     return { 

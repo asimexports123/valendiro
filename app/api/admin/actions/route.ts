@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { runFullPublishingCycle, publishApprovedTopics, publishApprovedArticles } from "@/services/demand/autonomousPublishingEngine";
+import {
+  demandPipelineDisabledResponse,
+  isFrozenDemandAction,
+} from "@/lib/architecture/frozen";
 import { runDuplicateContentScan } from "@/services/seo/duplicateContentDetector";
 import {
   buildHierarchicalLinksForTopic,
@@ -32,16 +35,15 @@ export async function POST(request: Request) {
   if (!session) {
     return NextResponse.json({ error: "Not signed in. Please log in to the admin panel first." }, { status: 401 });
   }
+
+  if (isFrozenDemandAction(action)) {
+    return NextResponse.json(demandPipelineDisabledResponse(), { status: 410 });
+  }
+
   let result: Record<string, unknown>;
 
   try {
     switch (action) {
-      case "demand_run":
-        result = await runFullPublishingCycle() as unknown as Record<string, unknown>;
-        break;
-      case "generate_articles":
-        result = await publishApprovedArticles(10) as unknown as Record<string, unknown>;
-        break;
       case "quality_audit":
         result = await runDuplicateContentScan(50) as unknown as Record<string, unknown>;
         break;
@@ -51,12 +53,6 @@ export async function POST(request: Request) {
         for (const topic of topics || []) await buildHierarchicalLinksForTopic(topic.id);
         for (const article of articles || []) await buildHierarchicalLinksForArticle(article.id);
         result = { topicsProcessed: topics?.length ?? 0, articlesProcessed: articles?.length ?? 0 };
-        break;
-      }
-      case "publish_queue": {
-        const topicResult = await publishApprovedTopics(10);
-        const articleResult = await publishApprovedArticles(10);
-        result = { topicsPublished: topicResult.topicsPublished, articlesPublished: articleResult.articlesPublished };
         break;
       }
       case "pause_automation":

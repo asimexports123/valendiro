@@ -6,6 +6,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { upsertLegacyGraphNode, upsertGraphEdge } from "@/services/knowledge/graphService";
 
 const supabase = createAdminClient();
 
@@ -205,46 +206,7 @@ async function updateKnowledgeGraph(knowledge: ExtractedKnowledge, sourceContent
  * Create or update a knowledge graph node
  */
 async function createOrUpdateNode(name: string, type: string): Promise<string> {
-  const slug = name.toLowerCase().replace(/\s+/g, '-');
-
-  // Check if node exists
-  const { data: existing } = await supabase
-    .from("knowledge_graph_nodes")
-    .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
-
-  if (existing) {
-    // Update existing node
-    await supabase
-      .from("knowledge_graph_nodes")
-      .update({
-        article_count: existing.article_count + 1,
-        last_updated_at: new Date().toISOString(),
-      })
-      .eq("id", existing.id);
-    return existing.id;
-  }
-
-  // Create new node
-  const { data, error } = await supabase
-    .from("knowledge_graph_nodes")
-    .insert({
-      node_type: type,
-      name,
-      slug,
-      description: `Knowledge node for ${name}`,
-      article_count: 1,
-      last_updated_at: new Date().toISOString(),
-    })
-    .select()
-    .single();
-
-  if (error || !data) {
-    throw new Error(`Failed to create node: ${error?.message}`);
-  }
-
-  return data.id;
+  return upsertLegacyGraphNode(name, type);
 }
 
 /**
@@ -257,40 +219,7 @@ async function createOrUpdateEdge(
   weight: number,
   sourceDiscoveryId: string
 ): Promise<void> {
-  // Check if edge exists
-  const { data: existing } = await supabase
-    .from("knowledge_graph_edges")
-    .select("*")
-    .eq("source_id", sourceId)
-    .eq("target_id", targetId)
-    .eq("edge_type", type)
-    .maybeSingle();
-
-  if (existing) {
-    // Update existing edge
-    await supabase
-      .from("knowledge_graph_edges")
-      .update({
-        weight: (existing.weight + weight) / 2, // Average the weights
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", existing.id);
-  } else {
-    // Create new edge
-    const { error } = await supabase
-      .from("knowledge_graph_edges")
-      .insert({
-        source_id: sourceId,
-        target_id: targetId,
-        edge_type: type,
-        weight,
-        source_discovery_id: sourceDiscoveryId,
-      });
-
-    if (error) {
-      throw new Error(`Failed to create edge: ${error.message}`);
-    }
-  }
+  await upsertGraphEdge(sourceId, targetId, type, sourceDiscoveryId, weight);
 }
 
 /**

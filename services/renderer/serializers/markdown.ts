@@ -60,23 +60,22 @@ function renderNode(node: DocumentNode): string {
     case "divider":
       return "---";
 
-    case "metadata":
-      return `<!-- ${node.key}: ${node.value} -->`;
-
-    case "missing-knowledge":
-      return `<!-- MISSING: ${node.expectedFactType} (${node.severity}) -->`;
-
     case "image-placeholder":
       return `![${node.altText}](placeholder-${node.suggestedType})`;
 
+    case "metadata":
+    case "missing-knowledge":
     case "commercial-placeholder":
-      return ""; // Not rendered in markdown
+      return "";
 
-    case "callout":
-      const calloutContent = node.children.map((child) => renderNode(child)).join("\n");
-      const admonitionType = node.variant === "warning" ? "WARNING" : node.variant === "tip" ? "TIP" : "NOTE";
-      const titleLine = node.title ? ` ${node.title}` : "";
-      return `> [!${admonitionType}]${titleLine}\n${calloutContent.split("\n").map((l) => `> ${l}`).join("\n")}`;
+    case "callout": {
+      const bodyLines = node.children.flatMap((child) => {
+        const rendered = renderNode(child);
+        return rendered ? rendered.split("\n").filter(Boolean) : [];
+      });
+      const prefix = node.title ? `**${node.title}:** ` : "";
+      return `> ${prefix}${bodyLines.join(" ")}`.trim();
+    }
 
     case "table-of-contents":
       const tocLines = node.entries.map((e) => `- [${e.text}](#${e.anchor})`).join("\n");

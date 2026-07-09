@@ -13,6 +13,11 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { v4 as uuidv4 } from "uuid";
+import {
+  insertTopic,
+  upsertTopicTranslation,
+  updateTopicFields,
+} from "@/services/publish/writers";
 
 const supabase = createAdminClient();
 
@@ -134,19 +139,10 @@ export async function resolveOrCreateTopic(
     
     // Step 2: Update existing topic
     console.log("  Updating existing topic content...");
-    const { error: updateError } = await supabase
-      .from("topics")
-      .update({
-        content,
-        html_content: htmlContent,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", existingTopic.id);
-    
-    if (updateError) {
-      console.error(`  ✗ Error updating topic: ${updateError.message}`);
-      throw updateError;
-    }
+    await updateTopicFields(existingTopic.id, {
+      content,
+      html_content: htmlContent,
+    });
     
     // Step 3: Check if translation exists
     console.log("  Checking for existing translation...");
@@ -159,45 +155,26 @@ export async function resolveOrCreateTopic(
     
     if (existingTranslation) {
       console.log("  Updating existing translation...");
-      const { error: transUpdateError } = await supabase
-        .from("topic_translations")
-        .update({
-          title,
-          content,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", existingTranslation.id);
-      
-      if (transUpdateError) {
-        console.error(`  ✗ Error updating translation: ${transUpdateError.message}`);
-        throw transUpdateError;
-      }
+      await upsertTopicTranslation({
+        topic_id: existingTopic.id,
+        language_code: "en",
+        title,
+        content,
+        meta_title: title,
+        meta_description: content.substring(0, 160),
+        subtitle: content.substring(0, 200),
+      });
     } else {
       console.log("  No translation found, creating new translation...");
-      const translationId = uuidv4();
-      const subtitle = content.substring(0, 200);
-      const metaTitle = title;
-      const metaDescription = content.substring(0, 160);
-      
-      const { error: transCreateError } = await supabase
-        .from("topic_translations")
-        .insert({
-          id: translationId,
-          topic_id: existingTopic.id,
-          language_code: "en",
-          title,
-          subtitle,
-          content,
-          meta_title: metaTitle,
-          meta_description: metaDescription,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        });
-      
-      if (transCreateError) {
-        console.error(`  ✗ Error creating translation: ${transCreateError.message}`);
-        throw transCreateError;
-      }
+      await upsertTopicTranslation({
+        topic_id: existingTopic.id,
+        language_code: "en",
+        title,
+        content,
+        meta_title: title,
+        meta_description: content.substring(0, 160),
+        subtitle: content.substring(0, 200),
+      });
     }
     
     console.log("  ✓ Topic updated successfully");
@@ -211,70 +188,41 @@ export async function resolveOrCreateTopic(
   
   // Step 4: Create new topic
   console.log("  No existing topic found, creating new canonical topic...");
-  const topicId = uuidv4();
   const canonicalSlug = generateCanonicalSlug(title);
   const canonicalPath = `/en/topics/${canonicalSlug}`;
-  
-  const { data: newTopic, error: createError } = await supabase
-    .from("topics")
-    .insert({
-      id: topicId,
-      slug: canonicalSlug,
-      canonical_path: canonicalPath,
-      category_id: null,
-      difficulty: 'intermediate',
-      estimated_read_time: 8,
-      status: 'published',
-      published_at: new Date().toISOString(),
-      content,
-      html_content: htmlContent,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    })
-    .select()
-    .single();
-  
-  if (createError) {
-    console.error(`  ✗ Error creating topic: ${createError.message}`);
-    throw createError;
-  }
-  
-  console.log(`  ✓ New topic created: ${topicId}`);
+  const newTopicId = uuidv4();
+
+  await insertTopic({
+    id: newTopicId,
+    slug: canonicalSlug,
+    canonical_path: canonicalPath,
+    status: "published",
+    published_at: new Date().toISOString(),
+    content,
+    html_content: htmlContent,
+  });
+
+  console.log(`  ✓ New topic created: ${newTopicId}`);
   console.log(`  ✓ Canonical Slug: ${canonicalSlug}`);
   console.log(`  ✓ Canonical Path: ${canonicalPath}`);
-  
+
   // Step 5: Create topic translation
   console.log("  Creating topic translation...");
-  const translationId = uuidv4();
-  const subtitle = content.substring(0, 200);
-  const metaTitle = title;
-  const metaDescription = content.substring(0, 160);
-  
-  const { error: transCreateError } = await supabase
-    .from("topic_translations")
-    .insert({
-      id: translationId,
-      topic_id: topicId,
-      language_code: "en",
-      title,
-      subtitle,
-      content,
-      meta_title: metaTitle,
-      meta_description: metaDescription,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    });
-  
-  if (transCreateError) {
-    console.error(`  ✗ Error creating translation: ${transCreateError.message}`);
-    throw transCreateError;
-  }
-  
+  await upsertTopicTranslation({
+    topic_id: newTopicId,
+    language_code: "en",
+    title,
+    subtitle: content.substring(0, 200),
+    content,
+    meta_title: title,
+    meta_description: content.substring(0, 160),
+  });
+
   console.log("  ✓ Translation created successfully");
-  
+
   return {
     topic: {
-      id: topicId,
+      id: newTopicId,
       slug: canonicalSlug,
       canonicalPath,
       title,

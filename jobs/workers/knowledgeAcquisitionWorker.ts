@@ -8,6 +8,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { updatePackageMetrics } from "@/services/knowledge/packageService";
 import { logExecution } from "@/services/execution/executionLogger";
 
 export interface KnowledgeAcquisitionResult {
@@ -1397,22 +1398,15 @@ export async function processKnowledgeAcquisitionJob(
       throw new Error(`Failed to insert relationships: ${relationshipsError.message}`);
     }
 
-    // Step 4: Update knowledge package status to "ready"
-    const { error: packageError } = await sb
-      .from("knowledge_packages")
-      .update({
-        status: "ready",
-        fact_count: 5,
-        relationship_count: 1,
-        source_count: 2,
-        last_updated_at: new Date().toISOString(),
-        last_verified_at: new Date().toISOString(),
-      })
-      .eq("id", actualPackageId);
-
-    if (packageError) {
-      throw new Error(`Failed to update package status: ${packageError.message}`);
-    }
+    // Step 4: Update knowledge package status to "ready" (canonical writer)
+    await updatePackageMetrics(actualPackageId, {
+      status: "ready",
+      fact_count: 5,
+      relationship_count: 1,
+      source_count: 2,
+      last_updated_at: new Date().toISOString(),
+      last_verified_at: new Date().toISOString(),
+    });
 
     await logExecution({
       queueType: "update",

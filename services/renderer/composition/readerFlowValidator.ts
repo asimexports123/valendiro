@@ -44,7 +44,10 @@ export class ReaderFlowValidator {
   validate(tree: DocumentNode[], context: CompositionContext): QualityReport {
     const issues: QualityIssue[] = [];
 
-    // Validate structure
+    // Phase 3 alignment: duplicate headings and content blocks
+    this.validateDuplicateContent(tree, issues);
+
+    // Validate structure (knowledge-driven — no fixed template scaffold)
     this.validateStructure(tree, context, issues);
 
     // Validate transitions
@@ -70,47 +73,76 @@ export class ReaderFlowValidator {
   }
 
   /**
+   * Phase 3: detect duplicate headings and repeated content blocks
+   */
+  private validateDuplicateContent(tree: DocumentNode[], issues: QualityIssue[]): void {
+    const headingKeys = new Set<string>();
+    const contentKeys = new Set<string>();
+
+    for (const node of tree) {
+      if (node.type === "heading" && node.level === 2) {
+        const key = this.normalizeHeading(node.text);
+        if (headingKeys.has(key)) {
+          issues.push({
+            type: "repetitive",
+            severity: "critical",
+            message: `Duplicate heading: ${node.text}`,
+            location: node.text,
+          });
+        }
+        headingKeys.add(key);
+      }
+
+      const text = this.extractText(node).trim();
+      const normalized = text.toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ");
+      if (normalized.length >= 20 && contentKeys.has(normalized)) {
+        issues.push({
+          type: "repetitive",
+          severity: "warning",
+          message: "Duplicate content block detected",
+          location: normalized.slice(0, 40),
+        });
+      }
+      if (normalized.length >= 20) contentKeys.add(normalized);
+    }
+  }
+
+  /**
    * Validate article structure
    */
   private validateStructure(tree: DocumentNode[], context: CompositionContext, issues: QualityIssue[]): void {
+    const h2Count = tree.filter((n) => n.type === "heading" && n.level === 2).length;
+
+    if (h2Count < 2) {
+      issues.push({
+        type: "missing_section",
+        severity: "critical",
+        message: "Article needs at least two knowledge-backed sections",
+        location: "structure",
+      });
+    }
+
+    // Teaching order for Phase 4 KE section types
     const sectionTypes = this.extractSectionTypes(tree);
-
-    // Check for required sections using pattern matching
-    // Introduction patterns: "what-is", "introduction"
-    const hasIntroduction = sectionTypes.some(type => 
-      type.includes("what-is") || type === "introduction"
-    );
-    
-    if (!hasIntroduction) {
-      issues.push({
-        type: "missing_section",
-        severity: "critical",
-        message: `Missing required section: introduction`,
-        location: "structure",
-      });
-    }
-
-    // Summary patterns: "key-takeaways", "summary", "remember-this"
-    const hasSummary = sectionTypes.some(type => 
-      type.includes("key-takeaways") || 
-      type === "summary" || 
-      type === "remember-this"
-    );
-    
-    if (!hasSummary) {
-      issues.push({
-        type: "missing_section",
-        severity: "critical",
-        message: `Missing required section: summary`,
-        location: "structure",
-      });
-    }
-
-    // Check for logical section order
     const expectedOrder = [
-      "introduction", "core-concept", "how-it-works", "example",
-      "applications", "benefits", "limitations", "mistakes",
-      "best-practices", "history", "related", "summary"
+      "definition-card",
+      "motivation",
+      "core-concept",
+      "history",
+      "how-it-works",
+      "use-cases",
+      "comparison-table",
+      "beginner-mistakes",
+      "best-practices",
+      "applications",
+      "summary",
+      // legacy aliases from heading text
+      "introduction",
+      "example",
+      "benefits",
+      "limitations",
+      "mistakes",
+      "related",
     ];
 
     for (let i = 0; i < sectionTypes.length - 1; i++) {
@@ -123,6 +155,20 @@ export class ReaderFlowValidator {
           severity: "warning",
           message: `Section order may be illogical: ${sectionTypes[i]} before ${sectionTypes[i + 1]}`,
           location: "structure",
+        });
+      }
+    }
+
+    // Flag generic low-value headings
+    for (const node of tree) {
+      if (node.type !== "heading" || node.level !== 2) continue;
+      const key = this.normalizeHeading(node.text);
+      if (["overview", "key points", "concepts", "background"].includes(key)) {
+        issues.push({
+          type: "unclear",
+          severity: "warning",
+          message: `Generic heading reduces educational value: ${node.text}`,
+          location: node.text,
         });
       }
     }
@@ -218,6 +264,26 @@ export class ReaderFlowValidator {
           repeatedOpenings++;
         }
         openings.push(firstWords);
+      }
+    }
+
+    // Phase 3: flag generic filler phrases
+    const fillerPatterns = [
+      /in today's rapidly evolving/i,
+      /it is important to note/i,
+      /let's explore/i,
+      /now that we understand/i,
+      /continue your learning journey/i,
+    ];
+    const fullText = tree.map((n) => this.extractText(n)).join("\n");
+    for (const pattern of fillerPatterns) {
+      if (pattern.test(fullText)) {
+        issues.push({
+          type: "unclear",
+          severity: "warning",
+          message: `Generic filler detected: ${pattern.source}`,
+          location: "overall",
+        });
       }
     }
 

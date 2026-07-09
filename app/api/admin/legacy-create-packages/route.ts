@@ -2,10 +2,14 @@
  * POST /api/admin/legacy-create-packages
  *
  * Step 3 - Knowledge Package: Create knowledge packages for topics
+ * @deprecated Routes through canonical assembler + packageService
  */
 
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { assemble } from "@/services/knowledge/assembler";
+import type { CandidateInput } from "@/services/knowledge/types";
+import { v4 as uuidv4 } from "uuid";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -70,30 +74,39 @@ export async function POST(request: Request) {
       const title = article.article_translations?.[0]?.title || article.slug;
       const content = article.article_translations?.[0]?.content || "";
 
-      const { data: pkg, error: pkgError } = await supabase
-        .from("knowledge_packages")
-        .insert({
-          topic_id: article.topic_id,
-          slug: article.slug,
-          knowledge_hash: `legacy-${article.id}`,
-        })
-        .select("id")
-        .single();
+      const candidate: CandidateInput = {
+        id: uuidv4(),
+        title,
+        description: content,
+        sourceUrl: null,
+        discoveryRunId: article.id,
+        adapterName: "legacy-admin",
+        sourceSlug: article.slug,
+        sourceAuthority: "community",
+        metadata: { legacyMigration: true },
+      };
 
-      if (pkgError) {
+      try {
+        const report = await assemble({
+          slotId: null,
+          topicId: article.topic_id,
+          slug: article.slug,
+          candidates: [candidate],
+        });
+
+        created.push({
+          article_slug: article.slug,
+          status: "success",
+          package_id: report.packageId,
+          via: "canonical-assembler",
+        });
+      } catch (err) {
         created.push({
           article_slug: article.slug,
           status: "failed",
-          error: pkgError.message,
+          error: err instanceof Error ? err.message : String(err),
         });
-        continue;
       }
-
-      created.push({
-        article_slug: article.slug,
-        status: "success",
-        package_id: pkg.id,
-      });
     }
 
     const success = created.filter(c => c.status === "success").length;
@@ -102,13 +115,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      total_articles: articles.length,
-      created_count: success,
-      already_exists_count: alreadyExists,
-      failed_count: failed,
+      summary: { success, alreadyExists, failed, total: created.length },
       created,
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }

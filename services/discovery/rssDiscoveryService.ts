@@ -311,31 +311,22 @@ async function updateSourceStats(sourceId: string, discoveredCount: number, erro
 }
 
 /**
- * Process all active RSS feeds
+ * Process all active RSS feeds via the canonical discovery_system_sources path.
+ * Legacy discovery_sources rows are no longer the primary ingest path.
  */
 export async function processAllRSSFeeds(): Promise<{ processed: number; discovered: number }> {
-  console.log(`[RSSDiscovery] Processing all active RSS feeds`);
+  console.log(`[RSSDiscovery] Delegating to canonical DiscoveryScheduler (discovery_system_sources)`);
 
-  const { data: sources, error } = await supabase
-    .from("discovery_sources")
-    .select("*")
-    .eq("source_type", "rss")
-    .eq("status", "active");
+  const { createDiscoveryScheduler } = await import("@/jobs/schedulers/discoveryScheduler");
+  const scheduler = await createDiscoveryScheduler();
 
-  if (error || !sources) {
-    throw new Error(`Failed to fetch RSS sources: ${error?.message}`);
-  }
+  const discoveryResults = await scheduler.runScheduledDiscoveries();
+  const discovered = discoveryResults.reduce((sum, r) => sum + r.articlesSaved, 0);
 
-  let totalDiscovered = 0;
-  for (const source of sources) {
-    try {
-      const discovered = await discoverFromRSSFeed(source.id);
-      totalDiscovered += discovered;
-    } catch (error) {
-      console.error(`[RSSDiscovery] Failed to process source ${source.id}:`, error);
-    }
-  }
+  const pipelineResult = await scheduler.processDiscoveredArticles(10);
+  console.log(
+    `[RSSDiscovery] Pipeline: processed=${pipelineResult.processed}, published=${pipelineResult.published}, failed=${pipelineResult.failed}`
+  );
 
-  console.log(`[RSSDiscovery] Processed ${sources.length} sources, discovered ${totalDiscovered} articles`);
-  return { processed: sources.length, discovered: totalDiscovered };
+  return { processed: discoveryResults.length, discovered };
 }

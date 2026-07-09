@@ -1,11 +1,17 @@
 /**
  * Discovery Scheduler
- * Manages automated scheduling of discovery runs for RSS and Feedly sources
+ * Manages automated scheduling of discovery runs via Knowledge Ingest Orchestrator.
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { FeedlyConnector } from "@/services/discovery/connectors/feedlyConnector";
-import { RSSConnector } from "@/services/discovery/connectors/rssConnector";
+import {
+  runKnowledgeIngestForSourceWithErrorHandling,
+  toRegisteredKnowledgeSource,
+} from "@/services/discovery/ingest/knowledgeIngestOrchestrator";
+import {
+  processArticlePipelineBatch,
+  recoverStuckArticles,
+} from "@/services/discovery/articlePipeline";
 
 export interface DiscoveryScheduleResult {
   sourceId: string;
@@ -24,14 +30,15 @@ export class DiscoveryScheduler {
     const supabase = createAdminClient();
     const results: DiscoveryScheduleResult[] = [];
 
-    // Fetch all active sources that are due for discovery
+    // Fetch all active sources that are due for discovery (include never-fetched)
+    const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
     const { data: sources } = await supabase
       .from("discovery_system_sources")
       .select("*")
       .eq("status", "active")
-      .lte("last_fetched_at", new Date(Date.now() - 5 * 60 * 1000).toISOString()) // At least 5 minutes since last fetch
+      .or(`last_fetched_at.is.null,last_fetched_at.lte.${fiveMinAgo}`)
       .order("last_fetched_at", { ascending: true, nullsFirst: true })
-      .limit(10);
+      .limit(20);
 
     if (!sources || sources.length === 0) {
       return results;
@@ -48,118 +55,51 @@ export class DiscoveryScheduler {
     return results;
   }
 
-  async runDiscoveryForSource(source: any): Promise<DiscoveryScheduleResult> {
+  async runDiscoveryForSource(source: Record<string, unknown>): Promise<DiscoveryScheduleResult> {
     const startTime = Date.now();
+    const registered = toRegisteredKnowledgeSource(source);
 
-    try {
-      let result: { saved: number; duplicates: number; errors: number };
+    const ingest = await runKnowledgeIngestForSourceWithErrorHandling(registered);
 
-      if (source.source_type === "feedly") {
-        const feedlyConnector = new FeedlyConnector();
-        await feedlyConnector.initialize();
-        
-        const articles = await feedlyConnector.fetchAllArticles();
-        result = await feedlyConnector.saveArticles(source.id, articles);
-        
-        await feedlyConnector.updateSourceLastFetched(source.id);
-      } else if (source.source_type === "rss") {
-        const rssConnector = new RSSConnector();
-        
-        const feedUrl = source.url;
-        const articles = await rssConnector.fetchFeed(feedUrl);
-        result = await rssConnector.saveArticles(source.id, articles);
-        
-        await rssConnector.updateSourceLastFetched(source.id);
-      } else {
-        throw new Error(`Unsupported source type: ${source.source_type}`);
-      }
-
+    if (ingest.status === "failed") {
       return {
-        sourceId: source.id,
-        sourceType: source.source_type,
-        articlesDiscovered: result.saved + result.duplicates + result.errors,
-        articlesSaved: result.saved,
-        articlesDuplicate: result.duplicates,
-        articlesError: result.errors,
-        durationMs: Date.now() - startTime,
-        status: "success",
-        error: null,
-      };
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      
-      // Update source error
-      if (source.source_type === "feedly") {
-        const feedlyConnector = new FeedlyConnector();
-        await feedlyConnector.initialize();
-        await feedlyConnector.updateSourceError(source.id, errorMessage);
-      } else if (source.source_type === "rss") {
-        const rssConnector = new RSSConnector();
-        await rssConnector.updateSourceError(source.id, errorMessage);
-      }
-
-      return {
-        sourceId: source.id,
-        sourceType: source.source_type,
+        sourceId: registered.id,
+        sourceType: registered.source_type,
         articlesDiscovered: 0,
         articlesSaved: 0,
         articlesDuplicate: 0,
         articlesError: 0,
         durationMs: Date.now() - startTime,
         status: "failed",
-        error: errorMessage,
+        error: ingest.error,
       };
     }
+
+    return {
+      sourceId: registered.id,
+      sourceType: registered.source_type,
+      articlesDiscovered: ingest.saved + ingest.duplicates + ingest.errors,
+      articlesSaved: ingest.saved,
+      articlesDuplicate: ingest.duplicates,
+      articlesError: ingest.errors,
+      durationMs: Date.now() - startTime,
+      status: "success",
+      error: null,
+    };
   }
 
+  /**
+   * Process discovered articles through the canonical pipeline automatically.
+   * Replaces the dead knowledge_extraction_queue insert-only path.
+   */
+  async processDiscoveredArticles(limit = 10) {
+    await recoverStuckArticles();
+    return processArticlePipelineBatch(limit);
+  }
+
+  /** @deprecated Use processDiscoveredArticles — kept for callers during migration */
   async queueKnowledgeExtraction(): Promise<void> {
-    const supabase = createAdminClient();
-
-    // Fetch pending discovered articles
-    const { data: articles } = await supabase
-      .from("discovered_articles")
-      .select("*")
-      .eq("status", "pending")
-      .limit(50);
-
-    if (!articles || articles.length === 0) {
-      return;
-    }
-
-    for (const article of articles) {
-      try {
-        // Update status to processing
-        await supabase
-          .from("discovered_articles")
-          .update({
-            status: "processing",
-            processing_started_at: new Date().toISOString(),
-          })
-          .eq("id", article.id);
-
-        // Add to knowledge extraction queue
-        await supabase
-          .from("knowledge_extraction_queue")
-          .insert({
-            discovered_article_id: article.id,
-            topic_id: null, // Will be determined by the worker
-            priority: 50,
-            status: "pending",
-            scheduled_at: new Date().toISOString(),
-          });
-      } catch (error) {
-        console.error(`Failed to queue article ${article.id} for extraction:`, error);
-        
-        // Mark as error
-        await supabase
-          .from("discovered_articles")
-          .update({
-            status: "error",
-            processing_completed_at: new Date().toISOString(),
-          })
-          .eq("id", article.id);
-      }
-    }
+    await this.processDiscoveredArticles(10);
   }
 
   async recordMetrics(sourceId: string, result: DiscoveryScheduleResult): Promise<void> {

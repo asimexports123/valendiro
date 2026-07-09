@@ -28,7 +28,7 @@ import type {
 import { KnowledgeComposer, type CompositionContext } from "../composition/knowledgeComposer";
 import { ImprovedQualityScorer } from "../composition/improvedQualityScorer";
 
-export const LONG_ARTICLE_V2_VERSION = "5.0.0";
+export const LONG_ARTICLE_V2_VERSION = "5.1.0";
 
 export const longArticleV2Strategy: RenderStrategy = {
   name: "long-article-v2",

@@ -1,6 +1,8 @@
 /**
  * Production QA Enforcement
- * 
+ *
+ * Phase 3: validateProjectionPage() — per-page projection quality gate.
+ *
  * The QA gate is mandatory. Never publish if:
  * - Editorial score < 90
  * - Placeholder text detected
@@ -28,6 +30,193 @@ export interface QAReport {
   criticalFailures: string[];
   warnings: string[];
   recommendation: 'publish' | 'keep-current' | 'require-review';
+}
+
+import type { DocumentNode, PluginFact } from "./types";
+
+export interface ProjectionPageMetrics {
+  duplicateFacts: number;
+  duplicateHeadings: number;
+  emptySections: number;
+  placeholderHits: number;
+  fillerRatio: number;
+  graphSyntaxLeaks: number;
+  rawMetadataLeaks: number;
+  repeatedRecommendations: number;
+  passed: boolean;
+  issues: string[];
+}
+
+const PROJECTION_PLACEHOLDER_PATTERNS = [
+  /lorem ipsum/i,
+  /placeholder text/i,
+  /content goes here/i,
+  /\[insert content\]/i,
+  /key point \d+ about/i,
+  /type \d+/i,
+  /description \d+/i,
+  /example \d+/i,
+  /tbd/i,
+  /coming soon/i,
+  /in today's rapidly evolving/i,
+  /understanding .+ helps you make better decisions, solve problems more effectively/i,
+  /practice applying .+ in real scenarios/i,
+  /experts see this as a foundational concept/i,
+  /avoid using this when the problem doesn't match/i,
+];
+
+const GRAPH_SYNTAX_PATTERNS = [
+  /\[\[.*?\]\]/,
+  /node_type\s*[:=]/i,
+  /source_asset_id\s*[:=]/i,
+  /package_id\s*[:=]/i,
+  /\{"@type":\s*"KnowledgeGraphNode"/i,
+];
+
+const FILLER_PATTERNS = [
+  /it is important to note/gi,
+  /it should be mentioned/gi,
+  /it is worth noting/gi,
+  /in conclusion/gi,
+  /in summary/gi,
+  /keep in mind/gi,
+  /now that we understand/gi,
+  /let's explore/gi,
+  /this matters because it directly affects/gi,
+];
+
+function collectTextFromTree(nodes: DocumentNode[]): string[] {
+  const chunks: string[] = [];
+  for (const node of nodes) {
+    if (node.type === "heading" && "text" in node) {
+      chunks.push(node.text);
+    }
+    if (node.type === "paragraph" && "children" in node && Array.isArray(node.children)) {
+      chunks.push(node.children.join(" "));
+    }
+    if (node.type === "list" && "items" in node) {
+      for (const item of node.items) {
+        if (item.type === "list-item" && item.children) {
+          chunks.push(item.children.join(" "));
+        }
+      }
+    }
+    if (node.type === "callout" && "children" in node) {
+      chunks.push(...collectTextFromTree(node.children));
+    }
+  }
+  return chunks.filter((t) => t.trim().length > 0);
+}
+
+function normalizeForDedup(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Phase 3 projection page validator — runs on composed document tree + source facts.
+ */
+export function validateProjectionPage(
+  tree: DocumentNode[],
+  facts: PluginFact[]
+): ProjectionPageMetrics {
+  const issues: string[] = [];
+  const textChunks = collectTextFromTree(tree);
+  const fullText = textChunks.join("\n");
+
+  const normalizedChunks = textChunks.map(normalizeForDedup);
+  const chunkSet = new Set<string>();
+  let duplicateFacts = 0;
+  for (const chunk of normalizedChunks) {
+    if (chunk.length < 20) continue;
+    if (chunkSet.has(chunk)) duplicateFacts++;
+    else chunkSet.add(chunk);
+  }
+
+  const headings = tree
+    .filter((n): n is DocumentNode & { type: "heading"; text: string } => n.type === "heading")
+    .map((h) => normalizeForDedup(h.text));
+  const headingSet = new Set<string>();
+  let duplicateHeadings = 0;
+  for (const h of headings) {
+    if (headingSet.has(h)) duplicateHeadings++;
+    else headingSet.add(h);
+  }
+
+  const h2Sections: string[] = [];
+  let current = "";
+  for (const node of tree) {
+    if (node.type === "heading" && node.level === 2) {
+      if (current.trim().length > 0) h2Sections.push(current);
+      current = "";
+    } else if (node.type === "paragraph" || node.type === "list") {
+      current += collectTextFromTree([node]).join(" ");
+    }
+  }
+  if (current.trim().length > 0) h2Sections.push(current);
+  const emptySections = h2Sections.filter((s) => s.trim().length < 40).length;
+
+  let placeholderHits = 0;
+  for (const pattern of PROJECTION_PLACEHOLDER_PATTERNS) {
+    if (pattern.test(fullText)) {
+      placeholderHits++;
+      issues.push(`Placeholder pattern: ${pattern.source}`);
+    }
+  }
+
+  let graphSyntaxLeaks = 0;
+  for (const pattern of GRAPH_SYNTAX_PATTERNS) {
+    if (pattern.test(fullText)) {
+      graphSyntaxLeaks++;
+      issues.push(`Graph syntax leak: ${pattern.source}`);
+    }
+  }
+
+  const fillerMatches = fullText.match(new RegExp(FILLER_PATTERNS.map((p) => p.source).join("|"), "gi"));
+  const wordCount = fullText.split(/\s+/).filter(Boolean).length;
+  const fillerRatio = wordCount > 0 ? (fillerMatches?.length ?? 0) / wordCount : 0;
+
+  const rawMetadataLeaks =
+    tree.filter((n) => n.type === "metadata" || n.type === "missing-knowledge").length +
+    (fullText.match(/<!--[\s\S]*?-->/g)?.length ?? 0);
+
+  const recommendationPatterns = [
+    /what to learn next/gi,
+    /continue your learning journey/gi,
+    /explore related concepts/gi,
+  ];
+  let repeatedRecommendations = 0;
+  for (const pattern of recommendationPatterns) {
+    const matches = fullText.match(pattern);
+    if (matches && matches.length > 1) repeatedRecommendations += matches.length - 1;
+  }
+
+  if (duplicateFacts > 0) issues.push(`${duplicateFacts} duplicate content blocks`);
+  if (duplicateHeadings > 0) issues.push(`${duplicateHeadings} duplicate headings`);
+  if (emptySections > 0) issues.push(`${emptySections} empty sections`);
+  if (fillerRatio > 0.05) issues.push(`Filler ratio ${(fillerRatio * 100).toFixed(1)}%`);
+  if (facts.length === 0) issues.push("No source facts");
+
+  const passed =
+    duplicateHeadings === 0 &&
+    emptySections === 0 &&
+    placeholderHits === 0 &&
+    graphSyntaxLeaks === 0 &&
+    rawMetadataLeaks === 0 &&
+    fillerRatio < 0.08 &&
+    duplicateFacts <= 1;
+
+  return {
+    duplicateFacts,
+    duplicateHeadings,
+    emptySections,
+    placeholderHits,
+    fillerRatio,
+    graphSyntaxLeaks,
+    rawMetadataLeaks,
+    repeatedRecommendations,
+    passed,
+    issues,
+  };
 }
 
 export interface ContentQualityMetrics {

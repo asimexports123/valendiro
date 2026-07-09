@@ -124,13 +124,18 @@ export class KnowledgeComposer {
       throw new Error(`No facts available for ${config.slug}. Cannot generate content without domain knowledge.`);
     }
 
-    // Build the article structure following reader-first principles
+    // Build the article structure from knowledge (not fixed templates)
     const sections = this.buildArticleStructure(context);
     
     // Enrich each section with explanations, examples, and context
-    const enrichedSections = this.enrichSections(sections, context);
+    const enrichedSections = this.enrichSections(sections, context)
+      .filter((s) => s.content.length > 0);
     
-    // Generate the document tree
+    if (enrichedSections.length === 0) {
+      throw new Error(`No substantive sections could be composed for ${config.slug} from available knowledge.`);
+    }
+
+    this.deduplicateSectionHeadings(enrichedSections, context.subject);
     const documentTree = this.buildDocumentTree(enrichedSections, context);
     
     // Validate document tree contains no placeholder text
@@ -148,109 +153,182 @@ export class KnowledgeComposer {
   }
 
   /**
-   * Build article structure based on 8 key questions for true understanding
-   *
-   * Philosophy: Question-driven structure, not article-like
-   * Every topic answers: What? Why? When? How? Mistakes? Expert thinking? Avoid? Next?
-   *
-   * Reader should feel like using an interactive knowledge system, not reading a blog
+   * Plan sections from Knowledge Package facts in teaching order.
+   * Progressive disclosure: definition → why → how → apply → compare → pitfalls → practice → evidence → takeaways.
    */
   private buildArticleStructure(context: CompositionContext): ComposedSection[] {
     const sections: ComposedSection[] = [];
     const { facts, subject } = context;
-    const category = context.config.category;
-
-    // Group facts by type for intelligent section allocation
     const byType = this.groupFactsByType(facts);
+    let order = 1;
 
-    // Q1: What is it? (Quick definition card)
-    if (byType.definition?.length > 0) {
+    const push = (type: string, heading: string, factTypes: string[]) => {
+      const count = factTypes.reduce((n, t) => n + (byType[t]?.length ?? 0), 0);
+      if (count === 0) return;
       sections.push({
-        type: "definition-card",
-        heading: "What is it?",
+        type,
+        heading,
         content: [],
-        order: 1,
+        order: order++,
         required: true,
+      });
+    };
+
+    // 1. What is it?
+    if (byType.definition?.length) {
+      push("definition-card", subject.match(/s$/i) ? `What ${subject} are` : `What ${subject} is`, [
+        "definition",
+      ]);
+    }
+
+    // 2. Why it matters (only when properties carry motivation signals)
+    const motivationFacts = (byType.property ?? []).filter((f) =>
+      /matter|important|because|benefit|help|value|critical|essential|advantage/i.test(
+        f.statement
+      )
+    );
+    if (motivationFacts.length >= 1) {
+      sections.push({
+        type: "motivation",
+        heading: subject.match(/s$/i)
+          ? `Why ${subject} matter`
+          : `Why ${subject} matters`,
+        content: [],
+        order: order++,
+        required: false,
       });
     }
 
-    // Q2: Why should I care? (Motivation and relevance)
-    sections.push({
-      type: "motivation",
-      heading: "Why it matters",
-      content: [],
-      order: 2,
-      required: true,
-    });
+    // 3. Core properties / concepts
+    if (byType.property?.length) {
+      push(
+        "core-concept",
+        this.deriveSectionHeading(
+          byType.property,
+          subject.match(/s$/i) ? `How ${subject} behave` : `How ${subject} behaves`
+        ),
+        ["property"]
+      );
+    }
 
-    // Q3: When should I use it? (Use cases and scenarios)
-    if (byType.procedural?.length > 0 || byType.comparison?.length > 0) {
+    // 4. Historical context early when it frames the concept
+    if (byType.historical?.length) {
+      push(
+        "history",
+        this.deriveSectionHeading(byType.historical, `Where ${subject} came from`),
+        ["historical"]
+      );
+    }
+
+    // 5. How it works
+    if ((byType.procedural?.length ?? 0) + (byType.causal?.length ?? 0) > 0) {
+      push(
+        "how-it-works",
+        this.deriveSectionHeading(
+          [...(byType.procedural ?? []), ...(byType.causal ?? [])],
+          `How ${subject} works`
+        ),
+        ["procedural", "causal"]
+      );
+    }
+
+    // 6. When to apply / use cases (remaining procedural when comparisons exist)
+    if ((byType.procedural?.length ?? 0) >= 2 && (byType.comparison?.length ?? 0) > 0) {
+      push(
+        "use-cases",
+        this.deriveSectionHeading(byType.procedural, `When to use ${subject}`),
+        ["procedural"]
+      );
+    }
+
+    // 7. Comparisons / tradeoffs
+    if (byType.comparison?.length) {
+      push(
+        "comparison-table",
+        this.deriveSectionHeading(byType.comparison, `Comparing approaches`),
+        ["comparison"]
+      );
+    }
+
+    // 8. Pitfalls
+    if (byType.warning?.length) {
+      push(
+        "beginner-mistakes",
+        this.deriveSectionHeading(byType.warning, `Mistakes to avoid`),
+        ["warning"]
+      );
+    }
+
+    // 9. Practice rules
+    if (byType.rule?.length) {
+      push(
+        "best-practices",
+        this.deriveSectionHeading(byType.rule, `Practices that work`),
+        ["rule"]
+      );
+    }
+
+    // 10. Metrics
+    if (byType.measurement?.length) {
+      push(
+        "applications",
+        this.deriveSectionHeading(byType.measurement, `How to measure it`),
+        ["measurement"]
+      );
+    }
+
+    // 11. Takeaways — only when enough distinct knowledge to summarize
+    if (sections.length >= 2 && facts.length >= 4) {
       sections.push({
-        type: "use-cases",
-        heading: "When to use it",
+        type: "summary",
+        heading: `What to remember about ${subject}`,
         content: [],
-        order: 3,
-        required: true,
+        order: order++,
+        required: false,
       });
     }
 
-    // Q4: How does it work? (Simplified explanation)
-    if (byType.definition?.length > 0 || byType.procedural?.length > 0) {
-      sections.push({
-        type: "how-it-works",
-        heading: "How it works",
-        content: [],
-        order: 4,
-        required: true,
-      });
-    }
-
-    // Q5: What mistakes do beginners make? (Common pitfalls)
-    if (byType.warning?.length > 0) {
-      sections.push({
-        type: "beginner-mistakes",
-        heading: "Beginner mistakes to avoid",
-        content: [],
-        order: 5,
-        required: true,
-      });
-    }
-
-    // Q6: How do experts think about it? (Expert perspective)
-    if (byType.definition?.length > 0 || byType.historical?.length > 0 || byType.rule?.length > 0) {
-      sections.push({
-        type: "expert-perspective",
-        heading: "Expert perspective",
-        content: [],
-        order: 6,
-        required: true,
-      });
-    }
-
-    // Q7: When should I avoid it? (Anti-patterns and warnings)
-    if (byType.warning?.length > 0 || byType.comparison?.length > 0) {
-      sections.push({
-        type: "when-to-avoid",
-        heading: "When NOT to use it",
-        content: [],
-        order: 7,
-        required: true,
-      });
-    }
-
-    // Q8: What should I learn next? (Learning path)
-    sections.push({
-      type: "learning-path",
-      heading: "What to learn next",
-      content: [],
-      order: 8,
-      required: true,
-    });
-
-    // Sort sections by order
     sections.sort((a, b) => a.order - b.order);
-
     return sections;
+  }
+
+  /** Derive a section heading from fact content, not category templates. */
+  private deriveSectionHeading(facts: PluginFact[], fallback: string): string {
+    if (facts.length === 0) return fallback;
+    const lead = facts[0].statement.trim();
+    // Prefer short noun-phrase heads when the lead is itself a concise claim
+    if (lead.length <= 48 && !/[.!?]/.test(lead)) {
+      return lead.charAt(0).toUpperCase() + lead.slice(1);
+    }
+    // Extract "X is/are ..." subject phrases for definition-like leads
+    const isMatch = lead.match(/^(.{8,48}?)\s+(?:is|are|means|refers to)\b/i);
+    if (isMatch) {
+      return isMatch[1].charAt(0).toUpperCase() + isMatch[1].slice(1);
+    }
+    return fallback;
+  }
+
+  private deduplicateSectionHeadings(sections: ComposedSection[], subject?: string): void {
+    const seen = new Set<string>();
+    const normalize = (text: string) =>
+      text.toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+    const subjectNorm = subject ? normalize(subject) : null;
+    for (const section of sections) {
+      let key = normalize(section.heading);
+      // Avoid repeating the topic title as a redundant H2; prefer a teaching prompt
+      if (subjectNorm && key === subjectNorm) {
+        section.heading =
+          section.type === "definition-card"
+            ? `What ${subject} is`
+            : `Understanding ${subject}`;
+        key = normalize(section.heading);
+      }
+      if (seen.has(key)) {
+        section.heading = `${section.heading} (${section.type.replace(/-/g, " ")})`;
+        key = normalize(section.heading);
+      }
+      seen.add(key);
+    }
   }
 
   /**
@@ -453,36 +531,154 @@ export class KnowledgeComposer {
   }
 
   /**
-   * Enrich sections with explanations, examples, and context
+   * Enrich sections with explanations, examples, progressive disclosure, and contradiction handling.
    */
   private enrichSections(
     sections: ComposedSection[],
     context: CompositionContext
   ): ComposedSection[] {
     const byType = this.groupFactsByType(context.facts);
+    const usedStatements = new Set<string>();
+    const factKey = (f: PluginFact) =>
+      f.statement.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+    // Motivation exclusively claims high-signal property facts when present
+    const motivationClaimed = new Set<string>();
+    if (sections.some((s) => s.type === "motivation")) {
+      for (const f of byType.property ?? []) {
+        if (
+          /matter|important|because|benefit|help|value|critical|essential|advantage/i.test(
+            f.statement
+          )
+        ) {
+          motivationClaimed.add(factKey(f));
+        }
+      }
+    }
 
     return sections.map((section) => {
       const enriched = { ...section };
-      
-      // Allocate relevant facts to section
-      const sectionFacts = this.allocateFactsToSection(section.type, byType);
-      
-      // Add examples where appropriate (skip explanation for now to avoid integration issues)
+      let sectionFacts = this.allocateFactsToSection(section.type, byType);
+
+      if (section.type === "motivation") {
+        sectionFacts = sectionFacts.filter((f) => motivationClaimed.has(factKey(f)));
+        if (sectionFacts.length === 0) {
+          sectionFacts = (byType.property ?? []).slice(0, 2);
+        }
+      } else if (section.type === "core-concept") {
+        // Prefer properties not already used for motivation framing
+        sectionFacts = sectionFacts.filter((f) => !motivationClaimed.has(factKey(f)));
+      } else if (section.type === "use-cases") {
+        // Prefer later procedural facts (how-it-works takes the lead steps)
+        const procedural = [...(byType.procedural ?? [])];
+        const halfway = Math.ceil(procedural.length / 2);
+        sectionFacts = procedural.slice(halfway);
+      } else if (section.type === "summary") {
+        // Intentional reuse for takeaways — do not exclusive-lock
+        sectionFacts = this.allocateFactsToSection("summary", byType).slice(0, 5);
+      }
+
+      if (section.type !== "summary") {
+        sectionFacts = sectionFacts.filter((f) => {
+          const key = factKey(f);
+          if (usedStatements.has(key)) return false;
+          usedStatements.add(key);
+          return true;
+        });
+      }
+
+      // Contradiction / tension: surface opposing claims as a tradeoff callout
+      sectionFacts = this.resolveContradictions(sectionFacts);
+
       const withExamples = this.exampleGenerator.addExamples(
         sectionFacts,
         section.type,
         context
       );
-      
-      // Build content nodes
-      enriched.content = this.buildSectionContent(
-        section.type,
-        withExamples,
-        context
-      );
-      
+
+      // Progressive disclosure: implications only on short warnings/rules (avoid rewriting long facts)
+      const explained =
+        (section.type === "beginner-mistakes" || section.type === "best-practices") &&
+        withExamples.every((f) => f.statement.length < 220)
+          ? this.explanationEngine.explainFacts(withExamples, context).map((e) => ({
+              ...e.original,
+              statement: e.explanation,
+            }))
+          : withExamples;
+
+      enriched.content = this.buildSectionContent(section.type, explained, context);
+
       return enriched;
     });
+  }
+
+  /**
+   * Detect near-opposite claims and demote weaker ones so readers see one clear tradeoff.
+   */
+  private resolveContradictions(facts: PluginFact[]): PluginFact[] {
+    if (facts.length < 2) return facts;
+
+    const negation =
+      /\b(not|never|avoid|don't|do not|unlike|instead of|rather than|except)\b/i;
+    const result: PluginFact[] = [];
+    const suppressed = new Set<number>();
+
+    for (let i = 0; i < facts.length; i++) {
+      if (suppressed.has(i)) continue;
+      const a = facts[i];
+      let replaced: PluginFact | null = null;
+
+      for (let j = i + 1; j < facts.length; j++) {
+        if (suppressed.has(j)) continue;
+        const b = facts[j];
+        const shared = this.tokenOverlap(a.statement, b.statement);
+        const opposite =
+          (negation.test(a.statement) !== negation.test(b.statement)) && shared >= 0.35;
+        if (!opposite) continue;
+
+        // Keep higher confidence / longer (more specific) claim; note the tension once
+        const keepA =
+          (a.confidence === "verified" && b.confidence !== "verified") ||
+          a.statement.length >= b.statement.length;
+        const keep = keepA ? a : b;
+        const other = keepA ? b : a;
+    // Soften contradiction merge — short distinct tradeoff note (avoids full-statement duplicates)
+    suppressed.add(j);
+        const otherBrief = other.statement
+          .split(/[.!?]/)[0]
+          .trim()
+          .split(/\s+/)
+          .slice(0, 12)
+          .join(" ");
+        replaced = {
+          ...keep,
+          statement: `${keep.statement} Tradeoff note: weigh this against “${otherBrief}…”.`,
+          tags: [...(keep.tags || []), "contradiction-resolved"],
+        };
+        break;
+      }
+
+      result.push(replaced ?? a);
+    }
+
+    return result;
+  }
+
+  private tokenOverlap(a: string, b: string): number {
+    const tokens = (s: string) =>
+      new Set(
+        s
+          .toLowerCase()
+          .replace(/[^a-z0-9\s]/g, "")
+          .split(/\s+/)
+          .filter((t) => t.length > 3)
+      );
+    const A = tokens(a);
+    const B = tokens(b);
+    if (A.size === 0 || B.size === 0) return 0;
+    let shared = 0;
+    for (const t of A) if (B.has(t)) shared++;
+    return shared / Math.min(A.size, B.size);
   }
 
   /**
@@ -494,40 +690,7 @@ export class KnowledgeComposer {
   ): DocumentNode[] {
     const tree: DocumentNode[] = [];
 
-    // Add header metadata nodes at the beginning
-    tree.push({
-      type: "metadata",
-      key: "reading-time",
-      value: this.estimateReadingTime(context.facts).toString(),
-    });
-
-    tree.push({
-      type: "metadata",
-      key: "difficulty",
-      value: context.complexity,
-    });
-
-    tree.push({
-      type: "metadata",
-      key: "category",
-      value: context.config.category,
-    });
-
-    tree.push({
-      type: "metadata",
-      key: "updated-date",
-      value: new Date().toISOString(),
-    });
-
-    // Title
-    tree.push({
-      type: "heading",
-      level: 1,
-      text: context.subject,
-      anchor: "title",
-    });
-
-    // Build sections with natural transitions
+    // Title lives on topic_translations — reader tree starts at section headings (H2)
     let previousSection: string | null = null;
     for (const section of sections) {
       // Add transition between sections
@@ -556,37 +719,6 @@ export class KnowledgeComposer {
       previousSection = section.type;
     }
 
-    // Add footer component nodes at the end
-    tree.push({
-      type: "metadata",
-      key: "footer-continue-learning",
-      value: "Continue Learning",
-    });
-
-    tree.push({
-      type: "metadata",
-      key: "footer-explore-category",
-      value: context.config.category,
-    });
-
-    tree.push({
-      type: "metadata",
-      key: "footer-knowledge-graph",
-      value: "Knowledge Graph",
-    });
-
-    tree.push({
-      type: "metadata",
-      key: "footer-related-topics",
-      value: "Related Topics",
-    });
-
-    tree.push({
-      type: "metadata",
-      key: "footer-readers-also-read",
-      value: "Readers Also Read",
-    });
-
     return tree;
   }
 
@@ -608,24 +740,24 @@ export class KnowledgeComposer {
     byType: Record<string, PluginFact[]>
   ): PluginFact[] {
     const allocation: Record<string, string[]> = {
-      // Knowledge Experience 2.0 - 8 Key Questions
+      // Knowledge Experience 2.0 - teaching questions
       "definition-card": ["definition"],
-      "motivation": ["definition", "property"],
+      "motivation": ["property"],
       "use-cases": ["procedural", "comparison"],
       "how-it-works": ["procedural", "causal"],
-      "beginner-mistakes": ["warning", "rule"],
+      "beginner-mistakes": ["warning"],
       "expert-perspective": ["definition", "historical", "rule"],
       "when-to-avoid": ["warning", "comparison"],
       "learning-path": ["definition", "procedural"],
-      // Legacy section types (for backward compatibility)
+      // Primary teaching sections
       "hero-summary": ["definition"],
       "introduction": ["definition"],
       "quick-answer": ["definition"],
       "learning-objectives": ["definition", "procedural"],
       "importance": ["definition", "property"],
-      "core-concept": ["definition"],
+      "core-concept": ["property"],
       "example": ["property"],
-      "applications": ["procedural"],
+      "applications": ["measurement", "procedural"],
       "benefits": ["property"],
       "comparison-table": ["comparison"],
       "pros-cons": ["property", "warning"],
@@ -640,7 +772,7 @@ export class KnowledgeComposer {
       "remember-this": ["definition"],
       "history": ["historical"],
       "related": [],
-      "summary": [],
+      "summary": ["definition", "property", "rule", "warning"],
       "continue-learning": ["definition", "procedural"],
       "decision-box": ["comparison", "definition"],
     };
@@ -671,11 +803,11 @@ export class KnowledgeComposer {
       return nodes;
     }
 
-    // Phase 19: Remove section intro transitions to reduce word count
-    // const sectionIntro = this.transitionGenerator.generateSectionIntro(sectionType, context);
-    // if (sectionIntro) {
-    //   nodes.push({ type: "paragraph", children: [sectionIntro] });
-    // }
+    // Progressive disclosure lead for beginners on critical sections
+    const sectionIntro = this.transitionGenerator.generateSectionIntro(sectionType, context);
+    if (sectionIntro) {
+      nodes.push({ type: "paragraph", children: [sectionIntro] });
+    }
 
     // Render facts based on section type with better explanations
     switch (sectionType) {
@@ -789,35 +921,26 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
     const leadFact = facts[0];
-
     if (!leadFact) return nodes;
 
-    // Create a callout for the definition card
+    // Lead with the clearest definition as a short paragraph (progressive disclosure)
     nodes.push({
-      type: "callout",
-      variant: "info",
-      title: "Definition",
-      children: [
-        {
-          type: "paragraph",
-          children: [leadFact.statement]
-        }
-      ]
+      type: "paragraph",
+      children: [leadFact.statement],
     });
 
-    // Add key points as a list
     if (facts.length > 1) {
-      const keyPoints = facts.slice(1, 4).map(f => ({
-        type: "list-item",
-        children: [f.statement]
-      } as ListItemNode));
-
       nodes.push({
-        type: "list",
-        ordered: false,
-        items: keyPoints
+        type: "callout",
+        variant: "info",
+        title: "In brief",
+        children: [
+          {
+            type: "paragraph",
+            children: [facts.slice(1, 3).map((f) => f.statement).join(" ")],
+          },
+        ],
       });
     }
 
@@ -825,38 +948,34 @@ export class KnowledgeComposer {
   }
 
   /**
-   * Q2: Why should I care? - Motivation and relevance
-   * Answers "What's in it for me?" in a compelling way
+   * Q2: Why should I care? — motivation from property facts only
    */
   private renderMotivation(
     facts: PluginFact[],
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
+    if (facts.length === 0) return nodes;
 
-    if (facts.length === 0) {
-      // Generate default motivation based on subject and context
-      nodes.push({
-        type: "paragraph",
-        children: [
-          `Understanding ${subject} helps you make better decisions, solve problems more effectively, and build a stronger foundation in this area.`
-        ]
-      });
-      return nodes;
-    }
-
-    // Extract motivation points from facts
-    const motivationPoints = facts.slice(0, 3).map(f => ({
-      type: "list-item",
-      children: [f.statement]
-    } as ListItemNode));
-
+    // First claim as a framed paragraph; remaining as bullets
     nodes.push({
-      type: "list",
-      ordered: false,
-      items: motivationPoints
+      type: "paragraph",
+      children: [facts[0].statement],
     });
+
+    if (facts.length > 1) {
+      nodes.push({
+        type: "list",
+        ordered: false,
+        items: facts.slice(1, 4).map(
+          (f) =>
+            ({
+              type: "list-item",
+              children: [f.statement],
+            }) as ListItemNode
+        ),
+      });
+    }
 
     return nodes;
   }
@@ -872,14 +991,9 @@ export class KnowledgeComposer {
     const nodes: DocumentNode[] = [];
 
     if (facts.length === 0) {
-      nodes.push({
-        type: "paragraph",
-        children: ["Use this when you need to solve specific problems or achieve particular goals in this domain."]
-      });
       return nodes;
     }
 
-    // Render use cases as bullet points
     const useCases = facts.map(f => ({
       type: "list-item",
       children: [f.statement]
@@ -905,14 +1019,9 @@ export class KnowledgeComposer {
     const nodes: DocumentNode[] = [];
 
     if (facts.length === 0) {
-      nodes.push({
-        type: "paragraph",
-        children: ["Focus on understanding fundamentals before rushing to advanced topics. Avoid common traps by learning from others' mistakes."]
-      });
       return nodes;
     }
 
-    // Render mistakes as a warning-styled list
     const mistakes = facts.map(f => ({
       type: "list-item",
       children: [f.statement]
@@ -945,14 +1054,9 @@ export class KnowledgeComposer {
     const nodes: DocumentNode[] = [];
 
     if (facts.length === 0) {
-      nodes.push({
-        type: "paragraph",
-        children: ["Experts see this as a foundational concept that connects to many other ideas. They focus on understanding the underlying principles rather than memorizing surface-level details."]
-      });
       return nodes;
     }
 
-    // Render expert insights
     const insights = facts.slice(0, 3).map(f => ({
       type: "list-item",
       children: [f.statement]
@@ -985,14 +1089,9 @@ export class KnowledgeComposer {
     const nodes: DocumentNode[] = [];
 
     if (facts.length === 0) {
-      nodes.push({
-        type: "paragraph",
-        children: ["Avoid using this when the problem doesn't match its strengths, when simpler alternatives exist, or when you don't fully understand the trade-offs involved."]
-      });
       return nodes;
     }
 
-    // Render avoidance scenarios
     const avoidScenarios = facts.map(f => ({
       type: "list-item",
       children: [f.statement]
@@ -1025,14 +1124,11 @@ export class KnowledgeComposer {
     const nodes: DocumentNode[] = [];
     const subject = context.subject;
 
-    // Generate learning path suggestions
-    const nextSteps = facts.length > 0
-      ? facts.slice(0, 3).map(f => f.statement)
-      : [
-          `Practice applying ${subject} in real scenarios`,
-          "Explore related concepts to deepen understanding",
-          "Build projects that use this knowledge"
-        ];
+    if (facts.length === 0) {
+      return nodes;
+    }
+
+    const nextSteps = facts.slice(0, 3).map(f => f.statement);
 
     const nextStepItems = nextSteps.map(step => ({
       type: "list-item",
@@ -1696,33 +1792,22 @@ export class KnowledgeComposer {
     sectionType: string = "core-concept"
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
     const leadFact = facts[0];
-    
     if (!leadFact) return nodes;
 
-    if (sectionType === "introduction") {
-      // Introduction section: Single hook + definition, no walls of text
-      const openingHook = this.generateOpeningHook(subject, context.category, context.intent);
-      nodes.push({
-        type: "paragraph",
-        children: [openingHook],
-      });
+    // Progressive disclosure: lead paragraph, then supporting points
+    nodes.push({
+      type: "paragraph",
+      children: [this.removeFillerTransitions(leadFact.statement)],
+    });
 
-      nodes.push({
-        type: "paragraph",
-        children: [leadFact.statement],
-      });
-
-      // No additional paragraphs - keep it scannable
-    } else {
-      // Core Concept section: Convert to bullet points for scanability
+    if (facts.length > 1) {
       nodes.push({
         type: "list",
-        ordered: true,
-        items: facts.slice(0, 5).map(f => ({
+        ordered: false,
+        items: facts.slice(1, 6).map((f) => ({
           type: "list-item",
-          children: [f.statement],
+          children: [this.removeFillerTransitions(f.statement)],
         })),
       });
     }
@@ -1735,18 +1820,25 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-
     const compressedFacts = this.removeRedundantFacts(facts);
+    if (compressedFacts.length === 0) return nodes;
 
-    // Always use numbered steps - more scannable
+    // Lead with mechanism paragraph before numbered steps
     nodes.push({
-      type: "list",
-      ordered: true,
-      items: compressedFacts.slice(0, 7).map(f => ({
-        type: "list-item",
-        children: [this.removeFillerTransitions(f.statement)],
-      })),
+      type: "paragraph",
+      children: [this.removeFillerTransitions(compressedFacts[0].statement)],
     });
+
+    if (compressedFacts.length > 1) {
+      nodes.push({
+        type: "list",
+        ordered: true,
+        items: compressedFacts.slice(1, 8).map((f) => ({
+          type: "list-item",
+          children: [this.removeFillerTransitions(f.statement)],
+        })),
+      });
+    }
 
     return nodes;
   }
@@ -1840,21 +1932,36 @@ export class KnowledgeComposer {
     context: CompositionContext
   ): DocumentNode[] {
     const nodes: DocumentNode[] = [];
-    const subject = context.subject;
 
-    // Quick summary as bullet points - no paragraphs
-    const keyPoints = facts.slice(0, 5).map(f => f.statement);
+    // Distill — never repeat full prior paragraphs (projection QA counts duplicates)
+    const takeaways = facts.slice(0, 5).map((f) => this.distillTakeaway(f.statement));
+    const unique = [...new Set(takeaways.filter((t) => t.length >= 24))];
+
+    if (unique.length === 0) return nodes;
 
     nodes.push({
       type: "list",
       ordered: true,
-      items: keyPoints.map(point => ({
+      items: unique.map((point) => ({
         type: "list-item",
-        children: [this.removeFillerTransitions(point)],
+        children: [point],
       })),
     });
 
     return nodes;
+  }
+
+  /** Compress a fact into a short takeaway that will not duplicate earlier sections. */
+  private distillTakeaway(statement: string): string {
+    const cleaned = this.removeFillerTransitions(statement).trim();
+    // Prefer a compact clause, not a restated full sentence (projection QA rejects duplicates)
+    const firstSentence = (cleaned.split(/(?<=[.!?])\s+/)[0] ?? cleaned).replace(/[.!?]+$/, "");
+    const words = firstSentence.split(/\s+/).filter(Boolean);
+    if (words.length <= 8) {
+      return `Takeaway: ${firstSentence}.`;
+    }
+    const clipped = words.slice(0, 10).join(" ");
+    return `Takeaway: ${clipped}…`;
   }
 
   private renderGenericSection(

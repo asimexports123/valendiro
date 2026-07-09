@@ -46,6 +46,20 @@ const DEFAULT_POLICY: RenderingPolicy = {
   commercialPlaceholders: false,
 };
 
+/** Relaxed policy for automated internet ingest — accumulate knowledge, don't block the factory. */
+export const INGEST_RENDER_POLICY: RenderingPolicy = {
+  id: "ingest",
+  name: "ingest",
+  categoryMatch: [],
+  requiredFactTypes: [],
+  preferredFormat: "long-article",
+  preferredStyle: ["intermediate"],
+  minFactCount: 2,
+  minCitationCount: 0,
+  sectionOverrides: [],
+  commercialPlaceholders: false,
+};
+
 // ─── Evaluate ────────────────────────────────────────────────────────────────
 
 export function evaluate(

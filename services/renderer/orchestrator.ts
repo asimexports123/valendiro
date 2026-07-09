@@ -278,7 +278,7 @@ export async function render(request: RenderRequest): Promise<RenderResult> {
 
   // Determine status
   let status: "published" | "draft" | "failed" = "draft";
-  if (qualityScore.overall >= 60 && qualityScore.wordCount >= 350) status = "published";
+  if (qualityScore.overall >= 60 && qualityScore.wordCount >= 500) status = "published";
   else if (qualityScore.overall < 40 || qualityScore.wordCount < 200) status = "failed";
 
   return {

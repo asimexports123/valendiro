@@ -123,6 +123,70 @@ export const SUBJECT_SOURCE_REGISTRY: Record<string, SubjectRegistry> = {
       },
     ],
   },
+  "html-fundamentals": {
+    subject: "HTML Fundamentals",
+    subjectType: "programming",
+    version: 1,
+    lastUpdated: new Date().toISOString(),
+    sources: [
+      {
+        name: "MDN HTML Introduction",
+        url: "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML",
+        connector: "MDNConnector",
+        targetCollections: ["concepts", "procedures", "examples"],
+        status: "ACTIVE",
+        lastUpdated: new Date().toISOString(),
+      },
+    ],
+  },
+  "css-fundamentals": {
+    subject: "CSS Fundamentals",
+    subjectType: "programming",
+    version: 1,
+    lastUpdated: new Date().toISOString(),
+    sources: [
+      {
+        name: "MDN CSS Introduction",
+        url: "https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps",
+        connector: "MDNConnector",
+        targetCollections: ["concepts", "procedures", "examples"],
+        status: "ACTIVE",
+        lastUpdated: new Date().toISOString(),
+      },
+    ],
+  },
+  "restful-apis": {
+    subject: "RESTful APIs",
+    subjectType: "programming",
+    version: 1,
+    lastUpdated: new Date().toISOString(),
+    sources: [
+      {
+        name: "MDN HTTP Overview",
+        url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
+        connector: "MDNConnector",
+        targetCollections: ["concepts", "definitions", "procedures"],
+        status: "ACTIVE",
+        lastUpdated: new Date().toISOString(),
+      },
+    ],
+  },
+  "nodejs-cluster": {
+    subject: "Node.js Cluster",
+    subjectType: "programming",
+    version: 1,
+    lastUpdated: new Date().toISOString(),
+    sources: [
+      {
+        name: "Node.js Cluster Docs",
+        url: "https://nodejs.org/api/cluster.html",
+        connector: "MDNConnector",
+        targetCollections: ["concepts", "procedures", "examples", "warnings"],
+        status: "ACTIVE",
+        lastUpdated: new Date().toISOString(),
+      },
+    ],
+  },
 };
 
 export function getSubjectRegistry(subjectSlug: string): SubjectRegistry | undefined {

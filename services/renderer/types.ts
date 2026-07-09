@@ -419,6 +419,20 @@ export interface RenderDiagnostics {
 
   // Warnings
   warnings: string[];
+
+  /** Phase 3 projection page QA metrics */
+  projectionMetrics?: {
+    duplicateFacts: number;
+    duplicateHeadings: number;
+    emptySections: number;
+    placeholderHits: number;
+    fillerRatio: number;
+    graphSyntaxLeaks: number;
+    rawMetadataLeaks: number;
+    repeatedRecommendations: number;
+    passed: boolean;
+    issues: string[];
+  };
 }
 
 // ─── Rendered Output ─────────────────────────────────────────────────────────

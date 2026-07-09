@@ -7,8 +7,7 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { processAllRSSFeeds } from "../discovery/rssDiscoveryService";
-import { processPendingDeduplication } from "../discovery/deduplicationService";
-import { processPendingExtraction } from "../discovery/knowledgeExtractionService";
+import { processArticlePipelineBatch } from "../discovery/articlePipeline";
 import { analyzeAllTopicGaps } from "../discovery/gapAnalysisService";
 import { regenerateAllInternalLinks } from "../discovery/internalLinkService";
 import { runHealthCheck, startContinuousMonitoring } from "../monitoring/selfMonitoringService";
@@ -146,25 +145,19 @@ async function runDiscoveryStage(): Promise<{ success: boolean; processed: numbe
 }
 
 /**
- * Run deduplication stage
+ * Run deduplication stage — canonical path deduplicates at RSS ingest; no-op here.
  */
 async function runDeduplicationStage(): Promise<{ success: boolean; processed: number }> {
-  try {
-    const result = await processPendingDeduplication();
-    return { success: true, processed: result.processed };
-  } catch (error) {
-    console.error(`[Orchestrator] Deduplication stage failed:`, error);
-    return { success: false, processed: 0 };
-  }
+  return { success: true, processed: 0 };
 }
 
 /**
- * Run knowledge extraction stage
+ * Run knowledge extraction stage via canonical article pipeline
  */
 async function runExtractionStage(): Promise<{ success: boolean; processed: number }> {
   try {
-    const result = await processPendingExtraction();
-    return { success: true, processed: result.processed };
+    const result = await processArticlePipelineBatch(10);
+    return { success: result.failed === 0, processed: result.published };
   } catch (error) {
     console.error(`[Orchestrator] Extraction stage failed:`, error);
     return { success: false, processed: 0 };

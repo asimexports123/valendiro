@@ -3,12 +3,8 @@
   "framework": "nextjs",
   "crons": [
     {
-      "path": "/api/cron/autonomous-learner",
-      "schedule": "0 3 * * *"
-    },
-    {
-      "path": "/api/jobs/execute",
-      "schedule": "30 4 * * *"
+      "path": "/api/cron/discovery-pipeline",
+      "schedule": "0 1 * * *"
     }
   ]
 }

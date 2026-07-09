@@ -164,7 +164,7 @@ export async function resolveArticleToCatalogTopics(input: {
   const scored = topics
     .filter((t) => !matches.some((m) => m.topic.id === t.id))
     .map((t) => ({ topic: t, score: keywordScore(articleText, t) }))
-    .filter((s) => s.score >= 0.35)
+    .filter((s) => s.score >= 0.42)
     .sort((a, b) => b.score - a.score)
     .slice(0, 3);
 

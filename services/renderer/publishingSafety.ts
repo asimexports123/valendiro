@@ -7,6 +7,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { markOutputPublished, markOutputStatus } from "@/services/render/writers";
 
 export interface PublishingOperation {
   packageId: string;
@@ -84,31 +85,16 @@ export async function atomicReplaceRenderedOutput(
     }
 
     // Step 3: Mark new output as published (UPSERT)
-    const { error: updateError } = await supabase
-      .from('rendered_outputs')
-      .update({
-        status: 'published',
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', newOutputId);
-
-    if (updateError) {
-      throw new Error(`Failed to publish new output: ${updateError.message}`);
-    }
+    await markOutputPublished(newOutputId);
 
     // Step 4: Mark old output as stale only after new is published
     if (oldOutputId) {
-      const { error: staleError } = await supabase
-        .from('rendered_outputs')
-        .update({
-          status: 'stale',
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', oldOutputId);
-
-      if (staleError) {
-        console.error(`Warning: Failed to mark old output as stale: ${staleError.message}`);
-        // Non-critical error, continue
+      try {
+        await markOutputStatus(oldOutputId, "stale");
+      } catch (staleError) {
+        console.error(
+          `Warning: Failed to mark old output as stale: ${staleError instanceof Error ? staleError.message : staleError}`
+        );
       }
     }
 
@@ -273,24 +259,10 @@ export async function emergencyRollback(
   const supabase = createAdminClient();
 
   try {
-    // Mark failed output as failed
-    await supabase
-      .from('rendered_outputs')
-      .update({
-        status: 'failed',
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', failedOutputId);
+    await markOutputStatus(failedOutputId, "failed");
 
-    // Restore previous output as published
     if (previousOutputId) {
-      await supabase
-        .from('rendered_outputs')
-        .update({
-          status: 'published',
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', previousOutputId);
+      await markOutputPublished(previousOutputId);
     }
 
     console.log(`Emergency rollback completed for package ${packageId}`);

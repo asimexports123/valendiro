@@ -1,24 +1,14 @@
 /**
- * Autonomous Pipeline Cron
- *
- * Runs every 4 hours (via Vercel Cron or external scheduler).
- * Full content lifecycle WITHOUT human intervention:
- *
- *   1. Generate topics for subcategories
- *   2. Quality-check draft articles → promote passing ones
- *   3. Inject internal links
- *   4. Drip-publish ready articles
- *
- * Setup:
- *   Vercel: add cron to vercel.json with schedule "0 0,4,8,12,16,20 * * *"
- *   External: POST with Authorization: Bearer CRON_SECRET
+ * @deprecated Phase 0 — Demand pipeline cron RETIRED.
+ * @architecture-frozen — Route kept for rollback visibility; always returns 410.
+ * Canonical cron: /api/cron/discovery-pipeline
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { batchAutoGenerate } from "@/services/demand/topicAutoGenerator";
-import { batchQualityCheck } from "@/services/publishing/qualityGuardrails";
-import { batchInjectLinks } from "@/services/intelligence/contentLinkInjector";
-import { executeDripPublish } from "@/services/publishing/dripPublisher";
+import {
+  DEMAND_PIPELINE_DISABLED_MESSAGE,
+  DEMAND_PIPELINE_FROZEN,
+} from "@/lib/architecture/frozen";
 
 const CRON_SECRET = process.env.CRON_SECRET || "";
 
@@ -43,58 +33,16 @@ async function handleCron(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const startTime = Date.now();
-  const log: string[] = [];
+  console.warn("[AutonomousPipeline] RETIRED — demand cron disabled (Phase 0 architecture freeze)");
 
-  try {
-    // Step 1: Topic Generation
-    log.push("[1/4] Auto-generating topics...");
-    const topicResult = await batchAutoGenerate({
-      maxTopicsPerSubcategory: 20,
-      strategies: ["decomposition", "long-tail"],
-      limitSubcategories: 10,
-    });
-    log.push(`  → ${topicResult.totalTopicsQueued} topics queued across ${topicResult.totalSubcategories} subcategories`);
-
-    // Step 2: Quality Check & Promote
-    log.push("[2/4] Quality checking drafts...");
-    const qualityResult = await batchQualityCheck({
-      limit: 30,
-      promoteOnPass: true,
-    });
-    log.push(`  → ${qualityResult.articlesChecked} checked, ${qualityResult.promoted} promoted`);
-
-    // Step 3: Link Injection
-    log.push("[3/4] Injecting internal links...");
-    const linkResult = await batchInjectLinks({
-      limit: 20,
-      onlyUnprocessed: true,
-    });
-    log.push(`  → ${linkResult.articlesModified} articles linked, ${linkResult.totalLinksInjected} links`);
-
-    // Step 4: Drip Publish
-    log.push("[4/4] Drip publishing...");
-    const publishResult = await executeDripPublish();
-    log.push(`  → ${publishResult.articlesPublished} published, ${publishResult.articlesRemaining} remaining`);
-
-    const durationMs = Date.now() - startTime;
-    log.push(`Done in ${(durationMs / 1000).toFixed(1)}s`);
-    console.log(`[AutonomousPipeline]\n${log.join("\n")}`);
-
-    return NextResponse.json({
-      success: true,
-      summary: {
-        topicsQueued: topicResult.totalTopicsQueued,
-        articlesPromoted: qualityResult.promoted,
-        linksInjected: linkResult.totalLinksInjected,
-        articlesPublished: publishResult.articlesPublished,
-        durationMs,
-      },
-      log,
-    });
-  } catch (err: any) {
-    log.push(`Error: ${err.message}`);
-    console.error(`[AutonomousPipeline] ${err.message}`);
-    return NextResponse.json({ success: false, error: err.message, log }, { status: 500 });
-  }
+  return NextResponse.json(
+    {
+      success: false,
+      retired: true,
+      frozen: DEMAND_PIPELINE_FROZEN,
+      error: DEMAND_PIPELINE_DISABLED_MESSAGE,
+      canonicalCron: "/api/cron/discovery-pipeline",
+    },
+    { status: 410 }
+  );
 }

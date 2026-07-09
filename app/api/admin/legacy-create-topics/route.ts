@@ -6,6 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { insertTopic } from "@/services/publish/writers";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -68,22 +69,20 @@ export async function POST(request: Request) {
       const title = article.article_translations?.[0]?.title || article.slug;
       
       // Create a new topic with required fields
-      const { data: topic, error: topicError } = await supabase
-        .from("topics")
-        .insert({
+      let topicId: string;
+      try {
+        topicId = await insertTopic({
           slug: article.slug,
+          canonical_path: `/en/topics/${article.slug}`,
           category_id: category.id,
           status: "published",
-          canonical_path: `/${article.slug}`,
-        })
-        .select("id")
-        .single();
-
-      if (topicError) {
+          published_at: new Date().toISOString(),
+        });
+      } catch (topicError) {
         created.push({
           article_slug: article.slug,
           status: "failed",
-          error: topicError.message,
+          error: topicError instanceof Error ? topicError.message : String(topicError),
         });
         continue;
       }
@@ -91,21 +90,21 @@ export async function POST(request: Request) {
       // Link the article to the new topic
       const { error: linkError } = await supabase
         .from("articles")
-        .update({ topic_id: topic.id })
+        .update({ topic_id: topicId })
         .eq("id", article.id);
 
       if (linkError) {
         created.push({
           article_slug: article.slug,
           status: "topic_created_but_link_failed",
-          topic_id: topic.id,
+          topic_id: topicId,
           error: linkError.message,
         });
       } else {
         created.push({
           article_slug: article.slug,
           status: "success",
-          topic_id: topic.id,
+          topic_id: topicId,
         });
       }
     }

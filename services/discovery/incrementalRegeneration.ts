@@ -4,6 +4,8 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { updateTopicFields } from "@/services/publish/writers";
+import { KNOWLEDGE_ASSET_TABLE } from "@/services/discovery/ingest/knowledgeAssetCompat";
 
 export interface RegenerationTask {
   topicId: string;
@@ -156,7 +158,7 @@ export class IncrementalRegenerationService {
     const { data: recentArticles } = await supabase
       .from("discovered_article_topics")
       .select(`
-        discovered_articles(status, created_at)
+        knowledge_assets(status, created_at)
       `)
       .eq("topic_id", topicId)
       .gte("created_at", since);
@@ -166,8 +168,8 @@ export class IncrementalRegenerationService {
     }
 
     // Check if any accepted articles exist
-    const hasAccepted = recentArticles.some((item: any) => 
-      item.discovered_articles?.status === "accepted"
+    const hasAccepted = recentArticles.some((item: { knowledge_assets?: { status: string } | null }) =>
+      item.knowledge_assets?.status === "accepted"
     );
 
     return hasAccepted;
@@ -178,12 +180,7 @@ export class IncrementalRegenerationService {
     // For now, we'll update the topic's updated_at timestamp
     const supabase = createAdminClient();
 
-    await supabase
-      .from("topics")
-      .update({
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", topicId);
+    await updateTopicFields(topicId, { updated_at: new Date().toISOString() });
   }
 
   async getRegenerationStats(hours: number = 24): Promise<{
@@ -237,7 +234,7 @@ export class IncrementalRegenerationService {
     const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
     const { data: acceptedArticles } = await supabase
-      .from("discovered_articles")
+      .from(KNOWLEDGE_ASSET_TABLE)
       .select("id")
       .eq("status", "accepted")
       .gte("created_at", since)

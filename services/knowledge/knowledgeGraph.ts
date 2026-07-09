@@ -7,6 +7,13 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 
+function slugToTitle(slug: string): string {
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export interface KnowledgeRelationship {
   id: string;
   sourceId: string;
@@ -185,8 +192,8 @@ export async function getSemanticRecommendations(
  * Get learning journey for a topic (ordered path through knowledge)
  */
 export async function getLearningJourney(topicId: string, maxDepth = 5): Promise<{
-  completed: string[];
-  continueWith: string[];
+  completed: { slug: string; title: string }[];
+  continueWith: { slug: string; title: string }[];
 }> {
   const supabase = createAdminClient();
 
@@ -202,7 +209,10 @@ export async function getLearningJourney(topicId: string, maxDepth = 5): Promise
     return { completed: [], continueWith: [] };
   }
 
-  const completed = [currentTopic.slug];
+  const currentTitle =
+    currentTopic.topic_translations?.[0]?.title || slugToTitle(currentTopic.slug);
+
+  const completed = [{ slug: currentTopic.slug, title: currentTitle }];
 
   // Get prerequisites (what should come before)
   const { data: prerequisites } = await supabase
@@ -230,25 +240,38 @@ export async function getLearningJourney(topicId: string, maxDepth = 5): Promise
     ...(nextTopics || []).map((r: any) => r.target_id),
   ];
 
-  let continueWith: string[] = [];
+  let continueWith: { slug: string; title: string }[] = [];
   if (allTopicIds.length > 0) {
     const { data: relatedTopics } = await supabase
       .from("topics")
-      .select("id, slug")
+      .select("id, slug, topic_translations(title)")
       .eq("status", "published")
+      .eq("topic_translations.language_code", "en")
       .in("id", allTopicIds);
 
-    const topicSlugMap = new Map();
-    relatedTopics?.forEach(t => topicSlugMap.set(t.id, t.slug));
+    const topicMap = new Map<string, { slug: string; title: string }>();
+    relatedTopics?.forEach((t) => {
+      topicMap.set(t.id, {
+        slug: t.slug,
+        title: t.topic_translations?.[0]?.title || t.slug,
+      });
+    });
 
     continueWith = [
-      ...(prerequisites || []).map((r: any) => topicSlugMap.get(r.target_id)).filter(Boolean),
-      ...(nextTopics || []).map((r: any) => topicSlugMap.get(r.target_id)).filter(Boolean),
-    ];
+      ...(prerequisites || []).map((r: { target_id: string }) => topicMap.get(r.target_id)).filter(Boolean),
+      ...(nextTopics || []).map((r: { target_id: string }) => topicMap.get(r.target_id)).filter(Boolean),
+    ] as { slug: string; title: string }[];
   }
+
+  const seen = new Set<string>();
+  const deduped = continueWith.filter((item) => {
+    if (seen.has(item.slug)) return false;
+    seen.add(item.slug);
+    return true;
+  });
 
   return {
     completed,
-    continueWith: [...new Set(continueWith)].slice(0, maxDepth),
+    continueWith: deduped.slice(0, maxDepth),
   };
 }

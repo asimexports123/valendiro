@@ -8,12 +8,12 @@ import { createSourceManagementService } from "@/services/discovery/sourceManage
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { sourceId: string } }
+  { params }: { params: Promise<{ sourceId: string }> }
 ) {
   try {
     const body = await request.json();
     const { status } = body;
-    const { sourceId } = params;
+    const { sourceId } = await params;
 
     if (!status || !["active", "paused"].includes(status)) {
       return NextResponse.json(

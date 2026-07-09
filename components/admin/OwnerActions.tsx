@@ -37,27 +37,27 @@ export function OwnerActions({ automationEnabled }: Props) {
   }
 
   const busy = loading !== null;
-
   const btnBase = "flex items-center gap-3 rounded-2xl border px-5 py-4 font-semibold text-left disabled:opacity-50 transition-all duration-200";
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <p className="text-sm text-muted-foreground rounded-xl border border-border/60 bg-muted/30 px-4 py-3">
+        Demand pipeline retired (Phase 0). Canonical pipeline runs via discovery cron only.
+      </p>
 
-        {/* ── Start Pipeline */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <button
-          onClick={() => run("demand_run")}
-          disabled={busy}
-          className={`${btnBase} border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-100 dark:hover:bg-emerald-900/40`}
+          disabled
+          title="Retired — use discovery pipeline"
+          className={`${btnBase} border-border/40 bg-muted/50 text-muted-foreground cursor-not-allowed opacity-60`}
         >
-          <span className="text-2xl">{loading === "demand_run" ? "⏳" : "▶️"}</span>
+          <span className="text-2xl">⏸️</span>
           <div>
-            <p className="font-semibold">{loading === "demand_run" ? "Running…" : "Start Pipeline"}</p>
-            <p className="text-xs font-normal mt-0.5 opacity-70">Generate and publish new articles</p>
+            <p className="font-semibold">Start Pipeline (retired)</p>
+            <p className="text-xs font-normal mt-0.5 opacity-70">Demand path disabled — architecture frozen</p>
           </div>
         </button>
 
-        {/* ── Pause / Resume */}
         <button
           onClick={() => run(automationEnabled ? "pause_automation" : "resume_automation")}
           disabled={busy}
@@ -65,36 +65,33 @@ export function OwnerActions({ automationEnabled }: Props) {
         >
           <span className="text-2xl">{loading === "pause_automation" || loading === "resume_automation" ? "⏳" : automationEnabled ? "⏸️" : "▶️"}</span>
           <div>
-            <p className="font-semibold">{automationEnabled ? "Pause Pipeline" : "Resume Pipeline"}</p>
-            <p className="text-xs font-normal mt-0.5 opacity-70">{automationEnabled ? "Stop automatic generation" : "Resume automatic generation"}</p>
+            <p className="font-semibold">{automationEnabled ? "Pause Automation" : "Resume Automation"}</p>
+            <p className="text-xs font-normal mt-0.5 opacity-70">Discovery cron kill switch only</p>
           </div>
         </button>
 
-        {/* ── Regenerate Failed */}
         <button
-          onClick={() => run("publish_queue")}
-          disabled={busy}
-          className={`${btnBase} border-border/60 bg-card text-foreground hover:border-primary/30 hover:shadow-md`}
+          disabled
+          title="Retired — demand publish queue"
+          className={`${btnBase} border-border/40 bg-muted/50 text-muted-foreground cursor-not-allowed opacity-60`}
         >
-          <span className="text-2xl">{loading === "publish_queue" ? "⏳" : "�"}</span>
+          <span className="text-2xl">🔄</span>
           <div>
-            <p className="font-semibold">{loading === "publish_queue" ? "Running…" : "Regenerate Failed"}</p>
-            <p className="text-xs font-normal mt-0.5 text-muted-foreground">Retry failed articles</p>
+            <p className="font-semibold">Regenerate Failed (retired)</p>
+            <p className="text-xs font-normal mt-0.5 opacity-70">Use knowledge asset pipeline in Phase 1+</p>
           </div>
         </button>
 
-        {/* ── View Articles */}
         <a
           href="/admin/articles"
           className={`${btnBase} border-border/60 bg-card text-foreground hover:border-primary/30 hover:shadow-md`}
         >
-          <span className="text-2xl">�</span>
+          <span className="text-2xl">📄</span>
           <div>
             <p className="font-semibold">View Articles</p>
-            <p className="text-xs font-normal mt-0.5 text-muted-foreground">Browse published and draft articles</p>
+            <p className="text-xs font-normal mt-0.5 text-muted-foreground">Browse legacy article records</p>
           </div>
         </a>
-
       </div>
 
       {feedback && (

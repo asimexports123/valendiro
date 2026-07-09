@@ -1,4 +1,4 @@
-import { createClient as createServerClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { JobType } from "@/jobs/definitions/jobTypes";
 import { UpdateQueue } from "@/lib/types";
 
@@ -12,7 +12,7 @@ export interface EnqueueOptions {
 }
 
 export async function enqueueJob(options: EnqueueOptions): Promise<UpdateQueue | null> {
-  const supabase = await createServerClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("update_queue")
     .insert({
@@ -35,7 +35,7 @@ export async function enqueueJob(options: EnqueueOptions): Promise<UpdateQueue |
 }
 
 export async function claimNextPendingJob(jobType: JobType): Promise<UpdateQueue | null> {
-  const supabase = await createServerClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("update_queue")
     .select("*")
@@ -59,7 +59,7 @@ export async function claimNextPendingJob(jobType: JobType): Promise<UpdateQueue
 }
 
 export async function completeJob(jobId: string, errorMessage?: string): Promise<void> {
-  const supabase = await createServerClient();
+  const supabase = createAdminClient();
   await supabase
     .from("update_queue")
     .update({

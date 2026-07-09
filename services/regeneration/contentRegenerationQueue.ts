@@ -9,6 +9,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { updateTopicTranslationContent } from "@/services/publish/writers";
 
 export type RegenerationStatus = "queued" | "running" | "failed" | "published";
 
@@ -266,21 +267,8 @@ async function runQACheck(content: string): Promise<{ passed: boolean; reason: s
 /**
  * Publish content with transaction support
  */
-async function publishContent(topicId: string, newContent: string, previousContent: string | null): Promise<void> {
-  // In a real implementation, this would be a transaction
-  // For now, we'll update directly - if it fails, the previous content remains in the DB
-  const { error } = await supabase
-    .from("topic_translations")
-    .update({
-      content: newContent,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("topic_id", topicId)
-    .eq("language_code", "en");
-
-  if (error) {
-    throw new Error(`Failed to publish content: ${error.message}`);
-  }
+async function publishContent(topicId: string, newContent: string, _previousContent: string | null): Promise<void> {
+  await updateTopicTranslationContent(topicId, newContent, "en");
 }
 
 /**

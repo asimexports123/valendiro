@@ -6,6 +6,12 @@
 
 import { BaseWorker, type WorkerContext } from "./baseWorker";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { updateTopicFields } from "@/services/publish/writers";
+import {
+  KNOWLEDGE_ASSET_TABLE,
+  rowToDiscoveredArticleLogical,
+  type KnowledgeAssetRow,
+} from "@/services/discovery/ingest/knowledgeAssetCompat";
 import { JOB_TYPES } from "@/jobs/definitions/jobTypes";
 import type { JobDefinition } from "@/jobs/definitions/jobTypes";
 
@@ -17,22 +23,24 @@ export class DiscoveryWorker extends BaseWorker {
     const discoveredArticleId = ctx.job.object_id;
 
     // 1. Fetch discovered article
-    const { data: article, error: articleError } = await supabase
-      .from("discovered_articles")
+    const { data: row, error: articleError } = await supabase
+      .from(KNOWLEDGE_ASSET_TABLE)
       .select("*")
       .eq("id", discoveredArticleId)
       .single();
 
-    if (articleError || !article) {
+    if (articleError || !row) {
       throw new Error(`Discovered article not found: ${discoveredArticleId}`);
     }
+
+    const article = rowToDiscoveredArticleLogical(row as KnowledgeAssetRow);
 
     // 2. Detect relevant topic
     const topicId = await this.detectRelevantTopic(article);
     if (!topicId) {
       // No relevant topic found, mark as rejected
       await supabase
-        .from("discovered_articles")
+        .from(KNOWLEDGE_ASSET_TABLE)
         .update({
           status: "rejected",
           rejection_reason: "No relevant topic detected",
@@ -60,7 +68,7 @@ export class DiscoveryWorker extends BaseWorker {
 
     // 6. Mark article as accepted
     await supabase
-      .from("discovered_articles")
+      .from(KNOWLEDGE_ASSET_TABLE)
       .update({
         status: "accepted",
         relevance_score: knowledge.relevanceScore,
@@ -221,16 +229,8 @@ export class DiscoveryWorker extends BaseWorker {
   }
 
   private async updateKnowledgePackage(topicId: string, knowledge: any): Promise<void> {
-    const supabase = createAdminClient();
-
-    // This would integrate with the existing knowledge package system
-    // For now, we'll update the topic's metadata to indicate new knowledge was added
-    await supabase
-      .from("topics")
-      .update({
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", topicId);
+    // Touch topic timestamp via canonical writer until package integration lands
+    await updateTopicFields(topicId, {});
   }
 
   private async queueArticleRegeneration(topicId: string): Promise<void> {

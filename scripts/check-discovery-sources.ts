@@ -1,33 +1,16 @@
-/**
- * Check discovery_sources structure
- */
-
 import * as dotenv from "dotenv";
 import { resolve } from "path";
-
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
+import { createAdminClient } from "../lib/supabase/admin";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-async function checkDiscoverySources() {
-  console.log("Checking existing discovery sources...");
-
-  const { data: sources } = await supabase
-    .from("discovery_sources")
-    .select("*")
-    .limit(5);
-
-  console.log("Existing sources:", sources);
+async function main() {
+  const sb = createAdminClient();
+  const { data: sources } = await sb.from("discovery_system_sources").select("id, name, url, status, source_type").eq("status", "active");
+  console.log(JSON.stringify(sources, null, 2));
+  const { count: pending } = await sb.from("knowledge_assets").select("*", { count: "exact", head: true }).eq("status", "pending");
+  const { count: deferred } = await sb.from("knowledge_assets").select("*", { count: "exact", head: true }).eq("status", "accepted");
+  const { count: mappings } = await sb.from("discovered_article_topics").select("*", { count: "exact", head: true });
+  console.log({ pending, deferred, mappings });
 }
 
-checkDiscoverySources()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error("Error:", error);
-    process.exit(1);
-  });
+main();

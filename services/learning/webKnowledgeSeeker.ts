@@ -47,7 +47,9 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
     { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises", name: "MDN Promises", authority: "official" },
   ],
   "javascript-fundamentals": [
-    { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", name: "MDN JS Guide", authority: "official" },
+    { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction", name: "MDN JS Intro", authority: "official" },
+    { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types", name: "MDN JS Grammar", authority: "official" },
+    { url: "https://en.wikipedia.org/wiki/JavaScript", name: "Wikipedia JavaScript", authority: "encyclopedic" },
   ],
   "html-fundamentals": [
     { url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content", name: "MDN HTML", authority: "official" },
@@ -57,6 +59,8 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
   ],
   "restful-apis": [
     { url: "https://developer.mozilla.org/en-US/docs/Glossary/REST", name: "MDN REST", authority: "official" },
+    { url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods", name: "MDN HTTP Methods", authority: "official" },
+    { url: "https://en.wikipedia.org/wiki/Representational_state_transfer", name: "Wikipedia REST", authority: "encyclopedic" },
   ],
   "nodejs-cluster": [
     { url: "https://nodejs.org/api/cluster.html", name: "Node.js Cluster Docs", authority: "official" },
@@ -392,4 +396,91 @@ export async function seekKnowledgeForGaps(gapReport: PackageGapReport): Promise
   }
 
   return candidates;
+}
+
+export interface CatalogTopicCrawlInput {
+  slug: string;
+  title: string;
+  categorySlug: string | null;
+  subcategorySlug: string | null;
+}
+
+export interface CrawledSource {
+  url: string;
+  title: string;
+  text: string;
+  authority: CandidateInput["sourceAuthority"];
+  adapterName: string;
+}
+
+/** Internal research crawl for catalog topic — never published as-is. */
+export async function crawlCatalogTopicSources(
+  input: CatalogTopicCrawlInput
+): Promise<CrawledSource[]> {
+  const sources: CrawledSource[] = [];
+  const seenUrls = new Set<string>();
+
+  const push = (entry: CrawledSource | null) => {
+    if (!entry?.url || seenUrls.has(entry.url)) return;
+    if (!entry.text || entry.text.length < 200) return;
+    seenUrls.add(entry.url);
+    sources.push(entry);
+  };
+
+  const structured = getStructuredDocCandidate(input.slug, input.title);
+  if (structured?.sourceUrl && structured.description) {
+    push({
+      url: structured.sourceUrl,
+      title: structured.title,
+      text: structured.description,
+      authority: structured.sourceAuthority,
+      adapterName: structured.adapterName,
+    });
+  }
+
+  for (const src of AUTHORITY_URLS[input.slug] ?? []) {
+    const extracted = await extractPageText(src.url);
+    if (extracted) {
+      push({
+        url: src.url,
+        title: extracted.title || src.name,
+        text: extracted.content,
+        authority: src.authority,
+        adapterName: "authority-map",
+      });
+    }
+  }
+
+  const registry = getSubjectRegistry(input.slug);
+  if (registry) {
+    for (const source of registry.sources.filter((s) => s.status === "ACTIVE").slice(0, 3)) {
+      const extracted = await extractPageText(source.url);
+      if (extracted) {
+        push({
+          url: source.url,
+          title: extracted.title || source.name,
+          text: extracted.content,
+          authority: "official",
+          adapterName: "registry-fetch",
+        });
+      }
+    }
+  }
+
+  const wikiQueries = [input.title, input.slug.replace(/-/g, " ")];
+  for (const q of [...new Set(wikiQueries.filter(Boolean))]) {
+    const wiki = await fetchWikipediaFull(q);
+    if (wiki?.sourceUrl && wiki.description) {
+      push({
+        url: wiki.sourceUrl,
+        title: wiki.title,
+        text: wiki.description,
+        authority: "encyclopedic",
+        adapterName: "wikipedia-api",
+      });
+    }
+    if (sources.length >= 4) break;
+  }
+
+  return sources;
 }

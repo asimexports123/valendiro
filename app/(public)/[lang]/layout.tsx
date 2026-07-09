@@ -4,6 +4,7 @@ import { SUPPORTED_LANGUAGES } from "@/lib/constants";
 import { PublicFooter } from "@/components/public/PublicFooter";
 import { PublicHeader } from "@/components/public/PublicHeader";
 import { ScrollToTop } from "@/components/public/ScrollToTop";
+import { getNavData } from "@/services/public/publicData";
 
 export const revalidate = 86400;
 
@@ -24,12 +25,14 @@ export default async function PublicLayout({
     notFound();
   }
 
+  const navCategories = await getNavData();
+
   return (
     <div className="min-h-full flex flex-col bg-background">
       <ScrollToTop />
-      <PublicHeader lang={lang} />
+      <PublicHeader lang={lang} navCategories={navCategories} />
       <main className="flex-1">{children}</main>
-      <PublicFooter lang={lang} />
+      <PublicFooter lang={lang} navCategories={navCategories} />
     </div>
   );
 }

@@ -4,89 +4,56 @@ import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { SITE_NAME } from "@/lib/constants";
+import type { NavCategory } from "@/services/public/publicData";
 
-const CATEGORIES = [
-  {
-    label: "Technology",
-    slug: "technology",
+const CATEGORY_STYLES: Record<string, { color: string; bg: string }> = {
+  technology: {
     color: "text-blue-600 dark:text-blue-400",
     bg: "bg-blue-50 dark:bg-blue-950/40",
-    subcategories: [
-      "Artificial Intelligence", "Web Development", "Mobile Development",
-      "Cloud Computing", "Cybersecurity", "Data Science",
-      "DevOps", "Blockchain", "Software Engineering", "Hardware & IoT",
-    ],
   },
-  {
-    label: "Personal Finance",
-    slug: "personal-finance",
+  "personal-finance": {
     color: "text-emerald-600 dark:text-emerald-400",
     bg: "bg-emerald-50 dark:bg-emerald-950/40",
-    subcategories: [
-      "Investing", "Budgeting & Saving", "Credit & Debt",
-      "Retirement Planning", "Tax Strategies", "Real Estate",
-      "Insurance", "Cryptocurrency", "Financial Independence", "Banking",
-    ],
   },
-  {
-    label: "Business",
-    slug: "business",
+  business: {
     color: "text-violet-600 dark:text-violet-400",
     bg: "bg-violet-50 dark:bg-violet-950/40",
-    subcategories: [
-      "Entrepreneurship", "Marketing & Growth", "Leadership",
-      "Operations", "Sales", "Strategy",
-      "E-commerce", "Freelancing", "Startups", "Product Management",
-    ],
   },
-  {
-    label: "Education",
-    slug: "education",
+  education: {
     color: "text-amber-600 dark:text-amber-400",
     bg: "bg-amber-50 dark:bg-amber-950/40",
-    subcategories: [
-      "Learning Methods", "Study Skills", "Online Courses",
-      "STEM Education", "Languages", "Career Development",
-      "Academic Writing", "Critical Thinking", "Teaching", "Certifications",
-    ],
   },
-  {
-    label: "Health & Wellness",
-    slug: "health-wellness",
+  "health-wellness": {
     color: "text-rose-600 dark:text-rose-400",
     bg: "bg-rose-50 dark:bg-rose-950/40",
-    subcategories: [
-      "Fitness & Exercise", "Nutrition & Diet", "Mental Health",
-      "Sleep", "Meditation", "Weight Management",
-      "Preventive Health", "Supplements", "Yoga", "Chronic Conditions",
-    ],
   },
-  {
-    label: "Home & Lifestyle",
-    slug: "home-lifestyle",
+  "home-lifestyle": {
     color: "text-orange-600 dark:text-orange-400",
     bg: "bg-orange-50 dark:bg-orange-950/40",
-    subcategories: [
-      "Home Organisation", "Cooking & Recipes", "DIY & Repairs",
-      "Interior Design", "Gardening", "Sustainability",
-      "Parenting", "Relationships", "Productivity", "Minimalism",
-    ],
   },
-  {
-    label: "Travel",
-    slug: "travel",
+  travel: {
     color: "text-sky-600 dark:text-sky-400",
     bg: "bg-sky-50 dark:bg-sky-950/40",
-    subcategories: [
-      "Destination Guides", "Budget Travel", "Solo Travel",
-      "Packing & Gear", "Travel Planning", "Visas & Documents",
-      "Adventure Travel", "Digital Nomad", "Road Trips", "Travel Safety",
-    ],
   },
-];
+};
 
-function toSlug(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+const DEFAULT_STYLE = {
+  color: "text-foreground",
+  bg: "bg-muted/40",
+};
+
+function categoryStyle(slug: string) {
+  return CATEGORY_STYLES[slug] ?? DEFAULT_STYLE;
+}
+
+function dotBorderClass(color: string) {
+  if (color.includes("blue")) return "border-blue-300 dark:border-blue-700";
+  if (color.includes("emerald")) return "border-emerald-300 dark:border-emerald-700";
+  if (color.includes("violet")) return "border-violet-300 dark:border-violet-700";
+  if (color.includes("amber")) return "border-amber-300 dark:border-amber-700";
+  if (color.includes("rose")) return "border-rose-300 dark:border-rose-700";
+  if (color.includes("orange")) return "border-orange-300 dark:border-orange-700";
+  return "border-sky-300 dark:border-sky-700";
 }
 
 function DarkModeToggle() {
@@ -123,7 +90,13 @@ function DarkModeToggle() {
   );
 }
 
-export function PublicHeader({ lang }: { lang: string }) {
+export function PublicHeader({
+  lang,
+  navCategories,
+}: {
+  lang: string;
+  navCategories: NavCategory[];
+}) {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -194,69 +167,72 @@ export function PublicHeader({ lang }: { lang: string }) {
 
             {/* Desktop Navigation */}
             <nav ref={navRef} className="hidden lg:flex items-center gap-0.5 ml-8">
-              {CATEGORIES.map((cat, i) => (
-                <div
-                  key={cat.slug}
-                  className="relative"
-                  onMouseEnter={() => openDropdown(i)}
-                  onMouseLeave={closeDropdown}
-                >
-                  <Link
-                    href={`/${lang}/categories/${cat.slug}`}
-                    className={`flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium rounded-md transition-all duration-150 ${
-                      activeDropdown === i
-                        ? "text-foreground bg-muted"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                    }`}
+              {navCategories.map((cat, i) => {
+                const style = categoryStyle(cat.slug);
+                return (
+                  <div
+                    key={cat.slug}
+                    className="relative"
+                    onMouseEnter={() => openDropdown(i)}
+                    onMouseLeave={closeDropdown}
                   >
-                    {cat.label}
-                    <svg className={`h-3 w-3 opacity-50 transition-transform duration-200 ${activeDropdown === i ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </Link>
-
-                  {/* Dropdown */}
-                  {activeDropdown === i && (
-                    <div
-                      className="absolute top-full left-0 pt-2 z-50"
-                      onMouseEnter={() => openDropdown(i)}
-                      onMouseLeave={closeDropdown}
+                    <Link
+                      href={`/${lang}/categories/${cat.slug}`}
+                      className={`flex items-center gap-1 px-3 py-1.5 text-[13px] font-medium rounded-md transition-all duration-150 ${
+                        activeDropdown === i
+                          ? "text-foreground bg-muted"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                      }`}
                     >
-                      <div className="w-[280px] rounded-xl border border-border/50 bg-card shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.4)] p-2 animate-in fade-in slide-in-from-top-1 duration-150">
-                        <div className="px-3 py-2 mb-1">
-                          <p className={`text-xs font-bold ${cat.color}`}>{cat.label}</p>
-                          <p className="text-[11px] text-muted-foreground mt-0.5">{cat.subcategories.length} subcategories</p>
-                        </div>
-                        <div className="space-y-0.5">
-                          {cat.subcategories.map((sub) => (
+                      {cat.label}
+                      <svg className={`h-3 w-3 opacity-50 transition-transform duration-200 ${activeDropdown === i ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </Link>
+
+                    {/* Dropdown */}
+                    {activeDropdown === i && (
+                      <div
+                        className="absolute top-full left-0 pt-2 z-50"
+                        onMouseEnter={() => openDropdown(i)}
+                        onMouseLeave={closeDropdown}
+                      >
+                        <div className="w-[280px] rounded-xl border border-border/50 bg-card shadow-[0_20px_50px_-12px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.4)] p-2 animate-in fade-in slide-in-from-top-1 duration-150">
+                          <div className="px-3 py-2 mb-1">
+                            <p className={`text-xs font-bold ${style.color}`}>{cat.label}</p>
+                            <p className="text-[11px] text-muted-foreground mt-0.5">{cat.subcategories.length} subcategories</p>
+                          </div>
+                          <div className="space-y-0.5">
+                            {cat.subcategories.map((sub) => (
+                              <Link
+                                key={sub.slug}
+                                href={`/${lang}/subcategories/${sub.slug}`}
+                                onClick={() => setActiveDropdown(null)}
+                                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-all duration-100"
+                              >
+                                <span className="flex h-1.5 w-1.5 rounded-full bg-border shrink-0" />
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="mt-1 pt-1 border-t border-border/40">
                             <Link
-                              key={sub}
-                              href={`/${lang}/subcategories/${toSlug(sub)}`}
+                              href={`/${lang}/categories/${cat.slug}`}
                               onClick={() => setActiveDropdown(null)}
-                              className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-all duration-100"
+                              className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold ${style.color} hover:${style.bg} transition-colors`}
                             >
-                              <span className="flex h-1.5 w-1.5 rounded-full bg-border shrink-0" />
-                              {sub}
+                              View all {cat.label}
+                              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                              </svg>
                             </Link>
-                          ))}
-                        </div>
-                        <div className="mt-1 pt-1 border-t border-border/40">
-                          <Link
-                            href={`/${lang}/categories/${cat.slug}`}
-                            onClick={() => setActiveDropdown(null)}
-                            className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold ${cat.color} hover:${cat.bg} transition-colors`}
-                          >
-                            View all {cat.label}
-                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                            </svg>
-                          </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                );
+              })}
             </nav>
 
             {/* Right Actions */}
@@ -322,36 +298,39 @@ export function PublicHeader({ lang }: { lang: string }) {
 
               {/* Categories */}
               <div className="px-3 space-y-0.5">
-                {CATEGORIES.map((cat) => (
-                  <details key={cat.slug} className="group">
-                    <summary className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/60 cursor-pointer list-none transition-colors">
-                      <span>{cat.label}</span>
-                      <svg className="h-3.5 w-3.5 text-muted-foreground/60 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </summary>
-                    <div className="pl-4 pr-2 pb-2 space-y-0.5">
-                      <Link
-                        href={`/${lang}/categories/${cat.slug}`}
-                        onClick={() => setMobileOpen(false)}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold ${cat.color} hover:bg-muted/40 transition-colors`}
-                      >
-                        All {cat.label} →
-                      </Link>
-                      {cat.subcategories.map((sub) => (
+                {navCategories.map((cat) => {
+                  const style = categoryStyle(cat.slug);
+                  return (
+                    <details key={cat.slug} className="group">
+                      <summary className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-muted/60 cursor-pointer list-none transition-colors">
+                        <span>{cat.label}</span>
+                        <svg className="h-3.5 w-3.5 text-muted-foreground/60 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </summary>
+                      <div className="pl-4 pr-2 pb-2 space-y-0.5">
                         <Link
-                          key={sub}
-                          href={`/${lang}/subcategories/${toSlug(sub)}`}
+                          href={`/${lang}/categories/${cat.slug}`}
                           onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+                          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold ${style.color} hover:bg-muted/40 transition-colors`}
                         >
-                          <span className="h-1 w-1 rounded-full bg-border shrink-0" />
-                          {sub}
+                          All {cat.label} →
                         </Link>
-                      ))}
-                    </div>
-                  </details>
-                ))}
+                        {cat.subcategories.map((sub) => (
+                          <Link
+                            key={sub.slug}
+                            href={`/${lang}/subcategories/${sub.slug}`}
+                            onClick={() => setMobileOpen(false)}
+                            className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+                          >
+                            <span className="h-1 w-1 rounded-full bg-border shrink-0" />
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </details>
+                  );
+                })}
               </div>
 
               {/* Quick links */}
@@ -396,17 +375,20 @@ export function PublicHeader({ lang }: { lang: string }) {
             <div className="border-t border-border/40 px-5 py-4">
               <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70 mb-3">Categories</p>
               <div className="grid grid-cols-2 gap-1.5">
-                {CATEGORIES.map((c) => (
-                  <Link
-                    key={c.slug}
-                    href={`/${lang}/categories/${c.slug}`}
-                    onClick={() => setSearchOpen(false)}
-                    className={`flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted/60 transition-colors`}
-                  >
-                    <span className={`h-2 w-2 rounded-full ${c.bg} border ${c.color.includes("blue") ? "border-blue-300 dark:border-blue-700" : c.color.includes("emerald") ? "border-emerald-300 dark:border-emerald-700" : c.color.includes("violet") ? "border-violet-300 dark:border-violet-700" : c.color.includes("amber") ? "border-amber-300 dark:border-amber-700" : c.color.includes("rose") ? "border-rose-300 dark:border-rose-700" : c.color.includes("orange") ? "border-orange-300 dark:border-orange-700" : "border-sky-300 dark:border-sky-700"}`} />
-                    {c.label}
-                  </Link>
-                ))}
+                {navCategories.map((c) => {
+                  const style = categoryStyle(c.slug);
+                  return (
+                    <Link
+                      key={c.slug}
+                      href={`/${lang}/categories/${c.slug}`}
+                      onClick={() => setSearchOpen(false)}
+                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-[13px] font-medium text-foreground hover:bg-muted/60 transition-colors"
+                    >
+                      <span className={`h-2 w-2 rounded-full ${style.bg} border ${dotBorderClass(style.color)}`} />
+                      {c.label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>

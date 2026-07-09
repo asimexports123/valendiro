@@ -8,7 +8,7 @@ import { analyzePackageGaps } from "./packageGapAnalyzer";
 import { seekKnowledgeForGaps } from "./webKnowledgeSeeker";
 import { assemble } from "@/services/knowledge/assembler";
 import { filterRelevantCandidates } from "@/services/knowledge/relevanceGate";
-import { evaluatePublishEligibility, countWords } from "@/services/knowledge/contentQualityGate";
+import { evaluatePublishEligibility, countWords, detectDummyContent } from "@/services/knowledge/contentQualityGate";
 import { renderPackage } from "@/services/render/engine";
 import { publishRenderedOutput } from "@/services/publish/service";
 
@@ -72,10 +72,12 @@ export async function rebuildTopicFromAuthority(slug: string): Promise<RebuildRe
       return { slug, success: false, wordsBefore, wordsAfter: wordsBefore, published: false, error: "Render failed" };
     }
 
+    const dummyBefore = detectDummyContent(beforeContent);
     const eligibility = evaluatePublishEligibility({
       content: rendered.content,
       qualityScoreRaw: rendered.qualityScore?.overall,
-      wordsBefore,
+      wordsBefore: dummyBefore ? undefined : wordsBefore,
+      ignoreRegression: dummyBefore,
     });
 
     if (!eligibility.allowed) {
