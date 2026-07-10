@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { isUsefulTopicLabel } from "@/services/knowledge/navigationTopicFilters";
 import { V1_DEFAULT_CONFIG } from "@/services/demand/categoryConfig";
 import { serializeToHTML } from "@/services/renderer/serializers/html";
 import {
@@ -1144,12 +1145,30 @@ export async function getTopicBySlug(slug: string): Promise<PublicTopicDetail | 
         .from("knowledge_graph_nodes")
         .select("slug, name")
         .in("slug", Array.from(tagSlugs))
-        .limit(12);
+        .limit(24);
 
-      entities = (nodes ?? []).map((n) => ({
-        slug: n.slug,
-        name: n.name || slugToTitle(n.slug),
-      }));
+      const nodeRows = nodes ?? [];
+      const { data: topics } = await supabase
+        .from("topics")
+        .select("slug, topic_translations(title)")
+        .eq("status", "published")
+        .eq("topic_translations.language_code", "en")
+        .in("slug", nodeRows.map((n) => n.slug))
+        .limit(24);
+
+      const topicMap = new Map<string, string>();
+      for (const t of topics ?? []) {
+        const title = t.topic_translations?.[0]?.title || slugToTitle(t.slug);
+        if (isUsefulTopicLabel(title, t.slug)) topicMap.set(t.slug, title);
+      }
+
+      entities = nodeRows
+        .map((n) => ({
+          slug: n.slug,
+          name: topicMap.get(n.slug) || n.name || slugToTitle(n.slug),
+        }))
+        .filter((e) => topicMap.has(e.slug))
+        .slice(0, 8);
     }
 
     const { data: renderedOutput } = await supabase

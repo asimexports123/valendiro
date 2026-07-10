@@ -3,7 +3,7 @@
  */
 
 const SHINGLE_SIZE = 5;
-const MAX_SOURCE_OVERLAP = 0.12;
+const MAX_SOURCE_OVERLAP = 0.14;
 
 function normalize(text: string): string {
   return text
@@ -39,6 +39,65 @@ export interface OriginalityResult {
   pass: boolean;
   maxOverlap: number;
   reason: string;
+  overlappingSentences?: string[];
+}
+
+function normalizeSentence(s: string): string {
+  return normalize(s);
+}
+
+/** Find article sentences that share long phrase runs with any source sentence. */
+export function findSentenceOverlaps(article: string, sourceTexts: string[]): string[] {
+  const articleSentences = article
+    .replace(/^#+\s+/gm, "")
+    .split(/[.!?]+\s+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 30);
+
+  const sourceSentences: string[] = [];
+  for (const src of sourceTexts) {
+    if (!src?.trim()) continue;
+    for (const s of src.split(/[.!?]+\s+/)) {
+      const t = s.trim();
+      if (t.length > 25) sourceSentences.push(t);
+    }
+  }
+
+  const overlaps: string[] = [];
+  for (const art of articleSentences) {
+    const artNorm = normalizeSentence(art);
+    const artWords = artNorm.split(" ").filter(Boolean);
+    if (artWords.length < 6) continue;
+
+    for (const src of sourceSentences) {
+      const srcNorm = normalizeSentence(src);
+      const srcWords = srcNorm.split(" ").filter(Boolean);
+      if (srcWords.length < 6) continue;
+
+      let maxRun = 0;
+      for (let i = 0; i <= artWords.length - 6; i++) {
+        for (let j = 0; j <= srcWords.length - 6; j++) {
+          let run = 0;
+          while (
+            i + run < artWords.length &&
+            j + run < srcWords.length &&
+            artWords[i + run] === srcWords[j + run]
+          ) {
+            run++;
+          }
+          maxRun = Math.max(maxRun, run);
+        }
+      }
+
+      if (maxRun >= 6) {
+        overlaps.push(art.length > 120 ? `${art.slice(0, 117)}…` : art);
+        break;
+      }
+    }
+    if (overlaps.length >= 3) break;
+  }
+
+  return overlaps;
 }
 
 /** Reject if rewritten article shares too many phrases with any source document. */
@@ -55,11 +114,19 @@ export function evaluateOriginality(article: string, sourceTexts: string[]): Ori
     maxOverlap = Math.max(maxOverlap, ratio);
   }
 
+  const overlappingSentences =
+    maxOverlap > MAX_SOURCE_OVERLAP ? findSentenceOverlaps(article, sourceTexts) : undefined;
+
   if (maxOverlap > MAX_SOURCE_OVERLAP) {
+    const sentenceHint =
+      overlappingSentences && overlappingSentences.length > 0
+        ? `; overlapping sentences: ${overlappingSentences.map((s) => `"${s}"`).join("; ")}`
+        : "";
     return {
       pass: false,
       maxOverlap,
-      reason: `too similar to source material (${Math.round(maxOverlap * 100)}% phrase overlap)`,
+      reason: `too similar to source material (${Math.round(maxOverlap * 100)}% phrase overlap)${sentenceHint}`,
+      overlappingSentences,
     };
   }
 

@@ -23,6 +23,7 @@ import { ExampleGenerator } from "./exampleGenerator";
 import { TransitionGenerator } from "./transitionGenerator";
 import { ContextBuilder } from "./contextBuilder";
 import { ReaderFlowValidator } from "./readerFlowValidator";
+import { cleanTopicLabel, definitionSectionHeading } from "@/services/content/topicHeading";
 
 export interface CompositionContext {
   facts: PluginFact[];
@@ -176,9 +177,7 @@ export class KnowledgeComposer {
 
     // 1. What is it?
     if (byType.definition?.length) {
-      push("definition-card", subject.match(/s$/i) ? `What ${subject} are` : `What ${subject} is`, [
-        "definition",
-      ]);
+      push("definition-card", definitionSectionHeading(subject), ["definition"]);
     }
 
     // 2. Why it matters (only when properties carry motivation signals)
@@ -319,8 +318,8 @@ export class KnowledgeComposer {
       if (subjectNorm && key === subjectNorm) {
         section.heading =
           section.type === "definition-card"
-            ? `What ${subject} is`
-            : `Understanding ${subject}`;
+            ? definitionSectionHeading(subject)
+            : `Understanding ${cleanTopicLabel(subject)}`;
         key = normalize(section.heading);
       }
       if (seen.has(key)) {
@@ -2000,10 +1999,11 @@ export class KnowledgeComposer {
   }
 
   private extractSubject(slug: string): string {
-    return slug
+    const raw = slug
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
+    return cleanTopicLabel(raw);
   }
 
   private assessComplexity(

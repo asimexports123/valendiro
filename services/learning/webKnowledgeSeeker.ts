@@ -5,14 +5,24 @@
  * Catalog drives discovery; the web supplies evidence.
  */
 
-import { Readability } from "@mozilla/readability";
-import { JSDOM } from "jsdom";
 import { v4 as uuidv4 } from "uuid";
 import type { CandidateInput } from "@/services/knowledge/types";
 import { getSubjectRegistry } from "@/config/subjectSourceRegistry";
 import { ProductionAcquisitionService } from "@/services/acquisition/productionAcquisitionService";
 import type { PackageGapReport } from "./packageGapAnalyzer";
 import { getStructuredDocCandidate } from "@/services/knowledge/structuredDocCandidates";
+import { getPhase1AuthorityUrlsForSlug } from "@/config/phase1SeedTopics";
+import {
+  fetchHtmlPageText,
+  fetchPagesParallel,
+  fetchWikipediaExtractByTitle,
+  SEED_TIMEOUT_MS,
+  DEFAULT_TIMEOUT_MS,
+} from "./crawlerFastPath";
+import {
+  discoverFromOpenWeb,
+  discoverSourcesFromTaxonomy,
+} from "./taxonomyWebDiscovery";
 
 /** Known high-authority URLs keyed by topic slug — purpose-built acquisition. */
 const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: CandidateInput["sourceAuthority"] }[]> = {
@@ -53,9 +63,13 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
   ],
   "html-fundamentals": [
     { url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content", name: "MDN HTML", authority: "official" },
+    { url: "https://en.wikipedia.org/wiki/HTML", name: "Wikipedia HTML", authority: "encyclopedic" },
+    { url: "https://developer.mozilla.org/en-US/docs/Web/HTML", name: "MDN HTML Reference", authority: "official" },
   ],
   "css-fundamentals": [
     { url: "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics", name: "MDN CSS", authority: "official" },
+    { url: "https://en.wikipedia.org/wiki/CSS", name: "Wikipedia CSS", authority: "encyclopedic" },
+    { url: "https://developer.mozilla.org/en-US/docs/Web/CSS", name: "MDN CSS Reference", authority: "official" },
   ],
   "restful-apis": [
     { url: "https://developer.mozilla.org/en-US/docs/Glossary/REST", name: "MDN REST", authority: "official" },
@@ -96,8 +110,10 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
     { url: "https://www.investopedia.com/terms/b/budget.asp", name: "Investopedia Budget", authority: "encyclopedic" },
     { url: "https://en.wikipedia.org/wiki/Budget", name: "Wikipedia Budget", authority: "encyclopedic" },
   ],
+  // Also add health insurance US page as second encyclopedic source in AUTHORITY_URLS
   "health-insurance": [
     { url: "https://en.wikipedia.org/wiki/Health_insurance", name: "Wikipedia Health Insurance", authority: "encyclopedic" },
+    { url: "https://en.wikipedia.org/wiki/Health_insurance_in_the_United_States", name: "Wikipedia Health Insurance US", authority: "encyclopedic" },
   ],
   "travel-planning": [
     { url: "https://en.wikivoyage.org/wiki/Tips_for_travel_in_developing_countries", name: "Wikivoyage Travel Tips", authority: "encyclopedic" },
@@ -180,6 +196,24 @@ const AUTHORITY_URLS: Record<string, { url: string; name: string; authority: Can
   ],
 };
 
+function resolveAuthorityUrls(slug: string) {
+  const phase1 = getPhase1AuthorityUrlsForSlug(slug);
+  const legacy = AUTHORITY_URLS[slug] ?? [];
+  const seen = new Set<string>();
+  const merged: typeof legacy = [];
+  for (const src of [...phase1, ...legacy]) {
+    if (seen.has(src.url)) continue;
+    seen.add(src.url);
+    merged.push(src);
+  }
+  return merged;
+}
+
+/** Authority URL list for Brain fuel top-up (phase-1 seeds + legacy map). */
+export function getAuthorityUrlsForBrainFuel(slug: string) {
+  return resolveAuthorityUrls(slug);
+}
+
 const CATEGORY_AUTHORITY_DOMAINS: Record<string, string[]> = {
   technology: ["developer.mozilla.org", "docs.python.org", "nodejs.org", "git-scm.com", "wikipedia.org", "doc.rust-lang.org", "docs.aws.amazon.com", "docs.github.com"],
   "personal-finance": ["investopedia.com", "nerdwallet.com", "wikipedia.org"],
@@ -210,73 +244,32 @@ function toCandidate(
   };
 }
 
-async function extractPageText(url: string): Promise<{ title: string; content: string } | null> {
-  try {
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent": "ValendiroKnowledgeBot/1.0 (+https://valendiro.com; educational knowledge acquisition)",
-        Accept: "text/html,application/xhtml+xml",
-      },
-      signal: AbortSignal.timeout(20000),
-      redirect: "follow",
-    });
-    if (!response.ok) return null;
-
-    const html = await response.text();
-    const dom = new JSDOM(html, { url });
-    const reader = new Readability(dom.window.document);
-    const article = reader.parse();
-
-    if (article?.textContent && article.textContent.trim().length > 300) {
-      return {
-        title: article.title ?? url,
-        content: article.textContent.trim().slice(0, 25000),
-      };
-    }
-
-    const body = dom.window.document.body?.textContent?.replace(/\s+/g, " ").trim() ?? "";
-    if (body.length > 300) {
-      return { title: dom.window.document.title ?? url, content: body.slice(0, 25000) };
-    }
-    return null;
-  } catch {
-    return null;
-  }
+async function extractPageText(url: string, timeoutMs = DEFAULT_TIMEOUT_MS): Promise<{ title: string; content: string } | null> {
+  return fetchHtmlPageText(url, timeoutMs);
 }
 
 /** Wikipedia open search → full plain-text extract (not just summary). */
 async function fetchWikipediaFull(query: string): Promise<CandidateInput | null> {
   try {
     const searchRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=3&namespace=0&format=json&origin=*`,
-      { signal: AbortSignal.timeout(12000) }
+      `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=1&namespace=0&format=json&origin=*`,
+      { signal: AbortSignal.timeout(8000) }
     );
     if (!searchRes.ok) return null;
     const searchData = (await searchRes.json()) as [string, string[], string[], string[]];
-    const titles = searchData[1] ?? [];
-    if (titles.length === 0) return null;
+    const title = searchData[1]?.[0];
+    if (!title) return null;
 
-    const title = titles[0];
-    const extractRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=false&explaintext=true&titles=${encodeURIComponent(title)}&format=json&origin=*`,
-      { signal: AbortSignal.timeout(15000) }
-    );
-    if (!extractRes.ok) return null;
-    const extractData = (await extractRes.json()) as {
-      query?: { pages?: Record<string, { title?: string; extract?: string }> };
-    };
-    const pages = Object.values(extractData.query?.pages ?? {});
-    const page = pages[0];
-    if (!page?.extract || page.extract.length < 200) return null;
+    const extracted = await fetchWikipediaExtractByTitle(title, 10_000);
+    if (!extracted) return null;
 
-    const url = `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title ?? title)}`;
     return toCandidate(
-      page.title ?? title,
-      page.extract.slice(0, 20000),
-      url,
+      extracted.title,
+      extracted.content,
+      extracted.url,
       "wikipedia-api",
       "encyclopedic",
-      { gapQuery: query, wikiSearch: titles }
+      { gapQuery: query }
     );
   } catch {
     return null;
@@ -361,11 +354,19 @@ export async function seekKnowledgeForGaps(gapReport: PackageGapReport): Promise
     push(structured);
   }
 
-  // 1. Known authority URLs for this exact slug (highest leverage)
-  for (const src of AUTHORITY_URLS[gapReport.slug] ?? []) {
-    const extracted = await extractPageText(src.url);
-    if (extracted) {
-      push(toCandidate(extracted.title || src.name, extracted.content, src.url, "authority-map", src.authority));
+  // 1. Known authority URLs — parallel fetch with early exit
+  const authorityList = resolveAuthorityUrls(gapReport.slug);
+  const authorityMeta = new Map(authorityList.map((s) => [s.url, s]));
+  const fetched = await fetchPagesParallel(
+    authorityList.map((s) => s.url), {
+    timeoutMs: DEFAULT_TIMEOUT_MS,
+    concurrency: 4,
+    earlyExitTotalChars: 12_000,
+  });
+  for (const page of fetched) {
+    const src = authorityMeta.get(page.url);
+    if (src) {
+      push(toCandidate(page.title || src.name, page.content, page.url, "authority-map", src.authority));
     }
   }
 
@@ -410,7 +411,27 @@ export async function seekKnowledgeForGaps(gapReport: PackageGapReport): Promise
     if (candidates.length >= 3) break;
   }
 
-  // 4. Gap-driven site-restricted search
+  // Taxonomy open-web discovery (crawler decides relevance)
+  const taxonomySources = await discoverFromOpenWeb(
+    {
+      slug: gapReport.slug,
+      title: gapReport.title,
+      categorySlug: gapReport.categorySlug,
+      subcategorySlug: gapReport.subcategorySlug,
+    },
+    { maxSources: 5 }
+  );
+  for (const s of taxonomySources) {
+    if (seenUrls.has(s.url)) continue;
+    push(
+      toCandidate(s.title, s.text, s.url, s.adapterName, s.authority, {
+        taxonomyDiscovery: true,
+      })
+    );
+    if (candidates.length >= 6) break;
+  }
+
+  // 5. Gap-driven site-restricted search (legacy fallback)
   const domains =
     CATEGORY_AUTHORITY_DOMAINS[gapReport.categorySlug ?? ""] ?? CATEGORY_AUTHORITY_DOMAINS.technology;
 
@@ -438,6 +459,8 @@ export interface CatalogTopicCrawlInput {
   title: string;
   categorySlug: string | null;
   subcategorySlug: string | null;
+  subcategoryTitle?: string | null;
+  primaryKeyword?: string | null;
 }
 
 export interface CrawledSource {
@@ -448,10 +471,12 @@ export interface CrawledSource {
   adapterName: string;
 }
 
-/** Internal research crawl for catalog topic — never published as-is. */
-export async function crawlCatalogTopicSources(
-  input: CatalogTopicCrawlInput
-): Promise<CrawledSource[]> {
+function totalCrawledChars(sources: CrawledSource[]): number {
+  return sources.reduce((sum, s) => sum + s.text.length, 0);
+}
+
+/** Open-web crawl — search internet, taxonomy relevance decides take vs skip. */
+async function crawlTopicFromOpenWeb(input: CatalogTopicCrawlInput): Promise<CrawledSource[]> {
   const sources: CrawledSource[] = [];
   const seenUrls = new Set<string>();
 
@@ -473,53 +498,59 @@ export async function crawlCatalogTopicSources(
     });
   }
 
-  for (const src of AUTHORITY_URLS[input.slug] ?? []) {
-    const extracted = await extractPageText(src.url);
-    if (extracted) {
+  const open = await discoverFromOpenWeb(input, { maxSources: 6 });
+  for (const page of open) {
+    push({
+      url: page.url,
+      title: page.title,
+      text: page.text,
+      authority: page.authority,
+      adapterName: page.adapterName,
+    });
+  }
+
+  // Always pull encyclopedic authority sources (definitions) — do not early-exit
+  // on tutorial-heavy open-web results alone.
+  const authorityList = resolveAuthorityUrls(input.slug);
+  const encyclopedicFirst = [
+    ...authorityList.filter((s) => s.authority === "encyclopedic"),
+    ...authorityList.filter((s) => s.authority !== "encyclopedic"),
+  ];
+  const needAuthority =
+    !sources.some((s) => s.authority === "encyclopedic") ||
+    totalCrawledChars(sources) < 8_000 ||
+    sources.length < 2;
+
+  if (needAuthority) {
+    const fetched = await fetchPagesParallel(
+      encyclopedicFirst.map((s) => s.url).filter((u) => !seenUrls.has(u)),
+      { timeoutMs: SEED_TIMEOUT_MS, concurrency: 3, earlyExitTotalChars: 10_000 }
+    );
+    for (const page of fetched) {
+      const src = encyclopedicFirst.find((s) => s.url === page.url);
       push({
-        url: src.url,
-        title: extracted.title || src.name,
-        text: extracted.content,
-        authority: src.authority,
+        url: page.url,
+        title: page.title || src?.name || page.url,
+        text: page.content,
+        authority: src?.authority ?? "encyclopedic",
         adapterName: "authority-map",
       });
     }
   }
 
-  const registry = getSubjectRegistry(input.slug);
-  if (registry) {
-    for (const source of registry.sources.filter((s) => s.status === "ACTIVE").slice(0, 3)) {
-      const extracted = await extractPageText(source.url);
-      if (extracted) {
-        push({
-          url: source.url,
-          title: extracted.title || source.name,
-          text: extracted.content,
-          authority: "official",
-          adapterName: "registry-fetch",
-        });
-      }
-    }
-  }
-
-  const wikiQueries = [
-    input.title,
-    input.slug.replace(/-/g, " "),
-    input.slug.replace(/-basics|-fundamentals|-explained|-guide/g, "").replace(/-/g, " "),
-  ];
-  for (const q of [...new Set(wikiQueries.filter((s) => s.length > 3))]) {
-    const wiki = await fetchWikipediaFull(q);
-    if (wiki?.sourceUrl && wiki.description) {
-      push({
-        url: wiki.sourceUrl,
-        title: wiki.title,
-        text: wiki.description,
-        authority: "encyclopedic",
-        adapterName: "wikipedia-api",
-      });
-    }
-    if (sources.length >= 4) break;
-  }
-
   return sources;
+}
+
+/** @deprecated alias — seed path now uses open web first */
+export async function crawlSeedAuthoritySources(
+  input: CatalogTopicCrawlInput
+): Promise<CrawledSource[]> {
+  return crawlTopicFromOpenWeb(input);
+}
+
+/** Catalog topic crawl — open web first, taxonomy decides relevance */
+export async function crawlCatalogTopicSources(
+  input: CatalogTopicCrawlInput
+): Promise<CrawledSource[]> {
+  return crawlTopicFromOpenWeb(input);
 }

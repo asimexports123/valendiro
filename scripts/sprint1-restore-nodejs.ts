@@ -6,6 +6,9 @@ import * as dotenv from "dotenv";
 import { resolve } from "path";
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
+import { exitLegacyPublishScript } from "./lib/legacyPublishRedirect";
+exitLegacyPublishScript();
+
 import { createClient } from "@supabase/supabase-js";
 import { renderPackage } from "../services/render/engine";
 import { publishRenderedOutput } from "../services/publish/service";

@@ -52,6 +52,20 @@ export function scoreCandidateRelevance(
   const overlap = wordOverlap(combined, keywords);
   const newsScore = scoreNewsSignals(candidate.title);
 
+  // Open-web crawler already scored pages against site taxonomy before fetch
+  if (
+    candidate.adapterName === "open-web-crawler" ||
+    candidate.adapterName === "taxonomy-web-discovery" ||
+    candidate.adapterName === "brain-writer" ||
+    candidate.adapterName === "brain-transform" ||
+    candidate.metadata?.brain_pipeline === true ||
+    candidate.metadata?.brain_writer === true
+  ) {
+    if (overlap >= 0.08 || keywords.some((k) => combined.toLowerCase().includes(k))) {
+      return { score: Math.max(overlap, 0.55), pass: true, reason: "open-web taxonomy match" };
+    }
+  }
+
   // High authority (Wikipedia, MDN, docs) — allow with lower overlap
   if (HIGH_AUTHORITY.has(candidate.sourceAuthority ?? "")) {
     if (overlap >= 0.15 || keywords.some((k) => combined.toLowerCase().includes(k))) {

@@ -13,7 +13,6 @@ import {
   mergeCandidateSets,
 } from "@/services/knowledge/multiSourceGatherer";
 import { renderPackage } from "@/services/render/engine";
-import { publishRenderedOutput } from "@/services/publish/service";
 import { archivePackage } from "@/services/knowledge/packageService";
 import { computeKnowledgePackageMetrics } from "@/services/knowledge/knowledgePackageMetrics";
 import { prioritizeWeakestTopics, type PrioritizedTopic } from "./topicPriorityService";
@@ -189,18 +188,14 @@ async function learnTopic(topic: PrioritizedTopic): Promise<LearnResult> {
       };
     }
 
-    // Quality improved — render and publish
+    // Quality improved — render only; publish deferred to Brain cron
     process.env.ALLOW_RENDER = "true";
-    const renderResult = await renderPackage({
+    await renderPackage({
       packageId: report.packageId,
       format: "markdown",
       forceRerender: true,
       policyMode: "ingest",
     });
-
-    if (renderResult.outputId) {
-      await publishRenderedOutput(renderResult.outputId, "en");
-    }
 
     const sb = createAdminClient();
     await sb
@@ -214,7 +209,7 @@ async function learnTopic(topic: PrioritizedTopic): Promise<LearnResult> {
     return {
       topicSlug: topic.slug,
       status: "improved",
-      reason: `Acquired ${acquired.length} source(s); ${decision.reason}`,
+      reason: `Acquired ${acquired.length} source(s); ${decision.reason}; publish deferred to Brain pipeline`,
       gapsClosed: gapReport.gaps.slice(0, 3).map((g) => g.detail),
       before: beforeSnapshot
         ? {

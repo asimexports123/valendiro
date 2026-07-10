@@ -37,8 +37,11 @@ export const PARALLEL_CRONS_FROZEN = true;
 
 export const CANONICAL_CRON_PATH = "/api/cron/discovery-pipeline";
 
+export const CANONICAL_TOPIC_PUBLISH_MESSAGE =
+  "Topic pages publish only via the Brain pipeline (/api/cron/discovery-pipeline or scripts/run-phase1-seed-brain.ts / scripts/run-brain-pipeline.ts). Manual scripts and legacy paths cannot publish — use fuel-only acquisition and defer publish to Brain.";
+
 export const AUTONOMOUS_LEARNER_CRON_DISABLED_MESSAGE =
-  "Autonomous learner cron is retired. Gap-driven fuel acquisition runs inside /api/cron/discovery-pipeline (step 3). Manual admin scripts may still call runAutonomousLearner directly.";
+  "Autonomous learner cron is retired. Gap-driven fuel acquisition runs inside /api/cron/discovery-pipeline (step 3). runAutonomousLearner is fuel-only — it cannot publish topics; use the Brain pipeline.";
 
 export const JOBS_EXECUTE_CRON_DISABLED_MESSAGE =
   "jobs/execute cron is retired. Automated publishing runs only via /api/cron/discovery-pipeline (brain rewrite). Manual admin POST to /api/jobs/execute remains available.";

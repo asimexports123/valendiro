@@ -190,9 +190,9 @@ export async function validateBeforePublish(
     reasons.push(`QA score ${qaScore} below threshold 90`);
   }
 
-  // Check word count
-  if (newOutput.word_count < 500) {
-    reasons.push(`Word count ${newOutput.word_count} below minimum 500`);
+  // Check word count — dense editorial articles may be shorter than padded drafts
+  if (newOutput.word_count < 350) {
+    reasons.push(`Word count ${newOutput.word_count} below minimum 350`);
   }
 
   // Check citations

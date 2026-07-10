@@ -31,9 +31,11 @@ const TYPE_PATTERNS: { pattern: RegExp; type: FactType }[] = [
   { pattern: /^to\s+\w+/i, type: "procedural" },
   { pattern: /^.+\s+(is|are|refers to|means|defined as)\s+/i, type: "definition" },
   { pattern: /^.+\s+(was|were|founded|created|invented|discovered|established|introduced|released|launched)\s+/i, type: "historical" },
-  { pattern: /^.+\s+(causes?|leads?\s+to|results?\s+in|triggers?)\s+/i, type: "causal" },
+  { pattern: /^.+\s+(causes?|leads?\s+to|results?\s+in|triggers?)\b/i, type: "causal" },
   { pattern: /^(to|how to|step|first|then|next|finally|install|configure|choose|select)\s+/i, type: "procedural" },
+  { pattern: /\b(works by|works through|process of|mechanism|consists of|composed of|step\s+\d|by using|operates by)\b/i, type: "procedural" },
   { pattern: /^(warning|caution|avoid|never|do not|don't|pitfall|mistake)\s+/i, type: "warning" },
+  { pattern: /\b(common mistake|beginners? (often|should)|avoid\b|risk of|can harm|ethical (risk|concern))\b/i, type: "warning" },
   { pattern: /^.+\s+(vs\.?|versus|compared to|unlike|whereas|differs from)\s+/i, type: "comparison" },
   { pattern: /\d[\d,]*(\.\d+)?\s*(%| percent| million| billion| thousand| packages| users| downloads|ratio|basis points)/i, type: "measurement" },
   { pattern: /^.+\s+(has|have|contains?|includes?|supports?|provides?|features?|uses?|implements?)\s+/i, type: "property" },
@@ -166,6 +168,10 @@ export function extractTags(statement: string, domain: string | null): string[] 
 // ─── Source Text Assembly ────────────────────────────────────────────────────
 
 function buildSourceText(candidate: CandidateInput): string {
+  if (candidate.adapterName === "brain-writer" || candidate.metadata?.brain_writer) {
+    return (candidate.description ?? "").trim();
+  }
+
   const parts: string[] = [];
 
   if (candidate.title) parts.push(candidate.title);
@@ -269,7 +275,10 @@ export async function extractFacts(candidates: CandidateInput[]): Promise<Extrac
       }
     }
 
-    const subjectHint = candidate.title?.replace(/\s+(overview|guide|basics|fundamentals|introduction)$/i, "").trim();
+    const subjectHint =
+      candidate.adapterName === "brain-writer" || candidate.metadata?.brain_writer
+        ? undefined
+        : candidate.title?.replace(/\s+(overview|guide|basics|fundamentals|introduction)$/i, "").trim();
 
     for (const seed of claimSeeds) {
       const claims = decomposeIntoAtomicClaims(seed);

@@ -19,8 +19,9 @@ import { parseArticleContent, extractHeadings, estimateReadingTime } from "@/lib
 import { SITE_URL } from "@/lib/constants";
 import Link from "next/link";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 export const dynamicParams = true;
+export const dynamic = "force-dynamic";
 
 const CATEGORY_ACCENT: Record<string, { bg: string; text: string; border: string }> = {
   technology: { bg: "bg-blue-50 dark:bg-blue-950/30", text: "text-blue-700 dark:text-blue-300", border: "border-blue-200 dark:border-blue-800" },
@@ -50,12 +51,12 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
 
   const [semanticRecommendations, learningJourney, faqs, subcategory, sequentialNav, connectedTopics] =
     await Promise.all([
-      getSemanticRecommendations(topic.id, topic.category_id, 9),
+      getSemanticRecommendations(topic.id, topic.category_id, 9, topic.title),
       getLearningJourney(topic.id, 5),
       getQuestionsByTopic(topic.id, 5),
       topic.subcategory_id ? getCollectionBySlugFromId(topic.subcategory_id) : null,
       topic.category_id ? getSequentialNavigation(topic.id, topic.category_id) : null,
-      getConnectedTopics(topic.id, slug, topic.subcategory_id, 6),
+      getConnectedTopics(topic.id, slug, topic.title, topic.category_id, topic.subcategory_id, 6),
     ]);
 
   const category = topic.category_id ? await getCategoryBySlugFromId(topic.category_id) : null;

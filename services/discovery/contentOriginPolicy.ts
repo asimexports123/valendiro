@@ -9,7 +9,7 @@ export type ContentOrigin = "encyclopedia" | "valendiro-original" | "external-re
 
 export const ORIGIN_ADAPTERS: Record<ContentOrigin, string[]> = {
   encyclopedia: ["wikipedia-api", "wikipedia-connector", "encyclopedia-ingest"],
-  "valendiro-original": ["valendiro-original", "catalog-rewrite"],
+  "valendiro-original": ["valendiro-original", "catalog-rewrite", "brain-writer", "brain-transform"],
   "external-reference": ["rss-connector", "authority-map", "registry-fetch"],
 };
 
@@ -49,6 +49,8 @@ export const BRAIN_FEED_ADAPTERS = new Set([
   "catalog-fuel-gather",
   "web-gap-seeker",
   "duckduckgo-search",
+  "open-web-crawler",
+  "taxonomy-web-discovery",
 ]);
 
 export function isExternalWorldAdapter(adapterName: string | null | undefined): boolean {

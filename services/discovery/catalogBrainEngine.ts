@@ -15,7 +15,8 @@ import {
   notesFactCount,
   type BrainNotes,
 } from "./catalogBrainUtils";
-import { evaluateBrainQuality, MIN_BRAIN_WORD_COUNT } from "./brainQualityGate";
+import { getPhase1SeedTopic, PHASE_1_SEED_SLUG_SET } from "@/config/phase1SeedTopics";
+import { evaluateBrainQuality, MIN_BRAIN_WORD_COUNT, MIN_BRAIN_WORD_COUNT_SEED, MIN_BRAIN_DISTINCT_IDEAS_SEED } from "./brainQualityGate";
 
 export interface BrainArticlePlan {
   sections: Array<{
@@ -259,18 +260,30 @@ export interface BrainEngineResult {
 /** Full standalone brain run. */
 export function runBrainEngine(
   target: CatalogTopicTarget,
-  fuelTexts: string[]
+  fuelTexts: string[],
+  options?: { seedMode?: boolean }
 ): BrainEngineResult | null {
-  if (fuelTexts.length < 3) return null;
+  const seedMode = options?.seedMode ?? PHASE_1_SEED_SLUG_SET.has(target.slug);
+  const minFuel = seedMode ? 2 : 3;
+  const minFacts = seedMode ? 6 : 8;
+  const minTypedFacts = seedMode ? 7 : 10;
+  const minWords = seedMode ? MIN_BRAIN_WORD_COUNT_SEED : MIN_BRAIN_WORD_COUNT;
 
-  const notes = brainUnderstand(fuelTexts, target.title);
-  if (notes.allFacts.length < 8 || notesFactCount(notes) < 10) return null;
+  if (fuelTexts.length < minFuel) return null;
+
+  const seed = getPhase1SeedTopic(target.slug);
+  const relevanceTitle = seed?.primaryKeyword ?? target.title;
+  const notes = brainUnderstand(fuelTexts, relevanceTitle);
+  if (notes.allFacts.length < minFacts || notesFactCount(notes) < minTypedFacts) return null;
 
   const markdown = writeBrainArticle(target, notes);
   if (!markdown) return null;
 
-  const quality = evaluateBrainQuality(markdown);
-  if (!quality.pass || quality.wordCount < MIN_BRAIN_WORD_COUNT) return null;
+  const quality = evaluateBrainQuality(markdown, {
+    minWords,
+    minDistinctIdeas: seedMode ? MIN_BRAIN_DISTINCT_IDEAS_SEED : undefined,
+  });
+  if (!quality.pass || quality.wordCount < minWords) return null;
 
   const sectionsWritten = (markdown.match(/^## /gm) ?? []).length;
   return { markdown, notes, quality, sectionsWritten };

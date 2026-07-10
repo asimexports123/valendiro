@@ -1,16 +1,11 @@
 /**
- * Rebuild a single topic from autonomous web acquisition (authority-first).
- * Will NOT publish thin, dummy, or regressed content.
+ * Rebuild a single topic — redirects to canonical Brain publish path.
+ * Legacy assemble/render/publish direct path is retired.
  */
 
+import { publishOriginalTopicBySlug } from "@/services/discovery/catalogOriginalPublish";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { analyzePackageGaps } from "./packageGapAnalyzer";
-import { seekKnowledgeForGaps } from "./webKnowledgeSeeker";
-import { assemble } from "@/services/knowledge/assembler";
-import { filterRelevantCandidates } from "@/services/knowledge/relevanceGate";
-import { evaluatePublishEligibility, countWords, detectDummyContent } from "@/services/knowledge/contentQualityGate";
-import { renderPackage } from "@/services/render/engine";
-import { publishRenderedOutput } from "@/services/publish/service";
+import { countWords } from "@/services/knowledge/contentQualityGate";
 
 export interface RebuildResult {
   slug: string;
@@ -22,11 +17,14 @@ export interface RebuildResult {
 }
 
 export async function rebuildTopicFromAuthority(slug: string): Promise<RebuildResult> {
-  const sb = createAdminClient();
+  console.warn(
+    `[rebuildTopicFromAuthority] LEGACY REDIRECT — routing "${slug}" to canonical Brain publish (publishOriginalTopicBySlug)`
+  );
 
+  const sb = createAdminClient();
   const { data: topic } = await sb
     .from("topics")
-    .select("id, slug, topic_translations(title, content)")
+    .select("id, slug, topic_translations(content)")
     .eq("slug", slug)
     .eq("topic_translations.language_code", "en")
     .maybeSingle();
@@ -35,77 +33,27 @@ export async function rebuildTopicFromAuthority(slug: string): Promise<RebuildRe
     return { slug, success: false, wordsBefore: 0, wordsAfter: 0, published: false, error: "Topic not found" };
   }
 
-  const title = topic.topic_translations?.[0]?.title ?? slug;
   const beforeContent = topic.topic_translations?.[0]?.content ?? "";
   const wordsBefore = countWords(beforeContent);
 
-  try {
-    const gapReport = await analyzePackageGaps(topic.id);
-    const acquired = await seekKnowledgeForGaps(gapReport);
-    const { kept } = filterRelevantCandidates(acquired, slug, title);
+  const result = await publishOriginalTopicBySlug(slug);
 
-    if (kept.length === 0) {
-      return { slug, success: false, wordsBefore, wordsAfter: wordsBefore, published: false, error: "No relevant sources acquired" };
-    }
-
-    const report = await assemble({
-      slotId: null,
-      topicId: topic.id,
+  if (result.status === "published") {
+    return {
       slug,
-      candidates: kept,
-    });
-
-    if (!report.packageId) {
-      return { slug, success: false, wordsBefore, wordsAfter: wordsBefore, published: false, error: "Assembly failed" };
-    }
-
-    process.env.ALLOW_RENDER = "true";
-    const rendered = await renderPackage({
-      packageId: report.packageId,
-      format: "markdown",
-      forceRerender: true,
-      policyMode: "strict",
-      rendererId: "long-article",
-    });
-
-    if (!rendered.outputId || !rendered.content) {
-      return { slug, success: false, wordsBefore, wordsAfter: wordsBefore, published: false, error: "Render failed" };
-    }
-
-    const dummyBefore = detectDummyContent(beforeContent);
-    const eligibility = evaluatePublishEligibility({
-      content: rendered.content,
-      qualityScoreRaw: rendered.qualityScore?.overall,
-      wordsBefore: dummyBefore ? undefined : wordsBefore,
-      ignoreRegression: dummyBefore,
-    });
-
-    if (!eligibility.allowed) {
-      return {
-        slug,
-        success: false,
-        wordsBefore,
-        wordsAfter: eligibility.wordCount,
-        published: false,
-        error: `Publish blocked: ${eligibility.reasons.join("; ")}`,
-      };
-    }
-
-    const pub = await publishRenderedOutput(rendered.outputId, "en");
-    if (!pub.success) {
-      return { slug, success: false, wordsBefore, wordsAfter: eligibility.wordCount, published: false, error: pub.error ?? "Publish failed" };
-    }
-
-    await sb
-      .from("topics")
-      .update({ status: "published", updated_at: new Date().toISOString() })
-      .eq("id", topic.id);
-
-    const wordsAfter = countWords(rendered.content);
-
-    return { slug, success: true, wordsBefore, wordsAfter, published: true };
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return { slug, success: false, wordsBefore, wordsAfter: wordsBefore, published: false, error: message };
+      success: true,
+      wordsBefore,
+      wordsAfter: result.wordCount ?? wordsBefore,
+      published: true,
+    };
   }
+
+  return {
+    slug,
+    success: false,
+    wordsBefore,
+    wordsAfter: result.wordCount ?? wordsBefore,
+    published: false,
+    error: result.reason ?? result.status,
+  };
 }

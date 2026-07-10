@@ -5,6 +5,9 @@ import { writeFileSync, mkdirSync } from "fs";
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 process.env.ALLOW_RENDER = "true";
 
+import { exitLegacyPublishScript } from "./lib/legacyPublishRedirect";
+exitLegacyPublishScript();
+
 import { runAutonomousLearner } from "../services/learning/autonomousLearner";
 import { prioritizeWeakestTopics } from "../services/learning/topicPriorityService";
 

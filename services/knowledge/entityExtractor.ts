@@ -5,6 +5,8 @@
  * Deterministic pattern-based extraction — no LLM.
  */
 
+import { STOP_WORDS, VERB_JUNK } from "@/services/discovery/languageSystem/lexicon";
+
 export type ExtractedEntityType =
   | "company"
   | "person"
@@ -91,6 +93,23 @@ function toSlug(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
+const ENTITY_SLUG_BLOCKLIST = new Set([
+  "the", "for", "given", "before", "down", "one", "readers", "building", "summary",
+  "getting", "problems-given", "mathematics-computer", "science-methods", "methods-software",
+  "systems-tasks", "tasks-reasoning", "capability-computational", "experience-combinatorial",
+  "goals-problem", "problem-subproblems", "problems-judgments", "what-is-artificial-intelligence",
+]);
+
+function isJunkEntityName(name: string): boolean {
+  const slug = toSlug(name);
+  if (ENTITY_SLUG_BLOCKLIST.has(slug)) return true;
+  const words = name.toLowerCase().split(/\s+/).filter(Boolean);
+  if (words.length === 1 && (STOP_WORDS.has(words[0]) || VERB_JUNK.has(words[0]))) return true;
+  if (words.length >= 2 && words.every((w) => STOP_WORDS.has(w) || VERB_JUNK.has(w))) return true;
+  if (words.length === 2 && (VERB_JUNK.has(words[1]) || words[1] === "given")) return true;
+  return false;
+}
+
 function addEntity(
   map: Map<string, ExtractedEntity>,
   name: string,
@@ -99,6 +118,7 @@ function addEntity(
 ): void {
   const trimmed = name.trim().replace(/\.$/, "");
   if (trimmed.length < 2) return;
+  if (isJunkEntityName(trimmed)) return;
   const slug = toSlug(trimmed);
   if (!slug) return;
 
@@ -133,6 +153,7 @@ export function extractEntitiesFromText(text: string): ExtractedEntity[] {
   // Proper noun sequences (2+ words or known single tokens)
   const properNouns = text.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/g) ?? [];
   for (const noun of properNouns) {
+    if (isJunkEntityName(noun)) continue;
     if (!map.has(toSlug(noun))) {
       addEntity(map, noun, "concept", 0.65);
     }

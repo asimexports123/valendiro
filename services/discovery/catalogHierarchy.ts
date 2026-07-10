@@ -5,6 +5,12 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { analyzePackageGaps } from "@/services/learning/packageGapAnalyzer";
 import { isTopicInActiveTaxonomy } from "@/config/activeTaxonomy";
+import {
+  getPhase1SeedPublishPriority,
+  PHASE_1_SEED_SLUG_SET,
+  getTopPhase1SeedSlugs,
+} from "@/config/phase1SeedTopics";
+import { isStubTopicContent } from "@/services/public/contentFilters";
 
 export interface CatalogTopicTarget {
   topicId: string;
@@ -20,16 +26,21 @@ export interface CatalogTopicTarget {
   reason: string;
 }
 
-async function loadHierarchyTopics(): Promise<
-  Omit<CatalogTopicTarget, "priorityScore" | "reason">[]
+async function loadHierarchyTopics(options?: { includeUnpublished?: boolean }): Promise<
+  (Omit<CatalogTopicTarget, "priorityScore" | "reason"> & { topicContent: string })[]
 > {
   const sb = createAdminClient();
 
-  const { data: rows, error } = await sb
+  let query = sb
     .from("topics")
     .select("id, slug, category_id, subcategory_id, topic_translations(title, content)")
-    .eq("status", "published")
     .eq("topic_translations.language_code", "en");
+
+  if (!options?.includeUnpublished) {
+    query = query.eq("status", "published");
+  }
+
+  const { data: rows, error } = await query;
 
   if (error) {
     console.error("[catalogHierarchy] loadHierarchyTopics:", error.message);
@@ -97,6 +108,7 @@ async function loadHierarchyTopics(): Promise<
       categoryTitle: cat?.name ?? cat?.slug ?? null,
       subcategorySlug: sub?.slug ?? null,
       subcategoryTitle: sub?.name ?? sub?.slug ?? null,
+      topicContent: content,
     };
   });
 }
@@ -105,7 +117,8 @@ function computePriority(
   topic: Omit<CatalogTopicTarget, "priorityScore" | "reason">,
   weaknessScore: number,
   gapCount: number,
-  isExcellent: boolean
+  isExcellent: boolean,
+  content?: string
 ): { score: number; reason: string } {
   if (isExcellent) return { score: 0, reason: "already excellent" };
 
@@ -114,21 +127,64 @@ function computePriority(
   else if (topic.wordCount < 1000) score += 18;
   if (topic.factCount < 10) score += 15;
 
+  // Phase-1 seed topics get priority boost from curated publishPriority
+  const seedBoost = getPhase1SeedPublishPriority(topic.slug);
+  if (seedBoost > 0) score += Math.round(seedBoost * 0.4);
+
+  // Stub/placeholder content gets extra urgency
+  if (content && isStubTopicContent(content)) score += 35;
+
   const parts = [`${topic.categoryTitle ?? "Category"} › ${topic.subcategoryTitle ?? "General"} › ${topic.title}`];
   if (topic.wordCount < 1000) parts.push("needs content");
   if (gapCount > 0) parts.push(`${gapCount} gaps`);
+  if (seedBoost > 0) parts.push(`seed priority ${seedBoost}`);
 
   return { score: Math.min(Math.round(score), 100), reason: parts.join(" — ") };
 }
 
 /**
- * Pick topics intelligently across category → subcategory → topic tree.
+ * Phase-1 seeds by curated publishPriority — skips weakness score (stubs + flagships both eligible).
  */
-export async function selectCatalogPublishTargets(limit = 10): Promise<CatalogTopicTarget[]> {
+async function selectSeedPublishTargets(limit: number): Promise<CatalogTopicTarget[]> {
+  const slugs = getTopPhase1SeedSlugs(limit);
+  const topics = await loadHierarchyTopics({ includeUnpublished: true });
+  const bySlug = new Map(
+    topics
+      .filter(({ categorySlug, subcategorySlug }) =>
+        isTopicInActiveTaxonomy(categorySlug, subcategorySlug)
+      )
+      .map(({ topicContent, ...topic }) => [topic.slug, { topic, topicContent }] as const)
+  );
+
+  const selected: CatalogTopicTarget[] = [];
+  for (const slug of slugs) {
+    const row = bySlug.get(slug);
+    if (!row) continue;
+    selected.push({
+      ...row.topic,
+      priorityScore: getPhase1SeedPublishPriority(slug),
+      reason: `seed priority ${getPhase1SeedPublishPriority(slug)}`,
+    });
+  }
+  return selected.slice(0, limit);
+}
+
+/**
+ * Pick topics intelligently across category → subcategory → topic tree.
+ * When seedOnly=true, uses curated seed priority order (not weakness score).
+ */
+export async function selectCatalogPublishTargets(
+  limit = 10,
+  options?: { seedOnly?: boolean }
+): Promise<CatalogTopicTarget[]> {
+  if (options?.seedOnly) {
+    return selectSeedPublishTargets(limit);
+  }
+
   const topics = await loadHierarchyTopics();
   const scored: CatalogTopicTarget[] = [];
 
-  for (const topic of topics) {
+  for (const { topicContent, ...topic } of topics) {
     if (!isTopicInActiveTaxonomy(topic.categorySlug, topic.subcategorySlug)) continue;
 
     const report = await analyzePackageGaps(topic.topicId);
@@ -136,7 +192,8 @@ export async function selectCatalogPublishTargets(limit = 10): Promise<CatalogTo
       topic,
       report.weaknessScore,
       report.gaps.length,
-      report.isExcellent
+      report.isExcellent,
+      topicContent
     );
     if (score < 40) continue;
 

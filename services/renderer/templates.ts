@@ -590,11 +590,14 @@ export function articlize(word: string): string {
   return vowels.includes(firstChar) ? `an ${word}` : `a ${word}`;
 }
 
+import { cleanTopicLabel } from "@/services/content/topicHeading";
+
 // ─── Subject Extraction ──────────────────────────────────────────────────────
 
 export function extractSubject(slug: string): string {
-  return slug
+  const raw = slug
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
+  return cleanTopicLabel(raw);
 }

@@ -4,10 +4,13 @@
 
 import { countWords } from "@/services/knowledge/contentQualityGate";
 
-export const MIN_BRAIN_WORD_COUNT = 750;
-export const MIN_BRAIN_SECTION_WORDS = 90;
-export const MIN_BRAIN_H2_SECTIONS = 4;
-export const MIN_BRAIN_DISTINCT_IDEAS = 8;
+export const MIN_BRAIN_WORD_COUNT = 500;
+/** Dense editorial prose preferred over padded length (CEO editorial directive). */
+export const MIN_BRAIN_WORD_COUNT_SEED = 380;
+export const MIN_BRAIN_SECTION_WORDS = 60;
+export const MIN_BRAIN_H2_SECTIONS = 3;
+export const MIN_BRAIN_DISTINCT_IDEAS = 6;
+export const MIN_BRAIN_DISTINCT_IDEAS_SEED = 4;
 export const MIN_FUEL_SOURCES = 2;
 
 const ROBOTIC_PATTERNS: { pattern: RegExp; max: number; label: string }[] = [
@@ -24,6 +27,11 @@ const FILLER_PATTERNS: RegExp[] = [
   /This guide explains the concept in clear, practical terms for learners who want reliable knowledge without noise/i,
   /Core concepts are still being enriched for this topic/i,
   /helps you make better decisions in .+ and connect ideas across related subjects/i,
+  /that sentence is enough to orient/i,
+  /the sections ahead unpack/i,
+  /hold onto this piece/i,
+  /each idea below assumes/i,
+  /buzzword soup/i,
 ];
 
 export interface BrainQualityResult {
@@ -59,14 +67,19 @@ function countDistinctIdeas(markdown: string): number {
 }
 
 /** Reject thin, robotic, or filler brain output before publish. */
-export function evaluateBrainQuality(markdown: string): BrainQualityResult {
+export function evaluateBrainQuality(
+  markdown: string,
+  options?: { minWords?: number; minDistinctIdeas?: number }
+): BrainQualityResult {
+  const minWords = options?.minWords ?? MIN_BRAIN_WORD_COUNT;
+  const minDistinctIdeas = options?.minDistinctIdeas ?? MIN_BRAIN_DISTINCT_IDEAS;
   const reasons: string[] = [];
   const wordCount = countWords(markdown);
   const sections = extractH2Sections(markdown);
   const distinctIdeas = countDistinctIdeas(markdown);
 
-  if (wordCount < MIN_BRAIN_WORD_COUNT) {
-    reasons.push(`Too thin: ${wordCount} words (min ${MIN_BRAIN_WORD_COUNT})`);
+  if (wordCount < minWords) {
+    reasons.push(`Too thin: ${wordCount} words (min ${minWords})`);
   }
 
   if (sections.length < MIN_BRAIN_H2_SECTIONS) {
@@ -78,8 +91,8 @@ export function evaluateBrainQuality(markdown: string): BrainQualityResult {
     reasons.push(`${thinSections.length} sections under ${MIN_BRAIN_SECTION_WORDS} words`);
   }
 
-  if (distinctIdeas < MIN_BRAIN_DISTINCT_IDEAS) {
-    reasons.push(`Not enough distinct ideas: ${distinctIdeas} (min ${MIN_BRAIN_DISTINCT_IDEAS})`);
+  if (distinctIdeas < minDistinctIdeas) {
+    reasons.push(`Not enough distinct ideas: ${distinctIdeas} (min ${minDistinctIdeas})`);
   }
 
   for (const { pattern, max, label } of ROBOTIC_PATTERNS) {

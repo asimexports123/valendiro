@@ -6,6 +6,14 @@
  *   npx tsx scripts/freeze-and-rebuild-flagships.ts --rebuild-only --limit 5
  */
 
+import * as dotenv from "dotenv";
+import { resolve } from "path";
+
+dotenv.config({ path: resolve(process.cwd(), ".env.local") });
+
+import { exitLegacyPublishScript } from "./lib/legacyPublishRedirect";
+exitLegacyPublishScript();
+
 import { FLAGSHIP_TOPIC_SLUGS } from "../config/flagshipTopics";
 import { freezeNonFlagshipCatalog, getCatalogVisibilityCounts } from "../services/catalog/topicCatalogService";
 import { rebuildTopicFromAuthority } from "../services/learning/rebuildTopicFromAuthority";

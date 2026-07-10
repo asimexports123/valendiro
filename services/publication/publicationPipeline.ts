@@ -21,6 +21,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { assertCanonicalTopicPublish } from '@/lib/architecture/canonicalPublishGuard';
 import { upsertTopicTranslation, markTopicPublished } from '@/services/publish/writers';
 import {
   evaluatePublishEligibility,
@@ -154,6 +155,7 @@ export class PublicationPipeline {
     renderedOutputId: string,
     targetLanguage: string = 'en'
   ): Promise<PublicationResult> {
+    assertCanonicalTopicPublish('PublicationPipeline.publishRenderedOutput');
     console.log(`[Publication Pipeline] Starting publication for rendered output: ${renderedOutputId}`);
 
     // Step 1: Fetch rendered output

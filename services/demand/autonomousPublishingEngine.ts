@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { publishDemandTopic, publishDemandTopicTranslation } from "@/services/publish/service";
+import { DEMAND_PIPELINE_FROZEN, DEMAND_PIPELINE_DISABLED_MESSAGE } from "@/lib/architecture/frozen";
 import { generateArticleFromTemplate } from "../templates/articleTemplateEngine";
 import { humanizeContent, humanizeExcerpt, humanizeMetaDescription } from "../humanization/humanizationProcessor";
 import { runAgentPipeline } from "../intelligence/agentPipeline";
@@ -102,6 +103,20 @@ export async function runAutonomousPublishingPipeline(): Promise<PublishingEngin
 //   services/demand/categoryConfig.ts
 
 export async function publishApprovedTopics(limit = 10): Promise<PublishingEngineResult> {
+  if (DEMAND_PIPELINE_FROZEN) {
+    return {
+      demandInserted: 0,
+      clustersCreated: 0,
+      categoriesCreated: 0,
+      subcategoriesCreated: 0,
+      queuedTopics: 0,
+      topicsPublished: 0,
+      articleExpansionsQueued: 0,
+      articlesPublished: 0,
+      errors: [DEMAND_PIPELINE_DISABLED_MESSAGE],
+    };
+  }
+
   const result: PublishingEngineResult = {
     demandInserted: 0,
     clustersCreated: 0,

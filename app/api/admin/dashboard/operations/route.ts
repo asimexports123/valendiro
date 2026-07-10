@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/env";
 import { createDiscoveryScheduler } from "@/jobs/schedulers/discoveryScheduler";
-import { runAutonomousLearner } from "@/services/learning/autonomousLearner";
+import { gatherCatalogFuelForWeakTopics } from "@/services/discovery/catalogFuelGatherer";
+import { publishOriginalCatalogBatch } from "@/services/discovery/catalogOriginalPublish";
 import { runSchedulerCycle } from "@/services/execution/jobScheduler";
 import { getAutomationConfig, setSystemSetting, logSystemEvent } from "@/services/system/settings";
 
@@ -49,9 +50,15 @@ export async function POST(request: Request) {
 
       case "run_learner": {
         process.env.ALLOW_RENDER = "true";
-        const result = await runAutonomousLearner({ topicLimit: 5 });
-        await logSystemEvent("admin", "run_learner", "success", "Manual autonomous learner cycle");
-        return NextResponse.json({ success: true, action, result });
+        const fuel = await gatherCatalogFuelForWeakTopics({ topicLimit: 10 });
+        const result = await publishOriginalCatalogBatch(5);
+        await logSystemEvent(
+          "admin",
+          "run_learner",
+          "success",
+          `Brain pipeline — fuel=${fuel.fuelGathered} published=${result.published}`
+        );
+        return NextResponse.json({ success: true, action, fuel, result });
       }
 
       case "drain_queue": {

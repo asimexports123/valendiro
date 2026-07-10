@@ -3,6 +3,14 @@
  *   npx tsx scripts/fix-all-flagships-500.ts
  */
 
+import * as dotenv from "dotenv";
+import { resolve } from "path";
+
+dotenv.config({ path: resolve(process.cwd(), ".env.local") });
+
+import { exitLegacyPublishScript } from "./lib/legacyPublishRedirect";
+exitLegacyPublishScript();
+
 import { FLAGSHIP_TOPIC_SLUGS } from "../config/flagshipTopics";
 import { createAdminClient } from "../lib/supabase/admin";
 import { rebuildTopicFromAuthority } from "../services/learning/rebuildTopicFromAuthority";

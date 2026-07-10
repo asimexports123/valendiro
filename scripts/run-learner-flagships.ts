@@ -3,6 +3,9 @@ import { resolve } from "path";
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 process.env.ALLOW_RENDER = "true";
 
+import { exitLegacyPublishScript } from "./lib/legacyPublishRedirect";
+exitLegacyPublishScript();
+
 import { analyzePackageGaps } from "../services/learning/packageGapAnalyzer";
 import { runAutonomousLearner } from "../services/learning/autonomousLearner";
 import { createAdminClient } from "../lib/supabase/admin";

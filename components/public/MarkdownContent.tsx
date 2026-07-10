@@ -26,6 +26,146 @@ function parseGfmCallout(raw: string): { type: string; content: string } | null 
   return { type: match[1].toUpperCase().replace(/\s/g, "_"), content: match[2].trim() };
 }
 
+const PRACTICAL_APPLICATIONS_HEADING = /^(#{1,3})\s+practical applications\b/i;
+
+function splitSection(
+  content: string,
+  headingPattern: RegExp
+): { before: string; heading: string; body: string; after: string } | null {
+  const lines = content.split("\n");
+  const startIdx = lines.findIndex((line) => headingPattern.test(line));
+  if (startIdx < 0) return null;
+
+  let endIdx = lines.length;
+  for (let i = startIdx + 1; i < lines.length; i++) {
+    if (/^#{1,3}\s/.test(lines[i])) {
+      endIdx = i;
+      break;
+    }
+  }
+
+  return {
+    before: lines.slice(0, startIdx).join("\n"),
+    heading: lines[startIdx],
+    body: lines.slice(startIdx + 1, endIdx).join("\n").trim(),
+    after: lines.slice(endIdx).join("\n"),
+  };
+}
+
+function firstSentence(text: string): string {
+  return text.split(/(?<=[.!?])\s+/)[0]?.trim() ?? text.trim();
+}
+
+function smartTitleCase(text: string): string {
+  return text
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => {
+      const lower = word.toLowerCase();
+      if (/^(ai|ml|ux|ui|api|sql|etl|seo|kpi|roi|etf|ira|401k)$/i.test(lower)) return word.toUpperCase();
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(" ");
+}
+
+function extractCardEntries(body: string): Array<{ title: string; summary: string }> {
+  const lines = body.split("\n");
+  const entries: Array<{ title: string; summary: string }> = [];
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+    const bullet = line.match(/^(?:[-*]|\d+[.)])\s+\*\*(.+?)\*\*\s+[—-]\s+(.+)$/);
+    if (bullet) {
+      const title = smartTitleCase(bullet[1].replace(/[.*+?^${}()|[\]\\]/g, "").trim());
+      const summary = bullet[2].trim();
+      if (title && summary) entries.push({ title, summary });
+      continue;
+    }
+
+    const headline = line.match(/^#{1,3}\s+(.+)$/);
+    if (headline) {
+      const title = smartTitleCase(headline[1].trim());
+      if (title) entries.push({ title, summary: "" });
+      continue;
+    }
+  }
+
+  if (entries.length > 0) {
+    return entries.filter((entry) => entry.title && entry.summary);
+  }
+
+  return body
+    .split(/\n{2,}/)
+    .map((p, index) => {
+      const paragraph = p.trim();
+      if (paragraph.length < 20) return null;
+      const cleaned = firstSentence(paragraph)
+        .replace(
+          /^(applied|practical|real-world|in practice|for example|for instance|here|these|this|the focus shifts to|the section shifts to)\b[:\s,-]*/i,
+          ""
+        )
+        .replace(/[()]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      const candidate = cleaned
+        .split(/\s+/)
+        .slice(0, 6)
+        .join(" ")
+        .replace(/[.,;:]+$/, "");
+      return {
+        title: candidate ? smartTitleCase(candidate) : `Use case ${index + 1}`,
+        summary: paragraph,
+      };
+    })
+    .filter((item): item is { title: string; summary: string } => Boolean(item));
+}
+
+function PracticalApplicationsSection({ body }: { body: string }) {
+  const cards = extractCardEntries(body);
+  if (cards.length === 0) return null;
+
+  return (
+    <section className="not-prose my-12 rounded-2xl border border-border/50 bg-card/70 p-4 sm:p-5 shadow-sm">
+      <div className="mb-5">
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/70">
+          Practical Applications
+        </div>
+        <h3 className="mt-1 text-lg sm:text-xl font-semibold tracking-tight text-foreground">
+          Scan the main use cases at a glance
+        </h3>
+        <p className="mt-2 max-w-2xl text-sm sm:text-[0.95rem] leading-6 text-muted-foreground">
+          Each card isolates one real-world situation so readers can understand the most relevant uses in a few seconds.
+        </p>
+      </div>
+
+      <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+        {cards.map((card, index) => (
+          <article
+            key={`${index}-${card.title}`}
+            className="group rounded-2xl border border-border/60 bg-background/80 p-4 sm:p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:bg-primary/[0.03] hover:shadow-md"
+          >
+            <div className="mb-3 flex items-center gap-2">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                {index + 1}
+              </span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Use case
+              </span>
+            </div>
+            <h4 className="text-base sm:text-[1.05rem] font-semibold tracking-tight text-foreground">
+              {card.title}
+            </h4>
+            <p className="mt-2 text-sm sm:text-[0.95rem] leading-7 text-foreground/75 line-clamp-4">
+              {card.summary}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function CodeBlock({ children, className }: { children: React.ReactNode; className?: string }) {
   const [copied, setCopied] = useState(false);
   const language = className?.replace("language-", "") || "text";
@@ -61,6 +201,17 @@ function CodeBlock({ children, className }: { children: React.ReactNode; classNa
 }
 
 export function MarkdownContent({ content }: { content: string }) {
+  const practical = splitSection(content, PRACTICAL_APPLICATIONS_HEADING);
+  if (practical) {
+    return (
+      <div className="article-prose max-w-none">
+        {practical.before.trim() ? <MarkdownContent content={practical.before} /> : null}
+        <PracticalApplicationsSection body={practical.body} />
+        {practical.after.trim() ? <MarkdownContent content={practical.after} /> : null}
+      </div>
+    );
+  }
+
   let isFirstParagraph = true;
 
   return (

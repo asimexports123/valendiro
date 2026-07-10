@@ -10,6 +10,9 @@ import { readFileSync, writeFileSync, mkdirSync } from "fs";
 
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
+import { exitLegacyPublishScript } from "./lib/legacyPublishRedirect";
+exitLegacyPublishScript();
+
 import { createClient } from "@supabase/supabase-js";
 import { assemble } from "../services/knowledge/assembler";
 import { rebuildCandidatesFromPackage, gatherCandidatesForTopic, mergeCandidateSets } from "../services/knowledge/multiSourceGatherer";

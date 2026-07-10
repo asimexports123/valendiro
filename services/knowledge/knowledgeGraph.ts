@@ -6,6 +6,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
+import { dedupeBySlug, isUsefulTopicLabel, topicRelevanceScore } from "./navigationTopicFilters";
 
 function slugToTitle(slug: string): string {
   return slug
@@ -62,7 +63,8 @@ function mapRelationshipToReason(relationshipType: string, direction: 'incoming'
 export async function getSemanticRecommendations(
   topicId: string,
   categoryId: string | null,
-  limit = 9
+  limit = 9,
+  topicLabel = ""
 ): Promise<{
   prerequisites: SemanticRecommendation[];
   nextTopics: SemanticRecommendation[];
@@ -116,10 +118,16 @@ export async function getSemanticRecommendations(
     related: [] as SemanticRecommendation[],
   };
 
+  const relevanceRank = (title: string, slug: string, strength: string, bias = 0) => {
+    const parsedStrength = Number.parseFloat(String(strength ?? "0"));
+    return topicRelevanceScore(topicLabel || slugToTitle(slug), title, slug, bias) + (Number.isFinite(parsedStrength) ? parsedStrength * 12 : 0);
+  };
+
   // Process outgoing relationships (this topic → other topics)
   for (const rel of outgoing || []) {
     const topicInfo = topicMap.get(rel.target_id);
     if (!topicInfo) continue;
+    if (!isUsefulTopicLabel(topicInfo.title, topicInfo.slug)) continue;
 
     const rec: SemanticRecommendation = {
       topicId: rel.target_id,
@@ -145,6 +153,7 @@ export async function getSemanticRecommendations(
   for (const rel of incoming || []) {
     const topicInfo = topicMap.get(rel.source_id);
     if (!topicInfo) continue;
+    if (!isUsefulTopicLabel(topicInfo.title, topicInfo.slug)) continue;
 
     const rec: SemanticRecommendation = {
       topicId: rel.source_id,
@@ -169,21 +178,25 @@ export async function getSemanticRecommendations(
 
   // Remove duplicates and limit results
   const seen = new Set<string>();
-  const dedupe = (list: SemanticRecommendation[]) => {
-    return list
-      .filter(rec => {
-        const key = rec.topicId;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      })
-      .slice(0, Math.ceil(limit / 3));
-  };
+  const dedupeAndSort = (list: SemanticRecommendation[], extraBias = 0) =>
+    dedupeBySlug(
+      list
+        .filter((rec) => isUsefulTopicLabel(rec.topicTitle, rec.topicSlug))
+        .sort((a, b) => {
+          const sa = relevanceRank(a.topicTitle, a.topicSlug, a.strength, extraBias);
+          const sb = relevanceRank(b.topicTitle, b.topicSlug, b.strength, extraBias);
+          return sb - sa;
+        })
+    ).filter((rec) => {
+      if (seen.has(rec.topicId)) return false;
+      seen.add(rec.topicId);
+      return true;
+    });
 
-  recommendations.prerequisites = dedupe(recommendations.prerequisites);
-  recommendations.nextTopics = dedupe(recommendations.nextTopics);
-  recommendations.applications = dedupe(recommendations.applications);
-  recommendations.related = dedupe(recommendations.related);
+  recommendations.prerequisites = dedupeAndSort(recommendations.prerequisites, 6).slice(0, Math.ceil(limit / 3));
+  recommendations.nextTopics = dedupeAndSort(recommendations.nextTopics, 8).slice(0, Math.ceil(limit / 3));
+  recommendations.applications = dedupeAndSort(recommendations.applications, 10).slice(0, Math.ceil(limit / 3));
+  recommendations.related = dedupeAndSort(recommendations.related, 2).slice(0, Math.ceil(limit / 3));
 
   return recommendations;
 }

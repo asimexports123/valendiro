@@ -41,6 +41,7 @@ async function handleCron(req: NextRequest) {
 
   try {
     process.env.ALLOW_RENDER = "true";
+    process.env.BRAIN_AUTO_PUBLISH = "true";
 
     const scheduler = await createDiscoveryScheduler();
 

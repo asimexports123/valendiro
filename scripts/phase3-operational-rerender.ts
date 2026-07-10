@@ -9,6 +9,9 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from "fs";
 dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 process.env.ALLOW_RENDER = "true";
 
+import { exitLegacyPublishScript } from "./lib/legacyPublishRedirect";
+exitLegacyPublishScript();
+
 const SCREENSHOT_DIR = resolve(process.cwd(), "temp/phase3-screenshots");
 const RESULTS_PATH = resolve(process.cwd(), "temp/phase3-results.json");
 

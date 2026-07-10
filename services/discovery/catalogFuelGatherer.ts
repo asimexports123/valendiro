@@ -216,6 +216,7 @@ async function gatherFuelForTopic(
     title: topic.title,
     categorySlug: topic.categorySlug,
     subcategorySlug: topic.subcategorySlug,
+    subcategoryTitle: topic.gapReport.subcategorySlug?.replace(/-/g, " ") ?? null,
   });
   for (const s of crawled) {
     push({
@@ -227,8 +228,11 @@ async function gatherFuelForTopic(
     });
   }
 
-  const acquired = await seekKnowledgeForGaps(topic.gapReport);
-  for (const c of acquired) push(candidateToFuelEntry(c));
+  // Heavy gap-driven search only when fast crawl was thin
+  if (entries.length < 2) {
+    const acquired = await seekKnowledgeForGaps(topic.gapReport);
+    for (const c of acquired) push(candidateToFuelEntry(c));
+  }
 
   let saved = 0;
   let duplicates = 0;

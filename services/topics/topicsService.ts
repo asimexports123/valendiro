@@ -1,4 +1,4 @@
-﻿import { createClient as createServerClient } from "@/lib/supabase/server";
+import { createClient as createServerClient } from "@/lib/supabase/server";
 import { insertTopic, updateTopicFields } from "@/services/publish/writers";
 import { ListOptions, PaginatedResult, ServiceResult } from "@/services/shared/types";
 

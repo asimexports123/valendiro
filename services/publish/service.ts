@@ -8,6 +8,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { PublicationPipeline } from "@/services/publication/publicationPipeline";
 import { generateCanonicalSlug } from "@/services/discovery/canonicalTopicService";
 import { v4 as uuidv4 } from "uuid";
+import { assertCanonicalTopicPublish } from "@/lib/architecture/canonicalPublishGuard";
 import {
   insertTopic,
   upsertTopicTranslation,
@@ -74,6 +75,7 @@ export async function publishRenderedOutput(
   renderedOutputId: string,
   targetLanguage = "en"
 ) {
+  assertCanonicalTopicPublish("publishRenderedOutput");
   return pipeline.publishRenderedOutput(renderedOutputId, targetLanguage);
 }
 
@@ -82,7 +84,8 @@ export async function publishDemandTopic(row: TopicInsertRow): Promise<string> {
   return insertTopic(row);
 }
 
-/** @deprecated Demand-path compatibility */
+/** @deprecated Demand-path compatibility — blocked in production (DEMAND_PIPELINE_FROZEN). */
 export async function publishDemandTopicTranslation(row: TopicTranslationWrite): Promise<void> {
+  assertCanonicalTopicPublish("publishDemandTopicTranslation");
   await upsertTopicTranslation(row);
 }

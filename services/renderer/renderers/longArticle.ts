@@ -24,6 +24,7 @@ import type {
 } from "../types";
 import { extractSubject, hashCode } from "../templates";
 import { getCompositionPolicy, type CompositionPolicy } from "../compositionPolicy";
+import { definitionSectionHeading } from "@/services/content/topicHeading";
 
 export const LONG_ARTICLE_VERSION = "5.0.0";
 
@@ -74,7 +75,7 @@ function renderDefinitions(
 
   nodes.push({
     type: "heading", level: 2,
-    text: `${policy.primaryHeadingLabel} ${subject}?`,
+    text: definitionSectionHeading(subject),
     anchor: "overview",
   });
 

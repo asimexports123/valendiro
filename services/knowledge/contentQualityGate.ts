@@ -2,7 +2,7 @@
  * Publication quality gate — block dummy, thin, and regressed content.
  */
 
-export const MIN_PUBLISH_WORD_COUNT = 500;
+export const MIN_PUBLISH_WORD_COUNT = 350;
 export const MIN_PUBLISH_QUALITY_SCORE = 60; // 0–100 scale
 
 /** Old editorial-upgrade.js template filler — not real knowledge. */
