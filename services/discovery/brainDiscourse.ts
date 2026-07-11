@@ -83,8 +83,10 @@ export function composeDiscourseParagraph(
   voice: NarrationVoice = "explain",
   sectionId = "overview",
   isFirstAnswer = false,
-  followOn?: UnderstoodClaim
+  followOns?: UnderstoodClaim[]
 ): string | null {
+  // Primary planned discourse driven by main claim (may use first followOn for continuity)
+  const primaryFollow = followOns && followOns.length > 0 ? followOns[0] : undefined;
   const planned = planDiscourseFromMeaning(
     claim,
     topicRef,
@@ -92,7 +94,7 @@ export function composeDiscourseParagraph(
     sectionId,
     seed,
     isFirstAnswer,
-    followOn
+    primaryFollow
   );
   const unit: DiscourseUnit = {
     centralIdea: planned.centralIdea,
@@ -100,7 +102,34 @@ export function composeDiscourseParagraph(
     support: planned.support,
     voice: planned.voice,
   };
-  return composeDiscourse(unit, seed, voice ?? planned.voice);
+
+  let paragraph = composeDiscourse(unit, seed, voice ?? planned.voice);
+  if (!paragraph) return null;
+
+  // Append additional follow-on sentences for extra claims to build a fuller paragraph
+  if (followOns && followOns.length > 1) {
+    const starters = ["That means", "In other words,", "So", "Because of that,", "From there,", "Practically,"];
+    for (let i = 1; i < followOns.length; i++) {
+      const f = followOns[i];
+      const raw = trimAssertion(f.assertion || f.sourceFact, 130);
+      if (!raw || raw.length < 18) continue;
+      // Avoid repeating lead's beginning
+      const leadKey = (claim.assertion || "").toLowerCase().slice(0, 60);
+      if (raw.toLowerCase().startsWith(leadKey.slice(0, 40))) continue;
+      const starter = starters[Math.abs(seed + i) % starters.length];
+      let body = raw.replace(/^[A-Z]/, (c) => c.toLowerCase());
+      const subj = (claim.subject || "").trim();
+      if (subj.length > 2) {
+        body = body.replace(new RegExp(`^(the\\s+)?${subj.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}\\s+(is|are|can|will|helps|enables)\\s+`, "i"), "");
+      }
+      if (body.length < 16) body = raw;
+      const sentence = `${starter} ${body}`.replace(/\s+/g, " ").trim();
+      const final = sentence.endsWith(".") ? sentence : `${sentence}.`;
+      paragraph = `${paragraph} ${final}`;
+    }
+  }
+
+  return paragraph;
 }
 
 /** Section closer as coherent discourse. */

@@ -466,7 +466,7 @@ export function explainParagraph(
 ): string {
   if (thesis.claims.length === 0) return "";
   const claim = thesis.claims[0];
-  const followOn = thesis.claims[1];
+  const followOns = thesis.claims.slice(1);
   const ref = topicRef(topicLabel, seed, seed);
   const sectionId = thesis.sectionId ?? "overview";
   const voice = voiceForThesis(thesis, sectionId, seed);
@@ -479,7 +479,7 @@ export function explainParagraph(
       voice,
       sectionId,
       false,
-      followOn
+      followOns
     ) ?? ""
   );
 }
