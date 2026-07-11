@@ -296,8 +296,8 @@ export function writeBrainArticle(
   let wordCount = countWords(markdown);
 
   // Dense knowledge only — never pad with meta Q&A to hit a word count (CEO editorial directive)
-  // Must clear publication floor (now raised to 800 words per user request)
-  if (wordCount < 800) return null;
+  // Publication floor restored to 350 for live visibility (fast path).
+  if (wordCount < 350) return null;
 
   return {
     markdown,
