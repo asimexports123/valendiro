@@ -6,6 +6,7 @@ import type { BrainNotes } from "./catalogBrainUtils";
 import type { FactKind } from "./languageSystem/types";
 import { planArticleSections } from "./languageSystem/rhetoric";
 import { understandFact, type UnderstoodClaim } from "./brainUnderstanding";
+import { buildTopicModel } from "./topicModel";
 
 import { deriveQuestion } from "./brainQuestion";
 import { deriveCentralIdea } from "./brainDiscourse";
@@ -121,46 +122,35 @@ function factsForSection(
   notes: BrainNotes,
   sectionId: string,
   maxFacts: number,
-  used: Set<string>
+  used: Set<string>,
+  topicLabel: string,
+  reservedFacts: string[] = []
 ): Array<{ fact: string; kind: FactKind }> {
-  // Generic "Reader Understanding Layer" — evaluate usefulness of each fact
+  // Delegate per-fact decisions to the evidence-based Reader Understanding assessor.
   function evaluateFactUsefulness(fact: string, section: string): boolean {
-    if (!fact) return false;
-    const cleaned = fact.replace(/\[\d+[a-z]?\]/gi, "").replace(/\s+/g, " ").trim();
-    if (cleaned.length < 20) return false;
-    // Reject wiki/source cruft and fragment openers
-    if (/\[edit\]|\bsee also\b|refer to\b|as mentioned\b/i.test(cleaned)) return false;
-    if (/^(such as|including|for example|e\.g\.|namely|types of|there are \d+)/i.test(cleaned)) return false;
-    // Reject long comma-taxonomy lists
-    if (/^[^.!?]{0,40}(,\s*[a-z][^,]{1,30}){4,}\.?$/i.test(cleaned)) return false;
-    // Reject bare statistics
-    if (/^\d+(\.\d+)?%(\s+of)?\b/i.test(cleaned)) return false;
-
-    let score = 0;
-    // Explanation / reader-oriented signals
-    if (/\b(helps|enables|allows|you can|you should|used in|used for|in practice|for example|for instance)\b/i.test(cleaned)) score += 30;
-    if (/\b(is|are|refers to|defined as|means|consists of|works|process|step|mechanism|procedure|how to|by)\b/i.test(cleaned)) score += 22;
-    if (/\b(benefit|advantage|trade-?off|limitation|risk|cost|avoid|mistake|pitfall)\b/i.test(cleaned)) score += 16;
-
-    // Penalize historical/trivia/source emphasis
-    if (/\b(invented|originated|first introduced|pioneered|in \d{4}|since \d{4})\b/i.test(cleaned)) score -= 40;
-    if (/\b(author|source|study|according to|citation|survey)\b/i.test(cleaned)) score -= 18;
-
-    // Facts without a verb are likely taxonomy/fragments — lower their score
-    if (!/\b(is|are|helps|enables|allows|uses|makes|provides|works|does|means|consists)\b/i.test(cleaned)) score -= 18;
-
-    // Section-specific nudges
-    if (section === "why" && /\b(because|purpose|reason|so that|therefore|as a result)\b/i.test(cleaned)) score += 18;
-    if (section === "how" && /\b(step|first|next|then|process|workflow|by|through|using|implement|build|deploy)\b/i.test(cleaned)) score += 18;
-    if (section === "practical" && /\b(used in|used for|who|when|benefit|scenario|case|everyday|typical)\b/i.test(cleaned)) score += 18;
-
-    return score >= 12;
+    try {
+      const a = assessFactForSection(fact, section, notes, topicLabel);
+      return !!a?.kept;
+    } catch (e) {
+      // If assessor fails, conservatively allow short facts through the existing heuristics fallback.
+      const cleaned = fact.replace(/\[\d+[a-z]?\]/gi, "").replace(/\s+/g, " ").trim();
+      if (!cleaned || cleaned.length < 20) return false;
+      return /\b(is|are|refers to|defined as|means|works|process|step|used in|used for)\b/i.test(cleaned);
+    }
   }
 
   switch (sectionId) {
     case "overview": {
       const defs = notes.definitions.length > 0 ? notes.definitions : notes.allFacts;
-      const pool = defs.filter((f) => evaluateFactUsefulness(f, "overview"));
+      // prefer facts tied to high-confidence concepts
+      const model = buildTopicModel(notes, topicLabel);
+      const pool = defs
+        .filter((f) => evaluateFactUsefulness(f, "overview"))
+        .sort((a, b) => {
+          const aC = model.concepts.find((c) => c.supportingFacts.includes(a))?.confidence ?? 0;
+          const bC = model.concepts.find((c) => c.supportingFacts.includes(b))?.confidence ?? 0;
+          return bC - aC;
+        });
       return takeUnused(pool.length > 0 ? pool : defs, used, Math.min(maxFacts, 3)).map((fact) => ({
         fact,
         kind: "definition" as const,
@@ -182,7 +172,19 @@ function factsForSection(
         ),
       ];
       const candidate = pool.filter((f) => evaluateFactUsefulness(f, "why"));
-      const taken = takeUnused(candidate.length > 0 ? candidate : pool, used, maxFacts);
+      // prefer concept-backed facts
+      const modelWhy = buildTopicModel(notes, topicLabel);
+      const candidateSorted = candidate.sort((a, b) => {
+        const aC = modelWhy.concepts.find((c) => c.supportingFacts.includes(a))?.confidence ?? 0;
+        const bC = modelWhy.concepts.find((c) => c.supportingFacts.includes(b))?.confidence ?? 0;
+        return bC - aC;
+      });
+      let taken = takeUnused(candidateSorted.length > 0 ? candidateSorted : pool, used, maxFacts);
+      // fallback: for technical topics pick first unused transitive-verb property
+      if (taken.length === 0) {
+        const fallback = notes.properties.filter((f) => /\b(\w+ed|\buses\b|\bprovides\b|\benables\b|\bhelps\b|\bworks\b|\bprocess\b)\b/i.test(f));
+        taken = takeUnused(fallback, used, maxFacts);
+      }
       if (taken.length > 0) {
         return taken.map((fact) => ({ fact, kind: "property" as const }));
       }
@@ -204,7 +206,18 @@ function factsForSection(
         ),
       ];
       const candidate = pool.filter((f) => evaluateFactUsefulness(f, "how"));
-      const taken = takeUnused(candidate.length > 0 ? candidate : pool, used, maxFacts);
+      const modelHow = buildTopicModel(notes, topicLabel);
+      const candidateSorted = candidate.sort((a, b) => {
+        const aC = modelHow.concepts.find((c) => c.supportingFacts.includes(a))?.confidence ?? 0;
+        const bC = modelHow.concepts.find((c) => c.supportingFacts.includes(b))?.confidence ?? 0;
+        return bC - aC;
+      });
+      let taken = takeUnused(candidateSorted.length > 0 ? candidateSorted : pool, used, maxFacts);
+      if (taken.length === 0) {
+        // fallback to first unused procedural-like property
+        const fallback = notes.properties.filter((f) => /\b(step|first|next|then|process|workflow|by using|implement|build|deploy)\b/i.test(f));
+        taken = takeUnused(fallback, used, maxFacts);
+      }
       if (taken.length > 0) {
         return taken.map((fact) => ({
           fact,
@@ -228,7 +241,11 @@ function factsForSection(
       };
 
       const items: Array<{ fact: string; kind: FactKind }> = [];
-      const qualityProps = notes.properties.filter(isUsefulConcept);
+      // allow reserved facts to surface here first
+      const qualityProps = [
+        ...reservedFacts.filter((r) => notes.properties.includes(r) && isUsefulConcept(r)),
+        ...notes.properties.filter((p) => !reservedFacts.includes(p) && isUsefulConcept(p)),
+      ];
       for (const f of takeUnused(qualityProps, used, 6)) {
         items.push({ fact: f, kind: "property" });
       }
@@ -432,9 +449,23 @@ export function planArticleReasoning(
   const result = new Map<string, ParagraphThesis[]>();
   const used = new Set<string>();
   markIntroFactsUsed(notes, used);
+  // Build TopicModel once and reserve top property facts for keyConcepts
+  const model = buildTopicModel(notes, topicLabel);
+  const reservedProps: string[] = [];
+  // collect property/supporting facts from highest-confidence concepts
+  const propCandidates = model.concepts
+    .filter((c) => c.type === "property" || c.type === "definition")
+    .sort((a, b) => (b.confidence ?? 0) - (a.confidence ?? 0));
+  for (const c of propCandidates) {
+    for (const f of c.supportingFacts) {
+      if (reservedProps.length >= 3) break;
+      if (!reservedProps.includes(f) && notes.properties.includes(f)) reservedProps.push(f);
+    }
+    if (reservedProps.length >= 3) break;
+  }
 
   for (const plan of sectionPlans) {
-    const factItems = factsForSection(notes, plan.id, plan.maxFacts, used);
+    const factItems = factsForSection(notes, plan.id, plan.maxFacts, used, topicLabel, reservedProps);
 
     if (plan.id === "keyConcepts") {
       const theses: ParagraphThesis[] = [];
