@@ -21,7 +21,8 @@ const MIN_COMPOSE_PRIORITY = 30;
 
 const NOISE_PATTERNS: Array<{ pattern: RegExp; penalty: number; label: string }> = [
   { pattern: /please help update|retrieved \d{4}|ssrn \d+|citation needed/i, penalty: 85, label: "editorial" },
-  { pattern: /\[edit\]/i, penalty: 80, label: "wiki_edit" },
+  { pattern: /\[edit\]/i, penalty: 100, label: "wiki_edit" },
+  { pattern: /\[\d+\]\s*\[edit\]|\[edit\]\s*\[/i, penalty: 100, label: "wiki_edit_cluster" },
   { pattern: /brought to you by|friendly video course|patterns for ai interfaces/i, penalty: 90, label: "promo" },
   { pattern: /\b(user experience|ux and design|seamless integration|mental models?)\b/i, penalty: 82, label: "ux_noise" },
   { pattern: /what they need are|users don't need more tools/i, penalty: 80, label: "ux_opinion" },
@@ -35,6 +36,20 @@ const NOISE_PATTERNS: Array<{ pattern: RegExp; penalty: number; label: string }>
   { pattern: /\b(main jobs? of|opening tag|closing tag|doctype declaration)\b/i, penalty: 55, label: "structural_detail" },
   { pattern: /\bnote:\s*if you are working on a computer\b/i, penalty: 75, label: "tutorial_aside" },
   { pattern: /^[-*•]\s+/i, penalty: 40, label: "list_fragment" },
+  // Taxonomy/classification lists — no explanatory value without context
+  { pattern: /^(types of|kinds of|there are \d+ (types|kinds|categories|forms|ways)|the (main|primary|common) types)/i, penalty: 72, label: "taxonomy_lead" },
+  { pattern: /^(small,|large,|basic,|simple,|type [a-z],)/i, penalty: 68, label: "taxonomy_fragment" },
+  // Isolated statistics — a bare number without explanation does not teach
+  { pattern: /^\d+(\.\d+)?%\s+(of|are|is|have|were)\b/i, penalty: 55, label: "bare_statistic" },
+  { pattern: /\b\d{2,}%\s+of\s+(all\s+)?(people|cases|users|instances|companies|funds)\b/i, penalty: 40, label: "floating_stat" },
+  // Source cross-reference artifacts
+  { pattern: /^(see also|refer to|as mentioned|as discussed|as noted above|as described)\b/i, penalty: 75, label: "cross_ref" },
+  // Fragments that only make sense inside their source document
+  { pattern: /^(such as|including|for example|e\.g\.|i\.e\.|namely|among (them|which|these))\b/i, penalty: 70, label: "fragment_opener" },
+  // Random example dumps without explanation
+  { pattern: /^(for example,|for instance,|as an example,)\s+[a-z]/i, penalty: 45, label: "bare_example" },
+  // Pure taxonomic comma lists with no verb or explanation
+  { pattern: /^[^.!?]{0,40}(,\s*[a-z][^,]{1,30}){4,}\.?\s*$/i, penalty: 60, label: "comma_taxonomy" },
 ];
 
 const VALUE_PATTERNS: Array<{ pattern: RegExp; boost: number; label: string }> = [
@@ -210,6 +225,22 @@ export function scoreFactPriority(
   if (/^\s*(it|they|these|this|an index fund|a health insurance)\b/i.test(fact)) {
     score -= 6;
     signals.push("noise:pronoun_lead");
+  }
+
+  // Usefulness test: facts that help a normal reader understand or act score higher
+  if (/\b(which means|that means|in practice|in real life|in other words|the result is|this allows|this enables|this helps)\b/i.test(fact)) {
+    score += 12;
+    signals.push("usefulness:explanation_signal");
+  }
+  if (/\b(you can|you should|you need|you will|readers can|people can|anyone who|most people)\b/i.test(fact)) {
+    score += 10;
+    signals.push("usefulness:reader_oriented");
+  }
+  // Facts that are just comma-separated noun lists without a verb are low-use
+  const verbPresent = /\b(is|are|was|were|has|have|helps|enables|allows|does|makes|provides|reduces|increases|works|gives|shows|tells|means|defines|refers|requires|uses|needs)\b/i.test(fact);
+  if (!verbPresent && fact.length > 30) {
+    score -= 18;
+    signals.push("usefulness:no_verb_low_value");
   }
 
   const priority = Math.max(0, Math.min(100, Math.round(score)));

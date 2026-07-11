@@ -181,19 +181,58 @@ function factsForSection(
       );
     }
     case "keyConcepts": {
+      // Only keep facts that help a reader understand or remember the topic.
+      // Reject: bare statistics, taxonomy lists, encyclopedia trivia.
+      const isUsefulConcept = (f: string): boolean => {
+        // Must have a verb — facts without verbs are usually noun lists or labels
+        const hasVerb = /\b(is|are|was|were|has|have|helps|enables|allows|does|makes|provides|means|defines|refers|requires|uses|works|reduces|increases|shows)\b/i.test(f);
+        if (!hasVerb) return false;
+        // Reject pure historical facts
+        if (/\b(invented|originated|first introduced|pioneered|born in|\bin \d{4}\b|since \d{4})\b/i.test(f)) return false;
+        // Reject taxonomy introductions
+        if (/^(types of|there are \d+|the (main|three|four|five|common) types)/i.test(f)) return false;
+        // Reject source-doc cross-references
+        if (/^(see also|refer to|as mentioned|as discussed|as noted)\b/i.test(f)) return false;
+        // Reject isolated stats without explanation
+        if (/^\d+(\.\d+)?%\s+(of|are|is)\b/i.test(f)) return false;
+        return true;
+      };
+
       const items: Array<{ fact: string; kind: FactKind }> = [];
-      for (const f of takeUnused(notes.properties, used, 8)) {
+      // Properties: prefer mechanistic, comparative, or benefit-explaining facts
+      const qualityProps = notes.properties.filter(isUsefulConcept);
+      for (const f of takeUnused(qualityProps, used, 6)) {
         items.push({ fact: f, kind: "property" });
       }
-      for (const f of takeUnused(notes.measurements, used, 3)) {
-        items.push({ fact: f, kind: "measurement" });
-      }
-      for (const f of takeUnused(notes.comparisons, used, 3)) {
+      // Comparisons explain what makes this different — high reader value
+      for (const f of takeUnused(notes.comparisons.filter(isUsefulConcept), used, 3)) {
         items.push({ fact: f, kind: "comparison" });
+      }
+      // Measurements only if they have explanatory context (not bare numbers)
+      const contextualMeasurements = notes.measurements.filter(
+        (f) => isUsefulConcept(f) && f.length > 50
+      );
+      for (const f of takeUnused(contextualMeasurements, used, 2)) {
+        items.push({ fact: f, kind: "measurement" });
       }
       return items.slice(0, maxFacts);
     }
     case "practical": {
+      // A good practical fact describes a genuine real-world situation.
+      // Reject: taxonomy lists, bare statistics, facts without a verb, source fragments.
+      const isGenuinePractical = (fact: string): boolean => {
+        // Must have a verb — situational facts always do
+        const hasVerb = /\b(is|are|helps|enables|allows|uses|makes|provides|works|gives|lets|allows|reduces|handles|supports|requires|produces|applies|performs)\b/i.test(fact);
+        if (!hasVerb) return false;
+        // Reject comma-taxonomy lists
+        if (/^[^.!?]{0,40}(,\s*[a-z][^,]{1,30}){4,}\.?\s*$/i.test(fact)) return false;
+        // Reject fragment openers
+        if (/^(such as|including|for example|e\.g\.|namely)\b/i.test(fact)) return false;
+        // Reject bare statistics
+        if (/^\d+(\.\d+)?%\s+(of|are|is)\b/i.test(fact)) return false;
+        return true;
+      };
+
       const practicalScore = (fact: string): number => {
         let score = 0;
         if (/\b(used in|used for|application|applications|in practice|real.?world|example|such as|including)\b/i.test(fact)) score += 40;
@@ -204,13 +243,13 @@ function factsForSection(
       };
 
       const pool = [
-        ...notes.procedures,
+        ...notes.procedures.filter(isGenuinePractical),
         ...notes.properties.filter((f) =>
-          /^(to |how to|first |start |begin |use |apply |implement |build |train |deploy )|\b(used in|used for|application|applications|in practice|real.?world|product|software|business|example|such as|including)\b/i.test(
-            f
-          )
+          isGenuinePractical(f) &&
+          /^(to |how to|first |start |begin |use |apply |implement |build |train |deploy )|\b(used in|used for|application|applications|in practice|real.?world|product|software|business|example|such as|including)\b/i.test(f)
         ),
         ...notes.allFacts.filter((f) =>
+          isGenuinePractical(f) &&
           /\b(used in|used for|application|applications|in practice|real.?world|example|such as|including)\b/i.test(f)
         ),
       ];
@@ -296,15 +335,56 @@ function factsForSection(
       ).map((fact) => ({ fact, kind: "warning" as const }));
     }
     case "summary": {
-      // Reinforce only — reuse already-seen definitional/property facts, no fresh pool hunt
+      // Biggest ideas only — help the reader leave with a clear mental model.
+      // 1. Core definition (what it is in one sentence)
+      // 2. Most important mechanism or benefit (why/how it works)
+      // 3. Key practical takeaway or trade-off (what to remember)
+      // Never repeats paragraph-level filler; reuses only if the fact is genuinely structural.
       const items: Array<{ fact: string; kind: FactKind }> = [];
-      for (const f of takeOrReuse(notes.definitions.slice(0, 2), used, 2, true)) {
-        items.push({ fact: f, kind: "definition" });
+
+      // Slot 1: lead definition — clearest single-sentence definition
+      const leadDef = notes.definitions.find((f) =>
+        /\b(is|are|refers to|defined as|means)\b/i.test(f) && f.length > 40
+      );
+      if (leadDef) {
+        items.push({ fact: leadDef, kind: "definition" });
+        used.add(leadDef.toLowerCase().replace(/\s+/g, " ").trim());
       }
-      for (const f of takeOrReuse(notes.properties.slice(0, 4), used, 3, true)) {
-        items.push({ fact: f, kind: "property" });
+
+      // Slot 2: key mechanism or benefit — why it works or why it matters
+      const mechanismPool = [
+        ...notes.procedures,
+        ...notes.properties.filter((f) =>
+          /\b(because|helps|enables|allows|reduces|improves|solves|provides|means|key (reason|benefit|advantage)|important|critical)\b/i.test(f)
+        ),
+      ];
+      const mechanism = mechanismPool.find((f) => {
+        const key = f.toLowerCase().replace(/\s+/g, " ").trim();
+        return !used.has(key) && f.length > 40;
+      });
+      if (mechanism) {
+        items.push({ fact: mechanism, kind: notes.procedures.includes(mechanism) ? "procedure" : "property" });
+        used.add(mechanism.toLowerCase().replace(/\s+/g, " ").trim());
       }
-      return items.slice(0, Math.min(maxFacts, 4));
+
+      // Slot 3: key trade-off or actionable takeaway
+      const takeawayPool = [
+        ...notes.comparisons,
+        ...notes.warnings,
+        ...notes.properties.filter((f) =>
+          /\b(trade.?off|however|but|downside|limitation|important to|consider|should|avoid|instead|rather than|not all)\b/i.test(f)
+        ),
+      ];
+      const takeaway = takeawayPool.find((f) => {
+        const key = f.toLowerCase().replace(/\s+/g, " ").trim();
+        return !used.has(key) && f.length > 35;
+      });
+      if (takeaway) {
+        const kind = notes.comparisons.includes(takeaway) ? "comparison" : notes.warnings.includes(takeaway) ? "warning" : "property";
+        items.push({ fact: takeaway, kind });
+      }
+
+      return items.slice(0, Math.min(maxFacts, 3));
     }
     default:
       return [];

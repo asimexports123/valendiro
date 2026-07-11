@@ -206,60 +206,91 @@ function titleCase(text: string): string {
     .join(" ");
 }
 
-function stripTopicWords(text: string, topicLabel: string): string {
-  const topicWords = new Set(topicLabel.toLowerCase().split(/\W+/).filter((w) => w.length > 2));
-  return text
-    .toLowerCase()
-    .split(/\s+/)
-    .filter((w) => !topicWords.has(w) && w.length > 1)
-    .join(" ");
-}
-
-function takeMeaningfulPhrase(text: string, maxWords: number): string {
-  const words = text
-    .replace(/[^\w\s-]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(/\s+/)
-    .filter((w) => w.length > 1 && !/^(and|or|the|a|an|to|of|for|in|on|with|from|by|is|are|be|it|this|that|these|those)$/i.test(w));
-  return words.slice(0, maxWords).join(" ");
-}
-
 function summarizePracticalText(text: string): string {
-  const first = text.split(/(?<=[.!?])\s+/)[0]?.trim() ?? text.trim();
+  // Strip wiki/source artifacts before summarizing
+  const cleaned = text
+    .replace(/\[edit\]/gi, "")
+    .replace(/\[\d+[a-z]?\]/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const first = cleaned.split(/(?<=[.!?])\s+/)[0]?.trim() ?? cleaned;
   const words = first.split(/\s+/).filter(Boolean);
   if (words.length <= 26) return first;
   return `${words.slice(0, 26).join(" ").replace(/[.,;:]+$/, "")}...`;
 }
 
-function practicalTitleFromClaim(claim: UnderstoodClaim, topicLabel: string, seed: number): string {
-  const source = `${claim.assertion} ${claim.elaboration ?? ""} ${claim.sourceFact}`.replace(/\s+/g, " ").trim();
-  const lowered = source.toLowerCase();
+/**
+ * Classify a practical fact into a human-readable scenario label.
+ * Returns one of the approved scenario title templates.
+ */
+function classifyScenarioTitle(fact: string, seed: number): string {
+  const lower = fact.toLowerCase();
 
-  const phrasePatterns: RegExp[] = [
-    /\bfor\s+([^.]{6,40}?)(?:\b(?:worldwide|globally|today|in practice|in real life)\b|[.,;]|$)/i,
-    /\bused(?:\s+to|\s+in|\s+for)?\s+([^.]{6,40}?)(?:[.,;]|$)/i,
-    /\bin\s+([^.]{6,40}?)(?:[.,;]|$)/i,
-    /\bwhen\s+([^.]{6,40}?)(?:[.,;]|$)/i,
-    /\b(?:example|examples|such as|including)\s+([^.]{6,40}?)(?:[.,;]|$)/i,
-  ];
-
-  for (const re of phrasePatterns) {
-    const match = source.match(re);
-    const raw = match?.[1]?.trim();
-    if (!raw) continue;
-    const cleaned = takeMeaningfulPhrase(stripTopicWords(raw, topicLabel), 4);
-    if (cleaned.length >= 4) return titleCase(cleaned);
+  // Who benefits — people/roles performing an action
+  if (/\b(investor|developer|student|patient|business|company|professional|team|anyone|person|people|user|owner|manager|beginner|learner|practitioner)\b/i.test(fact)) {
+    return "Who Benefits";
   }
+  // When to use — conditional/situational signal
+  if (/\b(when|if you|whenever|in (situations?|cases?) (where|when|in which)|circumstance|scenario)\b/i.test(lower)) {
+    return "When to Use";
+  }
+  // Typical workflow — step/process/procedure language
+  if (/\b(step|first|then|next|finally|process|workflow|procedure|how to|start by|begin by|follow|sequence)\b/i.test(lower)) {
+    return "Typical Workflow";
+  }
+  // Everyday example — common/daily/regular use
+  if (/\b(everyday|daily|common|regular|typical|often|frequently|most people|widely|at home|ordinary)\b/i.test(lower)) {
+    return "Everyday Example";
+  }
+  // Real-world example — explicit example language
+  if (/\b(for example|for instance|such as|like|including|real.world|in practice|in real life)\b/i.test(lower)) {
+    return "Real-World Example";
+  }
+  // Common scenario — application domain
+  if (/\b(applied|application|deploy|implement|use case|scenario|context|setting|environment)\b/i.test(lower)) {
+    return "Common Scenario";
+  }
+  // Fallback round-robin from approved set so adjacent cards stay varied
+  const fallbacks = ["Common Use Case", "Real-World Example", "Everyday Example", "Common Scenario"];
+  return fallbacks[seed % fallbacks.length];
+}
 
-  const nounish = takeMeaningfulPhrase(stripTopicWords(lowered, topicLabel), 4);
-  if (nounish.length >= 4) return titleCase(nounish);
+function practicalTitleFromClaim(claim: UnderstoodClaim, topicLabel: void, seed: number): string {
+  void topicLabel;
+  const source = `${claim.assertion} ${claim.elaboration ?? ""} ${claim.sourceFact}`.replace(/\s+/g, " ").trim();
+  return classifyScenarioTitle(source, seed);
+}
 
-  const fallback = takeMeaningfulPhrase(stripTopicWords(claim.subject || claim.assertion, topicLabel), 4);
-  if (fallback.length >= 4) return titleCase(fallback);
+/**
+ * Derive a one-sentence situational body from a practical claim.
+ * Prefers the full assertion sentence; falls back to the source fact.
+ * Never dumps a raw comma-list — rejects facts that are taxonomy-only.
+ */
+function deriveCardBody(claim: UnderstoodClaim): string | null {
+  const assertion = claim.assertion?.trim();
+  const elaboration = claim.elaboration?.trim();
+  const sourceFact = claim.sourceFact?.trim();
 
-  const seedWords = takeMeaningfulPhrase(claim.assertion, 3);
-  return titleCase(seedWords || `Use case ${seed + 1}`);
+  // Reject taxonomy/list fragments — no verb means no situational value
+  const isList = (s: string) =>
+    /^[^.!?]{0,40}(,\s*[a-z][^,]{1,30}){4,}\.?\s*$/i.test(s) ||
+    /^(small,|large,|basic,|type [a-z],)/i.test(s);
+
+  // Build candidate from assertion or source
+  const candidates = [
+    assertion && !isList(assertion) ? assertion : null,
+    elaboration && !isList(elaboration) ? elaboration : null,
+    sourceFact && !isList(sourceFact) ? sourceFact : null,
+  ].filter((s): s is string => Boolean(s) && s.length > 30);
+
+  if (candidates.length === 0) return null;
+
+  // Pick the best — prefer one with a verb and decent length
+  const withVerb = candidates.find((s) =>
+    /\b(is|are|helps|enables|allows|uses|makes|provides|reduces|works|gives)\b/i.test(s)
+  );
+  const best = withVerb ?? candidates[0];
+  return summarizePracticalText(best);
 }
 
 export function composePracticalApplicationCard(
@@ -269,10 +300,10 @@ export function composePracticalApplicationCard(
 ): { title: string; summary: string } | null {
   const claim = thesis.claims[0];
   if (!claim) return null;
-  const summarySource = [claim.assertion, claim.elaboration].filter(Boolean).join(" ");
-  const summary = summarizePracticalText(summarySource || claim.sourceFact);
-  const title = practicalTitleFromClaim(claim, topicLabel, seed);
-  if (!title || !summary) return null;
+  const summary = deriveCardBody(claim);
+  if (!summary) return null;
+  const title = practicalTitleFromClaim(claim, topicLabel as unknown as void, seed);
+  if (!title) return null;
   return { title, summary };
 }
 
