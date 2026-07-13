@@ -125,6 +125,12 @@ function extractFromFact(cleaned: string): {
 } {
   const lead = cleaned.split(/(?<=[.!?])\s+/)[0]?.trim() ?? cleaned.trim();
   const target = lead.length >= 24 ? lead : cleaned;
+  // Normalize title-style fragments where a subject is followed by a capitalized verb,
+  // e.g. "Factory method Define an interface..." -> "Factory method define an interface..."
+  const normalized = target.replace(
+    /^([A-Z][^\\s]{0,60})\\s+([A-Z][a-z]{2,30})\\s+/,
+    (_m, subj, verb) => `${subj} ${verb.charAt(0).toLowerCase()}${verb.slice(1)} `
+  );
   const patterns: Array<{ re: RegExp; pred: string }> = [
     // Title-style fragments where subject is followed by a capitalized verb without punctuation,
     // e.g. "Factory method Define an interface..." -> treat as definition-like
@@ -146,7 +152,7 @@ function extractFromFact(cleaned: string): {
   ];
 
   for (const { re, pred } of patterns) {
-    const m = target.match(re);
+    const m = normalized.match(re) || target.match(re);
     if (m) {
       if (pred === "warns") {
         return { subject: "", predicate: pred, focus: m[2]?.trim() ?? target };
