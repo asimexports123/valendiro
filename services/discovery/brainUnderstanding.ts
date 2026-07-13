@@ -123,7 +123,10 @@ function extractFromFact(cleaned: string): {
   predicate: string;
   focus: string;
 } {
+  const lead = cleaned.split(/(?<=[.!?])\s+/)[0]?.trim() ?? cleaned.trim();
+  const target = lead.length >= 24 ? lead : cleaned;
   const patterns: Array<{ re: RegExp; pred: string }> = [
+    { re: /^(.+?)\s+describes\s+(.+)$/i, pred: "describes" },
     { re: /^(.+?)\s+(is|are)\s+(.+)$/i, pred: "is" },
     { re: /^(.+?)\s+(means|refers to|defined as)\s+(.+)$/i, pred: "means" },
     { re: /^(.+?)\s+involves\s+(.+)$/i, pred: "involves" },
@@ -138,23 +141,23 @@ function extractFromFact(cleaned: string): {
   ];
 
   for (const { re, pred } of patterns) {
-    const m = cleaned.match(re);
+    const m = target.match(re);
     if (m) {
       if (pred === "warns") {
-        return { subject: "", predicate: pred, focus: m[2]?.trim() ?? cleaned };
+        return { subject: "", predicate: pred, focus: m[2]?.trim() ?? target };
       }
       if (pred === "procedural") {
         return {
           subject: "",
           predicate: pred,
-          focus: cleaned.replace(/^(to |how to)\s*/i, "").trim(),
+          focus: target.replace(/^(to |how to)\s*/i, "").trim(),
         };
       }
       return { subject: m[1].trim(), predicate: pred, focus: m[m.length - 1].trim() };
     }
   }
 
-  return { subject: "", predicate: "describes", focus: cleaned };
+  return { subject: "", predicate: "describes", focus: target };
 }
 
 function kindToRelation(kind: FactKind, predicate: string): ClaimRelation {
