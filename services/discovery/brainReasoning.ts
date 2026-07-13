@@ -11,6 +11,7 @@ import { selectPrimaryDefinitionFact } from "./brainReaderIntent";
 
 import { deriveQuestion } from "./brainQuestion";
 import { deriveCentralIdea } from "./brainDiscourse";
+import { trimAssertion } from "./brainDiscoursePlanner";
 
 export interface ParagraphThesis {
   mainIdea: string;
