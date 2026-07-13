@@ -146,17 +146,16 @@ function factsForSection(
       // prefer facts tied to high-confidence concepts
       const model = buildTopicModel(notes, topicLabel);
       const primaryDef = selectPrimaryDefinitionFact(notes, topicLabel, topicLabel) ?? defs[0];
-      const orderedDefs = [
-        ...(primaryDef ? [primaryDef] : []),
-        ...defs.filter((f) => f !== primaryDef),
-      ];
-      const pool = orderedDefs
+      const primaryPool = primaryDef && evaluateFactUsefulness(primaryDef, "overview") ? [primaryDef] : [];
+      const restPool = defs
+        .filter((f) => f !== primaryDef)
         .filter((f) => evaluateFactUsefulness(f, "overview"))
         .sort((a, b) => {
           const aC = model.concepts.find((c) => c.supportingFacts.includes(a))?.confidence ?? 0;
           const bC = model.concepts.find((c) => c.supportingFacts.includes(b))?.confidence ?? 0;
           return bC - aC;
         });
+      const pool = [...primaryPool, ...restPool];
       return takeUnused(pool.length > 0 ? pool : defs, used, Math.min(maxFacts, 3)).map((fact) => ({
         fact,
         kind: "definition" as const,
