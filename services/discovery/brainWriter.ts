@@ -151,7 +151,7 @@ export function traceBrainPipeline(
   const stages: BrainTraceStage[] = [];
 
   const opening = composeArticleOpening(
-    enriched,
+    notes,
     bodyLabel,
     resolveTopicDisplayName(slug, topicTitle),
     slug,
@@ -223,7 +223,7 @@ export function writeBrainArticle(
   const arc = composeArticleArc(reasoning, bodyLabel);
   const seenIdeas = new Set<string>();
   // Keep the opening deterministic across retry seeds; only body phrasing should vary.
-  const opening = composeArticleOpening(enriched, bodyLabel, displayName, slug, false);
+  const opening = composeArticleOpening(notes, bodyLabel, displayName, slug, false);
   if (!opening || !opening.quality.pass) {
     if (process.env.BRAIN_DEBUG_WRITER === "true") {
       console.error(
