@@ -222,7 +222,8 @@ export function writeBrainArticle(
   const reasoning = planArticleReasoning(rotated, bodyLabel, seed);
   const arc = composeArticleArc(reasoning, bodyLabel);
   const seenIdeas = new Set<string>();
-  const opening = composeArticleOpening(rotated, bodyLabel, displayName, slug, false);
+  // Keep the opening deterministic across retry seeds; only body phrasing should vary.
+  const opening = composeArticleOpening(enriched, bodyLabel, displayName, slug, false);
   if (!opening || !opening.quality.pass) {
     if (process.env.BRAIN_DEBUG_WRITER === "true") {
       console.error(
