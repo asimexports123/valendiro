@@ -84,6 +84,7 @@ export function assessFactForSection(
     const factKey = normalize(f);
     const factTokens = new Set(factKey.split(/\s+/).filter((w) => w.length > 3));
 
+    const topicWords = new Set((title || "").toLowerCase().split(/\W+/).filter(Boolean).filter((w) => w.length > 2));
     for (const c of model.concepts) {
       let bestShared = 0;
       for (const sf of c.supportingFacts) {
@@ -94,10 +95,9 @@ export function assessFactForSection(
         for (const t of sfTokens) if (factTokens.has(t)) shared++;
         if (shared > bestShared) bestShared = shared;
       }
-      // Treat concept membership as present if token overlap >= 2
+      // Strong membership if token overlap >= 2, weak membership if overlap == 1
       if (bestShared >= 2) {
         conceptIds.push(c.id);
-        // boost if concept type aligns with section
         if (section === "overview" && c.type === "definition") {
           score += 30;
           signals.push("concept:definition_match");
@@ -107,6 +107,20 @@ export function assessFactForSection(
         } else {
           score += 12;
           signals.push("concept:member");
+        }
+      } else if (bestShared === 1) {
+        // weak membership: still a useful signal for terse facts (avoid rejecting them)
+        conceptIds.push(c.id);
+        score += 6;
+        signals.push("concept:member_weak");
+      } else {
+        // As a last resort, if fact mentions a topic keyword, give a small boost
+        for (const t of factTokens) {
+          if (topicWords.has(t)) {
+            score += 4;
+            signals.push("topic:matches_token");
+            break;
+          }
         }
       }
     }
