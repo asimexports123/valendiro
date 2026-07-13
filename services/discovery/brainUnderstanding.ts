@@ -131,6 +131,19 @@ function extractFromFact(cleaned: string): {
     /^([A-Z][^\\s]{0,60})\\s+([A-Z][a-z]{2,30})\\s+/,
     (_m, subj, verb) => `${subj} ${verb.charAt(0).toLowerCase()}${verb.slice(1)} `
   );
+  // If normalized looks like "Subject Rest" with no verb, convert to a copular assertion:
+  let normalized2 = normalized;
+  const hasVerb = /\\b(is|are|refers to|defined as|means|involves|includes|contains|requires|compares|measures|can|should|must|avoid|never|to |how to|step )\\b/i;
+  if (!hasVerb.test(normalized2)) {
+    const m2 = normalized2.match(/^([A-Z][\\w\\s\\-]{1,60})\\s+(.{6,200})$/);
+    if (m2) {
+      const subj = m2[1].trim();
+      const rest = m2[2].trim();
+      if (/^[A-Z]/.test(rest)) {
+        normalized2 = `${subj} is ${rest.charAt(0).toLowerCase()}${rest.slice(1)}`;
+      }
+    }
+  }
   const patterns: Array<{ re: RegExp; pred: string }> = [
     // Title-style fragments where subject is followed by a capitalized verb without punctuation,
     // e.g. "Factory method Define an interface..." -> treat as definition-like
@@ -152,7 +165,7 @@ function extractFromFact(cleaned: string): {
   ];
 
   for (const { re, pred } of patterns) {
-    const m = normalized.match(re) || target.match(re);
+    const m = normalized2.match(re) || normalized.match(re) || target.match(re);
     if (m) {
       if (pred === "warns") {
         return { subject: "", predicate: pred, focus: m[2]?.trim() ?? target };
