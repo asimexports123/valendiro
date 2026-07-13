@@ -49,7 +49,7 @@ function mergeMainIdea(claims: UnderstoodClaim[]): string {
 function maxClaimsPerParagraph(sectionId: string): number {
   // Definition / mistakes / summary stay one-idea-tight; body sections may develop with a follow-on claim
   if (sectionId === "overview" || sectionId === "mistakes" || sectionId === "summary") return 1;
-  return 2;
+  return 3;
 }
 
 function groupClaims(
