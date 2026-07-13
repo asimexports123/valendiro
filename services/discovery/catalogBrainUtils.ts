@@ -126,6 +126,12 @@ export function brainUnderstand(
     for (const sentence of segments) {
       const cleaned = cleanSentence(sentence);
       if (!isUsableSentence(cleaned, minLen)) continue;
+      if (
+        raw.length > 0 &&
+        /^(rather|instead|however|but|otherwise|moreover|furthermore|also|yet|indeed|in fact)\b/i.test(cleaned)
+      ) {
+        continue;
+      }
       if (!relaxed && !topicRelevant(cleaned, keywords) && raw.length > 20) continue;
       raw.push({ text: cleaned, type: classifyFactType(cleaned) });
     }
