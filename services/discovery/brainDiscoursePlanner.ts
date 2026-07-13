@@ -44,7 +44,7 @@ function clean(s: string): string {
     .trim();
 }
 
-function trimAssertion(text: string, max = 150): string {
+export function trimAssertion(text: string, max = 150): string {
   let t = clean(text);
   if (t.length <= max) return t.replace(/\.$/, "");
   const cut = t.slice(0, max);
