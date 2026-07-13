@@ -63,33 +63,63 @@ function groupClaims(
 ): ParagraphThesis[] {
   if (claims.length === 0) return [];
 
+  // Greedy clustering within a lookahead window so related but non-adjacent
+  // claims can be merged into a single teaching paragraph. This increases
+  // paragraph depth while keeping relevance high.
   const groups: UnderstoodClaim[][] = [];
-  let current: UnderstoodClaim[] = [];
+  const usedIdx = new Set<number>();
+  const window = Math.max(2, maxPerGroup + 1);
+
+  function contradicts(a: UnderstoodClaim, b: UnderstoodClaim): boolean {
+    const A = (a.assertion || "").toLowerCase();
+    const B = (b.assertion || "").toLowerCase();
+    // simple contradiction heuristic: same core phrase with negation
+    if (A.includes(" not ") && B.includes(A.replace(/\s+not\s+/g, " "))) return true;
+    if (B.includes(" not ") && A.includes(B.replace(/\s+not\s+/g, " "))) return true;
+    if (/^(never|no|cannot|can't|don't|doesn't)\b/.test(A) && B.includes(A.replace(/^(never|no|cannot|can't|don't|doesn't)\b/, "").trim())) return true;
+    return false;
+  }
 
   for (let i = 0; i < claims.length; i++) {
-    const claim = claims[i];
-    const shouldMerge =
-      current.length > 0 &&
-      current.length < maxPerGroup &&
-      claimOverlap(current[current.length - 1], claim);
-
-    if (shouldMerge) {
-      current.push(claim);
-    } else {
-      if (current.length > 0) groups.push(current);
-      current = [claim];
+    if (usedIdx.has(i)) continue;
+    const base = claims[i];
+    const group: UnderstoodClaim[] = [base];
+    usedIdx.add(i);
+    // look ahead to find related claims up to maxPerGroup within window
+    for (let j = i + 1; j < Math.min(claims.length, i + 1 + window) && group.length < maxPerGroup; j++) {
+      if (usedIdx.has(j)) continue;
+      const candidate = claims[j];
+      if (contradicts(base, candidate)) continue;
+      // merge if candidate overlaps with base or with any already in group
+      const related = claimOverlap(base, candidate) || group.some((g) => claimOverlap(g, candidate));
+      if (related) {
+        group.push(candidate);
+        usedIdx.add(j);
+      }
     }
+    groups.push(group);
   }
-  if (current.length > 0) groups.push(current);
 
-  return groups.map((group, gi) => ({
-    mainIdea: mergeMainIdea(group),
-    centralIdea: deriveCentralIdea(group[0], sectionId, topicLabel),
-    question: deriveQuestion(group[0], sectionId, topicLabel, startIndex + gi),
-    claims: group,
-    sectionKind,
-    sectionId,
-  }));
+  return groups.map((group, gi) => {
+    // Build a slightly richer mainIdea when multiple claims are present without adding filler.
+    const mainIdea =
+      group.length === 1
+        ? group[0].assertion
+        : `${group[0].assertion}. ${group
+            .slice(1)
+            .map((c) => trimAssertion(c.assertion || c.sourceFact, 80))
+            .filter(Boolean)
+            .join("; ")}`;
+
+    return {
+      mainIdea,
+      centralIdea: deriveCentralIdea(group[0], sectionId, topicLabel),
+      question: deriveQuestion(group[0], sectionId, topicLabel, startIndex + gi),
+      claims: group,
+      sectionKind,
+      sectionId,
+    };
+  });
 }
 
 function takeUnused(facts: string[], used: Set<string>, max: number): string[] {
