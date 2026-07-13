@@ -83,7 +83,9 @@ export function isEditoriallySound(paragraph: string, topicLabel = ""): boolean 
   if (!trimmed || trimmed.length < 40) return false;
   if (/^\*[^*]+\*$/.test(trimmed)) return false;
   if (!isCoherentDiscourse(trimmed)) return false;
-  if (SOURCE_FRAGMENT_PATTERNS.some((re) => re.test(trimmed))) return false;
+  // Remove harmless numeric/list citations like [1], [12], [a] before fragment checks.
+  const citationStripped = trimmed.replace(/\[\d+\]/g, "").replace(/\[[a-z]\]/gi, "");
+  if (SOURCE_FRAGMENT_PATTERNS.some((re) => re.test(citationStripped))) return false;
   if (/^[a-z]/.test(trimmed)) return false;
   if (/\baI\b/.test(trimmed)) return false;
   if (/\bthis field (development|systems)\b/i.test(trimmed)) return false;
@@ -91,7 +93,7 @@ export function isEditoriallySound(paragraph: string, topicLabel = ""): boolean 
   if (/\bcan be combined\b/i.test(trimmed) && !/\b(is a|is an|means)\b/i.test(trimmed)) return false;
   if (/\bit programs\b/i.test(trimmed)) return false;
 
-  const sentences = trimmed
+  const sentences = citationStripped
     .split(/(?<=[.!?])\s+/)
     .filter(Boolean)
     .filter((s) => !isEditorialFillerSentence(s));
