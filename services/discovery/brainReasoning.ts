@@ -7,6 +7,7 @@ import type { FactKind } from "./languageSystem/types";
 import { planArticleSections } from "./languageSystem/rhetoric";
 import { understandFact, type UnderstoodClaim } from "./brainUnderstanding";
 import { buildTopicModel } from "./topicModel";
+import { selectPrimaryDefinitionFact } from "./brainReaderIntent";
 
 import { deriveQuestion } from "./brainQuestion";
 import { deriveCentralIdea } from "./brainDiscourse";
@@ -144,7 +145,12 @@ function factsForSection(
       const defs = notes.definitions.length > 0 ? notes.definitions : notes.allFacts;
       // prefer facts tied to high-confidence concepts
       const model = buildTopicModel(notes, topicLabel);
-      const pool = defs
+      const primaryDef = selectPrimaryDefinitionFact(notes, topicLabel, topicLabel) ?? defs[0];
+      const orderedDefs = [
+        ...(primaryDef ? [primaryDef] : []),
+        ...defs.filter((f) => f !== primaryDef),
+      ];
+      const pool = orderedDefs
         .filter((f) => evaluateFactUsefulness(f, "overview"))
         .sort((a, b) => {
           const aC = model.concepts.find((c) => c.supportingFacts.includes(a))?.confidence ?? 0;
