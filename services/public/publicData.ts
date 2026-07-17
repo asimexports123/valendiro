@@ -24,6 +24,21 @@ const slugToTitle = (slug: string): string => {
     .join(" ");
 };
 
+/** Filter out test/placeholder topics from public discovery */
+function isTestTopic(title: string): boolean {
+  const testPatterns = [
+    /programming guide \d+/i,
+    /test topic/i,
+    /placeholder/i,
+    /example \d+/i,
+    /sample \d+/i,
+    /demo topic/i,
+    /^test$/i,
+    /^example$/i,
+  ];
+  return testPatterns.some(pattern => pattern.test(title));
+}
+
 export interface PublicArticle {
   id: string;
   slug: string;
@@ -258,6 +273,10 @@ export async function getTrendingTopics(limit = 16): Promise<PublicTopic[]> {
 
   return (indirectTopics || [])
     .filter((t: any) => !isStubTopicContent(t.topic_translations?.[0]?.content))
+    .filter((t: any) => {
+      const title = t.topic_translations?.[0]?.title || slugToTitle(t.slug);
+      return !isTestTopic(title);
+    })
     .slice(0, limit)
     .map((topic: any) => {
       const subcategory = topic.subcategories as any;
@@ -1620,9 +1639,12 @@ export async function getFeaturedTopicsWithMeta(limit = 8): Promise<FeaturedTopi
     .order("updated_at", { ascending: false })
     .limit(fetchLimit);
 
-  const qualityTopics = (data || []).filter(
-    (topic: any) => !isStubTopicContent(topic.topic_translations?.[0]?.content)
-  );
+  const qualityTopics = (data || [])
+    .filter((topic: any) => !isStubTopicContent(topic.topic_translations?.[0]?.content))
+    .filter((t: any) => {
+      const title = t.topic_translations?.[0]?.title || slugToTitle(t.slug);
+      return !isTestTopic(title);
+    });
 
   if (qualityTopics.length === 0) return [];
 

@@ -46,7 +46,7 @@ export async function generateMetadata({
   if (!subcategory) return {};
   return buildMetadata({
     title: `${subcategory.name} — Valendiro`,
-    description: subcategory.description || `Explore ${subcategory.name} topics and expert guides on Valendiro.`,
+    description: subcategory.description || `Explore ${subcategory.name} topics on Valendiro.`,
     canonical: `/${lang}/subcategories/${slug}`,
   });
 }
@@ -100,20 +100,11 @@ export default async function SubcategoryPage({
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Subcategory Header */}
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+      <header className="border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <Breadcrumbs items={breadcrumbs} size="sm" separator="chevron" />
           
           <div className="mt-6 max-w-3xl">
-            {parentCategory && (
-              <Link
-                href={`/${lang}/categories/${parentCategory.slug}`}
-                className="inline-flex items-center text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-4 transition-colors"
-              >
-                {parentCategory.name}
-              </Link>
-            )}
-            
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tight leading-[1.1]">
               {subcategory.name}
             </h1>
@@ -123,18 +114,6 @@ export default async function SubcategoryPage({
                 {subcategory.description}
               </p>
             )}
-            
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-              <span className={`font-medium ${diff.color}`}>{diff.label}</span>
-              {topics.length > 0 && (
-                <>
-                  <span className="text-slate-300 dark:text-slate-700">·</span>
-                  <span>
-                    <strong className="text-slate-900 dark:text-slate-50">{topics.length}</strong> topics
-                  </span>
-                </>
-              )}
-            </div>
           </div>
         </div>
       </header>
@@ -145,22 +124,17 @@ export default async function SubcategoryPage({
         {/* Topics */}
         {topics.length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-8">
               Topics
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {topics.map((topic, index) => (
+              {topics.map((topic) => (
                 <Link
                   key={topic.id}
                   href={`/${lang}/topics/${topic.slug}`}
                   className="group p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-400">
-                      {index + 1}
-                    </span>
-                  </div>
-                  <h3 className="font-medium text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors line-clamp-2">
+                  <h3 className="text-base font-medium text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors line-clamp-2">
                     {topic.title}
                   </h3>
                   {topic.subtitle && (
@@ -177,28 +151,21 @@ export default async function SubcategoryPage({
         {/* Related Subcategories */}
         {siblings.length > 0 && (
           <section>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">
+            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-8">
               Related Subcategories
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {siblings.map((sibling) => {
-                const siblingDiff = DIFFICULTY_CONFIG[sibling.difficulty];
-                return (
-                  <Link
-                    key={sibling.id}
-                    href={`/${lang}/subcategories/${sibling.slug}`}
-                    className="group p-4 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
-                  >
-                    <h3 className="font-medium text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors line-clamp-2">
-                      {sibling.name}
-                    </h3>
-                    <div className="mt-2 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                      {sibling.topic_count > 0 && <span>{sibling.topic_count} topics</span>}
-                      <span className={`font-medium ${siblingDiff.color}`}>{siblingDiff.label}</span>
-                    </div>
-                  </Link>
-                );
-              })}
+              {siblings.map((sibling) => (
+                <Link
+                  key={sibling.id}
+                  href={`/${lang}/subcategories/${sibling.slug}`}
+                  className="group p-4 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+                >
+                  <h3 className="text-base font-medium text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors line-clamp-2">
+                    {sibling.name}
+                  </h3>
+                </Link>
+              ))}
             </div>
           </section>
         )}

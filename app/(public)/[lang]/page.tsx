@@ -20,9 +20,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   return buildMetadata({
-    title: "Valendiro — Trusted Knowledge for Everything That Matters",
-    description:
-      "Valendiro is a premium knowledge platform. Discover expert articles, guides, and answers curated by our editorial team.",
+    title: "Valendiro",
+    description: "Expert articles and guides across technology, finance, health, and more.",
     canonical: `/${lang}`,
   });
 }
