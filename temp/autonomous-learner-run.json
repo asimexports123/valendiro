@@ -1,0 +1,34 @@
+{
+  "topicsEvaluated": 5,
+  "topicsSkippedExcellent": 0,
+  "topicsImproved": 0,
+  "topicsRejected": 0,
+  "topicsFailed": 0,
+  "results": [
+    {
+      "topicSlug": "java-lambdas",
+      "status": "skipped_no_evidence",
+      "reason": "No evidence found for gaps: Missing definition facts; Only 542 words published"
+    },
+    {
+      "topicSlug": "rust-ownership",
+      "status": "skipped_no_evidence",
+      "reason": "No evidence found for gaps: Missing definition facts; Only 111 words published"
+    },
+    {
+      "topicSlug": "aws-ec2",
+      "status": "skipped_no_evidence",
+      "reason": "No evidence found for gaps: Missing definition facts; Only 542 words published"
+    },
+    {
+      "topicSlug": "azure-functions",
+      "status": "skipped_no_evidence",
+      "reason": "No evidence found for gaps: Missing definition facts; Only 480 words published"
+    },
+    {
+      "topicSlug": "ci-cd-github-actions",
+      "status": "skipped_no_evidence",
+      "reason": "No evidence found for gaps: Missing definition facts; Only 113 words published"
+    }
+  ]
+}

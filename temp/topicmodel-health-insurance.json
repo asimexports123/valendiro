@@ -1,0 +1,2612 @@
+{
+  "slug": "health-insurance",
+  "title": "Health Insurance",
+  "provenance": {
+    "factCount": 33
+  },
+  "concepts": [
+    {
+      "id": "def-0",
+      "label": "Health insurance or medical insurance is",
+      "canonicalAssertion": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+        "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+        "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-1",
+      "label": "According to the Health Insurance Association",
+      "canonicalAssertion": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-2",
+      "label": "A health insurance policy is an",
+      "canonicalAssertion": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor ."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-3",
+      "label": "Coinsurance Instead of or in addition",
+      "canonicalAssertion": "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-4",
+      "label": "As with other types of insurance",
+      "canonicalAssertion": "As with other types of insurance, risk is shared among many individuals.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "As with other types of insurance, risk is shared among many individuals."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-5",
+      "label": "By estimating the overall risk of",
+      "canonicalAssertion": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-6",
+      "label": "The type and amount of health",
+      "canonicalAssertion": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+        "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-7",
+      "label": "Premium The amount the policy holder",
+      "canonicalAssertion": "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-8",
+      "label": "These factors are age location tobacco",
+      "canonicalAssertion": "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share."
+      ],
+      "confidence": 100
+    },
+    {
+      "id": "def-9",
+      "label": "Consequently ERISA plans are exempt from",
+      "canonicalAssertion": "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+      "importanceScore": 0.78,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor ."
+      ],
+      "confidence": 78
+    },
+    {
+      "id": "def-a",
+      "label": "If a resolution is still not",
+      "canonicalAssertion": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "importanceScore": 0.78,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "confidence": 78
+    },
+    {
+      "id": "def-b",
+      "label": "A co payment must be paid",
+      "canonicalAssertion": "A co-payment must be paid each time a particular service is obtained.",
+      "importanceScore": 0.78,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "A co-payment must be paid each time a particular service is obtained."
+      ],
+      "confidence": 78
+    },
+    {
+      "id": "def-c",
+      "label": "Funding and obligations edit Health expenditure",
+      "canonicalAssertion": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+      "importanceScore": 0.58,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan."
+      ],
+      "confidence": 58
+    },
+    {
+      "id": "def-d",
+      "label": "For example policy holders might have",
+      "canonicalAssertion": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+      "importanceScore": 0.4,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer."
+      ],
+      "confidence": 40
+    },
+    {
+      "id": "c-e",
+      "label": "Should there be a need for",
+      "canonicalAssertion": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+      "importanceScore": 0.67,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary."
+      ],
+      "confidence": 67
+    },
+    {
+      "id": "c-f",
+      "label": "In addition some insurance company schemes",
+      "canonicalAssertion": "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+      "importanceScore": 0.64,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care."
+      ],
+      "confidence": 64
+    },
+    {
+      "id": "c-g",
+      "label": "Out of Network Provider A health",
+      "canonicalAssertion": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "importanceScore": 0.64,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "In-Network Provider:  A health care provider on a list of providers preselected by the insurer."
+      ],
+      "confidence": 64
+    },
+    {
+      "id": "c-h",
+      "label": "Typically these companies promote themselves as",
+      "canonicalAssertion": "Typically, these companies promote themselves as having ties to major insurance providers.",
+      "importanceScore": 0.52,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Typically, these companies promote themselves as having ties to major insurance providers."
+      ],
+      "confidence": 52
+    },
+    {
+      "id": "c-i",
+      "label": "The contract can be renewable or",
+      "canonicalAssertion": "The contract can be renewable  or lifelong in the case of private insurance.",
+      "importanceScore": 0.44,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The contract can be renewable  or lifelong in the case of private insurance."
+      ],
+      "confidence": 44
+    },
+    {
+      "id": "c-j",
+      "label": "The insured person may be expected",
+      "canonicalAssertion": "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+      "importanceScore": 0.44,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service."
+      ],
+      "confidence": 44
+    },
+    {
+      "id": "c-k",
+      "label": "The insurer will offer discounted coinsurance",
+      "canonicalAssertion": "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+      "importanceScore": 0.44,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider."
+      ],
+      "confidence": 44
+    },
+    {
+      "id": "c-l",
+      "label": "Out of pocket maximum can be",
+      "canonicalAssertion": "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+      "importanceScore": 0.43,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year."
+      ],
+      "confidence": 43
+    },
+    {
+      "id": "c-m",
+      "label": "The ombudsman publishes an annual report",
+      "canonicalAssertion": "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+      "importanceScore": 0.46,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]"
+      ],
+      "confidence": 46
+    }
+  ],
+  "mechanisms": [
+    {
+      "id": "m-premium",
+      "title": "How premiums are calculated",
+      "steps": [
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "[2]: 225 Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.",
+        "[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age.",
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay."
+      ],
+      "supportingFacts": [
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "[2]: 225 Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.",
+        "[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age.",
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay."
+      ]
+    },
+    {
+      "id": "m-claims",
+      "title": "How a claim is processed",
+      "steps": [
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "A co-payment must be paid each time a particular service is obtained.",
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider."
+      ],
+      "supportingFacts": [
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "A co-payment must be paid each time a particular service is obtained.",
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider."
+      ]
+    },
+    {
+      "id": "m-costflow",
+      "title": "How cost-sharing works at point of care",
+      "steps": [
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+        "[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+        "A co-payment must be paid each time a particular service is obtained.",
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care."
+      ],
+      "supportingFacts": [
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+        "[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+        "A co-payment must be paid each time a particular service is obtained.",
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care."
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "def-8",
+      "to": "def-1",
+      "relation": "requires",
+      "weight": 80
+    },
+    {
+      "from": "def-d",
+      "to": "c-f",
+      "relation": "requires",
+      "weight": 80
+    },
+    {
+      "from": "c-f",
+      "to": "def-1",
+      "relation": "requires",
+      "weight": 80
+    }
+  ],
+  "causalEdges": [
+    {
+      "from": "m-premium",
+      "to": "def-1",
+      "relation": "enables",
+      "weight": 80
+    },
+    {
+      "from": "def-0",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-1",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-2",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-3",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-4",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-5",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-6",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-7",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-a",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-b",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-d",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-f",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-g",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-i",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-j",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-k",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-l",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-m",
+      "to": "m-premium",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "m-claims",
+      "to": "def-8",
+      "relation": "enables",
+      "weight": 80
+    },
+    {
+      "from": "def-0",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-1",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-2",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-3",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-4",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-6",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-a",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-b",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-d",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-e",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-f",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-g",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-h",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-i",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-j",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-k",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-l",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-m",
+      "to": "m-claims",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "m-costflow",
+      "to": "def-8",
+      "relation": "enables",
+      "weight": 80
+    },
+    {
+      "from": "def-0",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-2",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-3",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-4",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-5",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-6",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-b",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "def-d",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-f",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-g",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-i",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-j",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-k",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-l",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    },
+    {
+      "from": "c-m",
+      "to": "m-costflow",
+      "relation": "requires",
+      "weight": 60
+    }
+  ],
+  "contradictions": [
+    {
+      "a": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+      "b": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+      "b": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+      "b": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+      "b": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "As with other types of insurance, risk is shared among many individuals.",
+      "b": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "As with other types of insurance, risk is shared among many individuals.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "A co-payment must be paid each time a particular service is obtained.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Typically, these companies promote themselves as having ties to major insurance providers.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "The contract can be renewable  or lifelong in the case of private insurance.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "In-Network Provider:  A health care provider on a list of providers preselected by the insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "b": "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+      "b": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "A co-payment must be paid each time a particular service is obtained.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Typically, these companies promote themselves as having ties to major insurance providers.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "The contract can be renewable  or lifelong in the case of private insurance.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "In-Network Provider:  A health care provider on a list of providers preselected by the insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "b": "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "A co-payment must be paid each time a particular service is obtained.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+      "b": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "b": "Typically, these companies promote themselves as having ties to major insurance providers.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "b": "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "b": "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "b": "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "b": "In-Network Provider:  A health care provider on a list of providers preselected by the insurer.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "b": "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "b": "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The contract can be renewable  or lifelong in the case of private insurance.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The contract can be renewable  or lifelong in the case of private insurance.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "In-Network Provider:  A health care provider on a list of providers preselected by the insurer.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "In-Network Provider:  A health care provider on a list of providers preselected by the insurer.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care.",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care.",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+      "b": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+      "b": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+      "b": "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "a": "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+      "b": "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age.",
+      "reason": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    }
+  ],
+  "readerQuestions": {
+    "def-0": [
+      "What is Health insurance or medical insurance is?",
+      "How does Health insurance or medical insurance is work in practice?"
+    ],
+    "def-1": [
+      "What is According to the Health Insurance Association?",
+      "How does According to the Health Insurance Association work in practice?"
+    ],
+    "def-2": [
+      "What is A health insurance policy is an?",
+      "How does A health insurance policy is an work in practice?"
+    ],
+    "def-3": [
+      "What is Coinsurance Instead of or in addition?",
+      "How does Coinsurance Instead of or in addition work in practice?"
+    ],
+    "def-4": [
+      "What is As with other types of insurance?",
+      "How does As with other types of insurance work in practice?"
+    ],
+    "def-5": [
+      "What is By estimating the overall risk of?",
+      "How does By estimating the overall risk of work in practice?"
+    ],
+    "def-6": [
+      "What is The type and amount of health?",
+      "How does The type and amount of health work in practice?"
+    ],
+    "def-7": [
+      "What is Premium The amount the policy holder?",
+      "How does Premium The amount the policy holder work in practice?"
+    ],
+    "def-8": [
+      "What is These factors are age location tobacco?",
+      "How does These factors are age location tobacco work in practice?"
+    ],
+    "def-9": [
+      "What is Consequently ERISA plans are exempt from?",
+      "How does Consequently ERISA plans are exempt from work in practice?"
+    ],
+    "def-a": [
+      "What is If a resolution is still not?",
+      "How does If a resolution is still not work in practice?"
+    ],
+    "def-b": [
+      "What is A co payment must be paid?",
+      "How does A co payment must be paid work in practice?"
+    ],
+    "def-c": [
+      "What is Funding and obligations edit Health expenditure?",
+      "How does Funding and obligations edit Health expenditure work in practice?"
+    ],
+    "def-d": [
+      "What is For example policy holders might have?",
+      "How does For example policy holders might have work in practice?"
+    ],
+    "c-e": [
+      "Why does Should there be a need for matter?",
+      "How does Should there be a need for work in practice?"
+    ],
+    "c-f": [
+      "Why does In addition some insurance company schemes matter?",
+      "How does In addition some insurance company schemes work in practice?"
+    ],
+    "c-g": [
+      "Why does Out of Network Provider A health matter?",
+      "How does Out of Network Provider A health work in practice?"
+    ],
+    "c-h": [
+      "Why does Typically these companies promote themselves as matter?",
+      "How does Typically these companies promote themselves as work in practice?"
+    ],
+    "c-i": [
+      "Why does The contract can be renewable or matter?",
+      "How does The contract can be renewable or work in practice?"
+    ],
+    "c-j": [
+      "Why does The insured person may be expected matter?",
+      "How does The insured person may be expected work in practice?"
+    ],
+    "c-k": [
+      "What is The insurer will offer discounted coinsurance?",
+      "Why does The insurer will offer discounted coinsurance matter?",
+      "How does The insurer will offer discounted coinsurance work in practice?"
+    ],
+    "c-l": [
+      "Why does Out of pocket maximum can be matter?",
+      "How does Out of pocket maximum can be work in practice?"
+    ],
+    "c-m": [
+      "What is The ombudsman publishes an annual report?",
+      "Why does The ombudsman publishes an annual report matter?",
+      "How does The ombudsman publishes an annual report work in practice?"
+    ]
+  },
+  "misconceptions": [
+    {
+      "pair": [
+        "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "As with other types of insurance, risk is shared among many individuals.",
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "As with other types of insurance, risk is shared among many individuals.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor ."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "A co-payment must be paid each time a particular service is obtained."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Health insurance can be combined with publicly funded health care and medical savings accounts."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "In addition, some insurance company schemes have annual or lifetime coverage maxima."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Typically, these companies promote themselves as having ties to major insurance providers."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "The contract can be renewable  or lifelong in the case of private insurance."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "In-Network Provider:  A health care provider on a list of providers preselected by the insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+        "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "A co-payment must be paid each time a particular service is obtained."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Health insurance can be combined with publicly funded health care and medical savings accounts."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "In addition, some insurance company schemes have annual or lifetime coverage maxima."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Typically, these companies promote themselves as having ties to major insurance providers."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "The contract can be renewable  or lifelong in the case of private insurance."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "In-Network Provider:  A health care provider on a list of providers preselected by the insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+        "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "A co-payment must be paid each time a particular service is obtained.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "Typically, these companies promote themselves as having ties to major insurance providers."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "In-Network Provider:  A health care provider on a list of providers preselected by the insurer."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The contract can be renewable  or lifelong in the case of private insurance.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The contract can be renewable  or lifelong in the case of private insurance.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "In-Network Provider:  A health care provider on a list of providers preselected by the insurer.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "In-Network Provider:  A health care provider on a list of providers preselected by the insurer.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care.",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care.",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]"
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+        "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    },
+    {
+      "pair": [
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+        "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age."
+      ],
+      "whyOccurs": "opposite polarity with high lexical overlap",
+      "confidence": 70
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "s-0",
+      "title": "By estimating the overall risk of health risk and health sys",
+      "text": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+    },
+    {
+      "id": "s-1",
+      "title": "The contract can be renewable  or lifelong in the case of pr",
+      "text": "The contract can be renewable  or lifelong in the case of private insurance."
+    },
+    {
+      "id": "s-2",
+      "title": "It can also be mandatory for all citizens in the case of nat",
+      "text": "It can also be mandatory for all citizens in the case of national plans."
+    },
+    {
+      "id": "s-3",
+      "title": "For example, policy-holders might have to pay a $7500 deduct",
+      "text": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer."
+    },
+    {
+      "id": "s-4",
+      "title": "For example, an insured person might pay a $45 co-payment fo",
+      "text": "For example, an insured person might pay a $45 co-payment for a doctors visit, or to obtain a prescription."
+    },
+    {
+      "id": "s-5",
+      "title": "For example, the member might have to pay 20% of the cost of",
+      "text": "For example, the member might have to pay 20% of the cost of a surgery over and above a co-payment, while the insurance company pays the other 80%."
+    },
+    {
+      "id": "s-6",
+      "title": "Out-of-pocket maximum: Similar to coverage limits, except th",
+      "text": "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs."
+    },
+    {
+      "id": "s-7",
+      "title": "For example, in the province of Quebec, Canada, prescription",
+      "text": "For example, in the province of Quebec, Canada, prescription drug insurance is universally required as part of the public health insurance plan, but may be purchased and administered either through private or group plans, or through the public plan.[10]"
+    }
+  ],
+  "teachingCheckpoints": [
+    {
+      "id": "cp-0",
+      "conceptIds": [
+        "def-8",
+        "c-f"
+      ],
+      "description": "Understand 2 prerequisite concept(s) before this concept."
+    },
+    {
+      "id": "cp-1",
+      "conceptIds": [
+        "def-d"
+      ],
+      "description": "Understand 1 prerequisite concept(s) before this concept."
+    }
+  ]
+}

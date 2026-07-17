@@ -1,0 +1,27 @@
+{
+  "beforeCount": 24,
+  "afterCount": 38,
+  "discovery": {
+    "sourceId": "c156560e-5721-44e0-9934-f59bb6ed727b",
+    "sourceType": "rss",
+    "articlesDiscovered": 14,
+    "articlesSaved": 14,
+    "articlesDuplicate": 0,
+    "articlesError": 0,
+    "durationMs": 4910,
+    "status": "success",
+    "error": null
+  },
+  "discoveryDurationMs": 4910,
+  "pipeline": {
+    "processed": 2,
+    "published": 0,
+    "failed": 2,
+    "errors": [
+      "2c6575d0-5530-422f-87cf-b7015d12dd4b: Render did not produce an output",
+      "98e3a749-d6c3-4b9a-b155-239e09a0170b: Render did not produce an output"
+    ]
+  },
+  "pipelineDurationMs": 4153,
+  "totalDurationMs": 9063
+}

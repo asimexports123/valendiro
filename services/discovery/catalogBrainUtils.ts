@@ -106,6 +106,53 @@ function topicRelevant(sentence: string, keywords: string[]): boolean {
   return keywords.some((w) => lower.includes(w));
 }
 
+/** Prefer topic-head copular sentences when competing for limited definition slots. */
+function scoreDefinitionCandidate(fact: string, keywords: string[]): number {
+  const start = fact.trim().slice(0, 100).toLowerCase();
+  let score = 0;
+  for (const kw of keywords) {
+    if (kw.length > 3 && start.includes(kw)) score += 18;
+  }
+  if (/\b(is a|is an|are a|is exercise|refers to|defined as|means)\b/i.test(fact.slice(0, 110))) {
+    score += 28;
+  }
+  if (/\b(also known as|also called)\b/i.test(fact)) score += 22;
+  if (/\b(primarily|typically|usually|often|mainly|widely available|tracking many)\b/i.test(start)) {
+    score -= 32;
+  }
+  if (/^(a gym|an example|pictured|shown above|this image)\b/i.test(start)) score -= 70;
+  return score;
+}
+
+export function isTopicHeadDefinition(sentence: string, keywords: string[]): boolean {
+  if (!/\b(is a|is an|are a|is exercise|refers to|defined as|means)\b/i.test(sentence)) return false;
+  const start = sentence.toLowerCase().slice(0, 100);
+  return keywords.some((kw) => kw.length > 3 && start.includes(kw));
+}
+
+function collectDefinitions(
+  raw: { text: string; type: FactType }[],
+  unique: string[],
+  keywords: string[],
+  limit: number
+): string[] {
+  const definitionLike = new Set<string>();
+  for (const r of raw) {
+    if (!unique.includes(r.text)) continue;
+    if (r.type === "definition") definitionLike.add(r.text);
+    else if (
+      r.type === "property" &&
+      isTopicHeadDefinition(r.text, keywords) &&
+      /\b(is a|is an|are a|is exercise|refers to|defined as|means)\b/i.test(r.text)
+    ) {
+      definitionLike.add(r.text);
+    }
+  }
+  return [...definitionLike]
+    .sort((a, b) => scoreDefinitionCandidate(b, keywords) - scoreDefinitionCandidate(a, keywords))
+    .slice(0, limit);
+}
+
 export function brainUnderstand(
   fuelTexts: string[],
   topicTitle: string,
@@ -132,7 +179,7 @@ export function brainUnderstand(
       ) {
         continue;
       }
-      if (!relaxed && !topicRelevant(cleaned, keywords) && raw.length > 20) continue;
+      if (!relaxed && !topicRelevant(cleaned, keywords) && raw.length > 20 && !isTopicHeadDefinition(cleaned, keywords)) continue;
       raw.push({ text: cleaned, type: classifyFactType(cleaned) });
     }
   }
@@ -154,7 +201,7 @@ export function brainUnderstand(
     : { def: 8, prop: 12, proc: 10, warn: 6, comp: 6, meas: 6, all: 30 };
 
   return {
-    definitions: byType("definition").slice(0, limits.def),
+    definitions: collectDefinitions(raw, unique, keywords, limits.def),
     properties: byType("property").slice(0, limits.prop),
     procedures: byType("procedural").slice(0, limits.proc),
     warnings: byType("warning").slice(0, limits.warn),

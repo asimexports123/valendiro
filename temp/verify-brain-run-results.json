@@ -1,0 +1,57 @@
+[
+  {
+    "slug": "html-fundamentals",
+    "success": false,
+    "reason": "Writer returned null"
+  },
+  {
+    "slug": "design-patterns",
+    "success": true,
+    "words": 414,
+    "url": "https://valendiro.com/en/topics/design-patterns"
+  },
+  {
+    "slug": "sql-fundamentals",
+    "success": false,
+    "reason": "Writer returned null"
+  },
+  {
+    "slug": "index-funds",
+    "success": true,
+    "words": 375,
+    "url": "https://valendiro.com/en/topics/index-funds"
+  },
+  {
+    "slug": "strength-training-basics",
+    "success": true,
+    "words": 307,
+    "url": "https://valendiro.com/en/topics/strength-training-basics"
+  },
+  {
+    "slug": "stress-management-basics",
+    "success": false,
+    "reason": "Writer returned null"
+  },
+  {
+    "slug": "compound-interest-explained",
+    "success": false,
+    "reason": "Writer returned null"
+  },
+  {
+    "slug": "what-is-artificial-intelligence",
+    "success": true,
+    "words": 318,
+    "url": "https://valendiro.com/en/topics/what-is-artificial-intelligence"
+  },
+  {
+    "slug": "project-management",
+    "success": true,
+    "words": 321,
+    "url": "https://valendiro.com/en/topics/project-management"
+  },
+  {
+    "slug": "travel-planning-fundamentals",
+    "success": false,
+    "reason": "Writer returned null"
+  }
+]

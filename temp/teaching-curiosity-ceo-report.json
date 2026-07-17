@@ -1,0 +1,186 @@
+{
+  "directive": "Curiosity-driven teaching (not fact-connecting)",
+  "generatedAt": "2026-07-10T11:42:41.233Z",
+  "published": 0,
+  "total": 5,
+  "brainChanges": [
+    "brainTeaching: order paragraphs by reader next-curiosity, not fact rank",
+    "Generic deriveQuestion — removed topic-specific AI hacks",
+    "Teaching wrap: curiosity hook → answer → forward seed",
+    "Removed meta section banners (Once the definition is clear…)",
+    "Penalize history/aside facts when reader still needs what/why/how"
+  ],
+  "honestVerdict": "Still not fully human. Curiosity ordering and hooks help, but prose is still claim-derived and can jump when fuel lacks a clean answer to the live question.",
+  "reports": [
+    {
+      "slug": "what-is-artificial-intelligence",
+      "title": "What Is Artificial Intelligence?",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (10 facts, typed=10)",
+      "wordsBefore": 498,
+      "wordsAfter": 498,
+      "before": {
+        "paragraphCount": 18,
+        "curiosityHooks": 0,
+        "metaBanners": 5,
+        "historyJumps": 2,
+        "sample": [
+          "Artificial Intelligence is the capability of computational systems to perform tasks typically associated with human intelligence. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products",
+          "This follows Alan Turings proposal in his paper Computing Machinery and Intelligence, in which the question, Can machines think?, is replaced by asking whether machines can convincingly imitate a human in its responses to human-posed questi",
+          "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory,. For example, game theory, control theory, and operations research.",
+          "Artificial Intelligence is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice.",
+          "Once the definition is clear, the next question is why Artificial Intelligence exists at all."
+        ]
+      },
+      "after": {
+        "paragraphCount": 18,
+        "curiosityHooks": 0,
+        "metaBanners": 5,
+        "historyJumps": 2,
+        "sample": [
+          "Artificial Intelligence is the capability of computational systems to perform tasks typically associated with human intelligence. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products",
+          "This follows Alan Turings proposal in his paper Computing Machinery and Intelligence, in which the question, Can machines think?, is replaced by asking whether machines can convincingly imitate a human in its responses to human-posed questi",
+          "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory,. For example, game theory, control theory, and operations research.",
+          "Artificial Intelligence is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice.",
+          "Once the definition is clear, the next question is why Artificial Intelligence exists at all."
+        ]
+      }
+    },
+    {
+      "slug": "design-patterns",
+      "title": "Software Design Patterns",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (17 facts, typed=17)",
+      "wordsBefore": 615,
+      "wordsAfter": 615,
+      "before": {
+        "paragraphCount": 21,
+        "curiosityHooks": 0,
+        "metaBanners": 5,
+        "historyJumps": 0,
+        "sample": [
+          "A Software Design Pattern is a description of and a template for solving a particular type of problem that can be used in many different contexts. It matters because knowing what it is—and is not—changes real decisions. You encounter it in ",
+          "A software design pattern describes is a reusable solution to a commonly needed behavior in software. A design pattern is not a rigid structure to be copied directly into source code. You meet it in everyday tools long before the formal nam",
+          "Trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages.",
+          "Here he reflected on how his work on Patterns in Architecture had developed and his hopes for how the Software Design community could help Architecture extend Patterns to create living structures that use generative schemes that is more lik",
+          "Continuing that thread, software Design Patterns is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice."
+        ]
+      },
+      "after": {
+        "paragraphCount": 21,
+        "curiosityHooks": 0,
+        "metaBanners": 5,
+        "historyJumps": 0,
+        "sample": [
+          "A Software Design Pattern is a description of and a template for solving a particular type of problem that can be used in many different contexts. It matters because knowing what it is—and is not—changes real decisions. You encounter it in ",
+          "A software design pattern describes is a reusable solution to a commonly needed behavior in software. A design pattern is not a rigid structure to be copied directly into source code. You meet it in everyday tools long before the formal nam",
+          "Trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages.",
+          "Here he reflected on how his work on Patterns in Architecture had developed and his hopes for how the Software Design community could help Architecture extend Patterns to create living structures that use generative schemes that is more lik",
+          "Continuing that thread, software Design Patterns is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice."
+        ]
+      }
+    },
+    {
+      "slug": "html-fundamentals",
+      "title": "HTML Fundamentals",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (17 facts, typed=17)",
+      "wordsBefore": 370,
+      "wordsAfter": 370,
+      "before": {
+        "paragraphCount": 14,
+        "curiosityHooks": 3,
+        "metaBanners": 0,
+        "historyJumps": 0,
+        "sample": [
+          "HTML is the most basic building block of the Web. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tools, and decisions—often before the formal name sticks.",
+          "Other technologies besides HTML is generally used to describe a web pages appearance/presentation or functionality/behavior. That raises a sharper question: why does this matter enough to learn carefully?",
+          "An HTML element is set off from other text in a document by tags. Consist of the element name surrounded by < and >.",
+          "And how to use it, aimed at people who are completely new to web development.",
+          "The useful question is not the label — it is why HTML Fundamentals showed up in the first place. HTML Fundamentals uses markup to annotate text, images. That means guides The HTML guides help you build with HTML on the web. The natural foll"
+        ]
+      },
+      "after": {
+        "paragraphCount": 14,
+        "curiosityHooks": 3,
+        "metaBanners": 0,
+        "historyJumps": 0,
+        "sample": [
+          "HTML is the most basic building block of the Web. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tools, and decisions—often before the formal name sticks.",
+          "Other technologies besides HTML is generally used to describe a web pages appearance/presentation or functionality/behavior. That raises a sharper question: why does this matter enough to learn carefully?",
+          "An HTML element is set off from other text in a document by tags. Consist of the element name surrounded by < and >.",
+          "And how to use it, aimed at people who are completely new to web development.",
+          "The useful question is not the label — it is why HTML Fundamentals showed up in the first place. HTML Fundamentals uses markup to annotate text, images. That means guides The HTML guides help you build with HTML on the web. The natural foll"
+        ]
+      }
+    },
+    {
+      "slug": "health-insurance",
+      "title": "Health Insurance",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (19 facts, typed=19)",
+      "wordsBefore": 616,
+      "wordsAfter": 616,
+      "before": {
+        "paragraphCount": 15,
+        "curiosityHooks": 3,
+        "metaBanners": 0,
+        "historyJumps": 1,
+        "sample": [
+          "Health Insurance is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tool",
+          "Health Insurance is an insurance contract between is an insurance provider and an individual or his/her sponsor. That raises a sharper question: why does this matter enough to learn carefully?",
+          "That leads to another piece: as with other types of insurance, risk is pooled among many individuals.",
+          "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop is a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care be",
+          "The useful question is not the label — it is why Health Insurance showed up in the first place. Health Insurance is should there be a need for an appeal, the process typically involves initiating it through the insurance company and then re"
+        ]
+      },
+      "after": {
+        "paragraphCount": 15,
+        "curiosityHooks": 3,
+        "metaBanners": 0,
+        "historyJumps": 1,
+        "sample": [
+          "Health Insurance is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tool",
+          "Health Insurance is an insurance contract between is an insurance provider and an individual or his/her sponsor. That raises a sharper question: why does this matter enough to learn carefully?",
+          "That leads to another piece: as with other types of insurance, risk is pooled among many individuals.",
+          "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop is a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care be",
+          "The useful question is not the label — it is why Health Insurance showed up in the first place. Health Insurance is should there be a need for an appeal, the process typically involves initiating it through the insurance company and then re"
+        ]
+      }
+    },
+    {
+      "slug": "index-funds",
+      "title": "Index Funds",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (25 facts, typed=25)",
+      "wordsBefore": 596,
+      "wordsAfter": 596,
+      "before": {
+        "paragraphCount": 18,
+        "curiosityHooks": 5,
+        "metaBanners": 0,
+        "historyJumps": 0,
+        "sample": [
+          "An Index Fund is a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday p",
+          "Index funds is widely available at low cost for retail investors worldwide, but especially so in the United States, Canada. That raises a sharper question: why does this matter enough to learn carefully?",
+          "Continuing that thread, most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller.",
+          "The useful question is not the label — it is why Index Funds showed up in the first place. Index Funds may have other implementation rules designed to minimize taxes, reduce tracking error, or reduce trading costs. That means academic resea",
+          "That leads to another piece: bernstein, and Andrew Tobias have long been strong proponents of index funds. So global diversification can be achieved using funds that track the MSCI World or FTSE Global Equity Index Series."
+        ]
+      },
+      "after": {
+        "paragraphCount": 18,
+        "curiosityHooks": 5,
+        "metaBanners": 0,
+        "historyJumps": 0,
+        "sample": [
+          "An Index Fund is a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday p",
+          "Index funds is widely available at low cost for retail investors worldwide, but especially so in the United States, Canada. That raises a sharper question: why does this matter enough to learn carefully?",
+          "Continuing that thread, most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller.",
+          "The useful question is not the label — it is why Index Funds showed up in the first place. Index Funds may have other implementation rules designed to minimize taxes, reduce tracking error, or reduce trading costs. That means academic resea",
+          "That leads to another piece: bernstein, and Andrew Tobias have long been strong proponents of index funds. So global diversification can be achieved using funds that track the MSCI World or FTSE Global Equity Index Series."
+        ]
+      }
+    }
+  ]
+}

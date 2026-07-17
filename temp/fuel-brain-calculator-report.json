@@ -1,0 +1,122 @@
+{
+  "model": "Fuel = calculator input; Brain = exact output; thin fuel → skip (no chipak)",
+  "generatedAt": "2026-07-11T16:49:07.944Z",
+  "published": 2,
+  "skipped": 3,
+  "total": 5,
+  "reports": [
+    {
+      "slug": "what-is-artificial-intelligence",
+      "title": "What Is Artificial Intelligence?",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (18 facts, typed=18)",
+      "fuel": {
+        "sources": 2,
+        "hasDefinition": true,
+        "teachingPass": true,
+        "dimensions": 4,
+        "what": true,
+        "why": true,
+        "how": true,
+        "where": true,
+        "missing": []
+      },
+      "wordCount": 498,
+      "sample": [
+        "Artificial Intelligence is the capability of computational systems to perform tasks typically associated with human intelligence. It matters because knowing what it is—and is not—changes real decision",
+        "This follows Alan Turings proposal in his paper Computing Machinery and Intelligence, in which the question, Can machines think?, is replaced by asking whether machines can convincingly imitate a huma",
+        "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory,. For example, game theory, control theory, and oper"
+      ]
+    },
+    {
+      "slug": "design-patterns",
+      "title": "Software Design Patterns",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (27 facts, typed=27)",
+      "fuel": {
+        "sources": 3,
+        "hasDefinition": true,
+        "teachingPass": true,
+        "dimensions": 4,
+        "what": true,
+        "why": true,
+        "how": true,
+        "where": true,
+        "missing": []
+      },
+      "wordCount": 425,
+      "sample": [
+        "A Software Design Pattern is trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages. It matters because knowing what it is—and is not—changes real",
+        "Trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages. That leaves a fair question: why does this matter in real decisions?",
+        "Here he reflected on how his work on Patterns in Architecture had developed and his hopes for how the Software Design community could help Architecture extend Patterns to create living structures that"
+      ]
+    },
+    {
+      "slug": "html-fundamentals",
+      "title": "HTML Fundamentals",
+      "status": "skipped",
+      "reason": "writer: could not produce original article (26 facts, typed=26)",
+      "fuel": {
+        "sources": 2,
+        "hasDefinition": true,
+        "teachingPass": true,
+        "dimensions": 4,
+        "what": true,
+        "why": true,
+        "how": true,
+        "where": true,
+        "missing": []
+      },
+      "wordCount": 355,
+      "sample": [
+        "HTML is the most basic building block of the Web. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tools, and decisions—often before the ",
+        "HTML is most basic building block of the Web. That leaves a fair question: why does this matter in real decisions?",
+        "Continuing that thread, other technologies besides HTML is generally used to describe a web pages appearance/presentation or functionality/behavior."
+      ]
+    },
+    {
+      "slug": "health-insurance",
+      "title": "Health Insurance",
+      "status": "published",
+      "fuel": {
+        "sources": 2,
+        "hasDefinition": true,
+        "teachingPass": true,
+        "dimensions": 4,
+        "what": true,
+        "why": true,
+        "how": true,
+        "where": true,
+        "missing": []
+      },
+      "wordCount": 413,
+      "sample": [
+        "Health Insurance is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses. It matters because knowing what it is—and is not—changes real decisions. You",
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured. That leaves a fair question: why does this matter in re",
+        "As with other types of insurance, risk is spread across many individuals."
+      ]
+    },
+    {
+      "slug": "index-funds",
+      "title": "Index Funds",
+      "status": "published",
+      "fuel": {
+        "sources": 2,
+        "hasDefinition": true,
+        "teachingPass": true,
+        "dimensions": 4,
+        "what": true,
+        "why": true,
+        "how": true,
+        "where": true,
+        "missing": []
+      },
+      "wordCount": 400,
+      "sample": [
+        "An Index Fund is a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance. It matters because index funds are widely available at low cost",
+        "Index funds is widely available at low cost for retail investors worldwide, but especially so in the United States, Canada. That leaves a fair question: why does this matter in real decisions?",
+        "Most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller."
+      ]
+    }
+  ]
+}

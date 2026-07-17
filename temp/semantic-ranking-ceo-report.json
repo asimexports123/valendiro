@@ -1,0 +1,481 @@
+{
+  "directive": "Semantic Knowledge Ranking — 5 flagship regenerations (final live report)",
+  "generatedAt": "2026-07-10T08:48:34.179Z",
+  "published": 5,
+  "total": 5,
+  "allPassed": true,
+  "brainFixesApplied": [
+    "brainSemanticRank.ts — priority scoring, noise penalties, intro fact selection",
+    "brainCompose.ts — intro dedupe no longer blocks all overview paragraphs",
+    "brainDiscoursePlanner.ts — unique central ideas + discourse paraphrase leads",
+    "brainParaphrase.ts — generic surface paraphrase for originality",
+    "brainWriter.ts — originality scored against ranked facts, not raw Wikipedia dump"
+  ],
+  "reports": [
+    {
+      "slug": "what-is-artificial-intelligence",
+      "title": "What Is Artificial Intelligence?",
+      "url": "https://valendiro.com/en/topics/what-is-artificial-intelligence",
+      "status": "published",
+      "previousScore": 93,
+      "newScore": 93,
+      "wordCount": 694,
+      "firstParagraph": "Artificial Intelligence is the capability of computational systems to perform tasks often linked to human intelligence, such as learning, reasoning. That sentence is enough to orient someone new to the topic.",
+      "topFactsSelected": [
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Artificial intelligence  is the capability of computational systems to perform tasks typically associated with human intelligence, such a…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "It is a field of research in engineering, mathematics and computer science that develops and studies methods and software that enable mac…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Among the most difficult problems in knowledge representation are the breadth of commonsense knowledge ;[28] and the sub-symbolic form of…"
+        },
+        {
+          "priority": 93,
+          "factType": "definition",
+          "fact": "Many of these algorithms are insufficient for solving large reasoning problems because they experience a combinatorial explosion: They be…"
+        },
+        {
+          "priority": 92,
+          "factType": "definition",
+          "fact": "Formal knowledge representations are used in content-based indexing and retrieval,[17] scene interpretation,[18] clinical decision suppor…"
+        },
+        {
+          "priority": 80,
+          "factType": "definition",
+          "fact": "A rational agent has goals or preferences and takes actions to make them happen.[d][31] In automated planning, the agent has a specific g…"
+        },
+        {
+          "priority": 78,
+          "factType": "definition",
+          "fact": "A knowledge base is a body of knowledge represented in a form that can be used by a program."
+        },
+        {
+          "priority": 78,
+          "factType": "definition",
+          "fact": "Planning and decision-making An agent is any entity  that perceives and takes actions in the world."
+        },
+        {
+          "priority": 62,
+          "factType": "property",
+          "fact": "Goals The general problem of simulating  intelligence has been broken down into subproblems."
+        },
+        {
+          "priority": 40,
+          "factType": "property",
+          "fact": "Knowledge representation and knowledge engineering[16] allow AI programs to answer questions intelligently and make deductions about real…"
+        }
+      ],
+      "topFactsDiscarded": [
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "In addition to AI safety and unintended consequences and harms from the use of AI, ethical concerns, AIs long-term effects, and potential…"
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "The traits described below have received the most attention and cover the scope of AI research.[a]"
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "Humans solve most of their problems using fast, intuitive judgments.[14]"
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "Knowledge representation An ontology represents knowledge as a set of concepts within a domain and the relationships between those concepts."
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "The decision-making agent assigns a number to each situation  that measures how much the agent prefers it."
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "For each possible action, it can calculate the expected utility: the utility of all possible outcomes of the action, weighted by the prob…"
+        },
+        {
+          "priority": 24,
+          "factType": "property",
+          "fact": "High-profile applications of AI include advanced web search engines, chatbots, virtual assistants, autonomous vehicles, and play and anal…"
+        },
+        {
+          "priority": 20,
+          "factType": "property",
+          "fact": "These consist of particular traits or capabilities that researchers expect an intelligent system to display."
+        },
+        {
+          "priority": 12,
+          "factType": "property",
+          "fact": "Since the 2020s, generative AI has become widely available to generate images, audio, and videos from text prompts."
+        },
+        {
+          "priority": 0,
+          "factType": "property",
+          "fact": "Reasoning models, a type of large language model trained to generate intermediate chains-of-thought, emerged in 2024 and allowed improved…"
+        }
+      ],
+      "openingImprovement": "Semantic ranking placed the definitional fact first (\"Artificial intelligence  is the capability of computational systems to…\"). The opening now answers the reader's first question about What Is Artificial Intelligence before secondary ideas."
+    },
+    {
+      "slug": "design-patterns",
+      "title": "Software Design Patterns",
+      "url": "https://valendiro.com/en/topics/design-patterns",
+      "status": "published",
+      "previousScore": 96,
+      "newScore": 94,
+      "wordCount": 934,
+      "firstParagraph": "A software design pattern is a reusable solution to a commonly needed behavior in software. A design pattern is not a rigid structure to be copied directly into source code. That sentence is enough to orient someone new to the topic.",
+      "topFactsSelected": [
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "A software design pattern describes a reusable solution to a commonly needed behavior in software.[1] A design pattern is not a rigid str…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Rather, it is a description of and a template for solving a particular type of problem that can be used in many different contexts, inclu…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Some patterns can be rendered unnecessary in languages that have built-in support for solving the problem they are trying to solve, and o…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Design patterns gained popularity in computer science after the book Design Patterns: Elements of Reusable Object-Oriented Software was p…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Here he reflected on how his work on Patterns in Architecture had developed and his hopes for how the Software Design community could hel…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Object-oriented design patterns typically show relationships and interactions between classes or objects, without specifying the final ap…"
+        },
+        {
+          "priority": 98,
+          "factType": "definition",
+          "fact": "Software design techniques are difficult to apply to a broader range of problems.[citation needed] Design patterns provide general soluti…"
+        },
+        {
+          "priority": 94,
+          "factType": "property",
+          "fact": "Design patterns can be organized into groups based on what kind of problem they solve."
+        },
+        {
+          "priority": 86,
+          "factType": "property",
+          "fact": "Patterns that imply mutable state may be unsuited for functional programming languages."
+        },
+        {
+          "priority": 71,
+          "factType": "definition",
+          "fact": "Object-oriented design patterns typically show relationships and interactions between classes or objects, without specifying the final ap…"
+        }
+      ],
+      "topFactsDiscarded": [
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "A developer adapts the motif to their codebase to solve the problem described by the pattern."
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "The resulting code has structure and organization similar to the chosen motif."
+        },
+        {
+          "priority": 7,
+          "factType": "property",
+          "fact": "In 1987, Kent Beck and Ward Cunningham began experimenting with the idea of applying patterns to programming – specifically pattern langu…"
+        }
+      ],
+      "openingImprovement": "Semantic ranking placed the definitional fact first (\"A software design pattern describes a reusable solution to a commonly …\"). The opening now answers the reader's first question about Software Design Patterns before secondary ideas."
+    },
+    {
+      "slug": "html-fundamentals",
+      "title": "HTML Fundamentals",
+      "url": "https://valendiro.com/en/topics/html-fundamentals",
+      "status": "published",
+      "previousScore": 82,
+      "newScore": 94,
+      "wordCount": 808,
+      "firstParagraph": "HTML Fundamentals is a document markup system that web browsers use to interpret and compose text, images. That sentence is enough to orient someone new to the topic. And other material into visible or audible web pages.",
+      "topFactsSelected": [
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Hypertext Markup Language  is the standard markup language[a] for documents designed to be displayed in a web browser."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "It is often assisted by technologies such as Cascading Style Sheets  and scripting languages such as JavaScript."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "HTML elements are the building blocks of HTML pages."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "HTML provides a means to create structured documents by denoting structural semantics for text such as headings, paragraphs, lists, links…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "HTML elements are delineated by tags, written using angle brackets."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "HTML is a markup language that web browsers use to interpret and compose text, images, and other material into visible or audible web pages."
+        },
+        {
+          "priority": 81,
+          "factType": "definition",
+          "fact": "The World Wide Web Consortium , former maintainer of the HTML and current maintainer of the CSS standards, has encouraged the use of CSS …"
+        },
+        {
+          "priority": 78,
+          "factType": "definition",
+          "fact": "In his personal notes of 1990, Berners-Lee listed some of the many areas in which hypertext is used; an encyclopedia is the first entry.[5]"
+        },
+        {
+          "priority": 74,
+          "factType": "property",
+          "fact": "Browsers do not display the HTML tags, but use them to interpret the content of the page."
+        },
+        {
+          "priority": 62,
+          "factType": "property",
+          "fact": "Web browsers receive HTML documents from a web server or from local storage and render the documents into multimedia web pages."
+        }
+      ],
+      "topFactsDiscarded": [
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "Tags such as <img> and <input> directly introduce content into the page."
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "The inclusion of CSS defines the look and layout of content."
+        },
+        {
+          "priority": 20,
+          "factType": "property",
+          "fact": "It defines the content and structure of web content."
+        },
+        {
+          "priority": 0,
+          "factType": "property",
+          "fact": "Other tags such as <p> and its corresponding closing tag </p> surround and provide information about document text and may include sub-el…"
+        },
+        {
+          "priority": 0,
+          "factType": "property",
+          "fact": "Development Tim Berners-Lee in April 2009 In 1980, the physicist Tim Berners-Lee, a contractor at CERN, proposed and prototyped ENQUIRE, …"
+        }
+      ],
+      "openingImprovement": "Semantic ranking placed the definitional fact first (\"HTML is a markup language that web browsers use to interpret and compo…\"). The opening now answers the reader's first question about HTML Fundamentals before secondary ideas."
+    },
+    {
+      "slug": "health-insurance",
+      "title": "Health Insurance",
+      "url": "https://valendiro.com/en/topics/health-insurance",
+      "status": "published",
+      "previousScore": 96,
+      "newScore": 95,
+      "wordCount": 846,
+      "firstParagraph": "This field is health insurance can be combined with publicly funded health care and medical savings accounts. The sections ahead unpack implications of this core point.",
+      "topFactsSelected": [
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical e…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "As with other types of insurance, risk is shared among many individuals."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance str…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benef…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor ."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member cont…"
+        },
+        {
+          "priority": 94,
+          "factType": "property",
+          "fact": "Health insurance can be combined with publicly funded health care and medical savings accounts."
+        },
+        {
+          "priority": 85,
+          "factType": "property",
+          "fact": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to…"
+        },
+        {
+          "priority": 80,
+          "factType": "measurement",
+          "fact": "85% of French people benefit from complementary private health insurance.[31]"
+        },
+        {
+          "priority": 78,
+          "factType": "definition",
+          "fact": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-fun…"
+        }
+      ],
+      "topFactsDiscarded": [
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "Specific details about benefits or coverage can be found in the Summary Plan Description ."
+        },
+        {
+          "priority": 20,
+          "factType": "property",
+          "fact": "It can also be mandatory for all citizens in the case of national plans."
+        },
+        {
+          "priority": 17,
+          "factType": "comparison",
+          "fact": "In American politics, the Democratic Party tends to support public expansions in health insurance coverage while the Republican Party opp…"
+        },
+        {
+          "priority": 7,
+          "factType": "measurement",
+          "fact": "Funding for Medicaid and CHIP expanded significantly under the 2010 health reform bill.[16] The proportion of individuals covered by Medi…"
+        },
+        {
+          "priority": 0,
+          "factType": "property",
+          "fact": "The individual insured persons obligations may take several forms:[citation needed]"
+        }
+      ],
+      "openingImprovement": "Semantic ranking placed the definitional fact first (\"Health insurance or medical insurance  is a type of insurance that cov…\"). The opening now answers the reader's first question about Health Insurance before secondary ideas."
+    },
+    {
+      "slug": "index-funds",
+      "title": "Index Funds",
+      "url": "https://valendiro.com/en/topics/index-funds",
+      "status": "published",
+      "previousScore": 89,
+      "newScore": 96,
+      "wordCount": 989,
+      "firstParagraph": "Index Funds is a pooled investment fund built to follow certain preset rules so that it can track a market index. That sentence is enough to orient someone new to the topic.",
+      "topFactsSelected": [
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "An index fund is a mutual fund or exchange-traded fund  designed to follow certain preset rules so that it can replicate the performance …"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "The main advantage of index funds for investors is that they are difficult to outperform consistently."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Index funds tracking many different indexes are available."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Index funds are widely available at low cost for retail investors worldwide, but especially so in the United States, Canada, and Europe."
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "The most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amo…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "While index funds are considered a form of passive management, the internal plumbing of index funds can be complex, with a team of manage…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "The most commonly known index fund in the United States, the S&P 500 Index Fund, is based on the rules established by S&P Dow Jones Indic…"
+        },
+        {
+          "priority": 100,
+          "factType": "definition",
+          "fact": "Additional index funds within these geographic markets may include indexes of companies that include rules based on company characteristi…"
+        },
+        {
+          "priority": 100,
+          "factType": "property",
+          "fact": "Index funds generally aim to hold each security in an index in its respective weight."
+        },
+        {
+          "priority": 94,
+          "factType": "property",
+          "fact": "Index funds may have other implementation rules designed to minimize taxes, reduce tracking error, or reduce trading costs."
+        }
+      ],
+      "topFactsDiscarded": [
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "Thus investors, academicians, and authors such as Warren Buffett, John C."
+        },
+        {
+          "priority": 26,
+          "factType": "property",
+          "fact": "The amount of tracking error depends on trading costs, which vary based on the liquidity in a market."
+        },
+        {
+          "priority": 15,
+          "factType": "measurement",
+          "fact": "Grauer at Wells Fargo harnessed McQuown and Booths indexing theories, which led to Wells Fargos pension funds managing over $69 billion i…"
+        },
+        {
+          "priority": 0,
+          "factType": "property",
+          "fact": "Bogle, Jack Brennan, Paul Samuelson, Burton Malkiel, David Swensen, Benjamin Graham, Gene Fama, William J."
+        },
+        {
+          "priority": 0,
+          "factType": "measurement",
+          "fact": "Please help update this article to reflect recent events or newly available information.  As of 2014, index funds made up 20.2% of equity…"
+        }
+      ],
+      "openingImprovement": "Semantic ranking placed the definitional fact first (\"An index fund is a mutual fund or exchange-traded fund  designed to fo…\"). The opening now answers the reader's first question about Index Funds before secondary ideas."
+    }
+  ]
+}

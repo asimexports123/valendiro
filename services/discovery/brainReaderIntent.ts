@@ -3,7 +3,7 @@
  */
 
 import type { BrainNotes } from "./catalogBrainUtils";
-import { buildUnderstandKeywords } from "./catalogBrainUtils";
+import { buildUnderstandKeywords, isTopicHeadDefinition } from "./catalogBrainUtils";
 import { classifyFactType } from "@/services/knowledge/factExtractor";
 import { rankBrainNotes, scoreFactPriority } from "./brainSemanticRank";
 
@@ -138,8 +138,17 @@ export function scoreAsFirstAnswer(
   if (new RegExp(`^\\s*${noun.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s+(is|are|refers to)\\b`, "i").test(fact)) {
     score += 50;
   }
+  if (/\b(also known as|also called)\b/i.test(fact)) score += 30;
+  if (/^(a gym|an example|pictured|shown above|this image)\b/i.test(fact.trim())) score -= 80;
   if (/\b(is a|is an|are a|refers to|defined as|means)\b/i.test(fact.slice(0, 110))) {
     score += 40;
+  }
+  // Property-shaped sentences misclassified as definitions ("X is primarily…")
+  if (/\b(primarily|typically|usually|often|mainly|mostly|commonly|widely available)\b/i.test(fact.slice(0, 100))) {
+    score -= 40;
+  }
+  if (/\b(is a|is an|is exercise|is a type|is a form|is a kind|is a mutual fund|is a market)\b/i.test(fact.slice(0, 110))) {
+    score += 30;
   }
   if (CORE_DEFINITION_BOOST.test(fact)) {
     score += 35;
@@ -165,6 +174,7 @@ export function selectPrimaryDefinitionFact(
     ...new Set([
       ...ranked.definitions,
       ...ranked.allFacts.filter((f) => classifyFactType(f) === "definition"),
+      ...ranked.properties.filter((f) => isTopicHeadDefinition(f, keywords)),
     ]),
   ];
 

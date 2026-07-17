@@ -72,8 +72,10 @@ export function assessFactForSection(
 
   // TopicModel membership signals
   let conceptIds: string[] = [];
+  let topicTitleConceptIds: string[] = [];
+  let model: any = null;
   try {
-    const model = buildTopicModel(notes, title, options);
+    model = buildTopicModel(notes, title, options);
     // Normalize candidate fact tokens for fuzzy matching
     const normalize = (s: string) =>
       (s || "")
@@ -84,7 +86,20 @@ export function assessFactForSection(
     const factKey = normalize(f);
     const factTokens = new Set(factKey.split(/\s+/).filter((w) => w.length > 3));
 
+    // Determine topic words for strong-title-concept matching
     const topicWords = new Set((title || "").toLowerCase().split(/\W+/).filter(Boolean).filter((w) => w.length > 2));
+    const minTitleOverlap = Math.min(2, topicWords.size);
+    topicTitleConceptIds = model.concepts
+      .filter((c: any) => {
+        const conceptLabelKey = (c.title || "")
+          .toLowerCase()
+          .replace(/[^\w\s]/g, "")
+          .split(/\s+/)
+          .filter(Boolean);
+        return conceptLabelKey.filter((w: string) => topicWords.has(w)).length >= minTitleOverlap;
+      })
+      .map((c: any) => c.id);
+
     for (const c of model.concepts) {
       let bestShared = 0;
       for (const sf of c.supportingFacts) {
@@ -159,8 +174,48 @@ export function assessFactForSection(
   // - Otherwise reject
   let kept = false;
   if (conceptIds.length > 0) {
-    kept = true;
-    reasons.push("kept_by_concept_membership");
+    // Stronger role-fitness checks:
+    if (section === "overview") {
+      // Require that at least one matched concept is pinned to the topic title
+      const factHasTopicConcept = conceptIds.some((id) => topicTitleConceptIds.includes(id));
+      if (factHasTopicConcept && !signals.includes("noise:benefit_not_definition")) {
+        kept = true;
+        reasons.push("kept_by_concept_membership_primary");
+      } else if (factHasTopicConcept && signals.includes("noise:benefit_not_definition")) {
+        kept = false;
+        reasons.push("rejected_overview_benefit_not_definition");
+      } else {
+        // Do not auto-keep a definition claim that defines a related concept
+        kept = false;
+        reasons.push("rejected_overview_nonprimary_concept");
+      }
+    } else if (section === "how") {
+      // For 'how' require a procedural/mechanism signal either in concept type or surface tokens
+      const hasMechanismConcept = model.concepts.some((c:any) =>
+        conceptIds.includes(c.id) && (c.type === "procedure" || c.type === "mechanism")
+      );
+      const proceduralSurface = /\b(step|first|next|then|process|workflow|by using|implement|build|deploy|mechanism)\b/i.test(f);
+      if (hasMechanismConcept || proceduralSurface) {
+        kept = true;
+        reasons.push("kept_by_concept_mechanism_or_procedural_surface");
+      } else {
+        kept = false;
+        reasons.push("rejected_how_nonprocedural_concept");
+      }
+    } else if (section === "why") {
+      // For 'why' require explicit purpose/problem/benefit signals
+      const purposeSurface = /\b(because|purpose|reason|so that|as a result|benefit|advantage|importance|matters|helps|enables)\b/i.test(f);
+      if (purposeSurface) {
+        kept = true;
+        reasons.push("kept_by_concept_and_purpose_surface");
+      } else {
+        kept = false;
+        reasons.push("rejected_why_nonpurpose_concept");
+      }
+    } else {
+      kept = true;
+      reasons.push("kept_by_concept_membership");
+    }
   } else if (ranked.priority >= MIN_COMPOSE_PRIORITY) {
     kept = true;
     reasons.push("kept_by_semantic_priority");

@@ -1,0 +1,453 @@
+{
+  "compositionEngineVersion": "1.0.0",
+  "benchmarkSlug": "what-is-artificial-intelligence",
+  "benchmarkUrl": "https://valendiro.com/en/topics/what-is-artificial-intelligence",
+  "flagshipUrls": {
+    "Software Design Patterns": "https://valendiro.com/en/topics/design-patterns",
+    "Index Funds": "https://valendiro.com/en/topics/index-funds (skipped)",
+    "Health Insurance": "https://valendiro.com/en/topics/health-insurance",
+    "Budgeting": "https://valendiro.com/en/topics/budgeting",
+    "Java Lambdas": "https://valendiro.com/en/topics/java-lambdas (failed)",
+    "HTML Fundamentals": "https://valendiro.com/en/topics/html-fundamentals (skipped)",
+    "Git Version Control": "https://valendiro.com/en/topics/git-version-control (skipped)",
+    "RESTful APIs": "https://valendiro.com/en/topics/restful-apis (skipped)",
+    "CSS Fundamentals": "https://valendiro.com/en/topics/css-fundamentals (skipped)",
+    "Stock Market Basics": "https://valendiro.com/en/topics/stock-market-basics (skipped)"
+  },
+  "beforeAfterSummary": [
+    {
+      "topic": "Software Design Patterns",
+      "before": "6270 words",
+      "after": "575 words, score 93",
+      "quality": "issues"
+    },
+    {
+      "topic": "Index Funds",
+      "before": "7484 words",
+      "after": "skipped",
+      "quality": "n/a"
+    },
+    {
+      "topic": "Health Insurance",
+      "before": "950 words",
+      "after": "504 words, score 93",
+      "quality": "issues"
+    },
+    {
+      "topic": "Budgeting",
+      "before": "3214 words",
+      "after": "542 words, score 93",
+      "quality": "issues"
+    },
+    {
+      "topic": "Java Lambdas",
+      "before": "797 words",
+      "after": "failed",
+      "quality": "n/a"
+    },
+    {
+      "topic": "HTML Fundamentals",
+      "before": "536 words",
+      "after": "skipped",
+      "quality": "n/a"
+    },
+    {
+      "topic": "Git Version Control",
+      "before": "416 words",
+      "after": "skipped",
+      "quality": "n/a"
+    },
+    {
+      "topic": "RESTful APIs",
+      "before": "187 words",
+      "after": "skipped",
+      "quality": "n/a"
+    },
+    {
+      "topic": "CSS Fundamentals",
+      "before": "3803 words",
+      "after": "skipped",
+      "quality": "n/a"
+    },
+    {
+      "topic": "Stock Market Basics",
+      "before": "112 words",
+      "after": "skipped",
+      "quality": "n/a"
+    }
+  ],
+  "wordCounts": {
+    "design-patterns": 575,
+    "index-funds": 569,
+    "health-insurance": 504,
+    "budgeting": 542,
+    "java-lambdas": 797,
+    "html-fundamentals": 446,
+    "git-version-control": 488,
+    "restful-apis": 537,
+    "css-fundamentals": 487,
+    "stock-market-basics": 554
+  },
+  "sourcesUsed": {
+    "design-patterns": {
+      "count": 3,
+      "urls": [
+        "https://smashingmagazine.com/2026/07/users-dont-need-more-tools-need-seamless-integrations/",
+        "https://en.wikipedia.org/wiki/Software_design_pattern",
+        "https://refactoring.guru/design-patterns/what-is-pattern"
+      ]
+    },
+    "index-funds": {
+      "count": 1,
+      "urls": [
+        "https://en.wikipedia.org/wiki/Index_fund"
+      ]
+    },
+    "health-insurance": {
+      "count": 1,
+      "urls": [
+        "https://en.wikipedia.org/wiki/Health_insurance"
+      ]
+    },
+    "budgeting": {
+      "count": 3,
+      "urls": [
+        "https://www.forbes.com/advisor/financial-services/best-budgeting-apps-2/",
+        "https://www.investopedia.com/terms/p/personalfinance.asp",
+        "https://en.wikipedia.org/wiki/Budget"
+      ]
+    },
+    "java-lambdas": {
+      "count": 2,
+      "urls": [
+        "https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html",
+        "https://en.wikipedia.org/wiki/Anonymous_function"
+      ]
+    },
+    "html-fundamentals": {
+      "count": 2,
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content",
+        "https://en.wikipedia.org/wiki/HTML"
+      ]
+    },
+    "git-version-control": {
+      "count": 4,
+      "urls": [
+        "https://en.wikipedia.org/wiki/Git",
+        "https://git-scm.com/docs/gitfaq",
+        "https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control",
+        "https://git-scm.com/docs/git-init"
+      ]
+    },
+    "restful-apis": {
+      "count": 3,
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods",
+        "https://developer.mozilla.org/en-US/docs/Glossary/REST",
+        "https://en.wikipedia.org/wiki/Representational_state_transfer"
+      ]
+    },
+    "css-fundamentals": {
+      "count": 3,
+      "urls": [
+        "https://en.wikipedia.org/wiki/CSS",
+        "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps"
+      ]
+    },
+    "stock-market-basics": {
+      "count": 1,
+      "urls": [
+        "https://en.wikipedia.org/wiki/Stock_market"
+      ]
+    }
+  },
+  "knowledgeAdded": {
+    "design-patterns": "55 package facts",
+    "index-funds": "54 package facts",
+    "health-insurance": "49 package facts",
+    "budgeting": "54 package facts",
+    "java-lambdas": "50 package facts",
+    "html-fundamentals": "50 package facts",
+    "git-version-control": "48 package facts",
+    "restful-apis": "61 package facts",
+    "css-fundamentals": "57 package facts",
+    "stock-market-basics": "51 package facts"
+  },
+  "brainImprovements": {
+    "design-patterns": [
+      "Refreshed with Composition Engine v1.0 narration and structure"
+    ],
+    "index-funds": [
+      "Not published: internal scoring: 90/100 — structure: 569 words, 4 H2, intro=true; seo: title match=true, 569/800 words; word count 569 below 680"
+    ],
+    "health-insurance": [
+      "Refreshed with Composition Engine v1.0 narration and structure"
+    ],
+    "budgeting": [
+      "Refreshed with Composition Engine v1.0 narration and structure"
+    ],
+    "java-lambdas": [
+      "Not published: Validation failed: Topic status is 'archived', cannot publish archived topics"
+    ],
+    "html-fundamentals": [
+      "Not published: internal scoring: 90/100 — structure: 446 words, 4 H2, intro=true; seo: title match=true, 446/800 words; word count 446 below 680"
+    ],
+    "git-version-control": [
+      "Not published: internal scoring: 90/100 — structure: 488 words, 4 H2, intro=true; seo: title match=true, 488/800 words; word count 488 below 680"
+    ],
+    "restful-apis": [
+      "Not published: internal scoring: 90/100 — structure: 537 words, 4 H2, intro=true; seo: title match=true, 537/800 words; word count 537 below 680"
+    ],
+    "css-fundamentals": [
+      "Not published: internal scoring: 89/100 — structure: 487 words, 4 H2, intro=true; seo: title match=true, 487/800 words; word count 487 below 680"
+    ],
+    "stock-market-basics": [
+      "Not published: internal scoring: 89/100 — structure: 554 words, 4 H2, intro=true; seo: title match=true, 554/800 words; word count 554 below 680"
+    ]
+  },
+  "failures": [
+    {
+      "slug": "index-funds",
+      "reason": "internal scoring: 90/100 — structure: 569 words, 4 H2, intro=true; seo: title match=true, 569/800 words; word count 569 below 680"
+    },
+    {
+      "slug": "java-lambdas",
+      "reason": "Validation failed: Topic status is 'archived', cannot publish archived topics"
+    },
+    {
+      "slug": "html-fundamentals",
+      "reason": "internal scoring: 90/100 — structure: 446 words, 4 H2, intro=true; seo: title match=true, 446/800 words; word count 446 below 680"
+    },
+    {
+      "slug": "git-version-control",
+      "reason": "internal scoring: 90/100 — structure: 488 words, 4 H2, intro=true; seo: title match=true, 488/800 words; word count 488 below 680"
+    },
+    {
+      "slug": "restful-apis",
+      "reason": "internal scoring: 90/100 — structure: 537 words, 4 H2, intro=true; seo: title match=true, 537/800 words; word count 537 below 680"
+    },
+    {
+      "slug": "css-fundamentals",
+      "reason": "internal scoring: 89/100 — structure: 487 words, 4 H2, intro=true; seo: title match=true, 487/800 words; word count 487 below 680"
+    },
+    {
+      "slug": "stock-market-basics",
+      "reason": "internal scoring: 89/100 — structure: 554 words, 4 H2, intro=true; seo: title match=true, 554/800 words; word count 554 below 680"
+    }
+  ],
+  "overallReadinessScore": 35,
+  "published": 3,
+  "total": 10,
+  "reports": [
+    {
+      "slug": "design-patterns",
+      "title": "Software Design Patterns",
+      "url": "https://valendiro.com/en/topics/design-patterns",
+      "status": "published",
+      "wordsBefore": 6270,
+      "wordsAfter": 575,
+      "internalScore": 93,
+      "qualityScore": 71,
+      "sourcesUsed": 3,
+      "sourceUrls": [
+        "https://smashingmagazine.com/2026/07/users-dont-need-more-tools-need-seamless-integrations/",
+        "https://en.wikipedia.org/wiki/Software_design_pattern",
+        "https://refactoring.guru/design-patterns/what-is-pattern"
+      ],
+      "factsAfter": 55,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Refreshed with Composition Engine v1.0 narration and structure"
+      ]
+    },
+    {
+      "slug": "index-funds",
+      "title": "Index Funds",
+      "url": "https://valendiro.com/en/topics/index-funds",
+      "status": "skipped",
+      "reason": "internal scoring: 90/100 — structure: 569 words, 4 H2, intro=true; seo: title match=true, 569/800 words; word count 569 below 680",
+      "wordsBefore": 7484,
+      "wordsAfter": 569,
+      "internalScore": 90,
+      "qualityScore": 71,
+      "sourcesUsed": 1,
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/Index_fund"
+      ],
+      "factsAfter": 54,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Not published: internal scoring: 90/100 — structure: 569 words, 4 H2, intro=true; seo: title match=true, 569/800 words; word count 569 below 680"
+      ]
+    },
+    {
+      "slug": "health-insurance",
+      "title": "Health Insurance",
+      "url": "https://valendiro.com/en/topics/health-insurance",
+      "status": "published",
+      "wordsBefore": 950,
+      "wordsAfter": 504,
+      "internalScore": 93,
+      "qualityScore": 70,
+      "sourcesUsed": 1,
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/Health_insurance"
+      ],
+      "factsAfter": 49,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Refreshed with Composition Engine v1.0 narration and structure"
+      ]
+    },
+    {
+      "slug": "budgeting",
+      "title": "Budgeting",
+      "url": "https://valendiro.com/en/topics/budgeting",
+      "status": "published",
+      "wordsBefore": 3214,
+      "wordsAfter": 542,
+      "internalScore": 93,
+      "qualityScore": 70,
+      "sourcesUsed": 3,
+      "sourceUrls": [
+        "https://www.forbes.com/advisor/financial-services/best-budgeting-apps-2/",
+        "https://www.investopedia.com/terms/p/personalfinance.asp",
+        "https://en.wikipedia.org/wiki/Budget"
+      ],
+      "factsAfter": 54,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Refreshed with Composition Engine v1.0 narration and structure"
+      ]
+    },
+    {
+      "slug": "java-lambdas",
+      "title": "Java Lambdas",
+      "url": "https://valendiro.com/en/topics/java-lambdas",
+      "status": "failed",
+      "reason": "Validation failed: Topic status is 'archived', cannot publish archived topics",
+      "wordsBefore": 797,
+      "wordsAfter": 797,
+      "sourcesUsed": 2,
+      "sourceUrls": [
+        "https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html",
+        "https://en.wikipedia.org/wiki/Anonymous_function"
+      ],
+      "factsAfter": 50,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Not published: Validation failed: Topic status is 'archived', cannot publish archived topics"
+      ]
+    },
+    {
+      "slug": "html-fundamentals",
+      "title": "HTML Fundamentals",
+      "url": "https://valendiro.com/en/topics/html-fundamentals",
+      "status": "skipped",
+      "reason": "internal scoring: 90/100 — structure: 446 words, 4 H2, intro=true; seo: title match=true, 446/800 words; word count 446 below 680",
+      "wordsBefore": 536,
+      "wordsAfter": 446,
+      "internalScore": 90,
+      "qualityScore": 68,
+      "sourcesUsed": 2,
+      "sourceUrls": [
+        "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content",
+        "https://en.wikipedia.org/wiki/HTML"
+      ],
+      "factsAfter": 50,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Not published: internal scoring: 90/100 — structure: 446 words, 4 H2, intro=true; seo: title match=true, 446/800 words; word count 446 below 680"
+      ]
+    },
+    {
+      "slug": "git-version-control",
+      "title": "Git Version Control",
+      "url": "https://valendiro.com/en/topics/git-version-control",
+      "status": "skipped",
+      "reason": "internal scoring: 90/100 — structure: 488 words, 4 H2, intro=true; seo: title match=true, 488/800 words; word count 488 below 680",
+      "wordsBefore": 416,
+      "wordsAfter": 488,
+      "internalScore": 90,
+      "qualityScore": 69,
+      "sourcesUsed": 4,
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/Git",
+        "https://git-scm.com/docs/gitfaq",
+        "https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control",
+        "https://git-scm.com/docs/git-init"
+      ],
+      "factsAfter": 48,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Not published: internal scoring: 90/100 — structure: 488 words, 4 H2, intro=true; seo: title match=true, 488/800 words; word count 488 below 680"
+      ]
+    },
+    {
+      "slug": "restful-apis",
+      "title": "RESTful APIs",
+      "url": "https://valendiro.com/en/topics/restful-apis",
+      "status": "skipped",
+      "reason": "internal scoring: 90/100 — structure: 537 words, 4 H2, intro=true; seo: title match=true, 537/800 words; word count 537 below 680",
+      "wordsBefore": 187,
+      "wordsAfter": 537,
+      "internalScore": 90,
+      "qualityScore": 70,
+      "sourcesUsed": 3,
+      "sourceUrls": [
+        "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods",
+        "https://developer.mozilla.org/en-US/docs/Glossary/REST",
+        "https://en.wikipedia.org/wiki/Representational_state_transfer"
+      ],
+      "factsAfter": 61,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Not published: internal scoring: 90/100 — structure: 537 words, 4 H2, intro=true; seo: title match=true, 537/800 words; word count 537 below 680"
+      ]
+    },
+    {
+      "slug": "css-fundamentals",
+      "title": "CSS Fundamentals",
+      "url": "https://valendiro.com/en/topics/css-fundamentals",
+      "status": "skipped",
+      "reason": "internal scoring: 89/100 — structure: 487 words, 4 H2, intro=true; seo: title match=true, 487/800 words; word count 487 below 680",
+      "wordsBefore": 3803,
+      "wordsAfter": 487,
+      "internalScore": 89,
+      "qualityScore": 69,
+      "sourcesUsed": 3,
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/CSS",
+        "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps"
+      ],
+      "factsAfter": 57,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Not published: internal scoring: 89/100 — structure: 487 words, 4 H2, intro=true; seo: title match=true, 487/800 words; word count 487 below 680"
+      ]
+    },
+    {
+      "slug": "stock-market-basics",
+      "title": "Stock Market Basics",
+      "url": "https://valendiro.com/en/topics/stock-market-basics",
+      "status": "skipped",
+      "reason": "internal scoring: 89/100 — structure: 554 words, 4 H2, intro=true; seo: title match=true, 554/800 words; word count 554 below 680",
+      "wordsBefore": 112,
+      "wordsAfter": 554,
+      "internalScore": 89,
+      "qualityScore": 71,
+      "sourcesUsed": 1,
+      "sourceUrls": [
+        "https://en.wikipedia.org/wiki/Stock_market"
+      ],
+      "factsAfter": 51,
+      "qualityGatePass": false,
+      "editorialNotes": [
+        "Not published: internal scoring: 89/100 — structure: 554 words, 4 H2, intro=true; seo: title match=true, 554/800 words; word count 554 below 680"
+      ]
+    }
+  ]
+}

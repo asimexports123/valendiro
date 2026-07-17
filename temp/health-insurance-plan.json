@@ -1,0 +1,357 @@
+[
+  {
+    "id": "def-0",
+    "concept": {
+      "id": "def-0",
+      "label": "Health insurance or medical insurance is",
+      "canonicalAssertion": "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Health insurance or medical insurance  is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses.",
+        "Health insurance can be combined with publicly funded health care and medical savings accounts.",
+        "Coverage limits: Some health insurance policies only pay for health care up to a certain dollar amount.",
+        "Out-of-pocket maximum: Similar to coverage limits, except that in this case, the insured persons payment obligation ends when they reach the out-of-pocket maximum, and health insurance pays all further covered costs.",
+        "It includes insurance for losses from accident, medical expense, disability, or accidental death and dismemberment.[2]: 225",
+        "Different health insurance provides different levels of financial protection and the scope of coverage can vary widely, with more than 40% of insured individuals reporting that their plans do not adequately meet their needs as of 2007.[3]",
+        "Some 65% of Canadians have some form of supplementary private health insurance; many of them receive it through their employers.[28] Private-sector services not paid for by the government account for nearly 30 percent of total health care spending.[29]",
+        "Other commentators believe the effect will be minimal.[26] Private Health Insurance Rebate: The government subsidises the premiums for all private health insurance cover, including hospital and ancillary , by 10%, 20% or 30%, depending on age."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-2",
+    "concept": {
+      "id": "def-2",
+      "label": "A health insurance policy is an",
+      "canonicalAssertion": "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor .",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "A health insurance policy is an insurance contract between an insurance provider  and an individual or his/her sponsor ."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-3",
+    "concept": {
+      "id": "def-3",
+      "label": "Coinsurance Instead of or in addition",
+      "canonicalAssertion": "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "Coinsurance: Instead of, or in addition to, paying a fixed amount up front , the co-insurance is a percentage of the total cost that an insured person may also pay."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-4",
+    "concept": {
+      "id": "def-4",
+      "label": "As with other types of insurance",
+      "canonicalAssertion": "As with other types of insurance, risk is shared among many individuals.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "As with other types of insurance, risk is shared among many individuals."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-5",
+    "concept": {
+      "id": "def-5",
+      "label": "By estimating the overall risk of",
+      "canonicalAssertion": "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay for the health care benefits specified in the insurance agreement.[1] The benefit is administered by a central organization, such as a government agency, private business, or not-for-profit entity."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-6",
+    "concept": {
+      "id": "def-6",
+      "label": "The type and amount of health",
+      "canonicalAssertion": "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The type and amount of health care costs that will be covered by the health insurance provider are specified in writing, in a member contract or Evidence of Coverage booklet for private insurance, or in a national health policy for public insurance.",
+        "Capitation: An amount paid by an insurer to a health care provider, for which the provider agrees to treat all members of the insurer."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-7",
+    "concept": {
+      "id": "def-7",
+      "label": "Premium The amount the policy holder",
+      "canonicalAssertion": "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "Premium: The amount the policy-holder or their sponsor  pays to the health plan to purchase health coverage.  According to the healthcare law, a premium is calculated using 5 specific factors regarding the insured person."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-8",
+    "concept": {
+      "id": "def-8",
+      "label": "These factors are age location tobacco",
+      "canonicalAssertion": "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "These factors are age, location, tobacco use, individual vs. family enrollment, and which plan category the insured chooses.[4] Under the Affordable Care Act, the government pays a tax credit to cover part of the premium for persons who purchase private insurance through the Insurance Marketplace.[5]: TS 4:03 Deductible: The amount that the insured must pay out-of-pocket before the health insurer pays its share."
+      ],
+      "confidence": 100
+    }
+  },
+  {
+    "id": "def-9",
+    "concept": {
+      "id": "def-9",
+      "label": "Consequently ERISA plans are exempt from",
+      "canonicalAssertion": "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor .",
+      "importanceScore": 0.78,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Consequently, ERISA plans are exempt from state regulations and fall under federal jurisdiction, overseen by the US Department of Labor ."
+      ],
+      "confidence": 78
+    }
+  },
+  {
+    "id": "def-a",
+    "concept": {
+      "id": "def-a",
+      "label": "If a resolution is still not",
+      "canonicalAssertion": "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court.",
+      "importanceScore": 0.78,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "If a resolution is still not achieved, the decision can be escalated to the USDOL for review to ensure compliance with ERISA regulations, and, if necessary, legal action can be taken by filing a lawsuit in federal court."
+      ],
+      "confidence": 78
+    }
+  },
+  {
+    "id": "def-b",
+    "concept": {
+      "id": "def-b",
+      "label": "A co payment must be paid",
+      "canonicalAssertion": "A co-payment must be paid each time a particular service is obtained.",
+      "importanceScore": 0.78,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "A co-payment must be paid each time a particular service is obtained."
+      ],
+      "confidence": 78
+    }
+  },
+  {
+    "id": "def-c",
+    "concept": {
+      "id": "def-c",
+      "label": "Funding and obligations edit Health expenditure",
+      "canonicalAssertion": "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan.",
+      "importanceScore": 0.58,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Funding and obligations[edit] Health expenditure funding types There are two types of health insurance – tax payer-funded and private-funded.[3] A private-funded insurance plan example includes an employer-sponsored self-funded ERISA  plan."
+      ],
+      "confidence": 58
+    }
+  },
+  {
+    "id": "def-d",
+    "concept": {
+      "id": "def-d",
+      "label": "For example policy holders might have",
+      "canonicalAssertion": "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer.",
+      "importanceScore": 0.4,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "For example, policy-holders might have to pay a $7500 deductible per year, before any of their health care is covered by the health insurer."
+      ],
+      "confidence": 40
+    }
+  },
+  {
+    "id": "c-e",
+    "concept": {
+      "id": "c-e",
+      "label": "Should there be a need for",
+      "canonicalAssertion": "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary.",
+      "importanceScore": 0.67,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Should there be a need for an appeal, the process typically involves initiating it through the insurance company and then reaching out to the Employers Plan Fiduciary."
+      ],
+      "confidence": 67
+    }
+  },
+  {
+    "id": "c-g",
+    "concept": {
+      "id": "c-g",
+      "label": "Out of Network Provider A health",
+      "canonicalAssertion": "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+      "importanceScore": 0.64,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Out-of-Network Provider: A health care provider that has not contracted with the plan.",
+        "In-Network Provider:  A health care provider on a list of providers preselected by the insurer."
+      ],
+      "confidence": 64
+    }
+  },
+  {
+    "id": "c-h",
+    "concept": {
+      "id": "c-h",
+      "label": "Typically these companies promote themselves as",
+      "canonicalAssertion": "Typically, these companies promote themselves as having ties to major insurance providers.",
+      "importanceScore": 0.52,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Typically, these companies promote themselves as having ties to major insurance providers."
+      ],
+      "confidence": 52
+    }
+  },
+  {
+    "id": "c-i",
+    "concept": {
+      "id": "c-i",
+      "label": "The contract can be renewable or",
+      "canonicalAssertion": "The contract can be renewable  or lifelong in the case of private insurance.",
+      "importanceScore": 0.44,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The contract can be renewable  or lifelong in the case of private insurance."
+      ],
+      "confidence": 44
+    }
+  },
+  {
+    "id": "c-j",
+    "concept": {
+      "id": "c-j",
+      "label": "The insured person may be expected",
+      "canonicalAssertion": "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service.",
+      "importanceScore": 0.44,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The insured person may be expected to pay any charges in excess of the health plans maximum payment for a specific service."
+      ],
+      "confidence": 44
+    }
+  },
+  {
+    "id": "c-k",
+    "concept": {
+      "id": "c-k",
+      "label": "The insurer will offer discounted coinsurance",
+      "canonicalAssertion": "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider.",
+      "importanceScore": 0.44,
+      "beginner": true,
+      "mentalModel": "Think of it as a shared pot that members pay into so costs are distributed.",
+      "supportingFacts": [
+        "The insurer will offer discounted coinsurance or co-payments, or additional benefits, to a plan member to see an in-network provider."
+      ],
+      "confidence": 44
+    }
+  },
+  {
+    "id": "c-l",
+    "concept": {
+      "id": "c-l",
+      "label": "Out of pocket maximum can be",
+      "canonicalAssertion": "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year.",
+      "importanceScore": 0.43,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "Out-of-pocket maximum can be limited to a specific benefit category  or can apply to all coverage provided during a specific benefit year."
+      ],
+      "confidence": 43
+    }
+  },
+  {
+    "id": "c-m",
+    "concept": {
+      "id": "c-m",
+      "label": "The ombudsman publishes an annual report",
+      "canonicalAssertion": "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]",
+      "importanceScore": 0.46,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "The ombudsman publishes an annual report that outlines the number and nature of complaints per health fund compared to their market share [23]"
+      ],
+      "confidence": 46
+    }
+  },
+  {
+    "id": "c-f",
+    "concept": {
+      "id": "c-f",
+      "label": "In addition some insurance company schemes",
+      "canonicalAssertion": "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+      "importanceScore": 0.64,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "In addition, some insurance company schemes have annual or lifetime coverage maxima.",
+        "It may take several doctors visits or prescription refills before the insured person reaches the deductible and the insurance company starts to pay for care."
+      ],
+      "confidence": 64
+    }
+  },
+  {
+    "id": "def-1",
+    "concept": {
+      "id": "def-1",
+      "label": "According to the Health Insurance Association",
+      "canonicalAssertion": "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury.",
+      "importanceScore": 1,
+      "beginner": true,
+      "mentalModel": "",
+      "supportingFacts": [
+        "According to the Health Insurance Association of America, health insurance is defined as coverage that provides for the payments of benefits as a result of sickness or injury."
+      ],
+      "confidence": 100
+    }
+  }
+]

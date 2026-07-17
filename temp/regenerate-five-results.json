@@ -1,0 +1,31 @@
+[
+  {
+    "slug": "project-management",
+    "success": true,
+    "url": "https://valendiro.com/en/topics/project-management",
+    "words": 416
+  },
+  {
+    "slug": "what-is-artificial-intelligence",
+    "success": true,
+    "url": "https://valendiro.com/en/topics/what-is-artificial-intelligence",
+    "words": 369
+  },
+  {
+    "slug": "strength-training-basics",
+    "success": true,
+    "url": "https://valendiro.com/en/topics/strength-training-basics",
+    "words": 326
+  },
+  {
+    "slug": "index-funds",
+    "success": true,
+    "url": "https://valendiro.com/en/topics/index-funds",
+    "words": 352
+  },
+  {
+    "slug": "design-patterns",
+    "success": false,
+    "reason": "writer_null"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "nodejs-cluster",
+    "status": "published",
+    "beforeWords": 4344,
+    "afterWords": 4344,
+    "beforeFacts": 45,
+    "afterFacts": 1,
+    "beforeCitations": 2,
+    "afterCitations": 2,
+    "packageId": "18a284b1-412c-48b6-89a9-b9557e2ccd0a"
+  },
+  {
+    "slug": "javascript-fundamentals",
+    "status": "skipped",
+    "reason": "no package and no candidates"
+  },
+  {
+    "slug": "html-fundamentals",
+    "status": "skipped",
+    "reason": "no package and no candidates"
+  },
+  {
+    "slug": "css-fundamentals",
+    "status": "skipped",
+    "reason": "no package and no candidates"
+  },
+  {
+    "slug": "restful-apis",
+    "status": "skipped",
+    "reason": "no package and no candidates"
+  },
+  {
+    "slug": "index-funds",
+    "status": "skipped",
+    "reason": "no package and no candidates"
+  },
+  {
+    "slug": "health-insurance",
+    "status": "skipped",
+    "reason": "no package and no candidates"
+  },
+  {
+    "slug": "budgeting",
+    "status": "published",
+    "reason": "no new candidates — re-rendered existing package",
+    "beforeWords": 259,
+    "afterWords": 259,
+    "beforeFacts": 10,
+    "afterFacts": 10,
+    "beforeCitations": 0,
+    "afterCitations": 0,
+    "packageId": "73381e68-d7de-4284-80dc-4417efed224f"
+  },
+  {
+    "slug": "travel-planning",
+    "status": "published",
+    "reason": "no new candidates — re-rendered existing package",
+    "beforeWords": 273,
+    "afterWords": 273,
+    "beforeFacts": 25,
+    "afterFacts": 25,
+    "beforeCitations": 0,
+    "afterCitations": 0,
+    "packageId": "34aa81b4-e91a-4049-ac78-4bd606c995f7"
+  },
+  {
+    "slug": "git-version-control",
+    "status": "skipped",
+    "reason": "no package and no candidates"
+  }
+]

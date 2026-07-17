@@ -1,0 +1,90 @@
+﻿node.exe : npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm 
+help npmrc` for supported config options.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn Unknow...config options.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Γùç injected env (13) from .env.local // tip: Γùê secrets for agents [www.dotenvx.com]
+{
+  "counts": {
+    "knowledge_assets": 38,
+    "discovered_articles_view": 38,
+    "parity": true
+  },
+  "status_breakdown": {
+    "error": 7,
+    "accepted": 1,
+    "pending": 30
+  },
+  "field_completeness": {
+    "total": 38,
+    "complete": 38
+  },
+  "write_target": "knowledge_assets only (runtime services/jobs/app use KNOWLEDGE_ASSET_TABLE)",
+  "canonical_pipeline": {
+    "rss_source": {
+      "id": "90d74491-7235-4ab6-83a7-cf2efeca4974",
+      "name": "TechCrunch Test",
+      "type": "rss"
+    },
+    "knowledge_asset": {
+      "id": "7f4beea3-db8f-422d-b51f-d9af530bb189",
+      "status": "accepted",
+      "url": "https://techncruncher.blogspot.com/2025/12/how-i-get-free-traffic-from-chatgpt-in.html",
+      "title": "How I Get Free Traffic from ChatGPT in 2025 (AIO vs SEO)"
+    },
+    "verification": {
+      "status": "accepted"
+    },
+    "topic_link": [],
+    "topic": null,
+    "knowledge_package": null,
+    "knowledge_graph_nodes": [],
+    "rendered_output": null,
+    "topic_translation": null,
+    "live_topic_url": null
+  },
+  "newest_rss_ingested": [
+    {
+      "id": "194c3d6e-1338-485b-aec6-7efef1323380",
+      "title": "50 Business Ideas Positioned for Growth in 2026 and Beyond",
+      "provenance": {
+        "adapter_type": "rss",
+        "connector_type": "rss",
+        "adapter_version": "1.0.0",
+        "connector_version": "1.0.0"
+      },
+      "schema_version": "1.0",
+      "asset_kind": "text",
+      "created_at": "2026-07-08T08:11:25.629+00:00"
+    },
+    {
+      "id": "37b739a9-3970-4430-91f7-42eb1b4892c3",
+      "title": "Mochi Health Weight Loss Review (2026)",
+      "provenance": {
+        "adapter_type": "rss",
+        "connector_type": "rss",
+        "adapter_version": "1.0.0",
+        "connector_version": "1.0.0"
+      },
+      "schema_version": "1.0",
+      "asset_kind": "text",
+      "created_at": "2026-07-08T08:11:25.418+00:00"
+    },
+    {
+      "id": "074761a3-7714-4184-854c-8e53847e8639",
+      "title": "Skip one-and-done gifts and give a subscription that keeps surprising them every month",
+      "provenance": {
+        "adapter_type": "rss",
+        "connector_type": "rss",
+        "adapter_version": "1.0.0",
+        "connector_version": "1.0.0"
+      },
+      "schema_version": "1.0",
+      "asset_kind": "text",
+      "created_at": "2026-07-08T08:11:25.113+00:00"
+    }
+  ]
+}

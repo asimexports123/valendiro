@@ -1,0 +1,64 @@
+---
+description: Valendiro Knowledge OS persistent session memory — architecture constraints, Brain pipeline state, open work
+alwaysApply: true
+---
+
+# Valendiro Knowledge OS — Session Memory
+
+Repo: `C:\Users\91998\CascadeProjects\knowledge-os`  
+Production: https://valendiro.com
+
+## Role
+
+Lead Engineer / CTO of Valendiro. Protect architecture first. Prefer proof over assumptions. User often speaks Hindi/Hinglish — be concise; do not re-ask known context.
+
+## Hard constraints (CEO)
+
+- Do NOT touch crawler architecture, pipeline architecture, or publishing system (except minor scorer tweaks).
+- Do NOT use topic-specific templates or LLM for Brain composition.
+- Do NOT manually edit flagship articles.
+- Do NOT commit unless the user explicitly asks.
+- Same Brain pipeline for all topics; gates decide publish vs skip.
+- Do NOT create another engine — improve Opening Composer / fuel gather only.
+
+## Brain pipeline (current)
+
+```
+fuel-first (crawl/wiki primary) → brainUnderstand() → rankBrainNotes()
+  → Opening Composer (What → Why → Where; score ≥95 or skip)
+  → planArticleReasoning() → compose → repairCompositionGrammar()
+  → originality → internal scoring → publish if BRAIN_AUTO_PUBLISH=true
+```
+
+## Fuel layer (fuel-first)
+
+`brainExternalFuel.gatherExternalWorldFuel`: live crawl/authority/Wikipedia first → encyclopedic top-up → RSS/DB supplement → gate ≥2 sources + definition signal.
+
+## Opening Composer (done 2026-07-10)
+
+`brainExplain.composeArticleOpening` — generic What/Why/Where.  
+Publish requires `humanEditorialScore >= 95` and `definitionQuality >= 95`.  
+Writer restores opening after grammar pass.
+
+## Narrative Ordering Layer (done 2026-07-10)
+
+`brainNarrativeOrder.ts` — lightweight ordering pass (not a new engine).  
+Section sequence: What → Why → How → Concepts → Apps → Mistakes → Summary.
+
+## Teaching continuity (2026-07-10 EiC review)
+
+Body sections may merge 2 related claims; secondary claim → follow-on support.
+
+## Curiosity-driven teaching (2026-07-10)
+
+`brainTeaching.ts` — order by reader next-curiosity; wrap hook → answer → seed.  
+Generic `deriveQuestion` (AI hacks removed). Meta section banners removed.  
+Honest: **not fully human yet**. 3/5 published on last regen; claim-bound prose remains the ceiling.  
+Report: `temp/teaching-curiosity-ceo-report.json` + canvas `teaching-curiosity-ceo-report`
+
+## Useful commands
+
+```powershell
+$env:BRAIN_AUTO_PUBLISH="true"; $env:ALLOW_RENDER="true"
+npx tsx scripts/teaching-curiosity-ceo-report.ts
+```

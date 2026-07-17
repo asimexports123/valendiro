@@ -99,11 +99,15 @@ export function buildTopicModel(notes: BrainNotes, title: string, options?: { sl
 
   // Seed concepts from definitions first
   let idx = 0;
+  const topicTokens = new Set((title || "").toLowerCase().split(/\W+/).filter(Boolean).filter((w) => w.length > 2));
   for (const def of notes.definitions) {
     const can = canonicalizeAssertion(def);
+    // If a definition explicitly mentions the topic title tokens, mark it as the primary definition and prefer the topic title as the concept label
+    const defKey = normalizeKey(def);
+    const mentionsTopic = Array.from(topicTokens).some((t) => defKey.includes(t));
     concepts.push({
       id: idFrom(idx++, "def"),
-      title: shortLabel(def, 6),
+      title: mentionsTopic ? title : shortLabel(def, 6),
       type: "definition",
       supportingFacts: [def],
       confidence: Math.min(100, Math.max(40, scoreFactPriority(def, title, options).priority)),
@@ -216,6 +220,30 @@ export function buildTopicModel(notes: BrainNotes, title: string, options?: { sl
           edges.push({ from: c.id, to: target.id, relation: "requires", weight: 80 });
         }
       }
+    }
+  }
+
+  // Consolidate topic-titled definition concepts into one primary node
+  const topicTitleKey = normalizeKey(title);
+  const primaryDefs = concepts.filter(
+    (c) => c.type === "definition" && normalizeKey(c.title || "") === topicTitleKey
+  );
+  if (primaryDefs.length > 1) {
+    const primary = primaryDefs[0];
+    const mergedFacts = [...new Set(primaryDefs.flatMap((c) => c.supportingFacts))];
+    primary.supportingFacts = mergedFacts;
+    primary.confidence = Math.min(
+      100,
+      Math.max(...primaryDefs.map((c) => c.confidence), scoreFactPriority(primary.supportingFacts[0], title, options).priority)
+    );
+    const dropIds = new Set(primaryDefs.slice(1).map((c) => c.id));
+    for (let i = concepts.length - 1; i >= 0; i--) {
+      if (dropIds.has(concepts[i].id)) concepts.splice(i, 1);
+    }
+    // Rewire edges that pointed at removed concepts
+    for (const e of edges) {
+      if (dropIds.has(e.to)) e.to = primary.id;
+      if (dropIds.has(e.from)) e.from = primary.id;
     }
   }
 

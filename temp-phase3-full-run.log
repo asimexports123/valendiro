@@ -1,0 +1,140 @@
+﻿node.exe : npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm 
+help npmrc` for supported config options.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn Unknow...config options.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Γùç injected env (13) from .env.local // tip: Γùê secrets for agents [www.dotenvx.com]
+BEFORE Technology/nodejs-cluster: oldOutput=b9eca77a-fa5e-4cff-8872-ebb281c22967 url=https://valendiro.com/en/topics/nodejs-cluster
+BEFORE Finance/index-funds: oldOutput=b46098e3-3c30-41cb-b38b-530a9884f859 url=https://valendiro.com/en/topics/index-funds
+BEFORE Travel/family-vacations: oldOutput=cae6c4ac-d368-47e1-a5ab-75e17f292248 url=https://valendiro.com/en/topics/family-vacations
+BEFORE Health/heart-disease: oldOutput=4244c2b4-4950-46c8-ac30-741a9a8e1101 url=https://valendiro.com/en/topics/heart-disease
+BEFORE Business/vendor-management: oldOutput=98b0a7c6-abe0-4fa3-9c46-1c4465d19520 url=https://valendiro.com/en/topics/vendor-management
+Before state saved to C:\Users\91998\CascadeProjects\knowledge-os\temp\phase3-results.json
+Screenshot dir: C:\Users\91998\CascadeProjects\knowledge-os\temp\phase3-screenshots
+
+=== Re-rendering Technology: nodejs-cluster (ea3f9ac1-b0fd-4ae7-8552-75245331ef9e) ===
+Γùç injected env (0) from .env.local // tip: Γîÿ enable debugging { debug: true }
+[Composition Engine] Quality Score: 65/100
+[Composition Engine] Educational Value: 76/100
+[Composition Engine] Clarity: 97/100
+[Composition Engine] Logical Flow: 13/100
+[Composition Engine] Issues: 7
+[Composition Engine] Quality Issues:
+  [WARNING] Missing transition between overview and how-it-works (before how-it-works)
+  [WARNING] Missing transition between how-it-works and best-practices (before best-practices)
+  [WARNING] Missing transition between best-practices and key-points (before key-points)
+  [INFO] Consider adding more transitions between sections (overall)
+  [WARNING] Significant complexity jump from introduction to overview (introduction ΓåÆ overview)
+  [WARNING] Significant complexity jump from overview to how-it-works (overview ΓåÆ how-it-works)
+  [CRITICAL] Article appears too short for meaningful content (overall)
+  Validation passed ΓÇö published new output
+{
+  "oldId": "b9eca77a-fa5e-4cff-8872-ebb281c22967",
+  "newId": "b9eca77a-fa5e-4cff-8872-ebb281c22967",
+  "validationPassed": true,
+  "qualityScore": 85,
+  "renderDurationMs": 1437,
+  "issues": []
+}
+
+=== Re-rendering Finance: index-funds (952ae4c7-c3f6-4383-8e6b-f82498448644) ===
+[Composition Engine] Quality Score: 27/100
+[Composition Engine] Educational Value: 14/100
+[Composition Engine] Clarity: 67/100
+[Composition Engine] Logical Flow: 4/100
+[Composition Engine] Issues: 5
+[Composition Engine] Quality Issues:
+  [WARNING] Missing transition between overview and best-practices (before best-practices)
+  [WARNING] Missing transition between best-practices and key-points (before key-points)
+  [WARNING] Significant complexity jump from introduction to overview (introduction ΓåÆ overview)
+  [WARNING] Significant complexity jump from overview to best-practices (overview ΓåÆ best-practices)
+  [CRITICAL] Article appears too short for meaningful content (overall)
+  Validation passed ΓÇö published new output
+{
+  "oldId": "b46098e3-3c30-41cb-b38b-530a9884f859",
+  "newId": "b46098e3-3c30-41cb-b38b-530a9884f859",
+  "validationPassed": true,
+  "qualityScore": 73,
+  "renderDurationMs": 921,
+  "issues": []
+}
+
+=== Re-rendering Travel: family-vacations (30a11d2a-0413-491f-ac1b-e6574fbabd69) ===
+[Composition Engine] Quality Score: 44/100
+[Composition Engine] Educational Value: 45/100
+[Composition Engine] Clarity: 77/100
+[Composition Engine] Logical Flow: 13/100
+[Composition Engine] Issues: 7
+[Composition Engine] Quality Issues:
+  [WARNING] Missing transition between overview and how-it-works (before how-it-works)
+  [WARNING] Missing transition between how-it-works and best-practices (before best-practices)
+  [WARNING] Missing transition between best-practices and key-points (before key-points)
+  [INFO] Consider adding more transitions between sections (overall)
+  [WARNING] Significant complexity jump from introduction to overview (introduction ΓåÆ overview)
+  [WARNING] Significant complexity jump from overview to how-it-works (overview ΓåÆ how-it-works)
+  [CRITICAL] Article appears too short for meaningful content (overall)
+  Validation passed ΓÇö published new output
+{
+  "oldId": "cae6c4ac-d368-47e1-a5ab-75e17f292248",
+  "newId": "cae6c4ac-d368-47e1-a5ab-75e17f292248",
+  "validationPassed": true,
+  "qualityScore": 75,
+  "renderDurationMs": 777,
+  "issues": []
+}
+
+=== Re-rendering Health: heart-disease (da30b63d-6ae6-4067-bc49-9c73b1803fe8) ===
+[Composition Engine] Quality Score: 21/100
+[Composition Engine] Educational Value: 8/100
+[Composition Engine] Clarity: 60/100
+[Composition Engine] Logical Flow: 4/100
+[Composition Engine] Issues: 5
+[Composition Engine] Quality Issues:
+  [WARNING] Missing transition between overview and best-practices (before best-practices)
+  [WARNING] Missing transition between best-practices and key-points (before key-points)
+  [WARNING] Significant complexity jump from introduction to overview (introduction ΓåÆ overview)
+  [WARNING] Significant complexity jump from overview to best-practices (overview ΓåÆ best-practices)
+  [CRITICAL] Article appears too short for meaningful content (overall)
+  Validation passed ΓÇö published new output
+{
+  "oldId": "4244c2b4-4950-46c8-ac30-741a9a8e1101",
+  "newId": "4244c2b4-4950-46c8-ac30-741a9a8e1101",
+  "validationPassed": true,
+  "qualityScore": 71,
+  "renderDurationMs": 695,
+  "issues": []
+}
+
+=== Re-rendering Business: vendor-management (0e9e7def-de47-45f3-a1e7-b3cfcffd0b85) ===
+[Composition Engine] Quality Score: 39/100
+[Composition Engine] Educational Value: 40/100
+[Composition Engine] Clarity: 71/100
+[Composition Engine] Logical Flow: 13/100
+[Composition Engine] Issues: 7
+[Composition Engine] Quality Issues:
+  [WARNING] Missing transition between overview and how-it-works (before how-it-works)
+  [WARNING] Missing transition between how-it-works and best-practices (before best-practices)
+  [WARNING] Missing transition between best-practices and key-points (before key-points)
+  [INFO] Consider adding more transitions between sections (overall)
+  [WARNING] Significant complexity jump from introduction to overview (introduction ΓåÆ overview)
+  [WARNING] Significant complexity jump from overview to how-it-works (overview ΓåÆ how-it-works)
+  [CRITICAL] Article appears too short for meaningful content (overall)
+  Validation passed ΓÇö published new output
+{
+  "oldId": "98b0a7c6-abe0-4fa3-9c46-1c4465d19520",
+  "newId": "98b0a7c6-abe0-4fa3-9c46-1c4465d19520",
+  "validationPassed": true,
+  "qualityScore": 80,
+  "renderDurationMs": 768,
+  "issues": []
+}
+
+Re-render complete. Results: C:\Users\91998\CascadeProjects\knowledge-os\temp\phase3-results.json
+AFTER SEO nodejs-cluster: unchanged=true
+AFTER SEO index-funds: unchanged=true
+AFTER SEO family-vacations: unchanged=true
+AFTER SEO heart-disease: unchanged=true
+AFTER SEO vendor-management: unchanged=true

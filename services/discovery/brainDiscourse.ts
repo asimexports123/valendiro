@@ -13,6 +13,21 @@ import {
 } from "./brainDiscoursePlanner";
 import { surfaceParaphrase } from "./brainParaphrase";
 import { pickSupportMarker, stripOverusedDiscourse } from "./brainDiscourseVariety";
+// Lazy-safe trimAssertion import to avoid circular import runtime issues
+let trimAssertion: (text: string, max?: number) => string;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  trimAssertion = require("./brainDiscoursePlanner").trimAssertion;
+} catch (e) {
+  trimAssertion = (t: string, max = 150) => {
+    if (!t) return "";
+    const s = t.replace(/\s+/g, " ").trim();
+    if (s.length <= max) return s.replace(/\.$/, "");
+    const cut = s.slice(0, max);
+    const sp = cut.lastIndexOf(" ");
+    return (sp > 50 ? cut.slice(0, sp) : cut).trim();
+  };
+}
 
 export { deriveCentralIdea } from "./brainDiscoursePlanner";
 

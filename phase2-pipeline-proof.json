@@ -1,0 +1,28 @@
+{
+  "historical_accepted_flow": {
+    "rss_source_id": "90d74491-7235-4ab6-83a7-cf2efeca4974",
+    "knowledge_asset_id": "7f4beea3-db8f-422d-b51f-d9af530bb189",
+    "knowledge_asset_status": "accepted",
+    "schema_version": "1.0",
+    "asset_kind": "text",
+    "knowledge_package_id": "b99a2236-82ab-4a3d-8519-556de7662d62",
+    "knowledge_package_slug": "production-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+    "topic_id": "245046dc-993b-4380-8ae9-0f6abda2080e",
+    "topic_slug": "home-renovation",
+    "graph_node_ids": [],
+    "rendered_output_id": "fa43021a-0419-426b-9a67-14d98c9e4430",
+    "live_topic_url": "https://valendiro.com/en/topics/home-renovation"
+  },
+  "fresh_pipeline_attempt": {
+    "knowledge_asset_id": "3cca4bc3-d004-4df1-8a8a-c54c64741183",
+    "title": "New Google commercial imagines a Declaration of Independence written with help from AI",
+    "duration_ms": 2169,
+    "result": {
+      "success": false,
+      "error": "Render did not produce an output"
+    },
+    "final_status": "error",
+    "rejection_reason": "Render did not produce an output",
+    "cookies_error": false
+  }
+}

@@ -1,10 +1,5 @@
 {
   "buildCommand": "npm run build",
   "framework": "nextjs",
-  "crons": [
-    {
-      "path": "/api/cron/discovery-pipeline",
-      "schedule": "0 1 * * *"
-    }
-  ]
+  "crons": []
 }

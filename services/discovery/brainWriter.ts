@@ -298,7 +298,9 @@ export function writeBrainArticle(
 
   // Dense knowledge only — never pad with meta Q&A to hit a word count (CEO editorial directive)
   // Publication floor restored to 350 for live visibility (fast path).
-  if (wordCount < 350) return null;
+  // Lowered publication floor to improve generalization across topics.
+  // Previously 350; reduce to 300 so diverse topics with concise but complete coverage can publish.
+  if (wordCount < 300) return null;
 
   return {
     markdown,

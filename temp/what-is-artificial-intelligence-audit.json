@@ -1,0 +1,805 @@
+{
+  "slug": "what-is-artificial-intelligence",
+  "title": "What Is Artificial Intelligence?",
+  "sections": {
+    "overview": [
+      {
+        "mainIdea": "capability of computational systems to perform tasks typically associated with human intelligence, such as learning, reasoning, problem-solving, perception",
+        "centralIdea": "what What Is Artificial Intelligence? is — capability of computational systems to perform tasks typically associate",
+        "claims": [
+          {
+            "fact": "Artificial intelligence  is the capability of computational systems to perform tasks typically associated with human intelligence, such as learning, reasoning, problem-solving, perception, and decision-making.",
+            "subject": "Artificial intelligence",
+            "assertion": "capability of computational systems to perform tasks typically associated with human intelligence, such as learning, reasoning, problem-solving, perception",
+            "assessment": {
+              "fact": "Artificial intelligence  is the capability of computational systems to perform tasks typically associated with human intelligence, such as learning, reasoning, problem-solving, perception, and decision-making.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "value:definition_form",
+                "reader:first_question",
+                "evergreen",
+                "surface:verb",
+                "concept:definition_match",
+                "topic:matches_token",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "replaced by asking whether machines can convincingly imitate a human in its responses to human-posed questions",
+        "centralIdea": "what What Is Artificial Intelligence? is — replaced by asking whether machines can convincingly imitate a human in ",
+        "claims": [
+          {
+            "fact": "This follows Alan Turings proposal in his paper Computing Machinery and Intelligence, in which the question, Can machines think?, is replaced by asking whether machines can convincingly imitate a human in its responses to human-posed questions.[16][17]",
+            "subject": "This follows Alan Turings proposal in his paper Computing Machinery and Intelligence, in which the question, Can machines think?,",
+            "assertion": "replaced by asking whether machines can convincingly imitate a human in its responses to human-posed questions",
+            "assessment": {
+              "fact": "This follows Alan Turings proposal in his paper Computing Machinery and Intelligence, in which the question, Can machines think?, is replaced by asking whether machines can convincingly imitate a human in its responses to human-posed questions.[16][17]",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:pronoun_lead",
+                "surface:verb",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:definition_match",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-6",
+                "def-7",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory, simulation-based optimisation, multi-agent systems, swarm intelligence",
+        "centralIdea": "what What Is Artificial Intelligence? is — due to its generality the field is studied in many other disciplines suc",
+        "claims": [
+          {
+            "fact": "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory, simulation-based optimisation, multi-agent systems, swarm intelligence, statistics and genetic algorithms.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory, simulation-based optimisation, multi-agent systems, swarm intelligence",
+            "assessment": {
+              "fact": "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory, simulation-based optimisation, multi-agent systems, swarm intelligence, statistics and genetic algorithms.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "topic:matches_token",
+                "concept:definition_match",
+                "concept:definition_match",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-6",
+                "def-7",
+                "c-9"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "why": [
+      {
+        "mainIdea": "A system that predicts the posterior probabilities of a sequence given its entire history can be used for optimal data compression. Conversely, an optimal compressor can be used for prediction",
+        "centralIdea": "why What Is Artificial Intelligence? matters — a system that predicts the posterior probabilities of a sequence given i",
+        "claims": [
+          {
+            "fact": "A system that predicts the posterior probabilities of a sequence given its entire history can be used for optimal data compression .",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "A system that predicts the posterior probabilities of a sequence given its entire history can be used for optimal data compression",
+            "assessment": {
+              "fact": "A system that predicts the posterior probabilities of a sequence given its entire history can be used for optimal data compression .",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "value:applications",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-5",
+                "c-a",
+                "c-b",
+                "c-c"
+              ]
+            }
+          },
+          {
+            "fact": "Conversely, an optimal compressor can be used for prediction .",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Conversely, an optimal compressor can be used for prediction",
+            "assessment": {
+              "fact": "Conversely, an optimal compressor can be used for prediction .",
+              "score": 52,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "value:applications",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "c-a",
+                "c-b",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "how": [
+      {
+        "mainIdea": "Statistics and mathematical optimisation methods compose the foundations of machine learning. From a theoretical viewpoint, probably approximately correct learning provides; Most traditional machine learning and deep learning algorithms can be described",
+        "centralIdea": "how What Is Artificial Intelligence? works — statistics and mathematical optimisation methods compose the foundations",
+        "claims": [
+          {
+            "fact": "Statistics and mathematical optimisation methods compose the foundations of machine learning.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Statistics and mathematical optimisation methods compose the foundations of machine learning",
+            "assessment": {
+              "fact": "Statistics and mathematical optimisation methods compose the foundations of machine learning.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-9"
+              ]
+            }
+          },
+          {
+            "fact": "From a theoretical viewpoint, probably approximately correct learning provides a mathematical and statistical framework for describing machine learning.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "From a theoretical viewpoint, probably approximately correct learning provides a mathematical and statistical framework for describing machine learning",
+            "assessment": {
+              "fact": "From a theoretical viewpoint, probably approximately correct learning provides a mathematical and statistical framework for describing machine learning.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-4",
+                "def-5",
+                "def-7",
+                "c-9"
+              ]
+            }
+          },
+          {
+            "fact": "Most traditional machine learning and deep learning algorithms can be described as empirical risk minimisation under this framework.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Most traditional machine learning and deep learning algorithms can be described as empirical risk minimisation under this framework",
+            "assessment": {
+              "fact": "Most traditional machine learning and deep learning algorithms can be described as empirical risk minimisation under this framework.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "keyConcepts": [],
+    "practical": [
+      {
+        "mainIdea": "Among the most difficult problems in knowledge representation are the breadth of commonsense knowledge and the sub-symbolic form of most commonsense knowledge (much of what people know is. In classical planning, the agent knows exactly what the effect of any action; Data mining is a related field of study, focusing on exploratory data analysis",
+        "centralIdea": "where What Is Artificial Intelligence? shows up — among the most difficult problems in knowledge representation are the br",
+        "claims": [
+          {
+            "fact": "Among the most difficult problems in knowledge representation are the breadth of commonsense knowledge [28] and the sub-symbolic form of most commonsense knowledge (much of what people know is not represented as facts or statements they can express verbally).[14] There is also the difficulty of knowledge acquisition, the problem of obtaining knowledge for AI applications.[c]",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Among the most difficult problems in knowledge representation are the breadth of commonsense knowledge and the sub-symbolic form of most commonsense knowledge (much of what people know is",
+            "assessment": {
+              "fact": "Among the most difficult problems in knowledge representation are the breadth of commonsense knowledge [28] and the sub-symbolic form of most commonsense knowledge (much of what people know is not represented as facts or statements they can express verbally).[14] There is also the difficulty of knowledge acquisition, the problem of obtaining knowledge for AI applications.[c]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-4",
+                "def-5"
+              ]
+            }
+          },
+          {
+            "fact": "In classical planning, the agent knows exactly what the effect of any action will be.[34] In most real-world problems, however, the agent may not be certain about the situation it is in  and it may not know for certain what will happen after each possible action .",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "In classical planning, the agent knows exactly what the effect of any action will be",
+            "assessment": {
+              "fact": "In classical planning, the agent knows exactly what the effect of any action will be.[34] In most real-world problems, however, the agent may not be certain about the situation it is in  and it may not know for certain what will happen after each possible action .",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "value:applications",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-4"
+              ]
+            }
+          },
+          {
+            "fact": "Data mining is a related field of study, focusing on exploratory data analysis  through unsupervised learning.[3][4]",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Data mining is a related field of study, focusing on exploratory data analysis through unsupervised learning",
+            "assessment": {
+              "fact": "Data mining is a related field of study, focusing on exploratory data analysis  through unsupervised learning.[3][4]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "It is a field of research in engineering, mathematics, and computer science that develops and studies methods and software that enable machines to perceive their environment and use. Mitchell provided a widely quoted,[citation needed] more formal definition of; There is a close connection between machine learning and compression",
+        "centralIdea": "where What Is Artificial Intelligence? shows up — it is a field of research in engineering mathematics and computer scienc",
+        "claims": [
+          {
+            "fact": "It is a field of research in engineering, mathematics, and computer science that develops and studies methods and software that enable machines to perceive their environment and use learning and intelligence to take actions that maximize their chances of achieving defined goals.[1]",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "It is a field of research in engineering, mathematics, and computer science that develops and studies methods and software that enable machines to perceive their environment and use",
+            "assessment": {
+              "fact": "It is a field of research in engineering, mathematics, and computer science that develops and studies methods and software that enable machines to perceive their environment and use learning and intelligence to take actions that maximize their chances of achieving defined goals.[1]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:verbose",
+                "noise:pronoun_lead",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-9",
+                "c-a"
+              ]
+            }
+          },
+          {
+            "fact": "Mitchell provided a widely quoted,[citation needed] more formal definition of the algorithms studied in the machine learning field: A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P if its performance at tasks in T, as measured by P, improves with experience E.[15] This definition of the tasks in which machine learning is concerned is fundamentally operational rather than defining the field in cognitive terms.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Mitchell provided a widely quoted,[citation needed] more formal definition of the algorithms studied in the machine learning field: A computer program is said to learn from experience E",
+            "assessment": {
+              "fact": "Mitchell provided a widely quoted,[citation needed] more formal definition of the algorithms studied in the machine learning field: A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P if its performance at tasks in T, as measured by P, improves with experience E.[15] This definition of the tasks in which machine learning is concerned is fundamentally operational rather than defining the field in cognitive terms.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "noise:editorial",
+                "noise:verbose",
+                "surface:verb",
+                "surface:wiki_artifact",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "contains wiki/edit/citation artifacts",
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-9",
+                "c-c"
+              ]
+            }
+          },
+          {
+            "fact": "There is a close connection between machine learning and compression.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "There is a close connection between machine learning and compression",
+            "assessment": {
+              "fact": "There is a close connection between machine learning and compression.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-4",
+                "def-5",
+                "def-7",
+                "c-a",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "a subset of machine learning",
+        "centralIdea": "where What Is Artificial Intelligence? shows up — a subset of machine learning",
+        "claims": [
+          {
+            "fact": "Artificial intelligence[edit] Deep learning is a subset of machine learning, which is itself a subset of artificial intelligence.[20] As a scientific endeavour, machine learning grew out of the quest for artificial intelligence .",
+            "subject": "Artificial intelligence[edit] Deep learning",
+            "assertion": "a subset of machine learning",
+            "assessment": {
+              "fact": "Artificial intelligence[edit] Deep learning is a subset of machine learning, which is itself a subset of artificial intelligence.[20] As a scientific endeavour, machine learning grew out of the quest for artificial intelligence .",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:wiki_edit",
+                "surface:verb",
+                "surface:wiki_artifact",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "contains wiki/edit/citation artifacts",
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "agent learns to choose responses that are classified as good. Transfer learning is when the knowledge gained from one problem is applied to a new problem. Deep learning",
+        "centralIdea": "where What Is Artificial Intelligence? shows up — agent learns to choose responses that are classified as good transfer le",
+        "claims": [
+          {
+            "fact": "The agent learns to choose responses that are classified as good.[46] Transfer learning is when the knowledge gained from one problem is applied to a new problem.[47] Deep learning is a type of machine learning that runs inputs through biologically inspired artificial neural networks for all of these types of learning.[48]",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "agent learns to choose responses that are classified as good. Transfer learning is when the knowledge gained from one problem is applied to a new problem. Deep learning",
+            "assessment": {
+              "fact": "The agent learns to choose responses that are classified as good.[46] Transfer learning is when the knowledge gained from one problem is applied to a new problem.[47] Deep learning is a type of machine learning that runs inputs through biologically inspired artificial neural networks for all of these types of learning.[48]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "section:practical_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-7",
+                "c-9",
+                "c-a"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "mistakes": [
+      {
+        "mainIdea": "Most traditional machine learning and deep learning algorithms can be described as empirical risk minimisation under this framework",
+        "centralIdea": "a common mistake — most traditional machine learning and deep learning algorithms can be de",
+        "claims": [
+          {
+            "fact": "Most traditional machine learning and deep learning algorithms can be described as empirical risk minimisation under this framework.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Most traditional machine learning and deep learning algorithms can be described as empirical risk minimisation under this framework",
+            "assessment": {
+              "fact": "Most traditional machine learning and deep learning algorithms can be described as empirical risk minimisation under this framework.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "mainIdea": "Machine learning is a field of study in artificial intelligence concerned with the development and study of statistical algorithms that can learn from data and generalize to unseen",
+        "centralIdea": "essential takeaway — machine learning is a field of study in artificial intelligence concerne",
+        "claims": [
+          {
+            "fact": "Machine learning  is a field of study in artificial intelligence concerned with the development and study of statistical algorithms that can learn from data and generalize to unseen data, and thus perform tasks without being explicitly programmed.[1] Advances in the field of deep learning have allowed neural networks, a class of statistical algorithms, to surpass many previous machine learning approaches in performance.",
+            "subject": "What Is Artificial Intelligence?",
+            "assertion": "Machine learning is a field of study in artificial intelligence concerned with the development and study of statistical algorithms that can learn from data and generalize to unseen",
+            "assessment": {
+              "fact": "Machine learning  is a field of study in artificial intelligence concerned with the development and study of statistical algorithms that can learn from data and generalize to unseen data, and thus perform tasks without being explicitly programmed.[1] Advances in the field of deep learning have allowed neural networks, a class of statistical algorithms, to surpass many previous machine learning approaches in performance.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-9",
+                "c-a",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

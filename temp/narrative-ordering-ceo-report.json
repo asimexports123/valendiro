@@ -1,0 +1,118 @@
+{
+  "directive": "Narrative Ordering Layer",
+  "generatedAt": "2026-07-10T10:52:26.726Z",
+  "published": 5,
+  "total": 5,
+  "reports": [
+    {
+      "slug": "what-is-artificial-intelligence",
+      "title": "What Is Artificial Intelligence?",
+      "url": "https://valendiro.com/en/topics/what-is-artificial-intelligence",
+      "status": "published",
+      "wordCount": 418,
+      "headings": [
+        "What Is Artificial Intelligence?",
+        "Why It Exists",
+        "How It Works",
+        "Key Concepts",
+        "Practical Applications",
+        "Common Mistakes to Avoid",
+        "Summary"
+      ],
+      "narrativeFlowScore": 78,
+      "conceptDependencyScore": 100,
+      "readerUnderstandingScore": 100,
+      "ceoEditorialScore": 92,
+      "narrativePass": true,
+      "whyDisconnected": []
+    },
+    {
+      "slug": "design-patterns",
+      "title": "Software Design Patterns",
+      "url": "https://valendiro.com/en/topics/design-patterns",
+      "status": "published",
+      "wordCount": 637,
+      "headings": [
+        "What Is Software Design Patterns?",
+        "Why It Exists",
+        "How It Works",
+        "Key Concepts",
+        "Practical Applications",
+        "Common Mistakes to Avoid",
+        "Summary"
+      ],
+      "narrativeFlowScore": 84,
+      "conceptDependencyScore": 100,
+      "readerUnderstandingScore": 100,
+      "ceoEditorialScore": 94,
+      "narrativePass": true,
+      "whyDisconnected": []
+    },
+    {
+      "slug": "html-fundamentals",
+      "title": "HTML Fundamentals",
+      "url": "https://valendiro.com/en/topics/html-fundamentals",
+      "status": "published",
+      "wordCount": 551,
+      "headings": [
+        "What Is HTML Fundamentals?",
+        "Why It Exists",
+        "How It Works",
+        "Key Concepts",
+        "Practical Applications",
+        "Common Mistakes to Avoid",
+        "Summary"
+      ],
+      "narrativeFlowScore": 90,
+      "conceptDependencyScore": 100,
+      "readerUnderstandingScore": 100,
+      "ceoEditorialScore": 97,
+      "narrativePass": true,
+      "whyDisconnected": []
+    },
+    {
+      "slug": "health-insurance",
+      "title": "Health Insurance",
+      "url": "https://valendiro.com/en/topics/health-insurance",
+      "status": "published",
+      "wordCount": 729,
+      "headings": [
+        "What Is Health Insurance?",
+        "Why It Exists",
+        "How It Works",
+        "Key Concepts",
+        "Practical Applications",
+        "Common Mistakes to Avoid",
+        "Summary"
+      ],
+      "narrativeFlowScore": 90,
+      "conceptDependencyScore": 100,
+      "readerUnderstandingScore": 100,
+      "ceoEditorialScore": 97,
+      "narrativePass": true,
+      "whyDisconnected": []
+    },
+    {
+      "slug": "index-funds",
+      "title": "Index Funds",
+      "url": "https://valendiro.com/en/topics/index-funds",
+      "status": "published",
+      "wordCount": 708,
+      "headings": [
+        "What Is Index Funds?",
+        "Why It Exists",
+        "How It Works",
+        "Key Concepts",
+        "Practical Applications",
+        "Common Mistakes to Avoid",
+        "Summary"
+      ],
+      "narrativeFlowScore": 90,
+      "conceptDependencyScore": 100,
+      "readerUnderstandingScore": 100,
+      "ceoEditorialScore": 97,
+      "narrativePass": true,
+      "whyDisconnected": []
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "domain": "Technology",
+    "slug": "nodejs-cluster",
+    "projectionVersion": "long-article-v2-v5.1.0",
+    "format": "markdown",
+    "contentIdentical": true,
+    "hasHtmlComments": false,
+    "hasHtmlDoc": false,
+    "title": "Nodejs Cluster",
+    "qualityScore": 85,
+    "validationPassed": true,
+    "renderDurationMs": 3516
+  },
+  {
+    "domain": "Finance",
+    "slug": "index-funds",
+    "projectionVersion": "long-article-v2-v5.1.0",
+    "format": "markdown",
+    "contentIdentical": true,
+    "hasHtmlComments": false,
+    "hasHtmlDoc": false,
+    "title": "Index Funds",
+    "qualityScore": 77,
+    "validationPassed": true,
+    "renderDurationMs": 711
+  },
+  {
+    "domain": "Travel",
+    "slug": "family-vacations",
+    "projectionVersion": "long-article-v2-v5.1.0",
+    "format": "markdown",
+    "contentIdentical": true,
+    "hasHtmlComments": false,
+    "hasHtmlDoc": false,
+    "title": "Family Vacations",
+    "qualityScore": 79,
+    "validationPassed": true,
+    "renderDurationMs": 1000
+  },
+  {
+    "domain": "Health",
+    "slug": "heart-disease",
+    "projectionVersion": "long-article-v2-v5.1.0",
+    "format": "markdown",
+    "contentIdentical": true,
+    "hasHtmlComments": false,
+    "hasHtmlDoc": false,
+    "title": "Heart Disease",
+    "qualityScore": 74,
+    "validationPassed": true,
+    "renderDurationMs": 751
+  },
+  {
+    "domain": "Business",
+    "slug": "vendor-management",
+    "projectionVersion": "long-article-v2-v5.1.0",
+    "format": "markdown",
+    "contentIdentical": true,
+    "hasHtmlComments": false,
+    "hasHtmlDoc": false,
+    "title": "Vendor Management",
+    "qualityScore": 80,
+    "validationPassed": true,
+    "renderDurationMs": 792
+  }
+]

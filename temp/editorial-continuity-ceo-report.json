@@ -1,0 +1,230 @@
+{
+  "directive": "Editor-in-Chief teaching continuity",
+  "generatedAt": "2026-07-10T11:19:39.069Z",
+  "published": 5,
+  "total": 5,
+  "brainChanges": [
+    "Body sections may merge 2 related claims into one teaching paragraph",
+    "Secondary claim rendered as follow-on support (That means / So / Practically)",
+    "Stock stage filler demoted; empty preferred over generic connectors",
+    "Same-stage continuity bridges when subjects overlap",
+    "Paragraph gate allows up to 4 sentences for developed teaching"
+  ],
+  "reports": [
+    {
+      "slug": "what-is-artificial-intelligence",
+      "title": "What Is Artificial Intelligence?",
+      "status": "published",
+      "wordCountBefore": 418,
+      "wordCountAfter": 498,
+      "before": {
+        "paragraphCount": 17,
+        "sentenceCount": 29,
+        "singleSentenceParas": 6,
+        "singleSentenceRatio": 0.35294117647058826,
+        "avgSentencesPerPara": 1.71,
+        "continuityMarkers": 1,
+        "stockFiller": 2,
+        "sampleParas": [
+          "Artificial Intelligence is the capability of computational systems to perform tasks typically associated with human intelligence. It matters because it is a field of research in engineering, mathematics and computer scie",
+          "Among the most difficult problems in knowledge representation are the breadth of commonsense knowledge ; and the sub-symbolic form of most. You meet it in everyday tools long before the formal name sticks.",
+          "Many of these algorithms are insufficient for solving large reasoning problems because they experience a combinatorial explosion: They become.",
+          "Formal knowledge representations are used in content-based indexing and retrieval, scene interpretation, clinical decision support, knowledge. You meet it in everyday tools long before the formal name sticks."
+        ]
+      },
+      "after": {
+        "paragraphCount": 18,
+        "sentenceCount": 32,
+        "singleSentenceParas": 6,
+        "singleSentenceRatio": 0.3333333333333333,
+        "avgSentencesPerPara": 1.78,
+        "continuityMarkers": 3,
+        "stockFiller": 1,
+        "sampleParas": [
+          "Artificial Intelligence is the capability of computational systems to perform tasks typically associated with human intelligence. It matters because knowing what it is—and is not—changes real decisions. You encounter it ",
+          "This follows Alan Turings proposal in his paper Computing Machinery and Intelligence, in which the question, Can machines think?, is replaced by asking whether machines can convincingly imitate a human in its responses t",
+          "Due to its generality, the field is studied in many other disciplines, such as game theory, control theory, operations research, information theory,. For example, game theory, control theory, and operations research.",
+          "Artificial Intelligence is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice."
+        ]
+      },
+      "deltas": {
+        "singleSentenceRatio": -0.02,
+        "avgSentencesPerPara": 0.07,
+        "continuityMarkers": 2,
+        "stockFiller": -1
+      }
+    },
+    {
+      "slug": "design-patterns",
+      "title": "Software Design Patterns",
+      "status": "published",
+      "wordCountBefore": 637,
+      "wordCountAfter": 615,
+      "before": {
+        "paragraphCount": 22,
+        "sentenceCount": 40,
+        "singleSentenceParas": 7,
+        "singleSentenceRatio": 0.3181818181818182,
+        "avgSentencesPerPara": 1.82,
+        "continuityMarkers": 1,
+        "stockFiller": 2,
+        "sampleParas": [
+          "A Software Design Pattern is a description of and a template for solving a particular type of problem that can be used in many different contexts. It matters because knowing what it is—and is not—changes real decisions. ",
+          "A software design pattern describes is a reusable solution to a commonly needed behavior in software. A design pattern is not a rigid structure to be copied directly into source code. You meet it in everyday tools long b",
+          "Trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages.",
+          "Here he reflected on how his work on Patterns in Architecture had developed and his hopes for how the Software Design community could help Architecture extend Patterns to create living structures that use generative sche"
+        ]
+      },
+      "after": {
+        "paragraphCount": 21,
+        "sentenceCount": 38,
+        "singleSentenceParas": 7,
+        "singleSentenceRatio": 0.3333333333333333,
+        "avgSentencesPerPara": 1.81,
+        "continuityMarkers": 3,
+        "stockFiller": 2,
+        "sampleParas": [
+          "A Software Design Pattern is a description of and a template for solving a particular type of problem that can be used in many different contexts. It matters because knowing what it is—and is not—changes real decisions. ",
+          "A software design pattern describes is a reusable solution to a commonly needed behavior in software. A design pattern is not a rigid structure to be copied directly into source code. You meet it in everyday tools long b",
+          "Trying to solve, and object-oriented patterns are not necessarily suitable for non-object-oriented languages.",
+          "Here he reflected on how his work on Patterns in Architecture had developed and his hopes for how the Software Design community could help Architecture extend Patterns to create living structures that use generative sche"
+        ]
+      },
+      "deltas": {
+        "singleSentenceRatio": 0.015,
+        "avgSentencesPerPara": -0.01,
+        "continuityMarkers": 2,
+        "stockFiller": 0
+      }
+    },
+    {
+      "slug": "html-fundamentals",
+      "title": "HTML Fundamentals",
+      "status": "published",
+      "wordCountBefore": 551,
+      "wordCountAfter": 497,
+      "before": {
+        "paragraphCount": 25,
+        "sentenceCount": 42,
+        "singleSentenceParas": 9,
+        "singleSentenceRatio": 0.36,
+        "avgSentencesPerPara": 1.68,
+        "continuityMarkers": 1,
+        "stockFiller": 3,
+        "sampleParas": [
+          "HTML is the most basic building block of the Web. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tools, and decisions—often before the formal name sticks.",
+          "Other technologies besides HTML is generally used to describe a web pages appearance/presentation or functionality/behavior. You meet it in everyday tools long before the formal name sticks.",
+          "An HTML element is set off from other text in a document by tags. Consist of the element name surrounded by < and >.",
+          "And how to use it, aimed at people who are completely new to web development. You meet it in everyday tools long before the formal name sticks."
+        ]
+      },
+      "after": {
+        "paragraphCount": 21,
+        "sentenceCount": 37,
+        "singleSentenceParas": 6,
+        "singleSentenceRatio": 0.2857142857142857,
+        "avgSentencesPerPara": 1.76,
+        "continuityMarkers": 6,
+        "stockFiller": 2,
+        "sampleParas": [
+          "HTML is the most basic building block of the Web. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tools, and decisions—often before the formal name sticks.",
+          "Other technologies besides HTML is generally used to describe a web pages appearance/presentation or functionality/behavior. You meet it in everyday tools long before the formal name sticks.",
+          "An HTML element is set off from other text in a document by tags. Consist of the element name surrounded by < and >.",
+          "And how to use it, aimed at people who are completely new to web development. You meet it in everyday tools long before the formal name sticks."
+        ]
+      },
+      "deltas": {
+        "singleSentenceRatio": -0.074,
+        "avgSentencesPerPara": 0.08,
+        "continuityMarkers": 5,
+        "stockFiller": -1
+      }
+    },
+    {
+      "slug": "health-insurance",
+      "title": "Health Insurance",
+      "status": "published",
+      "wordCountBefore": 729,
+      "wordCountAfter": 679,
+      "before": {
+        "paragraphCount": 26,
+        "sentenceCount": 44,
+        "singleSentenceParas": 9,
+        "singleSentenceRatio": 0.34615384615384615,
+        "avgSentencesPerPara": 1.69,
+        "continuityMarkers": 1,
+        "stockFiller": 3,
+        "sampleParas": [
+          "Health Insurance is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses. It matters because knowing what it is—and is not—changes real decisions. You encounter it in eve",
+          "Health Insurance is an insurance contract between is an insurance provider and an individual or his/her sponsor. You meet it in everyday tools long before the formal name sticks.",
+          "As with other types of insurance, risk is spread across many individuals. You meet it in everyday tools long before the formal name sticks.",
+          "Health Insurance is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice."
+        ]
+      },
+      "after": {
+        "paragraphCount": 22,
+        "sentenceCount": 41,
+        "singleSentenceParas": 7,
+        "singleSentenceRatio": 0.3181818181818182,
+        "avgSentencesPerPara": 1.86,
+        "continuityMarkers": 7,
+        "stockFiller": 2,
+        "sampleParas": [
+          "Health Insurance is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses. It matters because knowing what it is—and is not—changes real decisions. You encounter it in eve",
+          "As with other types of insurance, risk is spread across many individuals. You meet it in everyday tools long before the formal name sticks.",
+          "By estimating the overall risk of health risk and health system expenses over the risk pool, an insurer can develop is a routine finance structure, such as a monthly premium or payroll tax, to provide the money to pay fo",
+          "It is an insurance contract between is an insurance provider and an individual or his/her sponsor. You meet it in everyday tools long before the formal name sticks."
+        ]
+      },
+      "deltas": {
+        "singleSentenceRatio": -0.028,
+        "avgSentencesPerPara": 0.17,
+        "continuityMarkers": 6,
+        "stockFiller": -1
+      }
+    },
+    {
+      "slug": "index-funds",
+      "title": "Index Funds",
+      "status": "published",
+      "wordCountBefore": 708,
+      "wordCountAfter": 699,
+      "before": {
+        "paragraphCount": 28,
+        "sentenceCount": 45,
+        "singleSentenceParas": 12,
+        "singleSentenceRatio": 0.42857142857142855,
+        "avgSentencesPerPara": 1.61,
+        "continuityMarkers": 3,
+        "stockFiller": 2,
+        "sampleParas": [
+          "An Index Fund is a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance. It matters because knowing what it is—and is not—changes real decisions. You encoun",
+          "Index funds is widely available at low cost for retail investors worldwide, but especially so in the United States, Canada. You meet it in everyday tools long before the formal name sticks.",
+          "Most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller.",
+          "Index Funds is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice."
+        ]
+      },
+      "after": {
+        "paragraphCount": 25,
+        "sentenceCount": 42,
+        "singleSentenceParas": 9,
+        "singleSentenceRatio": 0.36,
+        "avgSentencesPerPara": 1.68,
+        "continuityMarkers": 12,
+        "stockFiller": 1,
+        "sampleParas": [
+          "An Index Fund is a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance. It matters because knowing what it is—and is not—changes real decisions. You encoun",
+          "Index funds is widely available at low cost for retail investors worldwide, but especially so in the United States, Canada. You meet it in everyday tools long before the formal name sticks.",
+          "Continuing that thread, most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller.",
+          "Index Funds is clearer when you separate definition, purpose, and use. Start with what it is, then why it exists, then where it shows up in practice."
+        ]
+      },
+      "deltas": {
+        "singleSentenceRatio": -0.069,
+        "avgSentencesPerPara": 0.07,
+        "continuityMarkers": 9,
+        "stockFiller": -1
+      }
+    }
+  ]
+}

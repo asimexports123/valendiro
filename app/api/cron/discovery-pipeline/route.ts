@@ -12,6 +12,7 @@ import { createDiscoveryScheduler } from "@/jobs/schedulers/discoveryScheduler";
 import { gatherCatalogFuelForWeakTopics } from "@/services/discovery/catalogFuelGatherer";
 import { publishOriginalCatalogBatch } from "@/services/discovery/catalogOriginalPublish";
 import { clearTopicIndexCache } from "@/services/discovery/topicResolver";
+import { ENABLE_AUTONOMOUS_SYSTEMS } from "@/lib/constants";
 
 const CRON_SECRET = process.env.CRON_SECRET || "";
 
@@ -34,6 +35,14 @@ export async function POST(req: NextRequest) {
 async function handleCron(req: NextRequest) {
   if (!isAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // PHASE 1: Block autonomous execution
+  if (!ENABLE_AUTONOMOUS_SYSTEMS) {
+    return NextResponse.json({ 
+      error: "Autonomous systems disabled", 
+      message: "ENABLE_AUTONOMOUS_SYSTEMS is false. Discovery pipeline execution blocked." 
+    }, { status: 503 });
   }
 
   const startTime = Date.now();

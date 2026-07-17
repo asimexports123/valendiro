@@ -1,0 +1,104 @@
+{
+  "topicsEvaluated": 5,
+  "topicsSkippedExcellent": 0,
+  "topicsImproved": 4,
+  "topicsRejected": 1,
+  "topicsFailed": 0,
+  "results": [
+    {
+      "topicSlug": "rust-ownership",
+      "status": "improved",
+      "reason": "Acquired 2 source(s); Improved: richness +0, facts +3, citations +0",
+      "gapsClosed": [
+        "Only 554 words published",
+        "Citation coverage 0%",
+        "Missing procedural facts"
+      ],
+      "before": {
+        "richness": 24,
+        "words": 554,
+        "facts": 136
+      },
+      "after": {
+        "richness": 24,
+        "words": 657,
+        "facts": 139
+      }
+    },
+    {
+      "topicSlug": "java-lambdas",
+      "status": "improved",
+      "reason": "Acquired 2 source(s); Improved: richness +0, facts +3, citations +0",
+      "gapsClosed": [
+        "Only 542 words published",
+        "Citation coverage 0%",
+        "Missing warning facts"
+      ],
+      "before": {
+        "richness": 28,
+        "words": 542,
+        "facts": 343
+      },
+      "after": {
+        "richness": 28,
+        "words": 797,
+        "facts": 346
+      }
+    },
+    {
+      "topicSlug": "index-funds",
+      "status": "improved",
+      "reason": "Acquired 2 source(s); Improved: richness +0, facts +1, citations +0",
+      "gapsClosed": [
+        "Citation coverage 0%",
+        "Missing procedural facts",
+        "Missing warning facts"
+      ],
+      "before": {
+        "richness": 27,
+        "words": 860,
+        "facts": 186
+      },
+      "after": {
+        "richness": 27,
+        "words": 976,
+        "facts": 187
+      }
+    },
+    {
+      "topicSlug": "budgeting",
+      "status": "improved",
+      "reason": "Acquired 1 source(s); Improved: richness +0, facts +1, citations +0",
+      "gapsClosed": [
+        "Only 504 words published",
+        "Citation coverage 0%",
+        "Missing warning facts"
+      ],
+      "before": {
+        "richness": 27,
+        "words": 504,
+        "facts": 124
+      },
+      "after": {
+        "richness": 27,
+        "words": 503,
+        "facts": 125
+      }
+    },
+    {
+      "topicSlug": "git-version-control",
+      "status": "rejected_regression",
+      "reason": "No meaningful improvement detected",
+      "before": {
+        "richness": 21,
+        "words": 416,
+        "facts": 48
+      },
+      "after": {
+        "richness": 21,
+        "words": 416,
+        "facts": 48
+      }
+    }
+  ]
+}

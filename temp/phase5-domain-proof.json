@@ -1,0 +1,192 @@
+[
+  {
+    "domain": "technology",
+    "slug": "nodejs-cluster",
+    "before": {
+      "facts": 6,
+      "entities": 3,
+      "relationships": 11,
+      "citations": 1,
+      "citationCoverage": 100,
+      "completenessScore": 22,
+      "confidenceScore": 100,
+      "knowledgeRichness": 91,
+      "sampleFacts": [
+        "Node.JavaScript Cluster Module.",
+        "Node.JavaScript cluster module spawns worker processes to utilize multi-core systems.",
+        "Node.JavaScript was created by Ryan."
+      ]
+    },
+    "after": {
+      "facts": 12,
+      "entities": 4,
+      "relationships": 55,
+      "citations": 2,
+      "citationCoverage": 100,
+      "multiSourceCoverage": 0,
+      "completenessScore": 33,
+      "confidenceScore": 70,
+      "knowledgeRichness": 155,
+      "duplicatesMerged": 0,
+      "conflictsDetected": 0,
+      "sampleFacts": [
+        "Node.JavaScript Cluster Module.",
+        "Node.JavaScript cluster module spawns worker processes to utilize multi-core systems.",
+        "Node.JavaScript was created by Ryan."
+      ]
+    },
+    "improved": true
+  },
+  {
+    "domain": "finance",
+    "slug": "index-funds",
+    "before": {
+      "facts": 5,
+      "entities": 4,
+      "relationships": 6,
+      "citations": 1,
+      "citationCoverage": 100,
+      "completenessScore": 33,
+      "confidenceScore": 65,
+      "knowledgeRichness": 79,
+      "sampleFacts": [
+        "Index Funds Explained.",
+        "An index fund is a mutual fund that passively tracks a market index.",
+        "Index funds have low expense ratios compared to active funds."
+      ]
+    },
+    "after": {
+      "facts": 10,
+      "entities": 5,
+      "relationships": 27,
+      "citations": 2,
+      "citationCoverage": 100,
+      "multiSourceCoverage": 0,
+      "completenessScore": 44,
+      "confidenceScore": 53,
+      "knowledgeRichness": 111,
+      "duplicatesMerged": 0,
+      "conflictsDetected": 0,
+      "sampleFacts": [
+        "Index Funds Explained.",
+        "An index fund is a mutual fund that passively tracks a market index.",
+        "Index funds have low expense ratios compared to active funds."
+      ]
+    },
+    "improved": true
+  },
+  {
+    "domain": "health",
+    "slug": "vaccination-basics",
+    "before": {
+      "facts": 6,
+      "entities": 4,
+      "relationships": 5,
+      "citations": 1,
+      "citationCoverage": 100,
+      "completenessScore": 22,
+      "confidenceScore": 100,
+      "knowledgeRichness": 70,
+      "sampleFacts": [
+        "Vaccination Overview.",
+        "Vaccination stimulates immunity without causing disease.",
+        "Vaccines contain weakened or inactivated pathogens."
+      ]
+    },
+    "after": {
+      "facts": 11,
+      "entities": 5,
+      "relationships": 20,
+      "citations": 2,
+      "citationCoverage": 100,
+      "multiSourceCoverage": 0,
+      "completenessScore": 33,
+      "confidenceScore": 100,
+      "knowledgeRichness": 92,
+      "duplicatesMerged": 0,
+      "conflictsDetected": 0,
+      "sampleFacts": [
+        "Vaccination Overview.",
+        "Vaccination stimulates immunity without causing disease.",
+        "Vaccines contain weakened or inactivated pathogens."
+      ]
+    },
+    "improved": true
+  },
+  {
+    "domain": "travel",
+    "slug": "travel-planning",
+    "before": {
+      "facts": 5,
+      "entities": 4,
+      "relationships": 7,
+      "citations": 1,
+      "citationCoverage": 100,
+      "completenessScore": 33,
+      "confidenceScore": 65,
+      "knowledgeRichness": 85,
+      "sampleFacts": [
+        "Travel Planning Guide.",
+        "Travel planning requires budgeting for flights, lodging, and activities.",
+        "Thailand is a popular destination for budget travelers."
+      ]
+    },
+    "after": {
+      "facts": 10,
+      "entities": 7,
+      "relationships": 30,
+      "citations": 2,
+      "citationCoverage": 100,
+      "multiSourceCoverage": 0,
+      "completenessScore": 33,
+      "confidenceScore": 53,
+      "knowledgeRichness": 121,
+      "duplicatesMerged": 0,
+      "conflictsDetected": 0,
+      "sampleFacts": [
+        "Travel Planning Guide.",
+        "Travel planning requires budgeting for flights, lodging, and activities.",
+        "Thailand is a popular destination for budget travelers."
+      ]
+    },
+    "improved": true
+  },
+  {
+    "domain": "business",
+    "slug": "business-strategy",
+    "before": {
+      "facts": 5,
+      "entities": 3,
+      "relationships": 5,
+      "citations": 1,
+      "citationCoverage": 100,
+      "completenessScore": 22,
+      "confidenceScore": 65,
+      "knowledgeRichness": 69,
+      "sampleFacts": [
+        "Business Strategy Fundamentals.",
+        "Business strategy defines how a company competes in its market.",
+        "Strategy requires understanding customer needs and competitor positioning."
+      ]
+    },
+    "after": {
+      "facts": 10,
+      "entities": 4,
+      "relationships": 31,
+      "citations": 2,
+      "citationCoverage": 100,
+      "multiSourceCoverage": 0,
+      "completenessScore": 33,
+      "confidenceScore": 53,
+      "knowledgeRichness": 118,
+      "duplicatesMerged": 0,
+      "conflictsDetected": 0,
+      "sampleFacts": [
+        "Business Strategy Fundamentals.",
+        "Business strategy defines how a company competes in its market.",
+        "Strategy requires understanding customer needs and competitor positioning."
+      ]
+    },
+    "improved": true
+  }
+]

@@ -1,0 +1,716 @@
+{
+  "slug": "strength-training-basics",
+  "title": "Strength Training Basics",
+  "sections": {
+    "overview": [
+      {
+        "mainIdea": "primarily an anaerobic activity",
+        "centralIdea": "what Strength Training Basics is — primarily an anaerobic activity",
+        "claims": [
+          {
+            "fact": "Strength training is primarily an anaerobic activity, although circuit training also is a form of aerobic exercise.",
+            "subject": "Strength training",
+            "assertion": "primarily an anaerobic activity",
+            "assessment": {
+              "fact": "Strength training is primarily an anaerobic activity, although circuit training also is a form of aerobic exercise.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "c-8",
+                "c-c",
+                "c-e",
+                "c-f",
+                "c-g",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "exercise designed to improve physical strength",
+        "centralIdea": "what Strength Training Basics is — exercise designed to improve physical strength",
+        "claims": [
+          {
+            "fact": "Strength training, also known as weight training or resistance training, is exercise designed to improve physical strength.",
+            "subject": "Strength training, also known as weight training or resistance training,",
+            "assertion": "exercise designed to improve physical strength",
+            "assessment": {
+              "fact": "Strength training, also known as weight training or resistance training, is exercise designed to improve physical strength.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "c-8",
+                "c-c",
+                "c-e",
+                "c-f",
+                "c-g",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "central or is used as part of their training regimen",
+        "centralIdea": "what Strength Training Basics is — central or is used as part of their training regimen",
+        "claims": [
+          {
+            "fact": "For many sports and physical activities, strength training is central or is used as part of their training regimen.",
+            "subject": "For many sports and physical activities, strength training",
+            "assertion": "central or is used as part of their training regimen",
+            "assessment": {
+              "fact": "For many sports and physical activities, strength training is central or is used as part of their training regimen.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "topic:matches_token",
+                "concept:definition_match",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-5",
+                "c-8",
+                "c-c",
+                "c-d",
+                "c-f",
+                "c-g",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "why": [
+      {
+        "mainIdea": "They then begin a repetition: they prepare to lower themselves, then they bend their arms and lower themselves",
+        "centralIdea": "why Strength Training Basics matters — they then begin a repetition they prepare to lower themselves then they ",
+        "claims": [
+          {
+            "fact": "They then begin a repetition: they prepare to lower themselves, then they bend their arms and lower themselves , they then stop themselves close to the floor and recover their energy- the recovery may be very briefly performed or may take longer depending on how tired they are.",
+            "subject": "Strength Training Basics",
+            "assertion": "They then begin a repetition: they prepare to lower themselves, then they bend their arms and lower themselves",
+            "assessment": {
+              "fact": "They then begin a repetition: they prepare to lower themselves, then they bend their arms and lower themselves , they then stop themselves close to the floor and recover their energy- the recovery may be very briefly performed or may take longer depending on how tired they are.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "value:definition_form",
+                "noise:pronoun_lead",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "how": [
+      {
+        "mainIdea": "works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment",
+        "centralIdea": "how Strength Training Basics works — works by progressively increasing the force output of the muscles and us",
+        "claims": [
+          {
+            "fact": "Training works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment.",
+            "subject": "Strength Training Basics",
+            "assertion": "works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment",
+            "assessment": {
+              "fact": "Training works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:procedural",
+                "topic:match",
+                "topic:opens_fact",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:mechanism_match",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "section:how_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_mechanism_or_procedural_surface"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "c-8",
+                "c-a",
+                "c-f",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "keyConcepts": [],
+    "practical": [
+      {
+        "mainIdea": "typically done by contracting the muscles during an exercise and then returning to the starting position",
+        "centralIdea": "where Strength Training Basics shows up — typically done by contracting the muscles during an exercise and then re",
+        "claims": [
+          {
+            "fact": "This is typically done by contracting the muscles during an exercise and then returning to the starting position.",
+            "subject": "This",
+            "assertion": "typically done by contracting the muscles during an exercise and then returning to the starting position",
+            "assessment": {
+              "fact": "This is typically done by contracting the muscles during an exercise and then returning to the starting position.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "evergreen",
+                "noise:pronoun_lead",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-1",
+                "def-2",
+                "def-4",
+                "def-5",
+                "def-7",
+                "c-8",
+                "c-c",
+                "c-d",
+                "c-f"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "commonly performed several times in a row",
+        "centralIdea": "where Strength Training Basics shows up — commonly performed several times in a row",
+        "claims": [
+          {
+            "fact": "Repetitions and sets[edit] In strength training, an exercise is commonly performed several times in a row.",
+            "subject": "Repetitions and sets[edit] In strength training, an exercise",
+            "assertion": "commonly performed several times in a row",
+            "assessment": {
+              "fact": "Repetitions and sets[edit] In strength training, an exercise is commonly performed several times in a row.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:wiki_edit",
+                "surface:verb",
+                "surface:wiki_artifact",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "contains wiki/edit/citation artifacts",
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e",
+                "c-f",
+                "c-g",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Each performance is known as a repetition. Each phase is preceded by a preparatory and preloading phase, and followed by a; repetition cycle is then repeated beginning with a new preparatory phase. For",
+        "centralIdea": "where Strength Training Basics shows up — each performance is known as a repetition",
+        "claims": [
+          {
+            "fact": "Each performance is known as a repetition.",
+            "subject": "Strength Training Basics",
+            "assertion": "Each performance is known as a repetition",
+            "assessment": {
+              "fact": "Each performance is known as a repetition.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-1",
+                "def-6",
+                "def-7",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "Each phase is preceded by a preparatory and preloading phase, and followed by a recovery phase.",
+            "subject": "Strength Training Basics",
+            "assertion": "Each phase is preceded by a preparatory and preloading phase, and followed by a recovery phase",
+            "assessment": {
+              "fact": "Each phase is preceded by a preparatory and preloading phase, and followed by a recovery phase.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-6",
+                "def-7",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "The repetition cycle is then repeated beginning with a new preparatory phase.[7] For different exercises the cycle may alter but will always contain preparatory and recovery phases.",
+            "subject": "Strength Training Basics",
+            "assertion": "repetition cycle is then repeated beginning with a new preparatory phase. For different exercises the cycle may alter but will always contain preparatory and recovery phases",
+            "assessment": {
+              "fact": "The repetition cycle is then repeated beginning with a new preparatory phase.[7] For different exercises the cycle may alter but will always contain preparatory and recovery phases.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-1",
+                "def-4",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-c",
+                "c-d",
+                "c-e",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "needed and preloading themselves in terms of energy, they then straighten their arms and raise themselves",
+        "centralIdea": "where Strength Training Basics shows up — needed and preloading themselves in terms of energy they then straighten",
+        "claims": [
+          {
+            "fact": "They then prepare to raise themselves making whatever adjustments to their position as they feel are needed and preloading themselves in terms of energy, they then straighten their arms and raise themselves , and at the top of the movement they stop and recover- the recovery in this position is significantly greater than in the lower position.",
+            "subject": "They then prepare to raise themselves making whatever adjustments to their position as they feel",
+            "assertion": "needed and preloading themselves in terms of energy, they then straighten their arms and raise themselves",
+            "assessment": {
+              "fact": "They then prepare to raise themselves making whatever adjustments to their position as they feel are needed and preloading themselves in terms of energy, they then straighten their arms and raise themselves , and at the top of the movement they stop and recover- the recovery in this position is significantly greater than in the lower position.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "noise:verbose",
+                "noise:pronoun_lead",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-1",
+                "def-3",
+                "def-4",
+                "def-7",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "mistakes": [
+      {
+        "mainIdea": "increase muscle, tendon, and ligament strength as well as bone density, metabolism, and the lactate threshold; improve joint and cardiac function; and reduce the risk of injury in",
+        "centralIdea": "a common mistake — increase muscle tendon and ligament strength as well as bone density met",
+        "claims": [
+          {
+            "fact": "Strength training can increase muscle, tendon, and ligament strength as well as bone density, metabolism, and the lactate threshold; improve joint and cardiac function; and reduce the risk of injury in athletes and the elderly.",
+            "subject": "Strength training",
+            "assertion": "increase muscle, tendon, and ligament strength as well as bone density, metabolism, and the lactate threshold; improve joint and cardiac function; and reduce the risk of injury in",
+            "assessment": {
+              "fact": "Strength training can increase muscle, tendon, and ligament strength as well as bone density, metabolism, and the lactate threshold; improve joint and cardiac function; and reduce the risk of injury in athletes and the elderly.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:warning",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-5",
+                "def-7",
+                "c-8",
+                "c-f",
+                "c-g",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "mainIdea": "being practiced",
+        "centralIdea": "essential takeaway — being practiced",
+        "claims": [
+          {
+            "fact": "A gym where various forms of strength training are being practiced.",
+            "subject": "A gym where various forms of strength training",
+            "assertion": "being practiced",
+            "assessment": {
+              "fact": "A gym where various forms of strength training are being practiced.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-5",
+                "def-7",
+                "c-8",
+                "c-f",
+                "c-g",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment",
+        "centralIdea": "essential takeaway — works by progressively increasing the force output of the muscles and us",
+        "claims": [
+          {
+            "fact": "Training works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment.",
+            "subject": "Strength Training Basics",
+            "assertion": "works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment",
+            "assessment": {
+              "fact": "Training works by progressively increasing the force output of the muscles and uses a variety of exercises and types of equipment.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:procedural",
+                "topic:match",
+                "topic:opens_fact",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "c-8",
+                "c-a",
+                "c-f",
+                "c-h"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

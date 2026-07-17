@@ -1,0 +1,1187 @@
+{
+  "slug": "index-funds",
+  "title": "Index Funds",
+  "sections": {
+    "overview": [
+      {
+        "mainIdea": "they are difficult to outperform consistently",
+        "centralIdea": "what Index Funds is — they are difficult to outperform consistently",
+        "claims": [
+          {
+            "fact": "The main advantage of index funds for investors is that they are difficult to outperform consistently.",
+            "subject": "The main advantage of index funds for investors",
+            "assertion": "they are difficult to outperform consistently",
+            "assessment": {
+              "fact": "The main advantage of index funds for investors is that they are difficult to outperform consistently.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "value:benefits",
+                "reader:first_question",
+                "noise:benefit_not_definition",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "available",
+        "centralIdea": "what Index Funds is",
+        "claims": [
+          {
+            "fact": "Index funds tracking many different indexes are available.",
+            "subject": "Index funds tracking many different indexes",
+            "assertion": "available",
+            "assessment": {
+              "fact": "Index funds tracking many different indexes are available.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:benefit_not_definition",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "widely available at low cost for retail investors worldwide, but especially so in the United States, Canada",
+        "centralIdea": "what Index Funds is — widely available at low cost for retail investors worldwide but especial",
+        "claims": [
+          {
+            "fact": "Index funds are widely available at low cost for retail investors worldwide, but especially so in the United States, Canada, and Europe.",
+            "subject": "Index funds",
+            "assertion": "widely available at low cost for retail investors worldwide, but especially so in the United States, Canada",
+            "assessment": {
+              "fact": "Index funds are widely available at low cost for retail investors worldwide, but especially so in the United States, Canada, and Europe.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:benefit_not_definition",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "why": [
+      {
+        "mainIdea": "Academic research has consistently found that most active investors within a given market segment underperform the relevant index after fees and taxes. Global diversification can be achieved using funds that track the MSCI World or; Other index construction methods include equal-weighting or price weighting",
+        "centralIdea": "why Index Funds matters — academic research has consistently found that most active investors with",
+        "claims": [
+          {
+            "fact": "Academic research has consistently found that most active investors  within a given market segment underperform the relevant index after fees and taxes.[2][3][4] Investors also do not need to spend time analyzing various stocks or stock portfolios.",
+            "subject": "Index Funds",
+            "assertion": "Academic research has consistently found that most active investors within a given market segment underperform the relevant index after fees and taxes",
+            "assessment": {
+              "fact": "Academic research has consistently found that most active investors  within a given market segment underperform the relevant index after fees and taxes.[2][3][4] Investors also do not need to spend time analyzing various stocks or stock portfolios.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:match",
+                "value:mistakes",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-b"
+              ]
+            }
+          },
+          {
+            "fact": "Global diversification can be achieved using funds that track the MSCI World or FTSE Global Equity Index Series.",
+            "subject": "Index Funds",
+            "assertion": "Global diversification can be achieved using funds that track the MSCI World or FTSE Global Equity Index Series",
+            "assessment": {
+              "fact": "Global diversification can be achieved using funds that track the MSCI World or FTSE Global Equity Index Series.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:strong_match",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-c",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "Other index construction methods include equal-weighting or price weighting, although these have declined in popularity due to the need to rebalance.",
+            "subject": "Index Funds",
+            "assertion": "Other index construction methods include equal-weighting or price weighting",
+            "assessment": {
+              "fact": "Other index construction methods include equal-weighting or price weighting, although these have declined in popularity due to the need to rebalance.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:match",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "may have other implementation rules designed to minimize taxes, reduce tracking error, or reduce trading costs. amount of tracking error depends on trading costs, which vary based on the",
+        "centralIdea": "why Index Funds matters — may have other implementation rules designed to minimize taxes reduce tr",
+        "claims": [
+          {
+            "fact": "Index funds may have other implementation rules designed to minimize taxes, reduce tracking error, or reduce trading costs.",
+            "subject": "Index Funds",
+            "assertion": "may have other implementation rules designed to minimize taxes, reduce tracking error, or reduce trading costs",
+            "assessment": {
+              "fact": "Index funds may have other implementation rules designed to minimize taxes, reduce tracking error, or reduce trading costs.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "The amount of tracking error depends on trading costs, which vary based on the liquidity in a market.",
+            "subject": "Index Funds",
+            "assertion": "amount of tracking error depends on trading costs, which vary based on the liquidity in a market",
+            "assessment": {
+              "fact": "The amount of tracking error depends on trading costs, which vary based on the liquidity in a market.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-4",
+                "def-6",
+                "def-7",
+                "c-b",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "how": [
+      {
+        "mainIdea": "can match index performance within 0.01%",
+        "centralIdea": "how Index Funds works — can match index performance within 001",
+        "claims": [
+          {
+            "fact": "Popular index funds in highly liquid markets  can match index performance within 0.01%, while index funds in emerging markets can have substantial tracking error.",
+            "subject": "Popular index funds in highly liquid markets",
+            "assertion": "can match index performance within 0.01%",
+            "assessment": {
+              "fact": "Popular index funds in highly liquid markets  can match index performance within 0.01%, while index funds in emerging markets can have substantial tracking error.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:measurement",
+                "topic:strong_match",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Please help update this article to reflect recent events or newly available information. In contrast, actively managed domestic equity mutual funds experienced a net; Wells Fargo started with $5 million from their own pension fund",
+        "centralIdea": "how Index Funds works — please help update this article to reflect recent events or newly availa",
+        "claims": [
+          {
+            "fact": "Please help update this article to reflect recent events or newly available information.  As of 2014, index funds made up 20.2% of equity mutual fund assets in the US.",
+            "subject": "Index Funds",
+            "assertion": "Please help update this article to reflect recent events or newly available information",
+            "assessment": {
+              "fact": "Please help update this article to reflect recent events or newly available information.  As of 2014, index funds made up 20.2% of equity mutual fund assets in the US.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:measurement",
+                "topic:strong_match",
+                "noise:editorial",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-c",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "In contrast, actively managed domestic equity mutual funds experienced a net outflow of $659 billion, including reinvested dividends, from 2007 to 2014.[8]",
+            "subject": "Index Funds",
+            "assertion": "In contrast, actively managed domestic equity mutual funds experienced a net outflow of $659 billion, including reinvested dividends, from 2007 to 2014",
+            "assessment": {
+              "fact": "In contrast, actively managed domestic equity mutual funds experienced a net outflow of $659 billion, including reinvested dividends, from 2007 to 2014.[8]",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:measurement",
+                "topic:match",
+                "value:comparison",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-7",
+                "c-c",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "Wells Fargo started with $5 million from their own pension fund, while Illinois Bell put in $5 million of their pension funds at American National Bank.",
+            "subject": "Index Funds",
+            "assertion": "Wells Fargo started with $5 million from their own pension fund",
+            "assessment": {
+              "fact": "Wells Fargo started with $5 million from their own pension fund, while Illinois Bell put in $5 million of their pension funds at American National Bank.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:measurement",
+                "topic:match",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Grauer at Wells Fargo harnessed McQuown and Booths indexing theories. Large Company Indexes to 0.70% for Emerging Market Indexes",
+        "centralIdea": "how Index Funds works — grauer at wells fargo harnessed mcquown and booths indexing theories",
+        "claims": [
+          {
+            "fact": "Grauer at Wells Fargo harnessed McQuown and Booths indexing theories, which led to Wells Fargos pension funds managing over $69 billion in 1989[20] and over $565 billion in 1998.",
+            "subject": "Index Funds",
+            "assertion": "Grauer at Wells Fargo harnessed McQuown and Booths indexing theories",
+            "assessment": {
+              "fact": "Grauer at Wells Fargo harnessed McQuown and Booths indexing theories, which led to Wells Fargos pension funds managing over $69 billion in 1989[20] and over $565 billion in 1998.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:measurement",
+                "topic:strong_match",
+                "noise:historical",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-7",
+                "c-b",
+                "c-c",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "Large Company Indexes to 0.70% for Emerging Market Indexes.",
+            "subject": "Index Funds",
+            "assertion": "Large Company Indexes to 0.70% for Emerging Market Indexes",
+            "assessment": {
+              "fact": "Large Company Indexes to 0.70% for Emerging Market Indexes.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:measurement",
+                "topic:match",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_how_nonprocedural_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-4",
+                "def-7",
+                "c-b"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "keyConcepts": [],
+    "practical": [
+      {
+        "mainIdea": "small, mid-sized, large, small value, large value, small growth, large growth, the level of gross profitability or investment capital, real estate, or indexes based on commodities and fixed-income",
+        "centralIdea": "where Index Funds shows up — small midsized large small value large value small growth large growth t",
+        "claims": [
+          {
+            "fact": "Additional index funds within these geographic markets may include indexes of companies that include rules based on company characteristics or factors, such as companies that are small, mid-sized, large, small value, large value, small growth, large growth, the level of gross profitability or investment capital, real estate, or indexes based on commodities and fixed-income.",
+            "subject": "Additional index funds within these geographic markets may include indexes of companies that include rules based on company characteristics or factors, such as companies that",
+            "assertion": "small, mid-sized, large, small value, large value, small growth, large growth, the level of gross profitability or investment capital, real estate, or indexes based on commodities and fixed-income",
+            "assessment": {
+              "fact": "Additional index funds within these geographic markets may include indexes of companies that include rules based on company characteristics or factors, such as companies that are small, mid-sized, large, small value, large value, small growth, large growth, the level of gross profitability or investment capital, real estate, or indexes based on commodities and fixed-income.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller companies. Companies are purchased and held within the index fund when they meet the; for-profit organizations, index providers have the ability to act as reluctant",
+        "centralIdea": "where Index Funds shows up — most popular indexes are market capitalization weighted and such index f",
+        "claims": [
+          {
+            "fact": "The most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller companies.",
+            "subject": "Index Funds",
+            "assertion": "most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller companies",
+            "assessment": {
+              "fact": "The most popular indexes are market capitalization weighted, and such index funds hold greater amounts of larger companies and lesser amounts of smaller companies.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "Companies are purchased and held within the index fund when they meet the specific index rules or parameters and are sold when they move outside of those rules or parameters.",
+            "subject": "Index Funds",
+            "assertion": "Companies are purchased and held within the index fund when they meet the specific index rules or parameters and are sold when they move outside of those rules",
+            "assessment": {
+              "fact": "Companies are purchased and held within the index fund when they meet the specific index rules or parameters and are sold when they move outside of those rules or parameters.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "topic:matches_token",
+                "section:practical_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a"
+              ]
+            }
+          },
+          {
+            "fact": "While index providers often emphasize that they are for-profit organizations, index providers have the ability to act as reluctant regulators when determining which companies are suitable for an index.[7]: 1244–45 Some index providers announce changes of the companies in their index before the change date whilst other index providers do not make such announcements.",
+            "subject": "While index providers often emphasize that they",
+            "assertion": "for-profit organizations, index providers have the ability to act as reluctant regulators when determining which companies are suitable for an index.: 1244–45 Some index providers announce changes of",
+            "assessment": {
+              "fact": "While index providers often emphasize that they are for-profit organizations, index providers have the ability to act as reluctant regulators when determining which companies are suitable for an index.[7]: 1244–45 Some index providers announce changes of the companies in their index before the change date whilst other index providers do not make such announcements.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "value:mistakes",
+                "reader:first_question",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "section:practical_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "considered a form of passive management, the internal plumbing of index funds can be complex, with a team of managers executing trades on behalf of the fund",
+        "centralIdea": "where Index Funds shows up — considered a form of passive management the internal plumbing of index f",
+        "claims": [
+          {
+            "fact": "While index funds are considered a form of passive management, the internal plumbing of index funds can be complex, with a team of managers executing trades on behalf of the fund.[6]",
+            "subject": "While index funds",
+            "assertion": "considered a form of passive management, the internal plumbing of index funds can be complex, with a team of managers executing trades on behalf of the fund",
+            "assessment": {
+              "fact": "While index funds are considered a form of passive management, the internal plumbing of index funds can be complex, with a team of managers executing trades on behalf of the fund.[6]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "based on the rules established by S&P Dow Jones Indices for their S&P 500 Index",
+        "centralIdea": "where Index Funds shows up — based on the rules established by sp dow jones indices for their sp 500 ",
+        "claims": [
+          {
+            "fact": "The most commonly known index fund in the United States, the S&P 500 Index Fund, is based on the rules established by S&P Dow Jones Indices for their S&P 500 Index.",
+            "subject": "The most commonly known index fund in the United States, the S&P 500 Index Fund,",
+            "assertion": "based on the rules established by S&P Dow Jones Indices for their S&P 500 Index",
+            "assessment": {
+              "fact": "The most commonly known index fund in the United States, the S&P 500 Index Fund, is based on the rules established by S&P Dow Jones Indices for their S&P 500 Index.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-b"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "mistakes": [
+      {
+        "mainIdea": "Thus investors, academicians, and authors such as Warren Buffett, John C",
+        "centralIdea": "a common mistake — thus investors academicians and authors such as warren buffett john c",
+        "claims": [
+          {
+            "fact": "Thus investors, academicians, and authors such as Warren Buffett, John C.",
+            "subject": "Index Funds",
+            "assertion": "Thus investors, academicians, and authors such as Warren Buffett, John C",
+            "assessment": {
+              "fact": "Thus investors, academicians, and authors such as Warren Buffett, John C.",
+              "score": 56,
+              "kept": true,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-1",
+                "def-3",
+                "def-4",
+                "def-7",
+                "c-8"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Bogle, Jack Brennan, Paul Samuelson, Burton Malkiel, David Swensen, Benjamin Graham, Gene Fama, William J",
+        "centralIdea": "a common mistake — bogle jack brennan paul samuelson burton malkiel david swensen benjamin ",
+        "claims": [
+          {
+            "fact": "Bogle, Jack Brennan, Paul Samuelson, Burton Malkiel, David Swensen, Benjamin Graham, Gene Fama, William J.",
+            "subject": "Index Funds",
+            "assertion": "Bogle, Jack Brennan, Paul Samuelson, Burton Malkiel, David Swensen, Benjamin Graham, Gene Fama, William J",
+            "assessment": {
+              "fact": "Bogle, Jack Brennan, Paul Samuelson, Burton Malkiel, David Swensen, Benjamin Graham, Gene Fama, William J.",
+              "score": 0,
+              "kept": true,
+              "signals": [
+                "type:property",
+                "topic:weak",
+                "noise:comma_taxonomy",
+                "noise:historical",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "surface:taxonomy_like",
+                "concept:member"
+              ],
+              "reasons": [
+                "looks like a taxonomy/list without context",
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "c-9"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Bernstein, and Andrew Tobias have long been strong proponents of index funds",
+        "centralIdea": "a common mistake — bernstein and andrew tobias have long been strong proponents of index fu",
+        "claims": [
+          {
+            "fact": "Bernstein, and Andrew Tobias have long been strong proponents of index funds.[5]",
+            "subject": "Index Funds",
+            "assertion": "Bernstein, and Andrew Tobias have long been strong proponents of index funds",
+            "assessment": {
+              "fact": "Bernstein, and Andrew Tobias have long been strong proponents of index funds.[5]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:property",
+                "topic:strong_match",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-c",
+                "c-d"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "mainIdea": "a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance of a specified basket of underlying securities",
+        "centralIdea": "essential takeaway — a mutual fund or exchangetraded fund designed to follow certain preset r",
+        "claims": [
+          {
+            "fact": "An index fund is a mutual fund or exchange-traded fund  designed to follow certain preset rules so that it can replicate the performance of a specified basket of underlying securities .[1]",
+            "subject": "An index fund",
+            "assertion": "a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance of a specified basket of underlying securities",
+            "assessment": {
+              "fact": "An index fund is a mutual fund or exchange-traded fund  designed to follow certain preset rules so that it can replicate the performance of a specified basket of underlying securities .[1]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:pronoun_lead",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "topic:matches_token"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-a",
+                "c-c"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

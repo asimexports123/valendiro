@@ -11,7 +11,23 @@ import { selectPrimaryDefinitionFact } from "./brainReaderIntent";
 
 import { deriveQuestion } from "./brainQuestion";
 import { deriveCentralIdea } from "./brainDiscourse";
-import { trimAssertion } from "./brainDiscoursePlanner";
+
+// Lazy-safe import for trimAssertion to avoid circular-import runtime undefined errors.
+let trimAssertion: (text: string, max?: number) => string;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  trimAssertion = require("./brainDiscoursePlanner").trimAssertion;
+} catch (e) {
+  // Fallback conservative implementation
+  trimAssertion = (t: string, max = 150) => {
+    if (!t) return "";
+    const s = t.replace(/\s+/g, " ").trim();
+    if (s.length <= max) return s.replace(/\.$/, "");
+    const cut = s.slice(0, max);
+    const sp = cut.lastIndexOf(" ");
+    return (sp > 50 ? cut.slice(0, sp) : cut).trim();
+  };
+}
 
 export interface ParagraphThesis {
   mainIdea: string;
@@ -200,7 +216,7 @@ function factsForSection(
           )
         ),
         ...notes.definitions.filter((f) =>
-          /\b(helps|enables|allows|designed|purpose)\b/i.test(f)
+          /\b(helps|enables|allows|designed|purpose|advantage|benefit|difficult to|protects?|reduces?|solves?)\b/i.test(f)
         ),
         ...notes.properties,
         ...notes.allFacts.filter((f) =>

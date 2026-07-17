@@ -1,0 +1,144 @@
+﻿node.exe : npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm 
+help npmrc` for supported config options.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn Unknow...config options.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Γùç injected env (13) from .env.local // tip: Γîÿ override existing { override: true }
+Total eligible: 270
+{
+  "selected": [
+    {
+      "id": "34aa81b4-e91a-4049-ac78-4bd606c995f7",
+      "slug": "travel-planning",
+      "fact_count": 25,
+      "status": "ready",
+      "topic_id": "c8682f4d-7b2d-4e8d-a246-37133973353b",
+      "url": "https://valendiro.com/en/topics/travel-planning",
+      "currentOutput": null
+    },
+    {
+      "id": "670ad707-6d3b-4634-b8c9-2886854faa3e",
+      "slug": "health-insurance",
+      "fact_count": 11,
+      "status": "ready",
+      "topic_id": "b1db3b70-e974-4d53-8f38-9a0197edc984",
+      "url": "https://valendiro.com/en/topics/health-insurance",
+      "currentOutput": null
+    },
+    {
+      "id": "2ada34f0-7167-4a2b-8b16-cbc7a6ee57a9",
+      "slug": "business-process-automation",
+      "fact_count": 11,
+      "status": "ready",
+      "topic_id": "618cca0a-0f5a-4cb6-8c5b-9efa18e68bec",
+      "url": "https://valendiro.com/en/topics/business-process-automation",
+      "currentOutput": null
+    },
+    {
+      "id": "b99a2236-82ab-4a3d-8519-556de7662d62",
+      "slug": "production-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "fact_count": 344,
+      "status": "ready",
+      "topic_id": "245046dc-993b-4380-8ae9-0f6abda2080e",
+      "url": "https://valendiro.com/en/topics/production-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "currentOutput": null
+    },
+    {
+      "id": "5b0f3f96-ee1e-44d6-9100-7f48a3ff8393",
+      "slug": "discovery-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "fact_count": 344,
+      "status": "ready",
+      "topic_id": "245046dc-993b-4380-8ae9-0f6abda2080e",
+      "url": "https://valendiro.com/en/topics/discovery-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "currentOutput": null
+    }
+  ],
+  "allCount": 270,
+  "sample": [
+    {
+      "id": "b99a2236-82ab-4a3d-8519-556de7662d62",
+      "slug": "production-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "fact_count": 344,
+      "status": "ready",
+      "topic_id": "245046dc-993b-4380-8ae9-0f6abda2080e",
+      "url": "https://valendiro.com/en/topics/production-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "currentOutput": null
+    },
+    {
+      "id": "5b0f3f96-ee1e-44d6-9100-7f48a3ff8393",
+      "slug": "discovery-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "fact_count": 344,
+      "status": "ready",
+      "topic_id": "245046dc-993b-4380-8ae9-0f6abda2080e",
+      "url": "https://valendiro.com/en/topics/discovery-how-i-get-free-traffic-from-chatgpt-in-2025-aio-vs",
+      "currentOutput": null
+    },
+    {
+      "id": "30a11d2a-0413-491f-ac1b-e6574fbabd69",
+      "slug": "family-vacations",
+      "fact_count": 46,
+      "status": "ready",
+      "topic_id": "c62564b3-03e9-4ab3-908d-7a81a9574c55",
+      "url": "https://valendiro.com/en/topics/family-vacations"
+    },
+    {
+      "id": "0e9e7def-de47-45f3-a1e7-b3cfcffd0b85",
+      "slug": "vendor-management",
+      "fact_count": 46,
+      "status": "ready",
+      "topic_id": "6faaae47-c860-4966-a993-f61dfa908dd9",
+      "url": "https://valendiro.com/en/topics/vendor-management"
+    },
+    {
+      "id": "ea3f9ac1-b0fd-4ae7-8552-75245331ef9e",
+      "slug": "nodejs-cluster",
+      "fact_count": 45,
+      "status": "ready",
+      "topic_id": "38bb0237-53fd-4760-9a0c-78e6de20eb83",
+      "url": "https://valendiro.com/en/topics/nodejs-cluster"
+    },
+    {
+      "id": "ee78c12f-7c75-4f17-a8f1-35043919e3dd",
+      "slug": "aws-cloudwatch",
+      "fact_count": 25,
+      "status": "ready",
+      "topic_id": "d915b5db-b0fa-45e7-8dc3-988a0c1ccd30",
+      "url": "https://valendiro.com/en/topics/aws-cloudwatch"
+    },
+    {
+      "id": "35901790-9676-4a17-8a34-399380cf8a35",
+      "slug": "terraform-basics",
+      "fact_count": 25,
+      "status": "ready",
+      "topic_id": "c902a809-d86d-4378-a641-d5f8110ed092",
+      "url": "https://valendiro.com/en/topics/terraform-basics"
+    },
+    {
+      "id": "73560046-8719-4168-b31b-b7d6b404e715",
+      "slug": "ci-cd-github-actions",
+      "fact_count": 25,
+      "status": "ready",
+      "topic_id": "8d766a15-bc51-4d41-bff5-84610e3c2f16",
+      "url": "https://valendiro.com/en/topics/ci-cd-github-actions"
+    },
+    {
+      "id": "5a6b315e-5861-45a6-9026-75f06f2d5601",
+      "slug": "go-channels",
+      "fact_count": 25,
+      "status": "ready",
+      "topic_id": "db68bdd4-3a2e-4e83-acaf-a2946e17d466",
+      "url": "https://valendiro.com/en/topics/go-channels"
+    },
+    {
+      "id": "4a26c38b-0320-4130-8ca4-695b3ef5f924",
+      "slug": "nodejs-streams",
+      "fact_count": 25,
+      "status": "ready",
+      "topic_id": "3e42f9cd-b432-4e6a-b48a-5e667846a17a",
+      "url": "https://valendiro.com/en/topics/nodejs-streams"
+    }
+  ]
+}

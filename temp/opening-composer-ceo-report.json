@@ -1,0 +1,118 @@
+{
+  "directive": "Opening Composer + fuel-first crawler supply",
+  "generatedAt": "2026-07-10T10:20:00.885Z",
+  "published": 5,
+  "total": 5,
+  "reports": [
+    {
+      "slug": "what-is-artificial-intelligence",
+      "title": "What Is Artificial Intelligence?",
+      "url": "https://valendiro.com/en/topics/what-is-artificial-intelligence",
+      "status": "published",
+      "fuel": {
+        "sources": 2,
+        "liveCrawl": 2,
+        "rss": 0,
+        "hasDefinitionSignal": true,
+        "encyclopedic": 2
+      },
+      "previousOpening": "Artificial Intelligence is the capability of computational systems to perform tasks often linked to human intelligence, such as learning, reasoning. That sentence is enough to orient someone new to th",
+      "newOpening": "Artificial Intelligence is the capability of computational systems to perform tasks typically associated with human intelligence. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products",
+      "wordCount": 406,
+      "openingQuality": 100,
+      "definitionQuality": 100,
+      "readerHook": 100,
+      "humanEditorialScore": 100,
+      "openingPass": true,
+      "openingReasons": []
+    },
+    {
+      "slug": "design-patterns",
+      "title": "Software Design Patterns",
+      "url": "https://valendiro.com/en/topics/design-patterns",
+      "status": "published",
+      "fuel": {
+        "sources": 3,
+        "liveCrawl": 2,
+        "rss": 1,
+        "hasDefinitionSignal": true,
+        "encyclopedic": 1
+      },
+      "previousOpening": "A software design pattern describes is a reusable solution to a commonly needed behavior in software. A design pattern is not a rigid structure to be copied directly into source code. You meet it in e",
+      "newOpening": "A Software Design Pattern is a description of and a template for solving a particular type of problem that can be used in many different contexts. It matters because knowing what it is—and is not—changes real decisions. You encounter it in ",
+      "wordCount": 643,
+      "openingQuality": 100,
+      "definitionQuality": 100,
+      "readerHook": 100,
+      "humanEditorialScore": 100,
+      "openingPass": true,
+      "openingReasons": []
+    },
+    {
+      "slug": "html-fundamentals",
+      "title": "HTML Fundamentals",
+      "url": "https://valendiro.com/en/topics/html-fundamentals",
+      "status": "published",
+      "fuel": {
+        "sources": 2,
+        "liveCrawl": 2,
+        "rss": 0,
+        "hasDefinitionSignal": true,
+        "encyclopedic": 0
+      },
+      "previousOpening": "This field links are a fundamental aspect of is the Web. Once this piece is clear, neighboring concepts become easier to place.",
+      "newOpening": "HTML is the most basic building block of the Web. It matters because knowing what it is—and is not—changes real decisions. You encounter it in everyday products, tools, and decisions—often before the formal name sticks.",
+      "wordCount": 451,
+      "openingQuality": 100,
+      "definitionQuality": 100,
+      "readerHook": 100,
+      "humanEditorialScore": 100,
+      "openingPass": true,
+      "openingReasons": []
+    },
+    {
+      "slug": "health-insurance",
+      "title": "Health Insurance",
+      "url": "https://valendiro.com/en/topics/health-insurance",
+      "status": "published",
+      "fuel": {
+        "sources": 2,
+        "liveCrawl": 2,
+        "rss": 0,
+        "hasDefinitionSignal": true,
+        "encyclopedic": 2
+      },
+      "previousOpening": "Health Insurance is a form of insurance that helps pay for some or all of the risk of is a person incurring medical expenses. You meet it in everyday tools long before the formal name sticks.",
+      "newOpening": "Health Insurance is a type of insurance that covers the whole or a part of the risk of a person incurring medical expenses. It matters because knowing what it is—and is not—changes real decisions. You encounter it in eve",
+      "wordCount": 648,
+      "openingQuality": 100,
+      "definitionQuality": 100,
+      "readerHook": 100,
+      "humanEditorialScore": 100,
+      "openingPass": true,
+      "openingReasons": []
+    },
+    {
+      "slug": "index-funds",
+      "title": "Index Funds",
+      "url": "https://valendiro.com/en/topics/index-funds",
+      "status": "published",
+      "fuel": {
+        "sources": 2,
+        "liveCrawl": 2,
+        "rss": 0,
+        "hasDefinitionSignal": true,
+        "encyclopedic": 2
+      },
+      "previousOpening": "A mutual fund is an investment fund that pools money from many investors to purchase securities. You meet it in everyday tools long before the formal name sticks.",
+      "newOpening": "An Index Fund is a mutual fund or exchange-traded fund designed to follow certain preset rules so that it can replicate the performance. It matters because knowing what it is—and is not—changes real decisions. You encoun",
+      "wordCount": 593,
+      "openingQuality": 100,
+      "definitionQuality": 100,
+      "readerHook": 100,
+      "humanEditorialScore": 100,
+      "openingPass": true,
+      "openingReasons": []
+    }
+  ]
+}

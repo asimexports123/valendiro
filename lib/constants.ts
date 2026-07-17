@@ -43,3 +43,6 @@ export const DEFAULT_PAGE_SIZE = 20;
 export const ENABLE_AFFILIATE = process.env.ENABLE_AFFILIATE === "true";
 export const ENABLE_ADSENSE = process.env.ENABLE_ADSENSE === "true";
 export const ENABLE_DEMAND_DISCOVERY = process.env.ENABLE_DEMAND_DISCOVERY !== "false";
+
+// PHASE 1: Autonomous systems disabled for controlled PSEO model
+export const ENABLE_AUTONOMOUS_SYSTEMS = process.env.ENABLE_AUTONOMOUS_SYSTEMS === "true";

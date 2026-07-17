@@ -1,0 +1,1081 @@
+{
+  "slug": "project-management",
+  "title": "Project Management",
+  "sections": {
+    "overview": [
+      {
+        "mainIdea": "to produce a complete project that complies with the clients objectives",
+        "centralIdea": "what Project Management is — to produce a complete project that complies with the clients objectives",
+        "claims": [
+          {
+            "fact": "The objective of project management is to produce a complete project that complies with the clients objectives.",
+            "subject": "The objective of project management",
+            "assertion": "to produce a complete project that complies with the clients objectives",
+            "assessment": {
+              "fact": "The objective of project management is to produce a complete project that complies with the clients objectives.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-9",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "also to shape or reform the clients brief to feasibly address those objectives",
+        "centralIdea": "what Project Management is — also to shape or reform the clients brief to feasibly address those obje",
+        "claims": [
+          {
+            "fact": "In many cases, the objective of project management is also to shape or reform the clients brief to feasibly address those objectives.",
+            "subject": "In many cases, the objective of project management",
+            "assertion": "also to shape or reform the clients brief to feasibly address those objectives",
+            "assessment": {
+              "fact": "In many cases, the objective of project management is also to shape or reform the clients brief to feasibly address those objectives.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Once the clients objectives are established, they should influence all decisions made by others involved in the project—for example, project managers, designers, contractors, and subcontractors",
+        "centralIdea": "what Project Management is — once the clients objectives are established they should influence all de",
+        "claims": [
+          {
+            "fact": "Once the clients objectives are established, they should influence all decisions made by others involved in the project—for example, project managers, designers, contractors, and subcontractors.",
+            "subject": "Project Management",
+            "assertion": "Once the clients objectives are established, they should influence all decisions made by others involved in the project—for example, project managers, designers, contractors, and subcontractors",
+            "assessment": {
+              "fact": "Once the clients objectives are established, they should influence all decisions made by others involved in the project—for example, project managers, designers, contractors, and subcontractors.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "value:applications",
+                "reader:first_question",
+                "surface:verb",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:definition_match",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_overview_nonprimary_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "why": [
+      {
+        "mainIdea": "a temporary and unique endeavor designed to produce a product, service or result with a defined beginning and end undertaken to meet unique goals and objectives",
+        "centralIdea": "why Project Management matters — a temporary and unique endeavor designed to produce a product service or",
+        "claims": [
+          {
+            "fact": "A project is a temporary and unique endeavor designed to produce a product, service or result with a defined beginning and end  undertaken to meet unique goals and objectives, typically to bring about beneficial change or added value.[3][4] The temporary nature of projects stands in contrast with business as usual ,[5] which are repetitive, permanent or semi-permanent functional activities to produce products or services.",
+            "subject": "A project",
+            "assertion": "a temporary and unique endeavor designed to produce a product, service or result with a defined beginning and end undertaken to meet unique goals and objectives",
+            "assessment": {
+              "fact": "A project is a temporary and unique endeavor designed to produce a product, service or result with a defined beginning and end  undertaken to meet unique goals and objectives, typically to bring about beneficial change or added value.[3][4] The temporary nature of projects stands in contrast with business as usual ,[5] which are repetitive, permanent or semi-permanent functional activities to produce products or services.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "value:comparison",
+                "reader:first_question",
+                "evergreen",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-9",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Biotechnology project management focuses on the intricacies of biotechnology research and development. Process: The overall approach to all activities and project governance; An example of delivering a project to requirements might be agreeing to deliver",
+        "centralIdea": "why Project Management matters — biotechnology project management focuses on the intricacies of biotechno",
+        "claims": [
+          {
+            "fact": "Biotechnology project management focuses on the intricacies of biotechnology research and development.[18] Localization project management includes application of many standard project management practices to translation works even though many consider this type of management to be a very different discipline.",
+            "subject": "Project Management",
+            "assertion": "Biotechnology project management focuses on the intricacies of biotechnology research and development",
+            "assessment": {
+              "fact": "Biotechnology project management focuses on the intricacies of biotechnology research and development.[18] Localization project management includes application of many standard project management practices to translation works even though many consider this type of management to be a very different discipline.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:strong_match",
+                "value:applications",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          },
+          {
+            "fact": "Process: The overall approach to all activities and project governance.",
+            "subject": "Project Management",
+            "assertion": "Process: The overall approach to all activities and project governance",
+            "assessment": {
+              "fact": "Process: The overall approach to all activities and project governance.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:match",
+                "value:practical",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          },
+          {
+            "fact": "An example of delivering a project to requirements might be agreeing to deliver a computer system that will process staff data and manage payroll, holidays, and personnel records in shorter times with reduced errors.",
+            "subject": "Project Management",
+            "assertion": "An example of delivering a project to requirements might be agreeing to deliver a computer system that will process staff data and manage payroll, holidays",
+            "assessment": {
+              "fact": "An example of delivering a project to requirements might be agreeing to deliver a computer system that will process staff data and manage payroll, holidays, and personnel records in shorter times with reduced errors.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:property",
+                "topic:match",
+                "value:practical",
+                "value:applications",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-9",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "PERT, on the other hand, allows for stochastic activity times; the times at which each activity will be carried out are uncertain or varied. Because of this core difference, CPM and PERT are used in different contexts",
+        "centralIdea": "why Project Management matters — pert on the other hand allows for stochastic activity times the times at",
+        "claims": [
+          {
+            "fact": "PERT, on the other hand, allows for stochastic activity times; the times at which each activity will be carried out are uncertain or varied.",
+            "subject": "Project Management",
+            "assertion": "PERT, on the other hand, allows for stochastic activity times; the times at which each activity will be carried out are uncertain or varied",
+            "assessment": {
+              "fact": "PERT, on the other hand, allows for stochastic activity times; the times at which each activity will be carried out are uncertain or varied.",
+              "score": 100,
+              "kept": false,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "rejected_why_nonpurpose_concept"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-6",
+                "c-8",
+                "c-b"
+              ]
+            }
+          },
+          {
+            "fact": "Because of this core difference, CPM and PERT are used in different contexts.",
+            "subject": "Project Management",
+            "assertion": "Because of this core difference, CPM and PERT are used in different contexts",
+            "assessment": {
+              "fact": "Because of this core difference, CPM and PERT are used in different contexts.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "value:applications",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "section:why_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_and_purpose_surface"
+              ],
+              "conceptIds": [
+                "def-0",
+                "c-b",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "how": [
+      {
+        "mainIdea": "detrimental to the decision-making process",
+        "centralIdea": "how Project Management works — detrimental to the decisionmaking process",
+        "claims": [
+          {
+            "fact": "Ill-defined or overly rigid project management objectives are detrimental to the decision-making process.",
+            "subject": "Ill-defined or overly rigid project management objectives",
+            "assertion": "detrimental to the decision-making process",
+            "assessment": {
+              "fact": "Ill-defined or overly rigid project management objectives are detrimental to the decision-making process.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "value:practical",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "section:how_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_mechanism_or_procedural_surface"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "AACE continued its pioneering work and in 2006, released the first integrated process for portfolio, program. For example, project managers have a key role in improving the translation even",
+        "centralIdea": "how Project Management works — aace continued its pioneering work and in 2006 released the first integr",
+        "claims": [
+          {
+            "fact": "AACE continued its pioneering work and in 2006, released the first integrated process for portfolio, program, and project management .",
+            "subject": "Project Management",
+            "assertion": "AACE continued its pioneering work and in 2006, released the first integrated process for portfolio, program",
+            "assessment": {
+              "fact": "AACE continued its pioneering work and in 2006, released the first integrated process for portfolio, program, and project management .",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:property",
+                "topic:strong_match",
+                "value:practical",
+                "noise:historical",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "section:how_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_mechanism_or_procedural_surface"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          },
+          {
+            "fact": "For example, project managers have a key role in improving the translation even when they do not speak the language of the translation, because they know the study objectives well to make informed decisions.[19] Similarly, research study management can also apply a project manage approach.[20] There is public project management that covers all public works by the government, which can be carried out by the government agencies or contracted out to contractors.",
+            "subject": "Project Management",
+            "assertion": "For example, project managers have a key role in improving the translation even when they do not speak the language of the translation",
+            "assessment": {
+              "fact": "For example, project managers have a key role in improving the translation even when they do not speak the language of the translation, because they know the study objectives well to make informed decisions.[19] Similarly, research study management can also apply a project manage approach.[20] There is public project management that covers all public works by the government, which can be carried out by the government agencies or contracted out to contractors.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "value:practical",
+                "value:applications",
+                "value:mistakes",
+                "reader:first_question",
+                "noise:fragment_opener",
+                "noise:bare_example",
+                "noise:verbose",
+                "surface:verb",
+                "surface:fragment_opener",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:mechanism_match",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "section:how_signal"
+              ],
+              "reasons": [
+                "starts with example/including",
+                "kept_by_concept_mechanism_or_procedural_surface"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "keyConcepts": [],
+    "practical": [
+      {
+        "mainIdea": "His work is the forerunner to modern project management tools including work breakdown structure and resource allocation. CPM is used for projects that assume deterministic activity times; the times at; primary constraints are scope, time and budget. The secondary challenge is to",
+        "centralIdea": "where Project Management shows up — his work is the forerunner to modern project management tools including ",
+        "claims": [
+          {
+            "fact": "His work is the forerunner to modern project management tools including work breakdown structure  and resource allocation.",
+            "subject": "Project Management",
+            "assertion": "His work is the forerunner to modern project management tools including work breakdown structure and resource allocation",
+            "assessment": {
+              "fact": "His work is the forerunner to modern project management tools including work breakdown structure  and resource allocation.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          },
+          {
+            "fact": "CPM is used for projects that assume deterministic activity times; the times at which each activity will be carried out are known.",
+            "subject": "Project Management",
+            "assertion": "CPM is used for projects that assume deterministic activity times; the times at which each activity will be carried out are known",
+            "assessment": {
+              "fact": "CPM is used for projects that assume deterministic activity times; the times at which each activity will be carried out are known.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "value:applications",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "section:practical_signal"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-6",
+                "c-8",
+                "c-9"
+              ]
+            }
+          },
+          {
+            "fact": "The primary constraints are scope, time and budget.[2] The secondary challenge is to optimize the allocation of necessary inputs and apply them to meet predefined objectives.",
+            "subject": "Project Management",
+            "assertion": "primary constraints are scope, time and budget. The secondary challenge is to optimize the allocation of necessary inputs and apply them to meet predefined objectives",
+            "assessment": {
+              "fact": "The primary constraints are scope, time and budget.[2] The secondary challenge is to optimize the allocation of necessary inputs and apply them to meet predefined objectives.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "value:practical",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "In 1969, the Project Management Institute was formed in the USA. PERT and CPM are very similar in their approach but still present some; It is often tailored to a specific type of project based on project size,",
+        "centralIdea": "where Project Management shows up — in 1969 the project management institute was formed in the usa",
+        "claims": [
+          {
+            "fact": "In 1969, the Project Management Institute  was formed in the USA.[15] PMI publishes the original version of A Guide to the Project Management Body of Knowledge  in 1996 with William Duncan as its primary author, which describes project management practices that are common to most projects, most of the time.[16]",
+            "subject": "Project Management",
+            "assertion": "In 1969, the Project Management Institute was formed in the USA",
+            "assessment": {
+              "fact": "In 1969, the Project Management Institute  was formed in the USA.[15] PMI publishes the original version of A Guide to the Project Management Body of Knowledge  in 1996 with William Duncan as its primary author, which describes project management practices that are common to most projects, most of the time.[16]",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:historical",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-9",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          },
+          {
+            "fact": "PERT and CPM are very similar in their approach but still present some differences.",
+            "subject": "Project Management",
+            "assertion": "PERT and CPM are very similar in their approach but still present some differences",
+            "assessment": {
+              "fact": "PERT and CPM are very similar in their approach but still present some differences.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:weak",
+                "value:definition_form",
+                "surface:verb",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "c-b",
+                "c-d"
+              ]
+            }
+          },
+          {
+            "fact": "It is often tailored to a specific type of project based on project size, nature, industry or sector.",
+            "subject": "Project Management",
+            "assertion": "It is often tailored to a specific type of project based on project size, nature, industry or sector",
+            "assessment": {
+              "fact": "It is often tailored to a specific type of project based on project size, nature, industry or sector.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:match",
+                "value:definition_form",
+                "reader:first_question",
+                "noise:pronoun_lead",
+                "surface:verb",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "mistakes": [
+      {
+        "mainIdea": "help to reduce the risk of a completed project being a failure by delivering agreed upon requirements i.e",
+        "centralIdea": "a common mistake — help to reduce the risk of a completed project being a failure by delive",
+        "claims": [
+          {
+            "fact": "This can help to reduce the risk of a completed project being a failure by delivering agreed upon requirements  i.e. project success but failing to deliver the benefits  of those requirements i.e. product success.",
+            "subject": "This",
+            "assertion": "help to reduce the risk of a completed project being a failure by delivering agreed upon requirements i.e",
+            "assessment": {
+              "fact": "This can help to reduce the risk of a completed project being a failure by delivering agreed upon requirements  i.e. project success but failing to deliver the benefits  of those requirements i.e. product success.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:warning",
+                "topic:match",
+                "noise:pronoun_lead",
+                "usefulness:no_verb_low_value",
+                "surface:no_verb",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "mainIdea": "process of supervising the work of a team to achieve all project goals within the given constraints",
+        "centralIdea": "essential takeaway — process of supervising the work of a team to achieve all project goals w",
+        "claims": [
+          {
+            "fact": "Project management is the process of supervising the work of a team to achieve all project goals within the given constraints.[1] This information is usually described in project documentation, created at the beginning of the development process.",
+            "subject": "Project management",
+            "assertion": "process of supervising the work of a team to achieve all project goals within the given constraints",
+            "assessment": {
+              "fact": "Project management is the process of supervising the work of a team to achieve all project goals within the given constraints.[1] This information is usually described in project documentation, created at the beginning of the development process.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:definition",
+                "topic:strong_match",
+                "topic:opens_fact",
+                "value:definition_form",
+                "value:practical",
+                "reader:first_question",
+                "surface:verb",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-1",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "mainIdea": "Biotechnology project management focuses on the intricacies of biotechnology research and development",
+        "centralIdea": "essential takeaway — biotechnology project management focuses on the intricacies of biotechno",
+        "claims": [
+          {
+            "fact": "Biotechnology project management focuses on the intricacies of biotechnology research and development.[18] Localization project management includes application of many standard project management practices to translation works even though many consider this type of management to be a very different discipline.",
+            "subject": "Project Management",
+            "assertion": "Biotechnology project management focuses on the intricacies of biotechnology research and development",
+            "assessment": {
+              "fact": "Biotechnology project management focuses on the intricacies of biotechnology research and development.[18] Localization project management includes application of many standard project management practices to translation works even though many consider this type of management to be a very different discipline.",
+              "score": 100,
+              "kept": true,
+              "signals": [
+                "type:property",
+                "topic:strong_match",
+                "value:applications",
+                "noise:verbose",
+                "surface:verb",
+                "concept:member",
+                "topic:matches_token",
+                "concept:member",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member_weak",
+                "topic:matches_token",
+                "concept:member_weak",
+                "concept:member_weak",
+                "concept:member",
+                "concept:member",
+                "concept:member"
+              ],
+              "reasons": [
+                "kept_by_concept_membership"
+              ],
+              "conceptIds": [
+                "def-0",
+                "def-2",
+                "def-3",
+                "def-4",
+                "def-5",
+                "def-6",
+                "def-7",
+                "c-8",
+                "c-a",
+                "c-b",
+                "c-c",
+                "c-d",
+                "c-e"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

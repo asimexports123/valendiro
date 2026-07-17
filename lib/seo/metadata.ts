@@ -12,6 +12,11 @@ interface BuildMetadataOptions {
   nofollow?: boolean;
   alternates?: Record<string, string>;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  section?: string;
+  tags?: string[];
 }
 
 export function buildMetadata(options: BuildMetadataOptions): Metadata {
@@ -24,6 +29,11 @@ export function buildMetadata(options: BuildMetadataOptions): Metadata {
     nofollow = false,
     alternates,
     structuredData,
+    publishedTime,
+    modifiedTime,
+    author,
+    section,
+    tags,
   } = options;
 
   const metadata: Metadata = {
@@ -51,16 +61,81 @@ export function buildMetadata(options: BuildMetadataOptions): Metadata {
     robots: {
       index: !noindex,
       follow: !nofollow,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION,
     },
   };
 
   if (structuredData) {
     metadata.other = {
-      "json-ld": JSON.stringify(structuredData),
+      "application/ld+json": JSON.stringify(structuredData),
     };
   }
 
   return metadata;
+}
+
+export function buildArticleMetadata(options: BuildMetadataOptions & {
+  headline: string;
+  authorName?: string;
+  datePublished?: string;
+  dateModified?: string;
+}): Metadata {
+  const {
+    headline,
+    authorName,
+    datePublished,
+    dateModified,
+    ...baseOptions
+  } = options;
+
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline,
+    author: authorName ? {
+      "@type": "Person",
+      name: authorName,
+    } : {
+      "@type": "Organization",
+      name: SITE_NAME,
+    },
+    datePublished,
+    dateModified,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  };
+
+  return buildMetadata({
+    ...baseOptions,
+    structuredData: articleStructuredData,
+  });
+}
+
+export function buildBreadcrumbMetadata(items: Array<{ name: string; url: string }>): Metadata {
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: buildUrl(item.url),
+    })),
+  };
+
+  return {
+    other: {
+      "application/ld+json": JSON.stringify(breadcrumbStructuredData),
+    },
+  };
 }
 
 export function seoMetadataToBuildInput(

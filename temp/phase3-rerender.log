@@ -1,0 +1,92 @@
+﻿node.exe : npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm 
+help npmrc` for supported config options.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn Unknow...config options.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Γùç injected env (13) from .env.local // tip: Γîÿ override existing { override: true }
+
+=== Re-rendering Technology: java-concurrency (53fb6bcf-3c54-45a2-b056-8d969424b612) ===
+Γùç injected env (0) from .env.local // tip: Γùê encrypted .env [www.dotenvx.com]
+{
+  "oldId": null,
+  "newId": null,
+  "validationPassed": false,
+  "qualityScore": 0,
+  "renderDurationMs": 901,
+  "issues": []
+}
+
+=== Re-rendering Finance: budgeting (73381e68-d7de-4284-80dc-4417efed224f) ===
+{
+  "oldId": null,
+  "newId": null,
+  "validationPassed": false,
+  "qualityScore": 0,
+  "renderDurationMs": 403,
+  "issues": []
+}
+
+=== Re-rendering Travel: travel-planning (34aa81b4-e91a-4049-ac78-4bd606c995f7) ===
+{
+  "oldId": null,
+  "newId": null,
+  "validationPassed": false,
+  "qualityScore": 0,
+  "renderDurationMs": 410,
+  "issues": []
+}
+
+=== Re-rendering Health: health-insurance (670ad707-6d3b-4634-b8c9-2886854faa3e) ===
+[Composition Engine] Quality Score: 21/100
+[Composition Engine] Educational Value: 8/100
+[Composition Engine] Clarity: 60/100
+[Composition Engine] Logical Flow: 4/100
+[Composition Engine] Issues: 5
+[Composition Engine] Quality Issues:
+  [WARNING] Missing transition between health-insurance and best-practices (before best-practices)
+  [WARNING] Missing transition between best-practices and key-points (before key-points)
+  [WARNING] Significant complexity jump from introduction to health-insurance (introduction ΓåÆ health-insurance)
+  [WARNING] Significant complexity jump from health-insurance to best-practices (health-insurance ΓåÆ best-practices)
+  [CRITICAL] Article appears too short for meaningful content (overall)
+  VALIDATION FAILED ΓÇö marked new output failed, keeping old published
+{
+  "oldId": "a53f1286-2e88-4525-8feb-ef4c19cb46f2",
+  "newId": "4fff01bc-9f6d-4ac5-bfce-626f2494cfcb",
+  "validationPassed": false,
+  "qualityScore": 70,
+  "renderDurationMs": 688,
+  "issues": [
+    "1 duplicate headings"
+  ]
+}
+
+=== Re-rendering Business: business-process-automation (2ada34f0-7167-4a2b-8b16-cbc7a6ee57a9) ===
+[Composition Engine] Quality Score: 24/100
+[Composition Engine] Educational Value: 11/100
+[Composition Engine] Clarity: 64/100
+[Composition Engine] Logical Flow: 4/100
+[Composition Engine] Issues: 6
+[Composition Engine] Quality Issues:
+  [WARNING] Duplicate content block detected (business process automation)
+  [WARNING] Missing transition between business-process-automation and best-practices (before best-practices)
+  [WARNING] Missing transition between best-practices and key-points (before key-points)
+  [WARNING] Significant complexity jump from introduction to business-process-automation (introduction ΓåÆ business-process-automation)
+  [WARNING] Significant complexity jump from business-process-automation to best-practices (business-process-automation ΓåÆ best-practices)
+  [CRITICAL] Article appears too short for meaningful content (overall)
+  VALIDATION FAILED ΓÇö marked new output failed, keeping old published
+{
+  "oldId": "7e46313f-8904-44d8-8dc6-ccce2063543c",
+  "newId": "6b3bb99a-42c5-48f1-94ef-05a782263d5c",
+  "validationPassed": false,
+  "qualityScore": 63,
+  "renderDurationMs": 621,
+  "issues": [
+    "1 duplicate content blocks",
+    "1 duplicate headings"
+  ]
+}
+
+Re-render complete. Results: C:\Users\91998\CascadeProjects\knowledge-os\temp\phase3-results.json

@@ -1,0 +1,79 @@
+{
+  "timestamp": "2026-07-08T14:28:25.341Z",
+  "pendingAssets": 18,
+  "articleTopicMappings": 10,
+  "thinTopics": 30,
+  "thinnest": [
+    {
+      "slug": "python-variables",
+      "words": 0,
+      "facts": 0
+    },
+    {
+      "slug": "python-lists",
+      "words": 0,
+      "facts": 0
+    },
+    {
+      "slug": "python-sets",
+      "words": 0,
+      "facts": 0
+    },
+    {
+      "slug": "python-functions",
+      "words": 0,
+      "facts": 0
+    },
+    {
+      "slug": "python-modules",
+      "words": 0,
+      "facts": 0
+    }
+  ],
+  "resolverTests": [
+    {
+      "input": "Understanding Index Funds for Beginners",
+      "expected": "index-funds",
+      "matched": "index-funds",
+      "confidence": 1,
+      "hit": true
+    },
+    {
+      "input": "Node.js Cluster Module Guide",
+      "expected": "nodejs-cluster",
+      "matched": "nodejs-cluster",
+      "confidence": 0.65,
+      "hit": true
+    },
+    {
+      "input": "Health Insurance Plans Explained",
+      "expected": "health-insurance",
+      "matched": "health-insurance",
+      "confidence": 1,
+      "hit": true
+    },
+    {
+      "input": "Git Version Control Basics",
+      "expected": "git-version-control",
+      "matched": "git-version-control",
+      "confidence": 0.75,
+      "hit": true
+    }
+  ],
+  "resolverHitRate": "4/4",
+  "pipeline": {
+    "processed": 5,
+    "published": 1,
+    "failed": 0,
+    "catalogMatches": 1,
+    "deferred": 4,
+    "newTopics": 0,
+    "errors": []
+  },
+  "enrichment": {
+    "enriched": 0,
+    "skipped": 10,
+    "failed": 0,
+    "wins": []
+  }
+}
