@@ -58,17 +58,17 @@ export default async function CategoryPage({
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Category Header */}
-      <header className="border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <header className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <Breadcrumbs items={breadcrumbs} size="sm" separator="chevron" />
           
-          <div className="mt-6 max-w-3xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tight leading-[1.1]">
+          <div className="mt-8">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-50 tracking-tight leading-[1.1]">
               {category.name}
             </h1>
             
             {category.description && (
-              <p className="mt-4 text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="mt-6 text-xl text-slate-600 dark:text-slate-400 leading-relaxed font-light">
                 {category.description}
               </p>
             )}
@@ -77,24 +77,30 @@ export default async function CategoryPage({
       </header>
 
       {/* Category Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 space-y-20">
         
         {/* Subcategories */}
         {subcategories.length > 0 && (
           <section>
-            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-8">
-              Subcategories
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-2">
+              Explore Topics
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <p className="text-slate-600 dark:text-slate-400 mb-10">
+              Browse {category.name} by subject area
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {subcategories.map((subcategory) => (
                 <Link
                   key={subcategory.id}
                   href={`/${lang}/subcategories/${subcategory.slug}`}
-                  className="group p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+                  className="group p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all"
                 >
-                  <h3 className="text-base font-medium text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                     {subcategory.name}
                   </h3>
+                  <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                    {subcategory.topic_count} topics
+                  </div>
                 </Link>
               ))}
             </div>
@@ -104,21 +110,24 @@ export default async function CategoryPage({
         {/* Featured Topics */}
         {featuredTopics.length > 0 && (
           <section>
-            <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-8">
-              Featured Topics
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-2">
+              Featured Guides
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {featuredTopics.map((topic) => (
+            <p className="text-slate-600 dark:text-slate-400 mb-10">
+              Essential reading in {category.name}
+            </p>
+            <div className="grid grid-cols-1 gap-6">
+              {featuredTopics.slice(0, 6).map((topic) => (
                 <Link
                   key={topic.id}
                   href={`/${lang}/topics/${topic.slug}`}
-                  className="group p-4 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+                  className="group p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all"
                 >
-                  <h3 className="text-base font-medium text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors line-clamp-2">
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-50 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors line-clamp-2">
                     {topic.title}
                   </h3>
                   {topic.subtitle && (
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
+                    <p className="mt-2 text-slate-600 dark:text-slate-400 line-clamp-2">
                       {topic.subtitle}
                     </p>
                   )}

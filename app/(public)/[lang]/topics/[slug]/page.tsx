@@ -73,36 +73,36 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Article Header */}
-      <article className="border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <article className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <Breadcrumbs items={breadcrumbs} size="sm" separator="chevron" />
           
-          <div className="mt-6 max-w-3xl">
+          <div className="mt-8">
             {category && (
               <Link
                 href={`/${lang}/categories/${category.slug}`}
-                className="inline-flex items-center text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-4 transition-colors"
+                className="inline-flex items-center text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors"
               >
                 {category.name}
               </Link>
             )}
             
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-slate-50 tracking-tight leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-slate-50 tracking-tight leading-[1.1]">
               {topic.title}
             </h1>
             
             {topic.subtitle && (
-              <p className="mt-4 text-lg sm:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="mt-6 text-xl sm:text-2xl text-slate-600 dark:text-slate-400 leading-relaxed font-light">
                 {topic.subtitle}
               </p>
             )}
             
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+            <div className="mt-8 flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-500">
               <span>{readingTime} min read</span>
               {topic.updated_at && (
                 <>
                   <span className="text-slate-300 dark:text-slate-700">·</span>
-                  <span>Updated {new Date(topic.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                  <span>Updated {new Date(topic.updated_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
                 </>
               )}
             </div>
@@ -111,8 +111,22 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
       </article>
 
       {/* Article Content */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <div className="prose prose-lg prose-slate dark:prose-invert max-w-none
+          prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-slate-900 dark:prose-headings:text-slate-50
+          prose-h1:text-4xl prose-h1:mt-12 prose-h1:mb-6
+          prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-5
+          prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+          prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-p:leading-relaxed prose-p:text-lg
+          prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-slate-900 dark:prose-strong:text-slate-50
+          prose-ul:text-slate-700 dark:prose-ul:text-slate-300 prose-ul:space-y-3
+          prose-ol:text-slate-700 dark:prose-ol:text-slate-300 prose-ol:space-y-3
+          prose-li:text-lg prose-li:leading-relaxed
+          prose-blockquote:border-l-4 prose-blockquote:border-slate-300 dark:prose-blockquote:border-slate-700 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-slate-600 dark:prose-blockquote:text-slate-400
+          prose-code:text-slate-900 dark:prose-code:text-slate-50 prose-code:bg-slate-100 dark:prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+          prose-pre:bg-slate-900 dark:prose-pre:bg-slate-950 prose-pre:border prose-pre:border-slate-200 dark:prose-pre:border-slate-800
+        ">
           {topic.content && parsed ? (
             <div dangerouslySetInnerHTML={{ __html: parsed.html }} />
           ) : (
@@ -122,18 +136,18 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
 
         {/* FAQ Section */}
         {faqs.length > 0 && (
-          <section className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Common Questions</h2>
+          <section className="mt-24 pt-12 border-t border-slate-200 dark:border-slate-800">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-8">Common Questions</h2>
             <div className="space-y-4">
               {faqs.map((faq, index) => (
-                <details key={index} className="group bg-slate-50 dark:bg-slate-900 rounded-lg">
-                  <summary className="flex items-center justify-between p-4 cursor-pointer font-medium text-slate-900 dark:text-slate-50">
+                <details key={index} className="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <summary className="flex items-center justify-between p-6 cursor-pointer font-semibold text-slate-900 dark:text-slate-50">
                     {faq.question}
-                    <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </summary>
-                  <div className="px-4 pb-4 text-slate-600 dark:text-slate-400">
+                  <div className="px-6 pb-6 text-slate-700 dark:text-slate-300 leading-relaxed">
                     {faq.answer}
                   </div>
                 </details>
@@ -144,16 +158,16 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
 
         {/* Related Topics */}
         {relatedTopics.length > 0 && (
-          <section className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-8">Related Topics</h2>
+          <section className="mt-24 pt-12 border-t border-slate-200 dark:border-slate-800">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-8">Related Topics</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {relatedTopics.filter(t => t.id !== topic.id).slice(0, 4).map((relatedTopic) => (
                 <Link
                   key={relatedTopic.id}
                   href={`/${lang}/topics/${relatedTopic.slug}`}
-                  className="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+                  className="p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all"
                 >
-                  <h3 className="font-medium text-slate-900 dark:text-slate-50 line-clamp-2">
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-50 line-clamp-2">
                     {relatedTopic.title}
                   </h3>
                 </Link>
@@ -164,15 +178,15 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
 
         {/* Sequential Navigation */}
         {sequentialNav && (sequentialNav.previous || sequentialNav.next) && (
-          <nav className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800">
+          <nav className="mt-24 pt-12 border-t border-slate-200 dark:border-slate-800">
             <div className="grid sm:grid-cols-2 gap-4">
               {sequentialNav.previous && (
                 <Link
                   href={`/${lang}/topics/${sequentialNav.previous.slug}`}
-                  className="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+                  className="p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all"
                 >
-                  <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">Previous</div>
-                  <div className="font-medium text-slate-900 dark:text-slate-50 line-clamp-2">
+                  <div className="text-sm text-slate-500 dark:text-slate-500 mb-2">Previous</div>
+                  <div className="font-semibold text-slate-900 dark:text-slate-50 line-clamp-2">
                     {sequentialNav.previous.title}
                   </div>
                 </Link>
@@ -180,10 +194,10 @@ export default async function TopicPage({ params }: { params: Promise<{ lang: st
               {sequentialNav.next && (
                 <Link
                   href={`/${lang}/topics/${sequentialNav.next.slug}`}
-                  className="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors sm:ml-auto"
+                  className="p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all sm:ml-auto"
                 >
-                  <div className="text-sm text-slate-600 dark:text-slate-400 mb-1">Next</div>
-                  <div className="font-medium text-slate-900 dark:text-slate-50 line-clamp-2">
+                  <div className="text-sm text-slate-500 dark:text-slate-500 mb-2">Next</div>
+                  <div className="font-semibold text-slate-900 dark:text-slate-50 line-clamp-2">
                     {sequentialNav.next.title}
                   </div>
                 </Link>

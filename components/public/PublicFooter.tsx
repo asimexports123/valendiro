@@ -7,15 +7,15 @@ export function PublicFooter({
   lang: string;
 }) {
   return (
-    <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+    <footer className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-12">
+        <div className="py-16">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
             <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-3">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
                 Content
               </p>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 <li>
                   <Link href={`/${lang}/topics`} className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
                     Topics
@@ -30,10 +30,10 @@ export function PublicFooter({
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-3">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
                 About
               </p>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 <li>
                   <Link href={`/${lang}/about`} className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
                     About
@@ -48,10 +48,10 @@ export function PublicFooter({
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-3">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-50 mb-4">
                 Legal
               </p>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 <li>
                   <Link href={`/${lang}/privacy`} className="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors">
                     Privacy Policy
@@ -66,17 +66,17 @@ export function PublicFooter({
             </div>
 
             <div>
-              <Link href={`/${lang}`} className="text-lg font-bold text-slate-900 dark:text-slate-50">
+              <Link href={`/${lang}`} className="text-xl font-bold text-slate-900 dark:text-slate-50">
                 {SITE_NAME}
               </Link>
-              <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
-                Expert articles and guides across technology, finance, health, and more.
+              <p className="mt-4 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                Clear answers for complex questions
               </p>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-slate-200 dark:border-slate-800 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="border-t border-slate-200 dark:border-slate-800 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-600 dark:text-slate-400">
             © {new Date().getFullYear()} {SITE_NAME}
           </p>
