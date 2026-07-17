@@ -21,7 +21,7 @@ export function FeaturedTopicsSection({ lang, topics }: FeaturedTopicsSectionPro
   const supportingTopics = topics.slice(1, 5);
 
   return (
-    <section className="py-16 border-b border-slate-200 dark:border-slate-800">
+    <section className="py-16 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-2">
           Featured
@@ -36,14 +36,14 @@ export function FeaturedTopicsSection({ lang, topics }: FeaturedTopicsSectionPro
             href={`/${lang}/topics/${primaryTopic.slug}`}
             className="group block mb-10"
           >
-            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all duration-300">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
               <div className="p-8">
                 {primaryTopic.category_name && (
-                  <span className="inline-block px-3 py-1 text-xs font-medium text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 rounded-full mb-4">
+                  <span className="inline-block px-3 py-1 text-xs font-medium bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 rounded-full mb-4">
                     {primaryTopic.category_name}
                   </span>
                 )}
-                <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-50 mb-3 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
+                <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-50 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                   {primaryTopic.title}
                 </h3>
                 {primaryTopic.subtitle && (
@@ -65,13 +65,13 @@ export function FeaturedTopicsSection({ lang, topics }: FeaturedTopicsSectionPro
                 href={`/${lang}/topics/${topic.slug}`}
                 className="group"
               >
-                <div className="h-full p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all duration-200">
+                <div className="h-full p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-md hover:shadow-indigo-500/10 transition-all duration-300">
                   {topic.category_name && (
-                    <span className="inline-block px-2 py-1 text-xs font-medium text-slate-500 dark:text-slate-500 bg-slate-50 dark:bg-slate-800 rounded mb-3">
+                    <span className="inline-block px-2 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded mb-3">
                       {topic.category_name}
                     </span>
                   )}
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-50 mb-2 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors line-clamp-2">
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-50 mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
                     {topic.title}
                   </h3>
                   {topic.subtitle && (
